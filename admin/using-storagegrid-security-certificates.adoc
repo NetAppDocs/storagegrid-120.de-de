@@ -43,23 +43,23 @@ Varianten der Server- und Clientzertifikattypen werden auf verschiedene Weisen i
 
 
 [[access-security-certificates]]
-== ${post_edited_translations.segment}
+== Sicherheitszertifikate für den Zugriff
 
 Informationen zu allen StorageGRID Zertifikaten stehen an einem zentralen Ort zur Verfügung, zusammen mit Links zum Konfigurationsworkflow für jedes Zertifikat.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Im Grid Manager unter *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
 +
 image:security_certificates.png["Zertifikatsseite"]
 
-. Durch Auswahl einer Registerkarte auf der Seite „Certificates“ erhalten Sie Informationen zu den einzelnen Zertifikatskategorien und können auf die Zertifikatseinstellungen zugreifen. Sie können auf eine Registerkarte zugreifen, wenn Sie über die link:admin-group-permissions.html["${post_edited_translations.segment}"] verfügen.
+. Durch Auswahl einer Registerkarte auf der Seite „Certificates“ erhalten Sie Informationen zu den einzelnen Zertifikatskategorien und können auf die Zertifikatseinstellungen zugreifen. Sie können auf eine Registerkarte zugreifen, wenn Sie über die link:admin-group-permissions.html["entsprechende Berechtigung"] verfügen.
 +
 ** *Global*: Sichert den Zugriff auf StorageGRID von Webbrowsern und externen API-Clients.
 ** *Grid CA*: Schützt den internen StorageGRID Datenverkehr.
-** ${post_edited_translations.segment}
+** *Client*: Sichert Verbindungen zwischen externen Clients und der StorageGRID Prometheus Datenbank.
 ** *Load Balancer Endpunkte*: Sichert Verbindungen zwischen S3 Clients und dem StorageGRID Load Balancer.
-** ${post_edited_translations.segment}
-** ${post_edited_translations.segment}
+** *Mandanten*: Sichert Verbindungen zu Identitätsverbundservern oder von Plattformdienstendpunkten zu S3-Speicherressourcen.
+** *Sonstiges*: Sichert StorageGRID Verbindungen, die bestimmte Zertifikate erfordern.
 +
 Die einzelnen Registerkarten werden im Folgenden beschrieben, mit Links zu weiteren Zertifikatsdetails.
 
@@ -82,11 +82,11 @@ Informationen zu den installierten globalen Zertifikaten sind enthalten:
 *** *Ablaufdatum*: Bei Verwendung des Standardzertifikats wird kein Ablaufdatum angezeigt.
 
 
-${post_edited_translations.segment}
+Sie können:
 
-*** ${post_edited_translations.segment}
+*** Die Standardzertifikate werden durch benutzerdefinierte Zertifikate ersetzt, die von einer externen Zertifizierungsstelle signiert sind, wodurch die Grid-Sicherheit verbessert wird:
 +
-**** link:configuring-custom-server-certificate-for-grid-manager-tenant-manager.html["${post_edited_translations.segment}"] wird für Verbindungen mit dem Grid Manager und Tenant Manager verwendet.
+**** link:configuring-custom-server-certificate-for-grid-manager-tenant-manager.html["Das standardmäßig von StorageGRID generierte Managementoberfläche-Zertifikat ersetzen"] wird für Verbindungen mit dem Grid Manager und Tenant Manager verwendet.
 **** link:configuring-custom-server-certificate-for-storage-node.html["Das S3-API-Zertifikat ersetzen"] Wird für Verbindungen zum Storage Node und zum Load-Balancer-Endpunkt (optional) verwendet.
 
 
@@ -110,11 +110,11 @@ Sie können link:copying-storagegrid-system-ca-certificate.html["Grid CA-Zertifi
 --
 <<adminclientcert_details,Client-Zertifikate>>, die von einer externen Zertifizierungsstelle generiert wurden, sichern die Verbindungen zwischen externen Monitoring-Tools und der StorageGRID Prometheus Datenbank.
 
-${post_edited_translations.segment}
+Die Zertifikatstabelle enthält für jedes konfigurierte Clientzertifikat eine Zeile und gibt an, ob das Zertifikat für den Zugriff auf die Prometheus-Datenbank verwendet werden kann, sowie das Ablaufdatum des Zertifikats.
 
-${post_edited_translations.segment}
+Sie können:
 
-*** link:configuring-administrator-client-certificates.html#add-client-certificates["${post_edited_translations.segment}"]
+*** link:configuring-administrator-client-certificates.html#add-client-certificates["Ein neues Clientzertifikat kann hochgeladen oder generiert werden."]
 *** Wählen Sie einen Zertifikatsnamen aus, um die Zertifikatsdetails anzuzeigen, wo Sie Folgendes tun können:
 +
 **** link:configuring-administrator-client-certificates.html#edit-client-certificates["Der Name des Clientzertifikats wird geändert."]
@@ -124,7 +124,7 @@ ${post_edited_translations.segment}
 **** link:configuring-administrator-client-certificates.html#remove-client-certificates["Das Clientzertifikat entfernen."]
 
 
-*** Über *Aktionen* können Sie ein Client-Zertifikat schnell link:configuring-administrator-client-certificates.html#edit-client-certificates["bearbeiten"], link:configuring-administrator-client-certificates.html#attach-new-client-certificate["befestigen"] oder link:configuring-administrator-client-certificates.html#remove-client-certificates["${post_edited_translations.segment}"]. Sie können bis zu 10 Client-Zertifikate auswählen und diese gleichzeitig über *Aktionen* > *Entfernen* entfernen.
+*** Über *Aktionen* können Sie ein Client-Zertifikat schnell link:configuring-administrator-client-certificates.html#edit-client-certificates["bearbeiten"], link:configuring-administrator-client-certificates.html#attach-new-client-certificate["befestigen"] oder link:configuring-administrator-client-certificates.html#remove-client-certificates["entfernen"]. Sie können bis zu 10 Client-Zertifikate auswählen und diese gleichzeitig über *Aktionen* > *Entfernen* entfernen.
 
 
 --
@@ -137,7 +137,7 @@ Die Tabelle der Load-Balancer-Endpunkte enthält für jeden konfigurierten Load-
 
 NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.
 
-${post_edited_translations.segment}
+Sie können:
 
 *** link:configuring-load-balancer-endpoints.html["Einen Load Balancer-Endpunkt anzeigen"], einschließlich seiner Zertifikatsdetails.
 *** link:../fabricpool/creating-load-balancer-endpoint-for-fabricpool.html["Ein Load-Balancer-Endpunktzertifikat für FabricPool angeben."]
@@ -145,18 +145,18 @@ ${post_edited_translations.segment}
 
 
 --
-.${post_edited_translations.segment}
+.Mandanten
 --
-Mieter können <<Identitätsföderationszertifikat,${post_edited_translations.segment}>> oder <<Plattformdienste Endpunktzertifikat,${post_edited_translations.segment}>> verwenden, um ihre Verbindungen mit StorageGRID abzusichern.
+Mieter können <<Identitätsföderationszertifikat,Zertifikate für Identity Federation Server>> oder <<Plattformdienste Endpunktzertifikat,Plattform Service-Endpunktzertifikate>> verwenden, um ihre Verbindungen mit StorageGRID abzusichern.
 
-${post_edited_translations.segment}
+Die Mandantentabelle enthält für jeden Mandanten eine Zeile und gibt an, ob der jeweilige Mandant die Berechtigung hat, seine eigene Identitätsquelle oder Plattformdienste zu verwenden.
 
-${post_edited_translations.segment}
+Sie können:
 
-*** link:../tenant/signing-in-to-tenant-manager.html["${post_edited_translations.segment}"]
-*** link:../tenant/using-identity-federation.html["${post_edited_translations.segment}"]
+*** link:../tenant/signing-in-to-tenant-manager.html["Wählen Sie einen Mandantennamen aus, um sich bei der Tenant Manager-Oberfläche anzumelden."]
+*** link:../tenant/using-identity-federation.html["Ein Mandantenname kann ausgewählt werden, um die Details der Mandantenidentitätsföderation anzuzeigen."]
 *** link:../tenant/editing-platform-services-endpoint.html["Ein Mandantenname kann ausgewählt werden, um Details zu den Mandantenplattformdiensten anzuzeigen."]
-*** link:../tenant/creating-platform-services-endpoint.html["${post_edited_translations.segment}"]
+*** link:../tenant/creating-platform-services-endpoint.html["Während der Erstellung des Endpunkts ein Plattform-Service-Endpunktzertifikat angeben"]
 
 
 --
@@ -169,16 +169,16 @@ StorageGRID verwendet weitere Sicherheitszertifikate für spezifische Zwecke. Di
 *** <<Externes Syslog-Server-Zertifikat,Externe Syslog-Serverzertifikate>>
 *** <<grid-federation-certificate,Grid Federation Verbindungszertifikate>>
 *** <<Identitätsföderationszertifikat,Zertifikate für Identitätsföderation>>
-*** <<Schlüsselverwaltungsserver (KMS) Zertifikat,${post_edited_translations.segment}>>
+*** <<Schlüsselverwaltungsserver (KMS) Zertifikat,Schlüsselverwaltungsserver (KMS) Zertifikate>>
 *** <<Single Sign-On (SSO) Zertifikat,Single Sign-On Zertifikate>>
 
 
 Die Informationen geben Auskunft über den Typ des Zertifikats, den eine Funktion verwendet, sowie über das Ablaufdatum des Server- und Clientzertifikats, sofern zutreffend. Die Auswahl eines Funktionsnamens öffnet einen Browser-Tab, in dem die Zertifikatsdetails angezeigt und bearbeitet werden können.
 
 
-NOTE: Informationen zu anderen Zertifikaten können Sie nur einsehen und darauf zugreifen, wenn Sie die link:admin-group-permissions.html["${post_edited_translations.segment}"] haben.
+NOTE: Informationen zu anderen Zertifikaten können Sie nur einsehen und darauf zugreifen, wenn Sie die link:admin-group-permissions.html["entsprechende Berechtigung"] haben.
 
-${post_edited_translations.segment}
+Sie können:
 
 *** link:../ilm/creating-cloud-storage-pool.html["Ein Cloud Storage Pool-Zertifikat für S3, C2S S3 oder Azure angeben"]
 *** link:../monitor/email-alert-notifications.html["Ein Zertifikat für E-Mail-Benachrichtigungen bei Warnmeldungen angeben"]
@@ -491,13 +491,13 @@ In diesem Beispiel fungiert StorageGRID als Server.
 . Wenn der Client Daten speichern oder abrufen möchte, stellt er über HTTPS eine Verbindung zum Load Balancer-Endpunkt her.
 . StorageGRID antwortet mit dem Serverzertifikat, das einen öffentlichen Schlüssel enthält, sowie mit einer auf dem privaten Schlüssel basierenden Signatur.
 . Der Client vergleicht die Serversignatur mit der Signatur seiner Zertifikatskopie. Wenn die Signaturen übereinstimmen, beginnt der Client eine Sitzung mit demselben öffentlichen Schlüssel.
-. ${post_edited_translations.segment}
+. Der Client sendet Objektdaten an StorageGRID.
 
 
 
 
 [[example-2-external-key-management-server-kms]]
-=== ${post_edited_translations.segment}
+=== Beispiel 2: Externer Schlüsselverwaltungsserver (KMS)
 
 In diesem Beispiel fungiert StorageGRID als Client.
 

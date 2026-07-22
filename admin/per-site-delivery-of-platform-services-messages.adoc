@@ -17,8 +17,8 @@ Das bedeutet: Wenn ein Mandant einen Client verwendet, um eine S3-API-Erstellung
 
 image:notification_multiple_sites.gif["Diagramm, das zeigt, dass eine Aktion an einem Objekt an Standort 1 eine Benachrichtigung von Standort 1 auslöst"]
 
-${post_edited_translations.segment}
+Wenn der Client anschließend eine S3 API-Löschoperation für dasselbe Objekt vom Rechenzentrumsstandort 2 aus durchführt, wird die Benachrichtigung über die Löschaktion ausgelöst und vom Rechenzentrumsstandort 2 gesendet.
 
 image:notifications_site_2.gif["Diagramm, das zeigt, dass eine Aktion an einem Objekt von Standort 2 Benachrichtigungen von Standort 2 auslöst"]
 
-${post_edited_translations.segment}
+Es ist sicherzustellen, dass das Netzwerk an jedem Standort so konfiguriert ist, dass Plattformdienstnachrichten an ihre Bestimmungsorte zugestellt werden können.

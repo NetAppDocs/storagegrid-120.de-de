@@ -81,7 +81,7 @@ Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py
 
 
 | ./vsphere/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 

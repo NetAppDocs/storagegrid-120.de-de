@@ -2,7 +2,7 @@
 permalink: admin/index.html 
 sidebar: sidebar 
 keywords: how to administer storagegrid 
-summary: ${post_edited_translations.segment} 
+summary: Diese Anweisungen dienen zur Konfiguration und Verwaltung eines StorageGRID Systems. 
 ---
 = StorageGRID verwalten
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Diese Anweisungen dienen zur Konfiguration und Verwaltung eines StorageGRID Systems.
 
 
 

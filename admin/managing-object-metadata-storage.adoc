@@ -121,7 +121,7 @@ Beliebiger Betrag
 Die folgenden Schritte zeigen die Einstellung für den reservierten Speicherplatz für Metadaten Ihres StorageGRID Systems an.
 
 .Schritte
-. ${post_edited_translations.segment}
+. *Konfiguration* > *System* > *Speichereinstellungen* auswählen.
 . Auf der Seite „Speichereinstellungen“ den Abschnitt *Reservierter Metadatenspeicherplatz* erweitern.
 
 
@@ -249,7 +249,7 @@ Führen Sie die folgenden Schritte aus, um den zulässigen Metadatenspeicherplat
 
 .Schritte
 . Im Grid Manager wählen Sie *Knoten* aus.
-. ${post_edited_translations.segment}
+. Den Speicherknoten auswählen.
 . Die Registerkarte *Speicher* auswählen.
 . Fahren Sie mit dem Cursor über das Diagramm „Storage used – Objektmetadaten“ und suchen Sie den Wert *Allowed*.
 +
@@ -286,7 +286,7 @@ Das folgende Beispiel ist zu berücksichtigen:
 
 * Sie verfügen über ein Single-Site-Grid mit drei Storage Nodes unterschiedlicher Größe.
 * Die Einstellung *Metadata reserved space* beträgt 4 TB.
-* ${post_edited_translations.segment}
+* Die Storage Nodes haben die folgenden Werte für den tatsächlich reservierten Metadatenspeicherplatz und den zulässigen Metadatenspeicherplatz.
 +
 [cols="1a,1a,1a,1a"]
 |===

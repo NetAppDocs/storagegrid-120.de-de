@@ -14,11 +14,11 @@ summary: Wenn Sie Ihre Arbeit mit dem Grid Manager beendet haben, müssen Sie si
 Wenn Sie die Arbeit mit dem Grid Manager beendet haben, müssen Sie sich abmelden, um sicherzustellen, dass unbefugte Benutzer nicht auf das StorageGRID System zugreifen können. Abhängig von den Cookie-Einstellungen des Browsers werden Sie durch das Schließen des Browsers eventuell nicht aus dem System abgemeldet.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Wählen Sie Ihren Benutzernamen in der oberen rechten Ecke aus.
 +
 image:sign_out.png["Abmelden-Link"]
 
-. ${post_edited_translations.segment}
+. *Abmelden* auswählen.
 +
 [cols="1a,2a"]
 |===

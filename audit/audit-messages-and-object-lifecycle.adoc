@@ -13,7 +13,7 @@ summary: Bei jedem Import, Abruf oder Löschen eines Objekts werden Audit-Meldun
 [role="lead"]
 Bei jedem Import, Abruf oder Löschen eines Objekts werden Audit-Meldungen generiert. Diese Transaktionen lassen sich im Revisionsprotokoll anhand der S3-API-spezifischen Audit-Meldungen identifizieren.
 
-${post_edited_translations.segment}
+Revisionsprotokollmeldungen sind über protokollspezifische Kennungen miteinander verknüpft.
 
 [cols="1a,1a"]
 |===
@@ -21,7 +21,7 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+Verknüpfung von S3-Operationen
  a| 
 S3BK (Bucket), S3KY (Key) oder beides
 
@@ -30,7 +30,7 @@ S3BK (Bucket), S3KY (Key) oder beides
  a| 
 Verknüpfung interner Abläufe
  a| 
-${post_edited_translations.segment}
+CBID (interner Objektbezeichner)
 
 |===
 
@@ -38,4 +38,4 @@ ${post_edited_translations.segment}
 [[timing-of-audit-messages]]
 == Zeitpunkt der Revisionsprotokollmeldungen
 
-${post_edited_translations.segment}
+Aufgrund von Faktoren wie Zeitunterschieden zwischen den Grid-Knoten, der Objektgröße und Netzwerkverzögerungen kann die Reihenfolge der von den verschiedenen Diensten generierten Revisionsprotokollmeldungen von der in den Beispielen in diesem Abschnitt gezeigten Reihenfolge abweichen.

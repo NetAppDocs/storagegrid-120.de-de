@@ -36,7 +36,7 @@ NOTE: CloudMirror Replikation wird nicht unterstützt, wenn für den Quell-Bucke
 [[notifications]]
 == Benachrichtigungen
 
-${post_edited_translations.segment}
+Ereignisbenachrichtigungen pro Bucket werden verwendet, um Benachrichtigungen über bestimmte Aktionen, die an Objekten durchgeführt werden, an einen angegebenen externen Kafka Cluster, Webhook-Endpunkt oder Amazon Simple Notification Service zu senden.
 
 Beispielsweise kann konfiguriert werden, dass Benachrichtigungen an Administratoren gesendet werden, wenn ein Objekt zu einem Bucket hinzugefügt wird, wobei die Objekte Protokolldateien darstellen, die mit einem kritischen Systemereignis verbunden sind.
 
@@ -53,7 +53,7 @@ Der Suchintegrationsdienst wird verwendet, um Metadaten von S3-Objekten an einen
 Sie könnten beispielsweise Ihre Buckets so konfigurieren, dass sie S3-Objektmetadaten an einen entfernten Elasticsearch-Dienst senden. Anschließend könnten Sie Elasticsearch verwenden, um Suchen über mehrere Buckets hinweg durchzuführen und anspruchsvolle Analysen der in Ihren Objektmetadaten vorhandenen Muster vorzunehmen.
 
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Obwohl die Elasticsearch-Integration für einen Bucket mit aktiviertem S3 Object Lock konfiguriert werden kann, werden die S3 Object Lock-Metadaten (einschließlich Retain Until Date und Legal Hold Status) der Objekte nicht in die Benachrichtigungsnachrichten aufgenommen.
 
 Plattformdienste geben Mandanten die Möglichkeit, externe Speicherressourcen, Benachrichtigungsdienste sowie Such- oder Analysedienste mit ihren Daten zu verwenden. Da der Zielort für Plattformdienste typischerweise außerhalb Ihrer StorageGRID Bereitstellung liegt, ist zu entscheiden, ob Mandanten die Nutzung dieser Dienste gestattet werden soll. Wenn dies der Fall ist, muss die Nutzung von Plattformdiensten beim Erstellen oder Bearbeiten von Mandantenkonten aktiviert werden. Das Netzwerk ist außerdem so zu konfigurieren, dass die von Mandanten generierten Plattformdienstnachrichten ihre Ziele erreichen können.
 
@@ -62,7 +62,7 @@ Plattformdienste geben Mandanten die Möglichkeit, externe Speicherressourcen, B
 [[recommendations-for-using-platform-services]]
 == Empfehlungen für die Nutzung von Plattformdiensten
 
-${post_edited_translations.segment}
+Vor der Nutzung von Plattformdiensten sind die folgenden Empfehlungen zu beachten:
 
 * Wenn für einen S3-Bucket im StorageGRID System sowohl Versionierung als auch CloudMirror Replikation aktiviert sind, sollte die S3-Bucket-Versionierung auch für den Zielendpunkt aktiviert werden. Dies ermöglicht es der CloudMirror Replikation, ähnliche Objektversionen auf dem Endpunkt zu erzeugen.
 * Es sollten nicht mehr als 100 aktive Mandanten mit S3-Anfragen verwendet werden, die CloudMirror Replikation, Benachrichtigungen und Suchintegration erfordern. Mehr als 100 aktive Mandanten können zu einer langsameren S3-Client-Performance führen.

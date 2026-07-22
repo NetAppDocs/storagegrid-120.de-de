@@ -15,20 +15,20 @@ Die zur ILM-Auditkategorie gehörenden Audit-Meldungen werden für Ereignisse im
 
 [cols="1a,3a,1a"]
 |===
-| Code | ${post_edited_translations.segment} | Siehe 
+| Code | Nachrichtentitel und -beschreibung | Siehe 
 
 
  a| 
 IDEL
  a| 
-${post_edited_translations.segment}
+ILM Initiated Delete: Diese Prüfmeldung wird generiert, wenn ILM den Löschvorgang eines Objekts startet.
  a| 
-link:idel-ilm-initiated-delete.html["${post_edited_translations.segment}"]
+link:idel-ilm-initiated-delete.html["IDEL: ILM initiierte Löschung"]
 
 
 
  a| 
-${post_edited_translations.segment}
+LKCU
  a| 
 Bereinigung überschriebener Objekte. Diese Audit-Meldung wird generiert, wenn ein überschriebenes Objekt automatisch entfernt wird, um Speicherplatz freizugeben.
  a| 
@@ -37,9 +37,9 @@ link:lkcu-overwritten-object-cleanup.html["LKCU: Bereinigung überschriebener Ob
 
 
  a| 
-${post_edited_translations.segment}
+ORLM
  a| 
-${post_edited_translations.segment}
+Objektregeln erfüllt: Diese Prüfmeldung wird generiert, wenn Objektdaten wie in den ILM-Regeln angegeben gespeichert werden.
  a| 
 link:orlm-object-rules-met.html["ORLM: Objektregeln erfüllt"]
 

@@ -21,9 +21,9 @@ Entra ID wird verwendet, um eine Unternehmensanwendung für jeden Admin-Knoten i
 
 NOTE: Sie müssen für jeden Admin Node in Ihrem StorageGRID System eine Unternehmensanwendung erstellen. Eine eigene Unternehmensanwendung für jeden Admin Node stellt sicher, dass sich Benutzer sicher bei jedem Admin Node anmelden und wieder ausloggen können.
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Sie haben Erfahrung in der Erstellung von Unternehmensanwendungen in Entra ID.
+* Sie besitzen ein Entra ID Konto mit einem aktiven Abonnement.
+* Sie verfügen über eine der folgenden Rollen im Entra ID Konto: Globaler Administrator, Cloud-Anwendungsadministrator, Anwendungsadministrator oder Eigentümer des Dienstprinzipals.
 
 
 
@@ -45,7 +45,7 @@ NOTE: Sie müssen für jeden Admin Node in Ihrem StorageGRID System eine Unterne
 Um die SSO-Konfiguration für Entra ID in StorageGRID zu speichern, ist es erforderlich, mit Entra ID für jeden Admin-Knoten eine Unternehmensanwendung zu erstellen. Die Föderationsmetadaten-URLs werden aus Entra ID kopiert und in die entsprechenden Felder für *Federation metadata URL* auf der Seite „SSO konfigurieren“ eingefügt.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Die folgenden Schritte sind für jeden Admin Node zu wiederholen.
 +
 .. Im Bereich Entra ID Enterprise-Anwendungen die Option *Neue Anwendung* auswählen.
 .. *Eigene Anwendung erstellen* auswählen.
@@ -54,8 +54,8 @@ Um die SSO-Konfiguration für Entra ID in StorageGRID zu speichern, ist es erfor
 .. Wählen Sie *Create*.
 .. Wählen Sie den Link *Los geht's* im Feld *2. Einmalanmeldung einrichten* oder den Link *Einmalanmeldung* in der linken Marge.
 .. Das Kontrollkästchen *SAML* auswählen.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. Kopieren Sie die *App Federation Metadata Url*, die Sie unter *Schritt 3 SAML-Signaturzertifikat* finden.
+.. Rufen Sie die Seite „SSO konfigurieren“ auf und fügen Sie die URL in das Feld „URL der Föderationsmetadaten“ ein, das dem *Enterprise application name* entspricht, den Sie verwendet haben.
 
 
 . Nachdem Sie für jeden Admin-Knoten eine Metadaten-URL für die Föderation eingefügt und alle anderen erforderlichen Änderungen an der SSO-Konfiguration vorgenommen haben, auf der Seite „SSO konfigurieren“ *Speichern* auswählen.
@@ -64,9 +64,9 @@ Um die SSO-Konfiguration für Entra ID in StorageGRID zu speichern, ist es erfor
 
 
 [[download-saml-metadata-for-every-admin-node]]
-== ${post_edited_translations.segment}
+== SAML-Metadaten für jeden Admin-Node herunterladen
 
-${post_edited_translations.segment}
+Nachdem die SSO-Konfiguration gespeichert wurde, kann für jeden Admin-Knoten in Ihrem StorageGRID System eine SAML-Metadatendatei heruntergeladen werden.
 
 .Schritte
 . Diese Schritte sind für jeden Admin Node zu wiederholen.
@@ -88,15 +88,15 @@ Nach dem Herunterladen einer SAML-Metadatendatei für jeden StorageGRID Admin No
 
 .Schritte
 . Zurück zum Azure Portal.
-. ${post_edited_translations.segment}
+. Diese Schritte sind für jede Unternehmensanwendung zu wiederholen:
 +
 
 NOTE: Möglicherweise ist es erforderlich, die Seite „Unternehmensanwendungen“ zu aktualisieren, damit zuvor hinzugefügte Anwendungen in der Liste angezeigt werden.
 
 +
 .. Zur Eigenschaftenseite der Unternehmensanwendung wechseln.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Zuweisung erforderlich* auf *Nein* setzen (es sei denn, die Zuweisungen sollen separat konfiguriert werden).
+.. Zur Seite für die Einmalanmeldung wechseln.
 .. Die SAML-Konfiguration abschließen.
 .. Die Schaltfläche *Metadatendatei hochladen* auswählen und die SAML-Metadatendatei auswählen, die für den entsprechenden Admin Node heruntergeladen wurde.
 .. Nachdem die Datei geladen wurde, *Speichern* auswählen und anschließend *X*, um das Fenster zu schließen. Die Seite „Single Sign-On mit SAML einrichten“ wird wieder angezeigt.

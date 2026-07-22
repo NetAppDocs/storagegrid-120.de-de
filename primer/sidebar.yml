@@ -14,7 +14,7 @@ entries:
   - title: Knoten und Dienste
     url: "/primer/nodes-and-services.html"
     pdf-filename: StorageGRID-Knoten und -Dienste
-  - title: "${post_edited_translations.segment}"
+  - title: Was ist ein Admin Node
     url: "/primer/what-admin-node-is.html"
   - title: Was ist ein Speicherknoten
     url: "/primer/what-storage-node-is.html"

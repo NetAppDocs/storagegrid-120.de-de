@@ -25,7 +25,7 @@ Die blaue Statusleiste zeigt an, welche Aufgabe gerade ausgeführt wird. Grüne 
 
 NOTE: Das Installationsprogramm stellt sicher, dass Aufgaben, die bei einer vorherigen Installation abgeschlossen wurden, nicht erneut ausgeführt werden. Bei einer erneuten Installation werden alle Aufgaben, die nicht erneut ausgeführt werden müssen, mit einer grünen Statusleiste und dem Status „Übersprungen“ angezeigt.
 
-. ${post_edited_translations.segment}
+. Den Fortschritt der ersten beiden Installationsphasen überprüfen.
 +
 ** *1. Speicher konfigurieren*
 +
@@ -51,7 +51,7 @@ Während dieser Phase kopiert das Installationsprogramm das Basisbetriebssystem-
 
 
  a| 
-${post_edited_translations.segment}
+Gateway-Node
  a| 
 link:selecting-start-recovery-to-configure-gateway-node.html["„Wiederherstellung starten“ auswählen, um den Gateway Node zu konfigurieren."]
 

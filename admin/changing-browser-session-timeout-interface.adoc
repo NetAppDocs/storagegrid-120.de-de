@@ -62,7 +62,7 @@ Die neue Einstellung betrifft keine Benutzer, die aktuell angemeldet sind. Benut
 .. Das Kontrollkästchen ermöglicht die Rückgabe eines Stacktraces in den API-Fehlerantworten von Grid Manager und Tenant Manager.
 +
 
-CAUTION: ${post_edited_translations.segment}
+CAUTION: In Produktionsumgebungen sollte die Stack-Trace-Funktion deaktiviert bleiben, um die Offenlegung interner Softwaredetails bei API-Fehlern zu vermeiden.
 
 .. *Speichern* auswählen.
 

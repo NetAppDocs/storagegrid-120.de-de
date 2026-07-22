@@ -23,9 +23,9 @@ Die memberof- und refint-Overlays sollten aktiviert sein. Weitere Informationen 
 
 
 [[indexing]]
-== ${post_edited_translations.segment}
+== Indizierung
 
-${post_edited_translations.segment}
+Die folgenden OpenLDAP-Attribute sind mit den angegebenen Indexschlüsselwörtern zu konfigurieren:
 
 [listing]
 ----

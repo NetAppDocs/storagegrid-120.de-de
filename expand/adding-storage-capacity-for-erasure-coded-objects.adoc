@@ -20,7 +20,7 @@ Die Anzahl der hinzuzufügenden Knoten hängt auch davon ab, wie voll die vorhan
 
 
 [[general-recommendation-for-adding-storage-capacity-for-erasure-coded-objects]]
-== ${post_edited_translations.segment}
+== Allgemeine Empfehlung zur Erweiterung der Speicherkapazität für löschcodierte Objekte
 
 Wenn Sie detaillierte Berechnungen vermeiden möchten, können Sie zwei Storage Nodes pro Standort hinzufügen, sobald die vorhandenen Storage Nodes zu 70 % ausgelastet sind.
 

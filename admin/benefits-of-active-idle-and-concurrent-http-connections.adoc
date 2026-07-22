@@ -29,15 +29,15 @@ HTTP-Verbindungen geöffnet lassen, wenn Client-Anwendungen inaktiv sind, um sp�
 
 Offene und inaktive HTTP-Verbindungen bieten folgende Vorteile:
 
-* ${post_edited_translations.segment}
+* Verringerte Latenzzeit zwischen dem Zeitpunkt, an dem das StorageGRID System feststellt, dass eine HTTP-Transaktion durchgeführt werden muss, und dem Zeitpunkt, an dem das StorageGRID System die Transaktion durchführen kann
 +
 Die geringere Latenz ist der Hauptvorteil, insbesondere im Hinblick auf die Zeit, die für den Aufbau von TCP/IP und TLS-Verbindungen erforderlich ist.
 
-* ${post_edited_translations.segment}
+* Erhöhte Datentransferrate durch Vorbefüllung des TCP/IP-Slow-Start-Algorithmus mit zuvor durchgeführten Übertragungen
 * Sofortige Benachrichtigung über verschiedene Fehlerklassen, die die Verbindung zwischen der Clientanwendung und dem StorageGRID System unterbrechen
 
 
-${post_edited_translations.segment}
+Es wird festgelegt, wie lange eine inaktive Verbindung offen gehalten wird, wobei die Vorteile des Slow Start und die Ressourcenzuweisung gegeneinander abgewogen werden.
 
 
 
@@ -48,9 +48,9 @@ Bei direkten Verbindungen zu Storage Nodes sollte die Dauer einer aktiven HTTP-V
 
 Die Bestimmung der maximalen Dauer, für die eine Verbindung offengehalten werden soll, ist ein Kompromiss zwischen den Vorteilen der Verbindungspersistenz und der idealen Zuweisung der Verbindung zu internen Systemressourcen.
 
-${post_edited_translations.segment}
+Für Clientverbindungen zu Storage Nodes bietet die Begrenzung aktiver HTTP-Verbindungen folgende Vorteile:
 
-* ${post_edited_translations.segment}
+* Ermöglicht eine optimale Lastverteilung im gesamten StorageGRID System.
 +
 Im Laufe der Zeit kann eine HTTP-Verbindung aufgrund sich ändernder Anforderungen an die Lastverteilung unter Umständen nicht mehr optimal sein. Das System erzielt die beste Lastverteilung, wenn Client-Anwendungen für jede Transaktion eine separate HTTP-Verbindung herstellen, aber diese Methode hebt die wertvollen Vorteile persistenter Verbindungen auf.
 

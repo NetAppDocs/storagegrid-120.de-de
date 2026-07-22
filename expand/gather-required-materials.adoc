@@ -2,7 +2,7 @@
 permalink: expand/gather-required-materials.html 
 sidebar: sidebar 
 keywords: expand, expansion, planning, storagegrid files, StorageGRID 
-summary: ${post_edited_translations.segment} 
+summary: Vor der Durchführung einer Erweiterungsmaßnahme sollten die Materialien bereitgestellt sowie alle neuen Hardware und Netzwerke installiert und konfiguriert werden. 
 ---
 = Vorbereitung auf die Erweiterung Ihres StorageGRID Systems
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Vor der Durchführung einer Erweiterungsmaßnahme sollten die Materialien bereitgestellt sowie alle neuen Hardware und Netzwerke installiert und konfiguriert werden.
 
 [cols="1a,2a"]
 |===
@@ -32,7 +32,7 @@ Weitere Informationen finden Sie in den Anweisungen für <<download-and-extract-
  a| 
 Service Laptop
  a| 
-${post_edited_translations.segment}
+Der Service-Laptop verfügt über Folgendes:
 
 * Netzwerkport
 * SSH-Client (zum Beispiel PuTTY)
@@ -76,7 +76,7 @@ Informationen zu unterstützten Versionen finden sich in der https://imt.netapp.
 [[download-and-extract-the-storagegrid-installation-files]]
 == StorageGRID Installationsdateien herunterladen und extrahieren
 
-.${post_edited_translations.segment}
+.[[download-and-extract-install-files]]
 Bevor Sie neue Grid-Knoten oder einen neuen Standort hinzufügen können, müssen Sie das entsprechende StorageGRID Installationsarchiv herunterladen und die Dateien extrahieren.
 
 .Über diese Aufgabe
@@ -127,7 +127,7 @@ Um eine bestehende Bereitstellung auf OpenStack zu erweitern, muss eine virtuell
 . Die Archivdatei wird heruntergeladen und extrahiert.
 . Wählen Sie entsprechend Ihrer Plattform die benötigten Dateien aus, basierend auf Ihrer Plattform, der geplanten Grid-Topologie und der Art und Weise, wie Sie Ihr StorageGRID System erweitern werden.
 +
-${post_edited_translations.segment}
+Die in den einzelnen Schritten für jede Plattform aufgeführten Pfade sind relativ zum obersten Verzeichnis, das durch die Archivdatei installiert wurde.
 
 . Wenn Sie ein RHEL System erweitern, wählen Sie die entsprechenden Dateien aus.
 
@@ -190,23 +190,23 @@ Beispiel einer Ansible-Rolle und eines Playbooks zur Konfiguration von RHEL-Host
 
 
 
-| ${post_edited_translations.segment}  a| 
-${post_edited_translations.segment}
+| ./rpms/storagegrid-ssoauth-azure.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./rpms/storagegrid-ssoauth-azure.js  a| 
 Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./rpms/extras/api-schemas  a| 
 API-Schemas für StorageGRID.
 
 *Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
 
 |===
-. ${post_edited_translations.segment}
+. Wenn Sie ein Ubuntu- oder Debian-System erweitern, wählen Sie die entsprechenden Dateien aus.
 
 
 [cols="1a,1a"]
@@ -225,7 +225,7 @@ Eine NetApp Lizenzdatei für Nicht-Produktionsumgebungen, die für Tests und Pro
 
 
 | ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
-${post_edited_translations.segment}
+DEB-Paket zur Installation der StorageGRID Knotenabbilder auf Ubuntu- oder Debian Hosts.
 
 
 
@@ -242,7 +242,7 @@ DEB-Paket zur Installation des StorageGRID Hostdienstes auf Ubuntu- oder Debian 
 | Bereitstellungsskripting Tool | Beschreibung 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./debs/configure-storagegrid.py  a| 
 Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
 
 
@@ -273,7 +273,7 @@ Beispiel für eine Ansible Rolle und ein Playbook zur Konfiguration von Ubuntu- 
 
 
 | ./debs/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 
@@ -370,7 +370,7 @@ Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py
 
 
 | ./vsphere/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 
@@ -409,7 +409,7 @@ images-version-SHA.deb`.
 
 
 [[verify-hardware-and-networking]]
-== ${post_edited_translations.segment}
+== Hardware und Netzwerk verifizieren
 
 Vor Beginn der Erweiterung Ihres StorageGRID Systems ist Folgendes sicherzustellen:
 

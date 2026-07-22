@@ -18,7 +18,7 @@ Eine NetApp Lizenzdatei für Nicht-Produktionsumgebungen, die für Tests und Pro
 
 
 | ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
-${post_edited_translations.segment}
+DEB-Paket zur Installation der StorageGRID Knotenabbilder auf Ubuntu- oder Debian Hosts.
 
 
 
@@ -35,7 +35,7 @@ DEB-Paket zur Installation des StorageGRID Hostdienstes auf Ubuntu- oder Debian 
 | Bereitstellungsskripting Tool | Beschreibung 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./debs/configure-storagegrid.py  a| 
 Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
 
 
@@ -66,7 +66,7 @@ Beispiel für eine Ansible Rolle und ein Playbook zur Konfiguration von Ubuntu- 
 
 
 | ./debs/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 

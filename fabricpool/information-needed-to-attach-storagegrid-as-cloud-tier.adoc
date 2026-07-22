@@ -64,7 +64,7 @@ DNS-Eintrag
  a| 
 Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
  a| 
-${post_edited_translations.segment}
+StorageGRID > Mandant und Bucket
  a| 
 ONTAP System Manager > Cloud-Tier hinzufügen
 
@@ -73,7 +73,7 @@ ONTAP System Manager > Cloud-Tier hinzufügen
  a| 
 Bucket/Container-Name
  a| 
-${post_edited_translations.segment}
+StorageGRID > Mandant und Bucket
  a| 
 ONTAP System Manager > Cloud-Tier hinzufügen
 
@@ -83,7 +83,7 @@ ONTAP System Manager > Cloud-Tier hinzufügen
 [[how-do-i-get-these-values]]
 == Wie erhalte ich diese Werte?
 
-${post_edited_translations.segment}
+Je nach Ihren Anforderungen bestehen folgende Möglichkeiten, um die benötigten Informationen zu erhalten:
 
 * Verwenden Sie den link:use-fabricpool-setup-wizard.html["FabricPool Einrichtungsassistent"]. Der FabricPool Setup-Assistent unterstützt Sie dabei, die erforderlichen Werte in StorageGRID schnell zu konfigurieren und gibt eine Datei aus, die zur Konfiguration von ONTAP System Manager verwendet werden kann. Der Assistent führt durch die erforderlichen Schritte und hilft dabei, sicherzustellen, dass die Einstellungen den Best Practices von StorageGRID und FabricPool entsprechen.
 * Jedes Element wird manuell konfiguriert. Anschließend werden die Werte in ONTAP System Manager oder die ONTAP CLI eingegeben. Dabei sind folgende Schritte zu beachten:

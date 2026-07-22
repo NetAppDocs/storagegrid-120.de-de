@@ -54,7 +54,7 @@ NOTE: Wenn diese Administratorgruppe auf beiden Grids vor der Erstellung des Man
 
 
 [[account-clone-identity-federationconfigure-grid-level-identity-federation-for-account-clone-optional]]
-=== ${post_edited_translations.segment}
+=== [[account-clone-identity-federation]]Konfiguration der Identitätsföderation auf Grid-Ebene für die Kontoklonierung (optional)
 
 Wenn eines der StorageGRID-Systeme Identitätsföderation ohne SSO verwendet, müssen beide Grids Identitätsföderation verwenden. Vor dem Erstellen der Mandantenkonten für die Grid-Föderation müssen die Grid-Administratoren der Quell- und Ziel-Grids des Mandanten diese Schritte durchführen.
 
@@ -87,7 +87,7 @@ Das Grid, in dem der Mandant ursprünglich erstellt wurde, ist als _Quellgrid_ d
 Wenn diese Berechtigung zugewiesen ist, müssen sowohl das Quell- als auch das Zielmandantenkonto dieselbe Identitätsquelle konfigurieren, bevor föderierte Gruppen erstellt werden können. Föderierte Gruppen, die dem Quellmandanten hinzugefügt wurden, können nicht in den Zielmandanten geklont werden, es sei denn, beide Grids verwenden dieselbe Identitätsquelle.
 
 . Eine bestimmte Grid Federation-Verbindung auswählen.
-. ${post_edited_translations.segment}
+. Den neuen oder geänderten Mandanten speichern.
 +
 Wenn ein neuer Mandant mit der Berechtigung *Grid-Federationsverbindung verwenden* gespeichert wird, erstellt StorageGRID automatisch eine Replik dieses Mandanten im anderen Grid, wie folgt:
 
@@ -106,17 +106,17 @@ Weitere Informationen finden sich unter link:grid-federation-manage-tenants.html
 [[permitted-tenant-account-workflow]]
 == Zulässiger Workflow für Mieterkonten
 
-${post_edited_translations.segment}
+Nachdem ein Mandant mit der Berechtigung *Use grid federation connection* in das Ziel-Grid repliziert wurde, können berechtigte Mandantenkonten diese Schritte ausführen, um Mandantengruppen, Benutzer und S3-Zugriffsschlüssel zu klonen.
 
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Melden Sie sich beim Mandantenkonto im Quellgrid des Mandanten an.
+. Sofern zulässig, die Identitätsföderation sowohl auf dem Quell- als auch auf dem Ziel-Tenant-Konto konfigurieren.
+. Gruppen und Benutzer im Quellmandanten erstellen.
 +
 Wenn neue Gruppen oder Benutzer im Quellmandanten erstellt werden, klont StorageGRID diese automatisch in den Zielmandanten, aber es findet kein Klonen vom Ziel zurück zum Quellmandanten statt.
 
 . S3-Zugriffsschlüssel erstellen.
-. ${post_edited_translations.segment}
+. Optional lassen sich die S3-Zugriffsschlüssel vom Quellmandanten auf den Zielmandanten klonen.
 
 
 Details zum zulässigen Mandantenkonto-Workflow und Informationen zum Klonen von Gruppen, Benutzern und S3-Zugriffsschlüsseln finden Sie unter link:../tenant/grid-federation-account-clone.html["Mandantengruppen und Benutzer klonen"] und link:../tenant/grid-federation-clone-keys-with-api.html["Klonen von S3-Zugriffsschlüsseln mithilfe der API"].

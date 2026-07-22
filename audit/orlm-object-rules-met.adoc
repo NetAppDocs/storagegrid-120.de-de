@@ -35,7 +35,7 @@ CBID
  a| 
 Inhaltsblockkennung
  a| 
-${post_edited_translations.segment}
+Die CBID des Objekts.
 
 
 
@@ -49,13 +49,13 @@ Die Größe des Objekts in Bytes.
 
 
  a| 
-${post_edited_translations.segment}
+LOCS
  a| 
 Standorte
  a| 
 Der Speicherort der Objektdaten innerhalb des StorageGRID Systems. Der Wert für LOCS ist "", wenn das Objekt keine Speicherorte hat (zum Beispiel, wenn es gelöscht wurde).
 
-${post_edited_translations.segment}
+CLEC: Für Objekte mit Löschcodierung die Löschcodierungsprofil-ID und die Löschcodierungsgruppen-ID, die auf die Daten des Objekts angewendet wird.
 
 CLDI: Bei replizierten Objekten die LDR-Knoten-ID und die Volume-ID des Objektstandorts.
 
@@ -79,14 +79,14 @@ Ergebnis
  a| 
 Das Ergebnis der ILM-Operation.
 
-${post_edited_translations.segment}
+SUCS: Die ILM Operation war erfolgreich.
 
 
 
  a| 
-${post_edited_translations.segment}
+REGEL
  a| 
-${post_edited_translations.segment}
+Regeln Etikett
  a| 
 Die für Menschen lesbare Bezeichnung der ILM-Regel, die auf dieses Objekt angewendet wurde.
 

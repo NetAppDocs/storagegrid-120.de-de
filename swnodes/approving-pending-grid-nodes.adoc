@@ -54,12 +54,12 @@ CAUTION: Siehe link:../primer/what-storage-node-is.html#types-of-storage-nodes["
 ** *ADC-Dienst* (nur Storage Nodes): *Automatisch* auswählen, damit das System bestimmt, ob der Node den Administrative Domain Controller (ADC) Dienst benötigt. Der ADC-Dienst verfolgt Standort und Verfügbarkeit der Grid-Services. Mindestens drei Storage Nodes an jedem Standort müssen den ADC-Dienst enthalten. Der ADC-Dienst kann einem Node nach der Bereitstellung nicht hinzugefügt werden.
 
 
-. ${post_edited_translations.segment}
+. In Grid Network die Einstellungen für die folgenden Eigenschaften nach Bedarf anpassen:
 +
 ** *IPv4-Adresse (CIDR)*: Die CIDR-Netzwerkadresse für die Grid-Netzwerk-Schnittstelle (eth0 im Container). Beispiel: 192.168.1.234/21
 ** *Gateway*: Das Gateway des Grid-Netzwerks. Beispiel: 192.168.0.1
 +
-${post_edited_translations.segment}
+Das Gateway ist erforderlich, wenn mehrere Grid-Subnetze vorhanden sind.
 
 +
 
@@ -81,14 +81,14 @@ NOTE: Wenn Sie DHCP für die Konfiguration des Admin-Netzwerks ausgewählt haben
 +
 .. Das Gerät wird neu gestartet: Im Appliance Installer unter *Erweitert* > *Neustart* auswählen.
 +
-${post_edited_translations.segment}
+Ein Neustart kann mehrere Minuten dauern.
 
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Netzwerk konfigurieren* > *Verbindungskonfiguration* auswählen und die entsprechenden Netzwerke aktivieren.
+.. *Netzwerk konfigurieren* > *IP-Konfiguration* auswählen und die aktivierten Netzwerke konfigurieren.
+.. Zurück zur Startseite und auf *Installation starten* klicken.
 .. Im Grid Manager: Ist der Knoten in der Tabelle „Genehmigte Knoten“ aufgeführt, sollte der Knoten entfernt werden.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. Den Knoten aus der Tabelle „Ausstehende Knoten“ entfernen.
+.. Warten Sie, bis der Knoten wieder in der Liste der Pending Nodes erscheint.
 .. Bestätigen, dass die entsprechenden Netzwerke konfiguriert werden können. Diese sollten bereits mit den Informationen befüllt sein, die Sie auf der Seite „IP Configuration“ des Appliance Installer angegeben haben.
 +
 Weitere Informationen finden Sie in der  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Schnellstart für die Hardwareinstallation"^], um Anweisungen für Ihr Gerät zu finden.
@@ -106,14 +106,14 @@ NOTE: Wenn Sie DHCP für die Client-Netzwerkkonfiguration ausgewählt haben und 
 +
 .. Das Gerät wird neu gestartet: Im Appliance Installer unter *Erweitert* > *Neustart* auswählen.
 +
-${post_edited_translations.segment}
+Ein Neustart kann mehrere Minuten dauern.
 
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Netzwerk konfigurieren* > *Verbindungskonfiguration* auswählen und die entsprechenden Netzwerke aktivieren.
+.. *Netzwerk konfigurieren* > *IP-Konfiguration* auswählen und die aktivierten Netzwerke konfigurieren.
+.. Zurück zur Startseite und auf *Installation starten* klicken.
 .. Im Grid Manager: Ist der Knoten in der Tabelle „Genehmigte Knoten“ aufgeführt, sollte der Knoten entfernt werden.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. Den Knoten aus der Tabelle „Ausstehende Knoten“ entfernen.
+.. Warten Sie, bis der Knoten wieder in der Liste der Pending Nodes erscheint.
 .. Bestätigen, dass die entsprechenden Netzwerke konfiguriert werden können. Diese sollten bereits mit den Informationen befüllt sein, die Sie auf der Seite „IP Configuration“ des Appliance Installer angegeben haben.
 +
 Weitere Informationen finden Sie in der  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Schnellstart für die Hardwareinstallation"^], um Anweisungen für Ihr Gerät zu finden.

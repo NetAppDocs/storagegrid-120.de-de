@@ -43,7 +43,7 @@ Transferrichtung
  a| 
 Gibt an, ob die CBID-Übertragung per Push- oder Pull-Anfrage initiiert wurde:
 
-${post_edited_translations.segment}
+PUSH: Der Übertragungsvorgang wurde von der sendenden Instanz angefordert.
 
 PULL: Die Übertragungsoperation wurde von der empfangenden Entität angefordert.
 

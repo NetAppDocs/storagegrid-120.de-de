@@ -81,7 +81,7 @@ image:grid-federation-cgr-object-example-last-error.png["grid-federation-cgr-obj
 
 . Führen Sie alle empfohlenen Aktionen durch. Wenn beispielsweise die Versionierung für den Ziel-Bucket aufgrund der netzübergreifenden Replikation ausgesetzt wurde, sollte die Versionierung für diesen Bucket wieder aktiviert werden.
 . Wählen Sie die Verbindung aus der Tabelle aus.
-. ${post_edited_translations.segment}
+. *Fehler löschen* auswählen.
 . *Ja* auswählen, um die Meldung zu löschen und den Systemstatus zu aktualisieren.
 . Warten Sie 5–6 Minuten und geben Sie dann ein neues Objekt in den Bucket ein. Es sollte bestätigt werden, dass die Fehlermeldung nicht erneut erscheint.
 +

@@ -19,7 +19,7 @@ Optional kann link:../monitor/considerations-for-external-syslog-server.html["Ko
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Wenn Sie planen, einen externen Syslog-Server zu konfigurieren, wurden die link:../monitor/considerations-for-external-syslog-server.html["Überlegungen zur Verwendung eines externen Syslog Servers"] überprüft und befolgt.
 * Wenn die Konfiguration eines externen Syslog-Servers mit dem TLS- oder RELP/TLS-Protokoll vorgesehen ist, sind die erforderlichen Server-CA- und Client-Zertifikate sowie der private Client-Schlüssel vorhanden.
 
@@ -95,7 +95,7 @@ Gridübergreifende Replikation
  a| 
 Fehler
  a| 
-link:../audit/cgrr-cross-grid-replication-request.html["${post_edited_translations.segment}"]
+link:../audit/cgrr-cross-grid-replication-request.html["CGRR: Cross-Grid-Replikationsanforderung"]
 
 |===
 

@@ -18,10 +18,10 @@ StorageGRID Mandantenkonten verwenden S3-Client-Anwendungen, um Objektdaten in S
 [[summary]]
 == Zusammenfassung
 
-${post_edited_translations.segment}
+Die folgende Liste fasst zusammen, wie die Sicherheit für die S3 REST API implementiert wird:
 
 Verbindungssicherheit:: TLS
-Server-Authentifizierung:: ${post_edited_translations.segment}
+Server-Authentifizierung:: X.509-Serverzertifikat, signiert von der System-CA, oder benutzerdefiniertes Serverzertifikat, bereitgestellt vom Administrator
 Client-Authentifizierung:: S3-Konto-Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
 Client-Autorisierung:: Bucket-Eigentum und alle anwendbaren Zugriffskontrollrichtlinien
 
@@ -38,7 +38,7 @@ S3 Clientanwendungen können eine Verbindung zum Load Balancer Service auf Gatew
 HTTPS bietet eine sichere, TLS-verschlüsselte Kommunikation und wird empfohlen. Ein Sicherheitszertifikat muss an den Endpunkt angehängt werden.
 
 +
-${post_edited_translations.segment}
+HTTP bietet eine weniger sichere, unverschlüsselte Kommunikation und sollte nur für Nicht-Produktions- oder Test-Grids verwendet werden.
 
 * Clients, die eine Verbindung zu Storage Nodes herstellen, können ebenfalls HTTPS oder HTTP verwenden.
 +

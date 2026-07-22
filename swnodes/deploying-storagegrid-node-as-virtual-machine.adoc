@@ -15,10 +15,10 @@ Sie verwenden den VMware vSphere Web Client, um jeden Grid-Knoten als virtuelle 
 
 Wenn Sie StorageGRID Appliance-Speicherknoten bereitstellen müssen, siehe https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/deploying-appliance-storage-node.html["Appliance Storage Node bereitstellen"^].
 
-${post_edited_translations.segment}
+Optional können vor dem Einschalten des Knotens die Knotenports neu zugeordnet oder die CPU- oder Speichereinstellungen erhöht werden.
 
 .Bevor Sie beginnen
-* Sie haben überprüft, wie Sie link:index.html["${post_edited_translations.segment}"], und Sie verstehen die Anforderungen an Software, CPU und RAM sowie Storage und Performance.
+* Sie haben überprüft, wie Sie link:index.html["Planung und Vorbereitung der Installation"], und Sie verstehen die Anforderungen an Software, CPU und RAM sowie Storage und Performance.
 * Sie sind mit dem VMware vSphere Hypervisor vertraut und haben Erfahrung mit der Bereitstellung virtueller Maschinen in dieser Umgebung.
 +
 
@@ -27,7 +27,7 @@ NOTE: Das Paket  `open-vm-tools`, eine Open-Source-Implementierung ähnlich wie 
 * Sie haben die richtige Version des StorageGRID Installationsarchivs für VMware heruntergeladen und extrahiert.
 +
 
-CAUTION: ${post_edited_translations.segment}
+CAUTION: Wenn der neue Knoten im Rahmen einer Erweiterungs- oder Wiederherstellungsoperation bereitgestellt wird, muss die Version von StorageGRID verwendet werden, die aktuell im Grid ausgeführt wird.
 
 * Sie verfügen über die StorageGRID Virtual Machine Disk (`.vmdk`)-Datei:
 
@@ -44,7 +44,7 @@ NetApp-_SG-version_-SHA.vmdk
 
 
 | vsphere-primary-admin.ovf vsphere-primary-admin.mf  a| 
-${post_edited_translations.segment}
+Die Vorlagendatei und die Manifestdatei für den primären Admin-Node.
 
 
 
@@ -54,7 +54,7 @@ Die Vorlagendatei und die Manifestdatei für einen nicht-primären Admin Node.
 
 
 | vsphere-storage.ovf vsphere-storage.mf  a| 
-${post_edited_translations.segment}
+Die Vorlagendatei und die Manifestdatei für einen Storage Node.
 
 
 
@@ -79,25 +79,25 @@ NOTE: Es sollte niemals FabricPool verwendet werden, um Daten, die mit StorageGR
 .Über diese Aufgabe
 Befolgen Sie diese Anweisungen, um VMware Nodes initial bereitzustellen, einen neuen VMware Node im Rahmen einer Erweiterung hinzuzufügen oder einen VMware Node im Rahmen einer Wiederherstellung zu ersetzen. Sofern in den einzelnen Schritten nicht anders angegeben, ist das Bereitstellungsverfahren für alle Knotentypen, einschließlich Admin Nodes, Storage Nodes und Gateway Nodes, identisch.
 
-${post_edited_translations.segment}
+Wenn Sie ein neues StorageGRID System installieren:
 
 * Die Knoten können in beliebiger Reihenfolge bereitgestellt werden.
 * Es ist sicherzustellen, dass jede virtuelle Maschine über das Grid-Netzwerk eine Verbindung zum primären Admin Node herstellen kann.
-* ${post_edited_translations.segment}
+* Alle Grid-Knoten müssen bereitgestellt werden, bevor das Grid konfiguriert wird.
 
 
-${post_edited_translations.segment}
+Wenn Sie eine Erweiterungs- oder Wiederherstellungsmaßnahme durchführen:
 
 * Es ist sicherzustellen, dass die neue virtuelle Maschine über das Grid-Netzwerk eine Verbindung zu allen anderen Knoten herstellen kann.
 
 
-${post_edited_translations.segment}
+Falls Sie einen der Ports des Knotens neu zuordnen müssen, sollte der neue Knoten erst eingeschaltet werden, wenn die Port-Neuzuordnungskonfiguration abgeschlossen ist.
 
 
 NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
 
 .Schritte
-. ${post_edited_translations.segment}
+. Mit vCenter eine OVF-Vorlage bereitgestellt.
 +
 Wenn Sie eine URL angeben, auf einen Ordner verweisen, der die folgenden Dateien enthält. Andernfalls ist jede dieser Dateien aus einem lokalen Verzeichnis auszuwählen.
 
@@ -118,9 +118,9 @@ NetApp-_SG-version_-SHA.vmdk
 vsphere-primary-admin.ovf
 vsphere-primary-admin.mf
 ----
-. ${post_edited_translations.segment}
+. Ein Name für die virtuelle Maschine wird angegeben.
 +
-${post_edited_translations.segment}
+Üblicherweise wird für die virtuelle Maschine und den Grid-Knoten derselbe Name verwendet.
 
 . Die virtuelle Maschine befindet sich im entsprechenden vApp oder Ressourcenpool.
 . Wenn der primäre Admin-Knoten bereitgestellt wird, muss die Endbenutzer-Lizenzvereinbarung gelesen und akzeptiert werden.
@@ -129,7 +129,7 @@ Je nach Ihrer Version von vCenter variiert die Reihenfolge der Schritte zum Akze
 
 . Speicher für die virtuelle Maschine auswählen.
 +
-Wenn Sie einen Node im Rahmen eines Wiederherstellungsvorgangs bereitstellen, müssen die Anweisungen in <<step_recovery_storage,${post_edited_translations.segment}>> befolgt werden, um neue virtuelle Festplatten hinzuzufügen, virtuelle Festplatten des ausgefallenen Grid-Nodes wieder anzuhängen oder beides.
+Wenn Sie einen Node im Rahmen eines Wiederherstellungsvorgangs bereitstellen, müssen die Anweisungen in <<step_recovery_storage,Speicherwiederherstellungsschritt>> befolgt werden, um neue virtuelle Festplatten hinzuzufügen, virtuelle Festplatten des ausgefallenen Grid-Nodes wieder anzuhängen oder beides.
 
 +
 Beim Bereitstellen eines Storage Node sollten 3 oder mehr Storage Volumes verwendet werden, wobei jedes Storage Volume 4 TB oder größer ist. Mindestens 4 TB müssen Volume 0 zugewiesen werden.

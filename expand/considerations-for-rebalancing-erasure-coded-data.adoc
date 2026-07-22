@@ -103,7 +103,7 @@ image:used_space_after_ec_rebalance.png["Genutzter Speicherplatz aAfter EC-Neuau
 NetApp erfordert eine EC-Neugewichtung, wenn _alle_ der folgenden Aussagen zutreffen:
 
 * Erasure Coding wird für Ihre Objektdaten verwendet.
-* ${post_edited_translations.segment}
+* Die Warnung *Niedriger Objektspeicher* wurde für einen oder mehrere Storage Nodes an einem Standort ausgelöst, was darauf hinweist, dass die Nodes zu 80 % oder mehr belegt sind.
 * Es können nicht genügend neue Speicherknoten für das verwendete Erasure-Coding-Verfahren hinzugefügt werden. Siehe link:adding-storage-capacity-for-erasure-coded-objects.html["Speicherkapazität für mit Löschkodierung versehene Objekte hinzufügen"].
 * Ihre S3-Clients können eine geringere Leistung bei ihren Schreib- und Lesevorgängen tolerieren, während das EC-Rebalance-Verfahren ausgeführt wird.
 

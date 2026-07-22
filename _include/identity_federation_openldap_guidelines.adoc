@@ -12,14 +12,14 @@ CAUTION: Bei Identitätsquellen, die weder Active Directory noch Microsoft Entra
 [[memberof-and-refint-overlays]]
 === Memberof und Refint Overlays
 
-Die memberof- und refint-Overlays sollten aktiviert sein. Weitere Informationen enthält die Anleitung zur Verwaltung der umgekehrten Gruppenmitgliedschaft in der http://www.openldap.org/doc/admin24/index.html["${post_edited_translations.segment}"^].
+Die memberof- und refint-Overlays sollten aktiviert sein. Weitere Informationen enthält die Anleitung zur Verwaltung der umgekehrten Gruppenmitgliedschaft in der http://www.openldap.org/doc/admin24/index.html["OpenLDAP Dokumentation: Version 2.4 Administratorhandbuch"^].
 
 
 
 [[indexing]]
-=== ${post_edited_translations.segment}
+=== Indizierung
 
-${post_edited_translations.segment}
+Die folgenden OpenLDAP-Attribute sind mit den angegebenen Indexschlüsselwörtern zu konfigurieren:
 
 * `olcDbIndex: objectClass eq`
 * `olcDbIndex: uid eq,pres,sub`
@@ -29,4 +29,4 @@ ${post_edited_translations.segment}
 
 Zusätzlich sollte sichergestellt sein, dass die in der Hilfe für Username genannten Felder für eine optimale Leistung indiziert sind.
 
-Informationen zur umgekehrten Gruppenmitgliedschaftsverwaltung befinden sich in der http://www.openldap.org/doc/admin24/index.html["${post_edited_translations.segment}"^].
+Informationen zur umgekehrten Gruppenmitgliedschaftsverwaltung befinden sich in der http://www.openldap.org/doc/admin24/index.html["OpenLDAP Dokumentation: Version 2.4 Administratorhandbuch"^].

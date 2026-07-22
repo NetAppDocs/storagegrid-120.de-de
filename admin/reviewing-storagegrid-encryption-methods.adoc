@@ -28,12 +28,12 @@ Sie link:kms-configuring.html["einen Schlüsselverwaltungsserver konfigurieren"]
  a| 
 Appliance-Nodes, bei denen die *Node Encryption* während der Installation aktiviert wurde. Alle Daten auf der Appliance sind vor physischem Verlust oder der Entfernung aus dem Rechenzentrum geschützt.
 
-${post_edited_translations.segment}
+*Hinweis*: Die Verwaltung von Verschlüsselungsschlüsseln mit einem KMS ist nur für Storage Nodes und Services Appliances unterstützt.
 
 
 
  a| 
-${post_edited_translations.segment}
+Seite „Laufwerkverschlüsselung“ im StorageGRID Appliance Installer
  a| 
 Wenn die Appliance Laufwerke enthält, die eine Hardwareverschlüsselung unterstützen, können Sie während der Installation eine Laufwerks-Passphrase festlegen. Wenn Sie eine Laufwerks-Passphrase festlegen, ist es unmöglich, gültige Daten von aus dem System entfernten Laufwerken wiederherzustellen, es sei denn, die Passphrase ist bekannt. Vor dem Start der Installation navigieren Sie zu *Hardware konfigurieren* > *Laufwerksverschlüsselung*, um eine Laufwerks-Passphrase festzulegen, die für alle von StorageGRID verwalteten, selbstverschlüsselnden Laufwerke in einem Node gilt.
  a| 
@@ -85,14 +85,14 @@ Nur neu ingestierte S3-Objektdaten.
 
 Die Verschlüsselung muss für das Objekt angegeben werden. Objektmetadaten und andere sensible Daten werden nicht verschlüsselt.
 
-${post_edited_translations.segment}
+StorageGRID verwaltet die Schlüssel.
 
 link:../s3/using-server-side-encryption.html["Serverseitige Verschlüsselung verwenden"]
 
 
 
  a| 
-${post_edited_translations.segment}
+S3-Objektserver-seitige Verschlüsselung mit vom Kunden bereitgestellten Schlüsseln (SSE-C)
  a| 
 Sie senden eine S3-Anfrage zum Speichern eines Objekts und fügen drei Anfrage-Header hinzu.
 
@@ -105,7 +105,7 @@ Nur neu ingestierte S3-Objektdaten.
 
 Die Verschlüsselung muss für das Objekt angegeben werden. Objektmetadaten und andere sensible Daten werden nicht verschlüsselt.
 
-${post_edited_translations.segment}
+Die Schlüssel werden außerhalb von StorageGRID verwaltet.
 
 link:../s3/using-server-side-encryption.html["Serverseitige Verschlüsselung verwenden"]
 
@@ -125,13 +125,13 @@ Eine externe Verschlüsselungsmethode ermöglicht eine präzisere Kontrolle übe
  a| 
 Objektverschlüsselung außerhalb von StorageGRID
  a| 
-${post_edited_translations.segment}
+Es wird eine Verschlüsselungsmethode außerhalb von StorageGRID verwendet, um Objektdaten und Metadaten zu verschlüsseln, bevor sie in StorageGRID aufgenommen werden.
  a| 
 Nur Objektdaten und Metadaten (Systemkonfigurationsdaten sind nicht verschlüsselt).
 
 Eine externe Verschlüsselungsmethode ermöglicht eine präzisere Kontrolle über Verschlüsselungsalgorithmen und -schlüssel. Kann mit den anderen aufgeführten Methoden kombiniert werden.
 
-https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html["${post_edited_translations.segment}"^]
+https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html["Amazon Simple Storage Service – Benutzerhandbuch: Schutz von Daten durch Client-seitige Verschlüsselung"^]
 
 |===
 
@@ -141,7 +141,7 @@ https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html["
 
 Abhängig von Ihren Anforderungen können Sie mehr als eine Verschlüsselungsmethode gleichzeitig verwenden. Beispielsweise:
 
-* ${post_edited_translations.segment}
+* Ein KMS kann zum Schutz von Appliance-Knoten verwendet werden, zudem lässt sich die Laufwerkssicherheitsfunktion im SANtricity System Manager einsetzen, um Daten auf den selbstverschlüsselnden Laufwerken in denselben Appliances „doppelt zu verschlüsseln“.
 * Sie können ein KMS verwenden, um Daten auf Appliance Knoten zu sichern, und außerdem die Option "Gespeicherte Objektverschlüsselung" verwenden, um alle Objekte beim Einlesen zu verschlüsseln.
 
 

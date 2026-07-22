@@ -247,32 +247,32 @@ Bevor Sie die Verwendung von Single Sign-On für Ihr gesamtes StorageGRID System
 .Schritte
 . Auf der Seite „SSO konfigurieren“ befindet sich der Link im Schritt „Konfiguration testen“ des Assistenten.
 +
-${post_edited_translations.segment}
+Die URL wird aus dem Wert abgeleitet, den Sie im Feld *Federation service name* eingegeben haben.
 
 . Wählen Sie den Link aus oder kopieren Sie die URL und fügen Sie sie in einen Browser ein, um auf die Anmeldeseite Ihres Identitätsanbieters zuzugreifen.
-. ${post_edited_translations.segment}
+. Um zu bestätigen, dass Sie SSO für die Anmeldung bei StorageGRID verwenden können, *An einer der folgenden Websites anmelden* auswählen, die Kennung der vertrauenden Partei für Ihren primären Admin-Knoten auswählen und *Anmelden* auswählen.
 . Geben Sie Ihren Verbundbenutzernamen und Ihr Passwort ein.
 +
-** ${post_edited_translations.segment}
+** Wenn die SSO-An- und Abmeldevorgänge erfolgreich sind, erscheint eine Erfolgsmeldung.
 ** Wenn der SSO-Vorgang nicht erfolgreich ist, wird eine Fehlermeldung angezeigt. Beheben Sie das Problem, löschen Sie die Cookies des Browsers und versuchen Sie es erneut.
 
 
-. ${post_edited_translations.segment}
+. Diese Schritte werden wiederholt, um die SSO-Verbindung für jeden Admin-Knoten in Ihrem Grid zu überprüfen.
 
 
 --
 .Entra ID
 --
 .Schritte
-. ${post_edited_translations.segment}
+. Zur Seite für Single sign-on im Azure-Portal wechseln.
 . *Diese Anwendung testen* auswählen.
 . Die Anmeldeinformationen eines Verbundbenutzers eingeben.
 +
-** ${post_edited_translations.segment}
+** Wenn die SSO-An- und Abmeldevorgänge erfolgreich sind, erscheint eine Erfolgsmeldung.
 ** Wenn der SSO-Vorgang nicht erfolgreich ist, wird eine Fehlermeldung angezeigt. Beheben Sie das Problem, löschen Sie die Cookies des Browsers und versuchen Sie es erneut.
 
 
-. ${post_edited_translations.segment}
+. Diese Schritte werden wiederholt, um die SSO-Verbindung für jeden Admin-Knoten in Ihrem Grid zu überprüfen.
 
 
 --
@@ -285,13 +285,13 @@ Jeweils ein Link kann ausgewählt und getestet werden.
 
 . Die Anmeldeinformationen eines Verbundbenutzers eingeben.
 +
-** ${post_edited_translations.segment}
+** Wenn die SSO-An- und Abmeldevorgänge erfolgreich sind, erscheint eine Erfolgsmeldung.
 ** Wenn der SSO-Vorgang nicht erfolgreich ist, wird eine Fehlermeldung angezeigt. Beheben Sie das Problem, löschen Sie die Cookies des Browsers und versuchen Sie es erneut.
 
 
-. ${post_edited_translations.segment}
+. Wählen Sie den nächsten Link aus, um die SSO-Verbindung für jeden Admin-Node in Ihrem Grid zu überprüfen.
 +
-${post_edited_translations.segment}
+Sollte die Meldung „Seite abgelaufen“ angezeigt werden, kann die Schaltfläche *Zurück* im Browser ausgewählt und die Zugangsdaten erneut übermittelt werden.
 
 
 

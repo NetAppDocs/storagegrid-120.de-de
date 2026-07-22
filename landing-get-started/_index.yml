@@ -28,7 +28,7 @@ indexpage:
       url: "../network/networking-requirements-and-guidelines.html"
     - title: Interne Grid-Knoten-Kommunikation
       url: "../network/internal-grid-node-communications.html"
-    - title: "${post_edited_translations.segment}"
+    - title: Externe Kommunikation
       url: "../network/external-communications.html"
   - title: Los geht's
     links:

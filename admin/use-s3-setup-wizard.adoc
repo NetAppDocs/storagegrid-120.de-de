@@ -2,7 +2,7 @@
 permalink: admin/use-s3-setup-wizard.html 
 sidebar: sidebar 
 keywords: S3, S3 setup wizard 
-summary: ${post_edited_translations.segment} 
+summary: Der S3-Setup-Assistent kann verwendet werden, um StorageGRID als Objektspeichersystem für eine S3-Anwendung zu konfigurieren. 
 ---
 = Überlegungen und Anforderungen zum StorageGRID S3-Einrichtungsassistenten
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Der S3-Setup-Assistent kann verwendet werden, um StorageGRID als Objektspeichersystem für eine S3-Anwendung zu konfigurieren.
 
 
 
@@ -32,7 +32,7 @@ Vor der Verwendung des Assistenten sollte bestätigt werden, dass diese Vorausse
 IP-Adressen beziehen und VLAN-Schnittstellen einrichten:: Wenn Sie eine Hochverfügbarkeitsgruppe (HA-Gruppe) konfigurieren, ist bekannt, mit welchen Knoten sich die S3-Anwendung verbindet und welches StorageGRID Netzwerk verwendet wird. Es ist ebenfalls bekannt, welche Werte für die Subnetz-CIDR, die Gateway-IP-Adresse und die virtuellen IP-Adressen (VIP) einzugeben sind.
 +
 --
-Wenn geplant ist, ein virtuelles LAN zu verwenden, um den Datenverkehr der S3-Anwendung zu trennen, wurde die VLAN-Schnittstelle bereits konfiguriert. Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+Wenn geplant ist, ein virtuelles LAN zu verwenden, um den Datenverkehr der S3-Anwendung zu trennen, wurde die VLAN-Schnittstelle bereits konfiguriert. Siehe link:../admin/configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"].
 
 --
 Identitätsföderation und SSO konfigurieren:: Wenn für Ihr StorageGRID System Identitätsföderation oder Single Sign-On (SSO) vorgesehen ist, sind diese Funktionen aktiviert. Es ist außerdem bekannt, welche föderierte Gruppe Root-Zugriff auf das Mandantenkonto erhalten soll, das die S3-Anwendung verwendet. Siehe link:../admin/using-identity-federation.html["Identitätsföderation verwenden"] und link:../admin/how-sso-works.html["Einmalanmeldung konfigurieren"].

@@ -2,7 +2,7 @@
 permalink: admin/use-s3-setup-wizard-steps.html 
 sidebar: sidebar 
 keywords: FabricPool and S3 setup wizard, object storage system, S3 application 
-summary: ${post_edited_translations.segment} 
+summary: Der S3-Setup-Assistent kann verwendet werden, um StorageGRID als Objektspeichersystem für eine S3-Anwendung zu konfigurieren. 
 ---
 = Rufen Sie den S3-Einrichtungsassistenten in StorageGRID auf und schließen Sie ihn ab
 :allow-uri-read: 
@@ -35,7 +35,7 @@ image:help_menu.png["Hilfemenü"]
 
 
 [[step-1-of-6-configure-ha-group]]
-== ${post_edited_translations.segment}
+== Schritt 1 von 6: HA-Gruppe konfigurieren
 
 Eine HA-Gruppe ist eine Sammlung von Nodes, die jeweils den StorageGRID Load-Balancer-Dienst enthalten. Eine HA-Gruppe kann Gateway-Nodes, Admin-Nodes oder beides enthalten.
 
@@ -77,11 +77,11 @@ Die Beschreibung dieser HA-Gruppe.
 Mit den Spaltenüberschriften lassen sich die Zeilen sortieren, oder durch Eingabe eines Suchbegriffs können Schnittstellen schneller gefunden werden.
 
 +
-${post_edited_translations.segment}
+Sie können einen oder mehrere Knoten auswählen, aber Sie können für jeden Knoten nur eine Schnittstelle auswählen.
 
-.. ${post_edited_translations.segment}
+.. Im Schritt *Schnittstellen priorisieren* wird die primäre Schnittstelle und alle Backup-Schnittstellen für diese HA-Gruppe bestimmt.
 +
-${post_edited_translations.segment}
+Zeilen können per Drag & Drop verschoben werden, um die Werte in der Spalte *Prioritätsreihenfolge* zu ändern.
 
 +
 Die erste Schnittstelle in der Liste ist die Primary-Schnittstelle. Die Primary-Schnittstelle ist die aktive Schnittstelle, sofern kein Fehler auftritt.
@@ -99,7 +99,7 @@ Wenn die HA-Gruppe mehr als eine Schnittstelle umfasst und die aktive Schnittste
  a| 
 Subnetz CIDR
  a| 
-${post_edited_translations.segment}
+Die Adresse des VIP-Subnetzes in CIDR-Notation, eine IPv4-Adresse, gefolgt von einem Schrägstrich und der Subnetzlänge (0-32).
 
 Die Netzwerkadresse darf keine gesetzten Host-Bits aufweisen. Zum Beispiel  `192.16.0.0/22`.
 
@@ -150,10 +150,10 @@ Zur Nutzung des StorageGRID Load Balancer Service die Registerkarte *StorageGRID
 
 [role="tabbed-block"]
 ====
-.${post_edited_translations.segment}
+.Endpunkt erstellen
 --
 .Schritte
-. ${post_edited_translations.segment}
+. Zum Erstellen eines Load Balancer-Endpunkts *Endpunkt erstellen* auswählen.
 . Für den Schritt *Endpunktdetails eingeben* sind die folgenden Felder auszufüllen.
 +
 [cols="1a,2a"]
@@ -164,7 +164,7 @@ Zur Nutzung des StorageGRID Load Balancer Service die Registerkarte *StorageGRID
  a| 
 Name
  a| 
-${post_edited_translations.segment}
+Ein beschreibender Name für den Endpunkt.
 
 
 
@@ -227,10 +227,10 @@ Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählte
  a| 
 Knotentyp
  a| 
-${post_edited_translations.segment}
+Je nach gewähltem Knotentyp müssen Clients entweder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node oder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Gateway Node verwenden, um auf diesen Endpunkt zuzugreifen.
 
 |===
-. ${post_edited_translations.segment}
+. Für den Schritt „Mandantenzugriff“ eine der folgenden Optionen auswählen:
 +
 [cols="1a,2a"]
 |===
@@ -265,9 +265,9 @@ Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff
 
 
  a| 
-${post_edited_translations.segment}
+Zertifikat hochladen (empfohlen)
  a| 
-${post_edited_translations.segment}
+Mit dieser Option kann ein von einer Zertifizierungsstelle signiertes Serverzertifikat, der private Zertifikatsschlüssel und optional ein CA-Bundle hochgeladen werden.
 
 
 
@@ -285,18 +285,18 @@ Diese Option sollte nur verwendet werden, wenn bereits eine benutzerdefinierte V
 
 |===
 . *Fertigstellen* auswählen, um zum S3-Setup-Assistenten zurückzukehren.
-. ${post_edited_translations.segment}
+. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 
 NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.
 
 --
-.${post_edited_translations.segment}
+.Vorhandenen Load Balancer-Endpunkt verwenden
 --
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Um einen vorhandenen Endpunkt zu verwenden, den Namen unter *Load Balancer Endpoint auswählen* auswählen.
+. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 --
@@ -327,10 +327,10 @@ Die Portnummer, die die S3-Anwendung für die Verbindung zum externen Load Balan
  a| 
 Zertifikat
  a| 
-${post_edited_translations.segment}
+Das Serverzertifikat für den externen Load Balancer wird kopiert und in dieses Feld eingefügt.
 
 |===
-. ${post_edited_translations.segment}
+. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 --
@@ -338,7 +338,7 @@ ${post_edited_translations.segment}
 
 
 [[step-3-of-6-create-tenant-and-bucket]]
-== ${post_edited_translations.segment}
+== Schritt 3 von 6: Mandant und Bucket erstellen
 
 Ein Mandant ist eine Entität, die S3-Anwendungen zum Speichern und Abrufen von Objekten in StorageGRID verwenden kann. Jeder Mandant verfügt über eigene Benutzer, Zugriffsschlüssel, Buckets, Objekte und einen spezifischen Satz von Funktionen.
 
@@ -351,7 +351,7 @@ Weitere Informationen zu dieser Aufgabe finden Sie unter link:creating-tenant-ac
 +
 Die Namen der Mandanten müssen nicht eindeutig sein. Bei der Erstellung des Mandantenkontos erhält dieses eine eindeutige, numerische Konto-ID.
 
-. Der Root-Zugriff für das Mandantenkonto wird basierend darauf definiert, ob Ihr StorageGRID System link:using-identity-federation.html["Identitätsföderation"], link:how-sso-works.html["${post_edited_translations.segment}"] oder beides verwendet.
+. Der Root-Zugriff für das Mandantenkonto wird basierend darauf definiert, ob Ihr StorageGRID System link:using-identity-federation.html["Identitätsföderation"], link:how-sso-works.html["Single Sign-On (SSO)"] oder beides verwendet.
 +
 [cols="1a,2a"]
 |===
@@ -380,14 +380,14 @@ Wenn sowohl Identitätsföderation als auch Single Sign-On (SSO) aktiviert sind
 Wählen Sie eine bestehende Verbundgruppe aus, um link:../tenant/tenant-management-permissions.html["Root-Zugriffsberechtigung"] für den Mandanten zu haben. Lokale Benutzer können sich nicht anmelden.
 
 |===
-. ${post_edited_translations.segment}
+. Wenn der Assistent die Zugriffsschlüssel-ID und den geheimen Zugriffsschlüssel für den Root-Benutzer erstellen soll, wählen Sie *Root-Benutzer S3-Zugriffsschlüssel automatisch erstellen* aus.
 +
 Diese Option ist auszuwählen, wenn der einzige Benutzer für den Mandanten der Root-Benutzer ist. Wenn andere Benutzer diesen Mandanten verwenden, link:../tenant/index.html["Tenant Manager verwenden"] können Schlüssel und Berechtigungen konfiguriert werden.
 
 . Wenn jetzt ein Bucket für diesen Mandanten erstellt werden soll, ist *Bucket für diesen Mandanten erstellen* auszuwählen.
 +
 
-TIP: Wenn S3 Object Lock für das Grid aktiviert ist, ist für den in diesem Schritt erstellten Bucket S3 Object Lock nicht aktiviert. Wenn Sie einen S3 Object Lock Bucket für diese S3-Anwendung benötigen, wählen Sie nicht aus, jetzt einen Bucket zu erstellen. Verwenden Sie stattdessen den Tenant Manager, um später link:../tenant/creating-s3-bucket.html["${post_edited_translations.segment}"].
+TIP: Wenn S3 Object Lock für das Grid aktiviert ist, ist für den in diesem Schritt erstellten Bucket S3 Object Lock nicht aktiviert. Wenn Sie einen S3 Object Lock Bucket für diese S3-Anwendung benötigen, wählen Sie nicht aus, jetzt einen Bucket zu erstellen. Verwenden Sie stattdessen den Tenant Manager, um später link:../tenant/creating-s3-bucket.html["den Bucket erstellen"].
 
 +
 .. Geben Sie den Namen des Buckets ein, den die S3-Anwendung verwenden wird. Zum Beispiel  `s3-bucket`.
@@ -436,7 +436,7 @@ Die Regeln des Informationslebenszyklusmanagements (ILM) steuern die Platzierung
 
 .Schritte
 . Die auf der Seite bereitgestellten Informationen können überprüft werden.
-. Wenn spezifische Anweisungen für die Objekte des neuen Mandanten oder Buckets hinzugefügt werden sollen, ist eine neue Regel und eine neue Richtlinie zu erstellen. Siehe link:../ilm/access-create-ilm-rule-wizard.html["${post_edited_translations.segment}"] und link:../ilm/ilm-policy-overview.html["ILM Richtlinien verwenden"].
+. Wenn spezifische Anweisungen für die Objekte des neuen Mandanten oder Buckets hinzugefügt werden sollen, ist eine neue Regel und eine neue Richtlinie zu erstellen. Siehe link:../ilm/access-create-ilm-rule-wizard.html["ILM-Regel erstellen"] und link:../ilm/ilm-policy-overview.html["ILM Richtlinien verwenden"].
 . *Ich habe diese Schritte überprüft und verstehe, was ich tun muss* auswählen.
 . Aktivieren Sie das Kontrollkästchen, um zu bestätigen, dass Sie wissen, was als Nächstes zu tun ist.
 . *Weiter* auswählen, um zu *Zusammenfassung* zu gelangen.

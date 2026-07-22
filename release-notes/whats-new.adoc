@@ -58,7 +58,7 @@ Weitere Informationen finden Sie unter link:../upgrade/performing-upgrade.html#u
 
 * Sie können jetzt link:../admin/managing-users.html#import-federated-users["bis zu 100 föderierte Benutzer importieren"] in StorageGRID.
 * Sie können nun link:../ilm/configuring-regions-optional-and-s3-only.html["die Standardregion ändern"] für S3-Buckets. Diese Funktion bietet mehr Flexibilität bei der Verwaltung von Datenlokalisierung und Compliance.
-* Sie können nun die gitterübergreifende Replikation zwischen Buckets mit aktiviertem S3 Object Lock konfigurieren. Siehe link:../admin/grid-federation-what-is-cross-grid-replication.html#cgr-with-ol["${post_edited_translations.segment}"].
+* Sie können nun die gitterübergreifende Replikation zwischen Buckets mit aktiviertem S3 Object Lock konfigurieren. Siehe link:../admin/grid-federation-what-is-cross-grid-replication.html#cgr-with-ol["Grid-übergreifende Replikation mit S3 Object Lock"].
 +
 NetApp empfiehlt, diese Funktion nur zwischen StorageGRID 12.0 Quell- und Ziel-Buckets zu verwenden. Allerdings wird diese Funktion zwischen StorageGRID 11.9 Quell-Buckets mit deaktivierter S3 Object Lock und StorageGRID 12.0 Ziel-Buckets mit aktivierter S3 Object Lock unterstützt.
 

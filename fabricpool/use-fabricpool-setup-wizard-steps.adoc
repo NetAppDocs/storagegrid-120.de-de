@@ -86,11 +86,11 @@ Die Beschreibung dieser HA-Gruppe.
 Mit den Spaltenüberschriften lassen sich die Zeilen sortieren, oder durch Eingabe eines Suchbegriffs können Schnittstellen schneller gefunden werden.
 
 +
-${post_edited_translations.segment}
+Sie können einen oder mehrere Knoten auswählen, aber Sie können für jeden Knoten nur eine Schnittstelle auswählen.
 
-.. ${post_edited_translations.segment}
+.. Im Schritt *Schnittstellen priorisieren* wird die primäre Schnittstelle und alle Backup-Schnittstellen für diese HA-Gruppe bestimmt.
 +
-${post_edited_translations.segment}
+Zeilen können per Drag & Drop verschoben werden, um die Werte in der Spalte *Prioritätsreihenfolge* zu ändern.
 
 +
 Die erste Schnittstelle in der Liste ist die Primary-Schnittstelle. Die Primary-Schnittstelle ist die aktive Schnittstelle, sofern kein Fehler auftritt.
@@ -160,7 +160,7 @@ Weitere Informationen zu dieser Aufgabe finden sich in den allgemeinen link:../a
 +
 [role="tabbed-block"]
 ====
-.${post_edited_translations.segment}
+.Endpunkt erstellen
 --
 .. *Endpunkt erstellen* auswählen.
 .. Für den Schritt *Endpunktdetails eingeben* sind die folgenden Felder auszufüllen.
@@ -173,7 +173,7 @@ Weitere Informationen zu dieser Aufgabe finden sich in den allgemeinen link:../a
  a| 
 Name
  a| 
-${post_edited_translations.segment}
+Ein beschreibender Name für den Endpunkt.
 
 
 
@@ -236,7 +236,7 @@ Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählte
  a| 
 Knotentyp
  a| 
-${post_edited_translations.segment}
+Je nach gewähltem Knotentyp müssen Clients entweder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node oder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Gateway Node verwenden, um auf diesen Endpunkt zuzugreifen.
 
 |===
 .. Für den Schritt *Mandantenzugriff* eine der folgenden Optionen auswählen:
@@ -278,9 +278,9 @@ Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff
 
 
  a| 
-${post_edited_translations.segment}
+Zertifikat hochladen (empfohlen)
  a| 
-${post_edited_translations.segment}
+Mit dieser Option kann ein von einer Zertifizierungsstelle signiertes Serverzertifikat, der private Zertifikatsschlüssel und optional ein CA-Bundle hochgeladen werden.
 
 
 
@@ -298,17 +298,17 @@ Diese Option ist nur verfügbar, wenn Sie bereits eine benutzerdefinierte Versio
 
 |===
 .. *Fertigstellen* auswählen, um zum FabricPool Setup-Assistenten zurückzukehren.
-.. ${post_edited_translations.segment}
+.. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 
 NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.
 
 --
-.${post_edited_translations.segment}
+.Vorhandenen Load Balancer-Endpunkt verwenden
 --
 .. Wählen Sie den Namen eines vorhandenen Endpunkts aus der Dropdown-Liste *Select a load balancer endpoint* aus.
-.. ${post_edited_translations.segment}
+.. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 --
@@ -338,10 +338,10 @@ Die Portnummer, die FabricPool für die Verbindung zum externen Load Balancer ve
  a| 
 Zertifikat
  a| 
-${post_edited_translations.segment}
+Das Serverzertifikat für den externen Load Balancer wird kopiert und in dieses Feld eingefügt.
 
 |===
-.. ${post_edited_translations.segment}
+.. *Weiter* auswählen, um zum Schritt „Tenant und Bucket“ zu gelangen.
 
 
 --
@@ -369,7 +369,7 @@ Einen neuen Mandanten und Bucket erstellen oder einen bestehenden Mandanten ausw
 .Neuer Mandant und Bucket
 --
 . Um einen neuen Mandanten und Bucket zu erstellen, einen *Mandantennamen* eingeben. Zum Beispiel  `FabricPool tenant`.
-. Root-Zugriff für das Mandantenkonto definieren, abhängig davon, ob Ihr StorageGRID System link:../admin/using-identity-federation.html["Identitätsföderation"], link:../admin/how-sso-works.html["${post_edited_translations.segment}"] oder beide verwendet.
+. Root-Zugriff für das Mandantenkonto definieren, abhängig davon, ob Ihr StorageGRID System link:../admin/using-identity-federation.html["Identitätsföderation"], link:../admin/how-sso-works.html["Single Sign-On (SSO)"] oder beide verwendet.
 +
 [cols="1a,3a"]
 |===
@@ -487,7 +487,7 @@ Die Regeln des Information Lifecycle Management (ILM) steuern die Platzierung, d
 
 Der FabricPool Setup-Assistent erstellt automatisch die empfohlene ILM-Regel für die Verwendung mit FabricPool. Diese Regel gilt nur für den angegebenen Bucket. Es wird 2+1-Erasure-Coding an einem einzelnen Standort verwendet, um die von ONTAP ausgelagerten Daten zu speichern.
 
-Nähere Informationen zu diesem Schritt finden Sie unter link:../ilm/access-create-ilm-rule-wizard.html["${post_edited_translations.segment}"] und link:best-practices-ilm.html["Bewährte Verfahren für die Verwendung von ILM mit FabricPool Daten"].
+Nähere Informationen zu diesem Schritt finden Sie unter link:../ilm/access-create-ilm-rule-wizard.html["ILM-Regel erstellen"] und link:best-practices-ilm.html["Bewährte Verfahren für die Verwendung von ILM mit FabricPool Daten"].
 
 .Schritte
 . Die Regeldetails werden angezeigt.

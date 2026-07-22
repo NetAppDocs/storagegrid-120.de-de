@@ -2,7 +2,7 @@
 section: audit
 title: Audit-Protokolle prüfen
 entries:
-- title: "${post_edited_translations.segment}"
+- title: Audit-Meldungen und Protokolle
   pdf-filename: StorageGRID Revisionsprotokolle prüfen
   url: "/audit/index.html"
 - title: Revisionsprotokoll-Nachrichtenfluss und Aufbewahrung
@@ -25,7 +25,7 @@ entries:
   - title: Beispiel einer Revisionsprotokollmeldung
     pdf-filename: Format der Revisionsmeldung
     url: "/audit/audit-message-format.html"
-  - title: "${post_edited_translations.segment}"
+  - title: Datentypen
     url: "/audit/data-types.html"
   - title: Ereignisspezifische Daten
     url: "/audit/event-specific-data.html"
@@ -66,7 +66,7 @@ entries:
       url: "/audit/ilm-audit-messages.html"
   - title: Referenz der Prüfmeldung
     entries:
-    - title: "${post_edited_translations.segment}"
+    - title: 'BROR: Bucket Read Only Request'
       url: "/audit/bror-bucket-read-only-request.html"
     - title: 'CBRB: Objektempfangsbeginn'
       url: "/audit/cbrb-object-receive-begin.html"
@@ -76,11 +76,11 @@ entries:
       url: "/audit/cbsb-object-send-begin.html"
     - title: 'CBSE: Objekt Send End'
       url: "/audit/cbse-object-send-end.html"
-    - title: "${post_edited_translations.segment}"
+    - title: 'CGRR: Cross-Grid-Replikationsanforderung'
       url: "/audit/cgrr-cross-grid-replication-request.html"
     - title: 'EBDL: Leerer Bucket löschen'
       url: "/audit/ebdl-empty-bucket-delete.html"
-    - title: "${post_edited_translations.segment}"
+    - title: 'EBKR: Anfrage für leeren Bucket'
       url: "/audit/ebkr-empty-bucket-request.html"
     - title: 'ECMC: Fehlendes löschcodiertes Datenfragment'
       url: "/audit/ecmc-missing-erasure-coded-data-fragment.html"
@@ -98,7 +98,7 @@ entries:
       url: "/audit/gtst-grid-task-started.html"
     - title: 'GTSU: Grid Task eingereicht'
       url: "/audit/gtsu-grid-task-submitted.html"
-    - title: "${post_edited_translations.segment}"
+    - title: 'IDEL: ILM initiierte Löschung'
       url: "/audit/idel-ilm-initiated-delete.html"
     - title: 'LKCU: Bereinigung überschriebener Objekte'
       url: "/audit/lkcu-overwritten-object-cleanup.html"
@@ -132,7 +132,7 @@ entries:
       url: "/audit/spos-s3-post.html"
     - title: 'SPUT: S3 PUT'
       url: "/audit/sput-s3-put.html"
-    - title: "${post_edited_translations.segment}"
+    - title: 'SREM: Objektspeicher entfernen'
       url: "/audit/srem-object-store-remove.html"
     - title: 'SUPD: S3 Metadaten aktualisiert'
       url: "/audit/supd-s3-metadata-updated.html"

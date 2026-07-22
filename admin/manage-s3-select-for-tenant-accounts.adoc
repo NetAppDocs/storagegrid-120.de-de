@@ -25,7 +25,7 @@ S3 Select ermöglicht es S3 Clients, SelectObjectContent-Anfragen zu verwenden, 
 
 
 [[considerations-and-requirements-for-using-s3-select]]
-== ${post_edited_translations.segment}
+== Überlegungen und Anforderungen für die Verwendung von S3 Select
 
 
 

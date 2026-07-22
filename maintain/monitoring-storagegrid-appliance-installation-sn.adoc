@@ -25,7 +25,7 @@ Die blaue Statusleiste zeigt an, welche Aufgabe gerade ausgeführt wird. Grüne 
 
 NOTE: Das Installationsprogramm stellt sicher, dass Aufgaben, die bei einer vorherigen Installation abgeschlossen wurden, nicht erneut ausgeführt werden. Bei einer erneuten Installation werden alle Aufgaben, die nicht erneut ausgeführt werden müssen, mit einer grünen Statusleiste und dem Status „Übersprungen“ angezeigt.
 
-. ${post_edited_translations.segment}
+. Den Fortschritt der ersten beiden Installationsphasen überprüfen.
 +
 ** *1. Speicher konfigurieren*
 +

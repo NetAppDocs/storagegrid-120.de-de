@@ -42,7 +42,7 @@ indexpage:
       url: "../tenant/deleting-s3-bucket.html"
   - title: Mandantenfunktionen verwenden
     links:
-    - title: "${post_edited_translations.segment}"
+    - title: Account-Klon
       url: "../tenant/grid-federation-account-clone.html"
     - title: Gridübergreifende Replikation
       url: "../tenant/grid-federation-manage-cross-grid-replication.html"

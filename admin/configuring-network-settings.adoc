@@ -16,7 +16,7 @@ Verschiedene Netzwerkeinstellungen lassen sich über den Grid Manager konfigurie
 
 
 [[configure-vlan-interfaces]]
-== ${post_edited_translations.segment}
+== VLAN Schnittstellen konfigurieren
 
 Sie können link:configure-vlan-interfaces.html["Virtuelle LAN (VLAN)-Schnittstellen erstellen"] verwenden, um den Datenverkehr zu isolieren und zu partitionieren und so Sicherheit, Flexibilität und Leistung zu gewährleisten. Jede VLAN-Schnittstelle ist einer oder mehreren übergeordneten Schnittstellen auf Admin-Nodes und Gateway-Nodes zugeordnet. VLAN-Schnittstellen können in HA-Gruppen und in Load-Balancer-Endpunkten eingesetzt werden, um Client- oder Admin-Datenverkehr nach Anwendung oder Mandant zu trennen.
 

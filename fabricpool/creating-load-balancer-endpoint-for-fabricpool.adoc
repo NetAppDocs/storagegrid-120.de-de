@@ -36,7 +36,7 @@ Um den FabricPool Einrichtungsassistenten für diese Aufgabe zu verwenden, gehen
  a| 
 Name
  a| 
-${post_edited_translations.segment}
+Ein beschreibender Name für den Endpunkt.
 
 
 
@@ -101,7 +101,7 @@ Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählte
  a| 
 Knotentyp
  a| 
-${post_edited_translations.segment}
+Je nach gewähltem Knotentyp müssen Clients entweder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node oder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Gateway Node verwenden, um auf diesen Endpunkt zuzugreifen.
 
 |===
 . Für den Schritt *Mandantenzugriff* eine der folgenden Optionen auswählen:
@@ -143,9 +143,9 @@ Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff
 
 
  a| 
-${post_edited_translations.segment}
+Zertifikat hochladen (empfohlen)
  a| 
-${post_edited_translations.segment}
+Mit dieser Option kann ein von einer Zertifizierungsstelle signiertes Serverzertifikat, der private Zertifikatsschlüssel und optional ein CA-Bundle hochgeladen werden.
 
 
 

@@ -123,7 +123,7 @@ Zu den Netzwerkaufgaben gehören:
 * link:../admin/managing-load-balancing.html["Load Balancer Endpunkte verwalten"]
 * link:../admin/configuring-s3-api-endpoint-domain-names.html["S3-Endpunkt-Domänennamen konfigurieren"]
 * link:../admin/managing-traffic-classification-policies.html["Verkehrsklassifizierungsrichtlinien verwalten"]
-* link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"]
+* link:../admin/configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"]
 * link:../admin/enable-cross-origin-resource-sharing-for-management-interface.html["StorageGRID CORS für eine Managementoberfläche aktivieren"]
 
 
@@ -174,7 +174,7 @@ Zu den Überwachungsaufgaben gehören:
 
 Zu den Aufgaben der Zugangskontrolle gehören:
 
-* link:../admin/managing-admin-groups.html["${post_edited_translations.segment}"]
+* link:../admin/managing-admin-groups.html["Administratorgruppen verwalten"]
 * link:../admin/managing-users.html["Administratorbenutzer verwalten"]
 * Ändern Sie die link:../admin/changing-provisioning-passphrase.html["Bereitstellungspassphrase"] oder link:../admin/change-node-console-password.html["Konsolenpasswörter für Nodes"]
 * link:../admin/using-identity-federation.html["Identitätsföderation verwenden"]
@@ -211,7 +211,7 @@ Zu den Wartungsaufgaben gehören:
 
 Zu den Systemwartungsaufgaben, die Sie durchführen können, gehören:
 
-* link:../admin/viewing-storagegrid-license-information.html["${post_edited_translations.segment}"] oder link:../admin/updating-storagegrid-license-information.html["Lizenzinformationen aktualisieren"]
+* link:../admin/viewing-storagegrid-license-information.html["StorageGRID Lizenzinformationen anzeigen"] oder link:../admin/updating-storagegrid-license-information.html["Lizenzinformationen aktualisieren"]
 * Generieren und Herunterladen der link:../maintain/downloading-recovery-package.html["Wiederherstellungspaket"]
 * Durchführen von StorageGRID Softwareaktualisierungen, einschließlich Software-Upgrades, Hotfixes und Aktualisierungen der SANtricity OS Software auf ausgewählten Appliances
 +

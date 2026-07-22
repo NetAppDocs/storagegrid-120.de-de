@@ -71,7 +71,7 @@ Die Konfigurationsaufgaben, die Sie für ein neues StorageGRID System durchführ
 Informationen dazu, wie:
 
 [role="quick-margin-list"]
-* link:../admin/controlling-storagegrid-access.html["${post_edited_translations.segment}"]
+* link:../admin/controlling-storagegrid-access.html["StorageGRID-Zugriff steuern"]
 * link:../admin/use-s3-setup-wizard.html["S3-Einrichtungsassistent verwenden"]
 * link:../fabricpool/use-fabricpool-setup-wizard.html["Den FabricPool Einrichtungsassistenten verwenden"]
 * link:../admin/manage-security.html["Sicherheit verwalten"]

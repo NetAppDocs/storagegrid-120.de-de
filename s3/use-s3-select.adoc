@@ -23,24 +23,24 @@ Nur Mandantenkonten, für die S3 Select aktiviert ist, können SelectObjectConte
 
 
 [[clauses]]
-== ${post_edited_translations.segment}
+== Klauseln
 
-* ${post_edited_translations.segment}
+* SELECT Liste
 * FROM-Klausel
-* ${post_edited_translations.segment}
+* WHERE Klausel
 * LIMIT Klausel
 
 
 
 
 [[data-types]]
-== ${post_edited_translations.segment}
+== Datentypen
 
 * bool
-* ${post_edited_translations.segment}
+* ganze Zahl
 * Zeichenkette
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Float
+* Dezimalzahl, numerisch
 * Zeitstempel
 
 
@@ -54,9 +54,9 @@ Nur Mandantenkonten, für die S3 Select aktiviert ist, können SelectObjectConte
 [[logical-operators]]
 === Logische Operatoren
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* UND
+* NICHT
+* ODER
 
 
 
@@ -71,9 +71,9 @@ Nur Mandantenkonten, für die S3 Select aktiviert ist, können SelectObjectConte
 * =
 * =
 * <>
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* !=
+* ZWISCHEN
+* IN
 
 
 
@@ -89,16 +89,16 @@ Nur Mandantenkonten, für die S3 Select aktiviert ist, können SelectObjectConte
 
 
 [[unitary-operators]]
-=== ${post_edited_translations.segment}
+=== Unitäre Operatoren
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* IST NULL
+* IST NICHT NULL
 
 
 
 
 [[math-operators]]
-=== ${post_edited_translations.segment}
+=== Mathematische Operatoren
 
 * +
 * -
@@ -114,10 +114,10 @@ StorageGRID folgt der Operatorrangfolge von Amazon S3 Select.
 [[aggregate-functions]]
 == Aggregatfunktionen
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* AVG()
+* COUNT(*)
+* MAX()
+* MIN()
 * SUMME()
 
 
@@ -126,9 +126,9 @@ StorageGRID folgt der Operatorrangfolge von Amazon S3 Select.
 [[conditional-functions]]
 == Bedingte Funktionen
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* FALL
+* COALESCE
+* NULLIF
 
 
 
@@ -144,10 +144,10 @@ StorageGRID folgt der Operatorrangfolge von Amazon S3 Select.
 [[date-functions]]
 == Datumsfunktionen
 
-* ${post_edited_translations.segment}
+* DATE_ADD
 * DATE_DIFF
 * EXTRAKT
-* ${post_edited_translations.segment}
+* TO_STRING
 * TO_TIMESTAMP
 * UTCNOW
 
@@ -155,9 +155,9 @@ StorageGRID folgt der Operatorrangfolge von Amazon S3 Select.
 
 
 [[string-functions]]
-== ${post_edited_translations.segment}
+== Stringfunktionen
 
-* ${post_edited_translations.segment}
+* CHAR_LENGTH, CHARACTER_LENGTH
 * UNTERE
 * Substring
 * TRIM

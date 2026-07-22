@@ -80,7 +80,7 @@ image:decommission_site_step_5_ha_groups.png["Stilllegungsstandort Schritt 5 HA 
 +
 Wenn alle Knoten verbunden sind und keine Knoten des ausgewählten Standorts in einer HA-Gruppe verwendet werden, ist das Feld *Bereitstellungspassphrase* aktiviert.
 
-. ${post_edited_translations.segment}
+. Die Bereitstellungs-Passphrase eingeben.
 +
 Die Schaltfläche *Stilllegung starten* wird aktiviert.
 

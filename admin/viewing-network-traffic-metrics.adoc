@@ -34,7 +34,7 @@ Die Seite mit den Richtlinien zur Verkehrsklassifizierung wird angezeigt, und di
 Die Diagramme für die Richtlinie zur Datenverkehrsklassifizierung werden angezeigt. Die Diagramme zeigen Metriken nur für den Datenverkehr an, der mit der ausgewählten Richtlinie übereinstimmt.
 
 +
-${post_edited_translations.segment}
+Die folgenden Grafiken sind auf der Seite enthalten.
 
 +
 ** Anfragerate: Dieses Diagramm zeigt die Bandbreite, die gemäß dieser Richtlinie von allen Load Balancern verarbeitet wird. Die empfangenen Daten umfassen die Anfrageheader aller Anfragen sowie die Größe der Antwortdaten für Antworten, die Antwortdaten enthalten. Die gesendeten Daten umfassen die Antwortheader aller Anfragen sowie die Größe der Antwortdaten für Anfragen, bei denen die Antwort Antwortdaten enthält.
@@ -42,7 +42,7 @@ ${post_edited_translations.segment}
 
 NOTE: Wenn Anforderungen abgeschlossen sind, zeigt dieses Diagramm nur die Bandbreitennutzung an. Bei langsamen Anforderungen oder Anforderungen großer Objekte kann die tatsächliche momentane Bandbreite von den in diesem Diagramm gemeldeten Werten abweichen.
 
-** ${post_edited_translations.segment}
+** Fehlerantwortrate: Dieses Diagramm zeigt ungefähr die Rate, mit der Anfragen, die dieser Richtlinie entsprechen, Fehler (HTTP-Statuscode >= 400) an Clients zurückgeben.
 ** Durchschnittliche Anfragedauer (ohne Fehler): Dieses Diagramm zeigt die durchschnittliche Dauer erfolgreicher Anfragen, die dieser Richtlinie entsprechen.
 ** Bandbreitennutzung gemäß Richtlinie: Dieses Diagramm zeigt die Menge der Bandbreite, die gemäß dieser Richtlinie von allen Load Balancern verarbeitet wird. Die empfangenen Daten umfassen die Anfrage-Header aller Anfragen sowie die Größe der Antwortdaten für Antworten, die Antwortdaten enthalten. Die gesendeten Daten umfassen die Antwort-Header aller Anfragen sowie die Größe der Antwortdaten für Anfragen, bei denen die Antwort Antwortdaten enthält.
 

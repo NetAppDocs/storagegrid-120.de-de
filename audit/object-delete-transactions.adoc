@@ -18,7 +18,7 @@ Nicht alle während einer Löschtransaktion generierten Revisionsprotokollmeldun
 
 
 [[s3-delete-audit-messages]]
-== ${post_edited_translations.segment}
+== S3 Delete Audit-Meldungen
 
 [cols="1a,1a,2a,1a,2a"]
 |===
@@ -30,7 +30,7 @@ SDEL
  a| 
 S3 Löschen
  a| 
-${post_edited_translations.segment}
+Anfrage zum Löschen des Objekts aus einem Bucket.
  a| 
 CBID, S3KY
  a| 

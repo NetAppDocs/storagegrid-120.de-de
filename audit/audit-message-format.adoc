@@ -2,7 +2,7 @@
 permalink: audit/audit-message-format.html 
 sidebar: sidebar 
 keywords: storagegrid, audit, message formats, message format 
-summary: ${post_edited_translations.segment} 
+summary: Die im StorageGRID System ausgetauschten Audit-Meldungen enthalten Standardinformationen, die allen Meldungen gemeinsam sind, sowie spezifische Inhalte, die das gemeldete Ereignis oder die gemeldete Aktivität beschreiben. 
 ---
 = Erfahren Sie mehr über die Struktur der StorageGRID Revisionsprotokollmeldungen
 :allow-uri-read: 
@@ -11,11 +11,11 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Die im StorageGRID System ausgetauschten Audit-Meldungen enthalten Standardinformationen, die allen Meldungen gemeinsam sind, sowie spezifische Inhalte, die das gemeldete Ereignis oder die gemeldete Aktivität beschreiben.
 
 Wenn die von den link:using-audit-explain-tool.html["Revisionsprotokoll-Erklärung"] und link:using-audit-sum-tool.html["audit-sum"] Tools bereitgestellten zusammenfassenden Informationen nicht ausreichen, enthält dieser Abschnitt Informationen zum allgemeinen Format aller Audit-Meldungen.
 
-${post_edited_translations.segment}
+Im Folgenden ein Beispiel für eine Audit-Meldung, wie sie in der Revisionsprotokolldatei erscheinen könnte:
 
 [listing]
 ----
@@ -39,7 +39,7 @@ Jedes Element enthält einen Attributcode, einen Datentyp und einen Wert, die in
 ----
 Die Anzahl der Attributelemente in der Nachricht hängt vom Ereignistyp der Nachricht ab. Die Attributelemente sind nicht in einer bestimmten Reihenfolge aufgelistet.
 
-${post_edited_translations.segment}
+Die folgende Liste beschreibt die Attributelemente:
 
 * `ATTR` ist ein vierstelliger Code für das gemeldete Attribut. Einige Attribute sind allen Revisionsprotokollmeldungen gemeinsam, andere sind ereignisspezifisch.
 * `type` ist ein vierstelliger Bezeichner des Programmierdatentyps des Wertes, z. B. UI64, FC32 und so weiter. Der Typ ist in Klammern eingeschlossen `( )`.

@@ -11,7 +11,7 @@ summary: Sie können die Installation des StorageGRID Hostdienstes und die Konfi
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Sie können die Installation des StorageGRID Hostdienstes und die Konfiguration der Grid-Knoten automatisieren.
 
 .Über diese Aufgabe
 
@@ -21,12 +21,12 @@ Die Automatisierung des Deployments kann in den folgenden Fällen sinnvoll sein:
 
 * Sie verwenden bereits ein Standard-Orchestrierungsframework wie Ansible, Puppet oder Chef, um physische oder virtuelle Hosts bereitzustellen und zu konfigurieren.
 * Sie beabsichtigen, mehrere StorageGRID Instanzen bereitzustellen.
-* ${post_edited_translations.segment}
+* Sie stellen eine große, komplexe StorageGRID Instanz bereit.
 
 
 Der StorageGRID Hostdienst wird über ein Paket installiert und durch Konfigurationsdateien gesteuert. Die Konfigurationsdateien können mit einer der folgenden Methoden erstellt werden:
 
-* link:creating-node-configuration-files.html["${post_edited_translations.segment}"] interaktiv während einer manuellen Installation.
+* link:creating-node-configuration-files.html["Die Konfigurationsdateien erstellen"] interaktiv während einer manuellen Installation.
 * Die Konfigurationsdateien sollten im Voraus (oder programmatisch) vorbereitet werden, um eine automatisierte Installation mithilfe von Standard-Orchestrierungsframeworks zu ermöglichen, wie in diesem Artikel beschrieben.
 +
 StorageGRID bietet optionale Python-Skripte zur Automatisierung der Konfiguration von StorageGRID Appliances und des gesamten StorageGRID Systems (des „Grid“). Diese Skripte können direkt verwendet oder untersucht werden, um zu erfahren, wie link:overview-of-installation-rest-api.html["StorageGRID Installation REST API"] in selbst entwickelten Tools zur Bereitstellung und Konfiguration im Grid eingesetzt werden kann.
@@ -95,12 +95,12 @@ Python Skript zur Automatisierung der Konfiguration
 
 
 
-| ${post_edited_translations.segment}  a| 
-${post_edited_translations.segment}
+| configure-storagegrid.sample.json  a| 
+Beispiel-Konfigurationsdatei zur Verwendung mit dem Skript
 
 
 
-| ${post_edited_translations.segment}  a| 
+| configure-storagegrid.blank.json  a| 
 Leere Konfigurationsdatei zur Verwendung mit dem Skript
 
 |===
@@ -117,7 +117,7 @@ Sie können das  `configure-storagegrid.py` Python-Skript und die  `configure-st
 NOTE: Das System kann auch über den Grid Manager oder die Installation API konfiguriert werden.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Melden Sie sich an dem Linux-Rechner an, den Sie zum Ausführen des Python-Skripts verwenden.
 . Wechseln Sie in das Verzeichnis, in dem Sie das Installationsarchiv entpackt haben.
 +
 Beispiel:
@@ -130,7 +130,7 @@ cd StorageGRID-Webscale-version/platform
 +
 wo  `platform` ist  `debs`,  `rpms` oder  `vsphere`.
 
-. ${post_edited_translations.segment}
+. Das Python-Skript ausführen und die erstellte Konfigurationsdatei verwenden.
 +
 Beispiel:
 
@@ -158,7 +158,7 @@ Wenn Sie festgelegt haben, dass zufällige Passwörter generiert werden sollen, 
 #####                 StorageGRID node recovery.                 #####
 ######################################################################
 ----
-${post_edited_translations.segment}
+Ihr StorageGRID System ist installiert und konfiguriert, wenn eine Bestätigungsmeldung angezeigt wird.
 
 [listing]
 ----

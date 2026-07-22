@@ -18,7 +18,7 @@ NOTE: Die Schaltfläche *Pause* ist nur dann aktiviert, wenn die ILM-Evaluierung
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 
 
 .Schritte

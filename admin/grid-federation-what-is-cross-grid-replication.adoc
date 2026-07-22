@@ -11,14 +11,14 @@ summary: Die Cross-Grid-Replikation ist die automatische Replikation von Objekte
 
 
 [role="lead"]
-Die Grid-übergreifende Replikation ist die automatische Replikation von Objekten zwischen ausgewählten S3 Buckets in zwei StorageGRID Systemen, die in einer link:grid-federation-overview.html["Grid Federation Verbindung"] verbunden sind. Für die Grid-übergreifende Replikation ist link:grid-federation-what-is-account-clone.html["${post_edited_translations.segment}"] erforderlich.
+Die Grid-übergreifende Replikation ist die automatische Replikation von Objekten zwischen ausgewählten S3 Buckets in zwei StorageGRID Systemen, die in einer link:grid-federation-overview.html["Grid Federation Verbindung"] verbunden sind. Für die Grid-übergreifende Replikation ist link:grid-federation-what-is-account-clone.html["Account-Klon"] erforderlich.
 
 
 
 [[workflow-for-cross-grid-replication]]
 == Workflow für die gridübergreifende Replikation
 
-${post_edited_translations.segment}
+Das Workflow-Diagramm fasst die Schritte zur Konfiguration der gitterübergreifenden Replikation zwischen Buckets auf zwei Grids zusammen.
 
 image:grid-federation-cgr-workflow.png["Ablauf der gridübergreifenden Replikation"]
 
@@ -27,12 +27,12 @@ image:grid-federation-cgr-workflow.png["Ablauf der gridübergreifenden Replikati
 [[requirements-for-cross-grid-replication]]
 == Anforderungen an die netzübergreifende Replikation
 
-Besitzt ein Mandantenkonto die Berechtigung *Grid-Federationsverbindung verwenden* zur Nutzung einer oder mehrerer link:grid-federation-overview.html["${post_edited_translations.segment}"] Grid-Federationsverbindungen, kann ein Mandantenbenutzer mit Root-Zugriffsberechtigung Buckets in den entsprechenden Mandantenkonten auf jedem Grid erstellen. Diese Buckets:
+Besitzt ein Mandantenkonto die Berechtigung *Grid-Federationsverbindung verwenden* zur Nutzung einer oder mehrerer link:grid-federation-overview.html["Grid Federation-Verbindungen"] Grid-Federationsverbindungen, kann ein Mandantenbenutzer mit Root-Zugriffsberechtigung Buckets in den entsprechenden Mandantenkonten auf jedem Grid erstellen. Diese Buckets:
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Können unterschiedliche Namen voneinander haben
+* Kann verschiedene Regionen haben
 * Versionierung muss aktiviert sein
-* ${post_edited_translations.segment}
+* Muss leer sein
 
 
 Nachdem beide Buckets erstellt wurden, kann die Cross-Grid-Replikation für einen oder beide Buckets konfiguriert werden.
@@ -59,7 +59,7 @@ image:grid-federation-cross-grid-replication-one-direction.png["Abbildung, die d
 
 
 [[replication-in-both-directions]]
-=== ${post_edited_translations.segment}
+=== Replikation in beide Richtungen
 
 Wenn Sie die gitterübergreifende Replikation für denselben Bucket auf beiden Grids aktivieren, werden Objekte, die einem der Buckets hinzugefügt werden, in das jeweils andere Grid repliziert. In der Abbildung ist die gitterübergreifende Replikation für  `my-bucket` in beide Richtungen aktiviert.
 
@@ -85,7 +85,7 @@ Der S3-Client kann den Replikationsstatus eines Objekts durch Ausführen einer G
  a| 
 Quelle
  a| 
-** ${post_edited_translations.segment}
+** *ABGESCHLOSSEN*: Die Replikation war für alle Grid-Verbindungen erfolgreich.
 ** *AUSSTEHEND*: Das Objekt wurde noch nicht auf mindestens eine Grid Verbindung repliziert.
 ** *FEHLER*: Die Replikation ist für keine Grid-Verbindung ausstehend und mindestens eine Verbindung ist dauerhaft ausgefallen. Ein Benutzer muss den Fehler beheben.
 
@@ -120,7 +120,7 @@ Wie in link:../primer/delete-data-flow.html["Datenfluss löschen"] beschrieben, 
 
 Wenn StorageGRID ein Objekt aufgrund einer „Objekte im Bucket löschen“-Operation, des Ablaufs des Bucket-Lebenszyklus oder des Ablaufs der ILM-Platzierung löscht, wird das replizierte Objekt niemals aus dem anderen Grid in einer Grid-Federation-Verbindung gelöscht. Löschmarkierungen, die dem Quell-Bucket durch Löschungen von S3-Clients hinzugefügt wurden, können jedoch optional in den Ziel-Bucket repliziert werden.
 
-${post_edited_translations.segment}
+Um zu verstehen, was passiert, wenn ein S3-Client Objekte aus einem Bucket löscht, für den die Grid-übergreifende Replikation aktiviert ist, wird im Folgenden erläutert, wie S3-Clients Objekte aus Buckets löschen, für die die Versionierung aktiviert ist:
 
 * Wenn ein S3-Client eine Löschanforderung sendet, die eine Versions-ID enthält, wird diese Version des Objekts dauerhaft entfernt. Dem Bucket wird kein Löschmarker hinzugefügt.
 * Wenn ein S3 Client eine Löschanforderung sendet, die keine Versions-ID enthält, löscht StorageGRID keine Objektversionen. Stattdessen fügt es dem Bucket einen Löschmarker hinzu. Der Löschmarker bewirkt, dass sich StorageGRID so verhält, als ob das Objekt gelöscht worden wäre:
@@ -142,7 +142,7 @@ Wenn ein S3-Client ein Objekt aus einem Bucket löscht, für den die Cross-Grid-
 
 
 
-In der Abbildung wurde *Replicate delete markers* auf *Yes* gesetzt, als link:../tenant/grid-federation-manage-cross-grid-replication.html["${post_edited_translations.segment}"]. Löschanforderungen für den Quell-Bucket, die eine Versions-ID enthalten, löschen keine Objekte aus dem Ziel-Bucket. Löschanforderungen für den Quell-Bucket, die keine Versions-ID enthalten, scheinen Objekte im Ziel-Bucket zu löschen.
+In der Abbildung wurde *Replicate delete markers* auf *Yes* gesetzt, als link:../tenant/grid-federation-manage-cross-grid-replication.html["Die netzübergreifende Replikation wurde aktiviert"]. Löschanforderungen für den Quell-Bucket, die eine Versions-ID enthalten, löschen keine Objekte aus dem Ziel-Bucket. Löschanforderungen für den Quell-Bucket, die keine Versions-ID enthalten, scheinen Objekte im Ziel-Bucket zu löschen.
 
 image:grid-federation-cross-grid-replication-delete.png["Abbildung, die das Löschen eines replizierten Clients auf beiden Grids zeigt"]
 
@@ -152,7 +152,7 @@ NOTE: Wenn Sie die Objektlöschungen zwischen den Grids synchron halten möchten
 
 
 [[how-encrypted-objects-are-replicated]]
-=== ${post_edited_translations.segment}
+=== Wie verschlüsselte Objekte repliziert werden
 
 Wenn Sie die Cross-Grid-Replikation verwenden, um Objekte zwischen Grids zu replizieren, können Sie einzelne Objekte verschlüsseln, die Standard-Bucket-Verschlüsselung verwenden oder eine Grid-weite Verschlüsselung konfigurieren. Sie können Einstellungen für die Standard-Bucket-Verschlüsselung oder die Grid-weite Verschlüsselung hinzufügen, ändern oder entfernen, bevor oder nachdem Sie die Cross-Grid-Replikation für einen Bucket aktivieren.
 
@@ -163,22 +163,22 @@ NOTE: Die Verwendung von SSE-C (serverseitige Verschlüsselung mit vom Kunden be
 
 Um die Standardverschlüsselung für ein Bucket zu verwenden, verwenden Sie eine PutBucketEncryption-Anforderung und legen Sie den Parameter  `SSEAlgorithm` auf  `AES256` fest. Die Verschlüsselung auf Bucket-Ebene gilt für alle Objekte, die ohne den Request-Header  `x-amz-server-side-encryption` aufgenommen werden. Siehe link:../s3/operations-on-buckets.html["Operationen an Buckets"].
 
-Zur Verwendung der Verschlüsselung auf Grid-Ebene muss die Option *Stored object encryption* auf *AES-256* festgelegt werden. Die Verschlüsselung auf Grid-Ebene gilt für alle Objekte, die nicht auf Bucket-Ebene verschlüsselt sind oder die ohne den Anforderungs-Header  `x-amz-server-side-encryption` aufgenommen werden. Siehe link:../admin/changing-network-options-object-encryption.html["${post_edited_translations.segment}"].
+Zur Verwendung der Verschlüsselung auf Grid-Ebene muss die Option *Stored object encryption* auf *AES-256* festgelegt werden. Die Verschlüsselung auf Grid-Ebene gilt für alle Objekte, die nicht auf Bucket-Ebene verschlüsselt sind oder die ohne den Anforderungs-Header  `x-amz-server-side-encryption` aufgenommen werden. Siehe link:../admin/changing-network-options-object-encryption.html["Netzwerk- und Objektoptionen konfigurieren"].
 
 
 NOTE: SSE unterstützt kein AES-128. Wenn die Option *Verschlüsselung gespeicherter Objekte* für das Quell-Grid mit der Option *AES-128* aktiviert ist, wird die Verwendung des AES-128-Algorithmus nicht auf das replizierte Objekt übertragen. Stattdessen verwendet das replizierte Objekt die Standard-Bucket- oder Grid-Verschlüsselungseinstellung des Ziels, sofern verfügbar.
 
-${post_edited_translations.segment}
+Bei der Festlegung, wie Quellobjekte verschlüsselt werden, wendet StorageGRID diese Regeln an:
 
 . Den `x-amz-server-side-encryption` Ingest-Header verwenden, falls vorhanden.
-. ${post_edited_translations.segment}
+. Wenn kein Ingest-Header vorhanden ist, wird die standardmäßige Verschlüsselungseinstellung des Buckets verwendet, sofern diese konfiguriert ist.
 . Wenn keine Bucket-Einstellung konfiguriert ist, wird die gridweite Verschlüsselungseinstellung verwendet, sofern diese konfiguriert ist.
-. ${post_edited_translations.segment}
+. Wenn keine netzweite Einstellung vorhanden ist, wird das Quellobjekt nicht verschlüsselt.
 
 
-${post_edited_translations.segment}
+Bei der Festlegung, wie replizierte Objekte verschlüsselt werden, wendet StorageGRID diese Regeln in dieser Reihenfolge an:
 
-. ${post_edited_translations.segment}
+. Dieselbe Verschlüsselung wie das Quellobjekt verwenden, es sei denn, dieses Objekt verwendet AES-128-Verschlüsselung.
 . Wenn das Quellobjekt nicht verschlüsselt ist oder AES-128 verwendet, wird die Standardverschlüsselungseinstellung des Ziel-Buckets verwendet, sofern diese konfiguriert ist.
 . Wenn der Ziel-Bucket keine Verschlüsselungseinstellung hat, wird die gridweite Verschlüsselungseinstellung des Ziels verwendet, sofern diese konfiguriert ist.
 . Wenn keine gridweite Einstellung vorhanden ist, das Zielobjekt nicht verschlüsseln.
@@ -188,13 +188,13 @@ ${post_edited_translations.segment}
 
 [[cross-grid-replication-with-s3-object-lock]]
 [[cgr-with-ol]]
-=== ${post_edited_translations.segment}
+=== Grid-übergreifende Replikation mit S3 Object Lock
 
-${post_edited_translations.segment}
+Die Cross-Grid-Replikation zwischen StorageGRID Buckets mit aktiviertem S3 Object Lock ist unter folgenden Umständen konfigurierbar.
 
 [cols="1a,1a"]
 |===
-| ${post_edited_translations.segment} | Und S3 Object Lock für den Ziel-Bucket ist... 
+| Wenn S3 Object Lock für den Quell-Bucket aktiviert ist... | Und S3 Object Lock für den Ziel-Bucket ist... 
 
 
  a| 
@@ -210,7 +210,7 @@ Deaktiviert
 Aktiviert
 
 |===
-${post_edited_translations.segment}
+Wenn S3 Object Lock für den Quell-Bucket aktiviert ist:
 
 * Die Objekte werden am Zielort in dieser Reihenfolge mit Aufbewahrungseinstellungen gesperrt:
 +
@@ -234,7 +234,7 @@ Die Standardaufbewahrungsdauer des Ziel-Buckets überschreibt nicht die vom Quel
 
 Wenn S3 Object Lock für den Quell-Bucket deaktiviert ist:
 
-* ${post_edited_translations.segment}
+* Sie können die Standardaufbewahrung auf dem Ziel-Bucket konfigurieren, um die S3 Object Lock Aufbewahrungseinstellungen auf das Zielobjekt anzuwenden.
 * Das Zielobjekt kann keinen rechtlichen Sperrstatus festlegen.
 
 

@@ -43,7 +43,7 @@ NOTE: Wenn SSO für Ihr StorageGRID System aktiviert ist und Vertrauensstellunge
 NOTE: Gegebenenfalls ist das neue Subnetz für die neuen IP-Adressen hinzuzufügen.
 
 . Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -134,7 +134,7 @@ NOTE: Das gesamte Grid muss heruntergefahren werden, sodass alle Nodes gleichzei
 . Das neue Wiederherstellungspaket kann vom Grid Manager heruntergeladen werden.
 +
 .. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
-.. ${post_edited_translations.segment}
+.. Die Bereitstellungs-Passphrase eingeben.
 
 
 . Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] wenn Sie mit dem Ändern der IP-Adressen fertig sind.

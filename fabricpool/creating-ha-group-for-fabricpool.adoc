@@ -21,7 +21,7 @@ Weitere Informationen zu dieser Aufgabe finden sich unter link:../admin/managing
 * Sie haben die link:best-practices-for-high-availability-groups.html["Best Practices für hochverfügbare Gruppen"] überprüft.
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung"].
-* Wenn Sie ein VLAN verwenden möchten, haben Sie die VLAN-Schnittstelle erstellt. Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+* Wenn Sie ein VLAN verwenden möchten, haben Sie die VLAN-Schnittstelle erstellt. Siehe link:../admin/configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"].
 
 
 .Schritte
@@ -52,11 +52,11 @@ Die Beschreibung dieser HA-Gruppe.
 Mit den Spaltenüberschriften lassen sich die Zeilen sortieren, oder durch Eingabe eines Suchbegriffs können Schnittstellen schneller gefunden werden.
 
 +
-${post_edited_translations.segment}
+Sie können einen oder mehrere Knoten auswählen, aber Sie können für jeden Knoten nur eine Schnittstelle auswählen.
 
-. ${post_edited_translations.segment}
+. Im Schritt *Schnittstellen priorisieren* wird die primäre Schnittstelle und alle Backup-Schnittstellen für diese HA-Gruppe bestimmt.
 +
-${post_edited_translations.segment}
+Zeilen können per Drag & Drop verschoben werden, um die Werte in der Spalte *Prioritätsreihenfolge* zu ändern.
 
 +
 Die erste Schnittstelle in der Liste ist die Primary-Schnittstelle. Die Primary-Schnittstelle ist die aktive Schnittstelle, sofern kein Fehler auftritt.

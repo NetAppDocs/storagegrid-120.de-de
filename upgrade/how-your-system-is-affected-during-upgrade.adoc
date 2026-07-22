@@ -2,7 +2,7 @@
 permalink: upgrade/how-your-system-is-affected-during-upgrade.html 
 sidebar: sidebar 
 keywords: upgrade, firmware, appliance, alert 
-summary: ${post_edited_translations.segment} 
+summary: Wie sich Ihr StorageGRID System während des Upgrades auswirkt, wird erläutert. 
 ---
 = Wie sich StorageGRID Upgrades auf Ihr System auswirken
 :allow-uri-read: 
@@ -11,14 +11,14 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Wie sich Ihr StorageGRID System während des Upgrades auswirkt, wird erläutert.
 
 
 
 [[external-ssh-access-is-allowed-until-upgrade-completes]]
 == Externer SSH-Zugriff ist bis zum Abschluss des Upgrades zulässig
 
-Während des Upgrades ist externer SSH-Zugriff erlaubt. Nach Abschluss des Upgrades ist externer SSH-Zugriff standardmäßig gesperrt. Nach dem Upgrade steht auf der Seite *Grid Manager* > *Sicherheitseinstellungen* die Registerkarte *SSH blockieren* zur Verfügung, um link:../admin/manage-external-ssh-access.html["${post_edited_translations.segment}"]. Der SSH-Zugriff zwischen Grid-Knoten ist nicht betroffen.
+Während des Upgrades ist externer SSH-Zugriff erlaubt. Nach Abschluss des Upgrades ist externer SSH-Zugriff standardmäßig gesperrt. Nach dem Upgrade steht auf der Seite *Grid Manager* > *Sicherheitseinstellungen* die Registerkarte *SSH blockieren* zur Verfügung, um link:../admin/manage-external-ssh-access.html["Externen SSH-Zugriff verwalten"]. Der SSH-Zugriff zwischen Grid-Knoten ist nicht betroffen.
 
 
 
@@ -50,7 +50,7 @@ NOTE: Sie können mehrere Gateways und Hochverfügbarkeitsgruppen (HA-Gruppen) v
 
 
 [[background-repairs-wont-run-on-grids-with-mixed-version-nodes]]
-== ${post_edited_translations.segment}
+== Hintergrundreparaturen werden auf Grids mit Knoten unterschiedlicher Versionen nicht ausgeführt.
 
 Hintergrundreparaturen werden während des Upgrades nicht ausgeführt, wenn das Grid Knoten mit unterschiedlichen Versionen enthält. Inkonsistenzen, die während eines Standortausfalls auftreten, werden erst repariert, wenn das Upgrade abgeschlossen ist.
 
@@ -61,7 +61,7 @@ Hintergrundreparaturen werden während des Upgrades nicht ausgeführt, wenn das 
 
 Während des StorageGRID 12.0 Upgrades:
 
-* ${post_edited_translations.segment}
+* Alle StorageGRID Appliance Knoten werden automatisch auf StorageGRID Appliance Installer Firmware Version 12.0 aktualisiert.
 * Die Appliances SG6060 und SGF6024 werden automatisch auf die BIOS-Firmware-Version 3B08.EX und BMC-Firmware-Version 4.01.07 aktualisiert.
 * Die SG100 und SG1000 Appliances werden automatisch auf die BIOS-Firmware-Version 3B13.EC und die BMC-Firmware-Version 4.75.07 aktualisiert.
 * Die Appliances SGF6112, SG6160, SG110 und SG1100 werden automatisch auf die BIOS-Firmware-Version 3A14.QD und die BMC-Firmware-Version 3.19.07 aktualisiert.
@@ -70,7 +70,7 @@ Während des StorageGRID 12.0 Upgrades:
 
 
 [[ilm-policies-are-handled-differently-according-to-their-status]]
-== ${post_edited_translations.segment}
+== ILM-Richtlinien werden abhängig von ihrem Status unterschiedlich behandelt
 
 * Die aktive Richtlinie bleibt nach dem Upgrade unverändert.
 * Beim Upgrade werden nur die letzten 10 historischen Richtlinien beibehalten.
@@ -80,7 +80,7 @@ Während des StorageGRID 12.0 Upgrades:
 
 
 [[alerts-might-be-triggered]]
-== ${post_edited_translations.segment}
+== Warnmeldungen könnten ausgelöst werden
 
 Warnmeldungen können beim Starten und Stoppen von Diensten sowie beim Betrieb des StorageGRID-Systems in einer Umgebung mit gemischten Versionen ausgelöst werden (einige Grid-Knoten verwenden eine ältere Version, während andere auf eine neuere Version aktualisiert wurden). Weitere Warnmeldungen können nach Abschluss des Upgrades ausgelöst werden.
 

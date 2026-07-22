@@ -44,7 +44,7 @@ Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden
 +
 image:grid-federation-tenant-user-banner.png["Bild eines blauen Banners auf der Benutzerseite, wenn dies das Mandanten-Quellgrid ist"]
 
-. ${post_edited_translations.segment}
+. *Benutzer erstellen* auswählen.
 
 
 
@@ -53,7 +53,7 @@ image:grid-federation-tenant-user-banner.png["Bild eines blauen Banners auf der 
 === Anmeldedaten eingeben
 
 .Schritte
-. ${post_edited_translations.segment}
+. Für den Schritt *Benutzerdaten eingeben* sind die folgenden Felder auszufüllen.
 +
 [cols="1a,3a"]
 |===
@@ -70,25 +70,25 @@ Der vollständige Name dieses Benutzers, zum Beispiel der Vor- und Nachname eine
  a| 
 Benutzername
  a| 
-${post_edited_translations.segment}
+Der Name, mit dem sich dieser Benutzer anmeldet. Benutzernamen müssen eindeutig sein und können nicht geändert werden.
 
-${post_edited_translations.segment}
-
-
-
- a| 
-${post_edited_translations.segment}
- a| 
-${post_edited_translations.segment}
+*Hinweis*: Wenn Ihr Mandantenkonto über die Berechtigung *Use grid federation connection* verfügt, tritt ein Klonfehler auf, falls der gleiche *Username* bereits für den Mandanten im Ziel-Grid existiert.
 
 
 
  a| 
-${post_edited_translations.segment}
+Passwort und Passwort bestätigen
  a| 
-${post_edited_translations.segment}
+Das Passwort, das der Benutzer bei der ersten Anmeldung verwendet.
 
-${post_edited_translations.segment}
+
+
+ a| 
+Zugriff verweigern
+ a| 
+*Ja* auswählen, um zu verhindern, dass sich dieser Benutzer beim Mandantenkonto anmeldet, auch wenn er möglicherweise noch einer oder mehreren Gruppen angehört.
+
+Beispielsweise kann mit *Ja* die Anmeldemöglichkeit eines Benutzers vorübergehend ausgesetzt werden.
 
 |===
 . Wählen Sie *Weiter*.
@@ -100,28 +100,28 @@ ${post_edited_translations.segment}
 === Gruppen zuweisen
 
 .Schritte
-. ${post_edited_translations.segment}
+. Den Benutzer einer oder mehreren lokalen Gruppen zuordnen, um festzulegen, welche Aufgaben er ausführen kann.
 +
 Die Zuweisung eines Benutzers zu Gruppen ist optional. Wenn Sie möchten, können Sie Benutzer beim Erstellen oder Bearbeiten von Gruppen auswählen.
 
 +
 Benutzer, die keiner Gruppe angehören, haben keine Verwaltungsberechtigungen. Berechtigungen sind kumulativ. Benutzer haben alle Berechtigungen für alle Gruppen, denen sie angehören. Siehe link:tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"].
 
-. ${post_edited_translations.segment}
+. *Benutzer erstellen* auswählen.
 +
 Wenn Ihr Mandantenkonto über die Berechtigung „Grid-Verbundverbindung verwenden“ verfügt und Sie sich im Quell-Grid des Mandanten befinden, wird der neue lokale Benutzer auf das Ziel-Grid des Mandanten geklont. „Erfolgreich“ wird als „Klonstatus“ im Bereich „Übersicht“ auf der Detailseite des Benutzers angezeigt.
 
-. ${post_edited_translations.segment}
+. *Fertigstellen* auswählen, um zur Benutzerseite zurückzukehren.
 
 
 
 
 [[view-or-edit-local-user]]
-== ${post_edited_translations.segment}
+== Lokalen Benutzer anzeigen oder bearbeiten
 
 .Schritte
 . *Zugriffsverwaltung* > *Benutzer* auswählen.
-. ${post_edited_translations.segment}
+. Die auf der Seite „Benutzer“ bereitgestellten Informationen listen grundlegende Angaben zu allen lokalen und föderierten Benutzern dieses Mandantenkontos auf.
 +
 Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und der Benutzer im Quell-Grid des Mandanten angezeigt wird:
 
@@ -154,17 +154,17 @@ Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden
 ** Gruppenmitgliedschaft
 ** Zusätzliche Felder, wenn das Mandantenkonto über die Berechtigung *Use grid federation connection* verfügt und der Benutzer im Quell-Grid des Mandanten angezeigt wird:
 +
-*** ${post_edited_translations.segment}
+*** Klonstatus, entweder *Erfolg* oder *Fehler*
 *** Ein blauer Banner weist darauf hin, dass Änderungen an diesem Benutzer nicht mit dem anderen Grid synchronisiert werden.
 
 
 
 
-. Die Benutzereinstellungen nach Bedarf bearbeiten. Details zu den einzugebenden Daten finden Sie unter <<create-user,${post_edited_translations.segment}>>.
+. Die Benutzereinstellungen nach Bedarf bearbeiten. Details zu den einzugebenden Daten finden Sie unter <<create-user,Lokaler Benutzer>>.
 +
 .. Im Abschnitt „Übersicht“ den vollständigen Namen ändern, indem der Name oder das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] ausgewählt wird.
 +
-${post_edited_translations.segment}
+Der Benutzername kann nicht geändert werden.
 
 .. Auf der Registerkarte *Passwort* das Passwort des Benutzers ändern und *Änderungen speichern* auswählen.
 .. Auf der Registerkarte *Zugriff* *Nein* auswählen, um dem Benutzer die Anmeldung zu erlauben, oder *Ja*, um die Anmeldung zu verhindern. Anschließend *Änderungen speichern* auswählen.
@@ -178,20 +178,20 @@ ${post_edited_translations.segment}
 
 
 [[import-federated-users]]
-== ${post_edited_translations.segment}
+== Import von Verbundbenutzern
 
-${post_edited_translations.segment}
+Es ist möglich, einen oder mehrere Verbundbenutzer, bis zu maximal 100 Benutzer, direkt auf die Benutzerseite zu importieren.
 
 .Schritte
 . *Zugriffsverwaltung* > *Benutzer* auswählen.
-. ${post_edited_translations.segment}
+. *Verbundbenutzer importieren* auswählen.
 . Die UUID oder der Benutzername für einen oder mehrere Verbundbenutzer wird eingegeben.
 +
-${post_edited_translations.segment}
+Bei mehreren Einträgen jede UUID oder jeden Benutzernamen in einer neuen Zeile hinzufügen.
 
 . *Importieren* auswählen.
 +
-${post_edited_translations.segment}
+Falls der Import in das Feld „Benutzer“ für einen oder mehrere Benutzer fehlschlägt, sind die folgenden Schritte auszuführen:
 
 +
 .. *Nicht importierte Benutzer* erweitern und *Benutzer kopieren* auswählen.
@@ -199,7 +199,7 @@ ${post_edited_translations.segment}
 
 
 +
-${post_edited_translations.segment}
+Nach dem Schließen des Dialogfelds *Verbundbenutzer importieren* werden die Informationen zu den erfolgreich importierten Verbundbenutzern auf der Seite „Benutzer“ angezeigt.
 
 
 
@@ -217,8 +217,8 @@ NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung
 . *Zugriffsverwaltung* > *Benutzer* auswählen.
 . Aktivieren Sie das Kontrollkästchen für den Benutzer, den Sie duplizieren möchten.
 . *Aktionen* > *Benutzer duplizieren* auswählen.
-. Weitere Informationen zu den einzugebenden Angaben sind unter <<create-user,${post_edited_translations.segment}>> zu finden.
-. ${post_edited_translations.segment}
+. Weitere Informationen zu den einzugebenden Angaben sind unter <<create-user,Lokaler Benutzer>> zu finden.
+. *Benutzer erstellen* auswählen.
 
 
 
@@ -226,7 +226,7 @@ NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung
 [[clone-usersretry-user-clone]]
 == [[clone-users]]Benutzerklon erneut versuchen
 
-${post_edited_translations.segment}
+So kann ein fehlgeschlagener Klonvorgang erneut versucht werden:
 
 . Jeder Benutzer auswählen, bei dem unter dem Benutzernamen _(Klonen fehlgeschlagen)_ angezeigt wird.
 . *Aktionen* > *Benutzer klonen* auswählen.

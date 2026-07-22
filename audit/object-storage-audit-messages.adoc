@@ -22,11 +22,11 @@ NOTE: Prüfcodes werden aus dem Produkt und der Dokumentation entfernt, sobald F
 
 
  a| 
-${post_edited_translations.segment}
+BROR
  a| 
 Bucket Read Only-Anfrage: Ein Bucket ist in den schreibgeschützten Modus gewechselt oder hat diesen verlassen.
  a| 
-link:bror-bucket-read-only-request.html["${post_edited_translations.segment}"]
+link:bror-bucket-read-only-request.html["BROR: Bucket Read Only Request"]
 
 
 
@@ -40,7 +40,7 @@ link:cbse-object-send-end.html["CBSE: Objekt Send End"]
 
 
  a| 
-${post_edited_translations.segment}
+CBRE
  a| 
 Objektempfangsende: Die Zielentität hat einen Datentransfer von Grid-Node zu Grid-Node abgeschlossen.
  a| 
@@ -53,7 +53,7 @@ CGRR
  a| 
 Gridübergreifende Replikationsanforderung: StorageGRID hat versucht, eine gridübergreifende Replikationsoperation durchzuführen, um Objekte zwischen Buckets in einer Grid Federation-Verbindung zu replizieren.
  a| 
-link:cgrr-cross-grid-replication-request.html["${post_edited_translations.segment}"]
+link:cgrr-cross-grid-replication-request.html["CGRR: Cross-Grid-Replikationsanforderung"]
 
 
 
@@ -71,24 +71,24 @@ EBKR
  a| 
 Anfrage zum Leeren eines Buckets: Ein Benutzer hat eine Anfrage gesendet, um das Leeren eines Buckets zu aktivieren oder zu deaktivieren (d. h. Bucket-Objekte zu löschen oder das Löschen von Objekten zu stoppen).
  a| 
-link:ebkr-empty-bucket-request.html["${post_edited_translations.segment}"]
+link:ebkr-empty-bucket-request.html["EBKR: Anfrage für leeren Bucket"]
 
 
 
  a| 
-${post_edited_translations.segment}
+SCMT
  a| 
 Object Store Commit: Ein Inhaltsblock wurde vollständig gespeichert und verifiziert und kann nun angefordert werden.
  a| 
-link:scmt-object-store-commit.html["${post_edited_translations.segment}"]
+link:scmt-object-store-commit.html["SCMT: Commit-Anforderung für Object Store"]
 
 
 
  a| 
-${post_edited_translations.segment}
+SREM
  a| 
 Object Store Remove: Ein Inhaltsblock wurde von einem Grid-Node gelöscht und kann nicht mehr direkt angefordert werden.
  a| 
-link:srem-object-store-remove.html["${post_edited_translations.segment}"]
+link:srem-object-store-remove.html["SREM: Objektspeicher entfernen"]
 
 |===

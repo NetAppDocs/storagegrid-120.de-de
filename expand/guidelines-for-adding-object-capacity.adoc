@@ -21,11 +21,11 @@ Sie können die Objektspeicherkapazität Ihres StorageGRID Systems erweitern, in
 Vor dem Hinzufügen von Speichervolumes zu bestehenden Storage Nodes sind die folgenden Richtlinien und Einschränkungen zu beachten:
 
 * Sie müssen Ihre aktuellen ILM-Regeln überprüfen, um festzustellen, wo und wann link:../expand/adding-storage-volumes-to-storage-nodes.html["Speichervolumen hinzufügen"], um den für link:../ilm/what-replication-is.html["replizierte Objekte"] oder link:../ilm/what-erasure-coding-schemes-are.html["Löschcodierte Objekte"] verfügbaren Speicherplatz zu erhöhen.
-* ${post_edited_translations.segment}
+* Sie können die Metadatenkapazität Ihres Systems nicht durch Hinzufügen von Speichervolumes erhöhen, da Objektmetadaten nur auf Volume 0 gespeichert werden.
 * Jeder softwarebasierte Storage Node kann maximal 48 Storage Volumes unterstützen. Wenn mehr Kapazität benötigt wird, müssen neue Storage Nodes hinzugefügt werden.
 * Sie können jedem SG6060 Gerät ein oder zwei Erweiterungsböden hinzufügen. Jeder Erweiterungsboden fügt 16 Speichervolumes hinzu. Mit beiden installierten Erweiterungsböden kann das SG6060 insgesamt 48 Speichervolumes unterstützen.
 * Sie können jedem SG6160 Appliance ein oder zwei Erweiterungsböden hinzufügen. Jeder Erweiterungsboden fügt 60 Storage-Volumes hinzu. Mit beiden installierten Erweiterungsböden kann das SG6160 insgesamt 180 Storage-Volumes unterstützen.
-* ${post_edited_translations.segment}
+* Sie können zu keinem anderen Speichergerät Speichervolumen hinzufügen.
 * Die Größe eines bestehenden Speichervolumens kann nicht erhöht werden.
 * Sie können einem Storage Node nicht gleichzeitig mit einem Systemupgrade, einer Wiederherstellungsoperation oder einer anderen Erweiterung Storage-Volumes hinzufügen.
 
@@ -60,7 +60,7 @@ Vor dem Hinzufügen von Speicherknoten zu bestehenden Standorten sind die folgen
 
 Bei der Konfiguration der Erweiterung muss festgelegt werden, ob der Administrative Domain Controller (ADC) Dienst auf jedem neuen Storage Node enthalten sein soll. Der ADC Dienst verfolgt den Standort und die Verfügbarkeit der Grid-Services.
 
-* Es besteht die Möglichkeit, link:../maintain/move-adc-service.html["${post_edited_translations.segment}"].
+* Es besteht die Möglichkeit, link:../maintain/move-adc-service.html["Den ADC-Dienst von einem Storage Node auf einen anderen am selben Standort verschieben"].
 * Das StorageGRID System erfordert, dass an jedem Standort und zu jeder Zeit ein link:../maintain/understanding-adc-service-quorum.html["Quorum der ADC Services"] verfügbar ist.
 * Mindestens drei Speicherknoten an jedem Standort müssen den ADC-Service enthalten.
 * Es wird nicht empfohlen, den ADC-Dienst zu jedem Storage Node hinzuzufügen. Die Einbindung zu vieler ADC-Dienste kann aufgrund des erhöhten Kommunikationsaufwands zwischen den Nodes zu Verlangsamungen führen.

@@ -13,9 +13,9 @@ summary: Die Objektsegmentierung ist der Prozess des Aufteilens eines Objekts in
 [role="lead"]
 Die Objektsegmentierung ist der Prozess des Aufteilens eines Objekts in eine Sammlung kleinerer Objekte fester Größe, um die Speicher- und Ressourcennutzung für große Objekte zu optimieren. Der S3 Multipart-Upload erstellt ebenfalls segmentierte Objekte, wobei ein Objekt jeden Teil darstellt.
 
-${post_edited_translations.segment}
+Wenn ein Objekt in das StorageGRID System eingelesen wird, teilt der LDR-Dienst das Objekt in Segmente auf und erstellt einen Segmentcontainer, der die Header-Informationen aller Segmente als Inhalt auflistet.
 
-image:object_segmentation_diagram.gif["${post_edited_translations.segment}"]
+image:object_segmentation_diagram.gif["Workflow zur Objektsegmentierung"]
 
 Beim Abruf eines Segmentcontainers setzt der LDR Service das ursprüngliche Objekt aus seinen Segmenten zusammen und gibt das Objekt an den Client zurück.
 

@@ -19,7 +19,7 @@ Wenn sich die Verbindung zu einem Plattformdienst geändert hat, kann die Verbin
 
 
 .Über diese Aufgabe
-${post_edited_translations.segment}
+StorageGRID überprüft nicht, ob die Anmeldeinformationen über die korrekten Berechtigungen verfügen.
 
 .Schritte
 . *STORAGE (S3)* > *Platform services endpoints* auswählen.

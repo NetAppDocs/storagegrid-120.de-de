@@ -24,7 +24,7 @@ Sie können S3-Mandantenkonten die Nutzung einer Grid Federation-Verbindung zwis
 
 
 [[create-a-permitted-tenant]]
-== ${post_edited_translations.segment}
+== Einen zulässigen Mandanten erstellen
 
 Wenn Sie einem neuen oder bestehenden Mandantenkonto die Nutzung einer Grid-Federation-Verbindung für die Kontoklonung und die gridübergreifende Replikation ermöglichen möchten, sind die allgemeinen Anweisungen zu link:creating-tenant-account.html["Erstellen eines neuen S3-Mandanten"] oder link:editing-tenant-account.html["ein Mandantenkonto bearbeiten"] zu beachten:
 

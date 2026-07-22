@@ -78,7 +78,7 @@ Dieses Verfahren dient dazu, ein Clientzertifikat hinzuzufügen, wenn für die M
 
 .. *Erstellen* auswählen, um das Zertifikat im Grid Manager zu speichern.
 +
-${post_edited_translations.segment}
+Das neue Zertifikat erscheint auf der Registerkarte „Client“.
 
 
 
@@ -122,7 +122,7 @@ Die neuen Zertifikate erscheinen auf der Registerkarte „Client“.
 [[generated-certificate-from-grid-manager]]
 === Vom Grid Manager generiertes Zertifikat
 
-${post_edited_translations.segment}
+Dieses Verfahren dient dazu, ein Administrator-Clientzertifikat hinzuzufügen, falls kein Managementoberfläche-Zertifikat konfiguriert wurde und geplant ist, ein Clientzertifikat für Prometheus hinzuzufügen, das die Funktion „Zertifikat generieren“ im Grid Manager verwendet.
 
 .Schritte
 . Im Grid Manager *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen und dann die Registerkarte *Client* wählen.
@@ -131,7 +131,7 @@ ${post_edited_translations.segment}
 . Um mit Ihrem externen Überwachungstool auf Prometheus-Metriken zuzugreifen, *Prometheus zulassen* auswählen.
 . Wählen Sie *Weiter*.
 . Für den Schritt *Zertifikate anhängen* wird *Zertifikat generieren* ausgewählt.
-. ${post_edited_translations.segment}
+. Zertifikatsinformationen angeben:
 +
 ** *Subjekt* (optional): X.509-Subjekt oder individueller Name (DN) des Zertifikatsinhabers.
 ** *Gültigkeitstage*: Die Anzahl der Tage, für die das generierte Zertifikat gültig ist, beginnend ab dem Zeitpunkt seiner Generierung.
@@ -169,7 +169,7 @@ Geben Sie den Dateinamen des privaten Schlüssels und den Speicherort für den D
 
 . *Erstellen* auswählen, um das Zertifikat im Grid Manager zu speichern.
 +
-${post_edited_translations.segment}
+Das neue Zertifikat erscheint auf der Registerkarte „Client“.
 
 . Im Grid Manager *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen und dann die Registerkarte *Global* wählen.
 . *Management Interface certificate* auswählen.
@@ -297,7 +297,7 @@ Das aktualisierte Zertifikat wird auf der Registerkarte „Client“ angezeigt.
 Den Zertifikatstext zum Einfügen an anderer Stelle generieren.
 
 .. *Zertifikat generieren* auswählen.
-.. ${post_edited_translations.segment}
+.. Zertifikatsinformationen angeben:
 +
 *** *Subjekt* (optional): X.509-Subjekt oder individueller Name (DN) des Zertifikatsinhabers.
 *** *Gültigkeitstage*: Die Anzahl der Tage, für die das generierte Zertifikat gültig ist, beginnend ab dem Zeitpunkt seiner Generierung.
@@ -335,7 +335,7 @@ Geben Sie den Dateinamen des privaten Schlüssels und den Speicherort für den D
 
 .. *Erstellen* auswählen, um das Zertifikat im Grid Manager zu speichern.
 +
-${post_edited_translations.segment}
+Das neue Zertifikat erscheint auf der Registerkarte „Client“.
 
 
 

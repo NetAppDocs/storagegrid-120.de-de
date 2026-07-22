@@ -15,9 +15,9 @@ entries:
     url: "/admin/signing-out-of-grid-manager.html"
   - title: Passwort ändern
     url: "/admin/changing-your-password.html"
-  - title: "${post_edited_translations.segment}"
+  - title: StorageGRID Lizenzinformationen anzeigen
     url: "/admin/viewing-storagegrid-license-information.html"
-  - title: "${post_edited_translations.segment}"
+  - title: StorageGRID Lizenzinformationen aktualisieren
     url: "/admin/updating-storagegrid-license-information.html"
   - title: Die API verwenden
     entries:
@@ -53,7 +53,7 @@ entries:
     url: "/admin/change-ssh-access-passwords.html"
   - title: Identitätsföderation verwenden
     url: "/admin/using-identity-federation.html"
-  - title: "${post_edited_translations.segment}"
+  - title: Administratorgruppen verwalten
     url: "/admin/managing-admin-groups.html"
   - title: Administratorgruppenberechtigungen
     url: "/admin/admin-group-permissions.html"
@@ -147,7 +147,7 @@ entries:
       url: "/admin/kms-considerations-for-changing-for-site.html"
     - title: StorageGRID als Client im KMS konfigurieren
       url: "/admin/kms-configuring-storagegrid-as-client.html"
-    - title: "${post_edited_translations.segment}"
+    - title: Einen Schlüsselverwaltungsserver (KMS) hinzufügen
       url: "/admin/kms-adding.html"
     - title: Einen KMS verwalten
       url: "/admin/kms-managing.html"
@@ -163,7 +163,7 @@ entries:
       url: "/admin/controlling-access-through-firewalls.html"
     - title: Interne Firewall verwalten
       url: "/admin/manage-firewall-controls.html"
-    - title: "${post_edited_translations.segment}"
+    - title: Interne Firewall konfigurieren
       url: "/admin/configure-firewall-controls.html"
 - title: Mandanten verwalten
   entries:
@@ -234,7 +234,7 @@ entries:
     url: "/admin/guidelines-for-storagegrid-networks.html"
   - title: IP-Adressen anzeigen
     url: "/admin/viewing-ip-addresses.html"
-  - title: "${post_edited_translations.segment}"
+  - title: VLAN Schnittstellen konfigurieren
     url: "/admin/configure-vlan-interfaces.html"
   - title: CORS für eine Managementoberfläche aktivieren
     url: "/admin/enable-cross-origin-resource-sharing-for-management-interface.html"

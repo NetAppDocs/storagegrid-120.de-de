@@ -75,7 +75,7 @@ entries:
   url: "/ilm/manage-erasure-coding-profiles.html"
 - title: S3-Regionen konfigurieren
   url: "/ilm/configuring-regions-optional-and-s3-only.html"
-- title: "${post_edited_translations.segment}"
+- title: ILM-Regel erstellen
   entries:
   - title: Regeln zur Verwaltung von Objekten verwenden
     url: "/ilm/what-ilm-rule-is.html"

@@ -33,7 +33,7 @@ NOTE: Wenn ein Objekt mit SSE oder SSE-C verschlüsselt ist, werden alle Verschl
 
 
 [[use-sse]]
-== ${post_edited_translations.segment}
+== SSE verwenden
 
 Um ein Objekt mit einem von StorageGRID verwalteten eindeutigen Schlüssel zu verschlüsseln, wird der folgende Anforderungsheader verwendet:
 
@@ -49,7 +49,7 @@ Der SSE-Anforderungsheader wird von den folgenden Objektoperationen unterstützt
 
 
 [[use-sse-c]]
-== ${post_edited_translations.segment}
+== SSE-C verwenden
 
 Um ein Objekt mit einem eindeutigen Schlüssel, den Sie verwalten, zu verschlüsseln, werden drei Anfrage-Header verwendet:
 
@@ -96,15 +96,15 @@ Die SSE-C-Anforderungsheader werden von den folgenden Objektoperationen unterst�
 
 Vor der Verwendung von SSE-C sind die folgenden Punkte zu beachten:
 
-* ${post_edited_translations.segment}
+* https muss verwendet werden.
 +
 
 CAUTION: StorageGRID lehnt alle Anfragen über HTTP ab, wenn SSE-C verwendet wird. Aus Sicherheitsgründen ist jeder versehentlich über HTTP gesendete Schlüssel als kompromittiert zu betrachten. Der Schlüssel sollte verworfen und gegebenenfalls rotiert werden.
 
-* ${post_edited_translations.segment}
+* Der ETag in der Antwort ist nicht der MD5 der Objektdaten.
 * Sie müssen die Zuordnung von Verschlüsselungsschlüsseln zu Objekten verwalten. StorageGRID speichert keine Verschlüsselungsschlüssel. Sie sind für die Verfolgung des Verschlüsselungsschlüssels verantwortlich, den Sie für jedes Objekt bereitstellen.
 * Wenn für Ihren Bucket die Versionierung aktiviert ist, sollte jede Objektversion über einen eigenen Verschlüsselungsschlüssel verfügen. Sie sind für die Nachverfolgung des für jede Objektversion verwendeten Verschlüsselungsschlüssels verantwortlich.
-* ${post_edited_translations.segment}
+* Da Sie die Verschlüsselungsschlüssel clientseitig verwalten, müssen Sie auch alle zusätzlichen Sicherheitsvorkehrungen wie die Schlüsselrotation clientseitig verwalten.
 +
 
 CAUTION: Die von Ihnen bereitgestellten Verschlüsselungsschlüssel werden niemals gespeichert. Wenn Sie einen Verschlüsselungsschlüssel verlieren, verlieren Sie das entsprechende Objekt.

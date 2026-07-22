@@ -124,9 +124,9 @@ Authorization: _authorization-string_
 [[how-to-determine-the-default-retention-for-a-bucket]]
 == So wird die Standardaufbewahrungsdauer für einen Bucket ermittelt
 
-${post_edited_translations.segment}
+Um festzustellen, ob die S3 Object Lock für einen Bucket aktiviert ist und um den Standardaufbewahrungsmodus sowie die Aufbewahrungsdauer zu sehen, können folgende Methoden genutzt werden:
 
-* Der Bucket ist im Tenant Manager sichtbar. Weitere Informationen unter link:../tenant/viewing-s3-bucket-details.html["${post_edited_translations.segment}"].
+* Der Bucket ist im Tenant Manager sichtbar. Weitere Informationen unter link:../tenant/viewing-s3-bucket-details.html["S3 Buckets anzeigen"].
 * Eine GetObjectLockConfiguration-Anfrage ausgeben.
 
 
@@ -184,13 +184,13 @@ Server: AmazonS3
 [[how-to-specify-retention-settings-for-an-object]]
 == Festlegen von Aufbewahrungseinstellungen für ein Objekt
 
-${post_edited_translations.segment}
+Ein Bucket, bei dem S3 Object Lock aktiviert ist, kann eine Kombination aus Objekten mit und ohne S3 Object Lock Aufbewahrungseinstellungen enthalten.
 
 Die Aufbewahrungseinstellungen auf Objektebene werden über die S3 REST API festgelegt. Die Aufbewahrungseinstellungen für ein Objekt überschreiben alle Standard-Aufbewahrungseinstellungen für den Bucket.
 
 Für jedes Objekt lassen sich die folgenden Einstellungen angeben:
 
-* ${post_edited_translations.segment}
+* *Speichermodus*: Entweder COMPLIANCE oder GOVERNANCE.
 * *Retain-until-date*: Ein Datum, das angibt, wie lange die Objektversion von StorageGRID aufbewahrt werden muss.
 +
 ** Im COMPLIANCE Modus kann das Objekt abgerufen werden, aber es kann nicht geändert oder gelöscht werden, wenn das Aufbewahrungsdatum in der Zukunft liegt. Das Aufbewahrungsdatum kann verlängert werden, aber dieses Datum kann nicht verkürzt oder entfernt werden.
@@ -205,7 +205,7 @@ Die Legal-Hold-Einstellung für ein Objekt ist unabhängig vom Aufbewahrungsmodu
 
 Um beim Hinzufügen einer Objektversion zu einem Bucket S3 Object Lock Einstellungen anzugeben, muss eine link:put-object.html["PutObject"]-, link:put-object-copy.html["CopyObject"]- oder link:initiate-multipart-upload.html["CreateMultipartUpload"]-Anforderung gesendet werden.
 
-${post_edited_translations.segment}
+Sie können Folgendes verwenden:
 
 * `x-amz-object-lock-mode`, was COMPLIANCE oder GOVERNANCE sein kann (Groß-/Kleinschreibung).
 +

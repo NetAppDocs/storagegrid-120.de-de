@@ -15,7 +15,7 @@ Mindestens ein Standort muss bei der Installation von StorageGRID erstellt werde
 
 .Schritte
 . Auf der Seite „Sites“ den *Site Name* eingeben.
-. ${post_edited_translations.segment}
+. Um weitere Standorte hinzuzufügen, wird auf das Pluszeichen neben dem letzten Standorteintrag geklickt und der Name in das neue Textfeld *Standortname* eingetragen.
 +
 Fügen Sie so viele zusätzliche Standorte hinzu, wie für Ihre Grid-Topologie erforderlich sind. Es können bis zu 16 Standorte hinzugefügt werden.
 

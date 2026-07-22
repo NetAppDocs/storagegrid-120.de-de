@@ -48,7 +48,7 @@ link:kms-configuring-storagegrid-as-client.html["StorageGRID als Client im KMS k
  a| 
 Den KMS zum Grid Manager hinzufügen, einem einzelnen Standort oder einer Standardgruppe von Standorten zuweisen, die erforderlichen Zertifikate hochladen und die KMS Konfiguration speichern.
  a| 
-link:kms-adding.html["${post_edited_translations.segment}"]
+link:kms-adding.html["Einen Schlüsselverwaltungsserver (KMS) hinzufügen"]
 
 |===
 

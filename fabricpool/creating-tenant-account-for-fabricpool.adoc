@@ -73,7 +73,7 @@ FabricPool Mandanten müssen S3 Select in der Regel nicht verwenden.
 .. Optional kann *Grid-Federationsverbindung verwenden* ausgewählt werden, um dem Mandanten die Verwendung eines link:../admin/grid-federation-overview.html["Grid Federation Verbindung"] für Kontoklon und gridübergreifende Replikation zu ermöglichen. Anschließend wird die zu verwendende Grid-Federationsverbindung ausgewählt.
 
 
-. Geben Sie im Schritt „Root-Zugriff definieren“ an, welcher Benutzer die anfängliche Root-Zugriffsberechtigung für das Mandantenkonto erhält, abhängig davon, ob Ihr StorageGRID System link:../admin/using-identity-federation.html["Identitätsföderation"], link:../admin/how-sso-works.html["${post_edited_translations.segment}"] oder beides verwendet.
+. Geben Sie im Schritt „Root-Zugriff definieren“ an, welcher Benutzer die anfängliche Root-Zugriffsberechtigung für das Mandantenkonto erhält, abhängig davon, ob Ihr StorageGRID System link:../admin/using-identity-federation.html["Identitätsföderation"], link:../admin/how-sso-works.html["Single Sign-On (SSO)"] oder beides verwendet.
 +
 [cols="1a,2a"]
 |===

@@ -25,7 +25,7 @@ indexpage:
     links:
     - title: Identitätsföderation verwenden
       url: "../admin/using-identity-federation.html"
-    - title: "${post_edited_translations.segment}"
+    - title: Administratorgruppen verwalten
       url: "../admin/managing-admin-groups.html"
     - title: Administratorgruppenberechtigungen
       url: "../admin/admin-group-permissions.html"

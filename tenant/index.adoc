@@ -38,8 +38,8 @@ NOTE: Wenn Sie das S3-Clientprotokoll verwenden, können Sie auch S3-Buckets und
 Mandantenkonten werden von einem link:../admin/managing-tenants.html["StorageGRID Grid-Administrator mit dem Grid Manager"] Grid-Administrator erstellt. Bei der Erstellung eines Mandantenkontos gibt der Grid-Administrator Folgendes an:
 
 * Grundlegende Informationen einschließlich Mandantenname, Clienttyp (S3) und optionalem Speicherplatzkontingent.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Berechtigungen für das Mandantenkonto, wie etwa, ob das Mandantenkonto S3 Plattformdienste nutzen, eine eigene Identitätsquelle konfigurieren, S3 Select verwenden oder eine Grid Federation Verbindung nutzen kann.
+* Der anfängliche Root-Zugriff für den Mandanten, basierend darauf, ob das StorageGRID System lokale Gruppen und Benutzer, Identitätsföderation oder Single Sign-On (SSO) verwendet.
 
 
 Darüber hinaus können Grid-Administratoren die Einstellung S3 Object Lock für das StorageGRID System aktivieren, falls S3-Mandantenkonten regulatorischen Anforderungen entsprechen müssen. Wenn S3 Object Lock aktiviert ist, können alle S3-Mandantenkonten konforme Buckets erstellen und verwalten.

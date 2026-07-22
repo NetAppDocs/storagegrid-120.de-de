@@ -4,7 +4,7 @@ permalink: expand/copying-audit-logs.html
 keywords: copy audit log, Admin Node expansion, StorageGRID 
 summary: Wenn im Rahmen einer Erweiterung ein neuer Admin-Knoten hinzugefügt wird, protokolliert dessen AMS-Service nur Ereignisse und Aktionen, die nach dem Beitritt zum System auftreten. Bei Bedarf können Revisionsprotokolle von einem zuvor installierten Admin-Knoten auf den neuen Erweiterungs-Admin-Knoten kopiert werden, sodass dieser mit dem restlichen StorageGRID System synchronisiert ist. 
 ---
-= ${post_edited_translations.segment}
+= Audit-Protokolle auf neue Admin-Knoten in StorageGRID kopieren
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
@@ -33,7 +33,7 @@ Weitere Informationen sind unter link:../monitor/configure-audit-messages.html["
 
 ====
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh _admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -73,7 +73,7 @@ mv audit.log _new_name_.txt
 +
 `exit`
 
-. ${post_edited_translations.segment}
+. Melden Sie sich beim Erweiterungs-Admin-Node an:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_expansion_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.

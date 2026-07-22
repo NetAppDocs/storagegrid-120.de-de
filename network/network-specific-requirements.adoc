@@ -82,7 +82,7 @@ NOTE: Das Grid-Netzwerk muss zwischen jedem Knoten direkt routingfähig sein. Ne
 
 
 [[admin-network]]
-== ${post_edited_translations.segment}
+== Admin-Netzwerk
 
 Das Admin-Netzwerk ist optional. Wenn ein Admin-Netzwerk konfiguriert werden soll, gelten die folgenden Anforderungen und Richtlinien.
 

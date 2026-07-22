@@ -20,11 +20,11 @@ Beispiel:
 . Zunächst wird ein Standard-KMS konfiguriert, das für alle Standorte gilt, die kein dediziertes KMS haben.
 . Nach dem Speichern des KMS verbinden sich alle Appliance-Knoten, auf denen die Einstellung *Knotenverschlüsselung* aktiviert ist, mit dem KMS und fordern den Verschlüsselungsschlüssel an. Dieser Schlüssel dient zur Verschlüsselung der Appliance-Knoten an allen Standorten. Derselbe Schlüssel muss auch zum Entschlüsseln dieser Appliances verwendet werden.
 +
-image:kms_default_key.png["${post_edited_translations.segment}"]
+image:kms_default_key.png["KMS-Standardschlüssel"]
 
 . Sie entscheiden sich, für einen Standort (Data Center 3 in der Abbildung) ein standortspezifisches KMS hinzuzufügen. Da die Appliance-Knoten jedoch bereits verschlüsselt sind, tritt beim Speichern der Konfiguration für das standortspezifische KMS ein Validierungsfehler auf. Der Fehler entsteht, weil das standortspezifische KMS nicht über den korrekten Schlüssel zum Entschlüsseln der Knoten an diesem Standort verfügt.
 +
-image:kms_wrong_key.png["${post_edited_translations.segment}"]
+image:kms_wrong_key.png["KMS Falscher Schlüssel"]
 
 . Um das Problem zu beheben, kopieren Sie die aktuelle Version des Verschlüsselungsschlüssels vom Standard-KMS in das neue KMS. (Technisch gesehen kopieren Sie den ursprünglichen Schlüssel in einen neuen Schlüssel mit demselben Alias. Der ursprüngliche Schlüssel wird zu einer vorherigen Version des neuen Schlüssels.) Das standortspezifische KMS verfügt nun über den richtigen Schlüssel, um die Appliance-Knoten in Data Center 3 zu entschlüsseln, sodass es in StorageGRID gespeichert werden kann.
 +
@@ -35,9 +35,9 @@ image:kms_copied_key.png["KMS kopierter Schlüssel"]
 
 
 [[use-cases-for-changing-which-kms-is-used-for-a-site]]
-== ${post_edited_translations.segment}
+== Anwendungsfälle für die Änderung des für eine Site verwendeten KMS
 
-${post_edited_translations.segment}
+Die Tabelle fasst die erforderlichen Schritte für die häufigsten Fälle zur Änderung des KMS für eine Site zusammen.
 
 [cols="1a,2a"]
 |===
@@ -45,11 +45,11 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+Sie haben einen oder mehrere standortspezifische KMS-Einträge und möchten einen davon als Standard-KMS verwenden.
  a| 
 Den standortspezifischen KMS bearbeiten. Im Feld *Verwaltet Schlüssel für* die Option *Standorte, die nicht von einem anderen KMS verwaltet werden (Standard KMS)* auswählen. Der standortspezifische KMS wird nun als Standard KMS verwendet. Dies gilt für alle Standorte, die keinen dedizierten KMS haben.
 
-link:kms-editing.html["${post_edited_translations.segment}"]
+link:kms-editing.html["Bearbeiten eines Schlüsselverwaltungsservers (KMS)"]
 
 
 
@@ -60,17 +60,17 @@ Sie verfügen über einen Standard-KMS und fügen im Rahmen einer Erweiterung ei
 . Mit dem Grid Manager den neuen KMS hinzufügen und den Standort auswählen.
 
 
-link:kms-adding.html["${post_edited_translations.segment}"]
+link:kms-adding.html["Einen Schlüsselverwaltungsserver (KMS) hinzufügen"]
 
 
 
  a| 
 Sie möchten, dass der KMS für einen Standort einen anderen Server verwendet.
  a| 
-. ${post_edited_translations.segment}
+. Falls die Geräteknoten am Standort bereits durch das bestehende KMS verschlüsselt wurden, kann die KMS-Software verwendet werden, um die aktuelle Version des Verschlüsselungsschlüssels vom bestehenden KMS auf das neue KMS zu kopieren.
 . Im Grid Manager kann die bestehende KMS Konfiguration bearbeitet und der neue Hostname oder die neue IP-Adresse eingegeben werden.
 
 
-link:kms-adding.html["${post_edited_translations.segment}"]
+link:kms-adding.html["Einen Schlüsselverwaltungsserver (KMS) hinzufügen"]
 
 |===

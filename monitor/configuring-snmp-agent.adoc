@@ -321,7 +321,7 @@ Auf welchem StorageGRID Netzwerk der Agent lauschen wird.
 
 ** Grid, Admin und Client Netzwerke: Der SNMP-Agent nimmt Anfragen auf allen drei Netzwerken entgegen.
 ** Grid-Netzwerk
-** ${post_edited_translations.segment}
+** Admin-Netzwerk
 ** Client-Netzwerk
 +
 *Hinweis*: Wenn das Client-Netzwerk für unsichere Daten verwendet wird und eine Agentenadresse für das Client-Netzwerk erstellt wird, ist zu beachten, dass auch der SNMP-Datenverkehr unsicher ist.

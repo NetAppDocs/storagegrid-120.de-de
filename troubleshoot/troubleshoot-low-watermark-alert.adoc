@@ -73,7 +73,7 @@ Die Warnung *Low read-only watermark override* wird für Storage Node A ausgelö
 Führen Sie diese Schritte aus, wenn eine oder mehrere Warnmeldungen vom Typ *Low read-only watermark override* ausgelöst wurden. Diese Anweisungen können auch verwendet werden, wenn derzeit benutzerdefinierte Wasserzeicheneinstellungen genutzt werden und auf optimierte Einstellungen umgestellt werden soll, selbst wenn keine Warnmeldungen ausgelöst wurden.
 
 .Bevor Sie beginnen
-* ${post_edited_translations.segment}
+* Sie haben das Upgrade auf StorageGRID 11.6 oder höher abgeschlossen.
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung"].
 
@@ -111,7 +111,7 @@ StorageGRID verwendet zwei Prometheus-Metriken, um die optimierten Werte anzuzei
 .Schritte
 . *Support* > *Tools* > *Metrics* auswählen.
 . Im Abschnitt Prometheus den Link auswählen, um auf die Prometheus Benutzeroberfläche zuzugreifen.
-. ${post_edited_translations.segment}
+. Das empfohlene minimale Soft-Read-Only-Watermark kann angezeigt werden, indem die folgende Prometheus-Metrik eingegeben und *Ausführen* ausgewählt wird:
 +
 `storagegrid_storage_volume_minimum_optimized_soft_readonly_watermark`
 

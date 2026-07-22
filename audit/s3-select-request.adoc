@@ -52,14 +52,14 @@ REPR
  a| 
 Verarbeitete Datensätze
  a| 
-${post_edited_translations.segment}
+Anzahl der Datensätze oder Zeilen, die ein S3 Select Job von den Storage Nodes empfangen hat.
 
 
 
  a| 
 RERT
  a| 
-${post_edited_translations.segment}
+Zurückgegebene Datensätze
  a| 
 Anzahl der Datensätze oder Zeilen, die ein S3 Select Job an den Client zurückgegeben hat.
 
@@ -75,9 +75,9 @@ Gibt an, ob die Verarbeitung des S3 Select Jobs abgeschlossen wurde oder nicht. 
 
 
  a| 
-${post_edited_translations.segment}
+REID
  a| 
-${post_edited_translations.segment}
+Anfrage-ID
  a| 
 Kennung für die S3 Select Anfrage.
 
@@ -97,7 +97,7 @@ ERMG
  a| 
 Fehlermeldung
  a| 
-${post_edited_translations.segment}
+Fehlermeldung, die vom S3 Select Job generiert wurde.
 
 
 
@@ -106,7 +106,7 @@ ERTY
  a| 
 Fehlertyp
  a| 
-${post_edited_translations.segment}
+Fehlertyp, der vom S3 Select Auftrag generiert wurde.
 
 
 

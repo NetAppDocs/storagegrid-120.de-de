@@ -34,7 +34,7 @@ StorageGRID Ereignisbenachrichtigungen folgen der Amazon S3 API, allerdings mit 
 ** s3:ObjectRestore:Post
 
 
-* ${post_edited_translations.segment}
+* Von StorageGRID gesendete Ereignisbenachrichtigungen verwenden das Standard-JSON-Format, enthalten jedoch einige Schlüssel nicht und verwenden für andere spezifische Werte, wie in der Tabelle dargestellt:
 
 
 [cols="1a,2a"]

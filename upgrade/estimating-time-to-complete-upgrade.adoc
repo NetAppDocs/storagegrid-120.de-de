@@ -60,7 +60,7 @@ Die Software auf allen anderen Grid-Knoten wird in der Reihenfolge aktualisiert,
 * Die Grid-Konfiguration sollte nicht geändert werden.
 * Die Konfiguration des Audit-Levels sollte nicht geändert werden.
 * Die ILM Konfiguration sollte nicht aktualisiert werden.
-* ${post_edited_translations.segment}
+* Sie sind daran gehindert, andere Wartungsverfahren wie Hotfix, Außerbetriebnahme oder Erweiterung durchzuführen.
 
 
 *Hinweis*: Falls Sie eine Wiederherstellung durchführen müssen, wenden Sie sich an den technischen Support.
@@ -77,7 +77,7 @@ Weniger als 5 Minuten
 * Die Grid-Konfiguration sollte nicht geändert werden.
 * Die Konfiguration des Audit-Levels sollte nicht geändert werden.
 * Die ILM Konfiguration sollte nicht aktualisiert werden.
-* ${post_edited_translations.segment}
+* Es kann kein weiteres Wartungsverfahren durchgeführt werden.
 
 
 
@@ -85,9 +85,9 @@ Weniger als 5 Minuten
  a| 
 Datenbank aktualisieren
  a| 
-${post_edited_translations.segment}
+Der Upgrade-Prozess überprüft jeden Knoten, um zu verifizieren, dass die Cassandra Datenbank nicht aktualisiert werden muss.
  a| 
-${post_edited_translations.segment}
+10 Sekunden pro Knoten oder einige Minuten für das gesamte Grid
  a| 
 Das Upgrade auf StorageGRID 12.0 beinhaltet ein Cassandra Datenbank-Upgrade. Nach dem Upgrade von StorageGRID 11.9 auf 12.0 erfolgt im Hintergrund innerhalb von ein bis drei Tagen eine Aktualisierung des Metadatenformats. Während dieses Zeitraums sind bestimmte Wartungsverfahren, wie beispielsweise die Erweiterung, deaktiviert.
 
@@ -108,14 +108,14 @@ Nachdem die Aufgabe *Letzte Upgrade-Schritte* abgeschlossen ist, stehen alle War
 
 
 [[estimate-time-to-upgrade]]
-== ${post_edited_translations.segment}
+== Zeit für das Upgrade schätzen
 
 .Schritte
 . Die für die Aktualisierung aller Grid-Knoten erforderliche Zeit abschätzen.
 +
 .. Die Anzahl der Knoten im StorageGRID System ist mit 1 Stunde/Knoten zu multiplizieren.
 +
-${post_edited_translations.segment}
+Generell gilt, dass die Aktualisierung von Appliance-Knoten länger dauert als die von softwarebasierten Knoten.
 
 .. Zu dieser Zeit ist 1 Stunde hinzuzurechnen, um die Zeit zu berücksichtigen, die für das Herunterladen der  `.upgrade`-Datei, das Ausführen von Vorabprüfungen und den Abschluss der letzten Upgrade-Schritte erforderlich ist.
 
@@ -127,16 +127,16 @@ ${post_edited_translations.segment}
 
 
 [[example-estimated-time-to-upgrade-to-storagegrid-12-0]]
-== ${post_edited_translations.segment}
+== Beispiel: Geschätzte Zeit für das Upgrade auf StorageGRID 12.0
 
 Angenommen, Ihr System verfügt über 14 Grid-Knoten, von denen 8 Linux-Knoten sind.
 
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. 14 mit 1 Stunde/Knoten multiplizieren.
+. Für den Download, die Vorprüfung und die abschließenden Schritte ist eine zusätzliche Stunde einzuplanen.
 +
 Die geschätzte Zeit für die Aktualisierung aller Knoten beträgt 15 Stunden.
 
-. ${post_edited_translations.segment}
+. 8 ist mit 15 Minuten/Knoten zu multiplizieren, um die Zeit für die Installation des RPM- oder DEB-Pakets auf den Linux-Knoten zu berücksichtigen.
 +
 Die geschätzte Zeit für diesen Schritt beträgt 2 Stunden.
 

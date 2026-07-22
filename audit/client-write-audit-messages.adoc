@@ -54,7 +54,7 @@ link:spos-s3-post.html["SPOS: S3 POST"]
 
 
  a| 
-${post_edited_translations.segment}
+SPUT
  a| 
 S3 PUT: Protokolliert eine erfolgreiche Transaktion zum Erstellen eines neuen Objekts oder Buckets.
 

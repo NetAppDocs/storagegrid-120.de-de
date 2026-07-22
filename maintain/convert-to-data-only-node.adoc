@@ -21,7 +21,7 @@ Bei der Konvertierung von reinen Datenknoten muss das Grid pro Standort mindeste
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Der Storage Node, den Sie konvertieren möchten, enthält den ADC-Dienst nicht oder Sie haben link:../maintain/move-adc-service.html["ADC-Service verschoben"] zu einem anderen Knoten gewechselt.
 * Der Speicherknoten ist weder ein reiner Metadatenknoten noch ein reiner Datenknoten.
 * Der Storage Node, den Sie konvertieren möchten, enthält den ADC-Dienst nicht oder Sie haben link:../maintain/move-adc-service.html["ADC-Service verschoben"] zu einem anderen Knoten gewechselt.

@@ -35,14 +35,14 @@ Sie können link:using-storagegrid-security-certificates.html["die Serverzertifi
 Die Verwendung eines link:kms-configuring.html["Schlüsselverwaltungsserver"] ermöglicht den Schutz von StorageGRID Daten selbst dann, wenn ein Gerät aus dem Rechenzentrum entfernt wird. Nachdem die Gerätevolumes verschlüsselt wurden, ist ein Zugriff auf Daten auf dem Gerät nur möglich, wenn der Node mit dem KMS kommunizieren kann.
 
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Um die Verwaltung von Verschlüsselungsschlüsseln zu nutzen, muss während der Installation für jedes Gerät die Einstellung *Knotenverschlüsselung* aktiviert werden, bevor das Gerät dem Grid hinzugefügt wird.
 
 
 
 [[manage-proxy-settings]]
 == Proxy-Einstellungen verwalten
 
-Wenn Sie S3-Plattformservices oder Cloud Storage Pools verwenden, können Sie einen link:configuring-storage-proxy-settings.html["${post_edited_translations.segment}"] zwischen Storage Nodes und den externen S3-Endpunkten konfigurieren. Wenn Sie AutoSupport Pakete über HTTPS oder HTTP senden, können Sie einen link:configuring-admin-proxy-settings.html["Admin Proxyserver"] zwischen Admin Nodes und dem technischen Support konfigurieren.
+Wenn Sie S3-Plattformservices oder Cloud Storage Pools verwenden, können Sie einen link:configuring-storage-proxy-settings.html["Storage Proxyserver"] zwischen Storage Nodes und den externen S3-Endpunkten konfigurieren. Wenn Sie AutoSupport Pakete über HTTPS oder HTTP senden, können Sie einen link:configuring-admin-proxy-settings.html["Admin Proxyserver"] zwischen Admin Nodes und dem technischen Support konfigurieren.
 
 
 

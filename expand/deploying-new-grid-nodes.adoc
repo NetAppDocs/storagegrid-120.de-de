@@ -161,7 +161,7 @@ Die blaue Statusleiste zeigt an, welche Aufgabe gerade ausgeführt wird. Grüne 
 
 NOTE: Das Installationsprogramm stellt sicher, dass Aufgaben, die bei einer vorherigen Installation abgeschlossen wurden, nicht erneut ausgeführt werden. Bei einer erneuten Installation werden alle Aufgaben, die nicht erneut ausgeführt werden müssen, mit einer grünen Statusleiste und dem Status „Übersprungen“ angezeigt.
 
-. ${post_edited_translations.segment}
+. Den Fortschritt der ersten beiden Installationsphasen überprüfen.
 +
 *1. *Gerät konfigurieren*
 
@@ -179,7 +179,7 @@ In diesem Schritt kopiert das Installationsprogramm das Basis-Betriebssystem-Ima
 
 
 
-. ${post_edited_translations.segment}
+. Den Installationsfortschritt weiterhin überwachen, bis im Konsolenfenster eine Meldung erscheint, die dazu auffordert, den Knoten mithilfe des Grid Managers zu genehmigen.
 +
 
 NOTE: Warten Sie, bis alle Knoten, die Sie in dieser Erweiterung hinzugefügt haben, zur Genehmigung bereit sind, bevor Sie zum Grid Manager gehen, um die Knoten zu genehmigen.

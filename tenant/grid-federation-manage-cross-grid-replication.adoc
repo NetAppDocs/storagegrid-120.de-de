@@ -57,7 +57,7 @@ Falls Sie sich als lokaler Benutzer nicht im Ziel-Grid des Mandanten anmelden k�
 TIP: Die Bucket-Namen und Regionen können in jedem Grid unterschiedlich sein.
 
 .. Auf der Registerkarte *Objekteinstellungen verwalten* *Objektversionierung aktivieren* auswählen.
-.. Wenn S3 Object Lock für Ihr StorageGRID System aktiviert ist, finden Sie weitere Informationen unter link:../admin/grid-federation-what-is-cross-grid-replication.html#cgr-with-ol["${post_edited_translations.segment}"].
+.. Wenn S3 Object Lock für Ihr StorageGRID System aktiviert ist, finden Sie weitere Informationen unter link:../admin/grid-federation-what-is-cross-grid-replication.html#cgr-with-ol["Grid-übergreifende Replikation mit S3 Object Lock"].
 .. *Bucket erstellen* auswählen.
 .. Wählen Sie *Fertigstellen*.
 

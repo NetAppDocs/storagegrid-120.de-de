@@ -31,7 +31,7 @@ Sie können das link:../audit/using-audit-explain-tool.html["audit-explain Tool"
 
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -140,7 +140,7 @@ NOTE: Die als „Privat“ gekennzeichneten StorageGRID API-Endpunkte können oh
 . *Ausprobieren* auswählen.
 . Im Textfeld *body* ist der Beispiel-Eintrag für *versionID* durch eine Versions-ID aus dem Revisionsprotokoll audit.log zu ersetzen, die einer fehlgeschlagenen Cross-Grid-Replikationsanforderung entspricht.
 +
-${post_edited_translations.segment}
+Achten Sie darauf, die doppelten Anführungszeichen um die Zeichenkette beizubehalten.
 
 . *Ausführen* auswählen.
 . Bestätigt wird, dass der Server-Antwortcode *204* ist, was darauf hinweist, dass das Objekt oder die Löschmarkierung als ausstehend für die gridübergreifende Replikation in das andere Grid markiert wurde.

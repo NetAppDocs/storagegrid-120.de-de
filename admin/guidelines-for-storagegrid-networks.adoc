@@ -34,7 +34,7 @@ Erforderlich. Das Grid Network wird für den gesamten internen StorageGRID Daten
 
 
 [[admin-network]]
-=== ${post_edited_translations.segment}
+=== Admin-Netzwerk
 
 Optional. Das Admin-Netzwerk wird in der Regel für die Systemadministration und -wartung verwendet. Es kann auch für den Client-Protokollzugriff verwendet werden. Das Admin-Netzwerk ist in der Regel ein privates Netzwerk und muss nicht zwischen Standorten routing-fähig sein.
 

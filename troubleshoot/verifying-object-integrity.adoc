@@ -71,7 +71,7 @@ Sie erstellen und führen jeweils einen Objektexistenzprüfungsauftrag aus. Beim
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Sie haben sichergestellt, dass die Storage Nodes, die Sie überprüfen möchten, online sind. *Nodes* auswählen, um die Tabelle der Knoten anzuzeigen. Sicherstellen, dass neben dem Node-Name der Knoten, die Sie überprüfen möchten, keine Warnsymbole erscheinen.
 * Sie haben sichergestellt, dass die folgenden Prozeduren *nicht* auf den zu überprüfenden Nodes ausgeführt werden:
 +
@@ -103,7 +103,7 @@ Sie können keine Knoten auswählen, die nicht mit dem Grid verbunden sind.
 . Wählen Sie *Weiter*.
 . Wählen Sie ein oder mehrere Volumes für jeden Node in der Liste aus. Sie können nach Volumes mithilfe der Storage-Volume-Nummer oder des Node-Namens suchen.
 +
-${post_edited_translations.segment}
+Um alle Volumes für jeden ausgewählten Knoten auszuwählen, das Kontrollkästchen *Speichervolume* in der Spaltenüberschrift aktivieren.
 
 . Wählen Sie *Weiter*.
 . Die Konsistenz für die Aufgabe auswählen.
@@ -111,8 +111,8 @@ ${post_edited_translations.segment}
 Die Konsistenz bestimmt, wie viele Kopien der Objektmetadaten für die Objektexistenzprüfung verwendet werden.
 
 +
-** ${post_edited_translations.segment}
-** ${post_edited_translations.segment}
+** *Starker Standort*: Zwei Kopien von Metadaten an einem einzigen Standort.
+** *Stark-global*: Zwei Kopien der Metadaten an jedem Standort.
 ** *Alle* (Standard): Alle drei Kopien der Metadaten an jedem Standort.
 +
 Weitere Informationen zur Konsistenz sind in den Beschreibungen im Assistenten enthalten.
@@ -150,7 +150,7 @@ Wenn die Anzahl der erkannten fehlenden Objektkopien größer als 100 ist, könn
 ** Wenn die Anzahl fehlender Objektkopien größer als null ist und die Warnung *Objects potentially lost* ausgelöst wurde, kann die Datenintegrität beeinträchtigt sein. Wenden Sie sich an den technischen Support.
 ** Sie können potenziell verlorene Objektkopien untersuchen, indem Sie mit grep die LLST-Audit-Meldungen extrahieren: `grep LLST audit_file_name`.
 +
-Dieses Verfahren ähnelt dem für link:../troubleshoot/investigating-potentially-lost-objects.html["${post_edited_translations.segment}"], obwohl Sie bei Objektkopien nach `LLST` statt nach `OLST` suchen.
+Dieses Verfahren ähnelt dem für link:../troubleshoot/investigating-potentially-lost-objects.html["Untersuchung potenziell verlorener Objekte"], obwohl Sie bei Objektkopien nach `LLST` statt nach `OLST` suchen.
 
 
 

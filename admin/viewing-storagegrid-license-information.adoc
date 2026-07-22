@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: storagegrid license, view license, licensed capacity of grid 
 summary: Sie können die Lizenzinformationen für Ihr StorageGRID System, wie die maximale Speicherkapazität Ihres Grids, jederzeit einsehen. 
 ---
-= ${post_edited_translations.segment}
+= StorageGRID Lizenzinformationen anzeigen
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
@@ -25,9 +25,9 @@ image:dashboard_health_panel_license_status.png["Dashboard Health Status Karte L
 . Die Lizenzseite ist über eine der folgenden Möglichkeiten zugänglich:
 +
 ** *Wartung* > *System* > *Lizenz* auswählen.
-** ${post_edited_translations.segment}
+** Auf der Gesundheitsstatuskarte im Dashboard das Symbol für den Lizenzstatus oder den Link *Lizenz* auswählen.
 +
-${post_edited_translations.segment}
+Dieser Link erscheint nur, wenn es ein Problem mit der Lizenz gibt.
 
 
 
@@ -36,12 +36,12 @@ ${post_edited_translations.segment}
 ** StorageGRID System-ID, die die eindeutige Identifikationsnummer für diese StorageGRID Installation ist
 ** Lizenzseriennummer
 ** Lizenztyp, entweder *Dauerlizenz* oder *Abonnement*
-** ${post_edited_translations.segment}
+** Lizenzierte Speicherkapazität des Grids
 ** Unterstützte Speicherkapazität
 ** Ablaufdatum der Lizenz. *N/A* wird für eine unbefristete Lizenz angezeigt.
 ** Support-Enddatum
 +
-Dieses Datum wird aus der aktuellen Lizenzdatei gelesen und kann veraltet sein, wenn der Support-Servicevertrag nach dem Erhalt der Lizenzdatei verlängert oder erneuert wurde. Zum Aktualisieren dieses Werts siehe link:updating-storagegrid-license-information.html["${post_edited_translations.segment}"]. Das tatsächliche Vertragsende lässt sich auch mit Active IQ anzeigen.
+Dieses Datum wird aus der aktuellen Lizenzdatei gelesen und kann veraltet sein, wenn der Support-Servicevertrag nach dem Erhalt der Lizenzdatei verlängert oder erneuert wurde. Zum Aktualisieren dieses Werts siehe link:updating-storagegrid-license-information.html["StorageGRID Lizenzinformationen aktualisieren"]. Das tatsächliche Vertragsende lässt sich auch mit Active IQ anzeigen.
 
 ** Inhalt der Lizenztextdatei
 

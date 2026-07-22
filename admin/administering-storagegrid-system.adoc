@@ -2,7 +2,7 @@
 permalink: admin/administering-storagegrid-system.html 
 sidebar: sidebar 
 keywords: administration overview 
-summary: ${post_edited_translations.segment} 
+summary: Diese Anweisungen dienen zur Konfiguration und Verwaltung eines StorageGRID Systems. 
 ---
 = Ein StorageGRID System verwalten
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Diese Anweisungen dienen zur Konfiguration und Verwaltung eines StorageGRID Systems.
 
 Diese Anleitung beschreibt die Verwendung des Grid Manager zur Einrichtung von Gruppen und Benutzern, zur Erstellung von Mandantenkonten, um S3-Clientanwendungen das Speichern und Abrufen von Objekten zu ermöglichen, zur Konfiguration und Verwaltung von StorageGRID Netzwerken, zur Konfiguration von AutoSupport, zur Verwaltung von Knoteneinstellungen und mehr.
 

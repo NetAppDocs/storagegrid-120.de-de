@@ -34,7 +34,7 @@ Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$`
 .. Wechseln Sie in das Verzeichnis, in dem sich die Revisionsprotokolle befinden.
 +
 --
-${post_edited_translations.segment}
+Das Revisionsprotokollverzeichnis und die entsprechenden Knoten hängen von Ihren Einstellungen für das Audit-Ziel ab.
 
 [cols="1a,2a"]
 |===
@@ -42,7 +42,7 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+Lokale Knoten (Standard)
  a| 
 `/var/local/log/localaudit.log`
 

@@ -46,7 +46,7 @@ link:recovering-from-admin-node-failures.html["Wiederherstellung nach Ausfällen
 
 
  a| 
-${post_edited_translations.segment}
+Gateway-Node
  a| 
 link:replacing-gateway-node.html["Wiederherstellung nach Ausfällen des Gateway Node"]
 

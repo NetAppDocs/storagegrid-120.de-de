@@ -57,8 +57,8 @@ Wenn der Endpunkt bearbeitet werden muss, um einen Fehler zu beheben, validiert 
 
 .Schritte
 . Wählen Sie den Endpunkt aus.
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Auf der Seite mit den Endpunktdetails die Option *Konfiguration* auswählen.
+. Die Endpunktkonfiguration kann bei Bedarf angepasst werden.
 . *Verbindung* > *Verbindung testen* auswählen.
 
 
@@ -72,6 +72,6 @@ Wenn StorageGRID einen Plattform-Services-Endpunkt validiert, bestätigt es, das
 .Verwandte Informationen
 * link:../admin/troubleshooting-platform-services.html["StorageGRID > Fehlerbehebung bei Plattformdiensten"]
 * link:creating-platform-services-endpoint.html["Plattform Services Endpunkt erstellen"]
-* link:testing-connection-for-platform-services-endpoint.html["${post_edited_translations.segment}"]
+* link:testing-connection-for-platform-services-endpoint.html["Testverbindung für den Plattformdienste-Endpunkt"]
 * link:editing-platform-services-endpoint.html["Plattformdienste-Endpunkt bearbeiten"]
 

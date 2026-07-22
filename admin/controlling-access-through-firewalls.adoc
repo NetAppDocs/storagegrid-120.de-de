@@ -15,21 +15,21 @@ Es besteht die Möglichkeit, bestimmte Ports an der externen Firewall zu öffnen
 
 Sie können den Zugriff auf die Benutzeroberflächen und APIs auf StorageGRID Admin Nodes steuern, indem Sie bestimmte Ports an der externen Firewall öffnen oder schließen. Beispielsweise kann verhindert werden, dass Mandanten sich über die Firewall mit dem Grid Manager verbinden, zusätzlich zu anderen Methoden zur Steuerung des Systemzugriffs.
 
-Wenn die StorageGRID interne Firewall konfiguriert werden soll, siehe link:../admin/configure-firewall-controls.html["${post_edited_translations.segment}"].
+Wenn die StorageGRID interne Firewall konfiguriert werden soll, siehe link:../admin/configure-firewall-controls.html["Interne Firewall konfigurieren"].
 
 [cols="1a,1a,2a"]
 |===
-| Port | Beschreibung | ${post_edited_translations.segment} 
+| Port | Beschreibung | Wenn der Port geöffnet ist... 
 
 
  a| 
 443
  a| 
-${post_edited_translations.segment}
+Standard-HTTPS-Port für Admin Nodes
  a| 
 Webbrowser und Management-API-Clients können auf den Grid Manager, die Grid Management API, den Tenant Manager und die Tenant Management API zugreifen.
 
-${post_edited_translations.segment}
+*Hinweis:* Port 443 wird auch für einige interne Datenübertragungen verwendet.
 
 
 
@@ -62,5 +62,5 @@ TIP: Single sign-on (SSO) ist auf den eingeschränkten Ports von Grid Manager od
 .Verwandte Informationen
 * link:signing-in-to-grid-manager.html["Anmeldung beim Grid Manager"]
 * link:creating-tenant-account.html["Mandantenkonto erstellen"]
-* link:../network/external-communications.html["${post_edited_translations.segment}"]
+* link:../network/external-communications.html["Externe Kommunikation"]
 

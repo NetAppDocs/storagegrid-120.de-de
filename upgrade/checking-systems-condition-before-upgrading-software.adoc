@@ -16,9 +16,9 @@ Vor der Aktualisierung eines StorageGRID Systems sollte überprüft werden, ob d
 .Schritte
 . Melden Sie sich beim Grid Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] an.
 . Es sollte geprüft werden, ob aktive Warnmeldungen vorliegen, und diese sollten behoben werden.
-. Siehe link:../network/internal-grid-node-communications.html["Interne Grid-Knoten-Kommunikation"] und link:../network/external-communications.html["${post_edited_translations.segment}"], um sicherzustellen, dass alle für StorageGRID 12.0 erforderlichen Ports vor dem Upgrade geöffnet sind.
+. Siehe link:../network/internal-grid-node-communications.html["Interne Grid-Knoten-Kommunikation"] und link:../network/external-communications.html["Externe Kommunikation"], um sicherzustellen, dass alle für StorageGRID 12.0 erforderlichen Ports vor dem Upgrade geöffnet sind.
 +
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Für das Upgrade auf StorageGRID 12.0 sind keine zusätzlichen Ports erforderlich.
 
 

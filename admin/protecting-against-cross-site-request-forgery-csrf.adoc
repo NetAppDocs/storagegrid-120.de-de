@@ -13,7 +13,7 @@ summary: 'Gegen Cross-Site Request Forgery (CSRF)-Angriffe auf StorageGRID kann 
 [role="lead"]
 Sie können zum Schutz vor Cross-Site-Request-Forgery-Angriffen (CSRF) auf StorageGRID beitragen, indem Sie CSRF-Token verwenden, um die Authentifizierung über Cookies zu verbessern. Der Grid Manager und der Tenant Manager aktivieren diese Sicherheitsfunktion automatisch; andere API-Clients können beim Anmelden auswählen, ob sie diese aktivieren möchten.
 
-${post_edited_translations.segment}
+Ein Angreifer, der eine Anfrage an eine andere Website auslösen kann (z. B. mit einem HTTP-Formular-POST), kann bestimmte Anfragen unter Verwendung der Cookies des angemeldeten Benutzers stellen.
 
 StorageGRID schützt vor CSRF-Angriffen durch die Verwendung von CSRF-Tokens. Wenn diese Option aktiviert ist, muss der Inhalt eines bestimmten Cookies mit dem Inhalt eines bestimmten Headers oder eines bestimmten POST-Body-Parameters übereinstimmen.
 
@@ -30,7 +30,7 @@ curl -X POST --header "Content-Type: application/json" --header "Accept: applica
 ----
 Wenn dieser Wert auf „true“ festgelegt ist, wird ein  `GridCsrfToken`-Cookie mit einem zufälligen Wert für Anmeldungen beim Grid Manager gesetzt, und das  `AccountCsrfToken`-Cookie wird mit einem zufälligen Wert für Anmeldungen beim Tenant Manager gesetzt.
 
-${post_edited_translations.segment}
+Wenn das Cookie vorhanden ist, müssen alle Anfragen, die den Zustand des Systems ändern können (POST, PUT, PATCH, DELETE), eines der folgenden enthalten:
 
 * Der `X-Csrf-Token`-Header, wobei der Wert des Headers auf den Wert des CSRF-Token-Cookies festgelegt ist.
 * Für Endpunkte, die einen formularcodierten Body akzeptieren: Ein  `csrfToken` formularcodierter Anfragekörperparameter.
@@ -39,4 +39,4 @@ ${post_edited_translations.segment}
 Zusätzliche Beispiele und Details sind in der Online-API-Dokumentation zu finden.
 
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Anfragen, für die ein CSRF-Token-Cookie gesetzt ist, erzwingen außerdem den Header "Content-Type: application/json" für jede Anfrage, die einen JSON-Anfragetext erwartet, als zusätzlichen Schutz vor CSRF-Angriffen.

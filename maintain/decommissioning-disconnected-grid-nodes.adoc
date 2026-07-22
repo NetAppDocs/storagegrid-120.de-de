@@ -54,7 +54,7 @@ NOTE: Wenn das Grid mehrere voneinander getrennte Knoten enthält, verlangt die 
 
 CAUTION: Seien Sie vorsichtig, wenn Sie mehr als einen getrennten Grid-Knoten gleichzeitig außer Betrieb nehmen, insbesondere wenn Sie mehrere getrennte Storage Nodes auswählen. Wenn Sie mehr als einen getrennten Storage Node haben, den Sie nicht wiederherstellen können, wenden Sie sich an den technischen Support, um das beste weitere Vorgehen zu klären.
 
-. ${post_edited_translations.segment}
+. Die Bereitstellungs-Passphrase eingeben.
 +
 Die Schaltfläche *Stilllegung starten* ist aktiviert.
 

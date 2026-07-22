@@ -18,18 +18,18 @@ Sobald die Speicherkapazität der Storage Nodes erreicht ist, muss das StorageGR
 [[add-storage-volumes]]
 == Speichervolumen hinzufügen
 
-Jeder Storage Node unterstützt eine maximale Anzahl an Speichervolumes. Die definierte maximale Anzahl variiert je nach Plattform. Wenn ein Storage Node weniger als die maximale Anzahl an Speichervolumes enthält, können Volumes hinzugefügt werden, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].
+Jeder Storage Node unterstützt eine maximale Anzahl an Speichervolumes. Die definierte maximale Anzahl variiert je nach Plattform. Wenn ein Storage Node weniger als die maximale Anzahl an Speichervolumes enthält, können Volumes hinzugefügt werden, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["Erweiterung eines StorageGRID Systems"].
 
 
 
 [[add-storage-expansion-shelves]]
-== ${post_edited_translations.segment}
+== Storage-Erweiterungsregale hinzufügen
 
-Einige StorageGRID Appliance-Speicherknoten, wie der SG6060 oder SG6160, können zusätzliche Speicher-Shelves unterstützen. Wenn Sie über StorageGRID Appliances mit Erweiterungsfunktionen verfügen, die noch nicht auf die maximale Kapazität erweitert wurden, können Sie Speicher-Shelves hinzufügen, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].
+Einige StorageGRID Appliance-Speicherknoten, wie der SG6060 oder SG6160, können zusätzliche Speicher-Shelves unterstützen. Wenn Sie über StorageGRID Appliances mit Erweiterungsfunktionen verfügen, die noch nicht auf die maximale Kapazität erweitert wurden, können Sie Speicher-Shelves hinzufügen, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["Erweiterung eines StorageGRID Systems"].
 
 
 
 [[add-storage-nodes]]
-== ${post_edited_translations.segment}
+== Speicherknoten hinzufügen
 
-Sie können die Speicherkapazität durch Hinzufügen von Storage Nodes erhöhen. Beim Hinzufügen von Speicher sind die aktuell aktiven ILM-Regeln und Kapazitätsanforderungen sorgfältig zu berücksichtigen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].
+Sie können die Speicherkapazität durch Hinzufügen von Storage Nodes erhöhen. Beim Hinzufügen von Speicher sind die aktuell aktiven ILM-Regeln und Kapazitätsanforderungen sorgfältig zu berücksichtigen. Siehe die Anweisungen für link:../expand/index.html["Erweiterung eines StorageGRID Systems"].

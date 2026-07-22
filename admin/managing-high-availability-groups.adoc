@@ -2,7 +2,7 @@
 permalink: admin/managing-high-availability-groups.html 
 sidebar: sidebar 
 keywords: manage high availability group, ha groups, admin node, gateway node, active interface, backup interface, priority order 
-summary: ${post_edited_translations.segment} 
+summary: 'Hochverfügbarkeitsgruppen (HA-Gruppen) bieten hochverfügbare Datenverbindungen für S3-Clients sowie hochverfügbare Verbindungen zum Grid Manager und zum Tenant Manager.' 
 ---
 = Erfahren Sie mehr über StorageGRID Hochverfügbarkeitsgruppen
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Hochverfügbarkeitsgruppen (HA-Gruppen) bieten hochverfügbare Datenverbindungen für S3-Clients sowie hochverfügbare Verbindungen zum Grid Manager und zum Tenant Manager.
 
 Sie können die Netzwerkschnittstellen mehrerer Admin- und Gateway-Knoten zu einer hochverfügbaren (HA) Gruppe zusammenfassen. Wenn die aktive Schnittstelle in der HA-Gruppe ausfällt, kann eine Backup-Schnittstelle die Arbeitslast übernehmen.
 
@@ -33,16 +33,16 @@ Jede HA-Gruppe ermöglicht den Zugriff auf die gemeinsam genutzten Dienste auf d
 NOTE: Sie können einer HA-Gruppe keine Schnittstelle hinzufügen, wenn diese über eine per DHCP zugewiesene IP-Adresse verfügt.
 
 . Sie definieren eine Schnittstelle als primäre Schnittstelle. Die primäre Schnittstelle ist die aktive Schnittstelle, es sei denn, es tritt ein Ausfall auf.
-. ${post_edited_translations.segment}
+. Die Prioritätsreihenfolge für alle Backup-Schnittstellen wird festgelegt.
 . Sie weisen der Gruppe ein bis zehn virtuelle IP-Adressen (VIP-Adressen) zu. Clientanwendungen können jede dieser VIP-Adressen verwenden, um eine Verbindung zu StorageGRID herzustellen.
 
 
-Anweisungen dazu finden Sie unter link:configure-high-availability-group.html["${post_edited_translations.segment}"].
+Anweisungen dazu finden Sie unter link:configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"].
 
 
 
 [[what-is-the-active-interface]]
-== ${post_edited_translations.segment}
+== Was ist die aktive Schnittstelle?
 
 Im Normalbetrieb werden alle VIP-Adressen der HA-Gruppe der Primary-Schnittstelle hinzugefügt, die an erster Stelle in der Prioritätsreihenfolge steht. Solange die Primary-Schnittstelle verfügbar ist, wird sie verwendet, wenn Clients eine Verbindung zu einer beliebigen VIP-Adresse der Gruppe herstellen. Das heißt, im Normalbetrieb ist die Primary-Schnittstelle die „aktive“ Schnittstelle der Gruppe.
 

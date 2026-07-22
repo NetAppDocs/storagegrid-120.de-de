@@ -21,7 +21,7 @@ Konsistenzwerte können verwendet werden, um die Verfügbarkeit von Bucket-Einst
 
 
 [[bucket-consistency-guidelines]]
-== ${post_edited_translations.segment}
+== Richtlinien zur Konsistenz von Buckets
 
 Die Bucket-Konsistenz wird verwendet, um die Konsistenz für Clientanwendungen zu bestimmen, die Objekte innerhalb dieses S3-Buckets beeinflussen. Im Allgemeinen empfiehlt sich für Ihre Buckets die Konsistenz *Read-after-new-write*.
 
@@ -57,9 +57,9 @@ Die Seite mit den Bucket-Details wird angezeigt.
 
 
 [[what-happens-when-you-change-bucket-settings]]
-== ${post_edited_translations.segment}
+== Was passiert, wenn Sie die Bucket-Einstellungen ändern
 
-${post_edited_translations.segment}
+Buckets verfügen über mehrere Einstellungen, die das Verhalten der Buckets und der darin enthaltenen Objekte beeinflussen.
 
 Die folgenden Bucket-Einstellungen verwenden standardmäßig *starke* Konsistenz. Wenn zwei oder mehr Storage Nodes innerhalb eines Standorts nicht verfügbar sind oder ein Standort nicht verfügbar ist, sind Änderungen an diesen Einstellungen möglicherweise nicht verfügbar.
 
@@ -67,7 +67,7 @@ Die folgenden Bucket-Einstellungen verwenden standardmäßig *starke* Konsistenz
 * link:enabling-or-disabling-last-access-time-updates.html["Letzte Zugriffszeit"]
 * link:../s3/create-s3-lifecycle-configuration.html["Bucket-Lebenszyklus"]
 * link:../s3/use-access-policies.html["Bucket Richtlinie"]
-* link:../s3/operations-on-buckets.html["${post_edited_translations.segment}"]
+* link:../s3/operations-on-buckets.html["Bucket Tagging"]
 * link:changing-bucket-versioning.html["Bucket Versionierung"]
 * link:using-s3-object-lock.html["S3 Object Lock"]
 * link:../admin/reviewing-storagegrid-encryption-methods.html#bucket-encryption-table["Bucket Verschlüsselung"]

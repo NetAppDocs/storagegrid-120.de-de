@@ -28,7 +28,7 @@ Y(CSTR):"hello1"][CBID(UI64):0x50C4F7AC2BC8EDF7][CSIZ(UI64):0
 ----
 Die Prüfmeldung enthält Informationen über das aufgezeichnete Ereignis sowie Informationen über die Prüfmeldung selbst.
 
-${post_edited_translations.segment}
+Zur Identifizierung des durch die Revisionsprotokollnachricht erfassten Ereignisses ist auf das Attribut ATYP (unten hervorgehoben) zu achten:
 
 [listing, subs="specialcharacters,quotes"]
 ----
@@ -41,7 +41,7 @@ Y(CSTR):"hello1"][CBID(UI64):0x50C4F7AC2BC8EDF7][CSIZ(UI64):0
 *UT*][ANID(UI32):12872812][AMID(FC32):S3RQ][ATID(UI64):1579224
 144102530435]]
 ----
-Der Wert des Attributs ATYP ist SPUT. link:sput-s3-put.html["${post_edited_translations.segment}"] steht für eine S3 PUT-Transaktion, die das Hochladen eines Objekts in einen Bucket protokolliert.
+Der Wert des Attributs ATYP ist SPUT. link:sput-s3-put.html["SPUT"] steht für eine S3 PUT-Transaktion, die das Hochladen eines Objekts in einen Bucket protokolliert.
 
 Die folgende Revisionsprotokollmeldung zeigt auch den Bucket an, dem das Objekt zugeordnet ist:
 

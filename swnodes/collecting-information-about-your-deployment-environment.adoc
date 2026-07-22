@@ -108,6 +108,6 @@ Sie benötigen die folgenden Informationen für virtuelle Maschinen-basierte Sto
 Es sind Informationen zu sammeln, um Ihr Grid zu konfigurieren:
 
 * Grid Lizenz
-* ${post_edited_translations.segment}
+* IP-Adressen von Network Time Protocol (NTP)-Servern
 * DNS-Server-IP-Adressen
 

@@ -2,7 +2,7 @@
 permalink: admin/kms-managing.html 
 sidebar: sidebar 
 keywords: manage kms, manage key management server, view kms, view key management server, edit kms, edit key management server, view encrypted nodes, remove kms, remove key management server 
-summary: ${post_edited_translations.segment} 
+summary: 'Die Verwaltung eines Key Management Servers (KMS) umfasst das Anzeigen oder Bearbeiten von Details, das Verwalten von Zertifikaten, das Anzeigen verschlüsselter Knoten und das Entfernen eines KMS, wenn er nicht mehr benötigt wird.' 
 ---
 = Verwalten eines Schlüsselverwaltungsservers in StorageGRID
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Die Verwaltung eines Key Management Servers (KMS) umfasst das Anzeigen oder Bearbeiten von Details, das Verwalten von Zertifikaten, das Anzeigen verschlüsselter Knoten und das Entfernen eines KMS, wenn er nicht mehr benötigt wird.
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
@@ -21,9 +21,9 @@ ${post_edited_translations.segment}
 
 
 [[view-kms-details]]
-== ${post_edited_translations.segment}
+== KMS-Details anzeigen
 
-${post_edited_translations.segment}
+Sie können Informationen zu jedem Key Management Server (KMS) in Ihrem StorageGRID System einsehen, einschließlich Schlüsseldetails und dem aktuellen Status der Server- und Clientzertifikate.
 
 .Schritte
 . *Konfiguration* > *Sicherheit* > *Schlüsselverwaltungsserver* auswählen.
@@ -31,8 +31,8 @@ ${post_edited_translations.segment}
 Die Seite des Schlüsselverwaltungsservers wird angezeigt und zeigt die folgenden Informationen an:
 
 +
-** ${post_edited_translations.segment}
-** ${post_edited_translations.segment}
+** Auf der Registerkarte „Konfigurationsdetails“ werden alle konfigurierten Key Management Server aufgelistet.
+** Die Registerkarte „Verschlüsselte Knoten“ listet alle Knoten auf, bei denen die Knotenverschlüsselung aktiviert ist.
 
 
 . Um die Details für einen bestimmten KMS anzuzeigen und Aktionen für diesen KMS auszuführen, wählen Sie den Namen des KMS aus. Die Detailseite für den KMS listet die folgenden Informationen auf:
@@ -47,7 +47,7 @@ Verwaltet Schlüssel für
  a| 
 Die mit dem KMS verknüpfte StorageGRID Site.
 
-${post_edited_translations.segment}
+Dieses Feld zeigt den Namen eines bestimmten StorageGRID Standorts oder *Standorte, die nicht von einem anderen KMS verwaltet werden (default KMS).* an.
 
 
 
@@ -75,21 +75,21 @@ Wichtige Details
  a| 
 Schlüsselname
  a| 
-${post_edited_translations.segment}
+Der Schlüsselalias für den StorageGRID Client im KMS.
 
 
 
  a| 
 Schlüssel-UID
  a| 
-${post_edited_translations.segment}
+Die eindeutige Kennung der neuesten Version des Schlüssels.
 
 
 
  a| 
-${post_edited_translations.segment}
+Zuletzt geändert
  a| 
-${post_edited_translations.segment}
+Datum und Uhrzeit der neuesten Version des Schlüssels.
 
 
 
@@ -98,14 +98,14 @@ Serverzertifikat
  a| 
 Metadaten
  a| 
-${post_edited_translations.segment}
+Die Metadaten des Zertifikats, wie Seriennummer, Ablaufdatum und -uhrzeit sowie das Zertifikat-PEM.
 
 
 
  a| 
 Zertifikat PEM
  a| 
-${post_edited_translations.segment}
+Der Inhalt der PEM (Privacy Enhanced Mail)-Datei für das Zertifikat.
 
 
 
@@ -114,19 +114,19 @@ Client-Zertifikat
  a| 
 Metadaten
  a| 
-${post_edited_translations.segment}
+Die Metadaten des Zertifikats, wie Seriennummer, Ablaufdatum und -uhrzeit sowie das Zertifikat-PEM.
 
 
 
  a| 
 Zertifikat PEM
  a| 
-${post_edited_translations.segment}
+Der Inhalt der PEM (Privacy Enhanced Mail)-Datei für das Zertifikat.
 
 |===
-. ${post_edited_translations.segment}
+. [[rotate-key]]So oft es die Sicherheitsvorkehrungen Ihrer Organisation erfordern, kann *Schlüssel rotieren* ausgewählt oder die KMS-Software verwendet werden, um eine neue Version des Schlüssels zu erstellen.
 +
-${post_edited_translations.segment}
+Wenn die Schlüsselrotation erfolgreich ist, werden die Felder „Key UID“ und „Last modified“ aktualisiert.
 
 +
 [CAUTION]
@@ -146,20 +146,20 @@ Versuchen Sie niemals, einen Schlüssel zu rotieren, indem Sie den Schlüsselnam
 Alle Probleme mit Server- oder Clientzertifikaten sollten umgehend behoben werden. Zertifikate sollten nach Möglichkeit vor deren Ablauf ersetzt werden.
 
 
-CAUTION: ${post_edited_translations.segment}
+CAUTION: Etwaige Zertifikatsprobleme sollten so schnell wie möglich behoben werden, um den Datenzugriff aufrechtzuerhalten.
 
 .Schritte
 . *Konfiguration* > *Sicherheit* > *Schlüsselverwaltungsserver* auswählen.
-. ${post_edited_translations.segment}
+. In der Tabelle ist der Wert für das Ablaufdatum des Zertifikats für jeden KMS zu sehen.
 . Wenn das Ablaufdatum eines Zertifikats für ein KMS unbekannt ist, bis zu 30 Minuten abwarten und anschließend den Webbrowser aktualisieren.
 . Wenn in der Spalte „Zertifikatablauf“ angezeigt wird, dass ein Zertifikat abgelaufen ist oder demnächst abläuft, kann der KMS ausgewählt werden, um zur KMS-Detailseite zu gelangen.
 +
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Server certificate* auswählen und den Wert im Feld „Expires on“ überprüfen.
+.. Zum Ersetzen des Zertifikats *Zertifikat bearbeiten* auswählen und ein neues Zertifikat hochladen.
+.. Diese Teilschritte werden wiederholt, wobei *Client certificate* anstelle von Server certificate ausgewählt wird.
 
 
-. ${post_edited_translations.segment}
+. Wenn die Warnmeldungen *Ablauf des KMS-CA-Zertifikats*, *Ablauf des KMS-Clientzertifikats* und *Ablauf des KMS-Serverzertifikats* ausgelöst werden, ist die Beschreibung der jeweiligen Warnmeldung zu beachten und die empfohlenen Maßnahmen sind durchzuführen.
 +
 Es kann bis zu 30 Minuten dauern, bis StorageGRID die Aktualisierungen zum Ablaufdatum des Zertifikats erhält. Durch Aktualisieren des Webbrowsers werden die aktuellen Werte angezeigt.
 
@@ -219,7 +219,7 @@ Der beschreibende Name des für den Node verwendeten KMS.
 
 Falls kein KMS aufgeführt ist, kann auf der Registerkarte „Konfigurationsdetails“ ein KMS hinzugefügt werden.
 
-link:kms-adding.html["${post_edited_translations.segment}"]
+link:kms-adding.html["Einen Schlüsselverwaltungsserver (KMS) hinzufügen"]
 
 
 
@@ -360,7 +360,7 @@ CAUTION: Durch Auswahl von *Speichern erzwingen* wird die KMS-Konfiguration gesp
 +
 Die KMS Konfiguration ist gespeichert.
 
-. ${post_edited_translations.segment}
+. Die Bestätigungswarnung sollte geprüft werden, und *OK* ist auszuwählen, wenn das Speichern der Konfiguration erzwungen werden soll.
 +
 Die KMS-Konfiguration ist gespeichert, aber die Verbindung zum KMS wird nicht getestet.
 

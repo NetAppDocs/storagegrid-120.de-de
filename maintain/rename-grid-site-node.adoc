@@ -15,7 +15,7 @@ Mit diesem Verfahren können die Anzeigenamen für Ihr Grid, Ihre Standorte und 
 
 .Bevor Sie beginnen
 * Von jedem Admin-Knoten aus sind Sie mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] Konto im Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Sie besitzen die Bereitstellungspassphrase.
 * Sie kennen die Anforderungen und Best Practices für Anzeigenamen. Siehe link:../maintain/rename-grid-site-node-overview.html["Grid, Standorte und Knoten umbenennen"].
 
@@ -170,7 +170,7 @@ Es wird eine Erfolgsmeldung angezeigt. Die neuen Anzeigenamen werden nun im gesa
 Nachdem Sie die Elemente umbenannt haben, ein neues Wiederherstellungspaket herunterladen und speichern. Die neuen Anzeigenamen der umbenannten Elemente sind in der  `Passwords.txt` Datei enthalten.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Die Bereitstellungs-Passphrase eingeben.
 . *Wiederherstellungspaket herunterladen* auswählen.
 +
 Der Download startet sofort.

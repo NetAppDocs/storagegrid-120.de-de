@@ -24,7 +24,7 @@ Standardmäßig ist die Objektkomprimierung deaktiviert. Wenn Sie die Komprimier
 
 NOTE: Wenn diese Einstellung geändert wird, dauert es etwa eine Minute, bis die neue Einstellung wirksam wird. Der konfigurierte Wert wird aus Performance- und Skalierungsgründen zwischengespeichert.
 
-${post_edited_translations.segment}
+Vor der Aktivierung der Objektkomprimierung ist Folgendes zu beachten:
 
 * Die Option *Gespeicherte Objekte komprimieren* sollte nur ausgewählt werden, wenn bekannt ist, dass die gespeicherten Daten komprimierbar sind.
 * Anwendungen, die Objekte in StorageGRID speichern, komprimieren Objekte möglicherweise vor dem Speichern. Wenn eine Client-Anwendung ein Objekt bereits vor dem Speichern in StorageGRID komprimiert hat, wird die Auswahl dieser Option die Größe des Objekts nicht weiter reduzieren.

@@ -21,7 +21,7 @@ Sie können lokale und föderierte Benutzer anzeigen. Sie können auch lokale Be
 
 
 [[create-a-local-user]]
-== ${post_edited_translations.segment}
+== Einen lokalen Benutzer erstellen
 
 Sie können einen oder mehrere lokale Benutzer anlegen und jeden Benutzer einer oder mehreren lokalen Gruppen zuweisen. Die Berechtigungen der Gruppe steuern, auf welche Funktionen des Grid Manager und der Grid Management API der Benutzer zugreifen kann.
 
@@ -30,7 +30,7 @@ Es können nur lokale Benutzer erstellt werden. Die externe Identitätsquelle di
 Der Grid Manager enthält einen vordefinierten lokalen Benutzer namens „root“. Sie können den Root-Benutzer nicht entfernen.
 
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Wenn Single Sign-On (SSO) aktiviert ist, können sich lokale Benutzer nicht bei StorageGRID anmelden.
 
 
 
@@ -38,18 +38,18 @@ NOTE: ${post_edited_translations.segment}
 === Assistenten aufrufen
 
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. *Konfiguration* > *Zugriffskontrolle* > *Administratorbenutzer* auswählen.
+. *Benutzer erstellen* auswählen.
 
 
 
 
 [[enter-user-credentials]]
-=== ${post_edited_translations.segment}
+=== Benutzerdaten eingeben
 
 .Schritte
 . Den vollständigen Namen des Benutzers, einen eindeutigen Benutzernamen und ein Passwort eingeben.
-. ${post_edited_translations.segment}
+. Optional *Ja* auswählen, wenn dieser Benutzer keinen Zugriff auf den Grid Manager oder die Grid Management API haben soll.
 . Wählen Sie *Weiter*.
 
 
@@ -64,9 +64,9 @@ NOTE: ${post_edited_translations.segment}
 Wenn Sie noch keine Gruppen erstellt haben, können Sie den Benutzer speichern, ohne Gruppen auszuwählen. Dieser Benutzer kann auf der Seite „Gruppen“ einer Gruppe hinzugefügt werden.
 
 +
-Wenn ein Benutzer mehreren Gruppen angehört, sind die Berechtigungen kumulativ. Siehe link:managing-admin-groups.html["${post_edited_translations.segment}"] für Details.
+Wenn ein Benutzer mehreren Gruppen angehört, sind die Berechtigungen kumulativ. Siehe link:managing-admin-groups.html["Administratorgruppen verwalten"] für Details.
 
-. ${post_edited_translations.segment}
+. *Benutzer erstellen* und anschließend *Fertigstellen* auswählen.
 
 
 
@@ -97,7 +97,7 @@ NOTE: Lokale Benutzer können ihre eigenen Passwörter über die Option *Passwor
 Benutzerdetails
  a| 
 .. Das Kontrollkästchen für den Benutzer auswählen.
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Benutzerdetails anzeigen* auswählen.
 
  a| 
 Der Name des Benutzers in der Tabelle wird ausgewählt.
@@ -108,7 +108,7 @@ Der Name des Benutzers in der Tabelle wird ausgewählt.
 Vollständigen Namen bearbeiten (nur lokale Benutzer)
  a| 
 .. Das Kontrollkästchen für den Benutzer auswählen.
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Vollständigen Namen bearbeiten* auswählen.
 .. Geben Sie den neuen Namen ein.
 .. Wählen Sie *Save changes*.
 
@@ -122,18 +122,18 @@ Vollständigen Namen bearbeiten (nur lokale Benutzer)
 
 
  a| 
-${post_edited_translations.segment}
+StorageGRID Zugriff verweigern oder zulassen
  a| 
 .. Das Kontrollkästchen für den Benutzer auswählen.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Benutzerdetails anzeigen* auswählen.
+.. Die Registerkarte „Zugriff“ auswählen.
+.. *Ja* auswählen, um zu verhindern, dass sich der Benutzer beim Grid Manager oder der Grid Management API anmeldet, oder *Nein* auswählen, um dem Benutzer die Anmeldung zu erlauben.
 .. Wählen Sie *Save changes*.
 
  a| 
 .. Der Name des Benutzers kann ausgewählt werden, um die Details anzuzeigen.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. Die Registerkarte „Zugriff“ auswählen.
+.. *Ja* auswählen, um zu verhindern, dass sich der Benutzer beim Grid Manager oder der Grid Management API anmeldet, oder *Nein* auswählen, um dem Benutzer die Anmeldung zu erlauben.
 .. Wählen Sie *Save changes*.
 
 
@@ -143,15 +143,15 @@ ${post_edited_translations.segment}
 Passwort ändern (nur für lokale Benutzer)
  a| 
 .. Das Kontrollkästchen für den Benutzer auswählen.
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Benutzerdetails anzeigen* auswählen.
 .. Die Registerkarte „Passwort“ auswählen.
-.. ${post_edited_translations.segment}
+.. Geben Sie ein neues Passwort ein.
 .. *Passwort ändern* auswählen.
 
  a| 
 .. Der Name des Benutzers kann ausgewählt werden, um die Details anzuzeigen.
 .. Die Registerkarte „Passwort“ auswählen.
-.. ${post_edited_translations.segment}
+.. Geben Sie ein neues Passwort ein.
 .. *Passwort ändern* auswählen.
 
 
@@ -161,16 +161,16 @@ Passwort ändern (nur für lokale Benutzer)
 Gruppen ändern (nur lokale Benutzer)
  a| 
 .. Das Kontrollkästchen für den Benutzer auswählen.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Benutzerdetails anzeigen* auswählen.
+.. Die Registerkarte „Gruppen“ auswählen.
+.. Optional kann der Link nach einem Gruppennamen ausgewählt werden, um die Details der Gruppe in einem neuen Browser-Tab anzuzeigen.
 .. *Gruppen bearbeiten* auswählen, um andere Gruppen auszuwählen.
 .. Wählen Sie *Save changes*.
 
  a| 
 .. Der Name des Benutzers kann ausgewählt werden, um die Details anzuzeigen.
-.. ${post_edited_translations.segment}
-.. ${post_edited_translations.segment}
+.. Die Registerkarte „Gruppen“ auswählen.
+.. Optional kann der Link nach einem Gruppennamen ausgewählt werden, um die Details der Gruppe in einem neuen Browser-Tab anzuzeigen.
 .. *Gruppen bearbeiten* auswählen, um andere Gruppen auszuwählen.
 .. Wählen Sie *Save changes*.
 
@@ -181,20 +181,20 @@ Gruppen ändern (nur lokale Benutzer)
 
 
 [[import-federated-users]]
-== ${post_edited_translations.segment}
+== Import von Verbundbenutzern
 
-${post_edited_translations.segment}
+Es ist möglich, einen oder mehrere Verbundbenutzer, bis zu maximal 100 Benutzer, direkt auf die Benutzerseite zu importieren.
 
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. *Konfiguration* > *Zugriffskontrolle* > *Administratorbenutzer* auswählen.
+. *Verbundbenutzer importieren* auswählen.
 . Die UUID oder der Benutzername für einen oder mehrere Verbundbenutzer wird eingegeben.
 +
-${post_edited_translations.segment}
+Bei mehreren Einträgen jede UUID oder jeden Benutzernamen in einer neuen Zeile hinzufügen.
 
 . *Importieren* auswählen.
 +
-${post_edited_translations.segment}
+Falls der Import in das Feld „Benutzer“ für einen oder mehrere Benutzer fehlschlägt, sind die folgenden Schritte auszuführen:
 
 +
 .. *Nicht importierte Benutzer* erweitern und *Benutzer kopieren* auswählen.
@@ -202,7 +202,7 @@ ${post_edited_translations.segment}
 
 
 +
-${post_edited_translations.segment}
+Nach dem Schließen des Dialogfelds *Verbundbenutzer importieren* werden die Informationen zu den erfolgreich importierten Verbundbenutzern auf der Seite „Benutzer“ angezeigt.
 
 
 
@@ -211,7 +211,7 @@ ${post_edited_translations.segment}
 [[duplicate-a-user]]
 == Einen Benutzer duplizieren
 
-${post_edited_translations.segment}
+Sie können einen bestehenden Benutzer duplizieren, um einen neuen Benutzer mit denselben Berechtigungen zu erstellen.
 
 .Schritte
 . Das Kontrollkästchen für den Benutzer auswählen.
@@ -231,6 +231,6 @@ NOTE: Der Root-Benutzer kann nicht gelöscht werden.
 
 .Schritte
 . Auf der Seite „Benutzer“ das Kontrollkästchen für jeden Benutzer auswählen, der entfernt werden soll.
-. ${post_edited_translations.segment}
+. *Aktionen* > *Benutzer löschen* auswählen.
 . *Benutzer löschen* auswählen.
 

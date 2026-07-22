@@ -25,7 +25,7 @@ NOTE: Da der Suchintegrationsdienst das Senden von Objektmetadaten an ein Ziel v
 
 
 [[search-integration-and-s3-buckets]]
-== ${post_edited_translations.segment}
+== Suchintegration und S3 Buckets
 
 Sie können den Suchintegrationsdienst für jeden versionierten oder nicht versionierten Bucket aktivieren. Die Suchintegration wird konfiguriert, indem dem Bucket eine XML-Konfiguration für Metadatenbenachrichtigungen zugewiesen wird, die angibt, auf welche Objekte sich die Aktion bezieht und wohin die Objektmetadaten gesendet werden.
 
@@ -39,7 +39,7 @@ NOTE: Für Tags und Benutzermetadaten übergibt StorageGRID Datums- und Zahlenwe
 [[search-notifications]]
 == Suchbenachrichtigungen
 
-${post_edited_translations.segment}
+Metadatenbenachrichtigungen werden generiert und zur Zustellung in eine Warteschlange eingereiht, wenn:
 
 * Ein Objekt wird erstellt.
 * Ein Objekt wird gelöscht, auch wenn Objekte als Ergebnis der Ausführung der ILM-Richtlinie des Grids gelöscht werden.

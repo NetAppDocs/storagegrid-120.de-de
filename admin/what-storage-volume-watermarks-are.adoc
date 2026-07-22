@@ -2,7 +2,7 @@
 permalink: admin/what-storage-volume-watermarks-are.html 
 sidebar: sidebar 
 keywords: what are storage volume watermarks, storage volume soft read-only watermark, storage volume hard read-only watermark, storage volume read-write watermark 
-summary: ${post_edited_translations.segment} 
+summary: StorageGRID verwendet drei Speicher-Volumen-Wasserzeichen, um sicherzustellen, dass Speicherknoten sicher in einen schreibgeschützten Zustand überführt werden, bevor ihr Speicherplatz kritisch knapp wird, und um Speicherknoten, die in einen schreibgeschützten Zustand überführt wurden, wieder in einen Schreib-Lese-Zustand zu versetzen. 
 ---
 = Erfahren Sie mehr über Speicher-Volume-Wasserzeichen in StorageGRID
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+StorageGRID verwendet drei Speicher-Volumen-Wasserzeichen, um sicherzustellen, dass Speicherknoten sicher in einen schreibgeschützten Zustand überführt werden, bevor ihr Speicherplatz kritisch knapp wird, und um Speicherknoten, die in einen schreibgeschützten Zustand überführt wurden, wieder in einen Schreib-Lese-Zustand zu versetzen.
 
 image:storage_volume_watermarks.png["Speichervolumen Wasserzeichen"]
 
@@ -32,7 +32,7 @@ Angenommen, jedes Volume in einem Storage Node hat eine weiche schreibgeschützt
 
 
 [[what-is-the-hard-read-only-watermark]]
-== ${post_edited_translations.segment}
+== Was ist das Hard Read-Only-Wasserzeichen?
 
 Das *Speichervolumen Hard Read-Only Watermark* ist das nächste Watermark, das anzeigt, dass der nutzbare Speicherplatz eines Knotens für Objektdaten fast voll ist.
 
@@ -45,7 +45,7 @@ Das harte schreibgeschützte Wasserzeichen ist immer kleiner als das weiche schr
 
 
 [[what-is-the-read-write-watermark]]
-== ${post_edited_translations.segment}
+== Was ist das Lese-/Schreib-Wasserzeichen?
 
 Die *Speichervolumen Lese-/Schreibgrenze* gilt nur für Storage Nodes, die in den Nur-Lese-Modus gewechselt haben. Sie legt fest, wann der Node wieder in den Lese-/Schreibmodus wechseln kann. Wenn der freie Speicherplatz auf einem Speichervolumen eines Storage Nodes größer als die Lese-/Schreibgrenze dieses Volumens ist, wechselt der Node automatisch zurück in den Lese-/Schreibmodus.
 
@@ -56,12 +56,12 @@ Das Lese-/Schreibwasserzeichen ist immer größer als sowohl das weiche Lesewass
 
 
 [[view-storage-volume-watermarks]]
-== ${post_edited_translations.segment}
+== Speichervolumen-Wasserzeichen anzeigen
 
 Sie können die aktuellen Watermark-Einstellungen und die systemoptimierten Werte anzeigen. Wenn keine optimierten Watermarks verwendet werden, können Sie feststellen, ob Sie die Einstellungen anpassen können oder sollten.
 
 .Bevor Sie beginnen
-* ${post_edited_translations.segment}
+* Sie haben das Upgrade auf StorageGRID 11.6 oder höher abgeschlossen.
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
 
@@ -74,16 +74,16 @@ Sie können die aktuellen Watermark-Einstellungen und die systemoptimierten Wert
 Die aktuellen Einstellungen für das Speicherwasserzeichen sind im Grid Manager einsehbar.
 
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. *Support* > *Sonstige* > *Speicherwasserzeichen* auswählen.
+. Auf der Seite „Speicherwasserzeichen“ befindet sich das Kontrollkästchen „Optimierte Werte verwenden“.
 +
-** ${post_edited_translations.segment}
+** Wenn das Kontrollkästchen aktiviert ist, werden alle drei Wasserzeichen für jedes Speichervolumen auf jedem Storage Node optimiert, basierend auf der Größe des Storage Node und der relativen Kapazität des Volumens.
 +
 Dies ist die standardmäßige und empfohlene Einstellung. Diese Werte sollten nicht aktualisiert werden. Optional können Sie <<view-optimized-storage-watermarks,Optimierte Speicherwasserzeichen anzeigen>>.
 
 ** Wenn das Kontrollkästchen „Optimierte Werte verwenden“ deaktiviert ist, werden benutzerdefinierte (nicht optimierte) Wasserzeichen verwendet. Die Verwendung benutzerdefinierter Wasserzeicheneinstellungen wird nicht empfohlen. Die Anweisungen für link:../troubleshoot/troubleshoot-low-watermark-alert.html["Fehlerbehebung bei Warnmeldungen zur Überschreibung des Low read-only watermark"] geben Aufschluss darüber, ob eine Anpassung der Einstellungen möglich oder sinnvoll ist.
 +
-${post_edited_translations.segment}
+Wenn Sie benutzerdefinierte Wasserzeicheneinstellungen festlegen, müssen Werte größer als 0 eingegeben werden.
 
 
 
@@ -98,7 +98,7 @@ StorageGRID verwendet zwei Prometheus-Metriken, um die optimierten Werte anzuzei
 
 . *Support* > *Tools* > *Metrics* auswählen.
 . Im Abschnitt Prometheus den Link auswählen, um auf die Prometheus Benutzeroberfläche zuzugreifen.
-. ${post_edited_translations.segment}
+. Das empfohlene minimale Soft-Read-Only-Watermark kann angezeigt werden, indem die folgende Prometheus-Metrik eingegeben und *Ausführen* ausgewählt wird:
 +
 `storagegrid_storage_volume_minimum_optimized_soft_readonly_watermark`
 

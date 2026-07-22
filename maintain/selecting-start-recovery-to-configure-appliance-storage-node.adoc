@@ -15,7 +15,7 @@ Im Grid Manager ist die Option „Wiederherstellung starten“ auszuwählen, um 
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Sie besitzen die Bereitstellungspassphrase.
 * Sie haben einen Recovery Appliance Storage Node bereitgestellt.
 * Sie haben das Startdatum aller Reparaturaufträge für erasure-coded Daten.

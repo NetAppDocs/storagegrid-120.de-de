@@ -13,7 +13,7 @@ summary: Der primäre Admin-Node bietet mehr Funktionalität als nicht-primäre 
 [role="lead"]
 Der primäre Admin-Node bietet mehr Funktionalität als nicht-primäre Admin-Nodes. Beispielsweise müssen einige Wartungsverfahren über den primären Admin-Node durchgeführt werden.
 
-Weitere Informationen zu Admin Nodes finden sich unter link:../primer/what-admin-node-is.html["${post_edited_translations.segment}"].
+Weitere Informationen zu Admin Nodes finden sich unter link:../primer/what-admin-node-is.html["Was ist ein Admin Node"].
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.

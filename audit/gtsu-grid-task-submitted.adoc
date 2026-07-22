@@ -2,7 +2,7 @@
 permalink: audit/gtsu-grid-task-submitted.html 
 sidebar: sidebar 
 keywords: storagegrid, audit, message, GTSU, Grid Task Submitted 
-summary: ${post_edited_translations.segment} 
+summary: Diese Revisionsprotokollmeldung zeigt an, dass eine Grid-Aufgabe an den CMN-Dienst übermittelt wurde. 
 ---
 = GTSU-Revisionsprotokollmeldung für übermittelte Grid-Aufgaben in StorageGRID
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Diese Revisionsprotokollmeldung zeigt an, dass eine Grid-Aufgabe an den CMN-Dienst übermittelt wurde.
 
 [cols="1a,1a,4a"]
 |===
@@ -30,11 +30,11 @@ Identifiziert eine generierte Grid-Aufgabe eindeutig und ermöglicht die Verwalt
 
 
  a| 
-${post_edited_translations.segment}
+TTYP
  a| 
-${post_edited_translations.segment}
+Aufgabentyp
  a| 
-${post_edited_translations.segment}
+Der Typ der Grid-Aufgabe.
 
 
 
@@ -43,7 +43,7 @@ TVER
  a| 
 Aufgabenversion
  a| 
-${post_edited_translations.segment}
+Eine Zahl, die die Version der Grid-Aufgabe angibt.
 
 
 
@@ -57,7 +57,7 @@ Eine für Menschen lesbare Beschreibung der Grid-Aufgabe.
 
 
  a| 
-${post_edited_translations.segment}
+VATS
  a| 
 Gültig ab Zeitstempel
  a| 
@@ -66,9 +66,9 @@ Der früheste Zeitpunkt (UINT64 Mikrosekunden ab dem 1. Januar 1970 - UNIX-Zeit)
 
 
  a| 
-${post_edited_translations.segment}
+VBTS
  a| 
-${post_edited_translations.segment}
+Gültig-vor-Zeitstempel
  a| 
 Der späteste Zeitpunkt (UINT64 Mikrosekunden seit dem 1. Januar 1970 - UNIX-Zeit), zu dem die Grid-Aufgabe gültig ist.
 
@@ -79,7 +79,7 @@ TSRC
  a| 
 Quelle
  a| 
-${post_edited_translations.segment}
+Die Quelle der Aufgabe:
 
 * TXTB: Die Grid-Aufgabe wurde über das StorageGRID System als signierter Textblock übermittelt.
 * GRID: Die Grid-Aufgabe wurde über den internen Grid Task Submission Service übermittelt.
@@ -88,13 +88,13 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+ACTV
  a| 
-${post_edited_translations.segment}
+Aktivierungstyp
  a| 
 Die Art der Aktivierung:
 
-* ${post_edited_translations.segment}
+* AUTO: Die Grid-Aufgabe wurde zur automatischen Aktivierung eingereicht.
 * PEND: Die Grid-Task wurde in die Pending-Tabelle aufgenommen. Dies ist die einzige Möglichkeit für die TXTB-Quelle.
 
 
@@ -108,7 +108,7 @@ Ergebnis
 Das Ergebnis der Einreichung:
 
 * SUCS: Die Grid-Aufgabe wurde erfolgreich übermittelt.
-* ${post_edited_translations.segment}
+* FEHLGESCHLAGEN: Die Aufgabe wurde direkt in die Historientabelle verschoben.
 
 
 |===

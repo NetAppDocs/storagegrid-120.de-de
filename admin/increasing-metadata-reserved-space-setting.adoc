@@ -19,7 +19,7 @@ Möglicherweise kann die Systemeinstellung „Metadata Reserved Space“ erhöht
 
 
 .Über diese Aufgabe
-${post_edited_translations.segment}
+Möglicherweise lässt sich die systemweite Einstellung für den reservierten Metadatenspeicherplatz manuell auf bis zu 8 TB erhöhen.
 
 Sie können den Wert der systemweiten Einstellung „Reservierter Metadatenspeicher“ nur dann erhöhen, wenn beide folgenden Aussagen zutreffen:
 
@@ -37,7 +37,7 @@ Eine detaillierte Erklärung dazu, wie sich die Einstellung „Reservierter Meta
 .Schritte
 . Die aktuelle Einstellung für den reservierten Metadatenbereich feststellen.
 +
-.. ${post_edited_translations.segment}
+.. *Konfiguration* > *System* > *Speichereinstellungen* auswählen.
 .. Der Wert von *Reservierter Metadatenbereich* ist zu beachten.
 
 
@@ -49,7 +49,7 @@ Eine detaillierte Erklärung dazu, wie sich die Einstellung „Reservierter Meta
 .. Im Abschnitt Volumes befindet sich der Eintrag */var/local/rangedb/0*.
 .. Bestätigen Sie, dass der verfügbare Wert gleich oder größer ist als die Differenz zwischen dem neuen Wert, den Sie verwenden möchten, und dem aktuellen Wert des reservierten Metadatenspeichers.
 +
-${post_edited_translations.segment}
+Wenn beispielsweise die Einstellung „Reservierter Metadatenspeicher“ derzeit 4 TB beträgt und sie auf 6 TB erhöht werden soll, muss der Wert „Verfügbar“ mindestens 2 TB betragen.
 
 .. Wiederholen Sie diese Schritte für alle Storage Nodes.
 +
@@ -75,7 +75,7 @@ ${post_edited_translations.segment}
 
 . Die Einstellung „Reservierter Metadatenbereich“ wird aktualisiert.
 +
-.. ${post_edited_translations.segment}
+.. *Konfiguration* > *System* > *Speichereinstellungen* auswählen.
 .. *Reservierter Metadatenbereich* auswählen.
 .. Geben Sie den neuen Wert ein.
 +

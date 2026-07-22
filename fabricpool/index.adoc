@@ -30,7 +30,7 @@ Diese Anweisungen dienen dazu:
 * Entscheiden Sie, welche FabricPool Volume-Tiering-Richtlinie für die Tiering von inaktiven ONTAP Daten zu StorageGRID verwendet wird.
 * Ein StorageGRID System wird geplant und installiert, um den Anforderungen an Speicherkapazität und Performance zu entsprechen.
 * Mit der StorageGRID Systemsoftware vertraut machen, einschließlich der link:../primer/exploring-grid-manager.html["Grid Manager"] und der link:../primer/exploring-tenant-manager.html["Tenant Manager"].
-* Die FabricPool Best Practices für link:best-practices-for-high-availability-groups.html["HA-Gruppen"], link:best-practices-for-load-balancing.html["${post_edited_translations.segment}"], link:best-practices-ilm.html["ILM"] und link:other-best-practices-for-storagegrid-and-fabricpool.html["mehr"] werden dargestellt.
+* Die FabricPool Best Practices für link:best-practices-for-high-availability-groups.html["HA-Gruppen"], link:best-practices-for-load-balancing.html["Lastverteilung"], link:best-practices-ilm.html["ILM"] und link:other-best-practices-for-storagegrid-and-fabricpool.html["mehr"] werden dargestellt.
 * Diese zusätzlichen Ressourcen bieten Einzelheiten zur Verwendung und Konfiguration von ONTAP und FabricPool:
 +
 https://www.netapp.com/pdf.html?item=/media/17239-tr4598pdf.pdf["TR-4598: FabricPool Best Practices in ONTAP"^]
@@ -55,7 +55,7 @@ Optional kann link:../admin/using-identity-federation.html["Identitätsföderati
 
 .image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Drei"]StorageGRID-Einstellungen konfigurieren
 [role="quick-margin-para"]
-${post_edited_translations.segment}
+StorageGRID kann verwendet werden, um die Werte zu erhalten, die ONTAP für die Verbindung zum Grid benötigt.
 
 [role="quick-margin-para"]
 Die Verwendung des link:use-fabricpool-setup-wizard.html["FabricPool Einrichtungsassistent"] ist die empfohlene und schnellste Methode, um alle Elemente zu konfigurieren, aber es besteht auch die Möglichkeit, jede Entität bei Bedarf manuell zu konfigurieren.
@@ -77,7 +77,7 @@ FabricPool ist eine ONTAP Hybrid-Speicherlösung, die ein leistungsstarkes Flash
 
 FabricPool verknüpft eine Cloud-Ebene (einen externen Objektspeicher wie StorageGRID) mit einer lokalen Ebene (einem ONTAP Storage-Aggregat), um eine zusammengesetzte Sammlung von Datenträgern zu erstellen. Volumes innerhalb der FabricPool können dann die Vorteile des Tierings nutzen, indem aktive (heiße) Daten auf Hochleistungsspeicher (der lokalen Ebene) gehalten und inaktive (kalte) Daten auf den externen Objektspeicher (die Cloud-Ebene) ausgelagert werden.
 
-${post_edited_translations.segment}
+Es sind keine architektonischen Änderungen erforderlich, und die Verwaltung Ihrer Daten und Applikationsumgebung kann weiterhin über das zentrale ONTAP Speichersystem erfolgen.
 
 
 

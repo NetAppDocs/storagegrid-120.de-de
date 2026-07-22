@@ -20,7 +20,7 @@ Sie können den Benutzerzugriff auf einen S3-Bucket und die darin enthaltenen Ob
 
 
 .Schritte
-. ${post_edited_translations.segment}
+. *Buckets* auswählen und dann den Bucket auswählen, der verwaltet werden soll.
 . Auf der Bucket-Detailseite *Bucket access* > *Bucket policy* auswählen.
 . Führen Sie einen der folgenden Schritte aus:
 +

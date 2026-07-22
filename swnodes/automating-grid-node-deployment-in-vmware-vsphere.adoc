@@ -457,7 +457,7 @@ STORAGE_TYPE = data
 ----
 
 
-.${post_edited_translations.segment}
+.Gateway-Node
 Für Gateway-Nodes ist folgende zusätzliche Einstellung erforderlich:
 
 * *NODE_TYPE*: VM_API_Gateway
@@ -603,12 +603,12 @@ Python Skript zur Automatisierung der Konfiguration
 
 
 
-| ${post_edited_translations.segment}  a| 
-${post_edited_translations.segment}
+| configure-storagegrid.sample.json  a| 
+Beispiel-Konfigurationsdatei zur Verwendung mit dem Skript
 
 
 
-| ${post_edited_translations.segment}  a| 
+| configure-storagegrid.blank.json  a| 
 Leere Konfigurationsdatei zur Verwendung mit dem Skript
 
 |===
@@ -625,7 +625,7 @@ Sie können das  `configure-storagegrid.py` Python-Skript und die  `configure-st
 NOTE: Das System kann auch über den Grid Manager oder die Installation API konfiguriert werden.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Melden Sie sich an dem Linux-Rechner an, den Sie zum Ausführen des Python-Skripts verwenden.
 . Wechseln Sie in das Verzeichnis, in dem Sie das Installationsarchiv entpackt haben.
 +
 Beispiel:
@@ -638,7 +638,7 @@ cd StorageGRID-Webscale-version/platform
 +
 wobei  `platform` debs, rpms oder vsphere ist.
 
-. ${post_edited_translations.segment}
+. Das Python-Skript ausführen und die erstellte Konfigurationsdatei verwenden.
 +
 Beispiel:
 
@@ -666,7 +666,7 @@ Wenn Sie festgelegt haben, dass zufällige Passwörter generiert werden sollen, 
 #####                 StorageGRID node recovery.                 #####
 ######################################################################
 ----
-${post_edited_translations.segment}
+Ihr StorageGRID System ist installiert und konfiguriert, wenn eine Bestätigungsmeldung angezeigt wird.
 
 [listing]
 ----

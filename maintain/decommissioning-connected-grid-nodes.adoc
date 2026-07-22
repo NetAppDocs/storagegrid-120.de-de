@@ -86,7 +86,7 @@ Wenn ein Knoten außer Betrieb genommen wird, werden seine Dienste deaktiviert u
 
 .Schritte
 . Auf der Seite „Knoten außer Betrieb nehmen“ das Kontrollkästchen für jeden Grid-Node auswählen, der außer Betrieb genommen werden soll.
-. ${post_edited_translations.segment}
+. Die Bereitstellungs-Passphrase eingeben.
 +
 Die Schaltfläche *Stilllegung starten* ist aktiviert.
 

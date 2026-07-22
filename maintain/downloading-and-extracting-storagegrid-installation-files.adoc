@@ -60,7 +60,7 @@ VMware
 . Die Archivdatei wird heruntergeladen und extrahiert.
 . Wählen Sie entsprechend Ihrer Plattform und den Grid-Knoten, die wiederhergestellt werden sollen, die benötigten Dateien aus.
 +
-${post_edited_translations.segment}
+Die in den einzelnen Schritten für jede Plattform aufgeführten Pfade sind relativ zum obersten Verzeichnis, das durch die Archivdatei installiert wurde.
 
 . Wenn Sie eine link:../swnodes/index.html["softwarebasierter Knoten"] wiederherstellen, wählen Sie die entsprechenden Dateien aus:
 +
@@ -126,17 +126,17 @@ Beispiel einer Ansible-Rolle und eines Playbooks zur Konfiguration von RHEL-Host
 
 
 
-| ${post_edited_translations.segment}  a| 
-${post_edited_translations.segment}
+| ./rpms/storagegrid-ssoauth-azure.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./rpms/storagegrid-ssoauth-azure.js  a| 
 Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./rpms/extras/api-schemas  a| 
 API-Schemas für StorageGRID.
 
 *Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
@@ -161,7 +161,7 @@ Eine NetApp Lizenzdatei für Nicht-Produktionsumgebungen, die für Tests und Pro
 
 
 | ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
-${post_edited_translations.segment}
+DEB-Paket zur Installation der StorageGRID Knotenabbilder auf Ubuntu- oder Debian Hosts.
 
 
 
@@ -178,7 +178,7 @@ DEB-Paket zur Installation des StorageGRID Hostdienstes auf Ubuntu- oder Debian 
 | Bereitstellungsskripting Tool | Beschreibung 
 
 
-| ${post_edited_translations.segment}  a| 
+| ./debs/configure-storagegrid.py  a| 
 Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
 
 
@@ -209,7 +209,7 @@ Beispiel für eine Ansible Rolle und ein Playbook zur Konfiguration von Ubuntu- 
 
 
 | ./debs/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 
@@ -306,7 +306,7 @@ Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py
 
 
 | ./vsphere/storagegrid-ssoauth-azure.py  a| 
-${post_edited_translations.segment}
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) mit Active Directory oder Ping Federate aktiviert ist.
 
 
 

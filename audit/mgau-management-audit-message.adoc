@@ -116,7 +116,7 @@ Die Client-IP-Adresse (Quell-IP-Adresse).
 
 
  a| 
-${post_edited_translations.segment}
+MUUN
  a| 
 Benutzer-URN
  a| 

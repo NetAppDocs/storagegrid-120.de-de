@@ -53,7 +53,7 @@ NOTE: Privilegierte IP-Adressen haben standardmäßig keinen Zugriff auf interne
 
 Angenommen, Sie möchten einen Jump-Host (einen sicherheitsgehärteten Host) für die Netzwerkadministration verwenden. Dazu könnten folgende allgemeine Schritte genutzt werden:
 
-. ${post_edited_translations.segment}
+. Die Registerkarte „Privilegierte Adressliste“ dient zum Hinzufügen der IP-Adresse des Jump-Hosts.
 . Auf der Registerkarte „Externen Zugriff verwalten“ lassen sich alle Ports blockieren.
 
 

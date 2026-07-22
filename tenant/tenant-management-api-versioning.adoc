@@ -23,11 +23,11 @@ Das folgende Beispiel veranschaulicht, wie die API-Version je nach Art der vorge
 
 [cols="1a,1a,1a"]
 |===
-| Art der Änderung an der API | ${post_edited_translations.segment} | Neue Version 
+| Art der Änderung an der API | Alte Version | Neue Version 
 
 
  a| 
-${post_edited_translations.segment}
+Kompatibel mit älteren Versionen
  a| 
 2,1
  a| 
@@ -70,7 +70,7 @@ Received call to deprecated v2 API at POST "/api/v2/authorize"
 
 
 [[determine-which-api-versions-are-supported-in-the-current-release]]
-== ${post_edited_translations.segment}
+== Ermitteln, welche API-Versionen in der aktuellen Version unterstützt werden
 
 Die  `GET /versions`API-Anfrage gibt eine Liste der unterstützten API-Hauptversionen zurück. Diese Anfrage befindet sich im Abschnitt *config* der Swagger API-Dokumentation.
 

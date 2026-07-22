@@ -14,7 +14,7 @@ summary: Wenn Sie Plattformdienste oder Cloud Storage Pools verwenden, kann ein 
 Wenn Sie Plattformdienste oder Cloud Storage Pools verwenden, kann ein nicht-transparenter Proxy zwischen Storage Nodes und den externen S3-Endpunkten konfiguriert werden. Zum Beispiel kann ein nicht-transparenter Proxy erforderlich sein, damit Plattformdienste-Nachrichten an externe Endpunkte, wie etwa einen Endpunkt im Internet, gesendet werden können.
 
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Die konfigurierten Storage-Proxy-Einstellungen gelten nicht für die Endpunkte der Kafka-Plattformdienste.
 
 .Bevor Sie beginnen
 * Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
@@ -22,12 +22,12 @@ NOTE: ${post_edited_translations.segment}
 
 
 .Über diese Aufgabe
-${post_edited_translations.segment}
+Die Einstellungen für einen einzelnen Speicher-Proxyserver können konfiguriert werden.
 
 .Schritte
 . *Konfiguration* > *Sicherheit* > *Proxy-Einstellungen* auswählen.
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Auf der Registerkarte *Speicher* das Kontrollkästchen *Speicherproxy aktivieren* auswählen.
+. Das Protokoll für den Speicher-Proxy auswählen.
 . Den Hostnamen oder die IP-Adresse des Proxyserver eingeben.
 . Optional kann der Port eingegeben werden, der für die Verbindung zum Proxyserver verwendet wird.
 +
@@ -35,12 +35,12 @@ Dieses Feld bleibt leer, um den Standardport für das Protokoll zu verwenden: 80
 
 . *Speichern* auswählen.
 +
-${post_edited_translations.segment}
+Nach dem Speichern des Speicherproxys können neue Endpunkte für Plattformdienste oder Cloud Storage Pools konfiguriert und getestet werden.
 
 +
 
 NOTE: Es kann bis zu 10 Minuten dauern, bis Proxy-Änderungen wirksam werden.
 
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Die Einstellungen Ihres Proxyserver sollten so konfiguriert sein, dass plattformdienstbezogene Nachrichten von StorageGRID nicht blockiert werden.
+. Falls ein Speicherproxy deaktiviert werden soll, das Häkchen bei der entsprechenden Checkbox entfernen und *Speichern* auswählen.
 

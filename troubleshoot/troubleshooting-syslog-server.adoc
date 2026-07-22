@@ -112,7 +112,7 @@ TLS-Zertifikatfehler
 Das vom Syslog-Server empfangene Serverzertifikat war nicht kompatibel mit dem CA-Zertifikatspaket und dem Clientzertifikat, das Sie bereitgestellt haben.
 
 . Bestätigen Sie, dass das CA-Zertifikatpaket und das Clientzertifikat (falls vorhanden) mit dem Serverzertifikat auf dem Syslog-Server kompatibel sind.
-. ${post_edited_translations.segment}
+. Bestätigen Sie, dass die Identitäten im Serverzertifikat des Syslog-Servers die erwarteten IP- oder FQDN-Werte enthalten.
 
 
 
@@ -135,7 +135,7 @@ Der Syslog-Server hat die TLS-Sitzung beendet, und StorageGRID kann den Grund ni
 . Überprüfen Sie, ob der korrekte FQDN oder die korrekte IP-Adresse, der korrekte Port und das korrekte Protokoll für den Syslog-Server eingegeben wurden.
 . Wenn Sie TLS verwenden, vergewissern Sie sich, dass der Syslog-Server ebenfalls TLS verwendet. Wenn Sie TCP verwenden, vergewissern Sie sich, dass der Syslog-Server ebenfalls TCP verwendet.
 . Bestätigen Sie, dass das CA-Zertifikatpaket und das Clientzertifikat (falls vorhanden) mit dem Serverzertifikat des Syslog-Servers kompatibel sind.
-. ${post_edited_translations.segment}
+. Bestätigen Sie, dass die Identitäten im Serverzertifikat des Syslog-Servers die erwarteten IP- oder FQDN-Werte enthalten.
 
 
 

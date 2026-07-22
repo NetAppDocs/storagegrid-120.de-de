@@ -21,12 +21,12 @@ Wenn Sie über link:../admin/how-sso-works.html["Single Sign-On (SSO) konfigurie
 Diese Anweisungen gelten, wenn Sie Entra ID als SSO-Identitätsanbieter verwenden
 
 .Bevor Sie beginnen
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Sie kennen die SSO-E-Mail-Adresse und das Passwort für einen Verbundbenutzer, der einer StorageGRID Benutzergruppe angehört.
+* Wenn Sie auf die Tenant Management API zugreifen möchten, ist die Tenant-Konto-ID bekannt.
 
 
 .Über diese Aufgabe
-${post_edited_translations.segment}
+Um ein Authentifizierungs-Token zu erhalten, können die folgenden Beispielskripte genutzt werden:
 
 * Das  `storagegrid-ssoauth-azure.py`Python Skript
 * Das  `storagegrid-ssoauth-azure.js`Node.js Skript
@@ -41,7 +41,7 @@ SSO-Operationen können mithilfe einer Reihe von API-Anfragen ausgeführt werden
 Wenn ein Problem mit der URL-Codierung vorliegt, wird möglicherweise folgender Fehler angezeigt: `Unsupported SAML version`.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Die erforderlichen Abhängigkeiten werden wie folgt installiert:
 +
 .. Node.js installieren (siehe  https://nodejs.org/en/download/["https://nodejs.org/en/download/"^]).
 .. Die erforderlichen Node.js Module (puppeteer und jsdom) installieren:
@@ -54,14 +54,14 @@ Wenn ein Problem mit der URL-Codierung vorliegt, wird möglicherweise folgender 
 +
 Anschließend ruft das Python-Skript das entsprechende Node.js-Skript auf, um die Entra ID SSO-Interaktionen durchzuführen.
 
-. ${post_edited_translations.segment}
+. Bei Aufforderung sind Werte für die folgenden Argumente einzugeben (oder sie werden mithilfe von Parametern übergeben):
 +
 ** Die SSO-E-Mail-Adresse, die für die Anmeldung bei Entra ID verwendet wird
 ** Die Adresse für StorageGRID
 ** Die Mandantenkonto-ID, wenn auf die Tenant Management API zugegriffen werden soll
 
 
-. ${post_edited_translations.segment}
+. Wenn Sie dazu aufgefordert werden, geben Sie das Passwort ein und halten Sie eine MFA-Authentifizierung für Entra ID bereit, falls diese angefordert wird.
 +
 image:sso_api_password_mfa.png["Aufforderung zur Eingabe des Passworts und der MFA"]
 

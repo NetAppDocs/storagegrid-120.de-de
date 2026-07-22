@@ -18,9 +18,9 @@ Die folgenden Workflows für Revisionsmeldungen und die Aufbewahrung von Revisio
 
 
 [[audit-message-flow]]
-== ${post_edited_translations.segment}
+== Revisionsprotokoll-Nachrichtenfluss
 
-${post_edited_translations.segment}
+Audit-Meldungen werden von Admin-Knoten verarbeitet, wenn StorageGRID für *Admin-Knoten/lokale Knoten* oder *Admin-Knoten und externen Syslog-Server* konfiguriert ist, sowie von denjenigen Storage-Knoten, die über einen Administrative Domain Controller (ADC)-Dienst verfügen.
 
 Wie im Ablaufdiagramm für Audit-Meldungen dargestellt, sendet jeder StorageGRID Knoten seine Audit-Meldungen an einen der ADC-Dienste am Rechenzentrum-Standort. Der ADC-Dienst wird automatisch für die ersten drei an jedem Standort installierten Storage-Knoten aktiviert.
 
@@ -28,7 +28,7 @@ Im Gegenzug fungiert jeder ADC-Dienst als Relais und sendet seine Sammlung von R
 
 Jeder Admin-Knoten speichert Audit-Meldungen in Textprotokolldateien; die aktive Protokolldatei heißt  `audit.log`.
 
-image:audit_message_flow.gif["${post_edited_translations.segment}"]
+image:audit_message_flow.gif["Diagramm, das den Revisionsprotokoll-Nachrichtenfluss durch die Relais zusammenfasst"]
 
 
 
@@ -66,7 +66,7 @@ Die folgenden Arten von Problemen können dazu führen, dass die Warteschlangen 
 [[large-audit-queue-alert-and-audit-messages-queued-amqs-alarm]]
 === Warnung bei großer Revisionsprotokoll-Warteschlange und Audit Messages Queued (AMQS) Alarm
 
-${post_edited_translations.segment}
+Um die Überwachung der Größe von Audit-Nachrichtenwarteschlangen im Zeitverlauf zu unterstützen, werden die Warnung *Große Audit-Warteschlange* und der Legacy-AMQS-Alarm ausgelöst, wenn die Anzahl der Nachrichten in einer Storage Node-Warteschlange oder Admin Node-Warteschlange bestimmte Schwellenwerte erreicht.
 
 Wenn die Warnung *Large audit queue* oder der Legacy-AMQS-Alarm ausgelöst wird, sollte zunächst die Systemlast überprüft werden. Falls in letzter Zeit eine signifikante Anzahl von Transaktionen stattgefunden hat, lösen sich die Warnung und der Alarm im Laufe der Zeit auf und können ignoriert werden.
 

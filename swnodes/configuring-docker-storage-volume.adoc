@@ -52,7 +52,7 @@ sudo mkfs.ext4 docker-storage-volume-device
 ====
 .RHEL
 --
-** ${post_edited_translations.segment}
+** Für Docker:
 +
 [listing]
 ----

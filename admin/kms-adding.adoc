@@ -150,7 +150,7 @@ Beispielsweise kann die Fehlermeldung 422: Unprocessable Entity auftreten, wenn 
 
 CAUTION: Durch Auswahl von *Speichern erzwingen* wird die KMS-Konfiguration gespeichert, jedoch wird die externe Verbindung jeder Appliance zu diesem KMS nicht getestet. Wenn es ein Problem mit der Konfiguration gibt, ist es möglicherweise nicht möglich, Appliance-Knoten mit aktivierter Knotenverschlüsselung am betroffenen Standort neu zu starten. Der Zugriff auf Ihre Daten kann bis zur Behebung der Probleme verloren gehen.
 
-. ${post_edited_translations.segment}
+. Die Bestätigungswarnung sollte geprüft werden, und *OK* ist auszuwählen, wenn das Speichern der Konfiguration erzwungen werden soll.
 +
 Die KMS Konfiguration ist gespeichert, aber die Verbindung zum KMS wird nicht getestet.
 

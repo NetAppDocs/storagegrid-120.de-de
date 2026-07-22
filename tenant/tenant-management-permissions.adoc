@@ -82,7 +82,7 @@ Benutzer, die diese Berechtigung nicht besitzen, sehen die Menüoption *Platform
  a| 
 Registerkarte S3 Console verwenden
  a| 
-${post_edited_translations.segment}
+In Kombination mit der Berechtigung „Alle Buckets anzeigen“ oder „Alle Buckets verwalten“ können Benutzer Objekte über die Registerkarte „S3 Console“ auf der Detailseite eines Buckets anzeigen und verwalten.
  a| 
 
 |===

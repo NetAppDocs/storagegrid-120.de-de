@@ -90,14 +90,14 @@ Benutzer benötigen die Wartungsberechtigung, um diese Optionen zu verwenden:
 * *Wartung* > *Aufgaben*:
 +
 ** Außerdienststellung
-** ${post_edited_translations.segment}
+** Erweiterung
 ** Objektexistenzprüfung
 ** Wiederherstellung
 
 
 * *Wartung* > *System*:
 +
-** ${post_edited_translations.segment}
+** Wiederherstellungspaket
 ** Software Update
 
 
@@ -153,7 +153,7 @@ Diese Berechtigung ermöglicht den Zugriff auf Optionen zur Verwaltung von Warnm
 
 Diese Berechtigung gewährt Zugriff auf:
 
-* ${post_edited_translations.segment}
+* *Support* > *Tools* > *Metriken* Seite
 * Benutzerdefinierte Prometheus-Metrikabfragen mithilfe des Abschnitts *Metrics* der Grid Management API
 * Grid Manager Dashboard-Karten, die Kennzahlen enthalten
 
@@ -172,7 +172,7 @@ Diese Berechtigung ermöglicht den Zugriff auf die Seite *ILM* > *Objektmetadate
 
 Diese Berechtigung gewährt Zugriff auf diese zusätzlichen Grid-Konfigurationsoptionen:
 
-* ${post_edited_translations.segment}
+* *ILM*:
 +
 ** Storage-Grades
 
@@ -190,7 +190,7 @@ Diese Berechtigung gewährt Zugriff auf diese zusätzlichen Grid-Konfigurationso
 [[storage-appliance-administrator]]
 == Storage-Appliance-Administrator
 
-${post_edited_translations.segment}
+Diese Berechtigung beinhaltet:
 
 * Zugriff auf den E-Series SANtricity System Manager auf Speichergeräten über den Grid Manager.
 * Die Möglichkeit, auf der Registerkarte „Laufwerke verwalten“ für Appliances, die diese Vorgänge unterstützen, Fehlerbehebungs- und Wartungsaufgaben auszuführen.

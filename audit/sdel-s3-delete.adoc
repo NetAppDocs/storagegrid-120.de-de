@@ -57,7 +57,7 @@ Die Größe des gelöschten Objekts in Bytes. Operationen auf Buckets berücksic
  a| 
 DMRK
  a| 
-${post_edited_translations.segment}
+Löschmarkierungs-Versions-ID
  a| 
 Die Versions-ID des Löschmarkers, der beim Löschen eines Objekts aus einem versionierten Bucket erstellt wird. Operationen an Buckets schließen dieses Feld nicht ein.
 
@@ -196,11 +196,11 @@ Die Mandantenkonto-ID des Besitzers des Ziel-Buckets. Wird zur Identifizierung v
 
 
  a| 
-${post_edited_translations.segment}
+SGRP
  a| 
-${post_edited_translations.segment}
+Standort (Gruppe)
  a| 
-${post_edited_translations.segment}
+Falls vorhanden, wurde das Objekt an dem angegebenen Standort gelöscht, der nicht der Standort ist, an dem das Objekt aufgenommen wurde.
 
 
 

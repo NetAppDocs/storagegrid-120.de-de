@@ -19,7 +19,7 @@ Ein rollierender Neustart ermöglicht das Neustarten mehrerer Grid-Knoten, ohne 
 
 NOTE: Sie müssen am primären Admin-Node angemeldet sein, um diese Prozedur durchführen zu können.
 
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 
 
 .Über diese Aufgabe

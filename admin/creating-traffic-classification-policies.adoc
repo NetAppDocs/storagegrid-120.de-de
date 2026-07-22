@@ -68,7 +68,7 @@ Wenn Sie beispielsweise möchten, dass diese Richtlinie für alle Load Balancer 
 Bei einer Richtlinie mit mehreren Matchern, von denen mindestens einer ein inverser Matcher ist, ist darauf zu achten, dass keine Richtlinie erstellt wird, die auf alle Anfragen zutrifft.
 
 |===
-. ${post_edited_translations.segment}
+. Optional kann *Grenzwert hinzufügen* ausgewählt und die folgenden Details angegeben werden, um einen oder mehrere Grenzwerte hinzuzufügen und so den vom Regelwerk erfassten Netzwerkverkehr zu steuern.
 +
 
 NOTE: StorageGRID erfasst Metriken auch dann, wenn Sie keine Limits hinzufügen, sodass Sie die Verkehrstrends nachvollziehen können.

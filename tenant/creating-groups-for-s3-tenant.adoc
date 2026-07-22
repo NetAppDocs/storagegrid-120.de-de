@@ -33,7 +33,7 @@ Im ersten Schritt erfolgt der Zugriff auf den Assistenten zum Erstellen von Grup
 +
 image:grid-federation-tenant-group-banner.png["Abbildung eines blauen Banners auf der Gruppenseite des Tenant Source Grid"]
 
-. ${post_edited_translations.segment}
+. *Gruppe erstellen* auswählen.
 
 
 
@@ -147,7 +147,7 @@ Detaillierte Informationen zu Gruppenrichtlinien, einschließlich Sprachsyntax u
 
 
 [[add-users-local-groups-only]]
-== ${post_edited_translations.segment}
+== Benutzer hinzufügen (nur lokale Gruppen)
 
 Sie können die Gruppe speichern, ohne Benutzer hinzuzufügen, oder optional bereits vorhandene lokale Benutzer hinzufügen.
 
@@ -155,7 +155,7 @@ Sie können die Gruppe speichern, ohne Benutzer hinzuzufügen, oder optional ber
 NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt, werden alle Benutzer, die Sie beim Erstellen einer lokalen Gruppe im Quell-Grid auswählen, beim Klonen der Gruppe in das Ziel-Grid nicht berücksichtigt. Aus diesem Grund sollten beim Erstellen der Gruppe keine Benutzer ausgewählt werden. Stattdessen wird die Gruppe ausgewählt, wenn die Benutzer erstellt werden.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Optional kann ein oder mehrere lokale Benutzer für diese Gruppe ausgewählt werden.
 . *Gruppe erstellen* und *Fertigstellen* auswählen.
 +
 Die von Ihnen erstellte Gruppe erscheint in der Liste der Gruppen.

@@ -40,8 +40,8 @@ Weitere Informationen finden sich unter link:../tenant/index.html["Ein Mandanten
 Verwenden Sie den Grid Manager, um ein Mandantenkonto zu erstellen. Beim Erstellen eines Mandantenkontos werden die folgenden Informationen angegeben:
 
 * Grundlegende Informationen einschließlich Mandantenname, Clienttyp (S3) und optionalem Speicherplatzkontingent.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Berechtigungen für das Mandantenkonto, wie etwa, ob das Mandantenkonto S3 Plattformdienste nutzen, eine eigene Identitätsquelle konfigurieren, S3 Select verwenden oder eine Grid Federation Verbindung nutzen kann.
+* Der anfängliche Root-Zugriff für den Mandanten, basierend darauf, ob das StorageGRID System lokale Gruppen und Benutzer, Identitätsföderation oder Single Sign-On (SSO) verwendet.
 
 
 Zusätzlich kann die Einstellung „S3 Object Lock“ für das StorageGRID System aktiviert werden, falls S3-Mandantenkonten regulatorischen Anforderungen entsprechen müssen. Wenn S3 Object Lock aktiviert ist, können alle S3-Mandantenkonten konforme Buckets erstellen und verwalten.
@@ -51,7 +51,7 @@ Zusätzlich kann die Einstellung „S3 Object Lock“ für das StorageGRID Syste
 [[what-is-tenant-manager-used-for]]
 == Wofür wird der Tenant Manager verwendet?
 
-${post_edited_translations.segment}
+Nachdem das Mandantenkonto erstellt wurde, können sich die Mandantenbenutzer beim Tenant Manager anmelden, um Aufgaben wie die folgenden durchzuführen:
 
 * Identitätsföderation einrichten (sofern die Identitätsquelle nicht mit dem Grid geteilt wird)
 * Gruppen und Benutzer verwalten

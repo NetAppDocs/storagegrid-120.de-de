@@ -104,7 +104,7 @@ Optional, falls Ihr StorageGRID FIPS 140-Kryptografieanforderungen hat, kann die
 --
 ====
 . Einzelheiten zu den Verschlüsselungsverfahren, Protokollen und Algorithmen der einzelnen Richtlinien sind unter *Details anzeigen* zu finden.
-. ${post_edited_translations.segment}
+. Zum Ändern der aktuellen Richtlinie *Richtlinie verwenden* auswählen.
 +
 Neben *Aktuelle Richtlinie* auf der Richtlinienkachel erscheint ein grünes Häkchen.
 
@@ -113,23 +113,23 @@ Neben *Aktuelle Richtlinie* auf der Richtlinienkachel erscheint ein grünes Häk
 
 
 [[create-a-custom-security-policy]]
-== ${post_edited_translations.segment}
+== Eine benutzerdefinierte Sicherheitsrichtlinie erstellen
 
 Sie können eine benutzerdefinierte Richtlinie erstellen, wenn Sie eigene Verschlüsselungsverfahren anwenden müssen.
 
 .Schritte
 . Wählen Sie in der Kachel der Richtlinie, die der von Ihnen zu erstellenden benutzerdefinierten Richtlinie am ähnlichsten ist, *Details anzeigen* aus.
-. ${post_edited_translations.segment}
+. *In die Zwischenablage kopieren* auswählen und anschließend *Abbrechen* auswählen.
 +
-image:securitysettings-custom-security-policy-copy.png["${post_edited_translations.segment}"]
+image:securitysettings-custom-security-policy-copy.png["Kopieren einer bestehenden Richtlinie, um eine benutzerdefinierte Richtlinie zu erstellen"]
 
 . Im Feld *Benutzerdefinierte Richtlinie* die Option *Konfigurieren und verwenden* auswählen.
-. ${post_edited_translations.segment}
+. Fügen Sie den kopierten JSON-Code ein und nehmen Sie alle erforderlichen Änderungen vor.
 . *Nutzungsrichtlinie* auswählen.
 +
-${post_edited_translations.segment}
+Auf der Kachel „Benutzerdefinierte Richtlinie“ erscheint neben *Current policy* ein grünes Häkchen.
 
-. ${post_edited_translations.segment}
+. Optional kann *Konfiguration bearbeiten* ausgewählt werden, um weitere Änderungen an der neuen benutzerdefinierten Richtlinie vorzunehmen.
 
 
 
@@ -138,12 +138,12 @@ ${post_edited_translations.segment}
 [[temporarily-revert-to-default-security-policy]]
 == Vorübergehend zur Standard-Sicherheitsrichtlinie zurückkehren
 
-Wenn Sie eine benutzerdefinierte Sicherheitsrichtlinie konfiguriert haben, können Sie sich möglicherweise nicht beim Grid Manager anmelden, wenn die konfigurierte TLS-Richtlinie nicht mit dem link:global-certificate-types.html["${post_edited_translations.segment}"] kompatibel ist.
+Wenn Sie eine benutzerdefinierte Sicherheitsrichtlinie konfiguriert haben, können Sie sich möglicherweise nicht beim Grid Manager anmelden, wenn die konfigurierte TLS-Richtlinie nicht mit dem link:global-certificate-types.html["konfiguriertes Serverzertifikat"] kompatibel ist.
 
 Sie können vorübergehend zur Standard-Sicherheitsrichtlinie zurückkehren.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung an einem Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -158,6 +158,6 @@ Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$`
 +
 `restore-default-cipher-configurations`
 
-. ${post_edited_translations.segment}
+. Über einen Webbrowser erfolgt der Zugriff auf den Grid Manager auf demselben Admin-Node.
 . Führen Sie die Schritte in <<select-a-security-policy,Eine Sicherheitsrichtlinie auswählen>> aus, um die Richtlinie erneut zu konfigurieren.
 

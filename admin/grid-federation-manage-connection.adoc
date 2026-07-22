@@ -2,7 +2,7 @@
 permalink: admin/grid-federation-manage-connection.html 
 sidebar: sidebar 
 keywords: grid federation, edit connection, remove connection, rotate certificates 
-summary: ${post_edited_translations.segment} 
+summary: Die Verwaltung von Grid Federation-Verbindungen zwischen StorageGRID Systemen umfasst das Bearbeiten von Verbindungsdetails, das Rotieren der Zertifikate, das Entfernen von Mandantenberechtigungen und das Entfernen nicht verwendeter Verbindungen. 
 ---
 = StorageGRID Grid-Federationsverbindungen verwalten
 :allow-uri-read: 
@@ -11,7 +11,7 @@ summary: ${post_edited_translations.segment}
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Die Verwaltung von Grid Federation-Verbindungen zwischen StorageGRID Systemen umfasst das Bearbeiten von Verbindungsdetails, das Rotieren der Zertifikate, das Entfernen von Mandantenberechtigungen und das Entfernen nicht verwendeter Verbindungen.
 
 .Bevor Sie beginnen
 * Sie sind beim Grid Manager auf einem der beiden Grids mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
@@ -200,7 +200,7 @@ CAUTION: Wenn die Zertifikate an einem der beiden Enden der Verbindung ablaufen,
 . *Zertifikate rotieren* auswählen.
 . Wiederholen Sie diese Schritte gegebenenfalls auf dem anderen Grid in der Verbindung.
 +
-${post_edited_translations.segment}
+Im Allgemeinen wird für die Zertifikate auf beiden Seiten der Verbindung die gleiche Anzahl von Tagen verwendet.
 
 
 

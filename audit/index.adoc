@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: storagegrid, audit, message, log, structure, content 
 summary: Diese Anleitung enthält Informationen über die Struktur und den Inhalt von StorageGRID Audit-Meldungen und Audit-Protokollen. Sie können diese Informationen verwenden, um den Audit-Trail der Systemaktivitäten zu lesen und zu analysieren. 
 ---
-= ${post_edited_translations.segment}
+= Audit-Meldungen und Protokolle
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
@@ -13,7 +13,7 @@ summary: Diese Anleitung enthält Informationen über die Struktur und den Inhal
 [role="lead"]
 Diese Anleitung enthält Informationen über die Struktur und den Inhalt von StorageGRID Audit-Meldungen und Audit-Protokollen. Sie können diese Informationen verwenden, um den Audit-Trail der Systemaktivitäten zu lesen und zu analysieren.
 
-${post_edited_translations.segment}
+Diese Anweisungen richten sich an Administratoren, die für die Erstellung von Berichten über Systemaktivitäten und -nutzung verantwortlich sind und eine Analyse der Audit-Meldungen des StorageGRID Systems erfordern.
 
 Um die Textprotokolldatei verwenden zu können, müssen Sie Zugriff auf die konfigurierte Audit-Freigabe auf dem Admin-Node haben.
 

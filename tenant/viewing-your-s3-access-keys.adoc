@@ -11,7 +11,7 @@ summary: Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berecht
 
 
 [role="lead"]
-Wenn Sie einen S3-Tenant verwenden und über die link:tenant-management-permissions.html["${post_edited_translations.segment}"] verfügen, kann eine Liste Ihrer S3-Zugriffsschlüssel angezeigt werden. Die Liste kann nach Ablaufzeit sortiert werden, sodass ersichtlich ist, welche Schlüssel demnächst ablaufen. Bei Bedarf können Sie link:creating-your-own-s3-access-keys.html["Neue Schlüssel erstellen"] oder link:deleting-your-own-s3-access-keys.html["Tasten zum Löschen"] verwenden, um nicht mehr benötigte Schlüssel zu entfernen.
+Wenn Sie einen S3-Tenant verwenden und über die link:tenant-management-permissions.html["entsprechende Berechtigung"] verfügen, kann eine Liste Ihrer S3-Zugriffsschlüssel angezeigt werden. Die Liste kann nach Ablaufzeit sortiert werden, sodass ersichtlich ist, welche Schlüssel demnächst ablaufen. Bei Bedarf können Sie link:creating-your-own-s3-access-keys.html["Neue Schlüssel erstellen"] oder link:deleting-your-own-s3-access-keys.html["Tasten zum Löschen"] verwenden, um nicht mehr benötigte Schlüssel zu entfernen.
 
 
 CAUTION: Auf die S3 Buckets und Objekte Ihres Kontos kann mit der Access Key ID und dem Secret Access Key zugegriffen werden, die für Ihr Konto im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig rotiert, ungenutzte Schlüssel aus Ihrem Konto entfernt und niemals mit anderen Benutzern geteilt werden.

@@ -88,7 +88,7 @@ image:grid-federation-post-other-user.png["POST-Endpunkt für das Replizieren de
 . Fügen Sie im Textfeld *userId* die kopierte Benutzer-ID ein.
 . Im Textfeld *body* sind die Beispiel-Einträge für *example access key* und *secret access key* durch die Werte aus der *.csv*-Datei für diesen Benutzer zu ersetzen.
 +
-${post_edited_translations.segment}
+Achten Sie darauf, die doppelten Anführungszeichen um die Zeichenkette beizubehalten.
 
 . Wenn der Schlüssel abläuft, den Beispiel-Eintrag für *expires* durch das Ablaufdatum und die Ablaufzeit als Zeichenkette im ISO 8601-Datum-Zeit-Format (zum Beispiel  `2023-02-28T22:46:33-08:00`) ersetzen. Wenn der Schlüssel nicht abläuft, *null* als Wert für den Eintrag *expires* eintragen (oder die Zeile *Expires* und das davorstehende Komma entfernen).
 . *Ausführen* auswählen.

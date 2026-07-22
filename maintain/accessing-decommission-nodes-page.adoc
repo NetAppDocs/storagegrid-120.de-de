@@ -15,7 +15,7 @@ Beim Zugriff auf die Seite „Knoten außer Betrieb nehmen“ im Grid Manager is
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben die link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 
 
 
@@ -101,7 +101,7 @@ Nein, Mitglied der HA-Gruppe: _group name_. Bevor dieser Knoten außer Betrieb g
  a| 
 Ein Admin Node oder ein Gateway Node kann nicht außer Betrieb genommen werden, wenn eine Knotenschnittstelle zu einer Hochverfügbarkeitsgruppe (HA) gehört.
  a| 
-Bearbeiten Sie die HA-Gruppe, um die Schnittstelle des Knotens oder die gesamte HA-Gruppe zu entfernen. Siehe link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"].
+Bearbeiten Sie die HA-Gruppe, um die Schnittstelle des Knotens oder die gesamte HA-Gruppe zu entfernen. Siehe link:../admin/configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"].
 
 
 

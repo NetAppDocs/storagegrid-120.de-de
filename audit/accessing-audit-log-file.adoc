@@ -18,11 +18,11 @@ Die  `audit.log` Datei bleibt leer, sofern StorageGRID für *Admin Nodes/lokale 
 .Bevor Sie beginnen
 * Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
 * Sie müssen über die Datei  `Passwords.txt` verfügen.
-* ${post_edited_translations.segment}
+* Die IP-Adresse eines Admin-Knotens muss bekannt sein.
 
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung an einem Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.

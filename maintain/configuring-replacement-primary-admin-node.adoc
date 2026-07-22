@@ -44,7 +44,7 @@ image:install_or_recover_primary_admin_node.png["Primären Admin-Node installier
 .. Suchen Sie die aktuellste Wiederherstellungspaketdatei für Ihr StorageGRID System und klicken Sie auf *Öffnen*.
 
 
-. ${post_edited_translations.segment}
+. Die Bereitstellungs-Passphrase eingeben.
 . Klicken Sie auf *Wiederherstellung starten*.
 +
 Der Wiederherstellungsprozess beginnt. Der Grid Manager ist möglicherweise für einige Minuten nicht verfügbar, während die erforderlichen Dienste gestartet werden. Nach Abschluss der Wiederherstellung wird die Anmeldeseite angezeigt.

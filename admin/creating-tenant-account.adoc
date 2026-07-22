@@ -18,7 +18,7 @@ Die Schritte zum Erstellen eines Mandantenkontos variieren je nachdem, ob link:u
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Sie haben die link:admin-group-permissions.html["Root-Zugriff oder Berechtigung für Mandantenkonten"].
-* Wenn das Mandantenkonto die für den Grid Manager konfigurierte Identitätsquelle verwendet und Sie einer Verbundgruppe Root-Zugriffsberechtigungen für das Mandantenkonto erteilen möchten, wurde diese Verbundgruppe in den Grid Manager importiert. Es ist nicht erforderlich, dieser Administratorgruppe Grid Manager-Berechtigungen zuzuweisen. Siehe link:managing-admin-groups.html["${post_edited_translations.segment}"].
+* Wenn das Mandantenkonto die für den Grid Manager konfigurierte Identitätsquelle verwendet und Sie einer Verbundgruppe Root-Zugriffsberechtigungen für das Mandantenkonto erteilen möchten, wurde diese Verbundgruppe in den Grid Manager importiert. Es ist nicht erforderlich, dieser Administratorgruppe Grid Manager-Berechtigungen zuzuweisen. Siehe link:managing-admin-groups.html["Administratorgruppen verwalten"].
 * Wenn Sie einem S3-Mandanten ermöglichen möchten, Kontodaten zu klonen und Bucket-Objekte mithilfe einer Grid-Federation-Verbindung in ein anderes Grid zu replizieren:
 +
 ** Du hast link:grid-federation-create-connection.html["Die Grid Federation-Verbindung wurde konfiguriert."].

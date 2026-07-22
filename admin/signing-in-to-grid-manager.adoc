@@ -59,12 +59,12 @@ NOTE: SSO ist über den eingeschränkten Grid Manager Port nicht verfügbar. Por
 
 
 .Schritte
-. ${post_edited_translations.segment}
+. Ein unterstützter Webbrowser wird gestartet.
 . In der Adressleiste des Browsers die URL für den Grid Manager eingeben.
 . Wenn eine Sicherheitswarnung angezeigt wird, kann das Zertifikat mit dem Installationsassistenten des Browsers installiert werden. Siehe link:using-storagegrid-security-certificates.html["Sicherheitszertifikate verwalten"].
 . Melden Sie sich beim Grid Manager an.
 +
-${post_edited_translations.segment}
+Welcher Anmeldebildschirm angezeigt wird, hängt davon ab, ob Single Sign-On (SSO) für StorageGRID konfiguriert wurde.
 
 +
 [role="tabbed-block"]
@@ -83,10 +83,10 @@ ${post_edited_translations.segment}
 ... *Anmelden* auswählen. Die 0 kann im Feld Konto belassen werden.
 ... Geben Sie Ihre Standard-SSO-Anmeldedaten auf der SSO-Anmeldeseite Ihrer Organisation ein.
 +
-${post_edited_translations.segment}
+Wenn StorageGRID SSO verwendet und zuvor auf den Grid Manager oder ein Mandantenkonto zugegriffen wurde:
 
 +
-.... ${post_edited_translations.segment}
+.... *0* (die Konto-ID für den Grid Manager) eingeben oder *Grid Manager* auswählen, falls dieser in der Liste der zuletzt verwendeten Konten erscheint.
 .... *Anmelden* auswählen.
 .... Mit den üblichen SSO-Anmeldedaten auf der SSO-Anmeldeseite der Organisation anmelden.
 
@@ -106,7 +106,7 @@ Nach der Anmeldung wird die Startseite des Grid Managers angezeigt, die das Dash
 [[sign-into-another-admin-node]]
 == Bei einem anderen Admin-Node anmelden
 
-${post_edited_translations.segment}
+Führen Sie die folgenden Schritte aus, um sich bei einem anderen Admin Node anzumelden.
 
 [role="tabbed-block"]
 ====

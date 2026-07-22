@@ -50,7 +50,7 @@ Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden
 ** Wählen Sie das Kontrollkästchen für die Gruppe aus und wählen Sie *Aktionen* > *Gruppendetails anzeigen*.
 
 
-. ${post_edited_translations.segment}
+. Im Abschnitt „Übersicht“ werden für jede Gruppe die folgenden Informationen angezeigt:
 +
 ** Anzeigename
 ** Eindeutiger Name
@@ -61,8 +61,8 @@ Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden
 ** Anzahl der Nutzer in dieser Gruppe
 ** Zusätzliche Felder, wenn das Mandantenkonto über die Berechtigung *Use grid federation connection* verfügt und die Gruppe im Quell-Grid des Mandanten angezeigt wird:
 +
-*** ${post_edited_translations.segment}
-*** ${post_edited_translations.segment}
+*** Klonstatus, entweder *Erfolg* oder *Fehler*
+*** Ein blauer Banner weist darauf hin, dass Änderungen an dieser Gruppe nicht mit dem anderen Grid synchronisiert werden, wenn sie bearbeitet oder gelöscht wird.
 
 
 
@@ -70,10 +70,10 @@ Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden
 . Gruppeneinstellungen können nach Bedarf bearbeitet werden. Einzelheiten zu den einzugebenden Daten finden Sie unter link:creating-groups-for-s3-tenant.html["Gruppen für einen S3-Mandanten erstellen"].
 +
 .. Im Abschnitt „Übersicht“ lässt sich der Anzeigename ändern, indem der Name oder das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] ausgewählt wird.
-.. ${post_edited_translations.segment}
+.. Auf der Registerkarte *Gruppenberechtigungen* die Berechtigungen aktualisieren und *Änderungen speichern* auswählen.
 .. Auf der Registerkarte *Gruppenrichtlinie* können Änderungen vorgenommen und mit *Änderungen speichern* gesichert werden.
 +
-${post_edited_translations.segment}
+Optional kann eine andere S3 Gruppenrichtlinie ausgewählt oder bei Bedarf die JSON-Zeichenfolge für eine benutzerdefinierte Richtlinie eingegeben werden.
 
 
 
@@ -86,7 +86,7 @@ image:manage_users.png["Benutzer verwalten"]
 .. *Benutzer hinzufügen* auswählen.
 .. Wählen Sie die vorhandenen Benutzer aus, die Sie hinzufügen möchten, und wählen Sie *Benutzer hinzufügen* aus.
 +
-${post_edited_translations.segment}
+Oben rechts erscheint eine Erfolgsmeldung.
 
 
 
@@ -96,7 +96,7 @@ ${post_edited_translations.segment}
 .. *Benutzer entfernen* auswählen.
 .. Wählen Sie die Benutzer aus, die Sie entfernen möchten, und wählen Sie *Benutzer entfernen* aus.
 +
-${post_edited_translations.segment}
+Oben rechts erscheint eine Erfolgsmeldung.
 
 
 
@@ -118,7 +118,7 @@ NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung
 . Aktivieren Sie das Kontrollkästchen für die Gruppe, die dupliziert werden soll.
 . *Aktionen* > *Gruppe duplizieren* auswählen.
 . Weitere Informationen dazu, was einzugeben ist, sind unter link:creating-groups-for-s3-tenant.html["Gruppen für einen S3-Mandanten erstellen"] zu finden.
-. ${post_edited_translations.segment}
+. *Gruppe erstellen* auswählen.
 
 
 
@@ -126,11 +126,11 @@ NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung
 [[clone-groupsretry-group-clone]]
 == [[clone-groups]]Gruppenklon erneut versuchen
 
-${post_edited_translations.segment}
+So kann ein fehlgeschlagener Klonvorgang erneut versucht werden:
 
-. ${post_edited_translations.segment}
+. Wählen Sie alle Gruppen aus, die unter dem Gruppennamen die Meldung „(Klonen fehlgeschlagen)“ anzeigen.
 . *Aktionen* > *Gruppen klonen* auswählen.
-. ${post_edited_translations.segment}
+. Der Status des Klonvorgangs ist auf der Detailseite jeder Gruppe, die geklont wird, einsehbar.
 
 
 Weitere Informationen finden Sie unter link:grid-federation-account-clone.html["Mandantengruppen und Benutzer klonen"].
@@ -138,7 +138,7 @@ Weitere Informationen finden Sie unter link:grid-federation-account-clone.html["
 
 
 [[delete-one-or-more-groups]]
-== ${post_edited_translations.segment}
+== Eine oder mehrere Gruppen löschen
 
 Sie können eine oder mehrere Gruppen löschen. Benutzer, die ausschließlich einer gelöschten Gruppe angehören, können sich nicht mehr beim Tenant Manager anmelden oder das Mandantenkonto verwenden.
 
@@ -152,7 +152,7 @@ NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung ver
 +
 Es erscheint ein Bestätigungsdialogfeld.
 
-. ${post_edited_translations.segment}
+. *Gruppe löschen* oder *Gruppen löschen* auswählen.
 
 
 
@@ -170,7 +170,7 @@ Temporäre Sicherheitsanmeldedaten, die durch das Annehmen dieser Gruppe erstell
 
 .Schritte
 . *Zugriffsverwaltung* > *Gruppen* auswählen.
-. ${post_edited_translations.segment}
+. Auf den Gruppennamen klicken.
 . Die Registerkarte *S3-Vertrauensrichtlinie* auswählen.
 . Hinzufügen Ihrer S3 Vertrauensrichtlinie, einschließlich einer Liste von Benutzern, die AssumeRole ausführen können.
 . Wählen Sie *Save changes*.

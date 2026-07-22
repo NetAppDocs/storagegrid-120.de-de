@@ -30,7 +30,7 @@ Die Bucket-ID.
  a| 
 BROV
  a| 
-${post_edited_translations.segment}
+Wert der schreibgeschützten Bucket-Anforderung
  a| 
 Ob der Bucket in den schreibgeschützten Zustand versetzt wird oder den schreibgeschützten Zustand verlässt (1 = schreibgeschützt, 0 = nicht schreibgeschützt).
 

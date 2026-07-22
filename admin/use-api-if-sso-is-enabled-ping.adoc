@@ -21,8 +21,8 @@ Wenn Sie link:../admin/how-sso-works.html["Single Sign-On (SSO) konfiguriert und
 Diese Anweisungen gelten, wenn Sie PingFederate als SSO-Identitätsanbieter verwenden.
 
 .Bevor Sie beginnen
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Sie kennen den SSO-Benutzernamen und das Passwort für einen föderierten Benutzer, der zu einer StorageGRID Benutzergruppe gehört.
+* Wenn Sie auf die Tenant Management API zugreifen möchten, ist die Tenant-Konto-ID bekannt.
 
 
 .Über diese Aufgabe
@@ -67,9 +67,9 @@ Das StorageGRID Autorisierungstoken wird in der Ausgabe bereitgestellt. Sie kön
 
 
 
-. ${post_edited_translations.segment}
+. Wenn Sie curl-Anfragen verwenden möchten, kann das folgende Verfahren genutzt werden.
 +
-.. ${post_edited_translations.segment}
+.. Die zum Anmelden benötigten Variablen deklarieren.
 +
 [source, bash]
 ----
@@ -206,7 +206,7 @@ Sie können jetzt  `MYTOKEN` auch für andere Anfragen verwenden, ähnlich wie S
 
 
 [[sign-out-of-the-api-if-single-sign-on-is-enabled]]
-== ${post_edited_translations.segment}
+== Abmelden von der API, wenn Single Sign-On aktiviert ist
 
 Wenn Single Sign-On (SSO) aktiviert wurde, müssen Sie eine Reihe von API-Anfragen senden, um sich von der Grid Management API oder der Tenant Management API abzumelden. Diese Anweisungen gelten, wenn Sie PingFederate als SSO-Identitätsanbieter verwenden
 
@@ -237,7 +237,7 @@ Eine Abmelde-URL wird zurückgegeben:
     "status": "success"
 }
 ----
-. ${post_edited_translations.segment}
+. Die Abmelde-URL speichern.
 +
 [source, bash]
 ----
@@ -259,7 +259,7 @@ HTTP/1.1 302 Found
 Location: https://$STORAGEGRID_ADDRESS:443/api/saml-logout?SAMLResponse=fVLLasMwEPwVo7ss%...%23rsa-sha256
 Set-Cookie: PF=QoKs...SgCC; Path=/; Secure; HttpOnly; SameSite=None
 ----
-. ${post_edited_translations.segment}
+. Das StorageGRID Bearer-Token löschen.
 +
 Das Löschen des StorageGRID Bearer-Tokens funktioniert auf dieselbe Weise wie ohne SSO. Wenn das Cookie "sso=true" nicht bereitgestellt wird, wird der Benutzer von StorageGRID abgemeldet, ohne dass der SSO-Status beeinträchtigt wird.
 

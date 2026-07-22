@@ -15,7 +15,7 @@ Sie können den ADC-Dienst auf einen anderen Storage Node am selben Standort ver
 
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
-* Du hast link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Du hast link:../admin/admin-group-permissions.html["Wartungs- oder Root-Zugriffsberechtigung"].
 * Der Quellknoten enthält den ADC-Dienst.
 * Der Zielknoten enthält den ADC Service nicht.
 * Der Zielknoten ist entweder ein reiner Metadatenknoten oder ein kombinierter Knoten (Metadaten und Objektdaten).

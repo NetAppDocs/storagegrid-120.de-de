@@ -15,7 +15,7 @@ Die zur Kategorie „Systemprüfung“ gehörenden Prüfmeldungen werden für Er
 
 [cols="1a,2a,1a"]
 |===
-| Code | ${post_edited_translations.segment} | Siehe 
+| Code | Nachrichtentitel und -beschreibung | Siehe 
 
 
  a| 

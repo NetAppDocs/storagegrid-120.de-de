@@ -34,7 +34,7 @@ Diese Schritte sind auf einem der beiden StorageGRID Systeme auszuführen.
 .Schritte
 . Melden Sie sich beim Grid Manager vom primären Admin-Node eines der beiden Grids an.
 . Wählen Sie *Konfiguration* > *System* > *Grid federation*.
-. ${post_edited_translations.segment}
+. *Verbindung hinzufügen* auswählen.
 . Geben Sie die Verbindungsdetails ein.
 +
 [cols="1a,2a"]
@@ -129,7 +129,7 @@ Die Verbindungsdetails werden angezeigt.
 
 . Optional können Sie für dieses Grid eine andere Anzahl gültiger Tage für die Sicherheitszertifikate eingeben. Der Eintrag *Certificate valid days* ist standardmäßig auf den Wert eingestellt, den Sie beim ersten Grid eingegeben haben, aber jedes Grid kann unterschiedliche Ablaufdaten verwenden.
 +
-${post_edited_translations.segment}
+Im Allgemeinen wird für die Zertifikate auf beiden Seiten der Verbindung die gleiche Anzahl von Tagen verwendet.
 
 +
 

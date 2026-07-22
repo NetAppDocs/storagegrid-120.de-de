@@ -25,7 +25,7 @@ Das  `audit-explain`Tool, das auf dem primären Admin-Node verfügbar ist, biete
 
 NOTE: Das  `audit-explain` Tool ist primär für den Einsatz durch den technischen Support bei der Fehlerbehebung vorgesehen. Die Verarbeitung von  `audit-explain` Abfragen kann viel CPU-Leistung beanspruchen, was StorageGRID Vorgänge beeinträchtigen kann.
 
-Dieses Beispiel zeigt die typische Ausgabe des  `audit-explain` Tools. Diese vier link:sput-s3-put.html["${post_edited_translations.segment}"] Revisionsprotokollmeldungen wurden generiert, als der S3-Tenant mit der Konto-ID 92484777680322627870 S3 PUT-Anfragen verwendete, um einen Bucket mit dem Namen „bucket1“ zu erstellen und diesem Bucket drei Objekte hinzuzufügen.
+Dieses Beispiel zeigt die typische Ausgabe des  `audit-explain` Tools. Diese vier link:sput-s3-put.html["SPUT"] Revisionsprotokollmeldungen wurden generiert, als der S3-Tenant mit der Konto-ID 92484777680322627870 S3 PUT-Anfragen verwendete, um einen Bucket mit dem Namen „bucket1“ zu erstellen und diesem Bucket drei Objekte hinzuzufügen.
 
 [listing]
 ----
@@ -73,7 +73,7 @@ Die  `help (-h)` Option zeigt die verfügbaren Optionen an. Zum Beispiel:
 `$ audit-explain -h`
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.

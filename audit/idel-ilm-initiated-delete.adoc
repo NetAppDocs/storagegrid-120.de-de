@@ -13,7 +13,7 @@ summary: Diese Meldung wird generiert, wenn ILM den Prozess zum Löschen eines O
 [role="lead"]
 Diese Meldung wird generiert, wenn ILM den Prozess zum Löschen eines Objekts startet.
 
-${post_edited_translations.segment}
+Die IDEL-Meldung wird in einer der folgenden Situationen generiert:
 
 * *Für Objekte in konformen S3-Buckets*: Diese Meldung wird generiert, wenn ILM den Prozess des automatischen Löschens eines Objekts startet, weil dessen Aufbewahrungsfrist abgelaufen ist (vorausgesetzt, die Einstellung für das automatische Löschen ist aktiviert und Legal Hold ist deaktiviert).
 * *Für Objekte in nicht kompatiblen S3-Buckets*. Diese Meldung wird generiert, wenn ILM den Löschvorgang eines Objekts startet, da derzeit keine Platzierungsanweisungen in den aktiven ILM-Richtlinien auf das Objekt zutreffen.
@@ -29,14 +29,14 @@ CBID
  a| 
 Inhaltsblockkennung
  a| 
-${post_edited_translations.segment}
+Die CBID des Objekts.
 
 
 
  a| 
-${post_edited_translations.segment}
+CMPA
  a| 
-${post_edited_translations.segment}
+Konformität: Automatische Löschung
  a| 
 Nur für Objekte in konformen S3 Buckets. 0 (falsch) oder 1 (wahr), gibt an, ob ein konformes Objekt nach Ablauf seines Aufbewahrungszeitraums automatisch gelöscht werden soll, es sei denn, der Bucket unterliegt einem Legal Hold.
 
@@ -52,18 +52,18 @@ Nur für Objekte in konformen S3-Buckets. 0 (falsch) oder 1 (wahr), was angibt, 
 
 
  a| 
-${post_edited_translations.segment}
+CMPR
  a| 
-${post_edited_translations.segment}
+Compliance: Aufbewahrungsfrist
  a| 
 Nur für Objekte in konformen S3-Buckets. Die Dauer des Aufbewahrungszeitraums des Objekts in Minuten.
 
 
 
  a| 
-${post_edited_translations.segment}
+CTME
  a| 
-${post_edited_translations.segment}
+Compliance: Aufnahmezeitpunkt
  a| 
 Nur für Objekte in konformen S3 Buckets. Die Ingest-Zeit des Objekts. Sie können die Aufbewahrungsfrist in Minuten zu diesem Wert addieren, um zu bestimmen, wann das Objekt aus dem Bucket gelöscht werden kann.
 
@@ -72,7 +72,7 @@ Nur für Objekte in konformen S3 Buckets. Die Ingest-Zeit des Objekts. Sie könn
  a| 
 DMRK
  a| 
-${post_edited_translations.segment}
+Löschmarkierungs-Versions-ID
  a| 
 Die Versions-ID des Löschmarkers, der beim Löschen eines Objekts aus einem versionierten Bucket erstellt wird. Operationen an Buckets schließen dieses Feld nicht ein.
 
@@ -88,13 +88,13 @@ Die Größe des Objekts in Bytes.
 
 
  a| 
-${post_edited_translations.segment}
+LOCS
  a| 
 Standorte
  a| 
 Der Speicherort der Objektdaten innerhalb des StorageGRID Systems. Der Wert für LOCS ist "", wenn das Objekt keine Speicherorte hat (zum Beispiel, wenn es gelöscht wurde).
 
-${post_edited_translations.segment}
+CLEC: Für Objekte mit Löschcodierung die Löschcodierungsprofil-ID und die Löschcodierungsgruppen-ID, die auf die Daten des Objekts angewendet wird.
 
 CLDI: Bei replizierten Objekten die LDR-Knoten-ID und die Volume-ID des Objektstandorts.
 
@@ -118,14 +118,14 @@ Ergebnis
  a| 
 Das Ergebnis der ILM-Operation.
 
-${post_edited_translations.segment}
+SUCS: Die ILM Operation war erfolgreich.
 
 
 
  a| 
-${post_edited_translations.segment}
+REGEL
  a| 
-${post_edited_translations.segment}
+Regeln Etikett
  a| 
 * Wenn ein Objekt in einem konformen S3-Bucket automatisch gelöscht wird, weil seine Aufbewahrungsfrist abgelaufen ist, ist dieses Feld leer.
 * Wird das Objekt gelöscht, weil keine Platzierungsanweisungen mehr auf das Objekt zutreffen, zeigt dieses Feld die für Menschen lesbare Bezeichnung der letzten ILM-Regel an, die auf das Objekt angewendet wurde.
@@ -134,11 +134,11 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+SGRP
  a| 
-${post_edited_translations.segment}
+Standort (Gruppe)
  a| 
-${post_edited_translations.segment}
+Falls vorhanden, wurde das Objekt an dem angegebenen Standort gelöscht, der nicht der Standort ist, an dem das Objekt aufgenommen wurde.
 
 
 

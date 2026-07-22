@@ -26,7 +26,7 @@ Nachdem Sie SSO für einen Admin-Knoten deaktiviert haben, können Sie sich beim
 TIP: Die Deaktivierung von SSO für einen Admin-Knoten hat keine Auswirkungen auf die SSO-Einstellungen anderer Admin-Knoten im Grid. Das Kontrollkästchen *Enable SSO* auf der Seite Single Sign-on im Grid Manager bleibt ausgewählt, und alle bestehenden SSO-Einstellungen werden beibehalten, sofern sie nicht aktualisiert werden.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung an einem Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@Admin_Node_IP`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -45,7 +45,7 @@ Eine Meldung weist darauf hin, dass der Befehl nur für diesen Admin Node gilt.
 +
 Eine Meldung weist darauf hin, dass Single Sign-On auf dem Knoten deaktiviert ist.
 
-. ${post_edited_translations.segment}
+. Über einen Webbrowser erfolgt der Zugriff auf den Grid Manager auf demselben Admin-Node.
 +
 Die Anmeldeseite des Grid Managers wird jetzt angezeigt, da SSO deaktiviert wurde.
 

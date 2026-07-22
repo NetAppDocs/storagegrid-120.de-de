@@ -33,7 +33,7 @@ StorageGRID überwacht den Datenverkehr, der einer Regel innerhalb der Richtlini
 
 
 [[traffic-limiting]]
-== ${post_edited_translations.segment}
+== Datenverkehrsbeschränkung
 
 Optional lassen sich einer Richtlinie die folgenden Limittypen hinzufügen:
 
@@ -55,7 +55,7 @@ Im Grid Manager können Sie Verkehrsdiagramme einsehen und überprüfen, ob die 
 
 
 [[use-traffic-classification-policies-with-slas]]
-== ${post_edited_translations.segment}
+== Verkehrsklassifizierungsrichtlinien mit SLAs nutzen
 
 Sie können Verkehrsklassifizierungsrichtlinien in Verbindung mit Kapazitätsgrenzen und Datenschutz verwenden, um Service-Level-Agreements (SLAs) durchzusetzen, die spezifische Vorgaben für Kapazität, Datenschutz und Leistung enthalten.
 
@@ -69,11 +69,11 @@ Das folgende Beispiel zeigt drei Stufen einer Service-Level-Vereinbarung (SLA). 
  a| 
 Gold
  a| 
-${post_edited_translations.segment}
+1 PB Speicherplatz zulässig
  a| 
 3-Kopien-ILM-Regel
  a| 
-${post_edited_translations.segment}
+25 K Anfragen/s
 
 5 GB/s (40 Gbit/s) Bandbreite
  a| 
@@ -82,11 +82,11 @@ $$$ pro Monat
 
 
  a| 
-${post_edited_translations.segment}
+Silber
  a| 
 250 TB Speicherplatz zulässig
  a| 
-${post_edited_translations.segment}
+2-Kopien ILM-Regel
  a| 
 10.000 Anfragen/s
 
@@ -101,12 +101,12 @@ Bronze
  a| 
 100 TB Speicherplatz zulässig
  a| 
-${post_edited_translations.segment}
+2-Kopien ILM-Regel
  a| 
 5 K Anfragen/s
 
-${post_edited_translations.segment}
+1 GB/s (8 Gbit/s) Bandbreite
  a| 
-${post_edited_translations.segment}
+$ pro Monat
 
 |===

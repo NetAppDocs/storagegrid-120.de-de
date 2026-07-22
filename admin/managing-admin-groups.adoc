@@ -16,13 +16,13 @@ Sie können Administratorgruppen erstellen, um die Sicherheitsberechtigungen fü
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
-* ${post_edited_translations.segment}
+* Wenn eine föderierte Gruppe importiert werden soll, ist die Identitätsföderation konfiguriert und die föderierte Gruppe existiert bereits in der konfigurierten Identitätsquelle.
 
 
 
 
 [[create-an-admin-group]]
-== ${post_edited_translations.segment}
+== Eine Administratorgruppe erstellen
 
 Mit Administratorgruppen kann festgelegt werden, welche Benutzer auf welche Funktionen und Vorgänge im Grid Manager und in der Grid Management API zugreifen können.
 
@@ -33,7 +33,7 @@ Mit Administratorgruppen kann festgelegt werden, welche Benutzer auf welche Funk
 
 .Schritte
 . *Konfiguration* > *Zugriffskontrolle* > *Administratorgruppen* auswählen.
-. ${post_edited_translations.segment}
+. *Gruppe erstellen* auswählen.
 
 
 
@@ -44,15 +44,15 @@ Mit Administratorgruppen kann festgelegt werden, welche Benutzer auf welche Funk
 Sie können eine lokale Gruppe erstellen oder eine Verbundgruppe importieren.
 
 * Eine lokale Gruppe kann erstellt werden, wenn Berechtigungen lokalen Benutzern zugewiesen werden sollen.
-* ${post_edited_translations.segment}
+* Eine föderierte Gruppe ermöglicht den Import von Benutzern aus der Identitätsquelle.
 
 
 [role="tabbed-block"]
 ====
-.${post_edited_translations.segment}
+.Lokale Gruppe
 --
 .Schritte
-. ${post_edited_translations.segment}
+. *Lokale Gruppe* auswählen.
 . Geben Sie einen Anzeigenamen für die Gruppe ein, den Sie später bei Bedarf aktualisieren können. Zum Beispiel „Maintenance Users“ oder „ILM Administrators“.
 . Geben Sie einen eindeutigen Namen für die Gruppe ein, der später nicht mehr geändert werden kann.
 . Wählen Sie *Weiter*.
@@ -66,8 +66,8 @@ Sie können eine lokale Gruppe erstellen oder eine Verbundgruppe importieren.
 . Geben Sie den Namen der Gruppe, die Sie importieren möchten, genau so ein, wie er in der konfigurierten Identitätsquelle erscheint.
 +
 ** Für Active Directory und Microsoft Entra ID ist der sAMAccountName zu verwenden.
-** ${post_edited_translations.segment}
-** ${post_edited_translations.segment}
+** Für OpenLDAP wird der CN (Common Name) verwendet.
+** Für einen anderen LDAP-Server ist der entsprechende eindeutige Name für den LDAP-Server zu verwenden.
 
 
 . Wählen Sie *Weiter*.
@@ -93,7 +93,7 @@ NOTE: Wenn ein Benutzer mehreren Gruppen angehört und eine dieser Gruppen auf *
 
 . Wählen Sie ein oder mehrere link:admin-group-permissions.html["Administratorgruppenberechtigungen"] aus.
 +
-${post_edited_translations.segment}
+Jeder Gruppe muss mindestens eine Berechtigung zugewiesen werden, andernfalls können sich Benutzer, die dieser Gruppe angehören, nicht bei StorageGRID anmelden.
 
 . Wenn Sie eine lokale Gruppe erstellen, wählen Sie *Weiter*. Wenn Sie eine Verbundgruppe erstellen, wählen Sie *Gruppe erstellen* und *Fertigstellen*.
 
@@ -101,10 +101,10 @@ ${post_edited_translations.segment}
 
 
 [[add-users-local-groups-only]]
-=== ${post_edited_translations.segment}
+=== Benutzer hinzufügen (nur lokale Gruppen)
 
 .Schritte
-. ${post_edited_translations.segment}
+. Optional kann ein oder mehrere lokale Benutzer für diese Gruppe ausgewählt werden.
 +
 Wenn Sie noch keine lokalen Benutzer erstellt haben, können Sie die Gruppe speichern, ohne Benutzer hinzuzufügen. Sie können diese Gruppe dem Benutzer auf der Seite „Benutzer“ hinzufügen. Siehe link:managing-users.html["Benutzer verwalten"] für Details.
 
@@ -114,7 +114,7 @@ Wenn Sie noch keine lokalen Benutzer erstellt haben, können Sie die Gruppe spei
 
 
 [[view-and-edit-admin-groups]]
-== ${post_edited_translations.segment}
+== Administratorgruppen anzeigen und bearbeiten
 
 Sie können Details zu bestehenden Gruppen anzeigen, eine Gruppe bearbeiten oder eine Gruppe duplizieren.
 
@@ -130,7 +130,7 @@ Sie können Details zu bestehenden Gruppen anzeigen, eine Gruppe bearbeiten oder
 Gruppendetails anzeigen
  a| 
 .. Aktivieren Sie das Kontrollkästchen für die Gruppe.
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Gruppendetails anzeigen* auswählen.
 
  a| 
 Den Gruppennamen in der Tabelle auswählen.
@@ -146,7 +146,7 @@ Anzeigenamen bearbeiten (nur lokale Gruppen)
 .. Wählen Sie *Save changes*.
 
  a| 
-.. ${post_edited_translations.segment}
+.. Der Gruppennamen kann ausgewählt werden, um die Details anzuzeigen.
 .. Das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] auswählen.
 .. Geben Sie den neuen Namen ein.
 .. Wählen Sie *Save changes*.
@@ -155,16 +155,16 @@ Anzeigenamen bearbeiten (nur lokale Gruppen)
 
 
  a| 
-${post_edited_translations.segment}
+Zugriffsmodus oder Berechtigungen bearbeiten
  a| 
 .. Aktivieren Sie das Kontrollkästchen für die Gruppe.
-.. ${post_edited_translations.segment}
+.. *Aktionen* > *Gruppendetails anzeigen* auswählen.
 .. Optional kann der Zugriffsmodus der Gruppe geändert werden.
 .. Optional kann link:admin-group-permissions.html["Administratorgruppenberechtigungen"] ausgewählt oder abgewählt werden.
 .. Wählen Sie *Save changes*.
 
  a| 
-.. ${post_edited_translations.segment}
+.. Der Gruppennamen kann ausgewählt werden, um die Details anzuzeigen.
 .. Optional kann der Zugriffsmodus der Gruppe geändert werden.
 .. Optional kann link:admin-group-permissions.html["Administratorgruppenberechtigungen"] ausgewählt oder abgewählt werden.
 .. Wählen Sie *Save changes*.
@@ -176,12 +176,12 @@ ${post_edited_translations.segment}
 
 
 [[duplicate-a-group]]
-== ${post_edited_translations.segment}
+== Gruppe duplizieren
 
 .Schritte
 . Aktivieren Sie das Kontrollkästchen für die Gruppe.
 . *Aktionen* > *Gruppe duplizieren* auswählen.
-. ${post_edited_translations.segment}
+. Den Assistenten zum Duplizieren von Gruppen abschließen.
 
 
 

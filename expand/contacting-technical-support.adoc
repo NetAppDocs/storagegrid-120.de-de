@@ -13,7 +13,7 @@ summary: Wenn während des Grid-Erweiterungsprozesses Fehler auftreten, die nich
 [role="lead"]
 Wenn während des Grid-Erweiterungsprozesses Fehler auftreten, die nicht behoben werden können, oder wenn eine Grid-Aufgabe fehlschlägt, sollten die Protokolldateien gesammelt und der technische Support kontaktiert werden.
 
-${post_edited_translations.segment}
+Bevor Sie den technischen Support kontaktieren, sollten die erforderlichen Protokolldateien gesammelt werden, um die Fehlerbehebung zu unterstützen.
 
 .Schritte
 . Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
@@ -21,7 +21,7 @@ ${post_edited_translations.segment}
 +
 .. Geben Sie den folgenden Befehl ein:``ssh -p 8022 admin@_grid_node_IP_``
 +
-${post_edited_translations.segment}
+Port 8022 ist der SSH-Port des Basisbetriebssystems, während Port 22 der SSH-Port der Container-Engine ist, die StorageGRID ausführt.
 
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
 .. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`

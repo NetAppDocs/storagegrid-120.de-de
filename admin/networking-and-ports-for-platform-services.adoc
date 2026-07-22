@@ -34,7 +34,7 @@ Standardmäßig werden Plattformdienstnachrichten über die folgenden Ports gese
 
 * *80*: Für Endpunkt-URIs, die mit http beginnen (die meisten Endpunkte)
 * *443*: Für Endpunkt-URIs, die mit https beginnen (die meisten Endpunkte)
-* ${post_edited_translations.segment}
+* *9092*: Für Endpunkt-URIs, die mit http oder https beginnen (nur Kafka-Endpunkte)
 
 
 Mandanten können beim Erstellen oder Bearbeiten eines Endpunkts einen anderen Port angeben.

@@ -27,7 +27,7 @@ HA-Gruppe
  a| 
 Lastverteiler
  a| 
-${post_edited_translations.segment}
+Virtuelle IP-Adresse einer HA-Gruppe
  a| 
 Dem Load Balancer-Endpunkt zugewiesener Port
 
@@ -38,14 +38,14 @@ Admin-Node
  a| 
 Lastverteiler
  a| 
-${post_edited_translations.segment}
+IP-Adresse des Admin Node
  a| 
 Dem Load Balancer-Endpunkt zugewiesener Port
 
 
 
  a| 
-${post_edited_translations.segment}
+Gateway-Node
  a| 
 Lastverteiler
  a| 
@@ -72,7 +72,7 @@ Standardmäßige S3 Ports:
 
 
 [[example-urls]]
-== ${post_edited_translations.segment}
+== Beispiel-URLs
 
 Um eine Clientanwendung mit dem Load Balancer-Endpunkt einer HA-Gruppe von Gateway-Knoten zu verbinden, wird eine URL mit folgender Struktur verwendet:
 
@@ -91,17 +91,17 @@ Wenn beispielsweise die virtuelle IP-Adresse der HA-Gruppe 192.0.2.5 ist und die
 . So lässt sich die IP-Adresse eines Grid-Knotens ermitteln:
 +
 .. Wählen Sie *Knoten*.
-.. ${post_edited_translations.segment}
+.. Den Admin Node, Gateway Node oder Storage Node auswählen, zu dem eine Verbindung hergestellt werden soll.
 .. Wählen Sie die Registerkarte *Overview* aus.
 .. Im Abschnitt „Knoteninformationen“ sind die IP-Adressen des Knotens zu beachten.
-.. ${post_edited_translations.segment}
+.. *Mehr anzeigen* auswählen, um IPv6-Adressen und Schnittstellenzuordnungen anzuzeigen.
 +
 Von Clientanwendungen aus lassen sich Verbindungen zu jeder der IP-Adressen in der Liste herstellen:
 
 +
-*** ${post_edited_translations.segment}
+*** *eth0:* Grid-Netzwerk
 *** *eth1:* Admin-Netzwerk (optional)
-*** ${post_edited_translations.segment}
+*** *eth2:* Client-Netzwerk (optional)
 +
 
 NOTE: Wenn ein Admin-Knoten oder ein Gateway-Knoten angezeigt wird und es sich um den aktiven Knoten in einer hochverfügbaren Gruppe handelt, wird die virtuelle IP-Adresse der HA-Gruppe auf eth2 angezeigt.
@@ -125,7 +125,7 @@ NOTE: Wenn ein Admin-Knoten oder ein Gateway-Knoten angezeigt wird und es sich u
 NOTE: Wenn die Portnummer 80 oder 443 ist, wird der Endpoint nur auf Gateway Nodes konfiguriert, da diese Ports auf Admin Nodes reserviert sind. Alle anderen Ports werden sowohl auf Gateway Nodes als auch auf Admin Nodes konfiguriert.
 
 .. Den Namen des Endpunkts aus der Tabelle auswählen.
-.. ${post_edited_translations.segment}
+.. Bestätigen Sie, dass der *Clienttyp* (S3) mit der Client-Anwendung übereinstimmt, die den Endpunkt verwendet.
 
 
 

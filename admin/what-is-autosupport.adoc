@@ -49,7 +49,7 @@ Ein AutoSupport Paket enthält die folgenden Dateien und Details.
 
 
  a| 
-${post_edited_translations.segment}
+AUTOSUPPORT-HISTORY.XML
  a| 
 AutoSupport Sequenznummer + Ziel für dieses AutoSupport + Zustellungsstatus + Zustellungsversuche + AutoSupport Betreff + Zustellungs-URI + Letzter Fehler + AutoSupport PUT-Dateiname + Erstellungszeit + Komprimierte AutoSupport Größe + Dekomprimierte AutoSupport Größe + Gesamte Erfassungszeit (ms)
  a| 
@@ -76,7 +76,7 @@ Bietet Konfigurationsdetails und Statistiken auf Bucket-Ebene. Beispiele für Bu
 
 
  a| 
-${post_edited_translations.segment}
+GRID-CONFIGURATIONS.XML
  a| 
 Attribut-ID + Attributname + Wert + Index + Tabellen-ID + Tabellenname
  a| 
@@ -85,7 +85,7 @@ Gridweite Konfigurationsinformationsdatei. Enthält Informationen über Grid-Zer
 
 
  a| 
-${post_edited_translations.segment}
+GRID-SPEC.XML
  a| 
 Grid-Spezifikationen, Raw-XML
  a| 
@@ -105,7 +105,7 @@ Statusdatei für Grid-Aufgaben (Wartungsvorgänge). Enthält Details zu den akti
  a| 
 GRID.JSON
  a| 
-${post_edited_translations.segment}
+Grid + Revision + Softwareversion + Beschreibung + Lizenz + Passwörter + DNS + NTP + Standorte + Knoten
  a| 
 Grid-Informationen.
 
@@ -116,7 +116,7 @@ ILM-CONFIGURATION.XML
  a| 
 Attribut-ID + Attributname + Wert + Index + Tabellen-ID + Tabellenname
  a| 
-${post_edited_translations.segment}
+Liste der Attribute für ILM Konfigurationen.
 
 
 
@@ -130,9 +130,9 @@ ILM-Metrikinformationsdatei. Enthält ILM-Bewertungsraten für jeden Knoten und 
 
 
  a| 
-${post_edited_translations.segment}
+ILM.XML
  a| 
-${post_edited_translations.segment}
+ILM-Roh-XML
  a| 
 Aktive ILM Richtliniendatei. Enthält Details zu den aktiven ILM Richtlinien, wie Speicherpool-ID, Aufnahmeverhalten, Filter, Regeln und Beschreibung.
 
@@ -148,7 +148,7 @@ Herunterladbare Protokolldatei. Enthält  `bycast-err.log` und  `servermanager.l
 
 
  a| 
-${post_edited_translations.segment}
+MANIFEST.XML
  a| 
 Erfassungsreihenfolge + AutoSupport Inhaltsdateiname für diese Daten + Beschreibung dieses Datenelements + Anzahl der erfassten Bytes + Für die Erfassung aufgewendete Zeit + Status dieses Datenelements + Beschreibung des Fehlers + AutoSupport Inhaltstyp für diese Daten +
  a| 
@@ -157,16 +157,16 @@ Enthält AutoSupport-Metadaten und Kurzbeschreibungen aller AutoSupport-Dateien.
 
 
  a| 
-${post_edited_translations.segment}
+NMS-ENTITIES.XML
  a| 
-${post_edited_translations.segment}
+Attributindex + Entitäts-OID + Knoten-ID + Gerätemodell-ID + Gerätemodellversion + Entitätsname
  a| 
-Gruppen- und Service-Entitäten in der link:../primer/nodes-and-services.html#storagegrid-services["${post_edited_translations.segment}"]. Stellt Details zur Grid-Topologie bereit. Der Node kann basierend auf den auf dem Node ausgeführten Services bestimmt werden.
+Gruppen- und Service-Entitäten in der link:../primer/nodes-and-services.html#storagegrid-services["NMS Baum"]. Stellt Details zur Grid-Topologie bereit. Der Node kann basierend auf den auf dem Node ausgeführten Services bestimmt werden.
 
 
 
  a| 
-${post_edited_translations.segment}
+OBJECTS-STATUS.XML
  a| 
 Knoten + Servicepfad + Attribut-ID + Attributname + Wert + Index + Tabellen-ID + Tabellenname
  a| 
@@ -175,7 +175,7 @@ Objektstatus, einschließlich Hintergrundscan-Status, aktive Übertragung, Trans
 
 
  a| 
-${post_edited_translations.segment}
+SERVER-STATUS.XML
  a| 
 Knoten + Servicepfad + Attribut-ID + Attributname + Wert + Index + Tabellen-ID + Tabellenname
  a| 
@@ -195,7 +195,7 @@ Service-Node-Informationsdatei. Enthält Details wie zugewiesenen Tabellenbereic
  a| 
 STORAGE-GRADES.XML
  a| 
-${post_edited_translations.segment}
+Storage-Grade-ID + Storage-Grade-Name + Storage-Node-ID + Storage-Node-Pfad
  a| 
 Datei mit Storage-Grade-Definitionen für jeden Storage Node.
 
@@ -204,25 +204,25 @@ Datei mit Storage-Grade-Definitionen für jeden Storage Node.
  a| 
 SUMMARY-ATTRIBUTES.XML
  a| 
-${post_edited_translations.segment}
+Gruppen-OID + Gruppenpfad + Zusammenfassungsattribut-ID + Zusammenfassungsattributname + Wert + Index + Tabellen-ID + Tabellenname
  a| 
 Systemstatusdaten auf hoher Ebene, die StorageGRID Nutzungsinformationen zusammenfassen. Bietet Details wie den Namen des Grids, Namen der Standorte, Anzahl der Storage Nodes pro Grid und pro Standort, Lizenztyp, Lizenzkapazität und -nutzung, Software-Supportbedingungen sowie Details zu S3-Vorgängen.
 
 
 
  a| 
-${post_edited_translations.segment}
+SYSTEM-ALERTS.XML
  a| 
-${post_edited_translations.segment}
+Name + Schweregrad + Knotenname + Alarmstatus + Standortname + Auslösezeitpunkt des Alarms + Behebungszeitpunkt des Alarms + Regel-ID + Knoten-ID + Standort-ID + Stummgeschaltet + Weitere Anmerkungen + Weitere Bezeichnungen
  a| 
-${post_edited_translations.segment}
+Aktuelle Systemwarnungen, die auf potenzielle Probleme im StorageGRID System hinweisen.
 
 
 
  a| 
-${post_edited_translations.segment}
+USERAGENTS.XML
  a| 
-${post_edited_translations.segment}
+Benutzeragent + Anzahl der Tage + Gesamtzahl der HTTP-Anfragen + Gesamtzahl der empfangenen Bytes + Gesamtzahl der abgerufenen Bytes + PUT-Anfragen + GET-Anfragen + DELETE-Anfragen + HEAD-Anfragen + POST-Anfragen + OPTIONS-Anfragen + Durchschnittliche Anfragezeit (ms) + Durchschnittliche PUT-Anfragezeit (ms) + Durchschnittliche GET-Anfragezeit (ms) + Durchschnittliche DELETE-Anfragezeit (ms) + Durchschnittliche HEAD-Anfragezeit (ms) + Durchschnittliche POST-Anfragezeit (ms) + Durchschnittliche OPTIONS-Anfragezeit (ms)
  a| 
 Statistiken basierend auf den Anwendungsbenutzeragenten. Zum Beispiel die Anzahl der PUT/GET/DELETE/HEAD-Operationen pro Benutzeragent und die Gesamtgröße jeder Operation in Bytes.
 

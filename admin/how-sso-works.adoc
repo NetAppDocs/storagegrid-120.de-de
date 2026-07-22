@@ -15,7 +15,7 @@ Wenn Single Sign-On (SSO) aktiviert ist, ist der Zugriff auf Grid Manager, Tenan
 
 Das StorageGRID System unterstützt Single Sign-On (SSO) unter Verwendung des Security Assertion Markup Language 2.0 (SAML 2.0) Standards.
 
-${post_edited_translations.segment}
+Vor der Aktivierung von Single Sign-On (SSO) sollte geprüft werden, wie sich die Aktivierung von SSO auf die StorageGRID Anmelde- und Abmeldeprozesse auswirkt.
 
 
 
@@ -41,7 +41,7 @@ NOTE: Die StorageGRID Sign-in-Seite wird nicht angezeigt, wenn die vollständige
 . Geben Sie an, ob Sie auf den Grid Manager oder den Tenant Manager zugreifen möchten:
 +
 ** Um auf den Grid Manager zuzugreifen, das Feld *Konto-ID* leer lassen, *0* als Konto-ID eingeben oder *Grid Manager* auswählen, falls dieser in der Liste der zuletzt verwendeten Konten erscheint.
-** ${post_edited_translations.segment}
+** Um auf den Tenant Manager zuzugreifen, geben Sie die 20-stellige Tenant Account ID ein oder wählen Sie einen Tenant anhand seines Namens aus, falls dieser in der Liste der zuletzt verwendeten Konten erscheint.
 
 
 . *Anmelden* auswählen
@@ -71,13 +71,13 @@ Sie müssen Ihre SSO-Anmeldeinformationen nicht erneut eingeben.
 
 
 [[sign-out-when-sso-is-enabled]]
-== ${post_edited_translations.segment}
+== Abmelden, wenn SSO aktiviert ist
 
-${post_edited_translations.segment}
+Wenn SSO für StorageGRID aktiviert ist, hängt das Verhalten beim Abmelden davon ab, woran Sie angemeldet sind und von wo aus Sie sich abmelden.
 
 .Schritte
-. ${post_edited_translations.segment}
-. ${post_edited_translations.segment}
+. Der Link *Abmelden* befindet sich in der oberen rechten Ecke der Benutzeroberfläche.
+. *Abmelden* auswählen.
 +
 Die StorageGRID Sign in-Seite wird angezeigt. Das Dropdown-Menü *Recent Accounts* wurde aktualisiert und enthält nun *Grid Manager* oder den Namen des Mandanten, sodass zukünftig schneller auf diese Benutzeroberflächen zugegriffen werden kann.
 
@@ -88,7 +88,7 @@ TIP: Die Tabelle fasst zusammen, was beim Abmelden geschieht, wenn Sie eine einz
 +
 [cols="1a,1a,1a"]
 |===
-| ${post_edited_translations.segment} | Und Sie melden sich ab von... | Sie sind abgemeldet... 
+| Wenn Sie bei ... angemeldet sind | Und Sie melden sich ab von... | Sie sind abgemeldet... 
 
 
  a| 

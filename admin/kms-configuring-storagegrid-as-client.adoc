@@ -51,10 +51,10 @@ Das Serverzertifikat ermöglicht es dem externen KMS, sich gegenüber StorageGRI
 
 NOTE: Bei der Konfiguration des KMS in StorageGRID sind im Feld *Hostname* die gleichen vollqualifizierten Domains (FQDNs) oder IP-Adressen einzugeben.
 
-** ${post_edited_translations.segment}
+** Das Serverzertifikat muss mit dem Zertifikat übereinstimmen, das von der KMIP-Schnittstelle des KMS verwendet wird, die typischerweise Port 5696 verwendet.
 
 
-. ${post_edited_translations.segment}
+. Das öffentliche Clientzertifikat, das StorageGRID vom externen KMS ausgestellt wurde, sowie der private Schlüssel für das Clientzertifikat müssen beschafft werden.
 +
 Das Clientzertifikat ermöglicht StorageGRID, sich gegenüber dem KMS zu authentifizieren.
 

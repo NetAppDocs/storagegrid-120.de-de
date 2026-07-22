@@ -47,7 +47,7 @@ NOTE: Prüfcodes werden aus dem Produkt und der Dokumentation entfernt, sobald F
 | Code | Beschreibung | Siehe 
 
 
-| IDEL | ILM Initiated Delete: Protokolliert, wenn ILM den Prozess zum Löschen eines Objekts startet. | link:idel-ilm-initiated-delete.html["${post_edited_translations.segment}"] 
+| IDEL | ILM Initiated Delete: Protokolliert, wenn ILM den Prozess zum Löschen eines Objekts startet. | link:idel-ilm-initiated-delete.html["IDEL: ILM initiierte Löschung"] 
 
 
 | SDEL | S3 DELETE: Protokolliert eine erfolgreiche Transaktion zum Löschen eines Objekts oder Buckets. | link:sdel-s3-delete.html["SDEL: S3-DELETE"] 
@@ -59,7 +59,7 @@ NOTE: Prüfcodes werden aus dem Produkt und der Dokumentation entfernt, sobald F
 | SHEA | S3 HEAD: Protokolliert eine erfolgreiche Transaktion, um die Existenz eines Objekts oder Buckets zu überprüfen. | link:shea-s3-head.html["SHEA: S3 HEAD"] 
 
 
-| ${post_edited_translations.segment} | S3 PUT: Protokolliert eine erfolgreiche Transaktion zum Erstellen eines neuen Objekts oder Buckets. | link:sput-s3-put.html["SPUT: S3 PUT"] 
+| SPUT | S3 PUT: Protokolliert eine erfolgreiche Transaktion zum Erstellen eines neuen Objekts oder Buckets. | link:sput-s3-put.html["SPUT: S3 PUT"] 
 |===
 Das  `audit-sum`Tool kann Folgendes ausführen:
 
@@ -105,7 +105,7 @@ Die  `help (-h)` Option zeigt die verfügbaren Optionen an. Zum Beispiel:
 `$ audit-sum -h`
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.

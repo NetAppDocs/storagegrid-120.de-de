@@ -113,7 +113,7 @@ entries:
       url: "/tenant/configuring-platform-services-endpoints.html"
     - title: URN angeben
       url: "/tenant/specifying-urn-for-platform-services-endpoint.html"
-    - title: "${post_edited_translations.segment}"
+    - title: Endpunkt erstellen
       url: "/tenant/creating-platform-services-endpoint.html"
     - title: Testverbindung
       url: "/tenant/testing-connection-for-platform-services-endpoint.html"

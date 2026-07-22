@@ -36,13 +36,13 @@ Ergebnis
  a| 
 Das Endergebnis der Grid-Task:
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* SUCS: Die Grid-Aufgabe wurde erfolgreich abgeschlossen.
+* ABRT: Die Grid-Aufgabe wurde ohne Rollback-Fehler beendet.
 * ROLF: Der Grid-Task wurde beendet und konnte den Rollback-Prozess nicht abschließen.
 * ABBRUCH: Die Grid-Aufgabe wurde vom Benutzer abgebrochen, bevor sie gestartet wurde.
 * EXPR: Die Grid-Task ist abgelaufen, bevor sie gestartet wurde.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* IVLD: Die Grid-Aufgabe war ungültig.
+* AUTH: Die Grid-Aufgabe war nicht autorisiert.
 * DUPL: Die Grid-Aufgabe wurde als Duplikat abgelehnt.
 
 

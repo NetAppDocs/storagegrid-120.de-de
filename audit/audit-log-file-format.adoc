@@ -13,9 +13,9 @@ summary: Die Revisionsprotokoll Logdateien befinden sich auf jedem Admin Node un
 [role="lead"]
 Die Revisionsprotokoll Logdateien befinden sich auf jedem Admin Node und enthalten eine Sammlung einzelner Audit-Meldungen.
 
-${post_edited_translations.segment}
+Jede Revisionsprotokollmeldung enthält Folgendes:
 
-* ${post_edited_translations.segment}
+* Die koordinierte Weltzeit (UTC) des Ereignisses, das die Revisionsprotokollmeldung (ATIM) ausgelöst hat, im ISO 8601-Format, gefolgt von einem Leerzeichen:
 +
 `_YYYY-MM-DDTHH:MM:SS.UUUUUU_`, wobei `_UUUUUU_` Mikrosekunden sind.
 
@@ -46,4 +46,4 @@ Das folgende Beispiel zeigt drei Audit-Meldungen in einer Revisionsprotokolldate
 [CBID(UI64):0x180CBD8E678EED17][UUID(CSTR):"19CE06D0-D2CF-4B03-9C38-E578D66F7ADD"][CSIZ(UI64):1024][AVER(UI32):10]
 [ATIM(UI64):1565203410784558][ATYP(FC32):SPUT][ANID(UI32):12454421][AMID(FC32):S3RQ][ATID(UI64):13489590586043706682]]
 ----
-Im Standardformat sind die Audit-Meldungen in den Revisionsprotokolldateien nicht leicht lesbar oder interpretierbar. Mit link:using-audit-explain-tool.html["audit-explain Tool"] lassen sich vereinfachte Zusammenfassungen der Audit-Meldungen im Revisionsprotokoll erhalten. Mit link:using-audit-sum-tool.html["${post_edited_translations.segment}"] kann zusammengefasst werden, wie viele Schreib-, Lese- und Löschvorgänge protokolliert wurden und wie lange diese Vorgänge dauerten.
+Im Standardformat sind die Audit-Meldungen in den Revisionsprotokolldateien nicht leicht lesbar oder interpretierbar. Mit link:using-audit-explain-tool.html["audit-explain Tool"] lassen sich vereinfachte Zusammenfassungen der Audit-Meldungen im Revisionsprotokoll erhalten. Mit link:using-audit-sum-tool.html["audit-sum Tool"] kann zusammengefasst werden, wie viele Schreib-, Lese- und Löschvorgänge protokolliert wurden und wie lange diese Vorgänge dauerten.

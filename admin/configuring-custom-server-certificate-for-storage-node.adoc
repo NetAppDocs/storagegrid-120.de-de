@@ -46,9 +46,9 @@ Sie können ein benutzerdefiniertes S3 API-Zertifikat hochladen oder generieren.
 Die erforderlichen Serverzertifikatsdateien werden hochgeladen.
 
 .. *Zertifikat hochladen* auswählen.
-.. ${post_edited_translations.segment}
+.. Die erforderlichen Serverzertifikatsdateien werden hochgeladen:
 +
-*** ${post_edited_translations.segment}
+*** *Serverzertifikat*: Die benutzerdefinierte Serverzertifikatsdatei (PEM-codiert).
 *** *Privater Zertifikatsschlüssel*: Die benutzerdefinierte private Schlüsseldatei des Serverzertifikats (`.key`).
 +
 
@@ -59,14 +59,14 @@ NOTE: Private EC-Schlüssel müssen mindestens 224 Bit groß sein. Private RSA-S
 
 .. Wählen Sie die Zertifikatsdetails aus, um die Metadaten und die PEM für jedes hochgeladene benutzerdefinierte S3 API-Zertifikat anzuzeigen. Wenn ein optionales CA-Bundle hochgeladen wurde, erscheint jedes Zertifikat auf einer eigenen Registerkarte.
 +
-*** ${post_edited_translations.segment}
+*** *Zertifikat herunterladen* speichert die Zertifikatsdatei, *CA-Bundle herunterladen* speichert das Zertifikatspaket.
 +
 Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
 
 +
 Zum Beispiel: `storagegrid_certificate.pem`
 
-*** ${post_edited_translations.segment}
+*** *Zertifikat PEM kopieren* oder *CA-Bundle PEM kopieren* ermöglicht das Kopieren des Zertifikatsinhalts zum Einfügen an anderer Stelle.
 
 
 .. *Speichern* auswählen.
@@ -81,7 +81,7 @@ Das benutzerdefinierte Serverzertifikat wird für nachfolgende neue S3-Clientver
 Die Serverzertifikatsdateien werden generiert.
 
 .. *Zertifikat generieren* auswählen.
-.. ${post_edited_translations.segment}
+.. Zertifikatsinformationen angeben:
 +
 [cols="1a,3a"]
 |===
@@ -96,16 +96,16 @@ Ein oder mehrere vollqualifizierte Domain-Namen, die in das Zertifikat aufgenomm
 
 
  a| 
-${post_edited_translations.segment}
+IP
  a| 
-${post_edited_translations.segment}
+Eine oder mehrere IP-Adressen, die im Zertifikat enthalten sind.
 
 
 
  a| 
 Thema (optional)
  a| 
-${post_edited_translations.segment}
+X.509-Subjekt oder individueller Name (DN) des Zertifikatsinhabers.
 
 Wird in diesem Feld kein Wert eingegeben, verwendet das generierte Zertifikat den ersten Domänennamen oder die erste IP-Adresse als allgemeinen Subjektnamen (CN).
 
@@ -154,7 +154,7 @@ Das benutzerdefinierte Serverzertifikat wird für nachfolgende neue S3-Clientver
 
 NOTE: Nach dem Hochladen oder Generieren eines neuen Zertifikats kann es bis zu einem Tag dauern, bis etwaige Benachrichtigungen über das Ablaufdatum des Zertifikats entfernt werden.
 
-. ${post_edited_translations.segment}
+. Die Seite wird aktualisiert, damit der Webbrowser auf dem neuesten Stand ist.
 . Nachdem Sie ein benutzerdefiniertes S3 API-Zertifikat hinzugefügt haben, zeigt die Seite S3 API-Zertifikat detaillierte Zertifikatsinformationen für das verwendete benutzerdefinierte S3 API-Zertifikat an. + Das Zertifikat-PEM kann bei Bedarf heruntergeladen oder kopiert werden.
 
 
@@ -168,7 +168,7 @@ Sie können für S3-Clientverbindungen zu Storage Nodes wieder das Standard-S3-A
 .Schritte
 . *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
 . Auf der Registerkarte *Global* die Option *S3 API certificate* auswählen.
-. ${post_edited_translations.segment}
+. *Standardzertifikat verwenden* auswählen.
 +
 Wenn die Standardversion des globalen S3-API-Zertifikats wiederhergestellt wird, werden die von Ihnen konfigurierten benutzerdefinierten Serverzertifikatsdateien gelöscht und können nicht aus dem System wiederhergestellt werden. Das Standard-S3-API-Zertifikat wird für nachfolgende neue S3-Clientverbindungen zu Storage Nodes verwendet.
 
@@ -176,7 +176,7 @@ Wenn die Standardversion des globalen S3-API-Zertifikats wiederhergestellt wird,
 +
 Wenn Sie über Root-Zugriffsberechtigung verfügen und das benutzerdefinierte S3-API-Zertifikat für Load-Balancer-Endpunktverbindungen verwendet wurde, wird eine Liste der Load-Balancer-Endpunkte angezeigt, die mit dem Standard-S3-API-Zertifikat nicht mehr zugänglich sind. Zur Bearbeitung oder Entfernung der betroffenen Endpunkte zu link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] wechseln.
 
-. ${post_edited_translations.segment}
+. Die Seite wird aktualisiert, damit der Webbrowser auf dem neuesten Stand ist.
 
 
 
@@ -189,17 +189,17 @@ Sie können den Inhalt des S3 API-Zertifikats speichern oder kopieren, um ihn an
 .Schritte
 . *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
 . Auf der Registerkarte *Global* die Option *S3 API certificate* auswählen.
-. ${post_edited_translations.segment}
+. Die Registerkarte *Server* oder *CA bundle* auswählen und anschließend das Zertifikat herunterladen oder kopieren.
 +
 [role="tabbed-block"]
 ====
-.${post_edited_translations.segment}
+.Zertifikatsdatei oder CA-Bundle herunterladen
 --
 Die Zertifikats- oder CA-Bundle-Datei `.pem` herunterladen. Bei Verwendung eines optionalen CA-Bundles wird jedes Zertifikat im Bundle auf einer eigenen Unterregisterkarte angezeigt.
 
 .. *Zertifikat herunterladen* oder *CA-Bundle herunterladen* auswählen.
 +
-${post_edited_translations.segment}
+Wenn ein CA-Bundle heruntergeladen wird, werden alle Zertifikate in den sekundären Registerkarten des CA-Bundles als eine einzige Datei heruntergeladen.
 
 .. Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
 +
@@ -208,13 +208,13 @@ Zum Beispiel: `storagegrid_certificate.pem`
 
 
 --
-.${post_edited_translations.segment}
+.Zertifikat oder CA-Bundle-PEM kopieren
 --
 Kopieren Sie den Zertifikatstext, um ihn an anderer Stelle einzufügen. Wenn ein optionales CA-Bundle verwendet wird, wird jedes Zertifikat im Bundle auf einem eigenen Unterreiter angezeigt.
 
-.. ${post_edited_translations.segment}
+.. *Zertifikat PEM kopieren* oder *CA-Bundle PEM kopieren* auswählen.
 +
-${post_edited_translations.segment}
+Wenn Sie ein CA-Bundle kopieren, werden alle Zertifikate in den sekundären Registerkarten des CA-Bundles zusammen kopiert.
 
 .. Das kopierte Zertifikat in einen Texteditor einfügen.
 .. Die Textdatei mit der Erweiterung  `.pem` speichern.

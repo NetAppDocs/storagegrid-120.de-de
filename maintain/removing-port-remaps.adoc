@@ -30,7 +30,7 @@ NOTE: Dieses Verfahren funktioniert nicht für ein StorageGRID System, das als C
 +
 .. Geben Sie den folgenden Befehl ein: `ssh -p 8022 admin@node_IP`
 +
-${post_edited_translations.segment}
+Port 8022 ist der SSH-Port des Basisbetriebssystems, während Port 22 der SSH-Port der Container-Engine ist, die StorageGRID ausführt.
 
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
 .. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`

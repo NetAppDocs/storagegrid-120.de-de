@@ -23,7 +23,7 @@ NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation.
 
 Die Konfigurationsdatei für jeden StorageGRID Node ist im  `/etc/storagegrid/nodes` Verzeichnis auf dem Host abzulegen, auf dem der Node ausgeführt wird. Wenn beispielsweise ein Admin Node, ein Gateway Node und ein Storage Node auf HostA betrieben werden, sind drei Node-Konfigurationsdateien im  `/etc/storagegrid/nodes` auf HostA abzulegen.
 
-${post_edited_translations.segment}
+Sie können die Konfigurationsdateien direkt auf jedem Host mit einem Texteditor wie vim oder nano erstellen oder sie an anderer Stelle erstellen und auf jeden Host verschieben.
 
 
 
@@ -32,7 +32,7 @@ ${post_edited_translations.segment}
 
 Die Namen der Konfigurationsdateien sind von Bedeutung. Das Format ist `node-name.conf`, wobei `node-name` ein Name ist, den Sie dem Node zuweisen. Dieser Name wird im StorageGRID Installer angezeigt und für Node-Wartungsarbeiten wie die Node-Migration verwendet.
 
-${post_edited_translations.segment}
+Knotennamen müssen diese Regeln einhalten:
 
 * Muss eindeutig sein
 * Muss mit einem Buchstaben beginnen
@@ -53,20 +53,20 @@ Sie können beispielsweise  `dc1-adm1.conf` für den ersten Admin-Node in Rechen
 
 
 [[contents-of-a-node-configuration-file]]
-== ${post_edited_translations.segment}
+== Inhalt einer Knotenkonfigurationsdatei
 
 Eine Konfigurationsdatei enthält Schlüssel/Wert-Paare, wobei jede Zeile einen Schlüssel und einen Wert enthält. Für jedes Schlüssel/Wert-Paar gelten folgende Regeln:
 
 * Schlüssel und Wert müssen durch ein Gleichheitszeichen (`=` und optionale Leerzeichen getrennt sein.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* Die Schlüssel dürfen keine Leerzeichen enthalten.
+* Die Werte können eingebettete Leerzeichen enthalten.
 * Führende oder nachfolgende Leerzeichen werden ignoriert.
 
 
 In der folgenden Tabelle sind die Werte für alle unterstützten Schlüssel definiert. Jeder Schlüssel hat eine der folgenden Bezeichnungen:
 
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* *Erforderlich*: Erforderlich für jeden Knoten oder für die angegebenen Knotentypen
+* *Bewährte Vorgehensweise*: Optional, obwohl empfohlen
 * *Optional*: Optional für alle Knoten
 
 
@@ -128,7 +128,7 @@ Optional
 |===
 
 
-==== ${post_edited_translations.segment}
+==== ADMIN_NETWORK_GATEWAY
 
 [cols="4a,2a"]
 |===
@@ -149,7 +149,7 @@ Erforderlich, wenn `ADMIN_NETWORK_ESL` angegeben ist. Andernfalls optional.
 |===
 
 
-==== ${post_edited_translations.segment}
+==== ADMIN_NETWORK_IP
 
 [cols="4a,2a"]
 |===
@@ -818,7 +818,7 @@ Erforderlich
 |===
 
 
-==== ${post_edited_translations.segment}
+==== GRID_NETWORK_TARGET_TYPE
 
 [cols="4a,2a"]
 |===
@@ -845,7 +845,7 @@ Richtig oder Falsch
 
 Der Wert des Schlüssels wird auf "true" gesetzt, damit der StorageGRID Container die MAC-Adresse der Host-Zielschnittstelle im Grid Network verwendet.
 
-${post_edited_translations.segment}
+*Bewährte Vorgehensweise:* In Netzwerken, in denen der Promiscuous-Modus erforderlich wäre, sollte stattdessen der Schlüssel GRID_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC verwendet werden.
 
 Weitere Informationen zum Klonen von MAC-Adressen unter Linux finden sich unter link:../swnodes/configuring-host-network.html#considerations-and-recommendations-for-mac-address-cloning["Überlegungen und Empfehlungen zum Klonen von MAC-Adressen"]
  a| 
@@ -885,11 +885,11 @@ Bewährte Vorgehensweise
 
 
 [[interfaces-key]]
-=== ${post_edited_translations.segment}
+=== Schnittstellenschlüssel
 
 
 
-==== ${post_edited_translations.segment}
+==== INTERFACE_TARGET_nnnn
 
 [cols="4a,2a"]
 |===
@@ -917,7 +917,7 @@ Optional
 
 
 
-==== ${post_edited_translations.segment}
+==== MAXIMALER RAM
 
 [cols="4a,2a"]
 |===
@@ -961,7 +961,7 @@ Knotentyp:
 
 * VM_Admin_Node
 * VM_Speicherknoten
-* ${post_edited_translations.segment}
+* VM_Archive_Node
 * VM_API_Gateway
 
  a| 
@@ -1008,7 +1008,7 @@ NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zuk�
 
 
  a| 
-Ordnet jeden Port neu zu, der von einem Knoten für die interne Grid-Knoten-Kommunikation oder externe Kommunikation verwendet wird. Die Neuzuordnung von Ports ist erforderlich, wenn Netzwerkrichtlinien von Unternehmen einen oder mehrere von StorageGRID verwendete Ports einschränken, wie in link:../network/internal-grid-node-communications.html["Interne Grid-Knoten-Kommunikation"] oder link:../network/external-communications.html["${post_edited_translations.segment}"] beschrieben.
+Ordnet jeden Port neu zu, der von einem Knoten für die interne Grid-Knoten-Kommunikation oder externe Kommunikation verwendet wird. Die Neuzuordnung von Ports ist erforderlich, wenn Netzwerkrichtlinien von Unternehmen einen oder mehrere von StorageGRID verwendete Ports einschränken, wie in link:../network/internal-grid-node-communications.html["Interne Grid-Knoten-Kommunikation"] oder link:../network/external-communications.html["Externe Kommunikation"] beschrieben.
 
 *WICHTIG*: Ordnen Sie die Ports, die Sie zur Konfiguration der Load-Balancer-Endpunkte verwenden möchten, nicht neu zu.
 

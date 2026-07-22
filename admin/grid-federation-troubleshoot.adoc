@@ -123,7 +123,7 @@ image:grid-federation-retry-account-clone.png["Screenshot mit einer Fehlermeldun
 
 
 [[last-error-shown-for-connection-or-tenant]]
-=== ${post_edited_translations.segment}
+=== Letzter Fehler für Verbindung oder Mandant
 
 .Problem
 Wenn link:../monitor/grid-federation-monitor-connections.html["Anzeigen einer Grid Federation Verbindung"] (oder wenn link:grid-federation-manage-tenants.html["Verwaltung der zugelassenen Mandanten"] für eine Verbindung) ein Fehler in der Spalte *Letzter Fehler* auf der Seite mit den Verbindungsdetails angezeigt wird. Zum Beispiel:
@@ -139,17 +139,17 @@ Für jede Grid-Federation-Verbindung zeigt die Spalte *Letzter Fehler* den neues
 * Der Ziel-Bucket wurde von einem anderen Konto neu erstellt.
 * Die Versionierung des Ziel-Buckets ist ausgesetzt.
 * Der Ziel-Bucket wurde vom selben Konto neu erstellt, ist jetzt jedoch nicht versioniert.
-* ${post_edited_translations.segment}
+* Das Quellobjekt verfügt über S3 Object Lock-Einstellungen, die nicht mit den mandantenbezogenen Aufbewahrungseinstellungen des Ziel-Grids übereinstimmen.
 * Das Quellobjekt verfügt über S3 Object Lock-Einstellungen, und S3 Object Lock ist im Ziel-Bucket deaktiviert.
 
 
 .Empfohlene Maßnahmen
 Wenn in der Spalte *Letzter Fehler* eine Fehlermeldung angezeigt wird, sind folgende Schritte auszuführen:
 
-. ${post_edited_translations.segment}
+. Der Nachrichtentext kann überprüft werden.
 . Führen Sie alle empfohlenen Aktionen durch. Wenn beispielsweise die Versionierung für den Ziel-Bucket aufgrund der netzübergreifenden Replikation ausgesetzt wurde, sollte die Versionierung für diesen Bucket wieder aktiviert werden.
 . Die Verbindung oder das Mandantenkonto aus der Tabelle auswählen.
-. ${post_edited_translations.segment}
+. *Fehler löschen* auswählen.
 . *Ja* auswählen, um die Meldung zu löschen und den Systemstatus zu aktualisieren.
 . Warten Sie 5–6 Minuten und geben Sie dann ein neues Objekt in den Bucket ein. Es sollte bestätigt werden, dass die Fehlermeldung nicht erneut erscheint.
 +
@@ -158,7 +158,7 @@ NOTE: Um sicherzustellen, dass die Fehlermeldung verschwindet, sollte mindestens
 
 +
 
-TIP: ${post_edited_translations.segment}
+TIP: Nachdem der Fehler behoben wurde, kann ein neuer *Letzter Fehler* angezeigt werden, wenn Objekte in einem anderen Bucket aufgenommen werden, der ebenfalls einen Fehler aufweist.
 
 . Um festzustellen, ob Objekte aufgrund eines Bucket-Fehlers nicht repliziert werden konnten, siehe link:../admin/grid-federation-retry-failed-replication.html["Fehlgeschlagene Replikationsvorgänge identifizieren und erneut versuchen"].
 
@@ -196,7 +196,7 @@ Diese Warnung weist darauf hin, dass Mandantenobjekte aus einem Grund, der ein E
 . Zur Bestätigung, dass das Problem behoben wurde, siehe die Anweisungen in link:../monitor/grid-federation-monitor-connections.html["Verbindungen zum Grid-Verbund überwachen"] zur Überprüfung der Cross-Grid-Replikationsmetriken oder führen Sie diese Schritte aus:
 +
 .. Zurück zur Grid Federation-Seite.
-.. ${post_edited_translations.segment}
+.. Den betroffenen Mandanten auswählen und in der Spalte *Letzter Fehler* die Option *Fehler löschen* auswählen.
 .. *Ja* auswählen, um die Meldung zu löschen und den Systemstatus zu aktualisieren.
 .. Warten Sie 5–6 Minuten und geben Sie dann ein neues Objekt in den Bucket ein. Es sollte bestätigt werden, dass die Fehlermeldung nicht erneut erscheint.
 +
@@ -215,7 +215,7 @@ NOTE: Es kann bis zu einem Tag dauern, bis die Warnmeldung nach der Behebung des
 
 
 [[cross-grid-replication-resource-unavailable-alert]]
-=== ${post_edited_translations.segment}
+=== Warnung: Ressource für Cross-grid Replikation nicht verfügbar
 
 .Problem
 Die Warnung *Cross-grid replication resource unavailable* wurde ausgelöst.
@@ -224,10 +224,10 @@ Die Warnung *Cross-grid replication resource unavailable* wurde ausgelöst.
 Diese Warnmeldung weist darauf hin, dass netzübergreifende Replikationsanforderungen ausstehen, weil eine Ressource nicht verfügbar ist. Beispielsweise könnte ein Netzwerkfehler vorliegen.
 
 .Empfohlene Maßnahmen
-. ${post_edited_translations.segment}
+. Die Warnmeldung kann beobachtet werden, um festzustellen, ob sich das Problem von selbst löst.
 . Wenn das Problem weiterhin besteht, ist zu prüfen, ob für eines der Grids ein Alarm wegen eines *Grid-Federierungs-Verbindungsfehlers* für dieselbe Verbindung oder ein Alarm wegen *Kommunikation mit Node nicht möglich* für einen Node vorliegt. Dieser Alarm wird möglicherweise behoben, wenn diese Alarme gelöst werden.
 . Weitere Informationen zum Fehler finden Sie in den Anweisungen in link:../monitor/grid-federation-monitor-connections.html["Verbindungen zum Grid-Verbund überwachen"] zur Überprüfung der Cross-Grid-Replikationsmetriken.
-. ${post_edited_translations.segment}
+. Wenn das Problem nicht behoben werden kann, ist der technische Support zu kontaktieren.
 
 
 Die netzübergreifende Replikation läuft nach Behebung des Problems wie gewohnt weiter.

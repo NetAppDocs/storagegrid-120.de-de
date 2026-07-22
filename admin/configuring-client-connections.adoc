@@ -134,7 +134,7 @@ StorageGRID > Load Balancer Endpoint
  a| 
 S3-Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
  a| 
-${post_edited_translations.segment}
+StorageGRID > Mandant und Bucket
  a| 
 Client Anwendung
 
@@ -143,7 +143,7 @@ Client Anwendung
  a| 
 Bucket/Container-Name
  a| 
-${post_edited_translations.segment}
+StorageGRID > Mandant und Bucket
  a| 
 Client Anwendung
 
@@ -153,12 +153,12 @@ Client Anwendung
 [[how-do-i-get-these-values]]
 === Wie erhalte ich diese Werte?
 
-${post_edited_translations.segment}
+Je nach Ihren Anforderungen bestehen folgende Möglichkeiten, um die benötigten Informationen zu erhalten:
 
 * Verwendung des link:use-s3-setup-wizard.html["S3 Einrichtungsassistent"]. Der S3 Einrichtungsassistent unterstützt Sie bei der schnellen Konfiguration der erforderlichen Werte in StorageGRID und gibt eine oder zwei Dateien aus, die Sie bei der Konfiguration der S3 Anwendung verwenden können. Der Assistent führt Sie durch die erforderlichen Schritte und hilft sicherzustellen, dass Ihre Einstellungen den Best Practices von StorageGRID entsprechen.
 +
 
-NOTE: ${post_edited_translations.segment}
+NOTE: Wenn Sie eine S3-Anwendung konfigurieren, wird die Verwendung des S3 Setup-Assistenten empfohlen, es sei denn, es liegen besondere Anforderungen vor oder Ihre Implementierung erfordert umfangreiche Anpassungen.
 
 * *Verwenden von link:../fabricpool/use-fabricpool-setup-wizard.html["FabricPool Einrichtungsassistent"]*. Ähnlich wie der S3-Einrichtungsassistent hilft Ihnen der FabricPool Einrichtungsassistent dabei, die erforderlichen Werte schnell zu konfigurieren, und gibt eine Datei aus, die Sie bei der Konfiguration einer FabricPool Cloud-Tier in ONTAP verwenden können.
 +
@@ -167,12 +167,12 @@ NOTE: Wenn StorageGRID als Objektspeichersystem für eine FabricPool Cloud-Tier 
 
 * *Elemente manuell konfigurieren*. Wenn Sie eine Verbindung zu einer S3-Anwendung herstellen und den S3-Einrichtungsassistenten nicht verwenden möchten, können Sie die erforderlichen Werte durch manuelle Konfiguration ermitteln. Die folgenden Schritte sind auszuführen:
 +
-.. Die gewünschte Hochverfügbarkeitsgruppe (HA-Gruppe) für die S3-Anwendung wird konfiguriert. Weitere Informationen unter link:configure-high-availability-group.html["${post_edited_translations.segment}"].
+.. Die gewünschte Hochverfügbarkeitsgruppe (HA-Gruppe) für die S3-Anwendung wird konfiguriert. Weitere Informationen unter link:configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"].
 .. Erstellen des Load-Balancer-Endpunkts, den die S3-Anwendung verwenden wird. Siehe link:configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"].
 .. Erstellen des Mandantenkontos, das die S3-Anwendung verwendet. Siehe link:creating-tenant-account.html["Ein Mandantenkonto erstellen"].
-.. Für einen S3-Mandanten im Mandantenkonto anmelden und für jeden Benutzer, der auf die Anwendung zugreift, eine Zugriffsschlüssel-ID und einen geheimen Zugriffsschlüssel generieren. Siehe link:../tenant/creating-your-own-s3-access-keys.html["${post_edited_translations.segment}"].
+.. Für einen S3-Mandanten im Mandantenkonto anmelden und für jeden Benutzer, der auf die Anwendung zugreift, eine Zugriffsschlüssel-ID und einen geheimen Zugriffsschlüssel generieren. Siehe link:../tenant/creating-your-own-s3-access-keys.html["Eigene Zugriffsschlüssel erstellen"].
 .. Erstellen eines oder mehrerer S3 Buckets im Mandantenkonto. Für S3 siehe link:../tenant/creating-s3-bucket.html["S3 Bucket erstellen"].
-.. Um spezifische Platzierungsanweisungen für die Objekte hinzuzufügen, die zum neuen Mandanten oder Bucket/Container gehören, erstellen Sie eine neue ILM-Regel und aktivieren Sie eine neue ILM-Richtlinie, um diese Regel zu verwenden. Siehe link:../ilm/access-create-ilm-rule-wizard.html["${post_edited_translations.segment}"] und link:../ilm/creating-ilm-policy.html["ILM-Richtlinie erstellen"].
+.. Um spezifische Platzierungsanweisungen für die Objekte hinzuzufügen, die zum neuen Mandanten oder Bucket/Container gehören, erstellen Sie eine neue ILM-Regel und aktivieren Sie eine neue ILM-Richtlinie, um diese Regel zu verwenden. Siehe link:../ilm/access-create-ilm-rule-wizard.html["ILM-Regel erstellen"] und link:../ilm/creating-ilm-policy.html["ILM-Richtlinie erstellen"].
 
 
 

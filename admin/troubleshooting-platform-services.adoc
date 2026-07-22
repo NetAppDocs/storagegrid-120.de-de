@@ -152,7 +152,7 @@ NOTE: Wenn an einem Standort mehr als ein Storage Node, der den RSM-Dienst enth�
 [[additional-troubleshooting-guidance-for-platform-services-endpoints]]
 == Zusätzliche Hinweise zur Fehlerbehebung für Plattformdienste-Endpunkte
 
-Weitere Informationen finden Sie unter link:../tenant/troubleshooting-platform-services-endpoint-errors.html["${post_edited_translations.segment}"].
+Weitere Informationen finden Sie unter link:../tenant/troubleshooting-platform-services-endpoint-errors.html["Verwendung eines Mandantenkontos > Fehlerbehebung bei Plattformdienste-Endpunkten"].
 
 .Verwandte Informationen
 link:../troubleshoot/index.html["Fehlerbehebung im StorageGRID System"]

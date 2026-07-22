@@ -15,5 +15,5 @@ Bevor Sie die Identitätsföderation deaktivieren, ist Folgendes zu beachten:
 
 .Schritte
 . Zur Seite „Identitätsföderation“ wechseln.
-. ${post_edited_translations.segment}
+. Das Kontrollkästchen *Identitätsföderation aktivieren* ist zu deaktivieren.
 

@@ -41,7 +41,7 @@ Zur Unterstützung bei der Interpretation der Lese- und Schreibstatistiken von D
 +
 image:nodes_page_storage_tables_vol_expansion.png["Knoten Seite Speichertabellen"]
 
-. ${post_edited_translations.segment}
+. Befolgen Sie die Anweisungen für Ihre Plattform, um neue Speichervolumes zum Storage Node hinzuzufügen.
 +
 ** link:vmware-adding-storage-volumes-to-storage-node.html["VMware: Speichervolumes zu Storage Node hinzufügen"]
 ** link:linux-adding-direct-attached-or-san-volumes-to-storage-node.html["Linux: Direkt angeschlossene oder SAN-Volumes zu Storage Node hinzufügen"]

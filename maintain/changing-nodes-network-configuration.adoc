@@ -43,7 +43,7 @@ NOTE: Alle Änderungen, die Sie mit dem Tool „IP ändern“ am Netzwerk vorneh
 
 .Schritte
 . Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
@@ -199,7 +199,7 @@ Nach dem Anwenden oder Bereitstellen von Änderungen wird aufgrund der Änderung
 . Ein neues Wiederherstellungspaket kann vom Grid Manager heruntergeladen werden.
 +
 .. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
-.. ${post_edited_translations.segment}
+.. Die Bereitstellungs-Passphrase eingeben.
 
 
 . Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] sobald die Änderung der Knotennetzwerkkonfiguration abgeschlossen ist.
@@ -221,7 +221,7 @@ NOTE: Um dauerhafte Änderungen an der LACP PDU-Rate vorzunehmen, siehe  https:/
 
 
 .Schritte
-. ${post_edited_translations.segment}
+. Anmeldung am primären Admin-Knoten:
 +
 .. Geben Sie den folgenden Befehl ein: `ssh admin@primary_Admin_Node_IP`
 .. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.

@@ -11,7 +11,7 @@ summary: Sie können grundlegende Informationen zu allen Grid Federation-Verbind
 
 
 [role="lead"]
-Sie können grundlegende Informationen zu allen link:../admin/grid-federation-overview.html["${post_edited_translations.segment}"]Verbindungen, detaillierte Informationen zu einer bestimmten Verbindung oder Prometheus-Metriken zu netzübergreifenden Replikationsvorgängen überwachen. Eine Verbindung kann von jedem Grid aus überwacht werden.
+Sie können grundlegende Informationen zu allen link:../admin/grid-federation-overview.html["Grid Federation-Verbindungen"]Verbindungen, detaillierte Informationen zu einer bestimmten Verbindung oder Prometheus-Metriken zu netzübergreifenden Replikationsvorgängen überwachen. Eine Verbindung kann von jedem Grid aus überwacht werden.
 
 .Bevor Sie beginnen
 * Sie sind beim Grid Manager auf einem der beiden Grids mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.

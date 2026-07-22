@@ -35,6 +35,6 @@ Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählte
  a| 
 Knotentyp
  a| 
-${post_edited_translations.segment}
+Je nach gewähltem Knotentyp müssen Clients entweder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node oder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Gateway Node verwenden, um auf diesen Endpunkt zuzugreifen.
 
 |===

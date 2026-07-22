@@ -20,7 +20,7 @@ Die Load Balancer-Endpunkte legen die Ports und Netzwerkprotokolle fest, die S3-
 * Wenn Sie zuvor einen Port, den Sie für den Load-Balancer-Endpunkt verwenden möchten, neu zugeordnet haben, haben Sie link:../maintain/removing-port-remaps.html["Port-Neuzuordnung entfernt"].
 * Sie haben alle Hochverfügbarkeitsgruppen (HA-Gruppen) erstellt, die Sie verwenden möchten. HA-Gruppen werden empfohlen, sind aber nicht erforderlich. Siehe link:managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
 * Wenn der Load-Balancer-Endpunkt von link:../admin/manage-s3-select-for-tenant-accounts.html["S3 Mandanten für S3 Select"] verwendet wird, dürfen weder die IP-Adressen noch die FQDNs von Bare-Metal-Knoten genutzt werden. Für die Load-Balancer-Endpunkte, die für S3 Select verwendet werden, sind ausschließlich Service-Appliances und VMware-basierte Softwareknoten zulässig.
-* Sie haben alle VLAN-Schnittstellen konfiguriert, die Sie verwenden möchten. Siehe link:configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+* Sie haben alle VLAN-Schnittstellen konfiguriert, die Sie verwenden möchten. Siehe link:configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"].
 * Wenn Sie einen HTTPS-Endpunkt erstellen (empfohlen), liegen Ihnen die Informationen für das Serverzertifikat vor.
 +
 
@@ -38,7 +38,7 @@ NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötig
 
 [[create-a-load-balancer-endpoint]]
 [[create-lb-endpoint]]
-== ${post_edited_translations.segment}
+== Einen Load Balancer-Endpunkt erstellen
 
 Jeder S3 Client Load Balancer Endpunkt spezifiziert einen Port, einen Clienttyp (S3) und ein Netzwerkprotokoll (HTTP oder HTTPS). Managementoberfläche Load Balancer Endpunkte spezifizieren einen Port, einen Schnittstellentyp und ein nicht vertrauenswürdiges Clientnetzwerk.
 
@@ -209,7 +209,7 @@ Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählte
  a| 
 Knotentyp (nur Client-Endpunkte)
  a| 
-${post_edited_translations.segment}
+Je nach gewähltem Knotentyp müssen Clients entweder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node oder die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Gateway Node verwenden, um auf diesen Endpunkt zuzugreifen.
 
 
 
@@ -301,7 +301,7 @@ Diese Option kann nicht ausgewählt werden, es sei denn, das standardmäßige S3
 .Zertifikat hochladen
 --
 .. *Zertifikat hochladen* auswählen.
-.. ${post_edited_translations.segment}
+.. Die erforderlichen Serverzertifikatsdateien werden hochgeladen:
 +
 *** *Serverzertifikat*: Die benutzerdefinierte Serverzertifikatdatei in PEM-Kodierung.
 *** *Privater Zertifikatsschlüssel*: Die benutzerdefinierte private Schlüsseldatei des Serverzertifikats (`.key`).
@@ -314,14 +314,14 @@ NOTE: Private EC-Schlüssel müssen mindestens 224 Bit groß sein. Private RSA-S
 
 .. *Zertifikatsdetails* kann erweitert werden, um die Metadaten jedes hochgeladenen Zertifikats anzuzeigen. Wenn ein optionales CA-Bundle hochgeladen wurde, wird jedes Zertifikat auf einem eigenen Tab angezeigt.
 +
-*** ${post_edited_translations.segment}
+*** *Zertifikat herunterladen* speichert die Zertifikatsdatei, *CA-Bundle herunterladen* speichert das Zertifikatspaket.
 +
 Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
 
 +
 Zum Beispiel: `storagegrid_certificate.pem`
 
-*** ${post_edited_translations.segment}
+*** *Zertifikat PEM kopieren* oder *CA-Bundle PEM kopieren* ermöglicht das Kopieren des Zertifikatsinhalts zum Einfügen an anderer Stelle.
 
 
 .. *Erstellen* auswählen. + Der Load Balancer Endpunkt wird erstellt. Das benutzerdefinierte Zertifikat wird für alle nachfolgenden neuen Verbindungen zwischen S3 Clients oder der Managementoberfläche und dem Endpunkt verwendet.
@@ -331,7 +331,7 @@ Zum Beispiel: `storagegrid_certificate.pem`
 .Zertifikat generieren
 --
 .. *Zertifikat generieren* auswählen.
-.. ${post_edited_translations.segment}
+.. Zertifikatsinformationen angeben:
 +
 [cols="1a,3a"]
 |===
@@ -346,16 +346,16 @@ Ein oder mehrere vollqualifizierte Domain-Namen, die in das Zertifikat aufgenomm
 
 
  a| 
-${post_edited_translations.segment}
+IP
  a| 
-${post_edited_translations.segment}
+Eine oder mehrere IP-Adressen, die im Zertifikat enthalten sind.
 
 
 
  a| 
 Thema (optional)
  a| 
-${post_edited_translations.segment}
+X.509-Subjekt oder individueller Name (DN) des Zertifikatsinhabers.
 
 Wird in diesem Feld kein Wert eingegeben, verwendet das generierte Zertifikat den ersten Domänennamen oder die erste IP-Adresse als allgemeinen Subjektnamen (CN).
 

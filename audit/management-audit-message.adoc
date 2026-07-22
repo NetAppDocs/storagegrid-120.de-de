@@ -15,7 +15,7 @@ Die Kategorie „Management“ protokolliert Benutzeranfragen an die Management 
 
 [cols="1a,3a,1a"]
 |===
-| Code | ${post_edited_translations.segment} | Siehe 
+| Code | Nachrichtentitel und -beschreibung | Siehe 
 
 
  a| 

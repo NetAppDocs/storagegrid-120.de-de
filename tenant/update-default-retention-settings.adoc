@@ -25,7 +25,7 @@ Wenn Sie beim Erstellen des Buckets die S3 Object Lock aktiviert haben, können 
 +
 Die Seite mit den Bucket-Details wird angezeigt.
 
-. ${post_edited_translations.segment}
+. Auf der Registerkarte *Bucket-Optionen* das Akkordeon *S3 Object Lock* auswählen.
 . Optional kann die *Standardaufbewahrung* für diesen Bucket aktiviert oder deaktiviert werden.
 +
 Änderungen an dieser Einstellung gelten nicht für Objekte, die sich bereits im Bucket befinden, oder für Objekte, die möglicherweise eigene Aufbewahrungsfristen haben.

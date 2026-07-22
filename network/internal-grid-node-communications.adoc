@@ -491,4 +491,4 @@ Interner Datenverkehr des Keystone-Dienstes.
 
 |===
 .Verwandte Informationen
-link:external-communications.html["${post_edited_translations.segment}"]
+link:external-communications.html["Externe Kommunikation"]

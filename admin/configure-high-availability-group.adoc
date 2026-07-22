@@ -19,7 +19,7 @@ NOTE: Ein StorageGRID System kann maximal 255 HA Gruppen haben.
 .Bevor Sie beginnen
 * Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
 * Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
-* Wenn Sie eine VLAN-Schnittstelle in einer HA-Gruppe verwenden möchten, haben Sie die VLAN-Schnittstelle erstellt. Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+* Wenn Sie eine VLAN-Schnittstelle in einer HA-Gruppe verwenden möchten, haben Sie die VLAN-Schnittstelle erstellt. Siehe link:../admin/configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"].
 * Wenn eine Zugriffsschnittstelle für einen Node in einer HA-Gruppe verwendet werden soll, wurde die Schnittstelle erstellt:
 +
 ** *Linux (vor der Installation des Node)*: link:../swnodes/creating-node-configuration-files.html["Knotenkonfigurationsdateien erstellen"]

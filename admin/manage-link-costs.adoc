@@ -18,12 +18,12 @@ Mit Verbindungskosten lässt sich priorisieren, welcher Rechenzentrumsstandort e
 [[what-are-link-costs]]
 == Was sind Verbindungskosten?
 
-* ${post_edited_translations.segment}
+* Anhand der Linkkosten wird priorisiert, welche Objektkopie für den Abruf von Objekten verwendet wird.
 * Die Verbindungskosten werden von der Grid Management API und der Tenant Management API verwendet, um zu bestimmen, welche internen StorageGRID-Services genutzt werden.
 * Die Verbindungskosten werden vom Load Balancer Service auf Admin Nodes und Gateway Nodes zur Steuerung von Clientverbindungen verwendet. Siehe link:../admin/managing-load-balancing.html["Überlegungen zum Lastausgleich"].
 
 
-${post_edited_translations.segment}
+Das Diagramm zeigt ein Grid mit drei Standorten, bei dem die Verbindungskosten zwischen den Standorten konfiguriert sind:
 
 image:link_costs.gif["Konzeptdiagramm für Verbindungskosten zwischen Rechenzentren"]
 
@@ -64,7 +64,7 @@ Logische Rechenzentren im selben physischen Gebäude oder Campus, verbunden durc
 
 
 [[update-link-costs]]
-== ${post_edited_translations.segment}
+== Linkkosten aktualisieren
 
 Sie können die Verbindungskosten zwischen den Rechenzentrumsstandorten aktualisieren, um die Latenz zwischen den Standorten widerzuspiegeln.
 

@@ -22,7 +22,7 @@ Sie müssen Active Directory Federation Services (AD FS) verwenden, um für jede
 NOTE: Sie müssen für jeden Admin-Knoten in Ihrem StorageGRID System eine Vertrauensstellung einrichten. Eine Vertrauensstellung für jeden Admin-Knoten gewährleistet, dass sich Benutzer sicher an jedem Admin-Knoten an- und ausloggen können.
 
 * Sie haben Erfahrung mit der Erstellung von Vertrauensstellungen für vertrauende Parteien in AD FS oder Sie haben Zugriff auf die Microsoft AD FS-Dokumentation.
-* ${post_edited_translations.segment}
+* Sie verwenden das AD FS Management Snap-In und gehören zur Gruppe „Administratoren“.
 * Wenn Sie die Vertrauensstellung der vertrauenden Seite manuell erstellen, verfügen Sie über das benutzerdefinierte Zertifikat, das für die StorageGRID Managementoberfläche hochgeladen wurde, oder Sie wissen, wie Sie sich über die Befehlsshell bei einem Admin Node anmelden.
 
 
@@ -49,7 +49,7 @@ Mit Windows PowerShell lassen sich schnell eine oder mehrere Vertrauensstellunge
 
 . Wählen Sie im Windows Server-Manager *Tools* > *AD FS Management* aus.
 +
-${post_edited_translations.segment}
+Das AD FS Verwaltungstool wird angezeigt.
 
 . *AD FS* > *Vertrauensstellungen der vertrauenden Seite* auswählen.
 +
@@ -74,37 +74,37 @@ Die Liste der vertrauenden Partei-Vertrauensstellungen wird angezeigt.
 Beispielsweise *ObjectGUID zu Name ID* oder *UPN zu Name ID*.
 
 .. Für den Attributspeicher wird *Active Directory* ausgewählt.
-.. ${post_edited_translations.segment}
+.. In der Spalte LDAP-Attribut der Zuordnungstabelle *objectGUID* eingeben oder *User-Principal-Name* auswählen.
 .. In der Spalte „Ausgehender Anspruchstyp“ der Zuordnungstabelle wird *Name ID* aus der Dropdown-Liste ausgewählt.
 .. *Fertigstellen* und anschließend *OK* auswählen.
 
 
-. ${post_edited_translations.segment}
+. Es wird bestätigt, dass die Metadaten erfolgreich importiert wurden.
 +
-.. ${post_edited_translations.segment}
+.. Klicken Sie mit der rechten Maustaste auf die Vertrauensstellung der vertrauenden Seite, um deren Eigenschaften zu öffnen.
 .. Bestätigen Sie, dass die Felder auf den Registerkarten *Endpunkte*, *Kennungen* und *Signatur* ausgefüllt sind.
 +
 Falls die Metadaten fehlen, sollte überprüft werden, ob die Federation-Metadatenadresse korrekt ist, oder die Werte können manuell eingegeben werden.
 
 
 
-. ${post_edited_translations.segment}
-. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["${post_edited_translations.segment}"], um zu bestätigen, dass sie korrekt konfiguriert sind.
+. Wiederholen Sie diese Schritte, um eine Vertrauensstellung für alle Admin-Knoten in Ihrem StorageGRID System zu konfigurieren.
+. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["alle Vertrauensstellungen der vertrauenden Parteien testen"], um zu bestätigen, dass sie korrekt konfiguriert sind.
 
 
 
 
 [[create-a-relying-party-trust-by-importing-federation-metadata]]
-== ${post_edited_translations.segment}
+== Eine Vertrauensstellung für die vertrauende Seite durch Importieren von Verbundmetadaten erstellen
 
 Sie können die Werte für jede Relying-Party-Trust-Beziehung importieren, indem Sie auf die SAML-Metadaten für jeden Admin-Node zugreifen.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Wählen Sie im Windows Server-Manager *Tools* und anschließend *AD FS Management* aus.
 . Unter Aktionen die Option *Vertrauensstellung der vertrauenden Partei hinzufügen* auswählen.
 . Auf der Willkommensseite *Claims aware* auswählen und *Start* wählen.
 . *Daten über die vertrauende Partei importieren, die online oder in einem lokalen Netzwerk veröffentlicht wurden* auswählen.
-. ${post_edited_translations.segment}
+. Unter *Federation metadata address (Host Name oder URL)* ist der Speicherort der SAML-Metadaten für diesen Admin-Node anzugeben:
 +
 `https://_Admin_Node_FQDN_/api/saml-metadata`
 
@@ -126,22 +126,22 @@ NOTE: Beim Eingeben des Anzeigenamens ist der Relying Party Identifier für den 
 Beispielsweise *ObjectGUID zu Name ID* oder *UPN zu Name ID*.
 
 .. Für den Attributspeicher wird *Active Directory* ausgewählt.
-.. ${post_edited_translations.segment}
+.. In der Spalte LDAP-Attribut der Zuordnungstabelle *objectGUID* eingeben oder *User-Principal-Name* auswählen.
 .. In der Spalte „Ausgehender Anspruchstyp“ der Zuordnungstabelle wird *Name ID* aus der Dropdown-Liste ausgewählt.
 .. *Fertigstellen* und anschließend *OK* auswählen.
 
 
-. ${post_edited_translations.segment}
+. Es wird bestätigt, dass die Metadaten erfolgreich importiert wurden.
 +
-.. ${post_edited_translations.segment}
+.. Klicken Sie mit der rechten Maustaste auf die Vertrauensstellung der vertrauenden Seite, um deren Eigenschaften zu öffnen.
 .. Bestätigen Sie, dass die Felder auf den Registerkarten *Endpunkte*, *Kennungen* und *Signatur* ausgefüllt sind.
 +
 Falls die Metadaten fehlen, sollte überprüft werden, ob die Federation-Metadatenadresse korrekt ist, oder die Werte können manuell eingegeben werden.
 
 
 
-. ${post_edited_translations.segment}
-. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["${post_edited_translations.segment}"] um zu bestätigen, dass sie korrekt konfiguriert sind.
+. Wiederholen Sie diese Schritte, um eine Vertrauensstellung für alle Admin-Knoten in Ihrem StorageGRID System zu konfigurieren.
+. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["alle Vertrauensstellungen der vertrauenden Parteien testen"] um zu bestätigen, dass sie korrekt konfiguriert sind.
 
 
 
@@ -152,7 +152,7 @@ Falls die Metadaten fehlen, sollte überprüft werden, ob die Federation-Metadat
 Wenn Sie die Daten für die vertrauenden Teilvertrauensstellungen nicht importieren, können Sie die Werte manuell eingeben.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Wählen Sie im Windows Server-Manager *Tools* und anschließend *AD FS Management* aus.
 . Unter Aktionen die Option *Vertrauensstellung der vertrauenden Partei hinzufügen* auswählen.
 . Auf der Willkommensseite *Claims aware* auswählen und *Start* wählen.
 . *Daten über die vertrauende Partei manuell eingeben* auswählen und *Weiter* auswählen.
@@ -196,12 +196,12 @@ NOTE: Falls das Dialogfeld nicht angezeigt wird, klicken Sie mit der rechten Mau
 Beispielsweise *ObjectGUID zu Name ID* oder *UPN zu Name ID*.
 
 .. Für den Attributspeicher wird *Active Directory* ausgewählt.
-.. ${post_edited_translations.segment}
+.. In der Spalte LDAP-Attribut der Zuordnungstabelle *objectGUID* eingeben oder *User-Principal-Name* auswählen.
 .. In der Spalte „Ausgehender Anspruchstyp“ der Zuordnungstabelle wird *Name ID* aus der Dropdown-Liste ausgewählt.
 .. *Fertigstellen* und anschließend *OK* auswählen.
 
 
-. ${post_edited_translations.segment}
+. Klicken Sie mit der rechten Maustaste auf die Vertrauensstellung der vertrauenden Seite, um deren Eigenschaften zu öffnen.
 . Auf der Registerkarte *Endpunkte* wird der Endpunkt für Single Logout (SLO) konfiguriert:
 +
 .. *SAML hinzufügen* auswählen.
@@ -235,6 +235,6 @@ Die Eigenschaften der Relying Party werden gespeichert und geschlossen.
 
 
 
-. ${post_edited_translations.segment}
-. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["${post_edited_translations.segment}"] um zu bestätigen, dass sie korrekt konfiguriert sind.
+. Wiederholen Sie diese Schritte, um eine Vertrauensstellung für alle Admin-Knoten in Ihrem StorageGRID System zu konfigurieren.
+. Wenn Sie fertig sind, kehren Sie zu StorageGRID zurück und link:../admin/configure-sso.html#test-sso["alle Vertrauensstellungen der vertrauenden Parteien testen"] um zu bestätigen, dass sie korrekt konfiguriert sind.
 

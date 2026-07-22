@@ -16,7 +16,7 @@ Das Tenant Manager Dashboard bietet eine Übersicht über die Konfiguration eine
 
 NOTE: Die logische Größe aller Objekte dieses Mandanten umfasst unvollständige und laufende Multipart-Uploads. Die Größe enthält keinen zusätzlichen physischen Speicherplatz, der für ILM-Richtlinien verwendet wird. Die Werte für den verwendeten Speicherplatz sind Schätzungen. Diese Schätzungen werden durch den Zeitpunkt der Datenaufnahme, die Netzwerkverbindung und den Knotenstatus beeinflusst.
 
-${post_edited_translations.segment}
+Nach dem Hochladen von Objekten sieht das Dashboard wie im folgenden Beispiel aus:
 
 image:tenant_dashboard_with_buckets.png["Dashboard - Bucket-Liste"]
 
@@ -34,11 +34,11 @@ Abhängig von link:tenant-management-permissions.html["Berechtigungen zur Mieter
 [[storage-and-quota-usage]]
 == Speicher- und Kontingentnutzung
 
-${post_edited_translations.segment}
+Das Panel zur Speichernutzung enthält die folgenden Informationen:
 
 * Die Menge der Objektdaten für den Mandanten.
 +
-${post_edited_translations.segment}
+Dieser Wert gibt die Gesamtmenge der hochgeladenen Objektdaten an und stellt nicht den Speicherplatz dar, der zum Speichern von Kopien dieser Objekte und ihrer Metadaten verwendet wird.
 
 * Wenn ein Kontingent festgelegt ist, werden der insgesamt für Objektdaten verfügbare Speicherplatz sowie die verbleibende Menge und der prozentuale Anteil des verbleibenden Speicherplatzes angezeigt. Das Kontingent begrenzt die Menge der Objektdaten, die aufgenommen werden können.
 +
@@ -54,10 +54,10 @@ image:tenant_dashboard_storage_usage_segment.png["Balkendiagrammsegment"]
 
 * Passend zum Balkendiagramm eine Liste der größten Buckets oder Container, einschließlich der Gesamtmenge der Objektdaten und der Anzahl der Objekte für jeden Bucket oder Container.
 +
-image:tenant_dashboard_buckets.png["${post_edited_translations.segment}"]
+image:tenant_dashboard_buckets.png["Buckets im Mandanten-Dashboard"]
 
 +
-${post_edited_translations.segment}
+Wenn der Mieter mehr als neun Buckets oder Container hat, werden alle anderen Buckets oder Container zu einem einzigen Eintrag am Ende der Liste zusammengefasst.
 
 
 
@@ -73,7 +73,7 @@ Wenn im Grid Manager Warnmeldungen zur Quotennutzung aktiviert wurden, werden di
 
 * Wenn 90 % oder mehr des Kontingents eines Mandanten verbraucht sind, wird die Warnung *Tenant quota usage high* ausgelöst.
 +
-${post_edited_translations.segment}
+Es kann in Betracht gezogen werden, den Grid-Administrator um eine Erhöhung des Kontingents zu bitten.
 
 * Wenn Sie Ihr Kontingent überschreiten, erhalten Sie eine Benachrichtigung, dass Sie keine neuen Objekte hochladen können.
 
@@ -94,6 +94,6 @@ Ist für einen Bucket kein Limit festgelegt, ist seine Kapazität unbegrenzt. We
 
 Wenn Sie den Grid Manager verwendet haben, um einen oder mehrere Endpunkte für die Verwendung mit Plattformdiensten zu konfigurieren, zeigt das Tenant Manager Dashboard eine Warnung an, falls in den letzten sieben Tagen Endpunktfehler aufgetreten sind.
 
-image:tenant_dashboard_endpoint_error.png["${post_edited_translations.segment}"]
+image:tenant_dashboard_endpoint_error.png["Dashboard mit Anzeige der Endpunktmeldung"]
 
 Details zu link:troubleshooting-platform-services-endpoint-errors.html["Plattformdienst-Endpunktfehler"] sind auf der Seite *Endpunkte* zu finden, die durch Auswahl von *Endpunkte* angezeigt wird.

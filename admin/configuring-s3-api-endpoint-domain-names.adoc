@@ -101,5 +101,5 @@ Wenn ein von S3-Anwendungen verwendeter Name entfernt wird, schlagen virtual-hos
 .Verwandte Informationen
 * link:../s3/index.html["S3 REST-API verwenden"]
 * link:viewing-ip-addresses.html["IP-Adressen anzeigen"]
-* link:configure-high-availability-group.html["${post_edited_translations.segment}"]
+* link:configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"]
 

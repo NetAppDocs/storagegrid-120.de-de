@@ -11,15 +11,15 @@ summary: Die Grid Management API gliedert die verfügbaren API-Operationen in di
 
 
 [role="lead"]
-${post_edited_translations.segment}
+Die Grid Management API gliedert die verfügbaren Operationen in die folgenden Abschnitte.
 
 
 NOTE: Diese Liste enthält nur Operationen, die in der öffentlichen API verfügbar sind.
 
 * *Konten*: Vorgänge zur Verwaltung von Speicher-Mandantenkonten, einschließlich der Erstellung neuer Konten und des Abrufs der Speichernutzung für ein bestimmtes Konto.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* *Alarmverlauf*: Vorgänge bei behobenen Alarmen.
+* *alert-receivers*: Vorgänge an Empfängern von Alarmbenachrichtigungen (E-Mail).
+* *alert-rules*: Vorgänge für Alarmregeln.
 * *alert-silences*: Vorgänge bei Alarm-Stummschaltungen.
 * *Warnungen*: Vorgänge bei Warnmeldungen.
 * *audit*: Vorgänge zum Auflisten und Aktualisieren der Audit-Konfiguration.
@@ -38,19 +38,19 @@ Weitere Informationen zur Verbesserung der Sicherheit bei der Authentifizierung 
 * *config*: Operationen im Zusammenhang mit der Produktfreigabe und den Versionen der Grid Management API. Es besteht die Möglichkeit, die Produktfreigabeversion sowie die von dieser Freigabe unterstützten Hauptversionen der Grid Management API aufzulisten und veraltete Versionen der API zu deaktivieren.
 * *deactivated-features*: Vorgänge zum Anzeigen von Funktionen, die möglicherweise deaktiviert wurden.
 * *dns-servers*: Vorgänge zum Auflisten und Ändern konfigurierter externer DNS-Server.
-* ${post_edited_translations.segment}
+* *Laufwerksdetails*: Vorgänge an Laufwerken für bestimmte Speichergerätemodelle.
 * *endpoint-domain-names*: Operationen zum Auflisten und Ändern von S3-Endpunkt-Domänennamen.
-* ${post_edited_translations.segment}
+* *Erasure-Coding*: Vorgänge an Erasure-Coding-Profilen.
 * *Expansion*: Operationen bei der Expansion (Prozedurebene).
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* *Expansionsknoten*: Vorgänge auf Expansionsebene (Knotenebene).
+* *Expansionsstandorte*: Vorgänge auf Erweiterungs- (Standort-) Ebene.
 * *grid-networks*: Vorgänge zum Auflisten und Ändern der Grid-Netzwerkliste.
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
-* ${post_edited_translations.segment}
+* *grid-passwords*: Vorgänge für die Grid-Passwortverwaltung.
+* *Gruppen*: Vorgänge zur Verwaltung lokaler Grid Administrator Groups und zum Abrufen föderierter Grid Administrator Groups von einem externen LDAP-Server.
+* *identity-source*: Operationen zum Konfigurieren einer externen Identitätsquelle und zum manuellen Synchronisieren von föderierten Gruppen- und Benutzerinformationen.
 * *ilm*: Vorgänge im Bereich des Information Lifecycle Management (ILM).
 * *in-progress-procedures*: Ruft die Wartungsverfahren ab, die derzeit in Bearbeitung sind.
-* ${post_edited_translations.segment}
+* *Lizenz*: Operationen zum Abrufen und Aktualisieren der StorageGRID Lizenz.
 * *Protokolle*: Vorgänge zum Sammeln und Herunterladen von Protokolldateien.v
 * *Metriken*: Operationen an StorageGRID-Metriken, einschließlich sofortiger Metrikabfragen zu einem bestimmten Zeitpunkt und Bereichsabfragen von Metriken über einen Zeitraum. Die Grid Management API verwendet das Systemüberwachungstool Prometheus als Backend-Datenquelle. Informationen zur Erstellung von Prometheus-Abfragen sind auf der Prometheus-Website verfügbar.
 +

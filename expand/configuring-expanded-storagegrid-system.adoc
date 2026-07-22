@@ -4,7 +4,7 @@ sidebar: sidebar
 keywords: expansion, configuration, StorageGRID 
 summary: Nach Abschluss einer Erweiterung sind zusätzliche Integrations- und Konfigurationsschritte erforderlich. 
 ---
-= ${post_edited_translations.segment}
+= Neu hinzugefügte Knoten und Standorte in StorageGRID konfigurieren
 :allow-uri-read: 
 :icons: font
 :imagesdir: ../media/
@@ -38,13 +38,13 @@ CAUTION: Es ist sicherzustellen, dass mindestens zwei Nodes an jedem Standort au
 
 . Wenn Sie einen Gateway-Knoten hinzugefügt haben:
 +
-** Wenn Hochverfügbarkeitsgruppen (HA-Gruppen) für Clientverbindungen verwendet werden, kann der Gateway-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und ermöglicht das Hinzufügen des neuen Knotens. Siehe link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"].
+** Wenn Hochverfügbarkeitsgruppen (HA-Gruppen) für Clientverbindungen verwendet werden, kann der Gateway-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und ermöglicht das Hinzufügen des neuen Knotens. Siehe link:../admin/configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"].
 
 
 . Wenn ein Admin-Knoten hinzugefügt wurde:
 +
 .. Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, muss eine Vertrauensstellung für den neuen Admin-Knoten erstellt werden. Eine Anmeldung am Knoten ist erst möglich, nachdem diese Vertrauensstellung eingerichtet wurde. Siehe link:../admin/configure-sso.html["Einmalanmeldung konfigurieren"].
-.. Wenn geplant ist, den Load Balancer Service auf Admin-Knoten zu verwenden, kann der neue Admin-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und die Möglichkeit, den neuen Knoten hinzuzufügen. Siehe link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"].
+.. Wenn geplant ist, den Load Balancer Service auf Admin-Knoten zu verwenden, kann der neue Admin-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und die Möglichkeit, den neuen Knoten hinzuzufügen. Siehe link:../admin/configure-high-availability-group.html["Hochverfügbarkeitsgruppen konfigurieren"].
 .. Optional kann die Admin Node Datenbank vom primären Admin Node auf den Erweiterungs-Admin Node kopiert werden, wenn die Attribut- und Prüfinformationen auf jedem Admin Node konsistent gehalten werden sollen. Siehe link:copying-admin-node-database.html["Die Admin Node Datenbank kopieren"].
 .. Optional kann die Prometheus Datenbank vom primären Admin-Knoten auf den Erweiterungs-Admin-Knoten kopiert werden, wenn die historischen Metriken auf jedem Admin-Knoten konsistent gehalten werden sollen. Siehe link:copying-prometheus-metrics.html["Prometheus Metriken kopieren"].
 .. Optional können die vorhandenen Audit-Protokolle vom primären Admin-Knoten auf den Erweiterungs-Admin-Knoten kopiert werden, um die historischen Protokollinformationen auf jedem Admin-Knoten konsistent zu halten. Siehe link:copying-audit-logs.html["Audit-Protokolle kopieren"].

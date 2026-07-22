@@ -152,7 +152,7 @@ Beachten Sie die folgenden Anforderungen und Details für das Grid Network Gatew
 
 
 [[admin-network]]
-== ${post_edited_translations.segment}
+== Admin-Netzwerk
 
 Das Admin Network ist optional. Wenn es konfiguriert ist, kann es für Systemadministration und Wartungsdatenverkehr verwendet werden. Das Admin Network ist typischerweise ein privates Netzwerk und muss nicht zwischen den Knoten routbar sein.
 
@@ -214,6 +214,6 @@ Wenn eth0 als Trunk konfiguriert ist, fließt der Grid Network-Datenverkehr übe
 
 NOTE: VLAN-Schnittstellen können nur zu Admin-Knoten und Gateway-Knoten hinzugefügt werden. Eine VLAN-Schnittstelle kann nicht für den Client- oder Administratorzugriff auf Storage Nodes verwendet werden.
 
-Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"] Anweisungen und Richtlinien.
+Siehe link:../admin/configure-vlan-interfaces.html["VLAN Schnittstellen konfigurieren"] Anweisungen und Richtlinien.
 
 VLAN-Schnittstellen werden nur in HA-Gruppen verwendet und erhalten VIP-Adressen auf dem aktiven Knoten. Siehe link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"] für Anweisungen und Richtlinien.

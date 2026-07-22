@@ -47,7 +47,7 @@ Diese Zahl gibt die Gesamtzahl der Objekte an, die dieser Grid-Knoten im gesamte
 .. Wechseln Sie in das Verzeichnis, in dem sich die Revisionsprotokolle befinden.
 +
 --
-${post_edited_translations.segment}
+Das Revisionsprotokollverzeichnis und die entsprechenden Knoten hängen von Ihren Einstellungen für das Audit-Ziel ab.
 
 [cols="1a,2a"]
 |===
@@ -55,7 +55,7 @@ ${post_edited_translations.segment}
 
 
  a| 
-${post_edited_translations.segment}
+Lokale Knoten (Standard)
  a| 
 `/var/local/log/localaudit.log`
 
@@ -138,7 +138,7 @@ Der technische Support könnte Sie bitten festzustellen, ob ein Storage-Wiederhe
 +
 .. Wählen Sie *Knoten*.
 .. *_Speicherknoten_* > *Aufgaben* auswählen.
-.. ${post_edited_translations.segment}
+.. Im Bereich *Zähler für potenziell verlorene Objekte zurücksetzen* die Option *Zurücksetzen* auswählen.
 
 
 

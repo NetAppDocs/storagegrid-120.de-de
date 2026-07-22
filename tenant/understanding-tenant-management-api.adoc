@@ -19,7 +19,7 @@ Die Tenant Management API:
 * Verwendet link:tenant-management-api-versioning.html["Versionierung zur Unterstützung unterbrechungsfreier Upgrades"].
 
 
-${post_edited_translations.segment}
+Zugriff auf die Swagger-Dokumentation für die Tenant Management API:
 
 . Im Tenant Manager anmelden.
 . Oben im Tenant Manager das Hilfesymbol auswählen und anschließend *API documentation* auswählen.
@@ -30,7 +30,7 @@ ${post_edited_translations.segment}
 [[api-operations]]
 == API Operationen
 
-${post_edited_translations.segment}
+Die Tenant Management API gliedert die verfügbaren API-Operationen in folgende Abschnitte:
 
 * *Konto*: Operationen am aktuellen Mandantenkonto, einschließlich Abruf von Speichernutzungsinformationen.
 * *auth*: Operationen zur Durchführung der Benutzersitzungsauthentifizierung.
@@ -50,7 +50,7 @@ NOTE: Wenn Single Sign-On (SSO) für das StorageGRID System aktiviert ist, sind 
 * *Endpunkte*: Operationen zur Verwaltung eines Endpunkts. Endpunkte ermöglichen es einem S3-Bucket, einen externen Dienst für StorageGRID CloudMirror Replikation, Benachrichtigungen oder Suchintegration zu verwenden.
 * *grid-federation-connections*: Vorgänge an grid-federation-connections und gridübergreifender Replikation.
 * *Gruppen*: Operationen zur Verwaltung lokaler Mandantengruppen und zum Abrufen föderierter Mandantengruppen aus einer externen Identitätsquelle.
-* ${post_edited_translations.segment}
+* *identity-source*: Operationen zum Konfigurieren einer externen Identitätsquelle und zum manuellen Synchronisieren von föderierten Gruppen- und Benutzerinformationen.
 * *ilm*: Vorgänge an den Einstellungen für das Information Lifecycle Management (ILM).
 * *Regionen*: Operationen zur Ermittlung der Regionen, die für das StorageGRID System konfiguriert wurden.
 * *s3*: Operationen zur Verwaltung von S3-Zugriffsschlüsseln für Mandantenbenutzer.
@@ -61,7 +61,7 @@ NOTE: Wenn Single Sign-On (SSO) für das StorageGRID System aktiviert ist, sind 
 
 
 [[operation-details]]
-== ${post_edited_translations.segment}
+== Details zum Vorgang
 
 Beim Erweitern der einzelnen API-Operationen werden die jeweilige HTTP-Aktion, die Endpunkt-URL, eine Liste aller erforderlichen oder optionalen Parameter, ein Beispiel für den Anfragetext (falls erforderlich) und die möglichen Antworten angezeigt.
 
@@ -76,7 +76,7 @@ image:tenant_api_swagger_example.gif["Beispiel für die GET groups-Operation in 
 CAUTION: Alle API-Operationen, die Sie über die API-Dokumentationswebseite durchführen, sind Live-Operationen. Es ist darauf zu achten, dass Konfigurationsdaten oder andere Daten nicht versehentlich erstellt, aktualisiert oder gelöscht werden.
 
 .Schritte
-. ${post_edited_translations.segment}
+. Die HTTP-Aktion auswählen, um die Anfragedetails anzuzeigen.
 . Es ist zu ermitteln, ob die Anforderung zusätzliche Parameter wie eine Gruppen- oder Benutzer-ID erfordert. Anschließend sind diese Werte abzurufen. Möglicherweise muss zuerst eine andere API-Anforderung gesendet werden, um die benötigten Informationen zu erhalten.
 . Es kann geprüft werden, ob der Beispiel-Anfragetext angepasst werden muss. Ist dies der Fall, steht *Model* zur Verfügung, um die Anforderungen für jedes Feld anzuzeigen.
 . *Ausprobieren* auswählen.

@@ -84,9 +84,9 @@ SUCS: Erfolgreich
 
 
  a| 
-${post_edited_translations.segment}
+SGRP
  a| 
-${post_edited_translations.segment}
+Standort (Gruppe)
  a| 
 Falls vorhanden, wurde das überschriebene Objekt an dem angegebenen Standort gelöscht, der nicht der Standort ist, an dem das überschriebene Objekt aufgenommen wurde.
 

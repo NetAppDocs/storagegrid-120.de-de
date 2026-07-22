@@ -63,7 +63,7 @@ link:selecting-start-recovery-to-configure-non-primary-admin-node.html["Start Re
 
 
  a| 
-${post_edited_translations.segment}
+Gateway-Node
  a| 
 link:selecting-start-recovery-to-configure-gateway-node.html["„Wiederherstellung starten“ auswählen, um den Gateway Node zu konfigurieren."]
 

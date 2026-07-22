@@ -36,5 +36,5 @@ Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, können sic
 . Bei Bedarf können die Berechtigungen für diese Gruppe angepasst werden.
 . Wählen Sie *Weiter*.
 . Bei Bedarf kann beim Duplizieren einer Gruppe für einen S3-Mandanten optional über die Optionsfelder *S3-Richtlinie hinzufügen* eine andere Richtlinie ausgewählt werden. Wenn eine benutzerdefinierte Richtlinie ausgewählt wurde, ist die JSON-Zeichenfolge entsprechend zu aktualisieren.
-. ${post_edited_translations.segment}
+. *Gruppe erstellen* auswählen.
 
