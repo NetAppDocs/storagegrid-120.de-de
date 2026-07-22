@@ -1,0 +1,41 @@
+---
+permalink: audit/accessing-audit-log-file.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, log, log file, access, accessing 
+summary: Die Audit-Freigabe enthält die aktive audit.log-Datei sowie alle komprimierten Revisionsprotokolldateien. Auf Revisionsprotokolldateien kann direkt über die Befehlszeile des Admin-Knotens zugegriffen werden. 
+---
+= Greifen Sie auf Revisionsprotokolldateien von der StorageGRID Admin Node Befehlszeile zu
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Revisionsfreigabe enthält die aktive `audit.log` Datei und alle komprimierten Revisionsprotokolldateien. Sie können direkt über die Befehlszeile des Admin Node auf Revisionsprotokolldateien zugreifen.
+
+Die  `audit.log` Datei bleibt leer, sofern StorageGRID für *Admin Nodes/lokale Nodes* oder *Admin Node und externen Syslog-Server* konfiguriert ist. Weitere Informationen sind unter link:../monitor/configure-log-management.html#select-log-location["Protokollspeicherort auswählen"] zu finden.
+
+.Bevor Sie beginnen
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie müssen über die Datei  `Passwords.txt` verfügen.
+* ${post_edited_translations.segment}
+
+
+.Schritte
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Wechseln Sie in das Verzeichnis, das die Revisionsprotokolldateien enthält:
++
+`cd  /var/local/audit/export/`
+
+. Die aktuelle oder eine gespeicherte Revisionsprotokoll-Datei kann angezeigt werden, je nach Bedarf.
+

@@ -1,0 +1,72 @@
+---
+permalink: swnodes/node-container-migration-requirements.html 
+sidebar: sidebar 
+keywords: how to migrate a node 
+summary: Die Knotenmigrationsfunktion ermöglicht es, einen Knoten manuell von einem Host auf einen anderen zu verschieben. Normalerweise befinden sich beide Hosts im selben physischen Rechenzentrum. 
+---
+= StorageGRID-Knotencontainer-Migrationsanforderungen für Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Knotenmigrationsfunktion ermöglicht es, einen Knoten manuell von einem Host auf einen anderen zu verschieben. Normalerweise befinden sich beide Hosts im selben physischen Rechenzentrum.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+Die Knotenmigration ermöglicht die Durchführung von Wartungsarbeiten an physischen Hosts, ohne den Grid-Betrieb zu unterbrechen. Alle StorageGRID Knoten werden nacheinander auf einen anderen Host verschoben, bevor der physische Host offline genommen wird. Die Migration der Knoten erfordert nur eine kurze Ausfallzeit pro Knoten und sollte den Betrieb oder die Verfügbarkeit der Grid-Services nicht beeinträchtigen.
+
+Wenn Sie die StorageGRID Knotenmigrationsfunktion nutzen möchten, muss Ihre Bereitstellung zusätzliche Anforderungen erfüllen:
+
+* Einheitliche Netzwerkschnittstellennamen für Hosts in einem einzigen physischen Rechenzentrum
+* Gemeinsamer Speicher für StorageGRID Metadaten und Objekt-Repository-Volumes, auf den alle Hosts in einem einzigen physischen Rechenzentrum zugreifen können. Beispielsweise können NetApp E-Series Speicherarrays verwendet werden.
+
+
+Wenn Sie virtuelle Hosts verwenden und die zugrunde liegende Hypervisor-Schicht die VM-Migration unterstützt, kann diese Funktion anstelle der Knotenmigrationsfunktion in StorageGRID verwendet werden. In diesem Fall können diese zusätzlichen Anforderungen ignoriert werden.
+
+Vor der Migration oder Hypervisor-Wartung die Knoten ordnungsgemäß herunterfahren. Siehe die Anweisungen für link:../maintain/shutting-down-grid-node.html["Herunterfahren eines Grid-Knotens"].
+
+
+
+[[vmware-live-migration-not-supported]]
+== VMware Live Migration wird nicht unterstützt
+
+Bei der Bare-Metal-Installation auf VMware-VMs führen OpenStack Live Migration und VMware Live vMotion zu Zeitsprüngen der virtuellen Maschine und werden für Grid-Knoten jeglicher Art nicht unterstützt. Obwohl selten, können fehlerhafte Zeitangaben zu Datenverlust oder fehlenden Konfigurationsaktualisierungen führen.
+
+Kaltmigration wird unterstützt. Bei der Kaltmigration werden die StorageGRID Knoten vor der Migration zwischen Hosts heruntergefahren. Siehe die Anweisungen für link:../maintain/shutting-down-grid-node.html["Herunterfahren eines Grid-Knotens"].
+
+
+
+[[consistent-network-interface-names]]
+== Einheitliche Netzwerkschnittstellennamen
+
+Um einen Knoten von einem Host auf einen anderen zu verschieben, muss der StorageGRID Hostdienst eine gewisse Sicherheit haben, dass die externe Netzwerkverbindung, die der Knoten an seinem aktuellen Standort hat, auch am neuen Standort hergestellt werden kann. Diese Sicherheit ergibt sich durch die Verwendung konsistenter Netzwerkschnittstellennamen auf den Hosts.
+
+Angenommen, StorageGRID NodeA, das auf Host1 läuft, wurde mit den folgenden Schnittstellenzuordnungen konfiguriert:
+
+image:eth0_bond.gif["Dieses Bild wird im umgebenden Text erläutert."]
+
+Die linke Seite der Pfeile entspricht den herkömmlichen Schnittstellen, wie sie innerhalb eines StorageGRID Containers betrachtet werden (das heißt, den Grid, Admin und Client Netzwerk-Schnittstellen). Die rechte Seite der Pfeile entspricht den eigentlichen Host-Schnittstellen, die diese Netzwerke bereitstellen, nämlich drei VLAN-Schnittstellen, die demselben physischen Schnittstellenverbund untergeordnet sind.
+
+Angenommen, Sie möchten NodeA auf Host2 migrieren. Verfügt Host2 ebenfalls über Schnittstellen mit den Namen bond0.1001, bond0.1002 und bond0.1003, lässt das System die Migration zu, vorausgesetzt, die gleichnamigen Schnittstellen bieten auf Host2 dieselbe Konnektivität wie auf Host1. Besitzt Host2 keine Schnittstellen mit denselben Namen, ist die Migration nicht möglich.
+
+Es gibt viele Möglichkeiten, eine einheitliche Benennung der Netzwerkschnittstellen über mehrere Hosts hinweg zu erreichen; siehe link:configuring-host-network.html["Das Hostnetzwerk konfigurieren"] für einige Beispiele.
+
+
+
+[[shared-storage]]
+== Gemeinsamer Speicher
+
+Um schnelle, mit niedrigem Overhead durchgeführte Knotenmigrationen zu ermöglichen, verschiebt die StorageGRID-Knotenmigrationsfunktion die Knotendaten nicht physisch. Stattdessen erfolgt die Knotenmigration als ein Paar von Export- und Importvorgängen, wie folgt:
+
+* Beim „Knotenexport“ werden einige persistente Zustandsdaten aus dem auf HostA laufenden Knotencontainer extrahiert und auf dem Systemdatenvolume dieses Knotens zwischengespeichert. Anschließend wird der Knotencontainer auf HostA deinstanziiert.
+* Während des „node import“-Vorgangs wird auf HostB der Node-Container instanziiert, der dieselbe Netzwerkschnittstelle und dieselben Blockspeicherzuordnungen verwendet wie auf HostA. Anschließend werden die zwischengespeicherten persistenten Zustandsdaten in die neue Instanz eingefügt.
+
+
+Bei diesem Betriebsmodus müssen alle Systemdaten- und Objektspeichervolumes des Knotens sowohl von HostA als auch von HostB aus erreichbar sein, damit die Migration zulässig ist und funktioniert. Außerdem müssen sie dem Knoten mit Namen zugeordnet worden sein, die garantiert auf dieselben LUNs auf HostA und HostB verweisen.
+
+Das folgende Beispiel zeigt eine Lösung für das Blockgeräte-Mapping für einen StorageGRID Storage Node, bei dem DM-Multipathing auf den Hosts verwendet wird und das Alias-Feld in  `/etc/multipath.conf` verwendet wurde, um konsistente, benutzerfreundliche Blockgerätenamen bereitzustellen, die auf allen Hosts verfügbar sind.
+
+image:block_device_mapping_rhel.gif["Blockgerätezuordnung"]

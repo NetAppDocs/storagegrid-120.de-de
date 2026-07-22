@@ -1,0 +1,488 @@
+---
+permalink: network/external-communications.html 
+sidebar: sidebar 
+keywords: storagegrid, network port, external communications, ports, TCP, UDP, client communications 
+summary: Clients müssen mit Grid-Knoten kommunizieren, um Inhalte zu erfassen und abzurufen. Die verwendeten Ports hängen von den gewählten Objektspeicherprotokollen ab. Diese Ports müssen für den Client erreichbar sein. 
+---
+= Externe Kommunikation für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Clients müssen mit Grid-Knoten kommunizieren, um Inhalte zu erfassen und abzurufen. Die verwendeten Ports hängen von den gewählten Objektspeicherprotokollen ab. Diese Ports müssen für den Client erreichbar sein.
+
+
+
+[[restricted-access-to-ports]]
+== Eingeschränkter Zugriff auf Ports
+
+Wenn die Netzwerkrichtlinien des Unternehmens den Zugriff auf einen der Ports einschränken, ist Folgendes möglich:
+
+* Verwenden Sie link:../admin/configuring-load-balancer-endpoints.html["Load Balancer Endpunkte"], um den Zugriff auf benutzerdefinierte Ports zu ermöglichen.
+* Ports sollten beim Bereitstellen von Knoten neu zugeordnet werden. Load-Balancer-Endpunkte sollten jedoch nicht neu zugeordnet werden. Informationen zur Portneuzuordnung für Ihren StorageGRID Knoten sind verfügbar:
+
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps.html["Port-Remaps auf StorageGRID Appliances entfernen"] oder link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
+* link:../swnodes/creating-node-configuration-files.html["Port-Remap-Schlüssel für StorageGRID auf Red Hat Enterprise Linux"]
+* link:../swnodes/deploying-storagegrid-node-as-virtual-machine.html#vmware-remap-ports["Ports für StorageGRID auf VMware neu zuordnen"]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-remapping-network-ports-for-appliance.html["Optional: Netzwerkports für das Appliance neu zuordnen"^]
+
+
+
+
+[[ports-used-for-external-communications]]
+== Ports für externe Kommunikation
+
+Die folgende Tabelle zeigt die Ports, die für den Datenverkehr in die Knoten verwendet werden.
+
+
+NOTE: Diese Liste enthält keine Ports, die möglicherweise als link:../admin/configuring-load-balancer-endpoints.html["Load Balancer Endpunkte"] konfiguriert sind.
+
+[cols="1a,1a,1a,1a,1a,4a"]
+|===
+| Port | TCP oder UDP | Protokoll | Aus | Zu | Details 
+
+
+ a| 
+22
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+Service Laptop
+ a| 
+Alle Knoten
+ a| 
+Für Prozeduren mit Konsolenschritten ist SSH- oder Konsolenzugriff erforderlich. Optional kann Port 2022 anstelle von 22 verwendet werden.
+
+*Hinweis*: Dieser Port ist nur erforderlich, wenn der SSH-Zugriff für bestimmte Wartungsarbeiten aktiviert werden muss.
+
+
+
+ a| 
+25
+ a| 
+TCP
+ a| 
+SMTP
+ a| 
+Admin-Nodes
+ a| 
+E-Mail Server
+ a| 
+Wird für Benachrichtigungen und E-Mail-basierte AutoSupport verwendet. Die Standardporteinstellung von 25 kann auf der Seite „E-Mail-Server“ überschrieben werden.
+
+
+
+ a| 
+53
+ a| 
+TCP/ UDP
+ a| 
+DNS
+ a| 
+Alle Knoten
+ a| 
+DNS-Server
+ a| 
+Wird für DNS verwendet.
+
+
+
+ a| 
+67
+ a| 
+UDP
+ a| 
+DHCP
+ a| 
+Alle Knoten
+ a| 
+DHCP-Service
+ a| 
+Wird optional zur Unterstützung der DHCP-basierten Netzwerkkonfiguration verwendet. Der dhclient Dienst wird für statisch konfigurierte Grids nicht ausgeführt.
+
+
+
+ a| 
+68
+ a| 
+UDP
+ a| 
+DHCP
+ a| 
+DHCP-Service
+ a| 
+Alle Knoten
+ a| 
+Wird optional zur Unterstützung der DHCP-basierten Netzwerkkonfiguration verwendet. Der dhclient Dienst wird nicht für Grids ausgeführt, die statische IP-Adressen verwenden.
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+Browser
+ a| 
+Admin-Nodes
+ a| 
+Port 80 leitet für die Benutzeroberfläche des Admin Node auf Port 443 um.
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+Browser
+ a| 
+Appliances
+ a| 
+Port 80 wird auf Port 8443 für den StorageGRID Appliance Installer umgeleitet.
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+Speicherknoten mit ADC
+ a| 
+AWS
+ a| 
+Wird für Plattformdienstnachrichten verwendet, die an AWS oder andere externe Dienste gesendet werden, die HTTP verwenden. Mandanten können die Standard-HTTP-Port-Einstellung 80 beim Erstellen eines Endpunkts überschreiben.
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+Speicherknoten
+ a| 
+AWS
+ a| 
+Cloud Storage Pools-Anfragen, die an AWS-Ziele gesendet werden, die HTTP verwenden. Grid-Administratoren können die standardmäßige HTTP-Port-Einstellung 80 beim Konfigurieren eines Cloud Storage Pools überschreiben.
+
+
+
+ a| 
+123
+ a| 
+UDP
+ a| 
+NTP
+ a| 
+Primäre NTP Knoten
+ a| 
+Externes NTP
+ a| 
+Netzwerkzeitprotokolldienst. Als primäre NTP-Quellen ausgewählte Knoten synchronisieren auch die Uhrzeiten mit den externen NTP-Zeitquellen.
+
+
+
+ a| 
+161
+ a| 
+TCP/ UDP
+ a| 
+SNMP
+ a| 
+SNMP Client
+ a| 
+Alle Knoten
+ a| 
+Wird für SNMP-Abfragen verwendet. Alle Knoten liefern grundlegende Informationen; Admin Nodes liefern zusätzlich Warnmeldungen. Standardmäßig wird bei entsprechender Konfiguration UDP-Port 161 verwendet.
+
+*Hinweis:* Dieser Port ist nur erforderlich und wird auf der Knotenfirewall nur geöffnet, wenn SNMP konfiguriert ist. Wenn die Verwendung von SNMP vorgesehen ist, können alternative Ports konfiguriert werden.
+
+*Hinweis:* Informationen zur Verwendung von SNMP mit StorageGRID sind bei Ihrem NetApp Account Representative erhältlich.
+
+
+
+ a| 
+162
+ a| 
+TCP/ UDP
+ a| 
+SNMP-Benachrichtigungen
+ a| 
+Alle Knoten
+ a| 
+Benachrichtigungsziele
+ a| 
+Ausgehende SNMP-Benachrichtigungen und Traps verwenden standardmäßig den UDP-Port 162.
+
+*Hinweis:* Dieser Port ist nur erforderlich, wenn SNMP aktiviert ist und Benachrichtigungsziele konfiguriert sind. Wenn die Verwendung von SNMP vorgesehen ist, können alternative Ports konfiguriert werden.
+
+*Hinweis:* Informationen zur Verwendung von SNMP mit StorageGRID sind bei Ihrem NetApp Account Representative erhältlich.
+
+
+
+ a| 
+389
+ a| 
+TCP/ UDP
+ a| 
+LDAP
+ a| 
+Speicherknoten mit ADC
+ a| 
+Active Directory/LDAP
+ a| 
+Wird für die Verbindung mit einem Active Directory oder LDAP-Server für die Identitätsföderation verwendet.
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Browser
+ a| 
+Admin-Nodes
+ a| 
+Wird von Webbrowsern und Management-API-Clients verwendet, um auf den Grid Manager und den Tenant Manager zuzugreifen.
+
+*Hinweis*: Wenn Sie die Grid Manager-Ports 443 oder 8443 schließen, verlieren alle Benutzer, die derzeit über einen blockierten Port verbunden sind, einschließlich Ihnen, den Zugriff auf Grid Manager, es sei denn, ihre IP-Adresse wurde der Liste der privilegierten Adressen hinzugefügt. Siehe link:../admin/configure-firewall-controls.html["Firewall-Steuerung konfigurieren"] zur Konfiguration privilegierter IP-Adressen.
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Admin-Nodes
+ a| 
+Active Directory
+ a| 
+Wird von Administratorknoten verwendet, die eine Verbindung zu Active Directory herstellen, wenn Single Sign-On (SSO) aktiviert ist.
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Speicherknoten mit ADC
+ a| 
+AWS
+ a| 
+Wird für Plattformdienstnachrichten verwendet, die an AWS oder andere externe Dienste gesendet werden, die HTTPS verwenden. Mandanten können die Standardeinstellung für den HTTP-Port 443 beim Erstellen eines Endpunkts überschreiben.
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Speicherknoten
+ a| 
+AWS
+ a| 
+Cloud Storage Pools-Anfragen, die an AWS-Ziele gesendet werden, die HTTPS verwenden. Grid-Administratoren können die standardmäßige HTTPS-Porteinstellung 443 beim Konfigurieren eines Cloud Storage Pools überschreiben.
+
+
+
+ a| 
+5353
+ a| 
+UDP
+ a| 
+mDNS
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Bietet den Multicast-DNS-Dienst (mDNS), der für vollständige Grid-IP-Änderungen und für die Ermittlung des primären Admin-Knotens während der Installation, Erweiterung und Wiederherstellung verwendet wird.
+
+*Hinweis*: Die Konfiguration dieses Ports ist optional.
+
+
+
+ a| 
+5696
+ a| 
+TCP
+ a| 
+KMIP
+ a| 
+Appliance
+ a| 
+KMS
+ a| 
+Key Management Interoperability Protocol (KMIP) externer Datenverkehr von Appliances, die für die Knotenverschlüsselung konfiguriert sind, zum Key Management Server (KMS), es sei denn, auf der KMS-Konfigurationsseite des StorageGRID Appliance Installer ist ein anderer Port angegeben.
+
+
+
+ a| 
+8443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Browser
+ a| 
+Admin-Nodes
+ a| 
+Optional. Wird von Webbrowsern und Management-API-Clients für den Zugriff auf den Grid Manager verwendet. Kann zur Trennung der Grid Manager und Tenant Manager Kommunikation verwendet werden.
+
+*Hinweis*: Wenn die Grid Manager-Ports 443 oder 8443 geschlossen werden, verlieren alle Benutzer, die derzeit über einen blockierten Port verbunden sind (einschließlich Ihnen), den Zugriff auf Grid Manager, es sei denn, ihre IP-Adresse wurde der Liste der privilegierten Adressen hinzugefügt. Siehe link:../admin/configure-firewall-controls.html["Firewall-Steuerung konfigurieren"] zur Konfiguration privilegierter IP-Adressen.
+
+
+
+ a| 
+8443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Browser
+ a| 
+Appliances
+ a| 
+Wird von Webbrowsern und Management-API-Clients verwendet, um auf den StorageGRID Appliance Installer zuzugreifen.
+
+*Hinweis*: Port 443 wird auf Port 8443 für den StorageGRID Appliance Installer umgeleitet.
+
+
+
+ a| 
+9022
+ a| 
+TCP
+ a| 
+SSH
+ a| 
+Service Laptop
+ a| 
+Appliances
+ a| 
+Gewährt Zugriff auf StorageGRID Appliances im Vorkonfigurationsmodus für Support- und Fehlerbehebung. Dieser Port muss zwischen Grid-Knoten oder während des normalen Betriebs nicht zugänglich sein.
+
+
+
+ a| 
+9091
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Externer Grafana Dienst
+ a| 
+Admin-Nodes
+ a| 
+Wird von externen Grafana-Diensten für den sicheren Zugriff auf den StorageGRID Prometheus-Dienst verwendet.
+
+*Hinweis:* Dieser Port wird nur benötigt, wenn der zertifikatbasierte Prometheus-Zugriff aktiviert ist.
+
+
+
+ a| 
+9092
+ a| 
+TCP
+ a| 
+Kafka
+ a| 
+Speicherknoten mit ADC
+ a| 
+Kafka Cluster
+ a| 
+Wird für Plattformdienstnachrichten verwendet, die an einen Kafka-Cluster gesendet werden. Mandanten können die Standardeinstellung für den Kafka-Port 9092 beim Erstellen eines Endpunkts überschreiben.
+
+
+
+ a| 
+9443
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Browser
+ a| 
+Admin-Nodes
+ a| 
+Optional. Wird von Webbrowsern und Management-API-Clients für den Zugriff auf den Tenant Manager verwendet. Kann verwendet werden, um die Grid Manager und Tenant Manager Kommunikation zu trennen.
+
+
+
+ a| 
+18082
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+S3 Clients
+ a| 
+Speicherknoten
+ a| 
+S3-Client-Datenverkehr direkt zu Storage Nodes (HTTPS).
+
+
+
+ a| 
+18084
+ a| 
+TCP
+ a| 
+HTTP
+ a| 
+S3 Clients
+ a| 
+Speicherknoten
+ a| 
+S3-Client-Datenverkehr direkt zu Speicherknoten (HTTP).
+
+
+
+ a| 
+23000-23999
+ a| 
+TCP
+ a| 
+HTTPS
+ a| 
+Alle Knoten im Quellgrid für die gridübergreifende Replikation
+ a| 
+Admin Nodes und Gateway Nodes im Ziel-Grid für die gridübergreifende Replikation
+ a| 
+Dieser Portbereich ist für Grid-Federation-Verbindungen reserviert. Beide Grids einer Verbindung nutzen denselben Port.
+
+|===

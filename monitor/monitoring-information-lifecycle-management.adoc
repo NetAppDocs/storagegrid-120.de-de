@@ -1,0 +1,75 @@
+---
+permalink: monitor/monitoring-information-lifecycle-management.html 
+sidebar: sidebar 
+keywords: lifecycle management, lifecycle, monitoring, ILM, information lifecycle management 
+summary: 'Das Informationslebenszyklusmanagement-System (ILM) bietet Datenmanagement für alle im Grid gespeicherten Objekte. Es ist erforderlich, die ILM-Operationen zu überwachen, um zu verstehen, ob das Grid die aktuelle Last bewältigen kann oder ob zusätzliche Ressourcen benötigt werden.' 
+---
+= Überwachen Sie das Informationslebenszyklusmanagement in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Informationslebenszyklusmanagement-System (ILM) bietet Datenmanagement für alle im Grid gespeicherten Objekte. Es ist erforderlich, die ILM-Operationen zu überwachen, um zu verstehen, ob das Grid die aktuelle Last bewältigen kann oder ob zusätzliche Ressourcen benötigt werden.
+
+.Über diese Aufgabe
+Das StorageGRID System verwaltet Objekte durch Anwendung der aktiven ILM-Richtlinien. Die ILM-Richtlinien und zugehörigen ILM-Regeln legen fest, wie viele Kopien erstellt werden, welche Art von Kopien erstellt werden, wo Kopien abgelegt werden und wie lange jede Kopie aufbewahrt wird.
+
+Die Objektaufnahme und andere objektbezogene Aktivitäten können die Geschwindigkeit, mit der StorageGRID ILM auswerten kann, übersteigen, wodurch das System Objekte, deren ILM-Platzierungsanweisungen nicht nahezu in Echtzeit erfüllt werden können, in eine Warteschlange stellt. Es sollte überwacht werden, ob StorageGRID mit den Clientaktionen Schritt hält.
+
+
+
+[[use-grid-manager-dashboard-tab]]
+== Die Registerkarte „Grid Manager Dashboard“ verwenden
+
+.Schritte
+Die Registerkarte „ILM“ auf dem Grid Manager Dashboard bietet eine Übersicht zur Überwachung von ILM-Vorgängen:
+
+. Melden Sie sich beim Grid Manager an.
+. Im Dashboard die Registerkarte ILM auswählen und die Werte auf der ILM-Warteschlangenkarte (Objekte) und der ILM-Bewertungsratenkarte notieren.
++
+Vorübergehende Spitzenwerte in der ILM-Warteschlange (Objekte) auf dem Dashboard sind zu erwarten. Wenn die Warteschlange jedoch kontinuierlich ansteigt und nicht abnimmt, benötigt das Grid mehr Ressourcen für einen effizienten Betrieb: entweder mehr Storage Nodes oder, falls die ILM-Richtlinie Objekte an entfernten Standorten platziert, mehr Bandbreite.
+
+
+
+
+
+[[use-the-nodes-page]]
+== Die Seite „Knoten“ verwenden
+
+.Schritte
+Zusätzlich können die ILM-Warteschlangen über die Seite *Knoten* untersucht werden:
+
+
+NOTE: Die Diagramme auf der Seite *Knoten* werden in einer zukünftigen StorageGRID Version durch die entsprechenden Dashboard Karten ersetzt.
+
+. Wählen Sie *Knoten*.
+. *_grid name_* > *ILM* auswählen.
+. Positionieren Sie den Cursor über den ILM-Warteschlangengraphen, um den Wert der folgenden Attribute zu einem bestimmten Zeitpunkt zu sehen:
++
+** *Objekte in der Warteschlange (aus Clientoperationen)*: Die Gesamtzahl der Objekte, die aufgrund von Clientoperationen (zum Beispiel Ingest) auf die ILM-Auswertung warten.
+** *Objekte in der Warteschlange (aus allen Operationen)*: Die Gesamtzahl der Objekte, die auf die ILM-Auswertung warten.
+** *Scanrate (Objekte/Sek.)*: Die Rate, mit der Objekte im Grid gescannt und für ILM in die Warteschlange gestellt werden.
+** *Auswertungsrate (Objekte/Sek.)*: Die aktuelle Rate, mit der Objekte im Grid anhand der ILM-Richtlinie ausgewertet werden.
+
+
++
+
+NOTE: Der Abschnitt „ILM-Warteschlange“ ist nur für das Grid enthalten. Diese Informationen werden auf der Registerkarte „ILM“ für einen Standort oder Storage Node nicht angezeigt.
+
+. Im Abschnitt ILM-Warteschlange werden die folgenden Attribute angezeigt.
++
+** *Scandauer - geschätzt*: Die geschätzte Zeit für einen vollständigen ILM-Scan aller Objekte.
++
+
+NOTE: Ein vollständiger Scan garantiert nicht, dass ILM auf alle Objekte angewendet wurde.
+
+** *Reparaturversuche*: Die Gesamtzahl der Objektreparaturvorgänge für replizierte Daten, die versucht wurden. Dieser Zähler wird jedes Mal erhöht, wenn ein Storage Node versucht, ein Objekt mit hohem Risiko zu reparieren. ILM-Reparaturen mit hohem Risiko erhalten Priorität, wenn das Grid ausgelastet ist.
++
+Die Reparatur desselben Objekts kann erneut inkrementiert werden, wenn die Replikation nach der Reparatur fehlgeschlagen ist. + Diese Attribute können nützlich sein, wenn der Fortschritt der Storage Node Volume-Wiederherstellung überwacht wird. Wenn die Anzahl der durchgeführten Reparaturen nicht mehr ansteigt und ein vollständiger Scan abgeschlossen wurde, ist die Reparatur wahrscheinlich abgeschlossen.
+
+
+
+. Alternativ lässt sich eine Prometheus-Abfrage für  `storagegrid_ilm_scan_period_estimated_minutes` und  `storagegrid_ilm_repairs_attempted` einreichen.
+

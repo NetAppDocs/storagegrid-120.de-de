@@ -1,0 +1,259 @@
+---
+permalink: tenant/manage-users.html 
+sidebar: sidebar 
+keywords: how to create local tenant users, manage users 
+summary: Sie können lokale Benutzer erstellen und sie lokalen Gruppen zuweisen, um festzulegen, auf welche Funktionen diese Benutzer zugreifen können. Der Tenant Manager enthält einen vordefinierten lokalen Benutzer namens root. Obwohl Sie lokale Benutzer hinzufügen und entfernen können, kann der Root-Benutzer nicht entfernt werden. 
+---
+= StorageGRID-Mandantenbenutzer verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können lokale Benutzer erstellen und sie lokalen Gruppen zuweisen, um festzulegen, auf welche Funktionen diese Benutzer zugreifen können. Sie können auch föderierte Benutzer importieren. Der Tenant Manager enthält einen vordefinierten lokalen Benutzer namens "root". Obwohl Sie lokale Benutzer hinzufügen und entfernen können, können Sie den Root-Benutzer nicht entfernen.
+
+
+NOTE: Wenn Single Sign-On (SSO) für Ihr StorageGRID-System aktiviert ist, können sich lokale Benutzer nicht beim Tenant Manager oder der Tenant Management API anmelden, obwohl sie Clientanwendungen verwenden können, um auf die Ressourcen des Mandanten zuzugreifen, basierend auf Gruppenberechtigungen.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören zu einer Benutzergruppe, die die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"] hat.
+* Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, Sie den Workflow und die Überlegungen für link:grid-federation-account-clone.html["Klonen von Mandantengruppen und Benutzern"] geprüft haben und im Quell-Grid des Mandanten angemeldet sind.
+
+
+
+
+[[create-usercreate-a-local-user]]
+== [[create-user]]Einen lokalen Benutzer erstellen
+
+Sie können einen lokalen Benutzer erstellen und ihn einer oder mehreren lokalen Gruppen zuweisen, um seine Zugriffsberechtigungen zu steuern.
+
+S3 Benutzer, die keiner Gruppe angehören, haben keine Verwaltungsberechtigungen, und es werden keine S3 Gruppenrichtlinien auf sie angewendet. Diesen Benutzern wird der S3 Bucket Zugriff möglicherweise über eine Bucket-Richtlinie gewährt.
+
+
+
+[[access-the-create-user-wizard]]
+=== Auf den Assistenten zum Erstellen von Benutzern zugreifen
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
++
+Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt, weist ein blaues Banner darauf hin, dass dies das Quell-Grid des Mandanten ist. Alle lokalen Benutzer, die Sie auf diesem Grid erstellen, werden auf das andere Grid in der Verbindung geklont.
+
++
+image:grid-federation-tenant-user-banner.png["Bild eines blauen Banners auf der Benutzerseite, wenn dies das Mandanten-Quellgrid ist"]
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[enter-credentials]]
+=== Anmeldedaten eingeben
+
+.Schritte
+. ${post_edited_translations.segment}
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Vollständiger Name
+ a| 
+Der vollständige Name dieses Benutzers, zum Beispiel der Vor- und Nachname einer Person oder der Name einer Anwendung.
+
+
+
+ a| 
+Benutzername
+ a| 
+${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+|===
+. Wählen Sie *Weiter*.
+
+
+
+
+[[assign-to-groups]]
+=== Gruppen zuweisen
+
+.Schritte
+. ${post_edited_translations.segment}
++
+Die Zuweisung eines Benutzers zu Gruppen ist optional. Wenn Sie möchten, können Sie Benutzer beim Erstellen oder Bearbeiten von Gruppen auswählen.
+
++
+Benutzer, die keiner Gruppe angehören, haben keine Verwaltungsberechtigungen. Berechtigungen sind kumulativ. Benutzer haben alle Berechtigungen für alle Gruppen, denen sie angehören. Siehe link:tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"].
+
+. ${post_edited_translations.segment}
++
+Wenn Ihr Mandantenkonto über die Berechtigung „Grid-Verbundverbindung verwenden“ verfügt und Sie sich im Quell-Grid des Mandanten befinden, wird der neue lokale Benutzer auf das Ziel-Grid des Mandanten geklont. „Erfolgreich“ wird als „Klonstatus“ im Bereich „Übersicht“ auf der Detailseite des Benutzers angezeigt.
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[view-or-edit-local-user]]
+== ${post_edited_translations.segment}
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. ${post_edited_translations.segment}
++
+Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und der Benutzer im Quell-Grid des Mandanten angezeigt wird:
+
++
+** Eine Bannermeldung weist darauf hin, dass Änderungen, die Sie beim Bearbeiten oder Entfernen eines Benutzers vornehmen, nicht mit dem anderen Grid synchronisiert werden.
+** Bei Bedarf wird eine Bannermeldung angezeigt, falls Benutzer nicht in den Mandanten im Zielnetz geklont wurden. Sie können <<clone-users,Einen fehlgeschlagenen Benutzerklon erneut versuchen>>.
+
+
+. Wenn der vollständige Name des Benutzers geändert werden soll:
++
+.. Das Kontrollkästchen für den Benutzer auswählen.
+.. *Aktionen* > *Vollständigen Namen bearbeiten* auswählen.
+.. Geben Sie den neuen Namen ein.
+.. *Änderungen speichern* auswählen.
+
+
+. Wenn Sie weitere Details anzeigen oder zusätzliche Änderungen vornehmen möchten, kann Folgendes getan werden:
++
+** Den Benutzernamen auswählen.
+** Aktivieren Sie das Kontrollkästchen für den Benutzer und wählen Sie *Aktionen* > *Benutzerdetails anzeigen*.
+
+
+. Im Abschnitt „Übersicht“ werden die folgenden Informationen für jeden Benutzer angezeigt:
++
+** Vollständiger Name
+** Benutzername
+** Benutzertyp
+** Zugriff verweigert
+** Zugriffsmodus
+** Gruppenmitgliedschaft
+** Zusätzliche Felder, wenn das Mandantenkonto über die Berechtigung *Use grid federation connection* verfügt und der Benutzer im Quell-Grid des Mandanten angezeigt wird:
++
+*** ${post_edited_translations.segment}
+*** Ein blauer Banner weist darauf hin, dass Änderungen an diesem Benutzer nicht mit dem anderen Grid synchronisiert werden.
+
+
+
+
+. Die Benutzereinstellungen nach Bedarf bearbeiten. Details zu den einzugebenden Daten finden Sie unter <<create-user,${post_edited_translations.segment}>>.
++
+.. Im Abschnitt „Übersicht“ den vollständigen Namen ändern, indem der Name oder das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] ausgewählt wird.
++
+${post_edited_translations.segment}
+
+.. Auf der Registerkarte *Passwort* das Passwort des Benutzers ändern und *Änderungen speichern* auswählen.
+.. Auf der Registerkarte *Zugriff* *Nein* auswählen, um dem Benutzer die Anmeldung zu erlauben, oder *Ja*, um die Anmeldung zu verhindern. Anschließend *Änderungen speichern* auswählen.
+.. Auf der Registerkarte *Access Keys* wählen Sie *Create Key* aus und befolgen die Anweisungen für link:creating-another-users-s3-access-keys.html["Erstellung von S3-Zugriffsschlüsseln eines anderen Benutzers"].
+.. Auf der Registerkarte *Gruppen* wählen Sie *Gruppen bearbeiten*, um den Benutzer zu Gruppen hinzuzufügen oder aus Gruppen zu entfernen. Anschließend wählen Sie *Änderungen speichern*.
+
+
+. Bestätigen Sie, dass für jeden geänderten Abschnitt *Änderungen speichern* ausgewählt wurde.
+
+
+
+
+[[import-federated-users]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. ${post_edited_translations.segment}
+. Die UUID oder der Benutzername für einen oder mehrere Verbundbenutzer wird eingegeben.
++
+${post_edited_translations.segment}
+
+. *Importieren* auswählen.
++
+${post_edited_translations.segment}
+
++
+.. *Nicht importierte Benutzer* erweitern und *Benutzer kopieren* auswählen.
+.. Den Import erneut versuchen, indem *Vorherige* ausgewählt und die kopierten Benutzer in das Dialogfeld *Verbundbenutzer importieren* eingefügt werden.
+
+
++
+${post_edited_translations.segment}
+
+
+
+
+
+[[duplicate-local-user]]
+== Doppelter lokaler Benutzer
+
+Sie können einen lokalen Benutzer duplizieren, um schneller einen neuen Benutzer zu erstellen.
+
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt und Sie einen Benutzer aus dem Grid-Quellstandort des Mandanten duplizieren, wird der duplizierte Benutzer in das Grid-Ziel des Mandanten geklont.
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. Aktivieren Sie das Kontrollkästchen für den Benutzer, den Sie duplizieren möchten.
+. *Aktionen* > *Benutzer duplizieren* auswählen.
+. Weitere Informationen zu den einzugebenden Angaben sind unter <<create-user,${post_edited_translations.segment}>> zu finden.
+. ${post_edited_translations.segment}
+
+
+
+
+[[clone-usersretry-user-clone]]
+== [[clone-users]]Benutzerklon erneut versuchen
+
+${post_edited_translations.segment}
+
+. Jeder Benutzer auswählen, bei dem unter dem Benutzernamen _(Klonen fehlgeschlagen)_ angezeigt wird.
+. *Aktionen* > *Benutzer klonen* auswählen.
+. Der Status des Klonvorgangs ist auf der Detailseite jedes Benutzers ersichtlich, den Sie klonen.
+
+
+Weitere Informationen finden Sie unter link:grid-federation-account-clone.html["Mandantengruppen und Benutzer klonen"].
+
+
+
+[[delete-one-or-more-local-users]]
+== Einen oder mehrere lokale Benutzer löschen
+
+Sie können einen oder mehrere lokale Benutzer, die keinen Zugriff mehr auf das StorageGRID Mandantenkonto benötigen, dauerhaft löschen.
+
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und Sie einen lokalen Benutzer löschen, wird StorageGRID den entsprechenden Benutzer im anderen Grid nicht löschen. Falls diese Informationen synchron gehalten werden sollen, ist derselbe Benutzer in beiden Grids zu löschen.
+
+
+NOTE: Sie müssen die föderierte Identitätsquelle verwenden, um föderierte Benutzer zu löschen.
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. Aktivieren Sie das Kontrollkästchen für jeden Benutzer, den Sie löschen möchten.
+. *Aktionen* > *Benutzer löschen* oder *Aktionen* > *Benutzer löschen* auswählen.
++
+Es erscheint ein Bestätigungsdialogfeld.
+
+. *Benutzer löschen* oder *Benutzer löschen* auswählen.
+

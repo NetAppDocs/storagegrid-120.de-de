@@ -1,0 +1,41 @@
+---
+permalink: audit/audit-messages-and-object-lifecycle.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, log, object lifecycle, ingest, retrieve, delete, s3, timing, ILM, Information lifecycle management 
+summary: Bei jedem Import, Abruf oder Löschen eines Objekts werden Audit-Meldungen generiert. Diese Transaktionen lassen sich im Revisionsprotokoll anhand der S3-API-spezifischen Audit-Meldungen identifizieren. 
+---
+= Wenn Revisionsprotokollmeldungen in StorageGRID generiert werden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei jedem Import, Abruf oder Löschen eines Objekts werden Audit-Meldungen generiert. Diese Transaktionen lassen sich im Revisionsprotokoll anhand der S3-API-spezifischen Audit-Meldungen identifizieren.
+
+${post_edited_translations.segment}
+
+[cols="1a,1a"]
+|===
+| Protokoll | Code 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+S3BK (Bucket), S3KY (Key) oder beides
+
+
+
+ a| 
+Verknüpfung interner Abläufe
+ a| 
+${post_edited_translations.segment}
+
+|===
+
+
+[[timing-of-audit-messages]]
+== Zeitpunkt der Revisionsprotokollmeldungen
+
+${post_edited_translations.segment}

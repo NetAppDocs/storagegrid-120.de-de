@@ -1,0 +1,57 @@
+---
+permalink: harden/hardening-guidelines-for-storagegrid-networks.html 
+sidebar: sidebar 
+keywords: StorageGRID, hardening guidelines, networks, networking, security 
+summary: Das StorageGRID System unterstützt bis zu drei Netzwerkschnittstellen pro Grid-Knoten, sodass die Netzwerkkonfiguration für jeden einzelnen Grid-Knoten an die jeweiligen Sicherheits- und Netzwerkzugriffsanforderungen angepasst werden kann. 
+---
+= Härtungsrichtlinien für StorageGRID Netzwerke
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das StorageGRID System unterstützt bis zu drei Netzwerkschnittstellen pro Grid-Knoten, sodass die Netzwerkkonfiguration für jeden einzelnen Grid-Knoten an die jeweiligen Sicherheits- und Netzwerkzugriffsanforderungen angepasst werden kann.
+
+Detaillierte Informationen zu StorageGRID Netzwerken sind unter link:../network/storagegrid-network-types.html["StorageGRID Netzwerktypen"] verfügbar.
+
+
+
+[[guidelines-for-grid-network]]
+== Richtlinien für das Grid-Netzwerk
+
+Sie müssen ein Grid Network für den gesamten internen StorageGRID Datenverkehr konfigurieren. Alle Grid-Knoten befinden sich im Grid Network und müssen mit allen anderen Knoten kommunizieren können.
+
+Bei der Konfiguration des Grid Network sind folgende Richtlinien zu berücksichtigen:
+
+* Es sollte sichergestellt sein, dass das Netzwerk vor nicht vertrauenswürdigen Clients, wie beispielsweise solchen im offenen Internet, geschützt ist.
+* Wenn möglich, ausschließlich das Grid Network für internen Datenverkehr verwenden. Sowohl das Admin Network als auch das Client Network unterliegen zusätzlichen Firewall-Beschränkungen, die externen Datenverkehr zu internen Diensten blockieren. Die Nutzung des Grid Network für externen Client-Datenverkehr ist unterstützt, bietet jedoch weniger Schutzebenen.
+* Wenn sich die StorageGRID Implementierung über mehrere Rechenzentren erstreckt, sollte ein virtuelles privates Netzwerk (VPN) oder ein gleichwertiges System im Grid Netzwerk für zusätzlichen Schutz des internen Datenverkehrs auf dem Grid Netzwerk eingesetzt werden.
+* Für einige Wartungsverfahren ist ein Secure Shell (SSH)-Zugriff auf Port 22 zwischen dem primären Admin-Node und allen anderen Grid-Nodes erforderlich. Ein externer Firewall-Schutz beschränkt den SSH-Zugriff auf vertrauenswürdige Clients.
+
+
+
+
+[[guidelines-for-admin-network]]
+== Richtlinien für das Admin Netzwerk
+
+Das Admin Network wird typischerweise für administrative Aufgaben (von vertrauenswürdigen Mitarbeitern über den Grid Manager oder SSH) und zur Kommunikation mit anderen vertrauenswürdigen Diensten wie LDAP, DNS, NTP oder KMS (oder KMIP Server) verwendet. StorageGRID erzwingt diese Nutzung jedoch nicht intern.
+
+Wenn das Admin Network verwendet wird, gelten diese Richtlinien:
+
+* Alle internen Datenverkehrsports im Admin-Netzwerk blockieren. Siehe link:../network/internal-grid-node-communications.html["Liste der internen Ports"].
+* Falls nicht vertrauenswürdige Clients auf das Admin-Netzwerk zugreifen können, sollte der Zugriff auf StorageGRID im Admin-Netzwerk mit einer externen Firewall blockiert werden.
+
+
+
+
+[[guidelines-for-client-network]]
+== Richtlinien für das Client-Netzwerk
+
+Das Client-Netzwerk wird typischerweise für Mandanten und zur Kommunikation mit externen Diensten, wie dem CloudMirror Replikationsdienst oder einem anderen Plattformdienst, verwendet. StorageGRID erzwingt diese Nutzung jedoch intern nicht.
+
+Wenn Sie das Client-Netzwerk nutzen, gelten folgende Richtlinien:
+
+* Alle internen Datenverkehrsports im Client-Netzwerk blockieren. Siehe link:../network/internal-grid-node-communications.html["Liste der internen Ports"].
+* Eingehender Client-Datenverkehr wird nur an explizit konfigurierten Endpunkten akzeptiert. Informationen zu link:../admin/manage-firewall-controls.html["Verwaltung der Firewall-Steuerung"].
+

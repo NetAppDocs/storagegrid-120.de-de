@@ -1,0 +1,30 @@
+---
+permalink: monitor/monitoring-put-and-get-performance.html 
+sidebar: sidebar 
+keywords: put, get, performance 
+summary: Die Leistung bestimmter Operationen, wie Objektspeicher und Abrufen von Objekten, kann überwacht werden, um Änderungen zu erkennen, die möglicherweise weitere Untersuchungen erfordern. 
+---
+= Überwachen Sie die PUT- und GET-Leistung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Leistung bestimmter Operationen, wie Objektspeicher und Abrufen von Objekten, kann überwacht werden, um Änderungen zu erkennen, die möglicherweise weitere Untersuchungen erfordern.
+
+.Über diese Aufgabe
+Um die Leistung von PUT- und GET-Anfragen zu überwachen, können S3-Befehle direkt von einer Workstation ausgeführt oder die Open-Source-Anwendung S3tester verwendet werden. Mit diesen Methoden lässt sich die Leistung unabhängig von Faktoren bewerten, die außerhalb von StorageGRID liegen, wie etwa Problemen mit einer Client-Anwendung oder mit einem externen Netzwerk.
+
+Bei Tests von PUT- und GET-Operationen gelten die folgenden Richtlinien:
+
+* Verwenden Sie Objektgrößen, die mit den Objekten vergleichbar sind, die Sie üblicherweise in Ihr Grid einfügen.
+* Operationen können sowohl an lokalen als auch an entfernten Standorten durchgeführt werden.
+
+
+Meldungen im link:../audit/index.html["Revisionsprotokoll"] geben die Gesamtzeit an, die für bestimmte Operationen erforderlich ist. Beispielsweise lässt sich die gesamte Verarbeitungszeit einer S3 GET-Anfrage anhand des Werts des Attributs TIME in der SGET Audit-Nachricht nachvollziehen. Das Attribut TIME ist auch in den Audit-Nachrichten für die folgenden S3-Operationen zu finden: DELETE, GET, HEAD, Metadata Updated, POST, PUT
+
+Beim Analysieren der Ergebnisse sollte sowohl die durchschnittliche Zeit zur Bearbeitung einer Anfrage als auch der insgesamt erreichbare Durchsatz betrachtet werden. Die gleichen Tests sollten regelmäßig wiederholt und die Ergebnisse aufgezeichnet werden, sodass sich Trends erkennen lassen, die möglicherweise einer weiteren Untersuchung bedürfen.
+
+* Sie können https://github.com/s3tester["S3tester von GitHub herunterladen"^].
+

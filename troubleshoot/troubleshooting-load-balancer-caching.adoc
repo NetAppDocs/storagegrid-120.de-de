@@ -1,0 +1,52 @@
+---
+permalink: troubleshoot/troubleshooting-load-balancer-caching.html 
+sidebar: sidebar 
+keywords: how to troubleshoot load balancer caching 
+summary: Informationen zu möglichen Problemen mit Load-Balancer-Caching und deren Fehlerbehebung. 
+---
+= Erfahren Sie mehr über Caching-Probleme von Load-Balancern in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Informationen zu möglichen Problemen mit Load-Balancer-Caching und deren Fehlerbehebung.
+
+
+
+[[determine-if-a-request-was-a-cache-hit]]
+== Feststellen, ob eine Anfrage ein Cache-Treffer war
+
+* Der X-Cache-Header wird in der Antwort auf Anfragen gesetzt, die vom Cache-Dienst verarbeitet werden. Mögliche Codes:
++
+** `HIT`: Das Objekt wurde aus dem Cache bereitgestellt
+** `PARTIAL-HIT`: Der Bucket/Schlüssel hatte zwar einen Eintrag im Cache, aber nicht der gesamte angeforderte Bereich konnte aus dem Cache bedient werden.
+** `STALE`: Der Bucket/Schlüssel hatte einen Eintrag im Cache, aber das Objekt wurde seit dem letzten Abruf aus dem Cache aktualisiert.
+** `MISS`: Das Objekt befand sich nicht im Cache
+
+
+* Der  `nginx-gw/endpoint-access.log.gz`Datensatz für die Anfrage enthält "unix:/run/cache-svc/cache-svc.sock" für Anfragen, die vom Cache verarbeitet werden.
+* Die  `cache-svc/cache-svc.log`meldet eine Nachricht wie „Anfrage 320390: erfolgreich abgeschlossen (Cache-Treffer)“ oder „Anfrage 320375: erfolgreich abgeschlossen (Cache-Miss)“. Der angeforderte Pfad lässt sich finden, indem nach anderen Einträgen mit derselben Zeichenfolge „Request _<number>_“ gesucht wird.
+
+
+
+
+[[low-cache-hit-rate]]
+== Niedrige Cache-Trefferquote
+
+* Niedrige Cache-Trefferquoten sind zu erwarten, wenn eine neue Arbeitslast hinzugefügt wird oder sich die von einer Arbeitslast genutzte Arbeitsmenge ändert. In diesen Situationen wird erwartet, dass die Trefferquote im Laufe der Zeit steigt.
+* Wenn mehrere Workloads Caching nutzen, kann das Hinzufügen von Richtlinien zur Datenverkehrsklassifizierung dazu beitragen, die vom Cache bedienten Teile der Workloads zu isolieren. Cache-Trefferquotenmetriken sind pro Datenverkehrsklassifizierungsrichtlinie verfügbar. Wenn einige Workloads keine guten Cache-Trefferquoten aufweisen, kann das Verschieben dieser Workloads auf andere Endpunkte ohne aktiviertes Caching in Betracht gezogen werden.
+* Die Cache-Verdrängungsrate wird bewertet. Wenn der Cache zu klein ist, um den Arbeitsdatensatz aufzunehmen, treten hohe Verdrängungsraten auf, was zu einer niedrigeren Trefferquote beitragen kann.
+* Optionen zur Verbesserung der Trefferquote bestimmter Workloads könnten unter FPVR verfügbar sein.
+
+
+
+
+[[low-performance]]
+== Geringe Leistung
+
+* Die Cache-Trefferquote bewerten. Niedrige Cache-Trefferquoten können zu einer niedrigen Gesamtleistung führen.
+* Die Cache-Verdrängungsrate wird bewertet. Während der Verdrängung werden einige Speicherressourcen für das Entfernen vorhandener Objekte von der Festplatte verwendet. Hält der Verdrängungsprozess mit dem Zugriff auf neue Objekte nicht Schritt, kann das System die Hard-Watermark-Schwellenwerte erreichen und beginnt, den Cache zu umgehen.
+* Netzwerkbeschränkungen lassen sich anhand der Diagnose „Network interfaces receive usage“ und „Network interfaces transmit usage“ überprüfen.
+

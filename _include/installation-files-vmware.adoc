@@ -1,0 +1,98 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./vsphere/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./vsphere/NLF000000.txt  a| 
+Eine kostenlose Lizenz, die keinerlei Supportanspruch für das Produkt beinhaltet.
+
+
+
+| ./vsphere/NetApp-SG-version-SHA.vmdk  a| 
+Die virtuelle Maschinenfestplattendatei, die als Vorlage für die Erstellung von Grid-Knoten-virtuellen Maschinen verwendet wird.
+
+
+
+| ./vsphere/vsphere-primary-admin.ovf ./vsphere/vsphere-primary-admin.mf  a| 
+Die Open Virtualization Format Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung des primären Admin Node.
+
+
+
+| ./vsphere/vsphere-non-primary-admin.ovf ./vsphere/vsphere-non-primary-admin.mf  a| 
+Die Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung von nicht-primären Admin-Knoten.
+
+
+
+| ./vsphere/vsphere-gateway.ovf ./vsphere/vsphere-gateway.mf  a| 
+Die Vorlagendatei (`.ovf`) und die Manifestdatei (`.mf`) für die Bereitstellung von Gateway-Nodes.
+
+
+
+| ./vsphere/vsphere-storage.ovf ./vsphere/vsphere-storage.mf  a| 
+Die Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung von virtuellen Maschinen basierten Storage Nodes.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ./vsphere/deploy-vsphere-ovftool.sh  a| 
+Ein Bash-Shell-Skript zur Automatisierung der Bereitstellung virtueller Grid-Knoten.
+
+
+
+| ./vsphere/deploy-vsphere-ovftool-sample.ini  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `deploy-vsphere-ovftool.sh` Skript.
+
+
+
+| ./vsphere/configure-storagegrid.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./vsphere/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./vsphere/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) aktiviert ist. Dieses Skript kann auch für die Integration von Ping Federate verwendet werden.
+
+
+
+| ./vsphere/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./vsphere/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./vsphere/storagegrid-ssoauth-azure.py  a| 
+${post_edited_translations.segment}
+
+
+
+| ./vsphere/storagegrid-ssoauth-azure.js  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ./vsphere/extras/api-schemas  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===

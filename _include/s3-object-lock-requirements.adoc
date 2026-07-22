@@ -1,0 +1,55 @@
+= Anforderungen für Buckets mit aktiviertem S3 Object Lock
+:allow-uri-read: 
+
+
+
+
+[[requirements-for-buckets-with-s3-object-lock-enabled]]
+== Anforderungen für Buckets mit aktiviertem S3 Object Lock
+
+* Wenn die globale S3 Object Lock-Einstellung für das StorageGRID System aktiviert ist, kann der Tenant Manager, die Tenant Management API oder die S3 REST API verwendet werden, um Buckets mit aktivierter S3 Object Lock-Funktion zu erstellen.
+* Wenn Sie S3 Object Lock verwenden möchten, müssen Sie S3 Object Lock beim Erstellen des Buckets aktivieren. S3 Object Lock kann für einen bestehenden Bucket nicht aktiviert werden.
+* Wenn S3 Object Lock für einen Bucket aktiviert ist, aktiviert StorageGRID automatisch die Versionierung für diesen Bucket. S3 Object Lock kann nicht deaktiviert oder die Versionierung für den Bucket ausgesetzt werden.
+* Optional können Sie mithilfe des Tenant Managers, der Tenant Management API oder der S3 REST API einen Standard-Aufbewahrungsmodus und eine Standard-Aufbewahrungsdauer für jeden Bucket festlegen. Die Standardeinstellungen für die Aufbewahrung gelten nur für neue Objekte, die dem Bucket hinzugefügt werden und keine eigenen Aufbewahrungseinstellungen haben. Diese Standardeinstellungen lassen sich überschreiben, indem für jede Objektversion beim Hochladen ein Aufbewahrungsmodus und ein Aufbewahrungsdatum festgelegt werden.
+* Die Bucket-Lebenszykluskonfiguration wird für Buckets mit aktiviertem S3 Object Lock unterstützt.
+* CloudMirror Replikation wird für Buckets mit aktiviertem S3 Object Lock nicht unterstützt.
+
+
+
+
+[[requirements-for-objects-in-buckets-with-s3-object-lock-enabled]]
+== Anforderungen an Objekte in Buckets mit aktiviertem S3 Object Lock
+
+* Um eine Objektversion zu schützen, können Sie Standardaufbewahrungseinstellungen für den Bucket festlegen oder Aufbewahrungseinstellungen für jede Objektversion angeben. Aufbewahrungseinstellungen auf Objektebene können mithilfe der S3-Clientanwendung oder der S3 REST API angegeben werden.
+* Die Aufbewahrungseinstellungen gelten für einzelne Objektversionen. Eine Objektversion kann sowohl ein Aufbewahrungsdatum als auch eine rechtliche Aufbewahrungseinstellung haben, nur eine von beiden oder keine. Die Angabe eines Aufbewahrungsdatums oder einer rechtlichen Aufbewahrungseinstellung für ein Objekt schützt nur die in der Anfrage angegebene Version. Es können neue Versionen des Objekts erstellt werden, während die vorherige Version des Objekts gesperrt bleibt.
+
+
+
+
+[[lifecycle-of-objects-in-buckets-with-s3-object-lock-enabled]]
+== Lebenszyklus von Objekten in Buckets mit aktiviertem S3 Object Lock
+
+Jedes Objekt, das in einem Bucket mit aktiviertem S3 Object Lock gespeichert wird, durchläuft folgende Phasen:
+
+. *Objektaufnahme*
++
+Wenn eine Objektversion zu einem Bucket hinzugefügt wird, für den S3 Object Lock aktiviert ist, werden die Aufbewahrungseinstellungen wie folgt angewendet:
+
++
+** Wenn Aufbewahrungseinstellungen für das Objekt festgelegt sind, werden die Einstellungen auf Objektebene angewendet. Alle Standard-Bucket-Einstellungen werden ignoriert.
+** Wenn für das Objekt keine Aufbewahrungseinstellungen angegeben sind, werden die Standard-Bucket-Einstellungen angewendet, sofern diese existieren.
+** Wenn für das Objekt oder den Bucket keine Aufbewahrungseinstellungen angegeben sind, ist das Objekt nicht durch S3 Object Lock geschützt.
+
+
++
+Wenn Aufbewahrungseinstellungen angewendet werden, sind sowohl das Objekt als auch alle S3-benutzerdefinierten Metadaten geschützt.
+
+. *Objektaufbewahrung und -Löschung*
++
+Mehrere Kopien jedes geschützten Objekts werden von StorageGRID für die festgelegte Aufbewahrungsfrist gespeichert. Die genaue Anzahl und Art der Objektkopien sowie die Speicherorte werden durch die konformen Regeln in den aktiven ILM-Richtlinien bestimmt. Ob ein geschütztes Objekt vor Erreichen seines Aufbewahrungsdatums gelöscht werden kann, hängt von seinem Aufbewahrungsmodus ab.
+
++
+** Wenn ein Objekt unter einer rechtlichen Aufbewahrungspflicht steht, kann niemand das Objekt löschen, unabhängig vom Aufbewahrungsmodus.
+
+
+

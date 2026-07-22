@@ -1,0 +1,97 @@
+---
+permalink: admin/kms-overview-of-kms-and-appliance-configuration.html 
+sidebar: sidebar 
+keywords: kms, appliance configuration, node encryption 
+summary: 'Bevor Sie einen Key-Management-Server (KMS) zum Schutz von StorageGRID Daten auf Appliance-Knoten verwenden können, müssen Sie einen oder mehrere KMS-Server einrichten und die Knotenverschlüsselung für die Appliance-Knoten aktivieren. Wenn diese beiden Konfigurationsaufgaben abgeschlossen sind, erfolgt der Schlüsselverwaltungsprozess automatisch.' 
+---
+= StorageGRID Schlüsselverwaltungsserver und Appliance-Konfiguration
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Key-Management-Server (KMS) zum Schutz von StorageGRID Daten auf Appliance-Knoten verwenden können, müssen zwei Konfigurationsaufgaben abgeschlossen werden: die Einrichtung eines oder mehrerer KMS-Server und die Aktivierung der Knotenverschlüsselung für die Appliance-Knoten. Wenn diese beiden Konfigurationsaufgaben abgeschlossen sind, erfolgt der Schlüsselverwaltungsprozess automatisch.
+
+Das Flussdiagramm zeigt die wichtigsten Schritte für die Verwendung eines KMS zur Sicherung von StorageGRID Daten auf Appliance-Knoten.
+
+image:kms_configuration_overview.png["Der KMS Konfigurationsworkflow, der im folgenden Text beschrieben wird"]
+
+Das Flussdiagramm zeigt, dass die Einrichtung des KMS und die Einrichtung der Appliance parallel erfolgen; jedoch können Sie die Key-Management-Server je nach Ihren Anforderungen vor oder nach der Aktivierung der Knotenverschlüsselung für neue Appliance-Knoten einrichten.
+
+
+
+[[set-up-the-key-management-server-kms]]
+== Einrichtung des Schlüsselverwaltungsservers (KMS)
+
+Die Einrichtung eines Schlüsselverwaltungsservers umfasst die folgenden übergeordneten Schritte.
+
+[cols="1a,1a"]
+|===
+| Schritt | Siehe 
+
+
+ a| 
+Auf die KMS-Software zugreifen und für StorageGRID bei jedem KMS oder KMS-Cluster einen Client hinzufügen.
+ a| 
+link:kms-configuring-storagegrid-as-client.html["StorageGRID als Client im KMS konfigurieren"]
+
+
+
+ a| 
+Die erforderlichen Informationen für den StorageGRID Client auf dem KMS erhalten.
+ a| 
+link:kms-configuring-storagegrid-as-client.html["StorageGRID als Client im KMS konfigurieren"]
+
+
+
+ a| 
+Den KMS zum Grid Manager hinzufügen, einem einzelnen Standort oder einer Standardgruppe von Standorten zuweisen, die erforderlichen Zertifikate hochladen und die KMS Konfiguration speichern.
+ a| 
+link:kms-adding.html["${post_edited_translations.segment}"]
+
+|===
+
+
+[[set-up-the-appliance]]
+== Das Gerät einrichten
+
+Die Einrichtung eines Appliance-Knotens für die KMS-Nutzung umfasst die folgenden Schritte auf hoher Ebene.
+
+. Während der Hardwarekonfigurationsphase der Appliance-Installation wird mithilfe des StorageGRID Appliance Installers die Einstellung *Knotenverschlüsselung* für die Appliance aktiviert.
++
+
+NOTE: Die Einstellung *Knotenverschlüsselung* kann nach dem Hinzufügen eines Geräts zum Grid nicht aktiviert werden, und die externe Schlüsselverwaltung kann nicht für Geräte verwendet werden, bei denen die Knotenverschlüsselung nicht aktiviert ist.
+
+. Führen Sie das StorageGRID Appliance Installer aus. Während der Installation wird jedem Appliance Volume ein zufälliger Datenverschlüsselungsschlüssel (DEK) wie folgt zugewiesen:
++
+** Die DEKs dienen der Verschlüsselung der Daten auf jedem Volume. Diese Schlüssel werden mithilfe der Linux Unified Key Setup (LUKS) Festplattenverschlüsselung im Appliance-Betriebssystem generiert und können nicht geändert werden.
+** Jeder einzelne DEK wird durch einen Master Key Encryption Key (KEK) verschlüsselt. Der anfängliche KEK ist ein temporärer Schlüssel, der die DEKs verschlüsselt, bis das Gerät eine Verbindung zum KMS herstellen kann.
+
+
+. Den Appliance-Knoten zu StorageGRID hinzufügen.
+
+
+Siehe https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-enabling-node-encryption.html["Knotenverschlüsselung aktivieren"^] für Einzelheiten.
+
+
+
+[[key-management-encryption-process-occurs-automatically]]
+== Schlüsselmanagement Verschlüsselungsprozess (erfolgt automatisch)
+
+Die Schlüsselverwaltungsverschlüsselung umfasst die folgenden Schritte auf hoher Ebene, die automatisch durchgeführt werden.
+
+. Wenn ein Gerät mit aktivierter Knotenverschlüsselung in das Grid eingebunden wird, prüft StorageGRID, ob für den Standort, der den neuen Knoten enthält, eine KMS-Konfiguration vorhanden ist.
++
+** Wenn für den Standort bereits ein KMS konfiguriert wurde, erhält das Gerät die KMS-Konfiguration.
+** Wenn für den Standort noch kein KMS konfiguriert wurde, bleiben die Daten auf dem Gerät weiterhin durch den temporären KEK verschlüsselt, bis ein KMS für den Standort konfiguriert ist und das Gerät die KMS-Konfiguration erhält.
+
+
+. Das Gerät nutzt die KMS-Konfiguration, um eine Verbindung zum KMS herzustellen und einen Verschlüsselungsschlüssel anzufordern.
+. Der KMS sendet einen Verschlüsselungsschlüssel an das Appliance. Der neue Schlüssel vom KMS ersetzt den temporären KEK und wird nun zum Verschlüsseln und Entschlüsseln der DEKs für die Appliance-Volumes verwendet.
++
+
+CAUTION: Alle Daten, die vor der Verbindung des verschlüsselten Appliance-Knotens mit dem konfigurierten KMS vorhanden sind, werden mit einem temporären Schlüssel verschlüsselt. Die Appliance-Volumes sollten jedoch nicht als vor Entfernung aus dem Rechenzentrum geschützt betrachtet werden, bis der temporäre Schlüssel durch den KMS-Verschlüsselungsschlüssel ersetzt wurde.
+
+. Wird das Gerät eingeschaltet oder neu gestartet, stellt es eine erneute Verbindung zum KMS her, um den Schlüssel anzufordern. Der im flüchtigen Speicher gespeicherte Schlüssel kann einen Stromausfall oder Neustart nicht überstehen.
+

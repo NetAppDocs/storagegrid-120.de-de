@@ -1,0 +1,73 @@
+---
+permalink: ilm/creating-storage-pool.html 
+sidebar: sidebar 
+keywords: create storage pool 
+summary: Speicherpools werden erstellt, um festzulegen, wo das StorageGRID System Objektdaten speichert und welcher Speichertyp verwendet wird. Jeder Speicherpool umfasst einen oder mehrere Standorte und eine oder mehrere Speicherklassen. 
+---
+= Erstellen Sie einen Speicherpool in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Speicherpools werden erstellt, um festzulegen, wo das StorageGRID System Objektdaten speichert und welcher Speichertyp verwendet wird. Jeder Speicherpool umfasst einen oder mehrere Standorte und eine oder mehrere Speicherklassen.
+
+
+NOTE: Bei der Installation von StorageGRID 12.0 auf einem neuen Grid werden automatisch Speicherpools für jeden Standort erstellt. Wenn StorageGRID 11.6 oder eine frühere Version installiert wurde, werden Speicherpools nicht automatisch für jeden Standort erstellt.
+
+Wenn Cloud-Speicherpools erstellt werden sollen, um Objektdaten außerhalb des StorageGRID Systems zu speichern, siehe link:what-cloud-storage-pool-is.html["Informationen zur Nutzung von Cloud Storage Pools"].
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie haben die Richtlinien für die Erstellung von Speicherpools überprüft.
+
+
+.Über diese Aufgabe
+Speicherpools legen fest, wo Objektdaten gespeichert werden. Die Anzahl der benötigten Speicherpools hängt von der Anzahl der Standorte in Ihrem Grid und von den gewünschten Kopiertypen ab: repliziert oder mit Erasure-Coding.
+
+* Für die Replikation und die standortspezifische Löschung von Daten einen Speicherpool für jeden Standort erstellen. Wenn beispielsweise replizierte Objektkopien an drei Standorten gespeichert werden sollen, drei Speicherpools erstellen.
+* Für das Erasure Coding an drei oder mehr Standorten sollte ein Speicherpool erstellt werden, der für jeden Standort einen Eintrag enthält. Wenn beispielsweise Objekte über drei Standorte hinweg mit Erasure Coding versehen werden sollen, ist ein einzelner Speicherpool zu erstellen.
++
+
+NOTE: Der Standort „All Sites“ sollte nicht in einen Speicherpool aufgenommen werden, der in einem Erasure-Coding-Profil verwendet wird. Stattdessen ist für jeden Standort, der erasure-codierte Daten speichert, ein separater Eintrag im Speicherpool hinzuzufügen. Siehe <<entries,dieser Schritt>> für ein Beispiel.
+
+* Wenn Sie über mehr als eine Speicherkategorie verfügen, sollte kein Speicherpool erstellt werden, der verschiedene Speicherkategorien an einem einzigen Standort umfasst. Siehe link:guidelines-for-creating-storage-pools.html["Richtlinien für die Erstellung von Speicherpools"].
+
+
+.Schritte
+. *ILM* > *Speicherpools* auswählen.
++
+Die Registerkarte „Storage pools“ listet alle definierten Storage pools auf.
+
++
+
+NOTE: Bei Neuinstallationen von StorageGRID 11.6 oder älter wird der Speicherpool „All Storage Nodes“ automatisch aktualisiert, wenn neue Rechenzentrumsstandorte hinzugefügt werden. Dieser Pool sollte in ILM-Regeln nicht verwendet werden.
+
+. Zum Erstellen eines neuen Speicherpools *Erstellen* auswählen.
+. Geben Sie einen eindeutigen Namen für den Speicherpool ein. Ein Name, der bei der Konfiguration von Erasure-Codierungsprofilen und ILM-Regeln leicht zu identifizieren ist, ist empfehlenswert.
+. In der Dropdown-Liste *Standort* einen Standort für diesen Speicherpool auswählen.
++
+Wenn Sie einen Standort auswählen, wird die Anzahl der Storage Nodes in der Tabelle automatisch aktualisiert.
+
++
+Im Allgemeinen sollte der Speicherpool „All Sites“ in keinem Speicherpool verwendet werden. ILM-Regeln, die einen All Sites-Speicherpool verwenden, platzieren Objekte an jedem verfügbaren Standort, wodurch die Kontrolle über die Objektplatzierung verringert wird. Außerdem nutzt ein All Sites-Speicherpool die Storage Nodes an einem neuen Standort sofort, was möglicherweise nicht dem erwarteten Verhalten entspricht.
+
+. In der Dropdown-Liste *Speicherklasse* wird der Speichertyp ausgewählt, der verwendet wird, wenn eine ILM-Regel diesen Speicherpool nutzt.
++
+Die Speicherklasse, _umfasst alle Speicherklassen_, enthält alle Storage Nodes am ausgewählten Standort. Wenn Sie zusätzliche Speicherklassen für die Storage Nodes in Ihrem Grid erstellt haben, werden diese in der Drop-down-Liste aufgeführt.
+
+. [[entries]]Wenn Sie den Speicherpool in einem Multi-Site-Erasure-Coding-Profil verwenden möchten, wählen Sie *Weitere Knoten hinzufügen*, um dem Speicherpool für jeden Standort einen Eintrag hinzuzufügen.
++
+
+NOTE: Sie erhalten eine Warnung, wenn mehr als ein Eintrag mit unterschiedlichen Speicherklassen für einen Standort hinzugefügt wird.
+
++
+Um einen Eintrag zu entfernen, das Löschsymbol image:icon-x-to-remove.png["Löschsymbol"] auswählen.
+
+. Wenn Sie mit Ihrer Auswahl zufrieden sind, *Speichern* auswählen.
++
+Der neue Speicherpool ist zur Liste hinzugefügt.
+
+

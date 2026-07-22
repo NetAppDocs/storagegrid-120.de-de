@@ -1,0 +1,288 @@
+---
+permalink: admin/configuring-custom-server-certificate-for-grid-manager-tenant-manager.html 
+sidebar: sidebar 
+keywords: custom certificates, grid manager, tenant manager, management interface certificate 
+summary: Sie können das standardmäßige StorageGRID Serverzertifikat durch ein einzelnes benutzerdefiniertes Serverzertifikat ersetzen, das Benutzern den Zugriff auf den Grid Manager und den Tenant Manager ohne Sicherheitswarnungen ermöglicht. Sie können auch zum standardmäßigen Zertifikat der Managementoberfläche zurückkehren oder ein neues generieren. 
+---
+= Konfigurieren Sie Managementoberflächenzertifikate in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das standardmäßige Zertifikat der Managementoberfläche durch ein einzelnes benutzerdefiniertes Zertifikat ersetzen, das Benutzern den Zugriff auf den Grid Manager und den Tenant Manager ohne Sicherheitswarnungen ermöglicht. Sie können auch zum standardmäßigen Zertifikat der Managementoberfläche zurückkehren oder ein neues generieren.
+
+.Über diese Aufgabe
+Standardmäßig erhält jeder Admin-Knoten ein von der Grid-CA signiertes Zertifikat. Diese von der CA signierten Zertifikate können durch ein einziges gemeinsames benutzerdefiniertes Managementoberflächenzertifikat und den entsprechenden privaten Schlüssel ersetzt werden.
+
+Da ein einziges benutzerdefiniertes Zertifikat für die Managementoberfläche für alle Admin Nodes verwendet wird, müssen Sie das Zertifikat als Wildcard- oder Multi-Domain-Zertifikat angeben, wenn Clients den Hostnamen bei der Verbindung mit dem Grid Manager und Tenant Manager verifizieren müssen. Das benutzerdefinierte Zertifikat muss so definiert werden, dass es mit allen Admin Nodes im Grid übereinstimmt.
+
+${post_edited_translations.segment}
+
+
+NOTE: Um sicherzustellen, dass der Betrieb nicht durch ein fehlerhaftes Serverzertifikat beeinträchtigt wird, löst das System den Alarm *Ablauf des Serverzertifikats für die Managementoberfläche* aus, wenn dieses Serverzertifikat bald abläuft. Bei Bedarf können Sie einsehen, wann das aktuelle Zertifikat abläuft, indem Sie *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen und das Ablaufdatum für das Zertifikat der Managementoberfläche auf der Registerkarte „Global“ prüfen.
+
+[NOTE]
+====
+Wenn Sie über einen Domänennamen anstatt über eine IP-Adresse auf den Grid Manager oder Tenant Manager zugreifen, zeigt der Browser eine Zertifikatsfehlermeldung ohne Möglichkeit zur Umgehung an, wenn einer der folgenden Fälle eintritt:
+
+* Ihr benutzerdefiniertes Managementoberfläche-Zertifikat läuft ab.
+* Sie <<Das Standardzertifikat der Managementoberfläche wiederherstellen,${post_edited_translations.segment}>>.
+
+
+====
+
+
+[[add-a-custom-management-interface-certificate]]
+== Ein benutzerdefiniertes Managementoberfläche-Zertifikat hinzufügen
+
+${post_edited_translations.segment}
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *Managementoberfläche-Zertifikat* auswählen.
+. *Benutzerdefiniertes Zertifikat verwenden* auswählen.
+. Das Zertifikat kann hochgeladen oder generiert werden.
++
+[role="tabbed-block"]
+====
+.Zertifikat hochladen
+--
+Die erforderlichen Serverzertifikatsdateien werden hochgeladen.
+
+.. *Zertifikat hochladen* auswählen.
+.. ${post_edited_translations.segment}
++
+*** ${post_edited_translations.segment}
+*** *Privater Zertifikatsschlüssel*: Die benutzerdefinierte private Schlüsseldatei des Serverzertifikats (`.key`).
++
+
+NOTE: Private EC-Schlüssel müssen mindestens 224 Bit groß sein. Private RSA-Schlüssel müssen mindestens 2048 Bit groß sein.
+
+*** *CA bundle*: Eine einzelne optionale Datei, die die Zertifikate aller zwischengeschalteten Zertifizierungsstellen (CAs) enthält. Die Datei sollte alle PEM-kodierten CA-Zertifikatsdateien, in der Reihenfolge der Zertifikatskette zusammengefügt, enthalten.
+
+
+.. *Zertifikatsdetails* kann erweitert werden, um die Metadaten jedes hochgeladenen Zertifikats anzuzeigen. Wenn ein optionales CA-Bundle hochgeladen wurde, wird jedes Zertifikat auf einem eigenen Tab angezeigt.
++
+*** ${post_edited_translations.segment}
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** ${post_edited_translations.segment}
+
+
+.. *Speichern* auswählen. + Das benutzerdefinierte Managementoberflächenzertifikat wird für alle nachfolgenden neuen Verbindungen zum Grid Manager, Tenant Manager, Grid Manager API oder Tenant Manager API verwendet.
+
+
+--
+.Zertifikat generieren
+--
+Die Serverzertifikatsdateien werden generiert.
+
+
+NOTE: ${post_edited_translations.segment}
+
+.. *Zertifikat generieren* auswählen.
+.. ${post_edited_translations.segment}
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Domainname
+ a| 
+Ein oder mehrere vollqualifizierte Domain-Namen, die in das Zertifikat aufgenommen werden sollen. Ein * kann als Platzhalter verwendet werden, um mehrere Domain-Namen darzustellen.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Thema (optional)
+ a| 
+${post_edited_translations.segment}
+
+Wird in diesem Feld kein Wert eingegeben, verwendet das generierte Zertifikat den ersten Domänennamen oder die erste IP-Adresse als allgemeinen Subjektnamen (CN).
+
+
+
+ a| 
+Gültigkeitstage
+ a| 
+Anzahl der Tage nach der Erstellung, nach denen das Zertifikat abläuft.
+
+
+
+ a| 
+Schlüsselverwendungserweiterungen hinzufügen
+ a| 
+Wenn diese Option ausgewählt ist (Standard und empfohlen), werden die Schlüsselverwendungs- und erweiterten Schlüsselverwendungs-Erweiterungen dem generierten Zertifikat hinzugefügt.
+
+Diese Erweiterungen definieren den Zweck des im Zertifikat enthaltenen Schlüssels.
+
+*Hinweis*: Dieses Kontrollkästchen sollte aktiviert bleiben, es sei denn, bei älteren Clients treten Verbindungsprobleme auf, wenn die Zertifikate diese Erweiterungen enthalten.
+
+|===
+.. Wählen Sie *Generieren*.
+.. *Zertifikatdetails* zeigt die Metadaten des generierten Zertifikats an.
++
+*** *Zertifikat herunterladen* auswählen, um die Zertifikatsdatei zu speichern.
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** *Zertifikat PEM kopieren* auswählen, um den Zertifikatsinhalt zum Einfügen an anderer Stelle zu kopieren.
+
+
+.. *Speichern* auswählen. + Das benutzerdefinierte Managementoberflächenzertifikat wird für alle nachfolgenden neuen Verbindungen zum Grid Manager, Tenant Manager, Grid Manager API oder Tenant Manager API verwendet.
+
+
+--
+====
+. ${post_edited_translations.segment}
++
+
+NOTE: Nach dem Hochladen oder Generieren eines neuen Zertifikats kann es bis zu einem Tag dauern, bis etwaige Benachrichtigungen über das Ablaufdatum des Zertifikats entfernt werden.
+
+. Nach dem Hinzufügen eines benutzerdefinierten Managementoberfläche-Zertifikats zeigt die Seite „Managementoberfläche-Zertifikat“ detaillierte Zertifikatsinformationen zu den verwendeten Zertifikaten an. + Das Zertifikat-PEM kann bei Bedarf heruntergeladen oder kopiert werden.
+
+
+
+
+[[restore-the-default-management-interface-certificate]]
+== Das Standardzertifikat der Managementoberfläche wiederherstellen
+
+Es ist möglich, wieder das Standardzertifikat der Managementoberfläche für Verbindungen mit Grid Manager und Tenant Manager zu verwenden.
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *Managementoberfläche-Zertifikat* auswählen.
+. ${post_edited_translations.segment}
++
+Wenn Sie das Standardzertifikat für die Managementoberfläche wiederherstellen, werden die von Ihnen konfigurierten benutzerdefinierten Serverzertifikatsdateien gelöscht und können nicht mehr vom System wiederhergestellt werden. Das Standardzertifikat für die Managementoberfläche wird für alle nachfolgenden neuen Client-Verbindungen verwendet.
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[use-a-script-to-generate-a-new-self-signed-management-interface-certificate]]
+== Ein Skript kann verwendet werden, um ein neues selbstsigniertes Managementoberfläche-Zertifikat zu generieren.
+
+${post_edited_translations.segment}
+
+.Bevor Sie beginnen
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie haben die  `Passwords.txt` Datei.
+
+
+.Über diese Aufgabe
+Die empfohlene Vorgehensweise für eine Produktionsumgebung ist die Verwendung eines von einer externen Zertifizierungsstelle signierten Zertifikats.
+
+.Schritte
+. Den vollqualifizierten Domainnamen (FQDN) jedes Admin-Knotens ermitteln.
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@primary_Admin_Node_IP`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. ${post_edited_translations.segment}
++
+`$ sudo make-certificate --domains _wildcard-admin-node-fqdn_ --type management`
+
++
+** Für `--domains` sind Platzhalter zu verwenden, um die vollqualifizierten Domain-Namen aller Admin-Nodes darzustellen. Beispielsweise verwendet `*.ui.storagegrid.example.com` den Platzhalter *, um `admin1.ui.storagegrid.example.com` und `admin2.ui.storagegrid.example.com` darzustellen.
+** Setzen von  `--type` auf  `management` zur Konfiguration des Zertifikats für die Managementoberfläche, das vom Grid Manager und Tenant Manager verwendet wird.
+** Standardmäßig sind generierte Zertifikate ein Jahr (365 Tage) gültig und müssen vor Ablauf neu erstellt werden. Mit dem  `--days` Argument lässt sich die Standardgültigkeitsdauer überschreiben.
++
+
+NOTE: Die Gültigkeitsdauer eines Zertifikats beginnt, wenn `make-certificate` ausgeführt wird. Sie müssen sicherstellen, dass der Management-Client mit derselben Zeitquelle wie StorageGRID synchronisiert ist, da der Client das Zertifikat andernfalls möglicherweise ablehnt.
+
++
+ $ sudo make-certificate --domains *.ui.storagegrid.example.com --type management --days 720
++
+Die resultierende Ausgabe enthält das öffentliche Zertifikat, das von Ihrem Management-API-Client benötigt wird.
+
+
+
+. Das Zertifikat auswählen und kopieren.
++
+${post_edited_translations.segment}
+
+. Melden Sie sich von der Befehlsshell ab. `$ exit`
+. ${post_edited_translations.segment}
++
+.. Auf den Grid Manager zugreifen.
+.. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen
+.. Auf der Registerkarte *Global* die Option *Managementoberfläche-Zertifikat* auswählen.
+
+
+. Konfigurieren Sie Ihren Management-Client so, dass das kopierte öffentliche Zertifikat verwendet wird. Die BEGIN- und END-Tags sind einzuschließen.
+
+
+
+
+[[download-or-copy-the-management-interface-certificate]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *Managementoberfläche-Zertifikat* auswählen.
+. ${post_edited_translations.segment}
++
+[role="tabbed-block"]
+====
+.${post_edited_translations.segment}
+--
+Die Zertifikats- oder CA-Bundle-Datei `.pem` herunterladen. Bei Verwendung eines optionalen CA-Bundles wird jedes Zertifikat im Bundle auf einer eigenen Unterregisterkarte angezeigt.
+
+.. *Zertifikat herunterladen* oder *CA-Bundle herunterladen* auswählen.
++
+${post_edited_translations.segment}
+
+.. Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+.${post_edited_translations.segment}
+--
+Kopieren Sie den Zertifikatstext, um ihn an anderer Stelle einzufügen. Wenn ein optionales CA-Bundle verwendet wird, wird jedes Zertifikat im Bundle auf einem eigenen Unterreiter angezeigt.
+
+.. ${post_edited_translations.segment}
++
+${post_edited_translations.segment}
+
+.. Das kopierte Zertifikat in einen Texteditor einfügen.
+.. Die Textdatei mit der Erweiterung  `.pem` speichern.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+====
+

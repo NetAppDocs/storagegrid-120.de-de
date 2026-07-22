@@ -1,0 +1,92 @@
+---
+permalink: tenant/grid-federation-view-connections-tenant.html 
+sidebar: sidebar 
+keywords: grid federation connection, view, clear error, last error 
+summary: Wenn Ihr Mandantenkonto über die Berechtigung „Grid-Federationsverbindung verwenden“ verfügt, sind die zulässigen Verbindungen sichtbar. 
+---
+= Grid-Federation-Verbindungen in StorageGRID anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, sind die zulässigen Verbindungen sichtbar.
+
+.Bevor Sie beginnen
+* Das Mandantenkonto verfügt über die Berechtigung *Grid-Federation-Verbindung verwenden*.
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören zu einer Benutzergruppe, die die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"] hat.
+
+
+.Schritte
+. Wählen Sie *STORAGE (S3)* > *Grid Federation Connections*.
++
+Die Seite für die Grid Federation-Verbindung wird angezeigt und enthält eine Tabelle, die die folgenden Informationen zusammenfasst:
+
++
+[cols="1a,2a"]
+|===
+| Spalte | Beschreibung 
+
+
+ a| 
+Verbindungsname
+ a| 
+Die Grid Federation Verbindungen, zu deren Nutzung dieser Mandant berechtigt ist.
+
+
+
+ a| 
+Buckets mit netzübergreifender Replikation
+ a| 
+Für jede Grid-Federation-Verbindung sind die Mandanten-Buckets aufgeführt, für die die gridübergreifende Replikation aktiviert ist. Objekte, die diesen Buckets hinzugefügt werden, werden in das andere Grid in der Verbindung repliziert.
+
+
+
+ a| 
+Letzter Fehler
+ a| 
+Für jede Grid-Federation-Verbindung der zuletzt aufgetretene Fehler, sofern vorhanden, beim Replizieren von Daten in das andere Grid. Siehe <<clear-last-error,Letzten Fehler löschen>>.
+
+|===
+. Optional kann ein Bucket-Name ausgewählt werden, um link:viewing-s3-bucket-details.html["Bucket-Details"].
+
+
+
+
+[[clear-last-errorclear-the-last-error]]
+== [[clear-last-error]]Letzten Fehler löschen
+
+In der Spalte *Letzter Fehler* kann aus einem der folgenden Gründe ein Fehler angezeigt werden:
+
+* Die Quellobjektversion wurde nicht gefunden.
+* Der Quell-Bucket wurde nicht gefunden.
+* Der Ziel-Bucket wurde gelöscht.
+* Der Ziel-Bucket wurde von einem anderen Konto neu erstellt.
+* Die Versionierung des Ziel-Buckets ist ausgesetzt.
+* Der Ziel-Bucket wurde vom selben Konto neu erstellt, ist jetzt jedoch nicht versioniert.
+
+
+
+NOTE: Diese Spalte zeigt nur den letzten aufgetretenen Fehler bei der netzübergreifenden Replikation an; zuvor aufgetretene Fehler werden nicht angezeigt.
+
+.Schritte
+. Wenn in der Spalte *Letzter Fehler* eine Meldung angezeigt wird, kann der Meldungstext angezeigt werden.
++
+Dieser Fehler weist beispielsweise darauf hin, dass sich der Ziel-Bucket für die netzübergreifende Replikation in einem ungültigen Zustand befand, möglicherweise weil die Versionierung ausgesetzt oder S3 Object Lock aktiviert war.
+
++
+image:grid-federation-cgr-object-example-last-error.png["grid-federation-cgr-object-example-last-error"]
+
+. Führen Sie alle empfohlenen Aktionen durch. Wenn beispielsweise die Versionierung für den Ziel-Bucket aufgrund der netzübergreifenden Replikation ausgesetzt wurde, sollte die Versionierung für diesen Bucket wieder aktiviert werden.
+. Wählen Sie die Verbindung aus der Tabelle aus.
+. ${post_edited_translations.segment}
+. *Ja* auswählen, um die Meldung zu löschen und den Systemstatus zu aktualisieren.
+. Warten Sie 5–6 Minuten und geben Sie dann ein neues Objekt in den Bucket ein. Es sollte bestätigt werden, dass die Fehlermeldung nicht erneut erscheint.
++
+
+NOTE: Um sicherzustellen, dass die Fehlermeldung verschwindet, sollte mindestens 5 Minuten nach dem Zeitstempel in der Meldung abgewartet werden, bevor ein neues Objekt eingelesen wird.
+
+. Um festzustellen, ob Objekte aufgrund eines Bucket-Fehlers nicht repliziert werden konnten, siehe link:../admin/grid-federation-retry-failed-replication.html["Fehlgeschlagene Replikationsvorgänge identifizieren und erneut versuchen"].
+

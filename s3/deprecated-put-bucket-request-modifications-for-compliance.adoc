@@ -1,0 +1,31 @@
+---
+permalink: s3/deprecated-put-bucket-request-modifications-for-compliance.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, deprecated bucket requests for compliance 
+summary: Das XML-Element SGCompliance ist veraltet. Früher konnte dieses benutzerdefinierte StorageGRID-Element im optionalen XML-Anforderungstext von CreateBucket-Anfragen zur Erstellung eines konformen Buckets einbezogen werden. 
+---
+= Veraltetes SGCompliance-Element in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das XML-Element SGCompliance ist veraltet. Früher konnte dieses benutzerdefinierte StorageGRID-Element im optionalen XML-Anforderungstext von CreateBucket-Anfragen zur Erstellung eines konformen Buckets einbezogen werden.
+
+[NOTE]
+====
+Die in früheren StorageGRID Versionen verfügbare StorageGRID Compliance-Funktion ist veraltet und wurde durch S3 Object Lock ersetzt. Weitere Details finden Sie hier:
+
+* link:../s3/use-s3-api-for-s3-object-lock.html["S3 REST API zur Konfiguration von S3 Object Lock verwenden"]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_manage_legacy_Compliant_buckets_in_StorageGRID_11.5["NetApp Knowledge Base: Verwaltung älterer konformer Buckets in StorageGRID 11.5"^]
+
+
+====
+Es können keine neuen Buckets mehr mit aktivierter Compliance erstellt werden. Die folgende Fehlermeldung wird zurückgegeben, wenn versucht wird, mithilfe der CreateBucket-Anforderungsänderungen für Compliance einen neuen Compliant Bucket zu erstellen:
+
+[listing]
+----
+The Compliance feature is deprecated.
+Contact your StorageGRID administrator if you need to create new Compliant buckets.
+----

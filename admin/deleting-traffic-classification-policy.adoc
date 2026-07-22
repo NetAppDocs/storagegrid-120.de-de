@@ -1,0 +1,49 @@
+---
+permalink: admin/deleting-traffic-classification-policy.html 
+sidebar: sidebar 
+keywords: delete traffic classification policy 
+summary: Wenn eine Richtlinie zur Verkehrsklassifizierung nicht mehr benötigt wird, kann sie gelöscht werden. 
+---
+= Löschen einer StorageGRID traffic classification policy
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Richtlinie zur Verkehrsklassifizierung löschen, wenn Sie sie nicht mehr benötigen. Achten Sie darauf, die richtige Richtlinie zu löschen, da eine gelöschte Richtlinie nicht wiederhergestellt werden kann.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Verkehrsklassifizierung* auswählen.
++
+Die Seite „Richtlinien zur Verkehrsklassifizierung“ wird angezeigt, die bestehenden Richtlinien sind in einer Tabelle aufgeführt.
+
+. Die Richtlinie kann über das Menü „Aktionen“ oder die Detailseite gelöscht werden.
++
+[role="tabbed-block"]
+====
+.Aktionsmenü
+--
+.. Das Kontrollkästchen für die Richtlinie auswählen.
+.. *Aktionen* > *Entfernen* auswählen.
+
+
+--
+.Seite mit Richtliniendetails
+--
+.. Wählen Sie den Richtliniennamen aus.
+.. Die Schaltfläche *Entfernen* neben dem Richtliniennamen auswählen.
+
+
+--
+====
+. *Ja* auswählen, um zu bestätigen, dass die Richtlinie gelöscht werden soll.
++
+Die Richtlinie wurde gelöscht.
+
+

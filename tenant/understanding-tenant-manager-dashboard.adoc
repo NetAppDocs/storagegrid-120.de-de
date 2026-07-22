@@ -1,0 +1,99 @@
+---
+permalink: tenant/understanding-tenant-manager-dashboard.html 
+sidebar: sidebar 
+keywords: how to understand tenant manager dashboard 
+summary: Das Tenant Manager Dashboard bietet eine Übersicht über die Konfiguration eines Tenant-Kontos und den von Objekten in den S3-Buckets des Tenants belegten Speicherplatz. Wenn für den Tenant ein Kontingent besteht, zeigt das Dashboard an, wie viel des Kontingents verwendet wird und wie viel noch verbleibt. Falls Fehler im Zusammenhang mit dem Tenant-Konto auftreten, werden diese im Dashboard angezeigt. 
+---
+= Tenant Manager Dashboard in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Tenant Manager Dashboard bietet eine Übersicht über die Konfiguration eines Tenant-Kontos und den von Objekten in den S3-Buckets des Tenants belegten Speicherplatz. Wenn für den Tenant ein Kontingent besteht, zeigt das Dashboard an, wie viel des Kontingents verwendet wird und wie viel noch verbleibt. Falls Fehler im Zusammenhang mit dem Tenant-Konto auftreten, werden diese im Dashboard angezeigt.
+
+
+NOTE: Die logische Größe aller Objekte dieses Mandanten umfasst unvollständige und laufende Multipart-Uploads. Die Größe enthält keinen zusätzlichen physischen Speicherplatz, der für ILM-Richtlinien verwendet wird. Die Werte für den verwendeten Speicherplatz sind Schätzungen. Diese Schätzungen werden durch den Zeitpunkt der Datenaufnahme, die Netzwerkverbindung und den Knotenstatus beeinflusst.
+
+${post_edited_translations.segment}
+
+image:tenant_dashboard_with_buckets.png["Dashboard - Bucket-Liste"]
+
+
+
+[[tenant-account-information]]
+== Mieterkontoinformationen
+
+Im oberen Bereich des Dashboards werden die Anzahl der konfigurierten Buckets oder Container, Gruppen und Benutzer angezeigt. Es wird außerdem die Anzahl der Plattformdienste-Endpunkte angezeigt, sofern welche konfiguriert wurden. Über die Links lassen sich die Details anzeigen.
+
+Abhängig von link:tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"], über die Sie verfügen, und den von Ihnen konfigurierten Optionen zeigt der Rest des Dashboards verschiedene Kombinationen von Richtlinien, Speichernutzung, Objektinformationen und Tenant-Details an.
+
+
+
+[[storage-and-quota-usage]]
+== Speicher- und Kontingentnutzung
+
+${post_edited_translations.segment}
+
+* Die Menge der Objektdaten für den Mandanten.
++
+${post_edited_translations.segment}
+
+* Wenn ein Kontingent festgelegt ist, werden der insgesamt für Objektdaten verfügbare Speicherplatz sowie die verbleibende Menge und der prozentuale Anteil des verbleibenden Speicherplatzes angezeigt. Das Kontingent begrenzt die Menge der Objektdaten, die aufgenommen werden können.
++
+
+CAUTION: Die Kontingentnutzung basiert auf internen Schätzungen und kann in manchen Fällen überschritten werden. StorageGRID prüft beispielsweise das Kontingent, wenn ein Mandant mit dem Hochladen von Objekten beginnt, und lehnt neue Uploads ab, falls der Mandant das Kontingent überschritten hat. StorageGRID berücksichtigt jedoch die Größe des aktuellen Uploads nicht, wenn festgestellt wird, ob das Kontingent überschritten wurde. Wenn Objekte gelöscht werden, kann ein Mandant vorübergehend daran gehindert sein, neue Objekte hochzuladen, bis die Kontingentnutzung neu berechnet wurde. Die Berechnung der Kontingentnutzung kann 10 Minuten oder länger dauern.
+
+* Ein Balkendiagramm, das die relativen Größen der größten Buckets oder Container darstellt.
++
+Sie können den Cursor über ein beliebiges Segment des Diagramms bewegen, um den insgesamt von diesem Bucket oder Container belegten Speicherplatz anzuzeigen.
+
++
+image:tenant_dashboard_storage_usage_segment.png["Balkendiagrammsegment"]
+
+* Passend zum Balkendiagramm eine Liste der größten Buckets oder Container, einschließlich der Gesamtmenge der Objektdaten und der Anzahl der Objekte für jeden Bucket oder Container.
++
+image:tenant_dashboard_buckets.png["${post_edited_translations.segment}"]
+
++
+${post_edited_translations.segment}
+
+
+
+
+NOTE: Um die Einheiten für die im Tenant Manager angezeigten Speicherwerte zu ändern, das Benutzer-Dropdown-Menü oben rechts im Tenant Manager auswählen und anschließend *Benutzereinstellungen* wählen.
+
+
+
+[[quota-usage-alerts]]
+== Warnmeldungen zur Quotennutzung
+
+Wenn im Grid Manager Warnmeldungen zur Quotennutzung aktiviert wurden, werden diese Warnmeldungen im Tenant Manager angezeigt, wenn die Quote niedrig ist oder überschritten wird, wie folgt:
+
+* Wenn 90 % oder mehr des Kontingents eines Mandanten verbraucht sind, wird die Warnung *Tenant quota usage high* ausgelöst.
++
+${post_edited_translations.segment}
+
+* Wenn Sie Ihr Kontingent überschreiten, erhalten Sie eine Benachrichtigung, dass Sie keine neuen Objekte hochladen können.
+
+
+
+
+[[bucket-capacity-usagecapacity-limit-usage]]
+== [[bucket-capacity-usage]]Kapazitätslimitnutzung
+
+Wenn Sie ein Kapazitätslimit für Ihre Buckets festgelegt haben, zeigt das Tenant Manager Dashboard eine Liste der Buckets mit der höchsten Auslastung des Kapazitätslimits an.
+
+Ist für einen Bucket kein Limit festgelegt, ist seine Kapazität unbegrenzt. Wenn jedoch für Ihr Tenant-Konto ein gesamtes Speicherkontingent festgelegt ist und dieses erreicht wird, ist das Aufnehmen weiterer Objekte nicht möglich, unabhängig vom verbleibenden Kapazitätslimit eines Buckets.
+
+
+
+[[endpoint-errors]]
+== Endpunktfehler
+
+Wenn Sie den Grid Manager verwendet haben, um einen oder mehrere Endpunkte für die Verwendung mit Plattformdiensten zu konfigurieren, zeigt das Tenant Manager Dashboard eine Warnung an, falls in den letzten sieben Tagen Endpunktfehler aufgetreten sind.
+
+image:tenant_dashboard_endpoint_error.png["${post_edited_translations.segment}"]
+
+Details zu link:troubleshooting-platform-services-endpoint-errors.html["Plattformdienst-Endpunktfehler"] sind auf der Seite *Endpunkte* zu finden, die durch Auswahl von *Endpunkte* angezeigt wird.

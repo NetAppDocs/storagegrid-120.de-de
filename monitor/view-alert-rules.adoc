@@ -1,0 +1,79 @@
+---
+permalink: monitor/view-alert-rules.html 
+sidebar: sidebar 
+keywords: how to manage alert rules 
+summary: Alarmregeln definieren die Bedingungen, die bestimmte Alarme auslösen. StorageGRID enthält eine Reihe von Standard-Alarmregeln, die unverändert verwendet oder angepasst werden können, oder es können benutzerdefinierte Alarmregeln erstellt werden. 
+---
+= StorageGRID-Alarmregeln anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Alarmregeln definieren die Bedingungen, die link:alerts-reference.html["spezifische Warnmeldungen"] auslösen. StorageGRID enthält eine Reihe von Standard-Alarmregeln, die unverändert verwendet oder angepasst werden können, oder es können benutzerdefinierte Alarmregeln erstellt werden.
+
+Die Liste aller Standard- und benutzerdefinierten Alarmregeln zeigt, welche Bedingungen die einzelnen Alarme auslösen und ob Alarme deaktiviert sind.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+* Optional haben Sie sich das Video angesehen:
++
+.Benachrichtigungsübersicht
+video::2eea81c5-8323-417f-b0a0-b1ff008506c1[panopto]
+
+
+.Schritte
+. *Benachrichtigungen* > *Regeln* auswählen.
++
+Die Seite „Alarmregeln“ wird angezeigt.
+
++
+image:alert_rules_page.png["Seite mit Alarmregeln"]
+
+. In der Tabelle der Alarmregeln sind die Informationen aufgeführt:
++
+[cols="1a,3a"]
+|===
+| Spaltenüberschrift | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+Der eindeutige Name und die Beschreibung der Alarmregel. Benutzerdefinierte Alarmregeln werden zuerst aufgeführt, gefolgt von den Standardalarmregeln. Der Name der Alarmregel ist der Betreff für E-Mail-Benachrichtigungen.
+
+
+
+ a| 
+Bedingungen
+ a| 
+Die Prometheus-Ausdrücke, die festlegen, wann diese Warnung ausgelöst wird. Eine Warnung kann bei einem oder mehreren der folgenden Schweregrade ausgelöst werden, jedoch ist keine Bedingung für jeden Schweregrad erforderlich.
+
+** *Kritisch* image:icon_alert_red_critical.png["Symbolwarnung Rot Kritisch"]: Es liegt ein anormaler Zustand vor, der den normalen Betrieb eines StorageGRID Node oder Service gestoppt hat. Das zugrunde liegende Problem muss umgehend behoben werden. Kommt es zu keiner Lösung, können Dienstunterbrechungen und Datenverlust die Folge sein.
+** *Schwerwiegend* image:icon_alert_orange_major.png["Symbolwarnung Orange Major"]: Es liegt ein anormaler Zustand vor, der entweder den laufenden Betrieb beeinträchtigt oder sich dem Schwellenwert für eine kritische Warnung nähert. Es empfiehlt sich, schwerwiegende Warnungen zu untersuchen und zugrunde liegende Probleme zu beheben, damit der anormale Zustand den normalen Betrieb eines StorageGRID Knotens oder Dienstes nicht unterbricht.
+** *Geringfügig* image:icon_alert_yellow_minor.png["Symbolwarnung Gelb Geringfügig"]: Das System arbeitet normal, es besteht jedoch eine Störung, die die Funktionsfähigkeit des Systems beeinträchtigen könnte, wenn sie anhält. Geringfügige Warnmeldungen, die nicht von selbst verschwinden, sollten überwacht und behoben werden, damit daraus kein schwerwiegenderes Problem entsteht.
+
+
+
+
+ a| 
+Typ
+ a| 
+Die Art der Alarmregel:
+
+** *Standard*: Eine mit dem System bereitgestellte Alarmregel. Sie können eine Standardalarmregel deaktivieren oder die Bedingungen und die Dauer für eine Standardalarmregel bearbeiten. Sie können eine Standardalarmregel nicht entfernen.
+** *Standard**: Eine Standard-Alarmregel, die eine bearbeitete Bedingung oder Dauer enthält. Bei Bedarf lässt sich eine geänderte Bedingung einfach auf den ursprünglichen Standardwert zurücksetzen.
+** *Benutzerdefiniert*: Eine von Ihnen erstellte Alarmregel. Sie können benutzerdefinierte Alarmregeln deaktivieren, bearbeiten und entfernen.
+
+
+
+
+ a| 
+Status
+ a| 
+Ob diese Alarmregel aktuell aktiviert oder deaktiviert ist. Die Bedingungen für deaktivierte Alarmregeln werden nicht ausgewertet, daher werden keine Alarme ausgelöst.
+
+|===
+

@@ -1,0 +1,26 @@
+---
+permalink: network/post-installation-guidelines.html 
+sidebar: sidebar 
+keywords: networking after installation, dhcp networking 
+summary: Nach Abschluss der Bereitstellung und Konfiguration der Grid-Knoten gelten diese Richtlinien für die DHCP-Adressierung und Änderungen der Netzwerkkonfiguration. 
+---
+= Richtlinien nach der Installation für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach Abschluss der Bereitstellung und Konfiguration der Grid-Knoten gelten diese Richtlinien für die DHCP-Adressierung und Änderungen der Netzwerkkonfiguration.
+
+* Wenn DHCP zur Zuweisung von IP-Adressen verwendet wurde, sollte für jede IP-Adresse in den verwendeten Netzwerken eine DHCP-Reservierung konfiguriert werden.
++
+DHCP kann nur während der Bereitstellungsphase eingerichtet werden. DHCP kann während der Konfiguration nicht eingerichtet werden.
+
++
+
+CAUTION: Die Knoten werden neu gestartet, wenn die Grid-Netzwerkkonfiguration per DHCP geändert wird, was zu Ausfällen führen kann, wenn eine DHCP-Änderung mehrere Knoten gleichzeitig betrifft.
+
+* Die Verfahren zum Ändern der IP-Adresse sind erforderlich, wenn IP-Adressen, Subnetzmasken und Standardgateways für einen Grid-Knoten geändert werden sollen. Siehe link:../maintain/configuring-ip-addresses.html["IP-Adressen konfigurieren"].
+* Wenn Sie Änderungen an der Netzwerkkonfiguration vornehmen, einschließlich Routing- und Gateway-Änderungen, kann die Client-Konnektivität zum primären Admin Node und zu anderen Grid-Nodes verloren gehen. Abhängig von den vorgenommenen Netzwerkänderungen kann es erforderlich sein, diese Verbindungen erneut herzustellen.
+

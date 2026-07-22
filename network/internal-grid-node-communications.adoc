@@ -1,0 +1,494 @@
+---
+permalink: network/internal-grid-node-communications.html 
+sidebar: sidebar 
+keywords: storagegrid, network port, internal communications, ports, TCP, UDP, grid communications, port 
+summary: 'Die StorageGRID interne Firewall lässt eingehende Verbindungen nur zu bestimmten Ports im Grid-Netzwerk zu, mit Ausnahme der Ports 22, 80, 123 und 443 (siehe Informationen zur externen Kommunikation). Verbindungen werden auch an Ports akzeptiert, die von Load-Balancer-Endpunkten definiert sind.' 
+---
+= Interne Grid-Knotenkommunikation für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die StorageGRID interne Firewall erlaubt eingehende Verbindungen zu bestimmten Ports im Grid-Netzwerk. Verbindungen werden auch an Ports akzeptiert, die von Load-Balancer-Endpunkten definiert sind.
+
+
+NOTE: NetApp empfiehlt, den Internet Control Message Protocol (ICMP)-Datenverkehr zwischen den Grid-Knoten zu aktivieren. Die Zulassung von ICMP-Datenverkehr kann die Failover-Leistung verbessern, wenn ein Grid-Knoten nicht erreichbar ist.
+
+Zusätzlich zu ICMP und den in der Tabelle aufgeführten Ports verwendet StorageGRID das Virtual Router Redundancy Protocol (VRRP). VRRP ist ein Internetprotokoll, das die IP-Protokollnummer 112 verwendet. StorageGRID verwendet VRRP ausschließlich im Unicast-Modus. VRRP ist nur erforderlich, wenn link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen"] konfiguriert sind.
+
+
+
+[[guidelines-for-linux-based-nodes]]
+== Richtlinien für Linux-basierte Knoten
+
+Falls die Netzwerkrichtlinien des Unternehmens den Zugriff auf einen dieser Ports einschränken, können Ports während der Implementierungszeit mithilfe eines Bereitstellungskonfigurationsparameters neu zugeordnet werden. Weitere Informationen zur Portneuzuordnung und zu Bereitstellungskonfigurationsparametern sind unter link:../swnodes/index.html["StorageGRID auf softwarebasierten Knoten installieren"] zu finden.
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
+
+
+[[guidelines-for-vmware-based-nodes]]
+== Richtlinien für VMware basierte Knoten
+
+Die folgenden Ports sind nur zu konfigurieren, wenn Firewall-Beschränkungen definiert werden müssen, die außerhalb des VMware-Netzwerks liegen.
+
+Falls die Netzwerkrichtlinien Ihres Unternehmens den Zugriff auf einen dieser Ports einschränken, können Ports bei der Bereitstellung von Knoten mithilfe des VMware vSphere Web Clients oder durch eine Konfigurationsdatei-Einstellung bei der Automatisierung der Grid-Knoten-Bereitstellung neu zugeordnet werden. Weitere Informationen zur Port-Neuzuordnung und zu den Bereitstellungskonfigurationsparametern enthält die Anleitung für link:../swnodes/index.html["Installation von StorageGRID auf VMware"].
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
+
+
+[[guidelines-for-appliance-nodes]]
+== Richtlinien für Geräteknoten
+
+Falls die Netzwerkrichtlinien des Unternehmens den Zugriff auf einen dieser Ports einschränken, können die Ports mithilfe des StorageGRID Appliance Installers neu zugeordnet werden. Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-remapping-network-ports-for-appliance.html["Optional: Netzwerkports für das Appliance neu zuordnen"^].
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps.html["Port-Remaps auf StorageGRID Appliances entfernen"].
+
+
+
+[[storagegrid-internal-ports]]
+== StorageGRID interne Ports
+
+[cols="1a,1a,1a,1a,4a"]
+|===
+| Port | TCP oder UDP | Aus | Zu | Details 
+
+
+ a| 
+22
+ a| 
+TCP
+ a| 
+Primärer Admin-Knoten
+ a| 
+Alle Knoten
+ a| 
+Für Wartungsarbeiten muss der primäre Admin-Knoten über SSH auf Port 22 mit allen anderen Knoten kommunizieren können. Das Zulassen von SSH-Datenverkehr von anderen Knoten ist optional.
+
+
+
+ a| 
+80
+ a| 
+TCP
+ a| 
+Appliances
+ a| 
+Primärer Admin-Knoten
+ a| 
+Wird von StorageGRID Appliances verwendet, um mit dem primären Admin-Node zu kommunizieren und die Installation zu starten.
+
+
+
+ a| 
+123
+ a| 
+UDP
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Netzwerkzeitprotokolldienst. Jeder Knoten synchronisiert seine Zeit mithilfe von NTP mit jedem anderen Knoten.
+
+
+
+ a| 
+443
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Wird verwendet, um den Status während der Installation und anderer Wartungsverfahren an den primären Admin Node zu übermitteln.
+
+
+
+ a| 
+1055
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Interner Datenverkehr für Installations-, Erweiterungs-, Wiederherstellungs- und andere Wartungsverfahren.
+
+
+
+ a| 
+1139
+ a| 
+TCP
+ a| 
+Speicherknoten
+ a| 
+Speicherknoten
+ a| 
+Interner Datenverkehr zwischen Storage Nodes.
+
+
+
+ a| 
+1501
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Speicherknoten mit ADC
+ a| 
+Berichterstattung, Auditierung und Konfiguration des internen Datenverkehrs.
+
+
+
+ a| 
+1502
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Speicherknoten
+ a| 
+S3-bezogener interner Datenverkehr.
+
+
+
+ a| 
+1504
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Admin-Nodes
+ a| 
+NMS-Serviceberichte und Konfiguration des internen Datenverkehrs.
+
+
+
+ a| 
+1505
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Admin-Nodes
+ a| 
+Interner Datenverkehr des AMS Service.
+
+
+
+ a| 
+1506
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Serverstatus interner Datenverkehr.
+
+
+
+ a| 
+1507
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Gateway-Nodes
+ a| 
+Interner Datenverkehr des Load Balancer.
+
+
+
+ a| 
+1508
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Konfigurationsmanagement interner Datenverkehr.
+
+
+
+ a| 
+1511
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Speicherknoten
+ a| 
+Interner Metadatenverkehr.
+
+
+
+ a| 
+5353
+ a| 
+UDP
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Bietet den Multicast-DNS-Dienst (mDNS), der für vollständige Grid-IP-Änderungen und für die Ermittlung des primären Admin-Knotens während der Installation, Erweiterung und Wiederherstellung verwendet wird.
+
+*Hinweis*: Die Konfiguration dieses Ports ist optional.
+
+
+
+ a| 
+7001
+ a| 
+TCP
+ a| 
+Speicherknoten
+ a| 
+Speicherknoten
+ a| 
+Cassandra TLS-Clusterkommunikation zwischen Knoten.
+
+
+
+ a| 
+7443
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Interner Datenverkehr für Installation, Erweiterung, Wiederherstellung, sonstige Wartungsverfahren und Fehlerberichterstattung.
+
+
+
+ a| 
+8011
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Interner Datenverkehr für Installations-, Erweiterungs-, Wiederherstellungs- und andere Wartungsverfahren.
+
+
+
+ a| 
+8443
+ a| 
+TCP
+ a| 
+Primärer Admin-Knoten
+ a| 
+Geräteknoten
+ a| 
+Interner Datenverkehr im Zusammenhang mit dem Wartungsmodusverfahren.
+
+
+
+ a| 
+9042
+ a| 
+TCP
+ a| 
+Speicherknoten
+ a| 
+Speicherknoten
+ a| 
+Cassandra Client-Port.
+
+
+
+ a| 
+9999
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Interner Datenverkehr für mehrere Dienste. Beinhaltet Wartungsverfahren, Kennzahlen und Netzwerkaktualisierungen.
+
+
+
+ a| 
+10226
+ a| 
+TCP
+ a| 
+Speicherknoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Wird von StorageGRID Appliances für das Weiterleiten von AutoSupport-Paketen vom E-Series SANtricity System Manager an den primären Admin-Node verwendet.
+
+
+
+ a| 
+10342
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Primärer Admin-Knoten
+ a| 
+Interner Datenverkehr für Installations-, Erweiterungs-, Wiederherstellungs- und andere Wartungsverfahren.
+
+
+
+ a| 
+18000
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten mit ADC
+ a| 
+Interner Datenverkehr des Kontodienstes.
+
+
+
+ a| 
+18001
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten mit ADC
+ a| 
+Interner Datenverkehr der Identity Federation.
+
+
+
+ a| 
+18002
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten
+ a| 
+Interner API-Datenverkehr im Zusammenhang mit Objektprotokollen.
+
+
+
+ a| 
+18003
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten mit ADC
+ a| 
+Interner Datenverkehr der Plattform-Services.
+
+
+
+ a| 
+18017
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten
+ a| 
+Interner Datenverkehr des Data Mover Dienstes für Cloud Storage Pools.
+
+
+
+ a| 
+18019
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Alle Knoten
+ a| 
+Interner Datenverkehr des Chunk-Dienstes für Erasure Coding und Replikation
+
+
+
+ a| 
+18082
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten
+ a| 
+S3-bezogener interner Datenverkehr.
+
+
+
+ a| 
+18086
+ a| 
+TCP
+ a| 
+Alle Knoten
+ a| 
+Speicherknoten
+ a| 
+Interner Datenverkehr im Zusammenhang mit dem LDR Service.
+
+
+
+ a| 
+18200
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten
+ a| 
+Zusätzliche Statistiken zu Client-Anfragen.
+
+
+
+ a| 
+19000
+ a| 
+TCP
+ a| 
+Admin-/Storage-Nodes
+ a| 
+Speicherknoten mit ADC
+ a| 
+Interner Datenverkehr des Keystone-Dienstes.
+
+|===
+.Verwandte Informationen
+link:external-communications.html["${post_edited_translations.segment}"]

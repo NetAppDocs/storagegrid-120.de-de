@@ -1,0 +1,57 @@
+---
+permalink: tenant/viewing-and-editing-group-details.html 
+sidebar: sidebar 
+keywords: how to view and edit group 
+summary: Wenn Sie die Details einer Gruppe anzeigen, können der Anzeigename der Gruppe, die Berechtigungen, die Richtlinien und die Benutzer, die zu dieser Gruppe gehören, geändert werden. 
+---
+= Details zu Mandantengruppen in StorageGRID anzeigen und bearbeiten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beim Anzeigen der Details einer Gruppe besteht die Möglichkeit, den Anzeigenamen der Gruppe, Berechtigungen, Richtlinien sowie die Benutzer, die zu dieser Gruppe gehören, zu ändern.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die Root-Zugriffsberechtigung verfügt.
+
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Wählen Sie den Namen der Gruppe, deren Details Sie anzeigen oder bearbeiten möchten.
++
+Alternativ ist *Aktionen* > *Gruppendetails anzeigen* auswählbar.
+
++
+Die Seite mit den Gruppendetails wird angezeigt. Das folgende Beispiel zeigt die S3-Gruppendetailseite.
+
++
+image:tenant_group_details.png["Gruppendetails"]
+
+. Änderungen an den Gruppeneinstellungen können bei Bedarf vorgenommen werden.
++
+
+TIP: Um sicherzustellen, dass Ihre Änderungen gespeichert werden, wählen Sie nach jeder Änderung in jedem Abschnitt „Änderungen speichern“. Sobald Ihre Änderungen gespeichert sind, erscheint eine Bestätigungsmeldung in der oberen rechten Ecke der Seite.
+
++
+.. Optional kann der Anzeigename ausgewählt oder das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] verwendet werden, um den Anzeigenamen zu aktualisieren.
++
+Der eindeutige Name einer Gruppe kann nicht geändert werden. Der Anzeigename einer Verbundgruppe kann nicht bearbeitet werden.
+
+.. Optional lassen sich die Berechtigungen aktualisieren.
+.. Für die Gruppenrichtlinie die entsprechenden Änderungen für Ihren S3-Tenant vornehmen.
++
+*** Wenn Sie eine Gruppe für einen S3-Mandanten bearbeiten, kann optional eine andere S3-Gruppenrichtlinie ausgewählt werden. Wird eine benutzerdefinierte S3-Richtlinie ausgewählt, ist die JSON-Zeichenfolge entsprechend anzupassen.
+
+
+.. Optional können Sie Benutzer hinzufügen oder entfernen.
+
+
+. Bestätigen Sie, dass für jeden geänderten Abschnitt *Änderungen speichern* ausgewählt wurde.
+
+
+.Verwandte Informationen
+* link:creating-groups-for-s3-tenant.html["Gruppen für den S3-Mandanten erstellen"]
+

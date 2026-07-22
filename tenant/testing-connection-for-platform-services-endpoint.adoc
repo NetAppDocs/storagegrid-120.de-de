@@ -1,0 +1,39 @@
+---
+permalink: tenant/testing-connection-for-platform-services-endpoint.html 
+sidebar: sidebar 
+keywords: how to test platform services endpoint connection 
+summary: Wenn sich die Verbindung zu einem Plattformdienst geändert hat, kann die Verbindung für den Endpunkt getestet werden, um zu validieren, dass die Zielressource existiert und mit den angegebenen Anmeldeinformationen erreicht werden kann. 
+---
+= Testen Sie die Verbindung für einen StorageGRID platform services endpoint
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn sich die Verbindung zu einem Plattformdienst geändert hat, kann die Verbindung für den Endpunkt getestet werden, um zu validieren, dass die Zielressource existiert und mit den angegebenen Anmeldeinformationen erreicht werden kann.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Endpunkte oder Root-Zugriffsberechtigung verwalten"].
+
+
+.Über diese Aufgabe
+${post_edited_translations.segment}
+
+.Schritte
+. *STORAGE (S3)* > *Platform services endpoints* auswählen.
++
+Die Seite „Platform Services Endpunkte“ wird angezeigt und zeigt die Liste der bereits konfigurierten Platform Services Endpunkte.
+
+. Wählen Sie den Endpunkt aus, dessen Verbindung getestet werden soll.
++
+Die Seite mit den Endpunktdetails wird angezeigt.
+
+. *Verbindung testen* auswählen.
++
+** Eine Erfolgsmeldung wird angezeigt, wenn der Endpunkt mit den angegebenen Anmeldeinformationen erreicht werden kann. Die Verbindung zum Endpunkt wird von einem Knoten an jedem Standort validiert.
+** Eine Fehlermeldung wird angezeigt, wenn die Endpunktvalidierung fehlschlägt. Falls der Endpunkt zur Fehlerbehebung geändert werden muss, unter *Konfiguration* die Informationen aktualisieren. Anschließend *Testen und Änderungen speichern* auswählen.
+
+
+

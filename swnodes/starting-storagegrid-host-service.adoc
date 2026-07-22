@@ -1,0 +1,45 @@
+---
+permalink: swnodes/starting-storagegrid-host-service.html 
+sidebar: sidebar 
+keywords: how to start host service 
+summary: Um Ihre StorageGRID Knoten zu starten und sicherzustellen, dass sie nach einem Neustart des Hosts wieder anlaufen, muss der StorageGRID Hostdienst aktiviert und gestartet werden. 
+---
+= Starten Sie den StorageGRID Hostdienst unter Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um Ihre StorageGRID Knoten zu starten und sicherzustellen, dass sie nach einem Neustart des Hosts wieder anlaufen, muss der StorageGRID Hostdienst aktiviert und gestartet werden.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+.Schritte
+. Führen Sie die folgenden Befehle auf jedem Host aus:
++
+[listing]
+----
+sudo systemctl enable storagegrid
+sudo systemctl start storagegrid
+----
+. Führen Sie den folgenden Befehl aus, um sicherzustellen, dass die Bereitstellung fortschreitet:
++
+[listing]
+----
+sudo storagegrid node status node-name
+----
+. Wenn ein Knoten den Status „Nicht aktiv“ oder „Gestoppt“ zurückgibt, ist folgender Befehl auszuführen:
++
+[listing]
+----
+sudo storagegrid node start node-name
+----
+. Falls Sie den StorageGRID Hostdienst zuvor aktiviert und gestartet haben (oder falls Sie sich nicht sicher sind, ob der Dienst aktiviert und gestartet wurde), führen Sie außerdem den folgenden Befehl aus:
++
+[listing]
+----
+sudo systemctl reload-or-restart storagegrid
+----
+

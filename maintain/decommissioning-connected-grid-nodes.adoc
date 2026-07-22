@@ -1,0 +1,132 @@
+---
+permalink: maintain/decommissioning-connected-grid-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission, connected nodes, decommission node 
+summary: Sie können Knoten, die mit dem Grid verbunden sind, außer Betrieb nehmen und dauerhaft entfernen. 
+---
+= Angeschlossene StorageGRID-Knoten außer Betrieb nehmen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Knoten, die mit dem Grid verbunden sind, außer Betrieb nehmen und dauerhaft entfernen.
+
+.Bevor Sie beginnen
+* Sie verstehen die Überlegungen zur Stilllegung link:considerations-for-decommissioning-admin-or-gateway-nodes.html["Admin- und Gateway-Knoten"] und die Überlegungen zur Stilllegung link:considerations-for-decommissioning-storage-nodes.html["Speicherknoten"].
+* Sie haben alle benötigten Materialien zusammengetragen.
+* Sie haben sichergestellt, dass keine Datenreparaturaufträge aktiv sind.
+* Sie haben bestätigt, dass die Wiederherstellung von Storage Node an keiner Stelle im Grid läuft. Falls dies der Fall ist, sollte abgewartet werden, bis ein im Rahmen der Wiederherstellung durchgeführter Cassandra-Neuaufbau abgeschlossen ist. Danach ist eine Außerbetriebnahme möglich.
+* Sie haben sichergestellt, dass während der Knotenstilllegung keine anderen Wartungsvorgänge ausgeführt werden, es sei denn, die Knotenstilllegung wird angehalten.
+* Sie besitzen die Bereitstellungspassphrase.
+* Grid-Knoten sind verbunden.
+* Die Spalte *Deaktivierung möglich* für den oder die Knoten, die Sie außer Betrieb nehmen möchten, enthält ein grünes Häkchen.
++
+
+NOTE: Die Außerbetriebnahme wird nicht gestartet, wenn ein oder mehrere Volumes offline (nicht eingebunden) sind oder wenn sie zwar online (eingebunden) sind, sich aber in einem Fehlerzustand befinden.
+
++
+
+NOTE: Falls ein oder mehrere Volumes während eines laufenden Stilllegungsprozesses offline gehen, wird der Stilllegungsprozess abgeschlossen, nachdem diese Volumes wieder online sind.
+
+* Alle Grid-Knoten haben einen normalen (grünen) Zustand image:icon_alert_green_checkmark.png["grünes Häkchen-Symbol"]. Wenn eines dieser Symbole in der Spalte *Zustand* angezeigt wird, sollte das Problem behoben werden:
++
+[cols="1a,1a,3a"]
+|===
+| Symbol | Farbe | Schwere 
+
+
+ a| 
+image:icon_alarm_yellow_notice.gif["gelbes Quadrat-Symbol"]
+ a| 
+Gelb
+ a| 
+Hinweis
+
+
+
+ a| 
+image:icon_alert_yellow_minor.png["hellorangefarbenes Diamantsymbol"]
+ a| 
+Hellorange
+ a| 
+Geringfügig
+
+
+
+ a| 
+image:icon_alert_orange_major.png["dunkelorangefarbenes Diamantsymbol"]
+ a| 
+Dunkelorange
+ a| 
+Wesentlich
+
+
+
+ a| 
+image:icon_alert_red_critical.png["rotes X-Symbol"]
+ a| 
+Rot
+ a| 
+Kritisch
+
+|===
+* Wenn zuvor ein getrennter Storage Node außer Betrieb genommen wurde, sind alle Datenreparaturaufträge erfolgreich abgeschlossen. Siehe link:checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].
+
+
+
+CAUTION: Die virtuelle Maschine oder andere Ressourcen eines Grid-Knotens sollten erst entfernt werden, wenn dies in diesem Verfahren vorgesehen ist.
+
+
+CAUTION: Seien Sie vorsichtig beim Außerbetriebnehmen von Storage Nodes in einem Grid mit softwarebasierten Metadaten-only-Knoten. Wenn alle Knoten außer Betrieb genommen werden, die _sowohl_ Objekte als auch Metadaten speichern, wird die Möglichkeit, Objekte im Grid zu speichern, entfernt. Siehe link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"] für weitere Informationen zu Metadaten-only Storage Nodes.
+
+.Über diese Aufgabe
+Wenn ein Knoten außer Betrieb genommen wird, werden seine Dienste deaktiviert und der Knoten automatisch heruntergefahren.
+
+.Schritte
+. Auf der Seite „Knoten außer Betrieb nehmen“ das Kontrollkästchen für jeden Grid-Node auswählen, der außer Betrieb genommen werden soll.
+. ${post_edited_translations.segment}
++
+Die Schaltfläche *Stilllegung starten* ist aktiviert.
+
+. *Stilllegung starten* auswählen.
+. Die Liste der Knoten im Bestätigungsdialog kann überprüft werden, anschließend ist *OK* auszuwählen.
++
+Die Außerbetriebnahme der Knoten wird gestartet und der Fortschritt wird für jeden Knoten angezeigt.
+
++
+
+CAUTION: Nehmen Sie einen Storage Node nicht offline, nachdem das Decommission-Verfahren gestartet wurde. Eine Statusänderung kann dazu führen, dass einige Inhalte nicht an andere Standorte kopiert werden.
+
+. Sobald das neue Wiederherstellungspaket verfügbar ist, kann der Link zum Wiederherstellungspaket im Banner oder *Wartung* > *System* > *Wiederherstellungspaket* ausgewählt werden, um zur Seite für das Wiederherstellungspaket zu gelangen. Anschließend kann die  `.zip` Datei heruntergeladen werden.
++
+Siehe link:downloading-recovery-package.html["Herunterladen des Wiederherstellungspakets"].
+
++
+
+NOTE: Laden Sie das Wiederherstellungspaket so schnell wie möglich herunter, um sicherzustellen, dass Sie Ihr Grid wiederherstellen können, falls während der Decommission-Prozedur etwas schiefgeht.
+
+. Die Seite „Knoten außer Betrieb nehmen“ sollte regelmäßig überprüft werden, um sicherzustellen, dass alle ausgewählten Knoten erfolgreich außer Betrieb genommen wurden.
++
+
+TIP: Die Außerbetriebnahme von Storage Nodes kann Tage oder Wochen dauern.
+
++
+Wenn alle Aufgaben abgeschlossen sind, wird die Knotenauswahlliste mit einer Erfolgsmeldung erneut angezeigt.
+
+
+
+.Nachdem Sie fertig sind
+Führen Sie diese Schritte aus, nachdem das Verfahren zur Außerbetriebnahme des Knotens abgeschlossen wurde:
+
+. Führen Sie den entsprechenden Schritt für Ihre Plattform aus. Zum Beispiel:
++
+** *Linux*: Es empfiehlt sich, die Volumes zu trennen und die während der Installation erstellten Node-Konfigurationsdateien zu löschen. Siehe link:../swnodes/index.html["StorageGRID auf softwarebasierten Knoten installieren"].
+** *VMware*: Möglicherweise empfiehlt sich die Verwendung der vCenter-Option „Von Festplatte löschen“, um die virtuelle Maschine zu entfernen. Gegebenenfalls ist es auch erforderlich, alle Datenfestplatten zu löschen, die unabhängig von der virtuellen Maschine sind.
+** *StorageGRID appliance*: Der Appliance-Knoten wechselt automatisch in einen nicht bereitgestellten Zustand, in dem Sie auf den StorageGRID Appliance Installer zugreifen können. Sie können die StorageGRID appliance ausschalten oder sie zu einem anderen StorageGRID System hinzufügen.
+
+
+. Stellen Sie sicher, dass die Laufwerke des außer Betrieb genommenen Grid-Knotens vollständig gelöscht sind. Ein handelsübliches Datenlöschtool oder ein entsprechender Dienst kann verwendet werden, um Daten dauerhaft und sicher von den Laufwerken zu entfernen.
+. Wenn ein Appliance-Knoten außer Betrieb genommen wurde und die Daten auf der Appliance durch Knotenverschlüsselung geschützt waren, kann der StorageGRID Appliance Installer verwendet werden, um die Konfiguration des Schlüsselverwaltungsservers (Clear KMS) zu löschen. Die KMS-Konfiguration muss gelöscht werden, wenn die Appliance zu einem anderen Grid hinzugefügt werden soll. Anleitungen finden sich unter  https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/monitoring-node-encryption-in-maintenance-mode.html["Überwachung der Knotenverschlüsselung im Wartungsmodus"^].
+

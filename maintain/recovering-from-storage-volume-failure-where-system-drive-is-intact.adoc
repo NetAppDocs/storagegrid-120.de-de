@@ -1,0 +1,26 @@
+---
+permalink: maintain/recovering-from-storage-volume-failure-where-system-drive-is-intact.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, storage volume failure, volume failure, system drive intact 
+summary: Eine Reihe von Aufgaben ist erforderlich, um einen softwarebasierten Speicherknoten wiederherzustellen, bei dem ein oder mehrere Speichervolumes ausgefallen sind, das Systemlaufwerk jedoch intakt ist. Wenn nur Speichervolumes ausgefallen sind, steht der Speicherknoten dem StorageGRID System weiterhin zur Verfügung. 
+---
+= Wiederherstellung nach StorageGRID-Speichervolumenausfall, wenn das Systemlaufwerk intakt ist
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Reihe von Aufgaben ist erforderlich, um einen softwarebasierten Speicherknoten wiederherzustellen, bei dem ein oder mehrere Speichervolumes ausgefallen sind, das Systemlaufwerk jedoch intakt ist. Wenn nur Speichervolumes ausgefallen sind, steht der Speicherknoten dem StorageGRID System weiterhin zur Verfügung.
+
+
+NOTE: Dieses Wiederherstellungsverfahren gilt nur für softwarebasierte Storage Nodes. Wenn Storage-Volumes auf einem Appliance Storage Node ausgefallen sind, sollte das Appliance-Verfahren verwendet werden: link:recovering-storagegrid-appliance-storage-node.html["Wiederherstellung des Appliance-Speicherknotens"].
+
+Dieses Wiederherstellungsverfahren umfasst die folgenden Aufgaben:
+
+* link:reviewing-warnings-about-storage-volume-recovery.html["Warnhinweise zur Wiederherstellung von Storage-Volumes"]
+* link:identifying-and-unmounting-failed-storage-volumes.html["Fehlerhafte Storage Volumes identifizieren und aushängen"]
+* link:recovering-failed-storage-volumes-and-rebuilding-cassandra-database.html["Die Volumes werden wiederhergestellt und die Cassandra Datenbank wird neu aufgebaut"]
+* link:restoring-object-data-to-storage-volume-where-system-drive-is-intact.html["Objektdaten wiederherstellen"]
+* link:checking-storage-state-after-recovering-storage-volumes.html["Speicherstatus prüfen"]
+

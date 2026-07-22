@@ -1,0 +1,93 @@
+---
+permalink: audit/ovwr-object-overwrite.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, OVWR, Object Overwrite 
+summary: 'Diese Meldung wird generiert, wenn eine externe (vom Client angeforderte) Operation dazu führt, dass ein Objekt durch ein anderes Objekt überschrieben wird.' 
+---
+= OVWR-Revisionsprotokollmeldung für Objektüberschreibungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Meldung wird generiert, wenn eine externe (vom Client angeforderte) Operation dazu führt, dass ein Objekt durch ein anderes Objekt überschrieben wird.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CBID
+ a| 
+Inhaltsblockkennung (neu)
+ a| 
+Die CBID für das neue Objekt.
+
+
+
+ a| 
+CSIZ
+ a| 
+Vorherige Objektgröße
+ a| 
+Die Größe des zu überschreibenden Objekts in Bytes.
+
+
+
+ a| 
+OCBD
+ a| 
+Inhaltsblockkennung (vorherige)
+ a| 
+Die CBID des vorherigen Objekts.
+
+
+
+ a| 
+UUID
+ a| 
+Universally Unique ID (neu)
+ a| 
+Die Kennung des neuen Objekts innerhalb des StorageGRID Systems.
+
+
+
+ a| 
+OUID
+ a| 
+Universally Unique ID (vorherige)
+ a| 
+Die Kennung des vorherigen Objekts innerhalb des StorageGRID Systems.
+
+
+
+ a| 
+WEG
+ a| 
+S3 Objektpfad
+ a| 
+Der S3-Objektpfad, der sowohl für das vorherige als auch für das neue Objekt verwendet wird
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebniscode
+ a| 
+Ergebnis der Objektüberschreibungstransaktion. Das Ergebnis ist immer:
+
+SUCS: Erfolgreich
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+ a| 
+Falls vorhanden, wurde das überschriebene Objekt an dem angegebenen Standort gelöscht, der nicht der Standort ist, an dem das überschriebene Objekt aufgenommen wurde.
+
+|===

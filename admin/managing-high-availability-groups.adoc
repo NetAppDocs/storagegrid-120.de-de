@@ -1,0 +1,97 @@
+---
+permalink: admin/managing-high-availability-groups.html 
+sidebar: sidebar 
+keywords: manage high availability group, ha groups, admin node, gateway node, active interface, backup interface, priority order 
+summary: ${post_edited_translations.segment} 
+---
+= Erfahren Sie mehr über StorageGRID Hochverfügbarkeitsgruppen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+${post_edited_translations.segment}
+
+Sie können die Netzwerkschnittstellen mehrerer Admin- und Gateway-Knoten zu einer hochverfügbaren (HA) Gruppe zusammenfassen. Wenn die aktive Schnittstelle in der HA-Gruppe ausfällt, kann eine Backup-Schnittstelle die Arbeitslast übernehmen.
+
+Jede HA-Gruppe ermöglicht den Zugriff auf die gemeinsam genutzten Dienste auf den ausgewählten Knoten.
+
+* HA-Gruppen, die Gateway-Knoten, Admin-Knoten oder beides umfassen, bieten hochverfügbare Datenverbindungen für S3-Clients.
+* HA-Gruppen, die ausschließlich Admin-Knoten enthalten, bieten hochverfügbare Verbindungen zum Grid Manager und zum Tenant Manager.
+* Eine HA-Gruppe, die ausschließlich Service-Appliances und VMware-basierte Softwareknoten umfasst, kann hochverfügbare Verbindungen für link:../admin/manage-s3-select-for-tenant-accounts.html["S3-Mandanten, die S3 Select verwenden"] bereitstellen. HA-Gruppen werden bei der Verwendung von S3 Select empfohlen, sind aber nicht erforderlich.
+
+
+
+
+[[how-do-you-create-an-ha-group]]
+== Wie wird eine HA Gruppe erstellt?
+
+. Sie wählen eine Netzwerkschnittstelle für einen oder mehrere Admin Nodes oder Gateway Nodes aus. Sie können eine Grid Network-Schnittstelle (eth0), eine Client Network-Schnittstelle (eth2), eine VLAN-Schnittstelle oder eine Zugriffsschnittstelle verwenden, die Sie dem Node hinzugefügt haben.
++
+
+NOTE: Sie können einer HA-Gruppe keine Schnittstelle hinzufügen, wenn diese über eine per DHCP zugewiesene IP-Adresse verfügt.
+
+. Sie definieren eine Schnittstelle als primäre Schnittstelle. Die primäre Schnittstelle ist die aktive Schnittstelle, es sei denn, es tritt ein Ausfall auf.
+. ${post_edited_translations.segment}
+. Sie weisen der Gruppe ein bis zehn virtuelle IP-Adressen (VIP-Adressen) zu. Clientanwendungen können jede dieser VIP-Adressen verwenden, um eine Verbindung zu StorageGRID herzustellen.
+
+
+Anweisungen dazu finden Sie unter link:configure-high-availability-group.html["${post_edited_translations.segment}"].
+
+
+
+[[what-is-the-active-interface]]
+== ${post_edited_translations.segment}
+
+Im Normalbetrieb werden alle VIP-Adressen der HA-Gruppe der Primary-Schnittstelle hinzugefügt, die an erster Stelle in der Prioritätsreihenfolge steht. Solange die Primary-Schnittstelle verfügbar ist, wird sie verwendet, wenn Clients eine Verbindung zu einer beliebigen VIP-Adresse der Gruppe herstellen. Das heißt, im Normalbetrieb ist die Primary-Schnittstelle die „aktive“ Schnittstelle der Gruppe.
+
+Ebenso fungieren im Normalbetrieb alle Schnittstellen mit niedrigerer Priorität für die HA-Gruppe als "Backup"-Schnittstellen. Diese Backup-Schnittstellen kommen erst dann zum Einsatz, wenn die primäre (derzeit aktive) Schnittstelle nicht mehr verfügbar ist.
+
+
+
+[[view-the-current-ha-group-status-of-a-node]]
+== Aktueller HA-Gruppenstatus eines Knotens
+
+Ob ein Knoten einer HA-Gruppe zugewiesen ist und wie sein aktueller Status ist, wird unter *Knoten* > *_node_* angezeigt.
+
+Wenn die Registerkarte *Übersicht* einen Eintrag für *HA groups* enthält, wird der Knoten den aufgeführten *HA groups* zugeordnet. Der Wert nach dem Gruppennamen gibt den aktuellen Status des Knotens in der *HA group* an:
+
+* *Aktiv*: Die HA-Gruppe wird aktuell auf diesem Knoten ausgeführt.
+* *Backup*: Die HA-Gruppe verwendet diesen Knoten derzeit nicht, dies ist eine Backup-Schnittstelle.
+* *Angehalten*: Die HA-Gruppe kann auf diesem Knoten nicht gehostet werden, da der Hochverfügbarkeitsdienst (keepalived) manuell gestoppt wurde.
+* *Fehler*: Die HA-Gruppe kann auf diesem Knoten aufgrund eines oder mehrerer der folgenden Gründe nicht gehostet werden:
++
+** Der Load Balancer (nginx-gw) Dienst läuft nicht auf dem Knoten.
+** Die eth0 oder VIP-Schnittstelle des Knotens ist ausgefallen.
+** Der Knoten ist ausgefallen.
+
+
+
+
+In diesem Beispiel wurde der primäre Admin-Knoten zu zwei HA-Gruppen hinzugefügt. Dieser Knoten ist aktuell die aktive Schnittstelle für die Admin-Clients-Gruppe und eine Backup-Schnittstelle für die FabricPool Clients-Gruppe.
+
+image:ha_group_primary_interface.png["HA Group Primärschnittstelle"]
+
+
+
+[[what-happens-when-the-active-interface-fails]]
+== Was passiert, wenn die aktive Schnittstelle ausfällt?
+
+Die Schnittstelle, die aktuell die VIP-Adressen hostet, ist die aktive Schnittstelle. Wenn die HA-Gruppe aus mehr als einer Schnittstelle besteht und die aktive Schnittstelle ausfällt, werden die VIP-Adressen in der Prioritätsreihenfolge auf die erste verfügbare Backup-Schnittstelle verschoben. Fällt diese Schnittstelle aus, werden die VIP-Adressen auf die nächste verfügbare Backup-Schnittstelle verschoben und so weiter.
+
+Ein Failover kann aus folgenden Gründen ausgelöst werden:
+
+* Der Knoten, auf dem die Schnittstelle konfiguriert ist, fällt aus.
+* Der Knoten, auf dem die Schnittstelle konfiguriert ist, verliert für mindestens 2 Minuten die Verbindung zu allen anderen Knoten.
+* Die aktive Schnittstelle fällt aus.
+* Der Load Balancer Dienst stoppt.
+* Der Hochverfügbarkeitsdienst wird angehalten.
+
+
+
+NOTE: Ein Failover wird möglicherweise nicht durch Netzwerkfehler außerhalb des Knotens ausgelöst, der die aktive Schnittstelle hostet. Ebenso wird ein Failover nicht durch die Dienste für den Grid Manager oder den Tenant Manager ausgelöst.
+
+Der Failover-Prozess dauert in der Regel nur wenige Sekunden und ist so schnell, dass Clientanwendungen kaum beeinträchtigt werden und sich auf normale Wiederholungsmechanismen verlassen können, um den Betrieb fortzusetzen.
+
+Sobald der Fehler behoben ist und wieder eine Schnittstelle mit höherer Priorität verfügbar ist, werden die VIP-Adressen automatisch auf die Schnittstelle mit der höchsten verfügbaren Priorität verschoben.

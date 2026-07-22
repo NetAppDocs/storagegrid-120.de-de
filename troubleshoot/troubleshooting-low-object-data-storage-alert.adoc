@@ -1,0 +1,84 @@
+---
+permalink: troubleshoot/troubleshooting-low-object-data-storage-alert.html 
+sidebar: sidebar 
+keywords: how to troubleshoot the Low object data storage alert 
+summary: Die Warnung „Niedriger Speicherplatz für Objektdaten“ überwacht, wie viel Speicherplatz auf jedem Storage Node für die Speicherung von Objektdaten zur Verfügung steht. 
+---
+= Beheben Sie die Warnung zum niedrigen Objektdaten-Speicher in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Warnung *Geringer Speicherplatz für Objektdaten* überwacht, wie viel Speicherplatz auf jedem Storage Node für die Speicherung von Objektdaten verfügbar ist.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Die Warnung *Geringer Speicherplatz für Objektdaten* wird ausgelöst, wenn die Gesamtmenge der replizierten und mit Erasure-Codierung versehenen Objektdaten auf einem Storage Node eine der in der Warnungsregel konfigurierten Bedingungen erfüllt.
+
+Standardmäßig wird ein schwerwiegender Alarm ausgelöst, wenn diese Bedingung als wahr ausgewertet wird:
+
+[listing]
+----
+(storagegrid_storage_utilization_data_bytes/
+(storagegrid_storage_utilization_data_bytes + storagegrid_storage_utilization_usable_space_bytes)) >=0.90
+----
+In diesem Zustand:
+
+* `storagegrid_storage_utilization_data_bytes` ist eine Schätzung der Gesamtgröße der replizierten und löschcodierten Objektdaten für einen Speicherknoten.
+* `storagegrid_storage_utilization_usable_space_bytes` ist die gesamte verbleibende Menge an Objektspeicherplatz für einen Storage Node.
+
+
+Wenn eine schwerwiegende oder weniger schwerwiegende Warnung wegen *Geringem Objektdatenspeicher* ausgelöst wird, ist eine Speichererweiterung so bald wie möglich durchzuführen.
+
+.Schritte
+. *Benachrichtigungen* > *Aktuell* auswählen.
++
+Die Seite „Benachrichtigungen“ erscheint.
+
+. In der Warntabelle kann bei Bedarf die Warngruppe *Niedriger Objektdatenspeicher* erweitert und die gewünschte Warnmeldung ausgewählt werden.
++
+
+NOTE: Wählen Sie die Benachrichtigung aus, nicht die Überschrift für eine Gruppe von Benachrichtigungen.
+
+. Die Angaben im Dialogfeld können überprüft werden, dabei ist Folgendes zu beachten:
++
+** Zeitausgelöst
+** Name des Standorts und des Knotens
+** Die aktuellen Werte der Kennzahlen für diese Warnung
+
+
+. *Knoten* > *_Storage Node or Site_* > *Speicher* auswählen.
+. Fahren Sie mit dem Cursor über das Diagramm „Storage Used - Object Data“.
++
+Folgende Werte werden angezeigt:
+
++
+** *Belegt (%)*: Der Prozentsatz des gesamten nutzbaren Speicherplatzes, der für Objektdaten verwendet wurde.
+** *Verwendet*: Der Anteil des gesamten nutzbaren Speicherplatzes, der für Objektdaten verwendet wurde.
+** *Replizierte Daten*: Eine Schätzung der Menge an replizierten Objektdaten auf diesem Knoten, Standort oder Grid.
+** *Erasure-coded data*: Eine Schätzung der Menge an erasure-coded Objektdaten auf diesem Knoten, Standort oder Grid.
+** *Gesamt*: Die Gesamtmenge des nutzbaren Speicherplatzes auf diesem Knoten, Standort oder Grid. Der Wert „Belegt“ ist die  `storagegrid_storage_utilization_data_bytes` Messgröße.
+
+
++
+image:nodes_page_storage_used_object_data.png["Knotenseite Speicher verwendet Objektdaten"]
+
+. Mit den Zeitsteuerungen oberhalb des Diagramms lässt sich die Speichernutzung für verschiedene Zeiträume anzeigen.
++
+Die Betrachtung der Speichernutzung im Zeitverlauf kann dabei helfen zu verstehen, wie viel Speicherplatz vor und nach Auslösung der Warnung genutzt wurde, und kann die Abschätzung ermöglichen, wie lange es dauern könnte, bis der verbleibende Speicherplatz des Knotens voll ist.
+
+. So schnell wie möglich link:../expand/guidelines-for-adding-object-capacity.html["Speicherkapazität hinzufügen"] zu Ihrem Grid.
++
+Es besteht die Möglichkeit, Speichervolumes (LUNs) zu bestehenden Storage Nodes hinzuzufügen oder neue Storage Nodes hinzuzufügen.
+
++
+
+NOTE: Weitere Informationen finden sich unter link:../admin/managing-full-storage-nodes.html["Vollständige Speicherknoten verwalten"].
+
+

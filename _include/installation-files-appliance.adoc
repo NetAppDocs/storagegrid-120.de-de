@@ -1,0 +1,22 @@
+= 
+:allow-uri-read: 
+
+
+
+NOTE: Für die Installation des Geräts werden diese Dateien nur benötigt, wenn Sie Netzwerkverkehr vermeiden müssen. Das Gerät kann die erforderlichen Dateien vom Admin Node herunterladen, auf dem Sie die Wiederherstellungsprozedur durchführen.
+
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
+DEB-Paket zur Installation der StorageGRID Knotenabbilder auf Ihren Appliances.
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb.md5  a| 
+MD5-Prüfsumme für die Datei `/debs/storagegridwebscale-
+images-version-SHA.deb`.
+
+|===

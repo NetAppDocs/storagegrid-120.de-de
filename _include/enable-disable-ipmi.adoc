@@ -1,0 +1,6 @@
+= 
+:allow-uri-read: 
+
+
+
+NOTE: Sie können den Remote-IPMI-Zugriff für alle Appliances mit einem BMC aktivieren oder deaktivieren. Die Remote-IPMI-Schnittstelle ermöglicht jedem Benutzer mit einem BMC-Konto und -Passwort einen Low-Level-Hardwarezugriff auf Ihre StorageGRID Appliances. Wenn kein Remote-IPMI-Zugriff auf den BMC benötigt wird, kann diese Option mit einer der folgenden Methoden deaktiviert werden: + Im Grid Manager unter *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* > *Appliances* das Kontrollkästchen *Remote-IPMI-Zugriff aktivieren* deaktivieren. + In der Grid-Management-API den privaten Endpunkt verwenden:  `PUT /private/bmc`.

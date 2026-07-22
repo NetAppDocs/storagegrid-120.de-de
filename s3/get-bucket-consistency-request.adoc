@@ -1,0 +1,97 @@
+---
+permalink: s3/get-bucket-consistency-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, GET bucket consistency 
+summary: Die GET Bucket consistency-Anfrage ermöglicht die Bestimmung der Konsistenz, die auf einen bestimmten Bucket angewendet wird. 
+---
+= Den Bucket-Konsistenzgrad in StorageGRID mit der GET-Anfrage für Bucket-Konsistenz abrufen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die GET Bucket consistency-Anfrage ermöglicht die Bestimmung der Konsistenz, die auf einen bestimmten Bucket angewendet wird.
+
+Die Standardkonsistenz ist so eingestellt, dass für neu erstellte Objekte Lese-nach-Schreib-Vorgänge garantiert werden.
+
+Sie müssen über die Berechtigung s3:GetBucketConsistency verfügen oder Root-Benutzer sein, um diesen Vorgang abzuschließen.
+
+
+
+[[request-example]]
+== Anfragebeispiel
+
+[listing, subs="specialcharacters,quotes"]
+----
+GET /bucket?x-ntap-sg-consistency HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----
+
+
+[[response]]
+== Antwort
+
+In der Antwort-XML, `<Consistency>` wird einer der folgenden Werte zurückgegeben:
+
+[cols="1a,2a"]
+|===
+| Konsistenz | Beschreibung 
+
+
+ a| 
+alle
+ a| 
+Alle Knoten empfangen die Daten sofort, oder die Anfrage schlägt fehl.
+
+
+
+ a| 
+stark global
+ a| 
+Gewährleistet Lese-nach-Schreib-Konsistenz für alle Clientanfragen an allen Standorten.
+
+
+
+ a| 
+starker Standort
+ a| 
+Garantiert Lese-nach-Schreib-Konsistenz für alle Client-Anfragen innerhalb eines Standorts.
+
+
+
+ a| 
+Lesen nach neuem Schreiben
+ a| 
+(Standardeinstellung) Bietet Lese-nach-Schreib-Konsistenz für neue Objekte und letztendliche Konsistenz für Objektaktualisierungen. Hohe Verfügbarkeit und Garantien für den Datenschutz werden geboten. Für die meisten Fälle empfohlen.
+
+
+
+ a| 
+verfügbar
+ a| 
+Gewährleistet letztendliche Konsistenz sowohl für neue Objekte als auch für Objektaktualisierungen. Für S3-Buckets sollte dies nur bei Bedarf verwendet werden (zum Beispiel für einen Bucket, der Log-Werte enthält, die selten gelesen werden, oder für HEAD- oder GET-Operationen auf Schlüsseln, die nicht existieren). Nicht unterstützt für S3 FabricPool Buckets.
+
+|===
+
+
+[[response-example]]
+== Antwortbeispiel
+
+[listing]
+----
+HTTP/1.1 200 OK
+Date: Fri, 18 Sep 2020 01:02:18 GMT
+Connection: CLOSE
+Server: StorageGRID/11.5.0
+x-amz-request-id: 12345
+Content-Length: 127
+Content-Type: application/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Consistency xmlns="http://s3.storagegrid.com/doc/2015-02-01/">read-after-new-write</Consistency>
+----
+.Verwandte Informationen
+link:consistency.html["Konsistenz"]

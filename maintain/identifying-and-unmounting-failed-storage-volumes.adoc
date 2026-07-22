@@ -1,0 +1,100 @@
+---
+permalink: maintain/identifying-and-unmounting-failed-storage-volumes.html 
+sidebar: sidebar 
+keywords: storagegrid, storage volume, failed storage volume, unmount failed volume 
+summary: Bei der Wiederherstellung eines Storage Node mit ausgefallenen Storage Volumes müssen die ausgefallenen Volumes identifiziert und ausgehängt werden. Es muss sichergestellt werden, dass im Rahmen des Wiederherstellungsverfahrens nur die ausgefallenen Storage Volumes neu formatiert werden. 
+---
+= Fehlerhafte Speichervolumes in StorageGRID identifizieren und aushängen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei der Wiederherstellung eines Storage Node mit ausgefallenen Storage Volumes müssen die ausgefallenen Volumes identifiziert und ausgehängt werden. Es muss sichergestellt werden, dass im Rahmen des Wiederherstellungsverfahrens nur die ausgefallenen Storage Volumes neu formatiert werden.
+
+.Bevor Sie beginnen
+Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+
+.Über diese Aufgabe
+Ausgefallene Speichervolumes sollten so schnell wie möglich wiederhergestellt werden.
+
+Der erste Schritt des Wiederherstellungsprozesses besteht darin, Volumes zu erkennen, die getrennt wurden, ausgehängt werden müssen oder E/A-Fehler aufweisen. Wenn fehlerhafte Volumes noch verbunden sind, aber ein zufällig beschädigtes Dateisystem aufweisen, erkennt das System möglicherweise keine Beschädigung in ungenutzten oder nicht zugewiesenen Bereichen des Datenträgers.
+
+
+NOTE: Sie müssen dieses Verfahren abschließen, bevor manuelle Schritte zur Wiederherstellung der Volumes durchgeführt werden, wie das Hinzufügen oder erneute Anschließen der Festplatten, das Anhalten des Node, das Starten des Node oder das Neustarten. Andernfalls kann beim Ausführen des  `reformat_storage_block_devices.rb` Skripts ein Dateisystemfehler auftreten, der dazu führt, dass das Skript hängen bleibt oder fehlschlägt.
+
+
+NOTE: Die Hardware sollte repariert und die Festplatten ordnungsgemäß angeschlossen werden, bevor der  `reboot` Befehl ausgeführt wird.
+
+
+CAUTION: Fehlgeschlagene Storage-Volumes sollten sorgfältig identifiziert werden. Diese Informationen werden benötigt, um zu überprüfen, welche Volumes neu formatiert werden müssen. Nach der Neuformatierung eines Volumes können die darauf befindlichen Daten nicht wiederhergestellt werden.
+
+Um ausgefallene Speichervolumes wiederherzustellen, müssen Sie sowohl die Gerätenamen der ausgefallenen Speichervolumes als auch deren Volume-IDs kennen.
+
+Bei der Installation wird jedem Speichermedium eine universelle eindeutige Dateisystemkennung (UUID) zugewiesen und es wird mit dieser zugewiesenen Dateisystem-UUID in ein rangedb-Verzeichnis auf dem Storage Node eingebunden. Die Dateisystem-UUID und das rangedb-Verzeichnis werden in der `/etc/fstab` Datei aufgeführt. Der Mountpunkt, der Gerätename und die Größe des Volumes werden im Grid Manager angezeigt.
+
+.Schritte
+. Führen Sie die folgenden Schritte aus, um die ausgefallenen Storage Volumes und deren Gerätenamen zu erfassen:
++
+.. *Nodes* > *_site_* > *_failed Storage Node_* > *Storage* auswählen.
+.. Scrollen Sie nach unten, um die Tabellen „Volumes“ und „Object stores“ zu finden und die folgenden Informationen für jedes Volume mit dem Status „Unbekannt“ oder „Offline“ zu notieren.
++
+*** Aus der Tabelle „Volumes“ den Mountpunkt, das Gerät und die Größe notieren.
+*** Aus der Tabelle „Objektspeicher“ den  `object_store_ID` notieren.
++
+Das `object_store_ID` ist die ID des ausgefallenen Speichervolumes. Beispielsweise wird  `0` im Befehl für einen Objektspeicher mit der ID 0000 angegeben.
+
+
+
+
+
+. Melden Sie sich am ausgefallenen Storage Node an:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Das folgende Skript dient dazu, ein fehlerhaftes Speichervolume auszuhängen:
++
+`sn-unmount-volume object_store_ID`
+
+. Falls eine Aufforderung erscheint, *y* drücken, um den Cassandra-Dienst abhängig vom Storage-Volume 0 zu beenden.
++
+
+NOTE: Wenn der Cassandra-Dienst bereits beendet ist, erfolgt keine Aufforderung. Der Cassandra-Dienst wird nur für Volume 0 beendet.
+
++
+[listing]
+----
+root@Storage-180:~/var/local/tmp/storage~ # sn-unmount-volume 0
+Services depending on storage volume 0 (cassandra) aren't down.
+Services depending on storage volume 0 must be stopped before running this script.
+Stop services that require storage volume 0 [y/N]? y
+Shutting down services that require storage volume 0.
+Services requiring storage volume 0 stopped.
+Unmounting /var/local/rangedb/0
+/var/local/rangedb/0 is unmounted.
+----
++
+In wenigen Sekunden wird das Volume ausgehängt. Meldungen erscheinen, die jeden Schritt des Vorgangs anzeigen. Die letzte Meldung zeigt an, dass das Volume ausgehängt ist.
+
+. Falls das Aushängen fehlschlägt, weil das Volume belegt ist, kann das Aushängen mit der  `--use-umountof` Option erzwungen werden:
++
+
+NOTE: Das erzwungene Aushängen mithilfe der  `--use-umountof` Option kann dazu führen, dass Prozesse oder Dienste, die das Volume verwenden, sich unerwartet verhalten oder abstürzen.
+
++
+[listing]
+----
+root@Storage-180:~ # sn-unmount-volume --use-umountof /var/local/rangedb/2
+Unmounting /var/local/rangedb/2 using umountof
+/var/local/rangedb/2 is unmounted.
+Informing LDR service of changes to storage volumes
+----
+

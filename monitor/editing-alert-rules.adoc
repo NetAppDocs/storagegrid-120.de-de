@@ -1,0 +1,121 @@
+---
+permalink: monitor/editing-alert-rules.html 
+sidebar: sidebar 
+keywords: how to edit alert rules 
+summary: Sie können eine Alarmregel bearbeiten, um die Auslösebedingungen zu ändern. Bei einer benutzerdefinierten Alarmregel können außerdem der Regelnamen, die Beschreibung und die empfohlenen Aktionen aktualisiert werden. 
+---
+= Alarmregeln in StorageGRID bearbeiten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können eine Alarmregel bearbeiten, um die Auslösebedingungen zu ändern. Bei einer benutzerdefinierten Alarmregel können außerdem der Regelnamen, die Beschreibung und die empfohlenen Aktionen aktualisiert werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Über diese Aufgabe
+Beim Bearbeiten einer Standard-Warnregel können die Bedingungen für geringfügige, schwerwiegende und kritische Warnungen sowie die Dauer geändert werden. Beim Bearbeiten einer benutzerdefinierten Warnregel können außerdem der Name, die Beschreibung und die empfohlenen Aktionen der Regel bearbeitet werden.
+
+
+CAUTION: Seien Sie vorsichtig beim Bearbeiten einer Alarmregel. Wenn Sie Auslösewerte ändern, wird ein zugrundeliegendes Problem möglicherweise erst erkannt, wenn es die Ausführung eines kritischen Vorgangs verhindert.
+
+.Schritte
+. *Benachrichtigungen* > *Regeln* auswählen.
++
+Die Seite „Alarmregeln“ wird angezeigt.
+
+. Wählen Sie das Optionsfeld für die Alarmregel aus, die bearbeitet werden soll.
+. *Regel bearbeiten* auswählen.
++
+Das Dialogfeld „Regel bearbeiten“ wird angezeigt. Dieses Beispiel zeigt eine Standard-Warnregel, die Felder „Eindeutiger Name“, „Beschreibung“ und „Empfohlene Aktionen“ sind deaktiviert und können nicht bearbeitet werden.
+
++
+image:alert_rules_edit_rule.png["Benachrichtigungen > Regel bearbeiten"]
+
+. Aktivieren oder deaktivieren Sie das Kontrollkästchen *Aktiviert*, um festzustellen, ob diese Warnregel aktuell aktiviert ist.
++
+Wenn eine Alarmregel deaktiviert ist, werden ihre Ausdrücke nicht ausgewertet und keine Alarme ausgelöst.
+
++
+
+NOTE: Wenn Sie die Alarmregel für einen aktuellen Alarm deaktivieren, müssen Sie einige Minuten warten, bis der Alarm nicht mehr als aktiver Alarm angezeigt wird.
+
++
+
+CAUTION: Generell wird davon abgeraten, eine Standard-Warnregel zu deaktivieren. Wenn eine Warnregel deaktiviert ist, wird ein zugrundeliegendes Problem möglicherweise erst erkannt, wenn es die Ausführung eines kritischen Vorgangs verhindert.
+
+. Für benutzerdefinierte Alarmregeln sind die folgenden Informationen nach Bedarf zu aktualisieren.
++
+
+NOTE: Diese Informationen können für Standard-Alarmregeln nicht bearbeitet werden.
+
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Eindeutiger Name
+ a| 
+Ein eindeutiger Name für diese Regel. Der Name der Alarmregel wird auf der Seite „Alarme“ angezeigt und ist auch der Betreff für E-Mail-Benachrichtigungen. Namen für Alarmregeln können zwischen 1 und 64 Zeichen lang sein.
+
+
+
+ a| 
+Beschreibung
+ a| 
+Eine Beschreibung des aufgetretenen Problems. Die Beschreibung ist die Warnmeldung, die auf der Seite „Warnungen“ und in E-Mail-Benachrichtigungen angezeigt wird. Beschreibungen für Warnregeln können zwischen 1 und 128 Zeichen umfassen.
+
+
+
+ a| 
+Empfohlene Maßnahmen
+ a| 
+Optional die empfohlenen Aktionen, die beim Auslösen dieser Warnung auszuführen sind. Empfohlene Aktionen sind als Klartext (ohne Formatierungscodes) einzugeben. Empfohlene Aktionen für Warnungsregeln können zwischen 0 und 1.024 Zeichen umfassen.
+
+|===
+. Im Abschnitt „Bedingungen“ den Prometheus-Ausdruck für einen oder mehrere der Alarm-Schweregrade eingeben oder aktualisieren.
++
+
+NOTE: Wenn Sie eine Bedingung für eine bearbeitete Standardalarmregel auf ihren ursprünglichen Wert zurücksetzen möchten, wählen Sie die drei Punkte rechts neben der geänderten Bedingung aus.
+
++
+image:alert_rules_edit_revert_to_default.png["Alarmregeln: Zurücksetzen einer bearbeiteten Bedingung auf den Standardwert"]
+
++
+
+NOTE: Wenn Sie die Bedingungen für eine bestehende Warnung aktualisieren, werden Ihre Änderungen möglicherweise erst umgesetzt, wenn die vorherige Bedingung behoben ist. Das nächste Mal, wenn eine der Bedingungen für die Regel erfüllt ist, werden die aktualisierten Werte in der Warnung angezeigt.
+
++
+Ein einfacher Ausdruck hat üblicherweise die Form:
+
++
+`[metric] [operator] [value]`
+
++
+Ausdrücke können beliebig lang sein, werden aber in der Benutzeroberfläche jeweils in einer einzigen Zeile angezeigt. Mindestens ein Ausdruck ist erforderlich.
+
++
+Dieser Ausdruck bewirkt, dass eine Warnung ausgelöst wird, wenn die Menge des installierten RAM für einen Knoten weniger als 24.000.000.000 Bytes (24 GB) beträgt.
+
++
+`node_memory_MemTotal_bytes < 24000000000`
+
+. Im Feld *Dauer* die Zeitspanne eingeben, die eine Bedingung ununterbrochen wirksam bleiben muss, bevor die Warnung ausgelöst wird, und die Zeiteinheit auswählen.
++
+Um eine Warnung sofort auszulösen, wenn eine Bedingung erfüllt ist, *0* eingeben. Diesen Wert erhöhen, um zu verhindern, dass temporäre Bedingungen Warnungen auslösen.
+
++
+Die Standardeinstellung beträgt 5 Minuten.
+
+. *Speichern* auswählen.
++
+Wenn eine Standard-Alarmregel bearbeitet wurde, erscheint in der Spalte *Typ* *Default*. Wenn eine Standard- oder benutzerdefinierte Alarmregel deaktiviert wurde, erscheint in der Spalte *Status* *Disabled*.
+
+

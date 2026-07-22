@@ -1,0 +1,82 @@
+---
+permalink: admin/manage-s3-select-for-tenant-accounts.html 
+sidebar: sidebar 
+keywords: s3 select, selectobjectcontent, best practices, object format, s3 select requirements 
+summary: Bestimmten S3-Mandanten kann die Nutzung von S3 Select ermöglicht werden, um SelectObjectContent-Anfragen für einzelne Objekte zu stellen. 
+---
+= Verwalten Sie S3 Select für Mandantenkonten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bestimmten S3-Mandanten kann die Nutzung von S3 Select ermöglicht werden, um SelectObjectContent-Anfragen für einzelne Objekte zu stellen.
+
+S3 Select bietet eine effiziente Möglichkeit, große Datenmengen zu durchsuchen, ohne eine Datenbank und zugehörige Ressourcen für Suchvorgänge bereitstellen zu müssen. Auch die Kosten und die Latenz beim Abrufen von Daten werden verringert.
+
+
+
+[[what-is-s3-select]]
+== Was ist S3 Select?
+
+S3 Select ermöglicht es S3 Clients, SelectObjectContent-Anfragen zu verwenden, um nur die von einem Objekt benötigten Daten zu filtern und abzurufen. Die StorageGRID Implementierung von S3 Select umfasst eine Teilmenge der Befehle und Funktionen von S3 Select.
+
+
+
+[[considerations-and-requirements-for-using-s3-select]]
+== ${post_edited_translations.segment}
+
+
+
+[[grid-administration-requirements]]
+=== Anforderungen an die Grid-Administration
+
+Der Grid-Administrator muss den Mandanten die S3 Select-Berechtigung erteilen. *S3 Select zulassen* ist auszuwählen, wenn link:creating-tenant-account.html["einen Mandanten erstellen"] oder link:editing-tenant-account.html["einen Mandanten bearbeiten"].
+
+
+
+[[object-format-requirements]]
+=== Anforderungen an das Objektformat
+
+Das abzufragende Objekt muss in einem der folgenden Formate vorliegen:
+
+* *CSV*. Kann unverändert verwendet oder in GZIP- oder BZIP2-Archive komprimiert werden.
+* *Parquet*. Zusätzliche Anforderungen für Parquet Objekte:
++
+** S3 Select unterstützt ausschließlich spaltenorientierte Komprimierung mit GZIP oder Snappy. S3 Select unterstützt keine Komprimierung ganzer Parquet-Objekte.
+** S3 Select unterstützt keine Parquet-Ausgabe. Das Ausgabeformat muss als CSV oder JSON angegeben werden.
+** Die maximale unkomprimierte Zeilengruppengröße beträgt 512 MB.
+** Sie müssen die im Schema des Objekts angegebenen Datentypen verwenden.
+** Die logischen Datentypen INTERVAL, JSON, LIST, TIME und UUID können nicht verwendet werden.
+
+
+
+
+
+
+[[endpoint-requirements]]
+=== Endpunktanforderungen
+
+Die SelectObjectContent-Anfrage muss an einen link:configuring-load-balancer-endpoints.html["StorageGRID Load Balancer Endpoint"] gesendet werden.
+
+Die vom Endpunkt verwendeten Admin- und Gateway-Knoten müssen einer der folgenden sein:
+
+* Ein Services Appliance-Knoten
+* Ein VMware basierter Softwareknoten
+* Ein Bare Metal-Knoten, auf dem ein Kernel mit aktiviertem cgroup v2 läuft
+
+
+
+
+[[general-considerations]]
+=== Allgemeine Überlegungen
+
+Anfragen können nicht direkt an Storage Nodes gesendet werden.
+
+
+CAUTION: SelectObjectContent-Anfragen können die Leistung des Load-Balancers für alle S3 Clients und alle Mandanten beeinträchtigen. Diese Funktion sollte nur bei Bedarf und nur für vertrauenswürdige Mandanten aktiviert werden.
+
+Siehe link:../s3/use-s3-select.html["Anleitung zur Verwendung von S3 Select"].
+
+Um link:../monitor/reviewing-support-metrics.html["Grafana Diagramme"] für S3 Select-Operationen im Zeitverlauf anzuzeigen, in Grid Manager *Support* > *Tools* > *Metrics* auswählen.

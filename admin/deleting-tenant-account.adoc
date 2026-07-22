@@ -1,0 +1,37 @@
+---
+permalink: admin/deleting-tenant-account.html 
+sidebar: sidebar 
+keywords: tenant, delete, remove tenant 
+summary: Ein Mandantenkonto kann gelöscht werden, wenn der Zugriff des Mandanten auf das System dauerhaft entfernt werden soll. 
+---
+= Löschen eines StorageGRID-Tenant-Kontos
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können ein Mandantenkonto löschen, wenn Sie den Zugriff des Mandanten auf das System dauerhaft entfernen möchten.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie haben alle mit dem Mandantenkonto verknüpften S3 Buckets und Objekte entfernt.
+* Wenn dem Mieter die Nutzung einer Grid-Federation-Verbindung gestattet ist, wurden die Überlegungen für link:grid-federation-manage-tenants.html["Löschen eines Mandanten mit der Berechtigung „Grid Federation-Verbindung verwenden“"] geprüft.
+
+
+.Schritte
+. *Tenants* auswählen.
+. Das oder die Mandantenkonten, die gelöscht werden sollen, ermitteln.
++
+Im Suchfeld kann nach einem Mieter anhand des Namens oder der Mieter-ID gesucht werden.
+
+. Mehrere Mandanten können gelöscht werden, indem die entsprechenden Kontrollkästchen ausgewählt und *Aktionen* > *Löschen* gewählt wird.
+. Um einen einzelnen Mandanten zu löschen, kann eine der folgenden Aktionen durchgeführt werden:
++
+** Das Kontrollkästchen auswählen und *Aktionen* > *Löschen* wählen.
+** Wählen Sie den Mandantennamen aus, um die Detailseite anzuzeigen, und dann *Aktionen* > *Löschen* auswählen.
+
+
+. *Ja* auswählen.
+

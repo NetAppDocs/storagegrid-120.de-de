@@ -1,0 +1,31 @@
+---
+permalink: expand/adding-grid-nodes-to-add-capabilities.html 
+sidebar: sidebar 
+keywords: grid nodes, expand, expansion, site, add, StorageGRID 
+summary: Sie können einem StorageGRID System Redundanz oder zusätzliche Funktionen hinzufügen, indem Sie bestehenden Standorten neue Grid-Knoten hinzufügen. 
+---
+= Richtlinien für das Hinzufügen von Grid-Knoten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können einem StorageGRID System Redundanz oder zusätzliche Funktionen hinzufügen, indem Sie bestehenden Standorten neue Grid-Knoten hinzufügen.
+
+Beispielsweise könnten Sie Gateway-Knoten hinzufügen, um sie in einer Hochverfügbarkeitsgruppe (HA) zu verwenden, oder Sie könnten einen Admin-Node an einem entfernten Standort hinzufügen, um die Überwachung mithilfe eines lokalen Knotens zu ermöglichen.
+
+Sie können in einem einzigen Erweiterungsvorgang einen oder mehrere der folgenden Knotentypen zu einem oder mehreren bestehenden Standorten hinzufügen:
+
+* Nicht-primäre Admin Nodes
+* Speicherknoten
+* Gateway-Nodes
+
+
+Bei der Vorbereitung zum Hinzufügen von Grid-Nodes sind die folgenden Einschränkungen zu beachten:
+
+* Der primäre Admin-Knoten wird bei der Erstinstallation bereitgestellt. Ein primärer Admin-Knoten kann bei einer Erweiterung nicht hinzugefügt werden.
+* Sie können Storage Nodes und andere Knotentypen in derselben Erweiterung hinzufügen.
+* Beim Hinzufügen von Storage Nodes müssen die Anzahl und der Standort der neuen Nodes sorgfältig geplant werden. Siehe link:../expand/guidelines-for-adding-object-capacity.html["Richtlinien zum Hinzufügen von Objektkapazität"].
+* Wenn die Option *Neuen Knoten als Standard festlegen* auf der Registerkarte „Nicht vertrauenswürdige Clientnetzwerke“ der Firewall-Steuerungsseite auf *Nicht vertrauenswürdig* eingestellt ist, müssen Clientanwendungen, die über das Clientnetzwerk eine Verbindung zu Erweiterungsknoten herstellen, einen Load-Balancer-Endpunktport verwenden (*Konfiguration* > *Sicherheit* > *Firewall-Steuerung*). Siehe die Anweisungen zu link:../admin/configure-firewall-controls.html["Die Sicherheitseinstellung für den neuen Knoten ändern"] und zu link:../admin/configuring-load-balancer-endpoints.html["Load Balancer Endpunkte konfigurieren"].
+

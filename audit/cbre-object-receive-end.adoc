@@ -1,0 +1,106 @@
+---
+permalink: audit/cbre-object-receive-end.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, CBRE, Object Receive End 
+summary: Wenn die Übertragung eines Inhaltsblocks von einem Knoten zu einem anderen abgeschlossen ist, wird diese Nachricht von der Zielentität ausgegeben. 
+---
+= CBRE-Revisionsprotokollmeldung für das Ende des Objektempfangs in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn die Übertragung eines Inhaltsblocks von einem Knoten zu einem anderen abgeschlossen ist, wird diese Nachricht von der Zielentität ausgegeben.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CNID
+ a| 
+Verbindungskennung
+ a| 
+Die eindeutige Kennung der Node-to-Node-Sitzung/Verbindung.
+
+
+
+ a| 
+CBID
+ a| 
+Inhaltsblockkennung
+ a| 
+Die eindeutige Kennung des übertragenen Inhaltsblocks.
+
+
+
+ a| 
+CTDR
+ a| 
+Transferrichtung
+ a| 
+Gibt an, ob die CBID-Übertragung per Push- oder Pull-Anfrage initiiert wurde:
+
+${post_edited_translations.segment}
+
+PULL: Die Übertragungsoperation wurde von der empfangenden Entität angefordert.
+
+
+
+ a| 
+CTSR
+ a| 
+Quellentität
+ a| 
+Die Knoten-ID der Quelle (des Absenders) des CBID-Transfers.
+
+
+
+ a| 
+CTDS
+ a| 
+Zielentität
+ a| 
+Die Knoten-ID des Ziels (Empfängers) des CBID-Transfers.
+
+
+
+ a| 
+CTSS
+ a| 
+Startsequenzanzahl
+ a| 
+Gibt die Sequenznummer an, bei der der Datentransfer begonnen hat.
+
+
+
+ a| 
+CTAS
+ a| 
+Tatsächliche Endsequenzanzahl
+ a| 
+Gibt die zuletzt erfolgreich übertragene Sequenzanzahl an. Wenn die tatsächliche Endsequenzanzahl mit der Startsequenzanzahl übereinstimmt und das Übertragungsergebnis nicht erfolgreich war, wurden keine Daten ausgetauscht.
+
+
+
+ a| 
+RSLT
+ a| 
+Transferergebnis
+ a| 
+Das Ergebnis des Datentransfers (aus Sicht der sendenden Instanz):
+
+SUCS: Übertragung erfolgreich abgeschlossen; alle angeforderten Sequenzzählungen wurden gesendet.
+
+CONL: Verbindung während des Transfers verloren
+
+CTMO: Zeitüberschreitung bei Verbindungsaufbau oder Übertragung
+
+UNRE: Zielknoten-ID nicht erreichbar
+
+CRPT: Die Übertragung endete aufgrund des Empfangs beschädigter oder ungültiger Daten.
+
+|===
+Diese Prüfmeldung bedeutet, dass eine Node-to-Node-Datentransfer-Operation abgeschlossen wurde. War das Übertragungsergebnis erfolgreich, wurden Daten vom „Start Sequence Count“ bis zum „Actual End Sequence Count“ übertragen. Sendende und empfangende Knoten werden anhand ihrer Knoten-IDs identifiziert. Diese Informationen können dazu verwendet werden, den Systemdatenfluss nachzuverfolgen sowie Fehler zu lokalisieren, zu erfassen und zu analysieren. In Verbindung mit Storage Audit-Meldungen kann damit auch die Anzahl der Replikate überprüft werden.

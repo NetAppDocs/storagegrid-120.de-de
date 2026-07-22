@@ -1,0 +1,110 @@
+---
+permalink: network/network-specific-requirements.html 
+sidebar: sidebar 
+keywords: network-specific requirements, network specific requirements, network requirements 
+summary: Die Anforderungen für jeden StorageGRID Netzwerktyp sind zu beachten. 
+---
+= Netzwerkspezifische Anforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Anforderungen für jeden StorageGRID Netzwerktyp sind zu beachten.
+
+
+
+[[network-gateways-and-routers]]
+== Netzwerk Gateways und Router
+
+* Falls festgelegt, muss sich das Gateway für ein bestimmtes Netzwerk innerhalb des jeweiligen Subnetzes befinden.
+* Wenn Sie eine Schnittstelle mit statischer Adressierung konfigurieren, muss eine andere Gateway-Adresse als 0.0.0.0 angegeben werden.
+* Wenn kein Gateway vorhanden ist, gilt es als Best Practice, die Gateway-Adresse auf die IP-Adresse der Netzwerkschnittstelle zu setzen.
+
+
+
+
+[[subnets]]
+== Subnetze
+
+
+NOTE: Jedes Netzwerk muss mit einem eigenen Subnetz verbunden sein, das sich mit keinem anderen Netzwerk auf dem Knoten überschneidet.
+
+Die folgenden Einschränkungen werden vom Grid Manager während der Bereitstellung durchgesetzt. Sie sind hier zur Unterstützung der Netzwerkplanung vor der Bereitstellung aufgeführt.
+
+* Die Subnetzmaske für eine Netzwerk-IP-Adresse darf nicht 255.255.255.254 oder 255.255.255.255 (/31 oder /32 in CIDR-Notation) sein.
+* Das durch eine Netzwerkschnittstellen-IP-Adresse und Subnetzmaske (CIDR) definierte Subnetz darf sich nicht mit dem Subnetz einer anderen auf demselben Knoten konfigurierten Schnittstelle überschneiden.
+* Für das Grid-Netzwerk, das Admin-Netzwerk oder das Client-Netzwerk eines beliebigen Knotens sollten keine Subnetze verwendet werden, die die folgenden IPv4-Adressen enthalten:
++
+** 192.168.130.101
+** 192.168.130.121
+** 192.168.131.101
+** 192.168.131.121
+** 192.168.130.102
+** 192.168.130.122
+** 192.168.131.102
+** 192.168.131.122
+** 198.51.100.2
+** 198.51.100.4
+
+
++
+Beispielsweise sollten die folgenden Subnetzbereiche nicht für das Grid Network, das Admin Network oder das Client Network eines beliebigen Knotens verwendet werden:
+
++
+** 192.168.130.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.130.101 und 192.168.130.102 enthält
+** 192.168.131.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.131.101 und 192.168.131.102 enthält
+** 198.51.100.0/24, da dieser Subnetzbereich die IP-Adressen 198.51.100.2 und 198.51.100.4 enthält
+
+
+* Das Grid Network Subnetz für jeden Knoten muss in die GNSL aufgenommen werden.
+* Das Admin Network-Subnetz darf sich nicht mit dem Grid Network-Subnetz, dem Client Network-Subnetz oder einem Subnetz im GNSL überschneiden.
+* Die Subnetze im AESL dürfen sich nicht mit Subnetzen im GNSL überschneiden.
+* Das Client Network-Subnetz darf sich nicht mit dem Grid Network-Subnetz, dem Admin Network-Subnetz, einem beliebigen Subnetz im GNSL oder einem beliebigen Subnetz im AESL überschneiden.
+
+
+
+
+[[grid-network]]
+== Grid-Netzwerk
+
+* Zur Implementierungszeit muss jeder Grid-Knoten an das Grid Network angeschlossen sein und mit dem primären Admin Node über die Netzwerkkonfiguration kommunizieren können, die bei der Bereitstellung des Knotens angegeben wird.
+* Während des normalen Grid-Betriebs muss jeder Grid-Knoten in der Lage sein, über das Grid-Netzwerk mit allen anderen Grid-Knoten zu kommunizieren.
++
+
+NOTE: Das Grid-Netzwerk muss zwischen jedem Knoten direkt routingfähig sein. Network Address Translation (NAT) zwischen Knoten wird nicht unterstützt.
+
+* Wenn das Grid-Netzwerk aus mehreren Subnetzen besteht, werden diese der Grid-Netzwerk-Subnetzliste (GNSL) hinzugefügt. Statische Routen werden auf allen Knoten für jedes Subnetz in der GNSL erstellt.
+* Wenn die Grid-Netzwerkschnittstelle als Trunk zur Unterstützung von VLAN-Schnittstellen konfiguriert ist, muss das native Trunk-VLAN dasjenige sein, das für den Grid-Netzwerkdatenverkehr verwendet wird. Alle Grid-Knoten müssen über das native Trunk-VLAN erreichbar sein.
+
+
+
+
+[[admin-network]]
+== ${post_edited_translations.segment}
+
+Das Admin-Netzwerk ist optional. Wenn ein Admin-Netzwerk konfiguriert werden soll, gelten die folgenden Anforderungen und Richtlinien.
+
+Typische Anwendungsfälle des Admin Network sind Management-Verbindungen, AutoSupport, KMS und Verbindungen zu kritischen Servern wie NTP, DNS und LDAP, sofern diese Verbindungen nicht über das Grid Network oder das Client Network bereitgestellt werden.
+
+
+NOTE: Das Admin Network und AESL können für jeden Node einzigartig sein, solange die gewünschten Netzwerkdienste und Clients erreichbar sind.
+
+
+NOTE: Sie müssen mindestens ein Subnetz im Admin Network definieren, um eingehende Verbindungen von externen Subnetzen zu ermöglichen. Statische Routen werden automatisch auf jedem Node für jedes Subnetz in der AESL generiert.
+
+
+
+[[client-network]]
+== Client-Netzwerk
+
+Das Clientnetzwerk ist optional. Bei der Konfiguration eines Clientnetzwerks sind die folgenden Punkte zu beachten.
+
+* Das Client Network ist für die Unterstützung des Datenverkehrs von S3-Clients ausgelegt. Wenn konfiguriert, wird das Client Network Gateway zum Standardgateway des Knotens.
+* Wenn Sie ein Client Network verwenden, kann StorageGRID vor feindlichen Angriffen geschützt werden, indem eingehender Client-Datenverkehr nur an explizit konfigurierten Load Balancer-Endpunkten akzeptiert wird. Siehe link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"].
+* Wenn die Client-Netzwerkschnittstelle als Trunk zur Unterstützung von VLAN-Schnittstellen konfiguriert ist, sollte berücksichtigt werden, ob die Konfiguration der Client-Netzwerkschnittstelle (eth2) erforderlich ist. Wenn konfiguriert, fließt der Client-Netzwerkdatenverkehr über das im Switch konfigurierte native VLAN des Trunks.
+
+
+.Verwandte Informationen
+link:../maintain/changing-nodes-network-configuration.html["Netzwerkkonfiguration des Node ändern"]

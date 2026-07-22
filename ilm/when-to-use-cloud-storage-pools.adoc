@@ -1,0 +1,63 @@
+---
+permalink: ilm/when-to-use-cloud-storage-pools.html 
+sidebar: sidebar 
+keywords: use cloud storage pool, benefits of cloud storage pools 
+summary: Mit Cloud Storage Pools können Daten an einen externen Speicherort gesichert oder ausgelagert werden. Zusätzlich ist es möglich, Daten in mehr als einer Cloud zu sichern oder auszulagern. 
+---
+= Anwendungsfälle für Cloud Storage Pool in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit Cloud Storage Pools können Daten an einen externen Speicherort gesichert oder ausgelagert werden. Zusätzlich ist es möglich, Daten in mehr als einer Cloud zu sichern oder auszulagern.
+
+
+
+[[back-up-storagegrid-data-to-external-location]]
+== StorageGRID Daten an einem externen Speicherort sichern
+
+Sie können einen Cloud Storage Pool verwenden, um StorageGRID Objekte an einem externen Speicherort zu sichern.
+
+Sind die Kopien in StorageGRID nicht zugänglich, können die Objektdaten im Cloud Storage Pool zur Bearbeitung von Clientanfragen verwendet werden. Es kann jedoch erforderlich sein, eine S3 RestoreObject Anfrage zu stellen, um auf die Sicherungskopie des Objekts im Cloud Storage Pool zuzugreifen.
+
+Die Objektdaten in einem Cloud Storage Pool können auch zur Wiederherstellung von Daten verwendet werden, die in StorageGRID aufgrund eines Storage-Volume- oder Storage Node-Ausfalls verloren gegangen sind. Wenn sich die einzige verbleibende Kopie eines Objekts in einem Cloud Storage Pool befindet, stellt StorageGRID das Objekt vorübergehend wieder her und erstellt eine neue Kopie auf dem wiederhergestellten Storage Node.
+
+Zur Implementierung einer Backup-Lösung:
+
+. Einen einzelnen Cloud Storage Pool erstellen.
+. Eine ILM-Regel konfigurieren, die gleichzeitig Objektkopien auf Storage Nodes (als replizierte oder erasure-coded Kopien) und eine einzelne Objektkopie im Cloud Storage Pool speichert.
+. Fügen Sie die Regel zu Ihrer ILM-Richtlinie hinzu. Anschließend die Richtlinie simulieren und aktivieren.
+
+
+
+
+[[tier-data-from-storagegrid-to-external-location]]
+== Tier-Daten von StorageGRID an externen Speicherort
+
+Sie können einen Cloud Storage Pool verwenden, um Objekte außerhalb des StorageGRID Systems zu speichern. Beispielsweise kann es sein, dass eine große Anzahl von Objekten aufbewahrt werden muss, auf die jedoch voraussichtlich nur selten oder gar nicht zugegriffen wird. Ein Cloud Storage Pool kann genutzt werden, um die Objekte in kostengünstigeren Speicher zu verschieben und so Speicherplatz in StorageGRID freizugeben.
+
+Zur Implementierung einer Tiering-Lösung:
+
+. Einen einzelnen Cloud Storage Pool erstellen.
+. Eine ILM-Regel konfigurieren, die selten verwendete Objekte von Storage Nodes in den Cloud Storage Pool verschiebt.
+. Fügen Sie die Regel zu Ihrer ILM-Richtlinie hinzu. Anschließend die Richtlinie simulieren und aktivieren.
+
+
+
+
+[[maintain-multiple-cloud-endpoints]]
+== Mehrere Cloud-Endpunkte verwalten
+
+Sie können mehrere Cloud Storage Pool-Endpunkte konfigurieren, wenn Sie Objektdaten in mehr als einer Cloud tiern oder sichern möchten. Die Filter in Ihren ILM-Regeln ermöglichen die Angabe, welche Objekte in welchem Cloud Storage Pool gespeichert werden. Beispielsweise kann es gewünscht sein, Objekte bestimmter Mandanten oder Buckets in Amazon S3 Glacier und Objekte anderer Mandanten oder Buckets in Azure Blob storage zu speichern. Oder es kann erforderlich sein, Daten zwischen Amazon S3 Glacier und Azure Blob storage zu verschieben.
+
+
+NOTE: Bei der Verwendung mehrerer Cloud Storage Pool Endpunkte ist zu beachten, dass ein Objekt jeweils nur in einem Cloud Storage Pool gespeichert werden kann.
+
+Zur Implementierung mehrerer Cloud-Endpunkte:
+
+. Bis zu 10 Cloud Storage Pools können erstellt werden.
+. Konfigurieren Sie ILM-Regeln, um die entsprechenden Objektdaten zum richtigen Zeitpunkt in jedem Cloud Storage Pool zu speichern. Beispielsweise können Objekte aus Bucket A in Cloud Storage Pool A und Objekte aus Bucket B in Cloud Storage Pool B gespeichert werden. Alternativ können Objekte zunächst für eine bestimmte Zeit in Cloud Storage Pool A gespeichert und anschließend in Cloud Storage Pool B verschoben werden.
+. Fügen Sie die Regeln Ihrer ILM-Richtlinie hinzu. Simulieren und aktivieren Sie anschließend die Richtlinie.
+

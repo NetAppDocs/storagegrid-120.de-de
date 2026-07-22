@@ -1,0 +1,178 @@
+---
+permalink: maintain/restoring-volume.html 
+sidebar: sidebar 
+keywords: storagegrid, restore, volume 
+summary: Objektdaten eines ausgefallenen Speichervolumes oder Speicherknotens lassen sich mit dem Grid Manager wiederherstellen. Mit dem Grid Manager ist zudem eine Überwachung laufender Wiederherstellungsprozesse sowie die Anzeige eines Wiederherstellungsverlaufs möglich. 
+---
+= Objektdaten mithilfe von StorageGRID Grid Manager wiederherstellen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Objektdaten für ein ausgefallenes Speichervolume oder einen ausgefallenen Storage Node mithilfe des Grid Manager wiederherstellen. Mit dem Grid Manager lassen sich außerdem laufende Wiederherstellungsprozesse überwachen und ein Wiederherstellungsverlauf anzeigen.
+
+.Bevor Sie beginnen
+* Sie haben eines dieser Verfahren zum Formatieren fehlgeschlagener Volumes abgeschlossen:
++
+** link:../maintain/remounting-and-reformatting-appliance-storage-volumes.html["Speichervolumes des Geräts neu einbinden und neu formatieren (manuelle Schritte)"]
+** link:../maintain/remounting-and-reformatting-storage-volumes-manual-steps.html["Speichervolumes neu einbinden und neu formatieren (manuelle Schritte)"]
+
+
+* Sie haben bestätigt, dass der Storage Node, auf dem Sie Objekte wiederherstellen, im Grid Manager auf der Registerkarte *Nodes* > *Overview* den Connection State *Connected* image:icon_alert_green_checkmark.png["Symbol „grünes Häkchen“"] aufweist.
+* Sie haben Folgendes bestätigt:
++
+** Eine Grid-Erweiterung zur Hinzufügung eines Storage Node ist nicht im Gange.
+** Die Außerbetriebnahme eines Storage Node ist nicht im Gange oder fehlgeschlagen.
+** Die Wiederherstellung eines ausgefallenen Speichervolumens ist nicht im Gange.
+** Die Wiederherstellung eines Storage Node mit ausgefallenem Systemlaufwerk ist nicht im Gange.
+** Ein EC Rebalance Job ist nicht in Bearbeitung.
+** Das Klonen von Appliance-Knoten ist nicht im Gange.
+
+
+
+
+.Über diese Aufgabe
+Nachdem Sie die Laufwerke ausgetauscht und die manuellen Schritte zum Formatieren der Volumes durchgeführt haben, zeigt Grid Manager die Volumes als Kandidaten für die Wiederherstellung auf der Registerkarte *Wartung* > *Volume restoration* > *Nodes to restore* an.
+
+Objektdaten sollten nach Möglichkeit über die Seite „Volume restoration“ im Grid Manager wiederhergestellt werden. Es besteht die Möglichkeit, <<enable-auto-restore-mode,Automatischer Wiederherstellungsmodus aktivieren>> die Volume restoration automatisch zu starten, sobald die Volumes zur Wiederherstellung bereit sind, oder <<manually-restore,Volume-Wiederherstellung manuell durchführen>>. Dabei sind folgende Richtlinien zu beachten:
+
+* Wenn die Volumes unter *Wartung* > *Volume restoration* > *Nodes to restore* aufgeführt sind, können die Objektdaten wie in den folgenden Schritten beschrieben wiederhergestellt werden. Die Volumes werden aufgeführt, wenn:
++
+** Einige, aber nicht alle Speichervolumes in einem Knoten sind ausgefallen
+** Alle Speichervolumes in einem Knoten sind ausgefallen und werden durch die gleiche Anzahl von Volumes oder mehr Volumes ersetzt.
+
+
++
+Die Seite zur Wiederherstellung von Volumen im Grid Manager ermöglicht außerdem <<view-restoration-progress,den Volumenwiederherstellungsprozess überwachen>> und <<view-restoration-history,Restaurierungshistorie anzeigen>>.
+
+* Falls die Volumes im Grid Manager nicht als Kandidaten für die Wiederherstellung aufgeführt sind, sind die entsprechenden Schritte zur Verwendung des  `repair-data` Skripts zur Wiederherstellung von Objektdaten zu befolgen:
++
+** link:restoring-object-data-to-storage-volume.html["Wiederherstellung von Objektdaten auf dem Storage-Volume (Systemlaufwerksausfall)"]
+** link:restoring-object-data-to-storage-volume-where-system-drive-is-intact.html["Objektdaten auf ein Speichervolumen wiederherstellen, bei dem das Systemlaufwerk intakt ist"]
+** link:restoring-object-data-to-storage-volume-for-appliance.html["Objektdaten auf das Speichervolume für das Appliance wiederherstellen"]
++
+
+NOTE: Das repair-data Skript ist veraltet und wird in einer zukünftigen Version entfernt.
+
+
+
++
+Wenn der wiederhergestellte Storage Node weniger Volumes enthält als der Knoten, den er ersetzt, ist das  `repair-data` Skript zu verwenden.
+
+
+
+Sie können zwei Arten von Objektdaten wiederherstellen:
+
+* Replizierte Datenobjekte werden von anderen Standorten wiederhergestellt, vorausgesetzt, die ILM-Regeln des Grids wurden so konfiguriert, dass Objektkopien verfügbar sind.
++
+** Wenn eine ILM Regel so konfiguriert war, dass nur eine replizierte Kopie gespeichert wurde und sich diese Kopie auf einem ausgefallenen Speichervolume befand, ist eine Wiederherstellung des Objekts nicht möglich.
+** Befindet sich die einzige verbleibende Kopie eines Objekts in einem Cloud Storage Pool, muss StorageGRID mehrere Anfragen an den Cloud Storage Pool-Endpunkt senden, um die Objektdaten wiederherzustellen.
+
+
+* Erasure-coded (EC) Datenobjekte werden durch das erneute Zusammenfügen der gespeicherten Fragmente wiederhergestellt. Beschädigte oder verlorene Fragmente werden vom Erasure-Coding-Algorithmus aus den verbleibenden Daten- und Paritätsfragmenten rekonstruiert.
++
+Reparaturen von mit Löschcodierung versehenen Daten können beginnen, während einige Storage Nodes offline sind. Wenn jedoch nicht alle mit Löschcodierung versehenen Daten erfasst werden können, kann die Reparatur nicht abgeschlossen werden. Die Reparatur wird abgeschlossen, nachdem alle Nodes verfügbar sind.
+
+
+
+
+NOTE: Die Wiederherstellung des Volumens hängt von der Verfügbarkeit der Ressourcen ab, auf denen Objektkopien gespeichert sind. Der Fortschritt der Volumenwiederherstellung ist nichtlinear und kann Tage oder Wochen in Anspruch nehmen.
+
+
+
+[[enable-auto-restore-modeenable-automatic-restore-mode]]
+== [[enable-auto-restore-mode]]Automatischer Wiederherstellungsmodus
+
+Wenn der automatische Wiederherstellungsmodus aktiviert ist, startet die Wiederherstellung der Volumes automatisch, sobald die Volumes zur Wiederherstellung bereit sind.
+
+.Schritte
+. Im Grid Manager zu *Wartung* > *Volume restoration* wechseln.
+. Die Registerkarte *Wiederherzustellende Knoten* auswählen und anschließend den Schalter für *Automatischen Wiederherstellungsmodus* in die Position „Aktiviert“ schieben.
+. Wenn das Bestätigungsdialogfeld erscheint, werden die Angaben angezeigt.
++
+[NOTE]
+====
+** Das manuelle Starten von Volume-Wiederherstellungsaufträgen auf beliebigen Knoten ist nicht möglich.
+** Die Wiederherstellung von Volumes beginnt automatisch nur, wenn keine anderen Wartungsverfahren im Gange sind.
+** Der Status des Auftrags kann auf der Fortschrittsüberwachungsseite überwacht werden.
+** StorageGRID versucht automatisch, fehlgeschlagene Wiederherstellungen von Volumes erneut durchzuführen.
+
+
+====
+. Nachdem die Auswirkungen der Aktivierung des automatischen Wiederherstellungsmodus verstanden wurden, im Bestätigungsdialogfeld *Ja* auswählen.
++
+Sie können den automatischen Wiederherstellungsmodus jederzeit deaktivieren.
+
+
+
+
+
+[[manually-restoremanually-restore-failed-volume-or-node]]
+== [[manually-restore]]Manuell ein ausgefallenes Volume oder einen ausgefallenen Knoten wiederherstellen
+
+Die folgenden Schritte dienen der Wiederherstellung eines ausgefallenen Volumes oder Knotens.
+
+.Schritte
+. Im Grid Manager zu *Wartung* > *Volume restoration* wechseln.
+. Die Registerkarte *Wiederherzustellende Knoten* auswählen und anschließend den Schalter für *Automatischen Wiederherstellungsmodus* in die deaktivierte Position schieben.
++
+Die Zahl auf dem Reiter gibt die Anzahl der Knoten mit Volumes an, die wiederhergestellt werden müssen.
+
+. Jeder Knoten kann erweitert werden, um die darin enthaltenen Volumes, die wiederhergestellt werden müssen, sowie deren Status anzuzeigen.
+. Korrigieren Sie alle Probleme, die die Wiederherstellung jedes Volumes verhindern. Probleme werden angezeigt, wenn *Warten auf manuelle Schritte* als Volume-Status ausgewählt wird.
+. Wählen Sie einen Knoten zur Wiederherstellung aus, bei dem alle Volumes den Status „Bereit zur Wiederherstellung“ anzeigen.
++
+Sie können die Volumes jeweils nur für einen Knoten wiederherstellen.
+
++
+Jedes Volume im Knoten muss anzeigen, dass es zur Wiederherstellung bereit ist.
+
+. *Wiederherstellung starten* auswählen.
+. Alle eventuell angezeigten Warnungen können behoben werden, oder es kann *Trotzdem starten* ausgewählt werden, um die Warnungen zu ignorieren und die Wiederherstellung zu starten.
+
+
+Die Knoten werden vom Tab *Wiederherzustellende Knoten* auf den Tab *Wiederherstellungsfortschritt* verschoben, sobald die Wiederherstellung beginnt.
+
+Wenn die Wiederherstellung eines Volumes nicht gestartet werden kann, kehrt der Knoten zur Registerkarte *Nodes to restore* zurück.
+
+
+
+[[view-restoration-progressview-restoration-progress]]
+== [[view-restoration-progress]]Wiederherstellungsfortschritt anzeigen
+
+Die Registerkarte *Wiederherstellungsfortschritt* zeigt den Status des Volume-Wiederherstellungsprozesses und Informationen zu den Volumes eines Knotens, der wiederhergestellt wird.
+
+Die Datenreparaturraten für replizierte und mit Löschcode versehene Objekte in allen Volumes sind Durchschnittswerte, die alle laufenden Wiederherstellungen zusammenfassen, einschließlich derjenigen Wiederherstellungen, die mithilfe des  `repair-data` Skripts initiiert wurden. Der Prozentsatz der Objekte in diesen Volumes, die intakt sind und keiner Wiederherstellung bedürfen, ist ebenfalls angegeben.
+
+
+NOTE: Die Wiederherstellung replizierter Daten hängt von der Verfügbarkeit der Ressourcen ab, auf denen die replizierten Kopien gespeichert sind. Der Fortschritt der Wiederherstellung replizierter Daten verläuft nicht linear und kann Tage oder Wochen in Anspruch nehmen.
+
+Im Abschnitt „Wiederherstellungsaufträge“ werden Informationen zu Volumenwiederherstellungen angezeigt, die vom Grid Manager gestartet wurden.
+
+* Die Zahl in der Überschrift des Abschnitts „Wiederherstellungsaufträge“ gibt die Anzahl der Volumes an, die entweder wiederhergestellt werden oder zur Wiederherstellung in der Warteschlange stehen.
+* Die Tabelle zeigt Informationen zu jedem Volume in einem Knoten und dessen Wiederherstellungsfortschritt.
++
+** Der Fortschritt für jeden Knoten zeigt den Prozentsatz für jeden Auftrag an.
+** Die Spalte „Details“ kann erweitert werden, um die Startzeit der Wiederherstellung und die Auftrags-ID anzuzeigen.
+
+
+* Wenn eine Volumenwiederherstellung fehlschlägt:
++
+** Die Spalte „Status“ zeigt an `failed (attempting retry)`, und der Vorgang wird automatisch erneut versucht.
+** Wenn mehrere Wiederherstellungsjobs fehlgeschlagen sind, wird der zuletzt durchgeführte Job automatisch zuerst erneut versucht.
+** Die Warnung *EC-Reparaturfehler* wird ausgelöst, wenn die Wiederholungsversuche weiterhin fehlschlagen. In der Warnung sind Schritte zur Behebung des Problems aufgeführt.
+
+
+
+
+
+
+[[view-restoration-historyview-restoration-history]]
+== [[view-restoration-history]]Restaurierungshistorie anzeigen
+
+Die Registerkarte *Restaurierungshistorie* zeigt Informationen zu allen erfolgreich abgeschlossenen Volumenwiederherstellungen.
+
+
+NOTE: Größenangaben sind für replizierte Objekte nicht anwendbar und erscheinen nur bei Wiederherstellungen, die erasure-codierte (EC) Datenobjekte enthalten.

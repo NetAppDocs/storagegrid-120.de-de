@@ -1,0 +1,57 @@
+---
+permalink: tenant/configuring-platform-services-endpoints.html 
+sidebar: sidebar 
+keywords: how to configure platform services endpoint 
+summary: Bevor Sie einen Plattformdienst für einen Bucket konfigurieren können, muss mindestens ein Endpunkt als Ziel für den Plattformdienst konfiguriert sein. 
+---
+= Konfigurieren Sie Plattformdienste-Endpunkte in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Plattformdienst für einen Bucket konfigurieren können, muss mindestens ein Endpunkt als Ziel für den Plattformdienst konfiguriert sein.
+
+Der Zugriff auf Plattformdienste wird mandantenspezifisch von einem StorageGRID-Administrator aktiviert. Um einen Plattformdienste-Endpunkt zu erstellen oder zu verwenden, müssen Sie als Mandantenbenutzer über die Berechtigung „Endpunkte verwalten“ oder Root-Zugriffsberechtigung verfügen, in einem Grid, dessen Netzwerk so konfiguriert ist, dass Storage Nodes auf externe Endpunktressourcen zugreifen können. Für einen einzelnen Mandanten können maximal 500 Plattformdienste-Endpunkte konfiguriert werden. Weitere Informationen erhalten Sie von Ihrem StorageGRID-Administrator.
+
+
+
+[[what-is-a-platform-services-endpoint]]
+== Was ist ein Plattformdienste-Endpunkt?
+
+Ein Plattformdienstendpunkt gibt die Informationen an, die StorageGRID benötigt, um auf das externe Ziel zuzugreifen.
+
+Wenn beispielsweise Objekte von einem StorageGRID Bucket in einen Amazon S3 Bucket repliziert werden sollen, wird ein Plattformdienste-Endpunkt erstellt, der die Informationen und Anmeldeinformationen enthält, die StorageGRID für den Zugriff auf den Ziel-Bucket bei Amazon benötigt.
+
+Jeder Plattformdienst erfordert einen eigenen Endpunkt, daher ist für jeden Plattformdienst, den Sie verwenden möchten, mindestens ein Endpunkt zu konfigurieren. Nach der Definition eines Plattformdienst-Endpunkts wird die URN des Endpunkts als Ziel in der Konfigurations-XML verwendet, die zur Aktivierung des Dienstes dient.
+
+Sie können denselben Endpunkt als Ziel für mehr als einen Quell-Bucket verwenden. Beispielsweise lässt sich konfigurieren, dass mehrere Quell-Buckets Objektmetadaten an denselben Suchintegrationsendpunkt senden, sodass Suchen über mehrere Buckets hinweg möglich sind. Ein Quell-Bucket kann auch so konfiguriert werden, dass er mehr als einen Endpunkt als Ziel verwendet, wodurch beispielsweise Benachrichtigungen über die Objekterstellung an ein Amazon Simple Notification Service (Amazon SNS) Topic und Benachrichtigungen über die Objektlöschung an ein zweites Amazon SNS Topic gesendet werden können.
+
+
+
+[[endpoints-for-cloudmirror-replication]]
+== Endpunkte für die CloudMirror-Replikation
+
+StorageGRID unterstützt Replikationsendpunkte, die S3-Buckets repräsentieren. Diese Buckets können auf Amazon Web Services gehostet werden, auf derselben oder einer entfernten StorageGRID Bereitstellung oder auf einem anderen Dienst.
+
+
+
+[[endpoints-for-notifications]]
+== Endpunkte für Benachrichtigungen
+
+StorageGRID unterstützt Amazon SNS, Kafka und Webhook-Endpunkte. Simple Queue Service (SQS) und AWS Lambda-Endpunkte werden nicht unterstützt.
+
+Für Kafka-Endpunkte wird Mutual TLS nicht unterstützt. Daher kann es zu Problemen bei der Konfiguration von Kafka-Endpunkten kommen, wenn  `ssl.client.auth` auf  `required` in Ihrer Kafka-Broker-Konfiguration gesetzt ist.
+
+
+
+[[endpoints-for-the-search-integration-service]]
+== Endpunkte für den Suchintegrationsdienst
+
+StorageGRID unterstützt Suchintegrationsendpunkte, die Elasticsearch Cluster repräsentieren. Diese Elasticsearch Cluster können sich in einem lokalen Rechenzentrum befinden oder in einer AWS Cloud oder anderswo gehostet werden.
+
+Der Suchintegrationsendpunkt verweist auf einen bestimmten Elasticsearch-Index und -Typ. Der Index muss in Elasticsearch erstellt werden, bevor der Endpunkt in StorageGRID erstellt wird, da die Endpunkterstellung sonst fehlschlägt. Es ist nicht erforderlich, den Typ vor der Erstellung des Endpunkts anzulegen. StorageGRID erstellt den Typ bei Bedarf, wenn Objektmetadaten an den Endpunkt gesendet werden.
+
+.Verwandte Informationen
+link:../admin/index.html["StorageGRID verwalten"]

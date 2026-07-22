@@ -1,0 +1,79 @@
+---
+permalink: admin/changing-network-options-object-encryption.html 
+sidebar: sidebar 
+keywords: enable http, storage node connections 
+summary: Es besteht die Möglichkeit, die Netzwerk- und Objektsicherheit so zu konfigurieren, dass gespeicherte Objekte verschlüsselt werden, bestimmte S3-Anfragen verhindert werden oder Clientverbindungen zu Storage Nodes HTTP anstelle von HTTPS verwenden. 
+---
+= Konfigurieren Sie die StorageGRID Netzwerk- und Objektsicherheit
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Es besteht die Möglichkeit, die Netzwerk- und Objektsicherheit so zu konfigurieren, dass gespeicherte Objekte verschlüsselt werden, bestimmte S3-Anfragen verhindert werden oder Clientverbindungen zu Storage Nodes HTTP anstelle von HTTPS verwenden.
+
+
+
+[[stored-object-encryption]]
+== Verschlüsselung gespeicherter Objekte
+
+Die Verschlüsselung gespeicherter Objekte ermöglicht die Verschlüsselung aller Objektdaten beim Import über S3. Standardmäßig werden gespeicherte Objekte nicht verschlüsselt, es besteht jedoch die Möglichkeit, Objekte mit dem AES‐128- oder AES‐256-Algorithmus zu verschlüsseln. Bei aktivierter Einstellung werden alle neu importierten Objekte verschlüsselt, während bereits gespeicherte Objekte unverändert bleiben. Bei deaktivierter Verschlüsselung bleiben aktuell verschlüsselte Objekte verschlüsselt, neu importierte Objekte jedoch unverschlüsselt.
+
+Die Einstellung „Gespeicherte Objektverschlüsselung“ gilt nur für S3-Objekte, die nicht durch Verschlüsselung auf Bucket-Ebene oder Objekt-Ebene verschlüsselt wurden.
+
+Weitere Details zu StorageGRID Verschlüsselungsmethoden sind unter link:../admin/reviewing-storagegrid-encryption-methods.html["Überblick über StorageGRID Verschlüsselungsmethoden"] zu finden.
+
+
+
+[[prevent-client-modification]]
+== Verhindern der Client-Änderung
+
+Die Einstellung „Clientänderungen verhindern“ ist systemweit. Wenn die Option „Clientänderungen verhindern“ ausgewählt ist, werden die folgenden Anfragen abgelehnt.
+
+
+
+[[s3-rest-api]]
+=== S3 REST API
+
+* DeleteBucket-Anfragen
+* Anfragen zur Änderung der Daten eines bestehenden Objekts, der benutzerdefinierten Metadaten oder der S3-Objektkennzeichnung
+
+
+
+
+[[enable-http-for-storage-node-connections]]
+== HTTP für Storage Node-Verbindungen aktivieren
+
+Standardmäßig verwenden Clientanwendungen das HTTPS Netzwerkprotokoll für alle direkten Verbindungen zu Storage Nodes. Optional kann HTTP für diese Verbindungen aktiviert werden, beispielsweise beim Testen eines nicht produktiven Grids.
+
+HTTP sollte für Speicherknotenverbindungen nur verwendet werden, wenn S3-Clients direkte HTTP-Verbindungen zu Speicherknoten herstellen müssen. Für Clients, die ausschließlich HTTPS-Verbindungen nutzen oder sich mit dem Load Balancer Service verbinden, ist diese Option nicht erforderlich (da link:../admin/configuring-load-balancer-endpoints.html["Jeden Load Balancer-Endpunkt konfigurieren"] entweder HTTP oder HTTPS verwendet werden kann).
+
+Siehe link:summary-ip-addresses-and-ports-for-client-connections.html["Zusammenfassung: IP-Adressen und Ports für Clientverbindungen"], um zu erfahren, welche Ports S3-Clients verwenden, wenn sie über HTTP oder HTTPS eine Verbindung zu Storage Nodes herstellen.
+
+
+
+[[select-options]]
+== Optionen auswählen
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie verfügen über Root-Zugriffsberechtigung.
+
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* auswählen.
+. Die Registerkarte *Netzwerk und Objekte* auswählen.
+. Für die Verschlüsselung gespeicherter Objekte die Einstellung *Keine* (Standard) verwenden, wenn gespeicherte Objekte nicht verschlüsselt werden sollen, oder *AES-128* bzw. *AES-256* auswählen, um gespeicherte Objekte zu verschlüsseln.
+. Optional *Clientänderungen verhindern* auswählen, um zu verhindern, dass S3-Clients bestimmte Anfragen stellen.
++
+
+NOTE: Wenn diese Einstellung geändert wird, dauert es etwa eine Minute, bis die neue Einstellung wirksam wird. Der konfigurierte Wert wird aus Performance- und Skalierungsgründen zwischengespeichert.
+
+. Optional kann *HTTP für Storage Node-Verbindungen aktivieren* ausgewählt werden, wenn Clients sich direkt mit Storage Nodes verbinden und HTTP-Verbindungen verwendet werden sollen.
++
+
+NOTE: Vorsicht ist geboten bei der Aktivierung von HTTP für ein Produktions-Grid, da Anfragen unverschlüsselt übertragen werden.
+
+. *Speichern* auswählen.
+

@@ -1,0 +1,57 @@
+---
+permalink: maintain/convert-to-data-only-node.html 
+sidebar: sidebar 
+keywords: storagegrid, convert node, data-only node 
+summary: Um die Leistung zu steigern, ist eine Umwandlung langsamerer Nicht-ADC-Speicherknoten in reine Datenspeicherknoten möglich. 
+---
+= Konvertieren eines StorageGRID-Speicherknotens in einen reinen Datenknoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um die Leistung zu steigern, ist eine Umwandlung langsamerer Nicht-ADC-Speicherknoten in reine Datenspeicherknoten möglich.
+
+Die Verwendung eines Storage Node ausschließlich für Daten kann sinnvoll sein, wenn Ihre Storage Nodes unterschiedliche Leistungsmerkmale aufweisen. Beispielsweise könnten zur potenziellen Leistungssteigerung Daten-only Storage Nodes mit einer hohen Kapazität und Festplattenlaufwerken zusammen mit Metadaten-only Storage Nodes mit hoher Leistung eingesetzt werden.
+
+Zusätzlich kann mehr Metadatenkapazität erzielt werden, indem Knoten mit geringem Arbeitsspeicher aus Cassandra entfernt werden, was das Metadatenkapazitätslimit pro Knoten erhöht. Siehe link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"].
+
+Bei der Konvertierung von reinen Datenknoten muss das Grid pro Standort mindestens drei kombinierte oder reine Metadaten Storage Nodes enthalten.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Der Storage Node, den Sie konvertieren möchten, enthält den ADC-Dienst nicht oder Sie haben link:../maintain/move-adc-service.html["ADC-Service verschoben"] zu einem anderen Knoten gewechselt.
+* Der Speicherknoten ist weder ein reiner Metadatenknoten noch ein reiner Datenknoten.
+* Der Storage Node, den Sie konvertieren möchten, enthält den ADC-Dienst nicht oder Sie haben link:../maintain/move-adc-service.html["ADC-Service verschoben"] zu einem anderen Knoten gewechselt.
+* Es ist genügend Metadatenspeicherplatz auf anderen Knoten am Standort vorhanden (oder Sie haben link:../expand/index.html["Ihr Grid erweitert"]), um die Metadaten aufzunehmen, die von dem Storage Node, den Sie konvertieren, migriert werden.
++
+[CAUTION]
+====
+** Wenn die Metadaten, die auf andere Knoten am selben Standort migrieren, die Größe des link:../admin/managing-object-metadata-storage.html["Metadaten reservierter Speicherplatz"] überschreiten, wird das Grid instabil.
+** Nach dem Start der Konvertierung ist eine Erweiterung des Grids nicht mehr möglich.
+
+
+====
+
+
+.Über diese Aufgabe
+Mit diesem Verfahren lassen sich ein oder mehrere kombinierte Speicherknoten, die den ADC-Dienst nicht enthalten, in reine Datenknoten umwandeln.
+
+Zusätzlich zur Umstellung des Storage Node wird Cassandra auf diesem Knoten außer Betrieb genommen. Alle Metadaten werden auf kombinierte oder reine Metadaten-Storage Nodes migriert. Je nach Menge der zu migrierenden Metadaten kann dieser Vorgang pro Knoten mehrere Tage dauern.
+
+
+TIP: Im Allgemeinen können bis zu 10 Knoten gleichzeitig konvertiert werden, wenn der Metadatenverbrauch pro Knoten unter 1 TB liegt. Wenn der Metadatenverbrauch pro Knoten über 1 TB liegt, sollten stattdessen bis zu 5 Knoten pro Vorgang konvertiert werden.
+
+.Schritte
+. Die Knoten-IDs der Nicht-ADC-Speicherknoten, die konvertiert werden sollen, sind zu notieren.
+. Oben im Grid Manager das Hilfesymbol auswählen und anschließend *API documentation* wählen.
+. *Zur privaten API-Dokumentation* auswählen.
+. Die Operation  `POST /private/convert-to-data-only-node/start` auswählen. Weitere Informationen finden Sie unter link:../admin/using-grid-management-api.html#issue-api-requests["API-Anfragen ausführen"].
++
+Jeder Knoten wird während des Vorgangs neu gestartet.
+
+. Sie können  `GET /private/convert-to-data-only-node` verwenden, um den Vorgang zu überwachen. Wenn Fehler auftreten,  `POST /private/convert-to-data-only-node/retry` auswählen, um den Vorgang zu wiederholen.
+. link:../maintain/downloading-recovery-package.html["Ein Wiederherstellungspaket herunterladen"] nach Abschluss dieses Vorgangs.
+

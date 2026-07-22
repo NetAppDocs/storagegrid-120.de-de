@@ -1,0 +1,47 @@
+---
+permalink: audit/sade-security-audit-enable.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SADE, Security Audit Enable 
+summary: 'Diese Meldung signalisiert, dass der Ursprungsdienst (Knoten-ID) die Protokollierung von Audit-Meldungen wiederhergestellt hat. StorageGRID erfasst und übermittelt wieder Audit-Meldungen.' 
+---
+= SADE-Revisionsprotokollmeldung zur Aktivierung der Sicherheitsüberwachung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Meldung signalisiert, dass der Ursprungsdienst (Knoten-ID) die Protokollierung von Audit-Meldungen wiederhergestellt hat. StorageGRID erfasst und übermittelt wieder Audit-Meldungen.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+AETM
+ a| 
+Methode aktivieren
+ a| 
+Die Methode, mit der die Protokollierung aktiviert wurde.
+
+
+
+ a| 
+AEUN
+ a| 
+Benutzername
+ a| 
+Der Benutzername, mit dem der Befehl zum Aktivieren der Protokollierung ausgeführt wurde.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Dieses Feld hat den Wert NONE. RSLT ist ein Pflichtfeld in der Nachricht, aber für diese Nachricht nicht relevant. Anstelle von SUCS wird NONE verwendet, damit diese Nachricht nicht gefiltert wird.
+
+|===
+Die Meldung deutet darauf hin, dass die Protokollierung zuvor deaktiviert (SADD) war, nun jedoch wiederhergestellt wurde. Dies wird üblicherweise nur während der Massenerfassung verwendet, um die Systemleistung zu verbessern. Nach Abschluss der Massenerfassung wird die Protokollierung wiederhergestellt und die Möglichkeit, die Protokollierung zu deaktivieren, anschließend dauerhaft gesperrt.

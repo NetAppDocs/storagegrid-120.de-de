@@ -1,0 +1,106 @@
+---
+permalink: admin/creating-enterprise-application-entra-id.html 
+sidebar: sidebar 
+keywords: enterprise application, entra id, single sign on, sso 
+summary: Entra ID wird verwendet, um eine Unternehmensanwendung für jeden Admin-Knoten in Ihrem System zu erstellen. 
+---
+= Erstellen Sie Unternehmensanwendungen in Entra ID für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Entra ID wird verwendet, um eine Unternehmensanwendung für jeden Admin-Knoten in Ihrem System zu erstellen.
+
+.Bevor Sie beginnen
+* Sie haben mit der Konfiguration von Single Sign-On für StorageGRID begonnen und *Entra ID* als SSO-Typ ausgewählt.
+* Sie haben link:../admin/configure-sso.html#enter-sandbox-mode["Sandbox-Modus wurde aktiviert"] im Grid Manager.
+* Sie haben den *Enterprise application name* für jeden Admin-Node in Ihrem System. Diese Werte können aus der Admin-Node-Detailtabelle auf der Seite „SSO konfigurieren“ kopiert werden.
++
+
+NOTE: Sie müssen für jeden Admin Node in Ihrem StorageGRID System eine Unternehmensanwendung erstellen. Eine eigene Unternehmensanwendung für jeden Admin Node stellt sicher, dass sich Benutzer sicher bei jedem Admin Node anmelden und wieder ausloggen können.
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[access-entra-id]]
+== Entra ID aufrufen
+
+.Schritte
+. Melden Sie sich bei der https://portal.azure.com["Azure Portal"^]an.
+. Navigieren Sie zu  https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade["Entra ID"^].
+. Wählen Sie  https://portal.azure.com/#blade/Microsoft_AAD_IAM/StartboardApplicationsMenuBlade/Overview/menuId/["Unternehmensanwendungen"^].
+
+
+
+
+[[create-enterprise-applications-and-save-storagegrid-sso-configuration]]
+== Unternehmensanwendungen erstellen und StorageGRID SSO-Konfiguration speichern
+
+Um die SSO-Konfiguration für Entra ID in StorageGRID zu speichern, ist es erforderlich, mit Entra ID für jeden Admin-Knoten eine Unternehmensanwendung zu erstellen. Die Föderationsmetadaten-URLs werden aus Entra ID kopiert und in die entsprechenden Felder für *Federation metadata URL* auf der Seite „SSO konfigurieren“ eingefügt.
+
+.Schritte
+. ${post_edited_translations.segment}
++
+.. Im Bereich Entra ID Enterprise-Anwendungen die Option *Neue Anwendung* auswählen.
+.. *Eigene Anwendung erstellen* auswählen.
+.. Für den Namen ist der *Enterprise application name* einzugeben, der aus der Tabelle „Admin-Knotendetails“ auf der Seite „SSO konfigurieren“ kopiert wurde.
+.. Die Option *Integrate any other application you don't find in the gallery (Non-gallery)* bleibt ausgewählt.
+.. Wählen Sie *Create*.
+.. Wählen Sie den Link *Los geht's* im Feld *2. Einmalanmeldung einrichten* oder den Link *Einmalanmeldung* in der linken Marge.
+.. Das Kontrollkästchen *SAML* auswählen.
+.. ${post_edited_translations.segment}
+.. ${post_edited_translations.segment}
+
+
+. Nachdem Sie für jeden Admin-Knoten eine Metadaten-URL für die Föderation eingefügt und alle anderen erforderlichen Änderungen an der SSO-Konfiguration vorgenommen haben, auf der Seite „SSO konfigurieren“ *Speichern* auswählen.
+
+
+
+
+[[download-saml-metadata-for-every-admin-node]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+.Schritte
+. Diese Schritte sind für jeden Admin Node zu wiederholen.
++
+.. Bei StorageGRID vom Admin-Knoten aus anmelden.
+.. *Konfiguration* > *Zugriffskontrolle* > *Single sign-on* auswählen.
+.. Die Schaltfläche auswählen, um die SAML-Metadaten für diesen Admin-Knoten herunterzuladen.
+.. Die Datei speichern, die anschließend in Entra ID hochgeladen wird.
+
+
+
+
+
+
+[[upload-saml-metadata-to-each-enterprise-application]]
+== SAML-Metadaten in jede Unternehmensanwendung hochladen
+
+Nach dem Herunterladen einer SAML-Metadatendatei für jeden StorageGRID Admin Node sind in Entra ID die folgenden Schritte durchzuführen:
+
+.Schritte
+. Zurück zum Azure Portal.
+. ${post_edited_translations.segment}
++
+
+NOTE: Möglicherweise ist es erforderlich, die Seite „Unternehmensanwendungen“ zu aktualisieren, damit zuvor hinzugefügte Anwendungen in der Liste angezeigt werden.
+
++
+.. Zur Eigenschaftenseite der Unternehmensanwendung wechseln.
+.. ${post_edited_translations.segment}
+.. ${post_edited_translations.segment}
+.. Die SAML-Konfiguration abschließen.
+.. Die Schaltfläche *Metadatendatei hochladen* auswählen und die SAML-Metadatendatei auswählen, die für den entsprechenden Admin Node heruntergeladen wurde.
+.. Nachdem die Datei geladen wurde, *Speichern* auswählen und anschließend *X*, um das Fenster zu schließen. Die Seite „Single Sign-On mit SAML einrichten“ wird wieder angezeigt.
+
+
+. link:../admin/configure-sso.html#test-sso["Jede Anwendung testen"].
+

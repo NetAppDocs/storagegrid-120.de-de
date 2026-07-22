@@ -1,0 +1,123 @@
+---
+permalink: monitor/grid-federation-monitor-connections.html 
+sidebar: sidebar 
+keywords: grid federation, monitor connection, cross grid replication metrics 
+summary: Sie können grundlegende Informationen zu allen Grid Federation-Verbindungen, detaillierte Informationen zu einer bestimmten Verbindung oder Prometheus-Metriken zu gridübergreifenden Replikationsvorgängen überwachen. Eine Verbindung kann von jedem Grid aus überwacht werden. 
+---
+= Überwachen Sie StorageGRID Grid-Federation-Verbindungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können grundlegende Informationen zu allen link:../admin/grid-federation-overview.html["${post_edited_translations.segment}"]Verbindungen, detaillierte Informationen zu einer bestimmten Verbindung oder Prometheus-Metriken zu netzübergreifenden Replikationsvorgängen überwachen. Eine Verbindung kann von jedem Grid aus überwacht werden.
+
+.Bevor Sie beginnen
+* Sie sind beim Grid Manager auf einem der beiden Grids mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung"] für das Grid, bei dem Sie angemeldet sind.
+
+
+
+
+[[view-all-connections]]
+== Alle Verbindungen anzeigen
+
+Die Seite Grid federation zeigt grundlegende Informationen über alle Grid federation-Verbindungen und über alle Mandantenkonten, die zur Nutzung von Grid federation-Verbindungen berechtigt sind.
+
+.Schritte
+. Wählen Sie *Konfiguration* > *System* > *Grid federation*.
++
+Die Grid federation Seite wird angezeigt.
+
+. Grundlegende Informationen zu allen Verbindungen in diesem Grid sind auf der Registerkarte *Verbindungen* zu finden.
++
+Über diese Registerkarte sind folgende Aktionen möglich:
+
++
+** link:../admin/grid-federation-create-connection.html["Neue Verbindung erstellen"].
+** Wählen Sie eine bestehende Verbindung zu link:../admin/grid-federation-manage-connection.html["bearbeiten oder testen"].
+
+
++
+image:grid-federation-connections-tab.png["Registerkarte „Grid Federation-Verbindungen“"]
+
+. Grundlegende Informationen zu allen Mandantenkonten in diesem Grid, die über die Berechtigung *Grid-Federationsverbindung verwenden* verfügen, sind auf der Registerkarte *Zulässige Mandanten* zu finden.
++
+Über diese Registerkarte sind folgende Aktionen möglich:
+
++
+** link:../monitor/monitoring-tenant-activity.html["Die Detailseite für jeden zugelassenen Mandanten anzeigen"].
+** Die Detailseite für jede Verbindung kann angezeigt werden. Siehe <<view-specific-connection,Eine bestimmte Verbindung anzeigen>>.
+** Wählen Sie einen zulässigen Mandanten aus und link:../admin/grid-federation-manage-tenants.html["die Berechtigung entfernen"].
+** Auf Fehler bei der gridübergreifenden Replikation prüfen und den letzten Fehler gegebenenfalls beheben. Siehe link:../admin/grid-federation-troubleshoot.html["Fehler in der Grid-Federation beheben"].
++
+image:grid-federation-permitted-tenants-tab.png["Registerkarte „Zulässige Mandanten“ der Grid federation"]
+
+
+
+
+
+
+
+[[view-specific-connectionview-a-specific-connection]]
+== [[view-specific-connection]]Eine bestimmte Verbindung anzeigen
+
+Details zu einer bestimmten Grid Federation Verbindung können angezeigt werden.
+
+.Schritte
+. Wählen Sie auf der Seite Grid federation entweder einen der beiden Tabs aus und dann den Verbindungsnamen aus der Tabelle.
++
+Auf der Detailseite der Verbindung sind folgende Aktionen möglich:
+
++
+** Grundlegende Statusinformationen zur Verbindung, einschließlich der lokalen und entfernten Hostnamen, des Ports und des Verbindungsstatus, sind ersichtlich.
+** Wählen Sie eine Verbindung zu link:../admin/grid-federation-manage-connection.html["bearbeiten, testen oder entfernen"].
+
+
+. Beim Anzeigen einer bestimmten Verbindung zeigt die Registerkarte *Zulässige Mandanten* Details zu den für die Verbindung zulässigen Mandanten an.
++
+Über diese Registerkarte sind folgende Aktionen möglich:
+
++
+** link:../monitor/monitoring-tenant-activity.html["Die Detailseite für jeden zugelassenen Mandanten anzeigen"].
+** link:../admin/grid-federation-manage-tenants.html["Die Berechtigung eines Mandanten entfernen"] die Verbindung zu nutzen.
+** Auf Replikationsfehler zwischen den Grids prüfen und den letzten Fehler beheben. Siehe link:../admin/grid-federation-troubleshoot.html["Fehler in der Grid-Federation beheben"].
++
+image:grid-federation-permitted-tenants-tab-for-connection.png["Registerkarte „Zugelassene Mandanten für die Verbindung in der Grid Federation“"]
+
+
+
+. Beim Anzeigen einer bestimmten Verbindung kann auf der Registerkarte *Zertifikate* die vom System generierten Server- und Clientzertifikate für diese Verbindung angezeigt werden.
++
+Über diese Registerkarte sind folgende Aktionen möglich:
+
++
+** link:../admin/grid-federation-manage-connection.html["Verbindungszertifikate austauschen"].
+** *Server* oder *Client* auswählen, um das zugehörige Zertifikat anzuzeigen oder herunterzuladen oder die Zertifikat-PEM zu kopieren.
++
+image:grid-federation-certificates-tab.png["Registerkarte „Grid Federation-Zertifikate“"]
+
+
+
+
+
+
+
+[[review-cross-grid-replication-metrics]]
+== Kennzahlen zur netzübergreifenden Replikation überprüfen
+
+Im Cross-Grid Replication Dashboard in Grafana stehen Prometheus-Metriken zu Cross-Grid-Replikationsvorgängen in Ihrem Grid zur Ansicht bereit.
+
+.Schritte
+. Im Grid Manager *Support* > *Tools* > *Metrics* auswählen.
++
+
+NOTE: Die auf der Seite „Metriken“ verfügbaren Tools sind für den Einsatz durch den technischen Support vorgesehen. Einige Funktionen und Menüpunkte dieser Tools sind absichtlich nicht funktionsfähig und können sich ändern. Siehe die Liste link:../monitor/commonly-used-prometheus-metrics.html["häufig verwendete Prometheus Metriken"].
+
+. Im Grafana Bereich der Seite *Cross Grid Replication* auswählen.
++
+Ausführliche Anweisungen finden Sie unter link:../monitor/reviewing-support-metrics.html["Support-Metriken überprüfen"].
+
+. Um die Replikation von Objekten, deren Replikation fehlgeschlagen ist, erneut zu versuchen, siehe link:../admin/grid-federation-retry-failed-replication.html["Fehlgeschlagene Replikationsvorgänge identifizieren und erneut versuchen"].
+

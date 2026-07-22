@@ -1,0 +1,447 @@
+---
+permalink: swnodes/storage-and-performance-requirements.html 
+sidebar: sidebar 
+keywords: storage requirements, performance requirements, host storage, host volumes, netapp ontap, fabricpool 
+summary: Es ist wichtig, die Speicheranforderungen für StorageGRID-Knoten zu kennen, um ausreichend Speicherplatz für die anfängliche Konfiguration und zukünftige Speichererweiterungen bereitzustellen. 
+---
+= Speicher- und Leistungsanforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Es ist wichtig, die Speicheranforderungen für StorageGRID-Knoten zu kennen, um ausreichend Speicherplatz für die anfängliche Konfiguration und zukünftige Speichererweiterungen bereitzustellen.
+
+Speicher- und Leistungsanforderungen variieren je nach softwarebasierter Knotenimplementierung.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+
+
+[[storage-categories]]
+== Speicherkategorien
+
+StorageGRID Knoten benötigen drei logische Speicherkategorien:
+
+* *Container Pool*: Performance-Tier (10K SAS oder SSD) Speicher für die Node-Container, der dem Container-Engine-Speichertreiber zugewiesen wird, wenn die Container-Engine auf den Hosts installiert und konfiguriert wird, die Ihre StorageGRID Nodes unterstützen.
+* *Systemdaten* – Performance-Tier-Speicher (10K SAS oder SSD) für die persistente Speicherung von Systemdaten und Transaktionsprotokollen pro Knoten, die von den StorageGRID Host-Services genutzt und einzelnen Knoten zugeordnet werden.
+* *Objektdaten* – Performance-Tier (10K SAS oder SSD) Speicher und Capacity-Tier (NL-SAS/SATA) Massenspeicher für die persistente Speicherung von Objektdaten und Objektmetadaten.
+
+
+Für alle Speicherkategorien sind RAID-basierte Blockgeräte erforderlich. Nicht redundante Festplatten, SSDs oder JBODs werden nicht unterstützt. Gemeinsam genutzter oder lokaler RAID-Speicher kann für jede Speicherkategorie verwendet werden; wenn jedoch die Knotenmigrationsfunktion in StorageGRID genutzt werden soll, müssen sowohl Systemdaten als auch Objektdaten auf gemeinsam genutztem Speicher abgelegt werden. Weitere Informationen finden sich unter link:node-container-migration-requirements.html["Anforderungen an die Migration von Node Containern"].
+
+
+
+[[performance-requirements]]
+== Leistungsanforderungen
+
+Die Leistung der für den Containerpool, Systemdaten und Objektmetadaten verwendeten Volumes hat einen erheblichen Einfluss auf die Gesamtleistung des Systems. Für diese Volumes empfiehlt sich Performance-Tier-Speicher (10K SAS oder SSD), um eine angemessene Festplattenleistung in Bezug auf Latenz, Input/Output-Operationen pro Sekunde (IOPS) und Durchsatz sicherzustellen. Für die persistente Speicherung von Objektdaten kann Kapazitäts-Tier-Speicher (NL-SAS/SATA) verwendet werden.
+
+Die für den Containerpool, die Systemdaten und die Objektdaten verwendeten Volumes müssen über aktiviertes Write-Back-Caching verfügen. Der Cache muss sich auf einem geschützten oder persistenten Medium befinden.
+
+
+
+[[requirements-for-hosts-that-use-netapp-ontap-storage]]
+== Anforderungen an Hosts, die NetApp ONTAP Storage verwenden
+
+Wenn der StorageGRID Node Speicher verwendet, der von einem NetApp ONTAP System zugewiesen wurde, ist zu bestätigen, dass für das Volume keine FabricPool Tiering-Richtlinie aktiviert ist. Das Deaktivieren der FabricPool Tiering-Funktion für Volumes, die mit StorageGRID Nodes verwendet werden, vereinfacht die Fehlerbehebung und die Speicheroperationen.
+
+
+NOTE: Es sollte niemals FabricPool verwendet werden, um Daten, die mit StorageGRID in Zusammenhang stehen, wieder auf StorageGRID selbst zu verschieben. Das Tiering von StorageGRID-Daten zurück auf StorageGRID erhöht die Komplexität bei der Fehlerbehebung und im Betrieb.
+
+
+
+[[number-of-hosts-required]]
+== Anzahl der benötigten Hosts
+
+Jeder StorageGRID Standort benötigt mindestens drei Storage Nodes.
+
+
+NOTE: In einer Implementierung in der Produktion wird nicht mehr als ein Storage Node auf einem einzelnen physischen oder virtuellen Host betrieben. Die Verwendung eines dedizierten Hosts für jeden Storage Node bietet eine isolierte Ausfalldomäne.
+
+Andere Knotentypen, wie z. B. Admin Nodes oder Gateway Nodes, können auf denselben Hosts bereitgestellt werden oder, falls erforderlich, auf eigenen dedizierten Hosts.
+
+
+NOTE: Festplatten-Snapshots können nicht zur Wiederherstellung von Grid-Knoten verwendet werden. Stattdessen sind die link:../maintain/warnings-and-considerations-for-grid-node-recovery.html["Wiederherstellung von Grid-Node"] Verfahren für jeden Knotentyp zu beachten.
+
+
+
+[[number-of-storage-volumes-for-each-node]]
+== Anzahl der Speichervolumes pro Node
+
+Die folgende Tabelle zeigt die Anzahl der für jeden Host benötigten Speichervolumes (LUNs) und die Mindestgröße, die für jede LUN erforderlich ist, basierend darauf, welche Nodes auf diesem Host bereitgestellt werden.
+
+Die maximal getestete LUN-Größe beträgt 39 TB.
+
+
+NOTE: Diese Zahlen beziehen sich auf jeden einzelnen Host, nicht auf das gesamte Grid.
+
+|===
+| LUN Zweck | Speicherkategorie | Anzahl der LUNs | Mindestgröße/LUN 
+
+
+ a| 
+Storage-Pool für Container-Engine
+ a| 
+Container-Pool
+ a| 
+1
+ a| 
+Gesamtzahl der Knoten × 100 GB
+
+
+
+ a| 
+`/var/local` Volumen
+ a| 
+Systemdaten
+ a| 
+1 für jeden Node auf diesem Host
+ a| 
+100 GB
+
+
+
+ a| 
+Speicherknoten
+ a| 
+Objektdaten
+ a| 
+3 für jeden Storage Node auf diesem Host
+
+*Hinweis:* Ein Linux software-basierter Storage Node kann 1 bis 48 Storage Volumes haben. Ein VMware software-basierter Storage Node kann 1 bis 16 Storage Volumes haben. Mindestens 3 Storage Volumes werden empfohlen.
+ a| 
+12 TB (4 TB/LUN, Minimum)
+
+Maximal getestete LUN Größe: 39 TB.
+
+Siehe <<storage_req_SN,Speicheranforderungen für Storage Nodes>> für weitere Informationen.
+
+
+
+ a| 
+Speicherknoten (nur Metadaten)
+ a| 
+Objektmetadaten
+ a| 
+1
+ a| 
+4 TB/LUN, mindestens
+
+Maximal getestete LUN Größe: 39 TB.
+
+Siehe <<storage_req_SN,Speicheranforderungen für Storage Nodes>> für weitere Informationen.
+
+*Hinweis*: Für reine Metadaten-Storage Nodes wird nur eine rangedb benötigt.
+
+
+
+ a| 
+Revisionsprotokolle des Admin-Nodes
+ a| 
+Systemdaten
+ a| 
+1 für jeden Admin Node auf diesem Host
+ a| 
+200 GB
+
+
+
+ a| 
+Admin Node-Tabellen
+ a| 
+Systemdaten
+ a| 
+1 für jeden Admin Node auf diesem Host
+ a| 
+200 GB
+
+|===
+
+NOTE: Abhängig vom konfigurierten Überwachungsniveau, der Größe der Benutzereingaben wie dem S3-Objektschlüsselname und davon, wie viele Revisionsprotokolldaten gespeichert werden müssen, kann es erforderlich sein, die Größe der Revisionsprotokoll LUN auf jedem Admin-Node zu erhöhen. Im Allgemeinen generiert ein Grid etwa 1 KB Revisionsprotokolldaten pro S3-Operation, was bedeutet, dass eine 200 GB LUN 70 Millionen Operationen pro Tag oder 800 Operationen pro Sekunde für zwei bis drei Tage unterstützt.
+
+
+
+[[minimum-storage-space-for-a-host]]
+== Mindestspeicherplatz für einen Host
+
+Die folgende Tabelle zeigt den minimalen Speicherplatzbedarf für jeden Knotentyp. Mit dieser Tabelle lässt sich die Mindestspeicherkapazität bestimmen, die dem Host in jeder Speicherkategorie zur Verfügung stehen muss, abhängig davon, welche Knoten auf diesem Host bereitgestellt werden.
+
+
+NOTE: Festplatten-Snapshots können nicht zur Wiederherstellung von Grid-Knoten verwendet werden. Stattdessen sind die link:../maintain/warnings-and-considerations-for-grid-node-recovery.html["Wiederherstellung von Grid-Node"] Verfahren für jeden Knotentyp zu beachten.
+
+Jeder Node-Host benötigt eine 100 GB LUN für das Betriebssystem.
+
+|===
+| Knotentyp | Container-Pool | Systemdaten | Objektdaten 
+
+
+| Speicherknoten  a| 
+100 GB
+ a| 
+100 GB
+ a| 
+4.000 GB
+
+
+
+ a| 
+Admin-Node
+ a| 
+100 GB
+ a| 
+500 GB (3 LUNs)
+ a| 
+_nicht zutreffend_
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+100 GB
+ a| 
+100 GB
+ a| 
+_nicht zutreffend_
+
+|===
+
+
+[[example-calculating-the-storage-requirements-for-a-host-or-virtual-machine]]
+== Beispiel: Berechnung des Speicherbedarfs für einen Host oder eine virtuelle Maschine
+
+Angenommen, Sie planen, drei Nodes auf demselben Host oder derselben virtuellen Maschine bereitzustellen: einen Storage Node, einen Admin Node und einen Gateway Node. Dem Host sollten mindestens neun Storage Volumes bereitgestellt werden. Mindestens 300 GB Performance-Tier-Speicher für die Node-Container, 700 GB Performance-Tier-Speicher für Systemdaten und Transaktionsprotokolle sowie 12 TB Capacity-Tier-Speicher für Objektdaten werden benötigt.
+
+[role="tabbed-block"]
+====
+.Linux Host Beispiel
+--
+|===
+| Knotentyp | LUN Zweck | Anzahl der LUNs | LUN-Größe 
+
+
+| Speicherknoten  a| 
+Storage-Pool für Container-Engine
+ a| 
+1
+ a| 
+300 GB (100 GB/Node)
+
+
+
+ a| 
+Speicherknoten
+ a| 
+`/var/local` Volumen
+ a| 
+1
+ a| 
+100 GB
+
+
+
+| Speicherknoten  a| 
+Objektdaten
+ a| 
+3
+ a| 
+12 TB (4 TB/LUN)
+
+
+
+ a| 
+Admin-Node
+ a| 
+`/var/local` Volumen
+ a| 
+1
+ a| 
+100 GB
+
+
+
+| Admin-Node  a| 
+Revisionsprotokolle des Admin-Nodes
+ a| 
+1
+ a| 
+200 GB
+
+
+
+| Admin-Node  a| 
+Admin Node-Tabellen
+ a| 
+1
+ a| 
+200 GB
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+`/var/local` Volumen
+ a| 
+1
+ a| 
+100 GB
+
+
+
+ a| 
+*Gesamt*
+ a| 
+ a| 
+*9*
+ a| 
+*Container Pool:* 300 GB
+
+*Systemdaten:* 700 GB
+
+*Objektdaten:* 12.000 GB
+
+|===
+--
+.Beispiel für eine VMware virtuelle Maschine
+--
+|===
+| Knotentyp | LUN Zweck | Anzahl der LUNs | LUN-Größe 
+
+
+ a| 
+Speicherknoten
+ a| 
+Betriebssystem Volume
+ a| 
+1
+ a| 
+100 GB
+
+
+
+| Speicherknoten  a| 
+Objektdaten
+ a| 
+3
+ a| 
+12 TB (4 TB/LUN)
+
+
+
+ a| 
+Admin-Node
+ a| 
+Betriebssystem Volume
+ a| 
+1
+ a| 
+100 GB
+
+
+
+| Admin-Node  a| 
+Revisionsprotokolle des Admin-Nodes
+ a| 
+1
+ a| 
+200 GB
+
+
+
+| Admin-Node  a| 
+Admin Node-Tabellen
+ a| 
+1
+ a| 
+200 GB
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+Betriebssystem Volume
+ a| 
+1
+ a| 
+100 GB
+
+
+
+ a| 
+*Gesamt*
+ a| 
+ a| 
+*8*
+ a| 
+*Systemdaten:* 700 GB
+
+*Objektdaten:* 12.000 GB
+
+|===
+--
+====
+
+
+[[specific-storage-requirements-for-storage-nodes]]
+[[storage_req_SN]]
+== Spezifische Speicheranforderungen für Storage Nodes
+
+Linux und VMware haben unterschiedliche Speicheranforderungen für Speicherknoten:
+
+* Ein Linux-Software-basierter Storage Node kann 1 bis 48 Storage Volumes haben
+* Ein VMware softwarebasierter Storage Node kann 1 bis 16 Storage Volumes haben.
+* Drei oder mehr Speichervolumes werden empfohlen.
+* Jedes Speichervolumen sollte 4 TB oder größer sein.
+
+
+
+NOTE: Ein Appliance Storage Node kann auch bis zu 48 Speichervolumes haben.
+
+Wie in der Abbildung dargestellt, reserviert StorageGRID Speicherplatz für Objektmetadaten auf Speichervolume 0 jedes Storage Node. Der verbleibende Speicherplatz auf Speichervolume 0 und allen anderen Speichervolumes im Storage Node wird ausschließlich für Objektdaten verwendet.
+
+image:metadata_space_storage_node.png["Metadaten Space Storage Node"]
+
+Um Redundanz zu gewährleisten und Objektmetadaten vor Verlust zu schützen, speichert StorageGRID an jedem Standort drei Kopien der Metadaten aller Objekte im System. Die drei Kopien der Objektmetadaten werden gleichmäßig auf alle Storage Nodes an jedem Standort verteilt.
+
+Bei der Installation eines Grids mit reinen Metadaten-Speicherknoten muss das Grid auch eine Mindestanzahl an Knoten für die Objektspeicherung enthalten. Weitere Informationen zu reinen Metadaten-Speicherknoten sind unter link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"] verfügbar.
+
+* Für ein Grid an einem einzelnen Standort sind mindestens zwei Storage Nodes für Objekte und Metadaten konfiguriert.
+* Bei einem Multi-Site-Grid ist mindestens ein Storage Node pro Standort für Objekte und Metadaten konfiguriert.
+
+
+Wenn Sie dem Volume 0 eines neuen Storage Node Speicherplatz zuweisen, müssen Sie sicherstellen, dass ausreichend Speicherplatz für den Anteil dieses Node an allen Objektmetadaten vorhanden ist.
+
+* Mindestens 4 TB müssen Volume 0 zugewiesen werden.
++
+
+NOTE: Wenn für einen Storage Node nur ein Storage-Volume verwendet wird und diesem 4 TB oder weniger zugewiesen werden, kann der Storage Node beim Start in den schreibgeschützten Speicherzustand wechseln und nur Objektmetadaten speichern.
+
++
+
+NOTE: Wenn weniger als 500 GB dem Volume 0 (nur für nicht-produktive Zwecke) zugewiesen werden, sind 10 % der Speicherkapazität des Storage-Volumes für Metadaten reserviert.
+
+* Softwarebasierte Metadaten-only-Knotenressourcen müssen mit den vorhandenen Storage Nodes-Ressourcen übereinstimmen. Beispielsweise:
++
+** Wenn der bestehende StorageGRID Standort SG6000 oder SG6100 Appliances verwendet, müssen die softwarebasierten Metadaten-only Nodes die folgenden Mindestanforderungen erfüllen:
++
+*** 128 GB RAM
+*** 8-Core-CPU
+*** 8 TB SSD oder gleichwertiger Speicherplatz für die Cassandra Datenbank (rangedb/0)
+
+
+** Wenn die bestehende StorageGRID Site virtuelle Storage Nodes mit 24 GB RAM, 8 Core CPU und 3 TB oder 4 TB Metadatenspeicher verwendet, sollten die softwarebasierten Metadaten-only Nodes ähnliche Ressourcen verwenden (24 GB RAM, 8 Core CPU und 4 TB Metadatenspeicher (rangedb/0)).
++
+Beim Hinzufügen eines neuen StorageGRID Standorts sollte die Gesamtkapazität der Metadaten des neuen Standorts mindestens der Gesamtkapazität bestehender StorageGRID Standorte entsprechen, und die Ressourcen des neuen Standorts sollten den Storage Nodes an bestehenden StorageGRID Standorten entsprechen.
+
+
+
+* Bei der Installation eines neuen Systems (StorageGRID 11.6 oder höher) und wenn jeder Storage Node über 128 GB oder mehr RAM verfügt, mindestens 8 TB oder mehr Volume 0 zuweisen. Die Verwendung eines größeren Werts für Volume 0 kann den für Metadaten auf jedem Storage Node zulässigen Speicherplatz erhöhen.
+* Bei der Konfiguration verschiedener Storage Nodes für einen Standort sollte nach Möglichkeit dieselbe Einstellung für Volume 0 verwendet werden. Enthält ein Standort Storage Nodes unterschiedlicher Größe, bestimmt der Storage Node mit dem kleinsten Volume 0 die Metadatenkapazität dieses Standorts.
+
+
+Weitere Details sind unter link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"] zu finden.

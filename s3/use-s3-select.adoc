@@ -1,0 +1,165 @@
+---
+permalink: s3/use-s3-select.html 
+sidebar: sidebar 
+keywords: use S3 Select, S3 Select 
+summary: StorageGRID unterstützt die folgenden Amazon S3 Select Klauseln, Datentypen, Operatoren und reservierten Schlüsselwörter für den SelectObjectContent Befehl. 
+---
+= Unterstützte Amazon S3 Select-Operationen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID unterstützt die folgenden Amazon S3 Select Klauseln, Datentypen und Operatoren für die link:select-object-content.html["SelectObjectContent Befehl"].
+
+
+NOTE: Alle nicht aufgeführten Artikel sind nicht unterstützt.
+
+Informationen zur Syntax sind unter link:select-object-content.html["SelectObjectContent"] zu finden. Weitere Informationen zu S3 Select sind unter  https://docs.aws.amazon.com/AmazonS3/latest/userguide/selecting-content-from-objects.html["AWS Dokumentation für S3 Select"^] zu finden.
+
+Nur Mandantenkonten, für die S3 Select aktiviert ist, können SelectObjectContent-Abfragen ausführen. Siehe link:../admin/manage-s3-select-for-tenant-accounts.html["Überlegungen und Anforderungen für die Verwendung von S3 Select"].
+
+
+
+[[clauses]]
+== ${post_edited_translations.segment}
+
+* ${post_edited_translations.segment}
+* FROM-Klausel
+* ${post_edited_translations.segment}
+* LIMIT Klausel
+
+
+
+
+[[data-types]]
+== ${post_edited_translations.segment}
+
+* bool
+* ${post_edited_translations.segment}
+* Zeichenkette
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* Zeitstempel
+
+
+
+
+[[operators]]
+== Betreiber
+
+
+
+[[logical-operators]]
+=== Logische Operatoren
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[comparison-operators]]
+=== Vergleichsoperatoren
+
+* <
+* >
+* <=
+* >=
+* =
+* =
+* <>
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[pattern-matching-operators]]
+=== Mustervergleichsoperatoren
+
+* WIE
+* _
+* %
+
+
+
+
+[[unitary-operators]]
+=== ${post_edited_translations.segment}
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[math-operators]]
+=== ${post_edited_translations.segment}
+
+* +
+* -
+* *
+* /
+* %
+
+
+StorageGRID folgt der Operatorrangfolge von Amazon S3 Select.
+
+
+
+[[aggregate-functions]]
+== Aggregatfunktionen
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* SUMME()
+
+
+
+
+[[conditional-functions]]
+== Bedingte Funktionen
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[conversion-functions]]
+== Konvertierungsfunktionen
+
+* CAST (für unterstützten Datentyp)
+
+
+
+
+[[date-functions]]
+== Datumsfunktionen
+
+* ${post_edited_translations.segment}
+* DATE_DIFF
+* EXTRAKT
+* ${post_edited_translations.segment}
+* TO_TIMESTAMP
+* UTCNOW
+
+
+
+
+[[string-functions]]
+== ${post_edited_translations.segment}
+
+* ${post_edited_translations.segment}
+* UNTERE
+* Substring
+* TRIM
+* OBERE
+

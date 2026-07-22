@@ -1,0 +1,87 @@
+---
+permalink: tenant/manage-bucket-consistency.html 
+sidebar: sidebar 
+keywords: how to manage bucket consistency, how to change bucket consistency, read after new write, read-after-new-write, strong site, strong-site, strong global, strong-global 
+summary: Konsistenzwerte können verwendet werden, um die Verfügbarkeit von Bucket-Einstellungsänderungen festzulegen sowie ein Gleichgewicht zwischen der Verfügbarkeit der Objekte innerhalb eines Buckets und der Konsistenz dieser Objekte über verschiedene Storage Nodes und Standorte hinweg bereitzustellen. Die Konsistenzwerte können von den Standardwerten abweichen, sodass Clientanwendungen ihre betrieblichen Anforderungen erfüllen können. 
+---
+= Konsistenz von StorageGRID-Buckets verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Konsistenzwerte können verwendet werden, um die Verfügbarkeit von Bucket-Einstellungsänderungen festzulegen sowie ein Gleichgewicht zwischen der Verfügbarkeit der Objekte innerhalb eines Buckets und der Konsistenz dieser Objekte über verschiedene Storage Nodes und Standorte hinweg bereitzustellen. Die Konsistenzwerte können von den Standardwerten abweichen, sodass Clientanwendungen ihre betrieblichen Anforderungen erfüllen können.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Alle Buckets oder Root-Zugriffsberechtigung verwalten"] verfügt. Diese Berechtigungen überschreiben die Berechtigungseinstellungen in Gruppen- oder Bucket-Richtlinien.
+
+
+
+
+[[bucket-consistency-guidelines]]
+== ${post_edited_translations.segment}
+
+Die Bucket-Konsistenz wird verwendet, um die Konsistenz für Clientanwendungen zu bestimmen, die Objekte innerhalb dieses S3-Buckets beeinflussen. Im Allgemeinen empfiehlt sich für Ihre Buckets die Konsistenz *Read-after-new-write*.
+
+
+
+[[change-bucket-consistencychange-bucket-consistency]]
+== [[change-bucket-consistency]]Bucket-Konsistenz ändern
+
+Wenn die *Read-after-new-write*-Konsistenz nicht den Anforderungen der Clientanwendung entspricht, kann die Konsistenz geändert werden, indem entweder die Bucket-Konsistenz festgelegt oder der  `Consistency-Control` Header verwendet wird. Der  `Consistency-Control` Header setzt die Bucket-Konsistenz außer Kraft.
+
+
+NOTE: Wenn die Konsistenz eines Buckets geändert wird, ist nur bei Objekten, die nach der Änderung importiert werden, gewährleistet, dass sie die geänderte Einstellung erfüllen.
+
+.Schritte
+. Im Dashboard steht *View buckets* zur Auswahl, alternativ *STORAGE (S3)* > *Buckets*.
+. Den Bucket-Namen aus der Tabelle auswählen.
++
+Die Seite mit den Bucket-Details wird angezeigt.
+
+. Auf der Registerkarte *Bucket options* das ** accordion auswählen.
+. Eine Konsistenz für Vorgänge auswählen, die an den Objekten in diesem Bucket ausgeführt werden.
++
+** *Alle*: Bietet das höchste Maß an Konsistenz. Alle Knoten empfangen die Daten sofort, oder die Anfrage schlägt fehl.
+** *Stark-global*: Gewährleistet Lese-nach-Schreib-Konsistenz für alle Client-Anfragen über alle Standorte hinweg.
+** *Strong-site*: Gewährleistet Lese-nach-Schreib-Konsistenz für alle Client-Anfragen innerhalb eines Standorts.
+** *Read-after-new-write* (Standard): Bietet Read-after-Write-Konsistenz für neue Objekte und Eventual Consistency für Objektaktualisierungen. Bietet hohe Verfügbarkeit und Datenschutzgarantien. Wird für die meisten Fälle empfohlen.
+** *Verfügbar*: Gewährleistet letztendliche Konsistenz sowohl für neue Objekte als auch für Objektaktualisierungen. Für S3-Buckets nur bei Bedarf verwenden (zum Beispiel für einen Bucket, der Log-Werte enthält, die selten gelesen werden, oder für HEAD- oder GET-Operationen auf Schlüsseln, die nicht existieren). Nicht unterstützt für S3 FabricPool Buckets.
+
+
+. Wählen Sie *Save changes*.
+
+
+
+
+[[what-happens-when-you-change-bucket-settings]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+Die folgenden Bucket-Einstellungen verwenden standardmäßig *starke* Konsistenz. Wenn zwei oder mehr Storage Nodes innerhalb eines Standorts nicht verfügbar sind oder ein Standort nicht verfügbar ist, sind Änderungen an diesen Einstellungen möglicherweise nicht verfügbar.
+
+* link:deleting-s3-bucket-objects.html["Löschen leerer Buckets im Hintergrund"]
+* link:enabling-or-disabling-last-access-time-updates.html["Letzte Zugriffszeit"]
+* link:../s3/create-s3-lifecycle-configuration.html["Bucket-Lebenszyklus"]
+* link:../s3/use-access-policies.html["Bucket Richtlinie"]
+* link:../s3/operations-on-buckets.html["${post_edited_translations.segment}"]
+* link:changing-bucket-versioning.html["Bucket Versionierung"]
+* link:using-s3-object-lock.html["S3 Object Lock"]
+* link:../admin/reviewing-storagegrid-encryption-methods.html#bucket-encryption-table["Bucket Verschlüsselung"]
+
+
+
+NOTE: Der Konsistenzwert für Bucket-Versionierung, S3 Object Lock und Bucket-Verschlüsselung darf nicht auf einen Wert gesetzt werden, der nicht stark konsistent ist.
+
+Die folgenden Bucket-Einstellungen verwenden keine starke Konsistenz und weisen eine höhere Verfügbarkeit für Änderungen auf. Änderungen an diesen Einstellungen werden unter Umständen erst nach einiger Zeit wirksam.
+
+* link:considerations-for-platform-services.html["Konfiguration der Plattformdienste: Benachrichtigung, Replikation oder Suchintegration"]
+* link:configuring-cross-origin-resource-sharing-for-buckets-and-objects.html["StorageGRID CORS für Buckets und Objekte konfigurieren"]
+* <<change-bucket-consistency,Bucket-Konsistenz ändern>>
+
+
+
+TIP: Wenn die standardmäßige Konsistenz, die beim Ändern der Bucket-Einstellungen verwendet wird, nicht den Anforderungen der Client-Anwendung entspricht, kann die Konsistenz durch Verwendung des  `Consistency-Control` Headers für die link:../s3/put-bucket-consistency-request.html["S3 REST API"] oder durch die  `reducedConsistency` oder  `force` Optionen im link:understanding-tenant-management-api.html["Mandantenverwaltungs-API"] geändert werden.

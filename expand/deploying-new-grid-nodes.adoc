@@ -1,0 +1,187 @@
+---
+permalink: expand/deploying-new-grid-nodes.html 
+sidebar: sidebar 
+keywords: expansion, add nodes, StorageGRID 
+summary: Die Schritte zum Bereitstellen neuer Grid-Knoten bei einer Erweiterung sind dieselben wie bei der Erstinstallation des Grids. Alle neuen Grid-Knoten müssen bereitgestellt werden, bevor die Erweiterung durchgeführt werden kann. 
+---
+= Neue Grid-Nodes in StorageGRID bereitstellen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Schritte zum Bereitstellen neuer Grid-Knoten bei einer Erweiterung sind dieselben wie bei der Erstinstallation des Grids. Alle neuen Grid-Knoten müssen bereitgestellt werden, bevor die Erweiterung durchgeführt werden kann.
+
+Beim Erweitern eines Grids müssen die hinzugefügten Knoten nicht mit den vorhandenen Knotentypen übereinstimmen. Es können VMware Knoten, Linux Container-basierte Knoten oder Appliance Knoten hinzugefügt werden.
+
+
+
+[[vmware-deploy-grid-nodes]]
+== VMware: Grid-Knoten implementieren
+
+Für jeden VMware-Knoten, den Sie in der Erweiterung hinzufügen möchten, muss eine virtuelle Maschine in VMware vSphere bereitgestellt werden.
+
+.Schritte
+. link:../swnodes/deploying-storagegrid-node-as-virtual-machine.html["Den neuen Node als virtuelle Maschine bereitstellen"] und es mit einem oder mehreren StorageGRID Netzwerken verbinden.
++
+Beim Deployment des Knotens können optional die Node-Ports neu zugeordnet oder die CPU- oder Speichereinstellungen erhöht werden.
+
+. Nachdem Sie alle neuen VMware-Knoten bereitgestellt haben, link:performing-expansion.html["Das Expansionsverfahren ausführen"].
+
+
+
+
+[[linux-deploy-grid-nodes]]
+== Linux: Grid-Knoten implementieren
+
+Grid-Knoten können auf neuen Linux-Hosts oder auf vorhandenen Linux-Hosts bereitgestellt werden. Wenn zusätzliche Linux-Hosts benötigt werden, um die CPU-, RAM- und Speicheranforderungen der StorageGRID-Knoten zu erfüllen, die dem Grid hinzugefügt werden sollen, erfolgt die Vorbereitung auf die gleiche Weise wie bei der erstmaligen Installation der Hosts. Die Erweiterungsknoten werden anschließend auf die gleiche Weise bereitgestellt wie die Grid-Knoten während der Installation.
+
+.Bevor Sie beginnen
+* Sie verfügen über die Installationsanweisungen für StorageGRID für Ihre Linux-Version und haben das link:../swnodes/index.html["Hardware- und Speicheranforderungen"] überprüft.
+* Wenn Sie planen, neue Grid-Knoten auf bestehenden Hosts bereitzustellen, wurde bestätigt, dass die bestehenden Hosts über ausreichend CPU-, RAM- und Speicherkapazität für die zusätzlichen Knoten verfügen.
+* Sie haben einen Plan zur Minimierung von Ausfalldomänen. Beispielsweise werden nicht alle Gateway Nodes auf einem einzigen physischen Host bereitgestellt.
++
+
+CAUTION: In einer Implementierung in der Produktion wird nicht mehr als ein Storage Node auf einem einzelnen physischen oder virtuellen Host betrieben. Die Verwendung eines dedizierten Hosts für jeden Storage Node bietet eine isolierte Ausfalldomäne.
+
+* Wenn der StorageGRID Node Speicher verwendet, der von einem NetApp ONTAP System zugewiesen wurde, ist zu bestätigen, dass für das Volume keine FabricPool Tiering-Richtlinie aktiviert ist. Das Deaktivieren der FabricPool Tiering-Funktion für Volumes, die mit StorageGRID Nodes verwendet werden, vereinfacht die Fehlerbehebung und die Speicheroperationen.
+
+
+.Schritte
+. Wenn neue Hosts hinzugefügt werden, stehen die Installationsanweisungen für die Bereitstellung von StorageGRID Knoten zur Verfügung.
+. Für die Bereitstellung der neuen Hosts sind die Anweisungen zur Vorbereitung der Hosts zu beachten.
+. Zum Erstellen von Knotenkonfigurationsdateien und zur Validierung der StorageGRID Konfiguration sind die Anweisungen zur Implementierung von Grid-Nodes zu beachten.
+. Wenn Knoten zu einem neuen Linux-Host hinzugefügt werden, wird der StorageGRID Hostdienst gestartet.
+. Wenn Sie einem bestehenden Linux-Host Knoten hinzufügen, werden die neuen Knoten über die CLI des StorageGrid Hostdienstes gestartet:``sudo storagegrid node start [<node name\>]``
+
+
+.Nachdem Sie fertig sind
+Nach der Bereitstellung aller neuen Grid-Knoten kann link:performing-expansion.html["die Erweiterung durchführen"] erfolgen.
+
+
+
+[[appliances-deploying-storage-gateway-or-non-primary-admin-nodes]]
+== Appliances: Bereitstellung von Storage, Gateway oder nicht-primären Admin-Nodes
+
+Zur Installation der StorageGRID Software auf einem Appliance-Node wird der StorageGRID Appliance Installer verwendet, der auf der Appliance enthalten ist. In einer Erweiterung fungiert jede Storage Appliance als einzelner Storage-Node und jede Services Appliance als einzelner Gateway-Node oder nicht-primärer Admin-Node. Jede Appliance kann mit dem Grid Network, dem Admin Network und dem Client Network verbunden werden.
+
+.Bevor Sie beginnen
+* Das Gerät wurde in einem Rack oder Schrank installiert, mit Ihren Netzwerken verbunden und eingeschaltet.
+* Sie haben die  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/configuring-hardware.html["Hardware einrichten"^] Schritte abgeschlossen.
++
+Die Einrichtung der Appliance-Hardware umfasst die erforderlichen Schritte zur Konfiguration von StorageGRID Verbindungen (Netzwerkverbindungen und IP-Adressen) sowie die optionalen Schritte zur Aktivierung der Node-Verschlüsselung, zur Änderung des RAID-Modus und zur Neuzuordnung von Netzwerk-Ports.
+
+* Alle auf der Seite „IP-Konfiguration“ des StorageGRID Appliance Installers aufgeführten Grid Network Subnetze wurden in der Grid Network Subnet List auf dem primären Admin Node definiert.
+* Die StorageGRID Appliance Installer Firmware auf dem Ersatzgerät ist mit der aktuell auf Ihrem Grid ausgeführten StorageGRID Softwareversion kompatibel. Wenn die Versionen nicht kompatibel sind, ist ein Upgrade der StorageGRID Appliance Installer Firmware erforderlich.
+* Sie haben einen Dienstlaptop mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"].
+* Sie kennen eine der IP-Adressen, die dem Compute Controller des Geräts zugewiesen sind. Die IP-Adresse kann für jedes angeschlossene StorageGRID Netzwerk verwendet werden.
+
+
+.Über diese Aufgabe
+Der Installationsprozess von StorageGRID auf einem Appliance-Node umfasst die folgenden Phasen:
+
+* Sie geben die IP-Adresse des primären Admin-Node und den Namen des Appliance-Node an oder bestätigen diese.
+* Die Installation wird gestartet, während die Volumes konfiguriert und die Software installiert werden.
++
+Während der Appliance-Installationsaufgaben wird die Installation unterbrochen. Um die Installation fortzusetzen, erfolgt die Anmeldung am Grid Manager, die Genehmigung aller Grid-Nodes und der Abschluss des StorageGRID Installationsprozesses.
+
++
+
+NOTE: Wenn mehrere Appliance-Knoten gleichzeitig bereitgestellt werden sollen, lässt sich der Installationsprozess mithilfe des  `configure-sga.py` Appliance Installation Script automatisieren.
+
+
+
+.Schritte
+. Einen Browser öffnen und eine der IP-Adressen für den Compute Controller des Geräts eingeben.
++
+`https://_Controller_IP_:8443`
+
++
+Die StorageGRID Appliance Installer-Startseite wird angezeigt.
+
+. Im Abschnitt *Primärer Admin-Node* Verbindung ist zu bestimmen, ob die IP-Adresse für den primären Admin-Node angegeben werden muss.
++
+Wenn Sie zuvor bereits andere Knoten in diesem Rechenzentrum installiert haben, kann der StorageGRID Appliance Installer diese IP-Adresse automatisch ermitteln, vorausgesetzt, der primäre Admin-Node oder mindestens ein anderer Grid-Node mit konfigurierter ADMIN_IP befindet sich im selben Subnetz.
+
+. Falls diese IP-Adresse nicht angezeigt wird oder geändert werden muss, ist die Adresse anzugeben:
++
+[cols="1a,2a"]
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Manuelle IP-Eingabe
+ a| 
+.. Das Kontrollkästchen *Enable Admin Node discovery* deaktivieren.
+.. Geben Sie die IP-Adresse manuell ein.
+.. Auf *Speichern* klicken.
+.. Warten, bis der Verbindungsstatus für die neue IP-Adresse bereit ist.
+
+
+
+
+ a| 
+Automatische Erkennung aller verbundenen primären Admin Nodes
+ a| 
+.. Das Kontrollkästchen *Admin Node discovery aktivieren* auswählen.
+.. Warten Sie, bis die Liste der gefundenen IP-Adressen angezeigt wird.
+.. Den primären Admin-Node für das Grid auswählen, in dem dieser Appliance Storage-Node implementiert wird.
+.. Auf *Speichern* klicken.
+.. Warten, bis der Verbindungsstatus für die neue IP-Adresse bereit ist.
+
+
+|===
+. Geben Sie im Feld *Node-Name* den gewünschten Namen für diesen Appliance-Node ein und wählen Sie *Speichern*.
++
+Der Node-Name wird diesem Appliance-Knoten im StorageGRID-System zugewiesen. Er wird auf der Seite „Knoten“ (Registerkarte „Übersicht“) im Grid Manager angezeigt. Falls erforderlich, kann der Name beim Genehmigen des Knotens geändert werden.
+
+. Im Abschnitt *Installation* ist zu bestätigen, dass der aktuelle Status „Bereit, die Installation von _Node-Name_ in das Grid mit dem primären Admin-Node _admin_ip_ zu starten“ angezeigt wird und dass die Schaltfläche *Installation starten* aktiviert ist.
++
+Wenn die Schaltfläche „Installation starten“ nicht aktiviert ist, müssen möglicherweise die Netzwerkkonfiguration oder die Porteinstellungen geändert werden. Anweisungen finden sich in der Wartungsanleitung für Ihr Gerät.
+
+. Auf der Startseite des StorageGRID Appliance Installers die Option *Installation starten* auswählen.
++
+Der aktuelle Status ändert sich zu „Installation läuft“, und die Seite „Monitor Installation“ wird angezeigt.
+
+. Wenn Ihre Erweiterung mehrere Appliance-Nodes umfasst, sind die vorherigen Schritte für jede Appliance zu wiederholen.
++
+
+NOTE: Wenn Sie mehrere Appliance Storage Nodes gleichzeitig bereitstellen müssen, kann der Installationsprozess mithilfe des Appliance-Installationsskripts configure-sga.py automatisiert werden.
+
+. Falls Sie die Seite *Monitor Installation* manuell aufrufen müssen, wählen Sie in der Menüleiste *Monitor Installation* aus.
++
+Auf der Seite „Monitor Installation“ wird der Installationsfortschritt angezeigt.
+
++
+Die blaue Statusleiste zeigt an, welche Aufgabe gerade ausgeführt wird. Grüne Statusleisten zeigen Aufgaben an, die erfolgreich abgeschlossen wurden.
+
++
+
+NOTE: Das Installationsprogramm stellt sicher, dass Aufgaben, die bei einer vorherigen Installation abgeschlossen wurden, nicht erneut ausgeführt werden. Bei einer erneuten Installation werden alle Aufgaben, die nicht erneut ausgeführt werden müssen, mit einer grünen Statusleiste und dem Status „Übersprungen“ angezeigt.
+
+. ${post_edited_translations.segment}
++
+*1. *Gerät konfigurieren*
+
++
+Während dieser Phase tritt einer der folgenden Prozesse auf:
+
++
+** Für ein Storage Appliance stellt der Installateur eine Verbindung zum Storage Controller her, löscht alle vorhandenen Konfigurationen, kommuniziert mit SANtricity OS zur Konfiguration von Volumes und konfiguriert die Host-Einstellungen.
+** Bei einer Services Appliance entfernt das Installationsprogramm alle vorhandenen Konfigurationen von den Laufwerken im Compute Controller und konfiguriert die Host-Einstellungen.
++
+*2. Betriebssystem installieren*
+
++
+In diesem Schritt kopiert das Installationsprogramm das Basis-Betriebssystem-Image für StorageGRID auf das Appliance.
+
+
+
+. ${post_edited_translations.segment}
++
+
+NOTE: Warten Sie, bis alle Knoten, die Sie in dieser Erweiterung hinzugefügt haben, zur Genehmigung bereit sind, bevor Sie zum Grid Manager gehen, um die Knoten zu genehmigen.
+
+

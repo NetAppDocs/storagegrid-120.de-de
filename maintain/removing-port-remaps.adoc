@@ -1,0 +1,48 @@
+---
+permalink: maintain/removing-port-remaps.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, remove port remap, removing port remap, port remap 
+summary: Wenn Sie einen Endpunkt für den Load Balancer-Dienst konfigurieren möchten und einen Port verwenden wollen, der bereits als Mapped-To Port einer Port-Remap konfiguriert ist, muss zunächst die bestehende Port-Remap entfernt werden, da der Endpunkt sonst nicht wirksam ist. Ein Skript ist auf jedem Admin Node und Gateway Node mit in Konflikt stehenden remappten Ports auszuführen, um alle Port-Remaps des jeweiligen Node zu entfernen. 
+---
+= Port-Remaps auf StorageGRID Appliances entfernen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen Endpunkt für den Load Balancer-Dienst konfigurieren möchten und einen Port verwenden wollen, der bereits als Mapped-To Port einer Port-Remap konfiguriert ist, muss zunächst die bestehende Port-Remap entfernt werden, da der Endpunkt sonst nicht wirksam ist. Ein Skript muss auf jedem Admin Node und Gateway Node mit in Konflikt stehenden remappten Ports ausgeführt werden, um alle Port-Remaps des jeweiligen Node zu entfernen.
+
+.Über diese Aufgabe
+Durch dieses Verfahren werden alle Port-Umleitungen entfernt. Wenn einige der Umleitungen beibehalten werden müssen, sollte der technische Support kontaktiert werden.
+
+Informationen zur Konfiguration von Load Balancer-Endpunkten sind unter link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] zu finden.
+
+
+NOTE: Wenn die Portweiterleitung den Clientzugriff ermöglicht, muss der Client so konfiguriert werden, dass er einen anderen Port als Load-Balancer-Endpunkt verwendet, um einen Dienstausfall zu vermeiden. Andernfalls führt das Entfernen der Portweiterleitung zum Verlust des Clientzugriffs und sollte entsprechend eingeplant werden.
+
+
+NOTE: Dieses Verfahren funktioniert nicht für ein StorageGRID System, das als Container auf Bare-Metal-Hosts bereitgestellt wird. Siehe die Anweisungen für link:removing-port-remaps-on-bare-metal-hosts.html["Entfernen von Port-Remaps auf Bare Metal Hosts"].
+
+.Schritte
+. Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
+. Melden Sie sich am Node an.
++
+.. Geben Sie den folgenden Befehl ein: `ssh -p 8022 admin@node_IP`
++
+${post_edited_translations.segment}
+
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Führen Sie das folgende Skript aus: `remove-port-remap.sh`
+. Der Node wird neu gestartet: `reboot`
+. Von der Befehlsshell abmelden: `exit`
+. Diese Schritte sind auf jedem Admin-Node und Gateway-Node mit widersprüchlich neu zugewiesenen Ports zu wiederholen.
+. Wenn Sie externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] wenn Sie die Portweiterleitungen entfernt haben.
+

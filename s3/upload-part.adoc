@@ -1,0 +1,64 @@
+---
+permalink: s3/upload-part.html 
+sidebar: sidebar 
+keywords: s3 UploadPart operation 
+summary: Der UploadPart-Vorgang lädt einen Teil eines Multipart-Uploads für ein Objekt hoch. 
+---
+= Unterstützte und nicht unterstützte Anforderungsheader für S3 UploadPart-Operationen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der UploadPart-Vorgang lädt einen Teil eines Multipart-Uploads für ein Objekt hoch.
+
+
+
+[[supported-request-headers]]
+== Unterstützte Anfrageheader
+
+Die folgenden Anfrage-Header werden unterstützt:
+
+* `x-amz-checksum-sha256`
+* `Content-Length`
+* `Content-MD5`
+
+
+
+
+[[request-headers-for-server-side-encryption]]
+== Anfrage-Header für serverseitige Verschlüsselung
+
+Wenn Sie für die CreateMultipartUpload Anfrage die SSE-C-Verschlüsselung angegeben haben, müssen Sie außerdem die folgenden Anfrageheader in jede UploadPart Anfrage einfügen:
+
+* `x-amz-server-side-encryption-customer-algorithm`: Angeben `AES256`.
+* `x-amz-server-side-encryption-customer-key`: Geben Sie denselben Verschlüsselungsschlüssel an, den Sie in der CreateMultipartUpload Anfrage angegeben haben.
+* `x-amz-server-side-encryption-customer-key-MD5`: Geben Sie denselben MD5-Digest an, den Sie in der CreateMultipartUpload Anfrage angegeben haben.
+
+
+
+CAUTION: Die von Ihnen bereitgestellten Verschlüsselungsschlüssel werden niemals gespeichert. Wenn ein Verschlüsselungsschlüssel verloren geht, geht auch das zugehörige Objekt verloren. Vor der Verwendung von kundenseitig bereitgestellten Schlüsseln zur Sicherung von Objektdaten sind die Hinweise in link:using-server-side-encryption.html["Serverseitige Verschlüsselung verwenden"] zu beachten.
+
+Wenn Sie während der CreateMultipartUpload-Anfrage eine SHA-256-Prüfsumme angegeben haben, muss in jeder UploadPart-Anfrage auch der folgende Anfrage-Header enthalten sein:
+
+* `x-amz-checksum-sha256`: Geben Sie die SHA-256-Prüfsumme für diesen Teil an.
+
+
+
+
+[[unsupported-request-headers]]
+== Nicht unterstützte Anfrageheader
+
+Die folgenden Anfrageheader werden nicht unterstützt:
+
+* `x-amz-sdk-checksum-algorithm`
+* `x-amz-trailer`
+
+
+
+
+[[versioning]]
+== Versionierung
+
+Ein Multipart-Upload besteht aus separaten Operationen zum Initiieren des Uploads, Auflisten der Uploads, Hochladen der einzelnen Teile, Zusammenfügen der hochgeladenen Teile und Abschließen des Uploads. Objekte werden erstellt (und gegebenenfalls versioniert), wenn die CompleteMultipartUpload-Operation ausgeführt wird.

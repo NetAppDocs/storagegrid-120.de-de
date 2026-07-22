@@ -1,0 +1,26 @@
+---
+permalink: troubleshoot/troubleshooting-lost-and-missing-object-data.html 
+sidebar: sidebar 
+keywords: how to troubleshoot lost object data, how to troubleshoot missing object data 
+summary: Objekte können aus verschiedenen Gründen abgerufen werden, darunter Leseanforderungen einer Clientanwendung, Hintergrundüberprüfungen replizierter Objektdaten, ILM-Neubewertungen und die Wiederherstellung von Objektdaten während der Wiederherstellung eines Storage Node. 
+---
+= Erfahren Sie mehr über verlorene und fehlende Objektdaten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Objekte können aus verschiedenen Gründen abgerufen werden, darunter Leseanforderungen einer Clientanwendung, Hintergrundüberprüfungen replizierter Objektdaten, ILM-Neubewertungen und die Wiederherstellung von Objektdaten während der Wiederherstellung eines Storage Node.
+
+Das StorageGRID System verwendet Standortinformationen in den Metadaten eines Objekts, um zu bestimmen, von welchem Ort das Objekt abgerufen wird. Wenn am erwarteten Ort keine Kopie des Objekts gefunden wird, versucht das System, eine weitere Kopie des Objekts von einer anderen Stelle im System abzurufen, sofern die ILM-Richtlinie eine Regel enthält, nach der zwei oder mehr Kopien des Objekts erstellt werden.
+
+Wenn diese Wiederherstellung erfolgreich ist, ersetzt das StorageGRID-System die fehlende Kopie des Objekts. Andernfalls wird die Warnung *Objekte möglicherweise verloren* wie folgt ausgelöst:
+
+* Bei replizierten Kopien gilt: Kann keine weitere Kopie abgerufen werden, wird das Objekt als verloren betrachtet und die Warnung wird ausgelöst.
+* Bei löschcodierten Kopien wird, falls eine Kopie nicht vom erwarteten Speicherort abgerufen werden kann, das Attribut Corrupt Copies Detected (ECOR) um eins erhöht, bevor versucht wird, eine Kopie von einem anderen Speicherort abzurufen. Wenn keine andere Kopie gefunden wird, wird die Warnung ausgelöst.
+
+
+Alle Warnmeldungen zu *potenziell verlorenen Objekten* sollten umgehend untersucht werden, um die Ursache des Verlusts zu ermitteln und festzustellen, ob das Objekt möglicherweise noch auf einem offline befindlichen oder anderweitig derzeit nicht verfügbaren Storage Node existiert. Siehe link:../troubleshoot/investigating-potentially-lost-objects.html["Potentiell verlorene Objekte untersuchen"]. Warnmeldungen zu verlorenen Objekten können vorsorglich fälschlicherweise ausgelöst werden.
+
+Wenn Objektdaten ohne Kopien verloren gehen, gibt es keine Wiederherstellungsmöglichkeit. Es ist jedoch erforderlich, link:../troubleshoot/investigating-potentially-lost-objects.html#reset-lost-obj-count["Zähler für potenziell verlorene Objekte zurücksetzen"] zu verhindern, dass bereits bekannte verlorene Objekte den Verlust neuer Objekte verdecken.

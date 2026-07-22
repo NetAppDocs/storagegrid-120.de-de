@@ -1,0 +1,66 @@
+---
+permalink: maintain/configuring-dns-servers.html 
+sidebar: sidebar 
+keywords: storagegrid, dns, configuring dns, configure dns, domain name system 
+summary: 'Sie können DNS-Server hinzufügen, entfernen und aktualisieren, sodass Sie vollqualifizierte Domainnamen (FQDN) anstelle von IP-Adressen verwenden können.' 
+---
+= DNS-Server in StorageGRID konfigurieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können DNS-Server hinzufügen, aktualisieren und entfernen, sodass Sie vollqualifizierte Domainnamen (FQDN) anstelle von IP-Adressen verwenden können.
+
+Um vollqualifizierte Domainnamen (FQDNs) anstelle von IP-Adressen für Hostnamen externer Ziele zu verwenden, ist die IP-Adresse jedes DNS-Servers anzugeben, den Sie verwenden. Diese Einträge werden für AutoSupport, Benachrichtigungen per E-Mail, SNMP-Benachrichtigungen, Plattformdienste-Endpunkte, Cloud Storage Pools und mehr verwendet.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Die IP-Adressen der DNS-Server zur Konfiguration liegen vor.
+
+
+.Über diese Aufgabe
+Um einen ordnungsgemäßen Betrieb zu gewährleisten, geben Sie zwei oder drei DNS-Server an. Wenn Sie mehr als drei angeben, ist es möglich, dass aufgrund bekannter Betriebssystembeschränkungen auf manchen Plattformen nur drei verwendet werden. Wenn in Ihrer Umgebung Routing-Beschränkungen bestehen, kann link:../maintain/modifying-dns-configuration-for-single-grid-node.html["die DNS-Serverliste anpassen"] für einzelne Knoten (in der Regel alle Knoten an einem Standort) eine andere Gruppe von bis zu drei DNS-Servern verwendet werden.
+
+Wenn möglich, sollten DNS-Server verwendet werden, auf die jeder Standort lokal zugreifen kann, damit ein isolierter Standort die FQDNs für externe Ziele auflösen kann.
+
+
+
+[[add-a-dns-server]]
+== Einen DNS-Server hinzufügen
+
+Führen Sie die folgenden Schritte aus, um einen DNS-Server hinzuzufügen.
+
+.Schritte
+. *Wartung* > *Netzwerk* > *DNS-Server* auswählen.
+. *Weiteren Server hinzufügen* auswählen, um einen DNS-Server hinzuzufügen.
+. *Speichern* auswählen.
+
+
+
+
+[[modify-a-dns-server]]
+== Einen DNS-Server modifizieren
+
+Führen Sie die folgenden Schritte aus, um einen DNS-Server zu ändern.
+
+.Schritte
+. *Wartung* > *Netzwerk* > *DNS-Server* auswählen.
+. Die IP-Adresse des Servernamens, den Sie bearbeiten möchten, auswählen und die erforderlichen Änderungen vornehmen.
+. *Speichern* auswählen.
+
+
+
+
+[[delete-a-dns-server]]
+== Einen DNS-Server löschen
+
+Führen Sie die folgenden Schritte aus, um eine IP-Adresse eines DNS-Servers zu löschen.
+
+.Schritte
+. *Wartung* > *Netzwerk* > *DNS-Server* auswählen.
+. Das Löschsymbol image:icon-x-to-remove.png["Löschsymbol"] neben der IP-Adresse auswählen.
+. *Speichern* auswählen.
+

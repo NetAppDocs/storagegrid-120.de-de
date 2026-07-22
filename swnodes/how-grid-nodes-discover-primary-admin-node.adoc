@@ -1,0 +1,32 @@
+---
+permalink: swnodes/how-grid-nodes-discover-primary-admin-node.html 
+sidebar: sidebar 
+keywords: how grid nodes discover the primary Admin Node 
+summary: Die Grid-Knoten kommunizieren zur Konfiguration und Verwaltung mit dem primären Admin Node. Jeder Grid-Knoten muss die IP-Adresse des primären Admin Node im Grid-Netzwerk kennen. 
+---
+= Wie Grid-Knoten den primären Admin-Knoten in StorageGRID entdecken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Grid-Knoten kommunizieren zur Konfiguration und Verwaltung mit dem primären Admin Node. Jeder Grid-Knoten muss die IP-Adresse des primären Admin Node im Grid-Netzwerk kennen.
+
+Um sicherzustellen, dass ein Grid-Knoten auf den primären Admin-Knoten zugreifen kann, besteht beim Bereitstellen des Knotens eine der folgenden Möglichkeiten:
+
+* Sie können den Parameter ADMIN_IP verwenden, um die IP-Adresse des primären Admin Node manuell einzugeben.
+* Sie können den Parameter ADMIN_IP weglassen, damit der Grid-Knoten den Wert automatisch ermittelt. Die automatische Ermittlung ist besonders nützlich, wenn das Grid-Netzwerk DHCP verwendet, um dem primären Admin Node die IP-Adresse zuzuweisen.
+
+
+Die automatische Erkennung des primären Admin Node erfolgt über ein Multicast Domain Name System (mDNS). Wenn der primäre Admin Node zum ersten Mal startet, veröffentlicht er seine IP-Adresse über mDNS. Andere Nodes im selben Subnetz können dann nach der IP-Adresse suchen und sie automatisch beziehen. Da Multicast-IP-Verkehr normalerweise nicht über Subnetze hinweg geroutet werden kann, können Nodes in anderen Subnetzen die IP-Adresse des primären Admin Node nicht direkt beziehen.
+
+[NOTE]
+====
+Wenn Sie die automatische Erkennung verwenden:
+
+* Sie müssen die Einstellung ADMIN_IP für mindestens einen Grid-Knoten in allen Subnetzen angeben, mit denen der primäre Admin Node nicht direkt verbunden ist. Dieser Grid-Knoten veröffentlicht dann die IP-Adresse des primären Admin Node, damit andere Knoten im Subnetz diese mit mDNS entdecken können.
+* Es sollte sichergestellt sein, dass Ihre Netzwerkinfrastruktur die Weiterleitung von Multicast-IP-Datenverkehr innerhalb eines Subnetzes unterstützt.
+
+
+====

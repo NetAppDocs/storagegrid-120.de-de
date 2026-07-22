@@ -1,0 +1,1429 @@
+---
+permalink: s3/use-access-policies.html 
+sidebar: sidebar 
+keywords: bucket access policies, group access policies, session policies 
+summary: 'StorageGRID verwendet die Richtliniensprache von Amazon Web Services (AWS), um S3-Mandanten die Kontrolle über den Zugriff auf Buckets und Objekte innerhalb dieser Buckets zu ermöglichen.' 
+---
+= Wie StorageGRID AWS-Richtlinien verwendet, um den Zugriff auf S3-Buckets und Objekte zu steuern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID verwendet die Richtliniensprache von Amazon Web Services (AWS), um S3-Mandanten die Kontrolle über den Zugriff auf Buckets und Objekte innerhalb dieser Buckets zu ermöglichen. Das StorageGRID System implementiert eine Teilmenge der S3 REST API Richtliniensprache. Zugriffsrichtlinien für die S3 API werden in JSON geschrieben.
+
+
+
+[[access-policy-overview]]
+== Überblick über die Zugriffsrichtlinie
+
+StorageGRID unterstützt drei Arten von Zugriffsrichtlinien:
+
+* *Bucket-Richtlinien*, die mithilfe der GetBucketPolicy, PutBucketPolicy und DeleteBucketPolicy S3-API-Operationen oder über den Tenant Manager bzw. die Tenant Management API verwaltet werden. Bucket-Richtlinien sind Buckets zugeordnet, sodass sie den Zugriff von Benutzern im Bucket-Inhaberkonto oder in anderen Konten auf den Bucket und die darin enthaltenen Objekte steuern. Eine Bucket-Richtlinie gilt nur für einen Bucket und möglicherweise für mehrere Gruppen.
+* *Gruppenrichtlinien*, die mithilfe des Tenant Managers oder der Tenant Management API konfiguriert werden. Gruppenrichtlinien sind einer Gruppe im Konto zugeordnet, sodass sie so konfiguriert werden, dass diese Gruppe auf bestimmte Ressourcen zugreifen kann, die diesem Konto gehören. Eine Gruppenrichtlinie gilt nur für eine Gruppe und möglicherweise für mehrere Buckets.
+* *Sitzungsrichtlinien*, die im Rahmen einer AssumeRole-Anfrage übermittelt werden. Sitzungsrichtlinien gelten nur für die jeweilige Sitzung und definieren zusätzlich zu den durch Gruppen- und Bucket-Richtlinie gewährten Berechtigungen die Berechtigungen des Benutzers.
+
+
+
+NOTE: Es besteht kein Unterschied in der Priorität zwischen Gruppenrichtlinien, Bucket-Richtlinien und Sitzungsrichtlinien.
+
+StorageGRID Bucket und Gruppenrichtlinien folgen einer von Amazon definierten spezifischen Grammatik. Innerhalb jeder Richtlinie befindet sich ein Array von Richtlinienanweisungen, und jede Anweisung enthält die folgenden Elemente:
+
+* Statement-ID (Sid) (optional)
+* Wirkung
+* Principal/NotPrincipal
+* Ressource/NotResource
+* Aktion/NotAction
+* Zustand (optional)
+
+
+Richtlinienanweisungen werden mithilfe dieser Struktur erstellt, um Berechtigungen festzulegen: Grant <Effect> zum Erlauben/Verweigern von <Principal> für die Ausführung von <Action> auf <Resource>, wenn <Condition> zutrifft.
+
+Jedes Richtlinienelement dient einer bestimmten Funktion:
+
+[cols="1a,2a"]
+|===
+| Element | Beschreibung 
+
+
+ a| 
+Sid
+ a| 
+Das Sid-Element ist optional. Das Sid dient lediglich als Beschreibung für den Benutzer. Es wird gespeichert, aber vom StorageGRID System nicht interpretiert.
+
+
+
+ a| 
+Wirkung
+ a| 
+Das Effect-Element dient dazu festzustellen, ob die angegebenen Operationen erlaubt oder verweigert werden. Operationen, die auf Buckets oder Objekten erlaubt (oder verweigert) werden, sind mit den unterstützten Schlüsselwörtern des Action-Elements zu kennzeichnen.
+
+
+
+ a| 
+Principal/NotPrincipal
+ a| 
+Sie können Benutzern, Gruppen und Konten den Zugriff auf bestimmte Ressourcen und die Durchführung bestimmter Aktionen ermöglichen. Wenn keine S3-Signatur in der Anfrage enthalten ist, wird anonymer Zugriff durch Angabe des Platzhalterzeichens (*) als Principal erlaubt. Standardmäßig hat nur das Konto-Root Zugriff auf Ressourcen, die dem Konto gehören.
+
+Sie müssen lediglich das Principal-Element in einer Bucket-Richtlinie angeben. Bei Gruppenrichtlinien ist die Gruppe, der die Richtlinie zugeordnet ist, das implizite Principal-Element.
+
+
+
+ a| 
+Ressource/NotResource
+ a| 
+Das Resource-Element identifiziert Buckets und Objekte. Berechtigungen für Buckets und Objekte können mithilfe des Amazon Resource Name (ARN) zur Identifizierung der Ressource erlaubt oder verweigert werden.
+
+
+
+ a| 
+Aktion/NotAction
+ a| 
+Die Elemente „Aktion“ und „Wirkung“ bilden die beiden Komponenten von Berechtigungen. Wenn eine Gruppe eine Ressource anfordert, wird ihr der Zugriff entweder gewährt oder verweigert. Der Zugriff wird verweigert, sofern Sie keine Berechtigungen explizit zuweisen, jedoch kann eine durch eine andere Richtlinie gewährte Berechtigung durch eine explizite Verweigerung überschrieben werden.
+
+
+
+ a| 
+Zustand
+ a| 
+Das Element „Bedingung“ ist optional. Bedingungen ermöglichen das Erstellen von Ausdrücken, um festzulegen, wann eine Richtlinie angewendet werden soll.
+
+|===
+Im Action-Element kann das Platzhalterzeichen (*) verwendet werden, um alle Operationen oder eine Teilmenge von Operationen anzugeben. Beispielsweise entspricht diese Action Berechtigungen wie s3:GetObject, s3:PutObject und s3:DeleteObject.
+
+[listing]
+----
+s3:*Object
+----
+Im Resource-Element können Sie die Platzhalterzeichen (\*) und (?) verwenden. Während das Sternchen (*) mit 0 oder mehr Zeichen übereinstimmt, stimmt das Fragezeichen (?) mit einem einzelnen beliebigen Zeichen überein.
+
+Im Principal-Element werden Platzhalterzeichen nicht unterstützt, außer um anonymer Zugriff zu setzen, der allen Benutzern die Berechtigung erteilt. Zum Beispiel wird das Platzhalterzeichen (*) als Wert für Principal gesetzt.
+
+[listing]
+----
+"Principal":"*"
+----
+[listing]
+----
+"Principal":{"AWS":"*"}
+----
+Im folgenden Beispiel wird die Anweisung mit den Elementen „Effect“, „Principal“, „Action“ und „Resource“ verwendet. Dieses Beispiel zeigt eine vollständige Bucket-Policy-Anweisung, die den Effect „Allow“ verwendet, um den Principals, der admin group `federated-group/admin` und der finance group `federated-group/finance`, Berechtigungen zu erteilen, die Action `s3:ListBucket` für den Bucket mit dem Namen `mybucket` und die Action `s3:GetObject` für alle Objekte in diesem Bucket auszuführen.
+
+[listing]
+----
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::27233906934684427525:federated-group/admin",
+          "arn:aws:iam::27233906934684427525:federated-group/finance"
+        ]
+      },
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::mybucket",
+        "arn:aws:s3:::mybucket/*"
+      ]
+    }
+  ]
+}
+----
+Die Bucket-Richtlinie hat eine Größenbeschränkung von 20.480 Bytes, und die Gruppenrichtlinie hat eine Größenbeschränkung von 5.120 Bytes.
+
+
+
+[[consistency-for-policies]]
+== Einheitlichkeit der Richtlinien
+
+Standardmäßig sind alle Aktualisierungen, die Sie an Gruppenrichtlinien vornehmen, letztendlich konsistent. Wenn eine Gruppenrichtlinie konsistent ist, kann es aufgrund des Richtlinien-Cachings bis zu 15 Minuten dauern, bis die Änderungen wirksam werden. Standardmäßig sind alle Aktualisierungen, die Sie an Bucket-Richtlinien vornehmen, stark konsistent.
+
+Bei Bedarf können die Konsistenzgarantien für Aktualisierungen der Bucket-Richtlinie geändert werden. Beispielsweise kann gewünscht sein, dass eine Änderung an einer Bucket-Richtlinie auch während eines Standortausfalls verfügbar ist.
+
+In diesem Fall kann entweder der  `Consistency-Control`-Header in der PutBucketPolicy-Anfrage gesetzt werden oder die PUT Bucket consistency-Anfrage verwendet werden. Wenn eine Bucket-Richtlinie konsistent wird, können die Änderungen aufgrund des Richtlinien-Cachings bis zu 8 Sekunden benötigen, um wirksam zu werden.
+
+
+NOTE: Wenn die Konsistenz vorübergehend auf einen anderen Wert gesetzt wird, um eine temporäre Situation zu umgehen, sollte die Einstellung auf Bucket-Ebene nach Abschluss wieder auf den ursprünglichen Wert zurückgesetzt werden. Andernfalls werden alle zukünftigen Bucket-Anfragen die geänderte Einstellung verwenden.
+
+
+
+[[what-is-session-policy]]
+== Was ist eine Sitzungsrichtlinie?
+
+Eine Sitzungsrichtlinie ist eine Zugriffsrichtlinie, die die während einer bestimmten Sitzung verfügbaren Berechtigungen vorübergehend einschränkt, beispielsweise wenn ein Benutzer einer Gruppe beitritt. Eine Sitzungsrichtlinie kann nur eine Teilmenge der Berechtigungen zulassen und keine zusätzlichen Berechtigungen gewähren. Die Gruppe selbst kann über umfassendere Berechtigungen verfügen.
+
+
+
+[[use-arn-in-policy-statements]]
+== ARN in Richtlinienaussagen verwenden
+
+In Richtlinienanweisungen wird der ARN in Principal- und Resource-Elementen verwendet.
+
+* Diese Syntax gibt den S3-Ressourcen-ARN an:
++
+[listing]
+----
+arn:aws:s3:::bucket-name
+arn:aws:s3:::bucket-name/object_key
+----
+* Diese Syntax gibt den ARN der Identitätsressource (Benutzer und Gruppen) an:
++
+[listing]
+----
+arn:aws:iam::account_id:root
+arn:aws:iam::account_id:user/user_name
+arn:aws:iam::account_id:group/group_name
+arn:aws:iam::account_id:federated-user/user_name
+arn:aws:iam::account_id:federated-group/group_name
+----
+
+
+Weitere Überlegungen:
+
+* Sie können das Sternchen (*) als Platzhalter verwenden, um null oder mehr Zeichen innerhalb des Objektschlüssels abzugleichen.
+* Internationale Zeichen, die im Objektschlüssel angegeben werden können, sollten mit JSON UTF-8 oder mit JSON \u-Escape-Sequenzen kodiert werden. Prozentkodierung wird nicht unterstützt.
++
+https://www.ietf.org/rfc/rfc2141.txt["RFC 2141 URN-Syntax"^]
+
++
+Der HTTP-Anfragetext für die PutBucketPolicy-Operation muss mit charset=UTF-8 kodiert sein.
+
+
+
+
+
+[[specify-resources-in-a-policy]]
+== Ressourcen in einer Richtlinie angeben
+
+In Richtlinienanweisungen kann das Resource-Element verwendet werden, um den Bucket oder das Objekt anzugeben, für das Berechtigungen erlaubt oder verweigert werden.
+
+* Jede Richtlinienaussage erfordert ein Ressourcenelement. In einer Richtlinie werden Ressourcen durch das Element  `Resource` oder alternativ  `NotResource` für Ausschluss gekennzeichnet.
+* Sie geben Ressourcen mithilfe eines S3-Ressourcen-ARN an. Zum Beispiel:
++
+[listing]
+----
+"Resource": "arn:aws:s3:::mybucket/*"
+----
+* Sie können auch Richtlinienvariablen innerhalb des Objektschlüssels verwenden. Beispielsweise:
++
+[listing]
+----
+"Resource": "arn:aws:s3:::mybucket/home/${aws:username}/*"
+----
+* Der Ressourcenwert kann einen Bucket angeben, der beim Erstellen einer Gruppenrichtlinie noch nicht existiert.
+
+
+
+
+[[specify-principals-in-a-policy]]
+== Geben Sie Prinzipale in einer Richtlinie an.
+
+Das Principal-Element dient zur Identifizierung des Benutzers, der Gruppe oder des Mandantenkontos, dem der Zugriff auf die Ressource durch die Richtlinienanweisung erlaubt oder verweigert wird.
+
+* Jede Richtlinienanweisung in einer Bucket-Richtlinie muss ein Principal-Element enthalten. Richtlinienanweisungen in einer Gruppenrichtlinie benötigen das Principal-Element nicht, da die Gruppe als Principal gilt.
+* In einer Richtlinie werden Principals durch das Element „Principal“ oder alternativ „NotPrincipal“ für den Ausschluss bezeichnet.
+* Kontobasierte Identitäten müssen mithilfe einer ID oder einer ARN angegeben werden:
++
+[listing]
+----
+"Principal": { "AWS": "account_id"}
+"Principal": { "AWS": "identity_arn" }
+----
+* Dieses Beispiel verwendet die Mandantenkonto-ID 27233906934684427525, die das Stammkonto und alle Benutzer des Kontos umfasst:
++
+[listing]
+----
+ "Principal": { "AWS": "27233906934684427525" }
+----
+* Sie können nur das Stammkonto angeben:
++
+[listing]
+----
+"Principal": { "AWS": "arn:aws:iam::27233906934684427525:root" }
+----
+* Sie können einen bestimmten Verbundbenutzer („Alex“) angeben:
++
+[listing]
+----
+"Principal": { "AWS": "arn:aws:iam::27233906934684427525:federated-user/Alex" }
+----
+* Sie können eine bestimmte föderierte Gruppe („Managers“) angeben:
++
+[listing]
+----
+"Principal": { "AWS": "arn:aws:iam::27233906934684427525:federated-group/Managers"  }
+----
+* Es kann ein anonymer Prinzipal angegeben werden:
++
+[listing]
+----
+"Principal": "*"
+----
+* Um Mehrdeutigkeiten zu vermeiden, kann die Benutzer-UUID anstelle des Benutzernamens verwendet werden:
++
+[listing]
+----
+arn:aws:iam::27233906934684427525:user-uuid/de305d54-75b4-431b-adb2-eb6b9e546013
+----
++
+Angenommen, Alex verlässt das Unternehmen und der Benutzername `Alex` wird gelöscht. Wenn ein neuer Alex dem Unternehmen beitritt und denselben `Alex` Benutzernamen erhält, könnte der neue Benutzer unbeabsichtigt die Berechtigungen des ursprünglichen Benutzers übernehmen.
+
+* Der Principal-Wert kann einen Gruppen-/Benutzernamen angeben, der beim Erstellen einer Bucket-Richtlinie noch nicht existiert.
+
+
+
+
+[[specify-permissions-in-a-policy]]
+== Berechtigungen in einer Richtlinie angeben
+
+In einer Richtlinie wird das Element „Action“ verwendet, um Berechtigungen für eine Ressource zu erlauben oder zu verweigern. Es gibt eine Reihe von Berechtigungen, die in einer Richtlinie angegeben werden können, die durch das Element „Action“ oder alternativ „NotAction“ für den Ausschluss gekennzeichnet sind. Jedes dieser Elemente entspricht bestimmten S3 REST API-Operationen.
+
+Die Tabelle listet die Berechtigungen auf, die für Buckets gelten, und die Berechtigungen, die für Objekte gelten.
+
+
+NOTE: Amazon S3 verwendet jetzt die Berechtigung s3:PutReplicationConfiguration sowohl für die Aktionen PutBucketReplication und DeleteBucketReplication. StorageGRID verwendet separate Berechtigungen für jede Aktion, was der ursprünglichen Amazon S3-Spezifikation entspricht.
+
+
+NOTE: Ein Löschvorgang wird durchgeführt, wenn mit einem Put ein vorhandener Wert überschrieben wird.
+
+
+
+[[permissions-that-apply-to-buckets]]
+=== Berechtigungen, die für Buckets gelten
+
+[cols="2a,2a,1a"]
+|===
+| Berechtigungen | S3 REST API Operationen | Kundenspezifisch für StorageGRID 
+
+
+ a| 
+s3:CreateBucket
+ a| 
+CreateBucket
+ a| 
+Ja.
+
+*Hinweis*: Nur in Gruppenrichtlinien verwenden.
+
+
+
+ a| 
+s3:DeleteBucket
+ a| 
+DeleteBucket
+ a| 
+
+
+
+ a| 
+s3:DeleteBucketMetadataNotification
+ a| 
+Bucket-Metadatenbenachrichtigungskonfiguration löschen
+ a| 
+Ja
+
+
+
+ a| 
+s3:DeleteBucketPolicy
+ a| 
+DeleteBucketPolicy
+ a| 
+
+
+
+ a| 
+s3:DeleteReplicationConfiguration
+ a| 
+DeleteBucketReplication
+ a| 
+Ja, separate Berechtigungen für PUT und DELETE
+
+
+
+ a| 
+s3:GetBucketAcl
+ a| 
+GetBucketAcl
+ a| 
+
+
+
+ a| 
+s3:GetBucketCompliance
+ a| 
+GET Bucket compliance (veraltet)
+ a| 
+Ja
+
+
+
+ a| 
+s3:GetBucketConsistency
+ a| 
+GET Bucket Konsistenz
+ a| 
+Ja
+
+
+
+ a| 
+s3:GetBucketCORS
+ a| 
+GetBucketCors
+ a| 
+
+
+
+ a| 
+s3:GetEncryptionConfiguration
+ a| 
+GetBucketEncryption
+ a| 
+
+
+
+ a| 
+s3:GetBucketLastAccessTime
+ a| 
+Letzte Zugriffszeit des Buckets abrufen
+ a| 
+Ja
+
+
+
+ a| 
+s3:GetBucketLocation
+ a| 
+GetBucketLocation
+ a| 
+
+
+
+ a| 
+s3:GetBucketMetadataNotification
+ a| 
+GET Bucket-Metadaten-Benachrichtigungskonfiguration
+ a| 
+Ja
+
+
+
+ a| 
+s3:GetBucketNotification
+ a| 
+GetBucketNotificationConfiguration
+ a| 
+
+
+
+ a| 
+s3:GetBucketObjectLockConfiguration
+ a| 
+GetObjectLockConfiguration
+ a| 
+
+
+
+ a| 
+s3:GetBucketPolicy
+ a| 
+GetBucketPolicy
+ a| 
+
+
+
+ a| 
+s3:GetBucketTagging
+ a| 
+GetBucketTagging
+ a| 
+
+
+
+ a| 
+s3:GetBucketVersioning
+ a| 
+GetBucketVersioning
+ a| 
+
+
+
+ a| 
+s3:GetLifecycleConfiguration
+ a| 
+GetBucketLifecycleConfiguration
+ a| 
+
+
+
+ a| 
+s3:GetReplicationConfiguration
+ a| 
+GetBucketReplication
+ a| 
+
+
+
+ a| 
+s3:ListAllMyBuckets
+ a| 
+* ListBuckets
+* Speichernutzung abrufen
+
+ a| 
+Ja, für GET Storage Usage.
+
+*Hinweis*: Nur in Gruppenrichtlinien verwenden.
+
+
+
+ a| 
+s3:ListBucket
+ a| 
+* ListObjects
+* HeadBucket
+* RestoreObject
+
+ a| 
+
+
+
+ a| 
+s3:ListBucketMultipartUploads
+ a| 
+* ListMultipartUploads
+* RestoreObject
+
+ a| 
+
+
+
+ a| 
+s3:ListBucketVersions
+ a| 
+GET Bucket-Versionen
+ a| 
+
+
+
+ a| 
+s3:PutBucketCompliance
+ a| 
+PUT Bucket Compliance (veraltet)
+ a| 
+Ja
+
+
+
+ a| 
+s3:PutBucketConsistency
+ a| 
+PUT Bucket Konsistenz
+ a| 
+Ja
+
+
+
+ a| 
+s3:PutBucketCORS
+ a| 
+* DeleteBucketCors†
+* PutBucketCors
+
+ a| 
+
+
+
+ a| 
+s3:PutEncryptionConfiguration
+ a| 
+* DeleteBucketEncryption
+* PutBucketEncryption
+
+ a| 
+
+
+
+ a| 
+s3:PutBucketLastAccessTime
+ a| 
+PUT Bucket letzter Zugriffszeitpunkt
+ a| 
+Ja
+
+
+
+ a| 
+s3:PutBucketMetadataNotification
+ a| 
+PUT Bucket Metadaten-Benachrichtigungskonfiguration
+ a| 
+Ja
+
+
+
+ a| 
+s3:PutBucketNotification
+ a| 
+PutBucketNotificationConfiguration
+ a| 
+
+
+
+ a| 
+s3:PutBucketObjectLockConfiguration
+ a| 
+* CreateBucket mit dem  `x-amz-bucket-object-lock-enabled: true` Request-Header (erfordert außerdem die Berechtigung s3:CreateBucket)
+* PutObjectLockConfiguration
+
+ a| 
+
+
+
+ a| 
+s3:PutBucketPolicy
+ a| 
+PutBucketPolicy
+ a| 
+
+
+
+ a| 
+s3:PutBucketTagging
+ a| 
+* DeleteBucketTagging†
+* PutBucketTagging
+
+ a| 
+
+
+
+ a| 
+s3:PutBucketVersioning
+ a| 
+PutBucketVersioning
+ a| 
+
+
+
+ a| 
+s3:PutLifecycleConfiguration
+ a| 
+* DeleteBucketLifecycle†
+* PutBucketLifecycleConfiguration
+
+ a| 
+
+
+
+ a| 
+s3:PutReplicationConfiguration
+ a| 
+PutBucketReplication
+ a| 
+Ja, separate Berechtigungen für PUT und DELETE
+
+|===
+
+
+[[permissions-that-apply-to-objects]]
+=== Berechtigungen, die für Objekte gelten
+
+[cols="2a,2a,1a"]
+|===
+| Berechtigungen | S3 REST API Operationen | Kundenspezifisch für StorageGRID 
+
+
+ a| 
+s3:AbortMultipartUpload
+ a| 
+* AbortMultipartUpload
+* RestoreObject
+
+ a| 
+
+
+
+ a| 
+s3:BypassGovernanceRetention
+ a| 
+* DeleteObject
+* DeleteObjects
+* PutObjectRetention
+
+ a| 
+
+
+
+ a| 
+s3:DeleteObject
+ a| 
+* DeleteObject
+* DeleteObjects
+* RestoreObject
+
+ a| 
+
+
+
+ a| 
+s3:DeleteObjectTagging
+ a| 
+DeleteObjectTagging
+ a| 
+
+
+
+ a| 
+s3:DeleteObjectVersionTagging
+ a| 
+DeleteObjectTagging (eine bestimmte Version des Objekts)
+ a| 
+
+
+
+ a| 
+s3:DeleteObjectVersion
+ a| 
+DeleteObject (eine bestimmte Version des Objekts)
+ a| 
+
+
+
+ a| 
+s3:GetObject
+ a| 
+* GetObject
+* HeadObject
+* RestoreObject
+* SelectObjectContent
+
+ a| 
+
+
+
+ a| 
+s3:GetObjectAcl
+ a| 
+GetObjectAcl
+ a| 
+
+
+
+ a| 
+s3:GetObjectLegalHold
+ a| 
+GetObjectLegalHold
+ a| 
+
+
+
+ a| 
+s3:GetObjectRetention
+ a| 
+GetObjectRetention
+ a| 
+
+
+
+ a| 
+s3:GetObjectTagging
+ a| 
+GetObjectTagging
+ a| 
+
+
+
+ a| 
+s3:GetObjectVersionTagging
+ a| 
+GetObjectTagging (eine bestimmte Version des Objekts)
+ a| 
+
+
+
+ a| 
+s3:GetObjectVersion
+ a| 
+GetObject (eine bestimmte Version des Objekts)
+ a| 
+
+
+
+ a| 
+s3:ListMultipartUploadParts
+ a| 
+ListParts, RestoreObject
+ a| 
+
+
+
+ a| 
+s3:PutObject
+ a| 
+* PutObject
+* CopyObject
+* RestoreObject
+* CreateMultipartUpload
+* CompleteMultipartUpload
+* UploadPart
+* UploadPartCopy
+
+ a| 
+
+
+
+ a| 
+s3:PutObjectLegalHold
+ a| 
+PutObjectLegalHold
+ a| 
+
+
+
+ a| 
+s3:PutObjectRetention
+ a| 
+PutObjectRetention
+ a| 
+
+
+
+ a| 
+s3:PutObjectTagging
+ a| 
+PutObjectTagging
+ a| 
+
+
+
+ a| 
+s3:PutObjectVersionTagging
+ a| 
+PutObjectTagging (eine bestimmte Version des Objekts)
+ a| 
+
+
+
+ a| 
+s3:PutOverwriteObject
+ a| 
+* PutObject
+* CopyObject
+* PutObjectTagging
+* DeleteObjectTagging
+* CompleteMultipartUpload
+
+ a| 
+Ja
+
+
+
+ a| 
+s3:RestoreObject
+ a| 
+RestoreObject
+ a| 
+
+|===
+
+
+[[use-putoverwriteobject-permissionuse-putoverwriteobject-permission]]
+== [[use-putoverwriteobject-permission]]PutOverwriteObject-Berechtigung verwenden
+
+Die s3:PutOverwriteObject Berechtigung ist eine benutzerdefinierte StorageGRID Berechtigung, die für Vorgänge gilt, die Objekte erstellen oder aktualisieren. Die Einstellung dieser Berechtigung bestimmt, ob der Client die Daten eines Objekts, benutzerdefinierte Metadaten oder S3-Objekt-Tags überschreiben kann.
+
+Mögliche Einstellungen für diese Berechtigung sind:
+
+* *Zulassen*: Der Client kann ein Objekt überschreiben. Dies ist die Standardeinstellung.
+* *Verweigern*: Der Client kann ein Objekt nicht überschreiben. Wenn auf „Verweigern“ gesetzt, funktioniert die PutOverwriteObject-Berechtigung wie folgt:
++
+** Wenn unter demselben Pfad bereits ein Objekt gefunden wird:
++
+*** Die Daten des Objekts, die benutzerdefinierten Metadaten oder die S3-Objektkennzeichnung können nicht überschrieben werden.
+*** Alle laufenden Datenerfassungsvorgänge werden abgebrochen und ein Fehler zurückgegeben.
+*** Wenn die S3-Versionierung aktiviert ist, verhindert die Einstellung „Deny“, dass PutObjectTagging- oder DeleteObjectTagging-Operationen das TagSet eines Objekts und seiner nicht aktuellen Versionen ändern.
+
+
+** Wenn kein vorhandenes Objekt gefunden wird, hat diese Berechtigung keine Auswirkung.
+
+
+* Wenn diese Berechtigung nicht vorhanden ist, ist die Wirkung identisch damit, als wäre „Zulassen“ gesetzt.
+
+
+
+NOTE: Wenn die aktuelle S3-Richtlinie das Überschreiben zulässt und die PutOverwriteObject-Berechtigung auf Verweigern gesetzt ist, kann der Client weder die Daten eines Objekts, benutzerdefinierte Metadaten noch Objekt-Tags überschreiben. Wenn außerdem das Kontrollkästchen *Prevent client modification* aktiviert ist (*Configuration* > *Security settings* > *Network and objects*), hat diese Einstellung Vorrang vor der Einstellung der PutOverwriteObject-Berechtigung.
+
+
+
+[[specify-conditions-in-a-policy]]
+== Bedingungen in einer Richtlinie angeben
+
+Bedingungen definieren, wann eine Richtlinie wirksam wird. Bedingungen bestehen aus Operatoren und Schlüssel-Wert-Paaren.
+
+Bedingungen verwenden Schlüssel-Wert-Paare zur Auswertung. Ein Bedingungselement kann mehrere Bedingungen enthalten, und jede Bedingung kann mehrere Schlüssel-Wert-Paare enthalten. Der Bedingungsblock verwendet das folgende Format:
+
+[listing, subs="specialcharacters,quotes"]
+----
+Condition: {
+     _condition_type_: {
+          _condition_key_: _condition_values_
+----
+Im folgenden Beispiel verwendet die Bedingung IpAddress den Bedingungsschlüssel SourceIp.
+
+[listing]
+----
+"Condition": {
+    "IpAddress": {
+      "aws:SourceIp": "54.240.143.0/24"
+		...
+},
+		...
+----
+
+
+[[supported-condition-operators]]
+=== Unterstützte Bedingungsoperatoren
+
+Bedingungsoperatoren werden wie folgt kategorisiert:
+
+* Zeichenkette
+* Numerisch
+* Boolescher Wert
+* IP-Adresse
+* Nullprüfung
+
+
+[cols="1a,2a"]
+|===
+| Bedingungsoperatoren | Beschreibung 
+
+
+ a| 
+StringEquals
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert auf Basis einer exakten Übereinstimmung (Groß-/Kleinschreibung).
+
+
+
+ a| 
+StringNotEquals
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert anhand einer negierten Übereinstimmung (Groß-/Kleinschreibung).
+
+
+
+ a| 
+StringEqualsIgnoreCase
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert anhand einer exakten Übereinstimmung (Groß-/Kleinschreibung wird ignoriert).
+
+
+
+ a| 
+StringNotEqualsIgnoreCase
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert auf Basis einer negierten Übereinstimmung (Groß-/Kleinschreibung wird ignoriert).
+
+
+
+ a| 
+StringLike
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert anhand einer exakten Übereinstimmung (Groß-/Kleinschreibung). Kann die Platzhalterzeichen * und ? enthalten.
+
+
+
+ a| 
+StringNotLike
+ a| 
+Vergleicht einen Schlüssel mit einem Zeichenkettenwert anhand negierter Übereinstimmung (Groß-/Kleinschreibung). Kann die Platzhalterzeichen * und ? enthalten.
+
+
+
+ a| 
+NumericEquals
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert basierend auf exakter Übereinstimmung.
+
+
+
+ a| 
+NumericNotEquals
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert auf Basis einer negierten Übereinstimmung.
+
+
+
+ a| 
+NumericGreaterThan
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert auf Basis einer „größer als“-Übereinstimmung.
+
+
+
+ a| 
+NumericGreaterThanEquals
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert anhand einer Übereinstimmung nach dem Prinzip „größer als oder gleich“.
+
+
+
+ a| 
+NumericLessThan
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert auf Basis einer „kleiner als“-Übereinstimmung.
+
+
+
+ a| 
+NumericLessThanEquals
+ a| 
+Vergleicht einen Schlüssel mit einem numerischen Wert auf Basis einer „kleiner als oder gleich“-Übereinstimmung.
+
+
+
+ a| 
+Bool
+ a| 
+Vergleicht einen Schlüssel mit einem booleschen Wert basierend auf „wahr“ oder „falsch“ Übereinstimmung.
+
+
+
+ a| 
+IpAddress
+ a| 
+Vergleicht einen Schlüssel mit einer IP-Adresse oder einem Bereich von IP-Adressen.
+
+
+
+ a| 
+NotIpAddress
+ a| 
+Vergleicht einen Schlüssel mit einer IP-Adresse oder einem Bereich von IP-Adressen auf Basis einer negierten Übereinstimmung.
+
+
+
+ a| 
+Null
+ a| 
+Prüft, ob ein Bedingungsschlüssel im aktuellen Anfragekontext vorhanden ist.
+
+
+
+ a| 
+IfExists
+ a| 
+Wird an jeden Bedingungsoperator außer der Null-Bedingung angehängt, um das Fehlen des entsprechenden Bedingungsschlüssels zu prüfen. Gibt TRUE zurück, wenn der Bedingungsschlüssel nicht vorhanden ist.
+
+|===
+
+
+[[supported-condition-keys]]
+=== Unterstützte Bedingungsschlüssel
+
+[cols="1a,1a,2a"]
+|===
+| Bedingungsschlüssel | Aktionen | Beschreibung 
+
+
+ a| 
+aws:SourceIp
+ a| 
+IP-Operatoren
+ a| 
+Wird mit der IP-Adresse verglichen, von der die Anfrage gesendet wurde. Kann für Bucket- oder Objektoperationen verwendet werden.
+
+*Hinweis:* Wenn die S3-Anfrage über den Load Balancer Service auf Admin Nodes und Gateways Nodes gesendet wurde, erfolgt der Vergleich mit der IP-Adresse, die stromaufwärts des Load Balancer Service liegt.
+
+*Hinweis*: Bei Verwendung eines nicht transparenten Load Balancers eines Drittanbieters erfolgt ein Vergleich mit der IP-Adresse dieses Load Balancers. Sämtliche  `X-Forwarded-For` Header werden ignoriert, da ihre Gültigkeit nicht überprüft werden kann.
+
+
+
+ a| 
+aws:Benutzername
+ a| 
+Ressource/Identität
+ a| 
+Wird mit dem Benutzernamen des Absenders verglichen, von dem die Anfrage gesendet wurde. Kann für Bucket- oder Objektoperationen verwendet werden.
+
+
+
+ a| 
+s3:Trennzeichen
+ a| 
+s3:ListBucket und
+
+s3:ListBucketVersions-Berechtigungen
+ a| 
+Wird mit dem im Parameter Trennzeichen einer ListObjects- oder ListObjectVersions-Anfrage angegebenen Wert verglichen.
+
+
+
+ a| 
+s3:ExistingObjectTag/<tag-key>
+ a| 
+s3:DeleteObjectTagging
+
+s3:DeleteObjectVersionTagging
+
+s3:GetObject
+
+s3:GetObjectAcl
+
+3:GetObjectTagging
+
+s3:GetObjectVersion
+
+s3:GetObjectVersionAcl
+
+s3:GetObjectVersionTagging
+
+s3:PutObjectAcl
+
+s3:PutObjectTagging
+
+s3:PutObjectVersionAcl
+
+s3:PutObjectVersionTagging
+ a| 
+Es wird vorausgesetzt, dass das bestehende Objekt den spezifischen Tag-Schlüssel und Wert besitzt.
+
+
+
+ a| 
+s3:max-keys
+ a| 
+s3:ListBucket und
+
+s3:ListBucketVersions-Berechtigungen
+ a| 
+Wird mit dem in einer ListObjects oder ListObjectVersions Anfrage angegebenen Parameter max-keys verglichen.
+
+
+
+ a| 
+s3:object-lock-mode
+ a| 
+s3:PutObject
+ a| 
+Vergleicht mit dem  `object-lock-mode` erweiterten Anfrageheader in der PutObject, CopyObject und CreateMultipartUpload Anfrage.
+
+
+
+ a| 
+s3:object-lock-mode
+ a| 
+s3:PutObjectRetention
+ a| 
+Vergleicht mit dem  `object-lock-mode` aus dem XML-Body in der PutObjectRetention Anfrage erweiterten Inhalt.
+
+
+
+ a| 
+s3:object-lock-remaining-retention-days
+ a| 
+s3:PutObject
+ a| 
+Vergleicht das im  `x-amz-object-lock-retain-until-date`Anforderungsheader angegebene oder aus der Standardaufbewahrungsdauer des Buckets berechnete Aufbewahrungsdatum, um sicherzustellen, dass diese Werte im zulässigen Bereich für die folgenden Anfragen liegen:
+
+* PutObject
+* CopyObject
+* CreateMultipartUpload
+
+
+
+
+ a| 
+s3:object-lock-remaining-retention-days
+ a| 
+s3:PutObjectRetention
+ a| 
+Vergleicht das in der PutObjectRetention-Anfrage angegebene Aufbewahrungsdatum mit dem Aufbewahrungsfristdatum, um sicherzustellen, dass es innerhalb des zulässigen Bereichs liegt.
+
+
+
+ a| 
+s3:prefix
+ a| 
+s3:ListBucket und
+
+s3:ListBucketVersions-Berechtigungen
+ a| 
+Wird mit dem in einer ListObjects oder ListObjectVersions Anfrage angegebenen Präfixparameter verglichen.
+
+
+
+ a| 
+s3:RequestObjectTag/<tag-key>
+ a| 
+s3:PutObject
+
+s3:PutObjectTagging
+
+s3:PutObjectVersionTagging
+ a| 
+Wenn die Objektanfrage Tags enthält, sind ein spezifischer Tag-Schlüssel und ein spezifischer Tag-Wert erforderlich.
+
+
+
+ a| 
+s3:x-amz-server-side-encryption-customer-algorithm
+ a| 
+s3:PutObject
+ a| 
+Vergleicht mit dem  `sse-customer-algorithm` oder mit dem  `copy-source-sse-customer-algorithm` aus dem Anfrage-Header, der in der PutObject, CopyObject, CreateMultipartUpload, UploadPart, UploadPartCopy und CompleteMultipartUpload Anfrage erweitert wurde.
+
+|===
+
+
+[[specify-variables-in-a-policy]]
+== Variablen in einer Richtlinie angeben
+
+Sie können Variablen in Richtlinien verwenden, um Richtlinieninformationen einzufügen, sobald diese verfügbar sind. Sie können Richtlinienvariablen im  `Resource` Element und bei Zeichenkettenvergleichen im  `Condition` Element verwenden.
+
+In diesem Beispiel ist die Variable `${aws:username}` Teil des Resource-Elements:
+
+[listing]
+----
+"Resource": "arn:aws:s3:::bucket-name/home/${aws:username}/*"
+----
+In diesem Beispiel ist die Variable `${aws:username}` Teil des Bedingungswerts im Bedingungsblock:
+
+[listing]
+----
+"Condition": {
+    "StringLike": {
+      "s3:prefix": "${aws:username}/*"
+		...
+},
+		...
+----
+[cols="1a,2a"]
+|===
+| Variable | Beschreibung 
+
+
+ a| 
+`${aws:SourceIp}`
+ a| 
+Verwendet den SourceIp-Schlüssel als die bereitgestellte Variable.
+
+
+
+ a| 
+`${aws:username}`
+ a| 
+Verwendet den Schlüssel für den Benutzernamen als bereitgestellte Variable.
+
+
+
+ a| 
+`${s3:prefix}`
+ a| 
+Verwendet den dienstspezifischen Präfixschlüssel als bereitgestellte Variable.
+
+
+
+ a| 
+`${s3:max-keys}`
+ a| 
+Verwendet den dienstspezifischen Schlüssel max-keys als bereitgestellte Variable.
+
+
+
+ a| 
+`${*}`
+ a| 
+Sonderzeichen. Verwendet das Zeichen als wörtliches * Zeichen.
+
+
+
+ a| 
+`${?}`
+ a| 
+Sonderzeichen. Verwendet das Zeichen als wörtliches Fragezeichen.
+
+
+
+ a| 
+`${$}`
+ a| 
+Sonderzeichen. Verwendet das Zeichen als wörtliches $-Zeichen.
+
+|===
+
+
+[[create-policies-requiring-special-handling]]
+== Richtlinien erstellen, die eine besondere Behandlung erfordern
+
+Richtlinien können mitunter Berechtigungen erteilen, die sicherheitsgefährdend oder für den laufenden Betrieb problematisch sind, beispielsweise die Sperrung des Root-Benutzers des Kontos. Die StorageGRID S3 REST API Implementierung ist bei der Richtlinienvalidierung weniger restriktiv als Amazon, bei der Richtlinienauswertung jedoch genauso streng.
+
+[cols="2a,1a,2a,2a"]
+|===
+| Richtlinienbeschreibung | Richtlinientyp | Amazon Verhalten | StorageGRID Verhalten 
+
+
+ a| 
+Jegliche Berechtigungen für das Root-Konto für sich selbst verweigern
+ a| 
+Bucket
+ a| 
+Gültig und durchgesetzt, aber das Root-Benutzer-Konto behält die Berechtigung für alle S3-Bucket-Richtlinienoperationen
+ a| 
+Dasselbe
+
+
+
+ a| 
+Sich selbst alle Berechtigungen für Benutzer/Gruppe verweigern
+ a| 
+Gruppe
+ a| 
+Gültig und durchgesetzt
+ a| 
+Dasselbe
+
+
+
+ a| 
+Einer ausländischen Kontengruppe beliebige Berechtigungen erlauben
+ a| 
+Bucket
+ a| 
+Ungültiger Principal
+ a| 
+Gültig, aber die Berechtigungen für alle S3-Bucket-Richtlinienoperationen führen zu einem 405-Fehler (Methode nicht zulässig), wenn sie durch eine Richtlinie erlaubt sind
+
+
+
+ a| 
+Einem fremden Konto (Root oder Benutzer) beliebige Berechtigungen gewähren
+ a| 
+Bucket
+ a| 
+Gültig, aber die Berechtigungen für alle S3-Bucket-Richtlinienoperationen führen zu einem 405-Fehler (Methode nicht zulässig), wenn sie durch eine Richtlinie erlaubt sind
+ a| 
+Dasselbe
+
+
+
+ a| 
+Allen Berechtigungen für alle Aktionen gewähren
+ a| 
+Bucket
+ a| 
+Gültig, aber für alle S3-Bucket-Richtlinienoperationen wird für das fremde Root-Konto und die Benutzer der Fehler 405 Method Not Allowed zurückgegeben.
+ a| 
+Dasselbe
+
+
+
+ a| 
+Allen wird die Berechtigung für alle Aktionen verweigert
+ a| 
+Bucket
+ a| 
+Gültig und durchgesetzt, aber das Root-Benutzer-Konto behält die Berechtigung für alle S3-Bucket-Richtlinienoperationen
+ a| 
+Dasselbe
+
+
+
+ a| 
+Der Principal ist ein nicht existierender Benutzer oder eine nicht existierende Gruppe
+ a| 
+Bucket
+ a| 
+Ungültiger Principal
+ a| 
+Gültig
+
+
+
+ a| 
+Die Ressource ist ein nicht existierender S3-Bucket
+ a| 
+Gruppe
+ a| 
+Gültig
+ a| 
+Dasselbe
+
+
+
+ a| 
+Principal ist eine lokale Gruppe
+ a| 
+Bucket
+ a| 
+Ungültiger Principal
+ a| 
+Gültig
+
+
+
+ a| 
+Die Richtlinie gewährt einem Nicht-Inhaber-Konto (einschließlich anonymer Konten) Berechtigungen zum Ablegen von Objekten.
+ a| 
+Bucket
+ a| 
+Gültig. Die Objekte gehören dem Erstellerkonto, und die Bucket-Richtlinie findet keine Anwendung. Das Erstellerkonto muss die Zugriffsberechtigungen für das Objekt mithilfe von Objekt-ACLs erteilen.
+ a| 
+Gültig. Objekte gehören dem Bucket-Eigentümerkonto. Bucket-Richtlinie gilt.
+
+|===
+
+
+[[write-once-read-many-worm-protection]]
+== Write-once-read-many (WORM)-Schutz
+
+Sie können Write-Once-Read-Many (WORM) Buckets erstellen, um Daten, benutzerdefinierte Objektmetadaten und S3-Objekt-Tags zu schützen. Die WORM-Buckets werden so konfiguriert, dass neue Objekte erstellt werden können und das Überschreiben oder Löschen vorhandener Inhalte verhindert wird. Eine der hier beschriebenen Methoden kann verwendet werden.
+
+Um sicherzustellen, dass Überschreibungen immer verhindert werden, können Sie Folgendes tun:
+
+* Im Grid Manager unter *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* > *Netzwerk und Objekte* das Kontrollkästchen *Clientänderungen verhindern* auswählen.
+* Die folgenden Regeln und S3-Richtlinien gelten:
++
+** Eine PutOverwriteObject DENY-Operation zur S3-Richtlinie hinzufügen.
+** Eine DeleteObject DENY-Operation zur S3-Richtlinie hinzufügen.
+** Eine PutObject ALLOW-Operation zur S3-Richtlinie hinzufügen.
+
+
+
+
+
+NOTE: Die Einstellung DeleteObject auf DENY in einer S3-Richtlinie verhindert nicht, dass ILM Objekte löscht, wenn eine Regel wie „null Kopien nach 30 Tagen“ existiert.
+
+
+NOTE: Selbst wenn all diese Regeln und Richtlinien angewendet werden, bieten sie keinen Schutz vor gleichzeitigen Schreibvorgängen (siehe Situation A). Sie schützen jedoch vor sequenziell abgeschlossenen Überschreibungen (siehe Situation B).
+
+*Situation A*: Gleichzeitige Schreibvorgänge (nicht abgesichert)
+
+[listing]
+----
+/mybucket/important.doc
+PUT#1 ---> OK
+PUT#2 -------> OK
+----
+*Situation B*: Sequenziell abgeschlossene Überschreibungen (geschützt)
+
+[listing]
+----
+/mybucket/important.doc
+PUT#1 -------> PUT#2 ---X (denied)
+----
+.Verwandte Informationen
+* link:how-storagegrid-ilm-rules-manage-objects.html["Wie StorageGRID ILM Regeln Objekte verwalten"]
+* link:example-bucket-policies.html["Beispiel-Bucket-Richtlinien"]
+* link:example-group-policies.html["Beispielgruppenrichtlinien"]
+* link:example-session-policies.html["Beispiel einer Sitzungsrichtlinie"]
+* link:../ilm/index.html["Objekte mit ILM verwalten"]
+* link:../tenant/index.html["Ein Mandantenkonto verwenden"]_
+

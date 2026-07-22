@@ -1,0 +1,47 @@
+---
+permalink: expand/adding-new-site.html 
+sidebar: sidebar 
+keywords: expand, expansion, new site, add site, guidelines, StorageGRID 
+summary: Ihr StorageGRID System kann durch Hinzufügen eines neuen Standorts erweitert werden. 
+---
+= Richtlinien zum Hinzufügen eines neuen Standorts in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ihr StorageGRID System kann durch Hinzufügen eines neuen Standorts erweitert werden.
+
+
+
+[[guidelines-for-adding-a-site]]
+== Richtlinien zum Hinzufügen einer Site
+
+Vor dem Hinzufügen einer Website sind die folgenden Anforderungen und Einschränkungen zu beachten:
+
+* Pro Erweiterungsvorgang kann nur ein Standort hinzugefügt werden.
+* Im Rahmen derselben Erweiterung können einem bestehenden Standort keine Grid-Nodes hinzugefügt werden.
+* Alle Standorte müssen mindestens drei Storage Nodes umfassen.
+* Das Hinzufügen eines neuen Standorts erhöht nicht automatisch die Anzahl der Objekte, die Sie speichern können. Die gesamte Objektkapazität eines Grids hängt von der verfügbaren Speicherkapazität, der ILM-Richtlinie und der Metadatenkapazität an jedem Standort ab.
+* Bei der Dimensionierung einer neuen Website ist darauf zu achten, dass sie über ausreichend Metadatenkapazität verfügt.
++
+StorageGRID speichert an jedem Standort eine Kopie aller Objektmetadaten. Beim Hinzufügen eines neuen Standorts ist sicherzustellen, dass ausreichend Metadatenkapazität sowohl für die vorhandenen Objektmetadaten als auch für zukünftiges Wachstum vorhanden ist.
+
++
+Weitere Informationen sind in Folgendem zu finden:
+
++
+** link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"]
+** link:../monitor/monitoring-storage-capacity.html#monitor-object-metadata-capacity-for-each-storage-node["Metadatenkapazität der Objekte für jeden Storage Node überwachen"]
+
+
+* Die verfügbare Bandbreite zwischen den Standorten sowie die Höhe der Netzwerklatenz sind zu berücksichtigen. Metadatenaktualisierungen werden kontinuierlich zwischen den Standorten repliziert, selbst wenn alle Objekte nur an dem Standort gespeichert werden, an dem sie erfasst werden.
+* Da Ihr StorageGRID System während der Erweiterung betriebsbereit bleibt, müssen die ILM-Regeln vor Beginn der Erweiterungsprozedur überprüft werden. Es muss sichergestellt werden, dass Objektkopien erst nach Abschluss der Erweiterungsprozedur am neuen Standort gespeichert werden.
++
+Beispielsweise sollte vor Beginn der Erweiterung geprüft werden, ob Regeln den Standard-Speicherpool (All Storage Nodes) verwenden. Ist dies der Fall, ist ein neuer Speicherpool zu erstellen, der die vorhandenen Storage Nodes enthält, und die ILM-Regeln sind so zu aktualisieren, dass sie den neuen Speicherpool verwenden. Andernfalls werden Objekte an den neuen Standort kopiert, sobald der erste Node an diesem Standort aktiv ist.
+
++
+Weitere Informationen zum Ändern von ILM beim Hinzufügen eines neuen Standorts sind unter link:../ilm/example-6-changing-ilm-policy.html["Beispiel für die Änderung einer ILM Richtlinie"] zu finden.
+
+

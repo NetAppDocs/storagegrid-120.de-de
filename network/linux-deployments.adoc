@@ -1,0 +1,140 @@
+---
+permalink: network/linux-deployments.html 
+sidebar: sidebar 
+keywords: linux network, container engine, red hat enterprise linux network, rhel network, ubuntu network 
+summary: Das StorageGRID System läuft aus Gründen der Effizienz, Zuverlässigkeit und Sicherheit unter Linux als Sammlung von Container-Engines. Eine container-engine-bezogene Netzwerkkonfiguration ist in einem StorageGRID System nicht erforderlich. 
+---
+= Netzwerkkonfiguration für StorageGRID Linux-Bereitstellungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das StorageGRID System läuft aus Gründen der Effizienz, Zuverlässigkeit und Sicherheit unter Linux als Sammlung von Container-Engines. Eine container-engine-bezogene Netzwerkkonfiguration ist in einem StorageGRID System nicht erforderlich.
+
+Für die Container-Netzwerkschnittstelle sollte ein Gerät ohne Bonding, wie ein VLAN oder ein virtuelles Ethernet-Paar (veth), verwendet werden. Dieses Gerät ist in der Knotenkonfigurationsdatei als Netzwerkschnittstelle anzugeben.
+
+
+CAUTION: Bond- oder Bridge-Geräte sollten nicht direkt als Container-Netzwerkschnittstelle verwendet werden. Dies könnte den Start des Knotens aufgrund eines Kernel-Problems bei der Verwendung von macvlan mit Bond- und Bridge-Geräten im Container-Namespace verhindern.
+
+Siehe link:../swnodes/index.html["Installationsanleitung"].
+
+
+
+[[host-network-configuration-for-container-engine-deployments]]
+== Host-Netzwerkkonfiguration für Container Engine-Bereitstellungen
+
+Vor Beginn der StorageGRID Implementierung auf einer Container-Engine-Plattform ist festzulegen, welche Netzwerke (Grid, Admin, Client) von den einzelnen Knoten verwendet werden. Es ist sicherzustellen, dass die Netzwerkschnittstelle jedes Knotens auf der korrekten virtuellen oder physischen Host-Schnittstelle konfiguriert ist und dass jedes Netzwerk über ausreichende Bandbreite verfügt.
+
+
+
+[[physical-hosts]]
+=== Physische Hosts
+
+Wenn Sie physische Hosts zur Unterstützung von Grid-Knoten verwenden:
+
+* Alle Hosts sollten für jede Knotenschnittstelle dieselbe Host-Schnittstelle verwenden. Diese Strategie vereinfacht die Host-Konfiguration und ermöglicht zukünftige Knotenmigrationen.
+* Eine IP-Adresse für den physischen Host selbst erhalten.
++
+
+NOTE: Eine physische Schnittstelle des Hosts kann vom Host selbst und von einem oder mehreren auf dem Host laufenden Knoten verwendet werden. Alle dem Host oder den Knoten über diese Schnittstelle zugewiesenen IP-Adressen müssen eindeutig sein. Der Host und der Knoten können keine IP-Adressen gemeinsam nutzen.
+
+* Die erforderlichen Ports zum Host müssen geöffnet werden.
+* Wenn VLAN-Schnittstellen in StorageGRID verwendet werden sollen, muss der Host über eine oder mehrere Trunk-Schnittstellen verfügen, die den Zugriff auf die gewünschten VLANs ermöglichen. Diese Schnittstellen können dem Node-Container als eth0, eth2 oder als zusätzliche Schnittstellen zugewiesen werden. Zum Hinzufügen von Trunk- oder Access-Schnittstellen siehe Folgendes:
++
+** *Linux (vor der Installation des Node)*: link:../swnodes/creating-node-configuration-files.html["Knotenkonfigurationsdateien erstellen"]
+** *Linux (nach der Installation des Nodes)*: link:../maintain/linux-adding-trunk-or-access-interfaces-to-node.html["Trunk- oder Zugriffsschnittstellen zu einem Node hinzufügen"]
+
+
+
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+
+
+[[minimum-bandwidth-recommendations]]
+=== Empfehlungen zur Mindestbandbreite
+
+Die folgende Tabelle enthält die empfohlenen Mindestbandbreiten für das LAN für jeden StorageGRID-Knotentyp und jeden Netzwerktyp. Jeder physische oder virtuelle Host muss mit ausreichender Netzwerkbandbreite ausgestattet werden, um die aggregierten Mindestbandbreitenanforderungen für die Gesamtzahl und den Typ der StorageGRID-Knoten zu erfüllen, die auf diesem Host betrieben werden sollen.
+
+[cols="1a,1a,1a,1a"]
+|===
+| Knotentyp 3+| Netzwerktyp 
+
+
+ a| 
+ a| 
+Grid
+ a| 
+Administrator
+ a| 
+Client
+
+
+
+ a| 
+ a| 
+*Minimale LAN Bandbreite*
+
+
+
+ a| 
+Administrator
+ a| 
+10 Gbit/s
+ a| 
+1 Gbit/s
+ a| 
+1 Gbit/s
+
+
+
+ a| 
+Gateway
+ a| 
+10 Gbit/s
+ a| 
+1 Gbit/s
+ a| 
+10 Gbit/s
+
+
+
+ a| 
+Storage
+ a| 
+10 Gbit/s
+ a| 
+1 Gbit/s
+ a| 
+10 Gbit/s
+
+
+
+ a| 
+Archiv
+ a| 
+10 Gbit/s
+ a| 
+1 Gbit/s
+ a| 
+10 Gbit/s
+
+|===
+
+NOTE: Diese Tabelle enthält keine SAN Bandbreite, die für den Zugriff auf gemeinsam genutzten Speicher erforderlich ist. Bei gemeinsam genutztem Speicher, auf den über Ethernet (iSCSI oder FCoE) zugegriffen wird, sollten auf jedem Host separate physische Schnittstellen bereitgestellt werden, um ausreichende SAN Bandbreite zu gewährleisten. Um einen Engpass zu vermeiden, sollte die SAN Bandbreite eines Hosts in etwa der aggregierten Storage Node Netzwerkbandbreite aller auf diesem Host ausgeführten Storage Nodes entsprechen.
+
+Anhand der Tabelle lässt sich die Mindestanzahl der auf jedem Host bereitzustellenden Netzwerkschnittstellen ermitteln, basierend auf der Anzahl und Art der StorageGRID Knoten, die auf diesem Host ausgeführt werden sollen.
+
+Beispielsweise kann ein Admin Node, ein Gateway Node und ein Storage Node auf einem einzigen Host betrieben werden:
+
+* Das Grid- und das Admin-Netzwerk werden auf dem Admin-Knoten verbunden (erfordert 10 + 1 = 11 Gbit/s)
+* Das Grid- und das Client-Netzwerk am Gateway-Knoten verbinden (erfordert 10 + 10 = 20 Gbit/s)
+* Das Grid Network am Storage Node verbinden (erfordert 10 Gbit/s)
+
+
+In diesem Szenario ist eine Mindestbandbreite von 11 + 20 + 10 = 41 Gbit/s an Netzwerkbandbreite bereitzustellen, was durch zwei 40 Gbit/s-Schnittstellen oder fünf 10 Gbit/s-Schnittstellen erfüllt werden könnte, die gegebenenfalls zu Trunks zusammengefasst und dann von den drei oder mehr VLANs gemeinsam genutzt werden, welche die Grid-, Admin- und Client-Subnetze enthalten, die lokal im physischen Rechenzentrum liegen, in dem sich der Host befindet.
+
+Einige empfohlene Methoden zur Konfiguration der physischen und Netzwerkressourcen auf den Hosts Ihres StorageGRID Clusters zur Vorbereitung Ihrer StorageGRID Bereitstellung sind unter link:../swnodes/configuring-host-network.html["Das Hostnetzwerk konfigurieren"] zu finden.

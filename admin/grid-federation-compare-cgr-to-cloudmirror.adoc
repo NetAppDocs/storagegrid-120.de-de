@@ -1,0 +1,143 @@
+---
+permalink: admin/grid-federation-compare-cgr-to-cloudmirror.html 
+sidebar: sidebar 
+keywords: cross-grid replication, cloudmirror replication 
+summary: Zu Beginn der Nutzung der Grid-Federation empfiehlt sich ein Vergleich der Gemeinsamkeiten und Unterschiede zwischen der grid-übergreifenden Replikation und dem StorageGRID CloudMirror Replikationsdienst. 
+---
+= Vergleichen Sie die netzübergreifende Replikation und CloudMirror-Replikation in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zu Beginn der Nutzung von Grid Federation empfiehlt sich ein Vergleich der Gemeinsamkeiten und Unterschiede zwischen link:grid-federation-what-is-cross-grid-replication.html["gridübergreifende Replikation"] und der link:../tenant/understanding-cloudmirror-replication-service.html["StorageGRID CloudMirror Replikationsdienst"].
+
+
+NOTE: Sie können CloudMirror nicht für einen Bucket verwenden, der durch Cross-Grid-Replikation repliziert wurde, und umgekehrt.
+
+[cols="1a,3a,3a"]
+|===
+|  | Gridübergreifende Replikation | CloudMirror Replikationsdienst 
+
+
+ a| 
+Was ist der Hauptzweck?
+ a| 
+Ein StorageGRID System dient als Disaster Recovery System. Objekte in einem Bucket können zwischen den Grids in eine oder beide Richtungen repliziert werden.
+ a| 
+Ermöglicht einem Mandanten, Objekte automatisch von einem Bucket in StorageGRID (Quelle) in einen externen S3 Bucket (Ziel) zu replizieren.
+
+CloudMirror Replikation erstellt eine unabhängige Kopie eines Objekts in einer unabhängigen S3-Infrastruktur. Diese unabhängige Kopie wird nicht als Backup verwendet, sondern häufig in der Cloud weiterverarbeitet.
+
+
+
+ a| 
+Wie ist es aufgebaut?
+ a| 
+. Eine Grid Federation-Verbindung zwischen zwei Grids konfigurieren.
+. Neue Mandantenkonten hinzufügen, die automatisch in das andere Grid geklont werden.
+. Neue Mandantengruppen und Benutzer werden hinzugefügt, die ebenfalls geklont werden.
+. Entsprechende Buckets auf jedem Grid erstellen und die gridübergreifende Replikation in eine oder beide Richtungen ermöglichen.
+
+ a| 
+. Ein Mandantenbenutzer konfiguriert die CloudMirror-Replikation, indem er einen CloudMirror-Endpunkt (IP-Adresse, Anmeldeinformationen usw.) mithilfe des Tenant Managers oder der S3-API definiert.
+. Jeder Bucket, der diesem Mandantenkonto gehört, kann so konfiguriert werden, dass er auf den CloudMirror Endpoint verweist.
+
+
+
+
+ a| 
+Wer ist für die Einrichtung verantwortlich?
+ a| 
+* Ein Grid-Administrator konfiguriert die Verbindung und die Mandanten.
+* Die Mandantenbenutzer konfigurieren die Gruppen, Benutzer, Schlüssel und Buckets.
+
+ a| 
+Typischerweise ein Mandantenbenutzer.
+
+
+
+ a| 
+Was ist das Ziel?
+ a| 
+Ein entsprechender und identischer S3-Bucket auf dem anderen StorageGRID System in der Grid-Federation-Verbindung.
+ a| 
+* Jede kompatible S3-Infrastruktur (einschließlich Amazon S3).
+* Google Cloud Platform (GCP)
+
+
+
+
+ a| 
+Ist eine Objektversionierung erforderlich?
+ a| 
+Ja, sowohl der Quell- als auch der Ziel-Bucket muss die Objektversionierung aktiviert haben.
+ a| 
+Nein, die CloudMirror Replikation unterstützt jede Kombination aus nicht versionierten und versionierten Buckets sowohl auf der Quell- als auch auf der Zielseite.
+
+
+
+ a| 
+Was führt dazu, dass Objekte an das Ziel verschoben werden?
+ a| 
+Objekte werden automatisch repliziert, wenn sie einem Bucket hinzugefügt werden, für den die Cross-Grid-Replikation aktiviert ist.
+ a| 
+Objekte werden automatisch repliziert, wenn sie einem Bucket hinzugefügt werden, der mit einem CloudMirror Endpoint konfiguriert wurde. Objekte, die bereits im Quell-Bucket vorhanden waren, bevor der Bucket mit dem CloudMirror Endpoint konfiguriert wurde, werden nicht repliziert, es sei denn, sie werden geändert.
+
+
+
+ a| 
+Wie werden Objekte repliziert?
+ a| 
+Die gitterübergreifende Replikation erzeugt versionierte Objekte und repliziert die Versions-ID vom Quell-Bucket zum Ziel-Bucket. Dadurch bleibt die Versionsreihenfolge in beiden Grids erhalten.
+ a| 
+CloudMirror Replikation benötigt keine Buckets mit Versionsverwaltung, daher kann CloudMirror die Reihenfolge für einen Schlüssel nur innerhalb eines Standorts beibehalten. Es gibt keine Garantie dafür, dass die Reihenfolge bei Anfragen an ein Objekt an einem anderen Standort erhalten bleibt.
+
+
+
+ a| 
+Was passiert, wenn ein Objekt nicht repliziert werden kann?
+ a| 
+Das Objekt wird zur Replikation in die Warteschlange gestellt, wobei die Speichergrenzen für Metadaten gelten.
+ a| 
+Das Objekt wird zur Replikation in die Warteschlange gestellt, vorbehaltlich der Beschränkungen der Plattformdienste (siehe link:manage-platform-services-for-tenants.html["Empfehlungen für die Nutzung von Plattformdiensten"]).
+
+
+
+ a| 
+Werden die Systemmetadaten des Objekts repliziert?
+ a| 
+Ja, wenn ein Objekt in das andere Grid repliziert wird, werden auch seine Systemmetadaten repliziert. Die Metadaten sind in beiden Grids identisch.
+ a| 
+Nein, wenn ein Objekt in den externen Bucket repliziert wird, werden seine Systemmetadaten aktualisiert. Die Metadaten unterscheiden sich je nach Speicherort, abhängig vom Zeitpunkt der Aufnahme und dem Verhalten der unabhängigen S3-Infrastruktur.
+
+
+
+ a| 
+Wie werden Objekte abgerufen?
+ a| 
+Anwendungen können Objekte abrufen oder lesen, indem sie eine Anfrage an den Bucket in einem der beiden Grids stellen.
+ a| 
+Anwendungen können Objekte abrufen oder lesen, indem sie eine Anfrage entweder an StorageGRID oder an das S3-Ziel senden. Beispielsweise kann CloudMirror Replikation verwendet werden, um Objekte an eine Partnerorganisation zu spiegeln. Die Partnerorganisation kann mit eigenen Anwendungen Objekte direkt vom S3-Ziel lesen oder aktualisieren. Die Nutzung von StorageGRID ist nicht erforderlich.
+
+
+
+ a| 
+Was passiert, wenn ein Objekt gelöscht wird?
+ a| 
+* Löschanforderungen, die eine Versions-ID enthalten, werden niemals in das Zielgrid repliziert.
+* Löschanforderungen, die keine Versions-ID enthalten, fügen dem Quell-Bucket eine Löschmarkierung hinzu, die optional auf das Ziel-Grid repliziert werden kann.
+* Wenn die netzübergreifende Replikation nur in eine Richtung konfiguriert ist, können Objekte im Ziel-Bucket gelöscht werden, ohne dass dies Auswirkungen auf die Quelle hat.
+
+ a| 
+Die Ergebnisse variieren je nach Versionsstatus der Quell- und Ziel-Buckets (die nicht identisch sein müssen):
+
+* Wenn beide Buckets versioniert sind, wird durch eine Löschanforderung an beiden Stellen eine Löschmarkierung hinzugefügt.
+* Wenn nur der Quell-Bucket versioniert ist, fügt eine Löschanforderung einen Löschmarker zum Quell-Bucket, aber nicht zum Ziel-Bucket hinzu.
+* Wenn keiner der beiden Buckets versioniert ist, wird eine Löschanforderung das Objekt aus der Quelle, aber nicht aus dem Ziel löschen.
+
+
+In ähnlicher Weise können Objekte im Ziel-Bucket gelöscht werden, ohne die Quelle zu beeinträchtigen.
+
+|===

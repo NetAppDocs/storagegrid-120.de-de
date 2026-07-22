@@ -1,0 +1,17 @@
+= 
+:allow-uri-read: 
+
+
+Angenommen, Sie verfügen über ein Drei-Standort-Grid mit der folgenden ILM-Regel und der folgenden Konsistenz:
+
+* *ILM-Regel*: Drei Objektkopien werden erstellt, eine am lokalen Standort und je eine an jedem Remote-Standort. Das strikte Aufnahmeverhalten wird verwendet.
+* *Konsistenz*: Stark-global (Objektmetadaten werden sofort an mehrere Standorte verteilt).
+
+
+Wenn ein Client ein Objekt im Grid speichert, erstellt StorageGRID alle drei Objektkopien und verteilt Metadaten an mehrere Standorte, bevor dem Client eine Erfolgsmeldung zurückgegeben wird.
+
+Das Objekt ist zum Zeitpunkt der erfolgreichen Datenerfassung vollständig vor Verlust geschützt. Wenn beispielsweise der lokale Standort kurz nach der Datenerfassung ausfällt, sind Kopien sowohl der Objektdaten als auch der Objektmetadaten weiterhin an den Remote-Standorten vorhanden. Das Objekt ist von den anderen Standorten vollständig abrufbar.
+
+Wenn stattdessen dieselbe ILM-Regel und die starke Standortkonsistenz verwendet werden, kann der Client eine Erfolgsmeldung erhalten, nachdem die Objektdaten auf die Remote-Standorte repliziert wurden, aber bevor die Objektmetadaten dort verteilt sind. In diesem Fall entspricht der Schutzgrad der Objektmetadaten nicht dem Schutzgrad der Objektdaten. Geht der lokale Standort kurz nach der Aufnahme verloren, gehen die Objektmetadaten verloren. Das Objekt kann nicht abgerufen werden.
+
+Die Wechselbeziehung zwischen Konsistenz- und ILM-Regeln kann komplex sein. Wenden Sie sich an NetApp, falls Sie Unterstützung benötigen.

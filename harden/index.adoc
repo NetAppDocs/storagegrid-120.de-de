@@ -1,0 +1,28 @@
+---
+permalink: harden/index.html 
+sidebar: sidebar 
+keywords: StorageGRID, hardening guidelines, system, security 
+summary: Die Systemhärtung ist der Prozess, bei dem so viele Sicherheitsrisiken wie möglich aus einem StorageGRID System entfernt werden. 
+---
+= Erfahren Sie mehr über die Systemhärtung für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Systemhärtung ist der Prozess, bei dem so viele Sicherheitsrisiken wie möglich aus einem StorageGRID System entfernt werden.
+
+Bei der Installation und Konfiguration von StorageGRID helfen diese Richtlinien dabei, die vorgegebenen Sicherheitsziele hinsichtlich Vertraulichkeit, Integrität und Verfügbarkeit zu erfüllen.
+
+Sie sollten bereits branchenübliche Best Practices zur Systemhärtung anwenden. Beispielsweise verwenden Sie sichere Passwörter für StorageGRID, nutzen HTTPS anstelle von HTTP und aktivieren zertifikatbasierte Authentifizierung, wo verfügbar. Diese Best Practices müssen physische und umweltbezogene Sicherheitsmaßnahmen umfassen, die den physischen Zugriff einschränken sowie das physische Rechenzentrum und die unterstützende Infrastruktur schützen. Es sind zudem alle geltenden regulatorischen Standards und Empfehlungen für Ihr Unternehmen und Ihre Region zu berücksichtigen.
+
+StorageGRID folgt dem  https://security.netapp.com/policy/["NetApp Richtlinie zur Handhabung von Sicherheitslücken"^]. Gemeldete Schwachstellen werden gemäß dem Prozess zur Reaktion auf Sicherheitsvorfälle des Produkts überprüft und behoben.
+
+Bei der Härtung eines StorageGRID Systems sind die folgenden Punkte zu berücksichtigen:
+
+* *Welches der drei StorageGRID Netzwerke* implementiert wurde. Alle StorageGRID Systeme müssen das Grid Network verwenden, es kann jedoch auch das Admin Network, das Client Network oder beide genutzt werden. Jedes Netzwerk hat unterschiedliche Sicherheitsanforderungen.
+* *Die Art der Plattformen*, die Sie für die einzelnen Knoten Ihres StorageGRID Systems verwenden. StorageGRID Knoten können auf VMware virtuellen Maschinen, innerhalb einer Container Engine auf Linux Hosts oder als dedizierte Hardware Appliances bereitgestellt werden. Jede Plattformart verfügt über eigene Best Practices zur Härtung.
+* *Wie vertrauenswürdig die Mandantenkonten sind*. Wenn Sie ein Dienstanbieter mit nicht vertrauenswürdigen Mandantenkonten sind, ergeben sich andere Sicherheitsbedenken als bei der ausschließlichen Nutzung vertrauenswürdiger, interner Mandanten.
+* *Welche Sicherheitsanforderungen und -konventionen* Ihre Organisation befolgt. Möglicherweise müssen bestimmte behördliche oder unternehmensinterne Anforderungen erfüllt werden.
+

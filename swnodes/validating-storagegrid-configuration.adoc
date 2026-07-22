@@ -1,0 +1,37 @@
+---
+permalink: swnodes/validating-storagegrid-configuration.html 
+sidebar: sidebar 
+keywords: how to validate StorageGRID configuration 
+summary: Nachdem Sie für jeden Ihrer StorageGRID Nodes Konfigurationsdateien im Verzeichnis /etc/storagegrid/nodes erstellt haben, muss der Inhalt dieser Dateien validiert werden. 
+---
+= Validieren Sie die StorageGRID-Konfiguration unter Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nachdem Sie Konfigurationsdateien in  `/etc/storagegrid/nodes` für jeden Ihrer StorageGRID Knoten erstellt haben, muss der Inhalt dieser Dateien validiert werden.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+Um den Inhalt der Konfigurationsdateien zu validieren, ist auf jedem Host der folgende Befehl auszuführen:
+
+[listing]
+----
+sudo storagegrid node validate all
+----
+Wenn die Dateien korrekt sind, zeigt die Ausgabe für jede Konfigurationsdatei *PASSED* an, wie im Beispiel dargestellt.
+
+
+NOTE: Bei Verwendung nur einer LUN auf Metadaten-only-Nodes kann eine Warnmeldung erscheinen, die ignoriert werden kann.
+
+image:rhel_node_configuration_file_output.gif["Dieses Bild wird im umgebenden Text erläutert."]
+
+
+TIP: Für eine automatisierte Installation lässt sich diese Ausgabe mit den Optionen  `-q` oder  `--quiet` im  `storagegrid`-Befehl unterdrücken (zum Beispiel  `storagegrid --quiet...`). Wird die Ausgabe unterdrückt, hat der Befehl einen Exit-Wert ungleich null, wenn Konfigurationswarnungen oder -fehler erkannt werden.
+
+Sind die Konfigurationsdateien fehlerhaft, werden die Probleme wie im Beispiel als *WARNING* und *ERROR* angezeigt. Wenn Konfigurationsfehler gefunden werden, müssen diese vor der Fortsetzung der Installation behoben werden.
+
+image:rhel_node_configuration_file_output_with_errors.gif["Dieses Bild wird im umgebenden Text erläutert."]

@@ -1,0 +1,86 @@
+---
+permalink: admin/security-for-clients.html 
+sidebar: sidebar 
+keywords: security, S3, client application, TLS 
+summary: StorageGRID Mandantenkonten verwenden S3-Client-Anwendungen, um Objektdaten in StorageGRID zu speichern. Sie sollten die für Client-Anwendungen implementierten Sicherheitsmaßnahmen überprüfen. 
+---
+= Sicherheit für S3-Clients in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID Mandantenkonten verwenden S3-Client-Anwendungen, um Objektdaten in StorageGRID zu speichern. Sie sollten die für Client-Anwendungen implementierten Sicherheitsmaßnahmen überprüfen.
+
+
+
+[[summary]]
+== Zusammenfassung
+
+${post_edited_translations.segment}
+
+Verbindungssicherheit:: TLS
+Server-Authentifizierung:: ${post_edited_translations.segment}
+Client-Authentifizierung:: S3-Konto-Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
+Client-Autorisierung:: Bucket-Eigentum und alle anwendbaren Zugriffskontrollrichtlinien
+
+
+
+
+[[how-storagegrid-provides-security-for-client-applications]]
+== Wie StorageGRID Sicherheit für Client-Anwendungen bereitstellt
+
+S3 Clientanwendungen können eine Verbindung zum Load Balancer Service auf Gateway Nodes oder Admin Nodes oder direkt zu Storage Nodes herstellen.
+
+* Clients, die sich mit dem Load Balancer Service verbinden, können HTTPS oder HTTP verwenden, abhängig davon, wie Sie link:configuring-load-balancer-endpoints.html["den Load Balancer-Endpunkt konfigurieren"].
++
+HTTPS bietet eine sichere, TLS-verschlüsselte Kommunikation und wird empfohlen. Ein Sicherheitszertifikat muss an den Endpunkt angehängt werden.
+
++
+${post_edited_translations.segment}
+
+* Clients, die eine Verbindung zu Storage Nodes herstellen, können ebenfalls HTTPS oder HTTP verwenden.
++
+HTTPS ist die Standardeinstellung und wird empfohlen.
+
++
+HTTP bietet eine weniger sichere, unverschlüsselte Kommunikation, kann aber optional link:changing-network-options-object-encryption.html["aktiviert"] für Nicht-Produktions- oder Testnetze verwendet werden.
+
+* Die Kommunikation zwischen StorageGRID und dem Client wird mit TLS verschlüsselt.
+* Die Kommunikation zwischen dem Load Balancer Service und den Storage Nodes innerhalb des Grids ist verschlüsselt, unabhängig davon, ob der Load Balancer Endpoint für HTTP- oder HTTPS-Verbindungen konfiguriert ist.
+* Clients müssen link:../s3/authenticating-requests.html["HTTP-Authentifizierungsheader"] an StorageGRID übermitteln, um REST-API-Operationen auszuführen.
+
+
+
+
+[[security-certificates-and-client-applications]]
+=== Sicherheitszertifikate und Client-Anwendungen
+
+In allen Fällen können Clientanwendungen TLS-Verbindungen herstellen, indem entweder ein vom Grid-Administrator hochgeladenes benutzerdefiniertes Serverzertifikat oder ein vom StorageGRID System generiertes Zertifikat verwendet wird:
+
+* Wenn Clientanwendungen eine Verbindung zum Load-Balancer-Dienst herstellen, verwenden sie das für den Load-Balancer-Endpunkt konfigurierte Zertifikat. Jeder Load-Balancer-Endpunkt verfügt über ein eigenes Zertifikat, entweder ein vom Grid-Administrator hochgeladenes benutzerdefiniertes Serverzertifikat oder ein Zertifikat, das der Grid-Administrator bei der Konfiguration des Endpunkts in StorageGRID generiert hat.
++
+Siehe link:managing-load-balancing.html["Überlegungen zum Lastausgleich"].
+
+* Wenn Clientanwendungen eine direkte Verbindung zu einem Storage Node herstellen, verwenden sie entweder die systemgenerierten Serverzertifikate, die bei der Installation des StorageGRID Systems für die Storage Nodes erstellt wurden (und von der Systemzertifizierungsstelle signiert sind), oder ein einzelnes benutzerdefiniertes Serverzertifikat, das vom Grid-Administrator für das Grid bereitgestellt wird. Siehe link:configuring-custom-server-certificate-for-storage-node.html["ein benutzerdefiniertes S3 API-Zertifikat hinzufügen"].
+
+
+Clients sollten so konfiguriert sein, dass sie der Zertifizierungsstelle vertrauen, die das jeweilige Zertifikat signiert hat, das für die Herstellung von TLS-Verbindungen verwendet wird.
+
+
+
+[[supported-hashing-and-encryption-algorithms-for-tls-libraries]]
+== Unterstützte Hash- und Verschlüsselungsalgorithmen für TLS-Bibliotheken
+
+Das StorageGRID System unterstützt eine Reihe von Cipher Suites, die Clientanwendungen beim Aufbau einer TLS-Sitzung verwenden können. Zur Konfiguration von Ciphers befindet sich die Option unter *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* mit Auswahl von *TLS- und SSH-Richtlinien*.
+
+
+
+[[supported-versions-of-tls]]
+=== Unterstützte TLS-Versionen
+
+StorageGRID unterstützt TLS 1.2 und TLS 1.3.
+
+
+NOTE: SSLv3 und TLS 1.1 (oder frühere Versionen) werden nicht mehr unterstützt.

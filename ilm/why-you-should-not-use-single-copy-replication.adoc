@@ -1,0 +1,29 @@
+---
+permalink: ilm/why-you-should-not-use-single-copy-replication.html 
+sidebar: sidebar 
+keywords: dual commit, single commit, number of copies for replication 
+summary: Wenn eine ILM-Regel zum Erstellen replizierter Kopien erstellt wird, sollten in den Platzierungsanweisungen immer mindestens zwei Kopien für jeden Zeitraum angegeben werden. 
+---
+= Risiken der Einzelkopie-Replikation in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn eine ILM-Regel zum Erstellen replizierter Kopien erstellt wird, sollten in den Platzierungsanweisungen immer mindestens zwei Kopien für jeden Zeitraum angegeben werden.
+
+
+NOTE: Es sollte keine ILM-Regel verwendet werden, die nur eine replizierte Kopie für einen bestimmten Zeitraum erstellt. Existiert nur eine replizierte Kopie eines Objekts, geht dieses Objekt verloren, wenn ein Storage Node ausfällt oder einen schwerwiegenden Fehler aufweist. Auch während Wartungsarbeiten wie Upgrades ist der Zugriff auf das Objekt vorübergehend nicht möglich.
+
+Im folgenden Beispiel legt die ILM-Regel „1 Kopie erstellen“ fest, dass eine replizierte Kopie eines Objekts in einem Speicherpool mit drei Storage Nodes abgelegt wird. Wenn ein Objekt, das dieser Regel entspricht, aufgenommen wird, platziert StorageGRID eine einzelne Kopie auf genau einem Storage Node.
+
+image:ilm_replication_make_1_copy.png["ILM Replikation 1 Kopie"]
+
+Wenn eine ILM-Regel nur eine replizierte Kopie eines Objekts erstellt, ist das Objekt nicht mehr zugänglich, sobald der Storage Node nicht verfügbar ist. In diesem Beispiel geht der Zugriff auf das Objekt AAA vorübergehend verloren, wenn Storage Node 2 offline ist, beispielsweise während eines Upgrades oder einer anderen Wartungsmaßnahme. Das Objekt AAA geht vollständig verloren, wenn Storage Node 2 ausfällt.
+
+image:ilm_replication_make_1_copy_sn_fails.png["ILM Replikation Erstellung einer Kopie der Seriennummer schlägt fehl"]
+
+Um Datenverlust zu vermeiden, sollten stets mindestens zwei Kopien aller Objekte erstellt werden, die durch Replikation geschützt werden sollen. Sind zwei oder mehr Kopien vorhanden, ist weiterhin Zugriff auf das Objekt möglich, falls ein Storage Node ausfällt oder offline geht.
+
+image:ilm_replication_make_2_copies_sn_fails.png["ILM Replikation 2 Kopien erstellen, SN schlägt fehl"]

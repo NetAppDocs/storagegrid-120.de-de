@@ -1,0 +1,60 @@
+---
+permalink: maintain/configuring-replacement-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, primary admin node, replace primary admin node, replacing primary admin node 
+summary: Der Ersatzknoten muss als primärer Admin Node für Ihr StorageGRID System konfiguriert sein. 
+---
+= Konfigurieren Sie einen Ersatz-Primären Admin-Node in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Ersatzknoten muss als primärer Admin Node für Ihr StorageGRID System konfiguriert sein.
+
+.Bevor Sie beginnen
+* Bei primären Admin-Knoten, die auf virtuellen Maschinen gehostet werden, ist die virtuelle Maschine bereitgestellt, eingeschaltet und initialisiert.
+* Bei primären Admin-Knoten, die auf einer Services Appliance gehostet werden, wurde die Appliance ausgetauscht und Software installiert. Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Installationsanleitung für Ihr Gerät"^].
+* Sie verfügen über die aktuellste Sicherungskopie der Wiederherstellungspaketdatei (`sgws-recovery-package-_id-revision_.zip`).
+* Sie besitzen die Bereitstellungspassphrase.
+
+
+.Schritte
+. Öffnen Sie Ihren Webbrowser und navigieren Sie zu `\https://primary_admin_node_ip`.
+. Ein temporäres Installationspasswort kann bei Bedarf verwaltet werden:
++
+** Wenn bereits mit einer dieser Methoden ein Passwort festgelegt wurde, ist zur Fortsetzung das Passwort einzugeben.
++
+*** Ein Benutzer hat das Passwort zuvor beim Zugriff auf das Installationsprogramm festgelegt.
+*** Für Bare-Metal-Systeme wurde das Passwort automatisch aus der Knotenkonfigurationsdatei bei `/etc/storagegrid/nodes/_<node_name>_.conf` importiert
+*** Für VMs wurde das SSH-/Konsolenpasswort automatisch aus den OVF-Eigenschaften importiert.
+
+
+** Falls noch kein Passwort festgelegt wurde, kann optional ein Passwort zum Schutz des StorageGRID Installationsprogramms festgelegt werden.
+
+
+. *Ausgefallenen primären Admin-Knoten wiederherstellen* auswählen.
++
+image:install_or_recover_primary_admin_node.png["Primären Admin-Node installieren oder wiederherstellen"]
+
+. Die aktuellste Sicherung des Wiederherstellungspakets hochladen:
++
+.. Auf *Durchsuchen* klicken.
+.. Suchen Sie die aktuellste Wiederherstellungspaketdatei für Ihr StorageGRID System und klicken Sie auf *Öffnen*.
+
+
+. ${post_edited_translations.segment}
+. Klicken Sie auf *Wiederherstellung starten*.
++
+Der Wiederherstellungsprozess beginnt. Der Grid Manager ist möglicherweise für einige Minuten nicht verfügbar, während die erforderlichen Dienste gestartet werden. Nach Abschluss der Wiederherstellung wird die Anmeldeseite angezeigt.
+
+. Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist und die Vertrauensstellung der vertrauenden Seite für den wiederhergestellten Admin-Knoten so konfiguriert war, dass das Standardzertifikat der Managementoberfläche verwendet wurde, sollte die Vertrauensstellung der vertrauenden Seite des Knotens in Active Directory Federation Services (AD FS) mit dem neuen Zertifikat aktualisiert (oder gelöscht und neu erstellt) werden. Das neue Standardserverzertifikat, das während des Wiederherstellungsprozesses des Admin-Knotens generiert wurde, ist zu verwenden.
++
+
+NOTE: Informationen zur Konfiguration einer Relying Party Trust finden sich unter link:../admin/configure-sso.html["Einmalanmeldung konfigurieren"]. Der Zugriff auf das Standardserverzertifikat erfolgt über die Anmeldung an der Befehlsshell des Admin Node. Im  `/var/local/mgmt-api` Verzeichnis kann die  `server.crt` Datei ausgewählt werden.
+
+
+
+
+CAUTION: Nach der Wiederherstellung eines primären Admin-Knotens link:assess-hotfix-requirement-during-primary-admin-node-recovery.html["feststellen, ob ein Hotfix angewendet werden muss"].

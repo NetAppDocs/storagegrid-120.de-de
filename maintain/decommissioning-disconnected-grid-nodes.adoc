@@ -1,0 +1,174 @@
+---
+permalink: maintain/decommissioning-disconnected-grid-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, disconnected nodes, decommission node 
+summary: 'Möglicherweise ist es erforderlich, einen Knoten außer Betrieb zu nehmen, der derzeit nicht mit dem Grid verbunden ist (dessen Zustand „Unbekannt“ ist oder der administrativ deaktiviert ist).' 
+---
+= Außerbetriebnahme nicht mehr verbundener StorageGRID Nodes
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Möglicherweise ist es erforderlich, einen Knoten außer Betrieb zu nehmen, der derzeit nicht mit dem Grid verbunden ist (dessen Zustand „Unbekannt“ ist oder der administrativ deaktiviert ist).
+
+.Bevor Sie beginnen
+* Sie verstehen die Überlegungen zur Stilllegung link:considerations-for-decommissioning-admin-or-gateway-nodes.html["Admin- und Gateway-Knoten"] und die Überlegungen zur Stilllegung link:considerations-for-decommissioning-storage-nodes.html["Speicherknoten"].
+* Sie haben alle erforderlichen Voraussetzungen erhalten.
+* Sie haben sichergestellt, dass keine Datenreparaturaufträge aktiv sind. Siehe link:checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].
+* Sie haben bestätigt, dass die Wiederherstellung von Storage Node derzeit im gesamten Grid nicht läuft. Falls dies der Fall ist, muss abgewartet werden, bis ein im Rahmen der Wiederherstellung durchgeführter Cassandra-Neuaufbau abgeschlossen ist. Danach kann mit der Außerbetriebnahme fortgefahren werden.
+* Sie haben sichergestellt, dass während der Knotenstilllegung keine anderen Wartungsvorgänge ausgeführt werden, es sei denn, die Knotenstilllegung wird angehalten.
+* Die Spalte *Deaktivierung möglich* für den oder die getrennten Knoten, die Sie außer Betrieb nehmen möchten, enthält ein grünes Häkchen.
+* Sie besitzen die Bereitstellungspassphrase.
+
+
+.Über diese Aufgabe
+Nicht verbundene Knoten lassen sich anhand des blauen Symbols „Unbekannt“ image:icon_alarm_blue_unknown.png["Symbol unbekannt"] oder des grauen Symbols „Administrativ deaktiviert“ image:icon_alarm_gray_administratively_down.png["Symbol administrativ deaktiviert"] in der Spalte *Status* erkennen.
+
+Vor der Außerbetriebnahme eines nicht mehr verbundenen Knotens ist Folgendes zu beachten:
+
+* Dieses Verfahren ist in erster Linie für die Entfernung eines einzelnen, getrennten Knotens vorgesehen. Wenn Ihr Grid mehrere getrennte Knoten enthält, erfordert die Software, dass alle gleichzeitig außer Betrieb genommen werden, was das Potenzial für unerwartete Ergebnisse erhöht.
++
+
+CAUTION: Es kann zu Datenverlust kommen, wenn Sie mehr als einen getrennten Storage Node gleichzeitig außer Betrieb nehmen. Siehe link:considerations-for-decommissioning-storage-nodes.html#considerations-disconnected-storage-nodes["Überlegungen zu getrennten Storage Nodes"].
+
++
+
+CAUTION: Seien Sie vorsichtig beim Außerbetriebnehmen von Storage Nodes in einem Grid mit softwarebasierten Metadaten-only-Knoten. Wenn alle Knoten außer Betrieb genommen werden, die _sowohl_ Objekte als auch Metadaten speichern, wird die Möglichkeit, Objekte im Grid zu speichern, entfernt. Siehe link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"] für weitere Informationen zu Metadaten-only Storage Nodes.
+
+* Kann ein nicht verbundener Knoten nicht entfernt werden (zum Beispiel ein Storage Node, der für das ADC-Quorum erforderlich ist), kann kein anderer nicht verbundener Knoten entfernt werden.
+
+
+.Schritte
+. Sofern kein Archivknoten außer Betrieb genommen wird (dieser muss getrennt sein), sollte versucht werden, alle getrennten Grid-Knoten wieder online zu bringen oder wiederherzustellen.
++
+Siehe link:warnings-and-considerations-for-grid-node-recovery.html["Verfahren zur Wiederherstellung von Grid-Knoten"] für Anweisungen.
+
+. Wenn Sie einen getrennten Grid-Node nicht wiederherstellen können und ihn im getrennten Zustand außer Betrieb nehmen möchten, aktivieren Sie das Kontrollkästchen für diesen Node.
++
+
+NOTE: Wenn das Grid mehrere voneinander getrennte Knoten enthält, verlangt die Software, dass alle gleichzeitig außer Betrieb genommen werden, was das Risiko unerwarteter Ergebnisse erhöht.
+
++
+
+CAUTION: Seien Sie vorsichtig, wenn Sie mehr als einen getrennten Grid-Knoten gleichzeitig außer Betrieb nehmen, insbesondere wenn Sie mehrere getrennte Storage Nodes auswählen. Wenn Sie mehr als einen getrennten Storage Node haben, den Sie nicht wiederherstellen können, wenden Sie sich an den technischen Support, um das beste weitere Vorgehen zu klären.
+
+. ${post_edited_translations.segment}
++
+Die Schaltfläche *Stilllegung starten* ist aktiviert.
+
+. *Deaktivierung starten* auswählen.
++
+Es erscheint eine Warnung, die darauf hinweist, dass Sie einen nicht verbundenen Knoten ausgewählt haben und dass Objektdaten verloren gehen, wenn der Knoten die einzige Kopie eines Objekts enthält.
+
+. Die Liste der Knoten kann überprüft werden, anschließend ist auf *OK* zu klicken.
++
+Der Stilllegungsprozess beginnt, und der Fortschritt wird für jeden Knoten angezeigt. Während des Prozesses wird ein neues Wiederherstellungspaket generiert, das die Änderung der Grid-Konfiguration enthält.
+
+. Sobald das neue Wiederherstellungspaket verfügbar ist, kann über den Link oder über *Wartung* > *System* > *Wiederherstellungspaket* auf die Seite für das Wiederherstellungspaket zugegriffen werden. Anschließend die  `.zip` Datei herunterladen.
++
+Siehe die Anweisungen für link:downloading-recovery-package.html["Herunterladen des Wiederherstellungspakets"].
+
++
+
+NOTE: Laden Sie das Wiederherstellungspaket so schnell wie möglich herunter, um sicherzustellen, dass Sie Ihr Grid wiederherstellen können, falls während der Decommission-Prozedur etwas schiefgeht.
+
++
+
+CAUTION: Die Wiederherstellungspaketdatei muss gesichert werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können.
+
+. Die Seite „Decommission“ sollte regelmäßig überwacht werden, um sicherzustellen, dass alle ausgewählten Knoten erfolgreich außer Betrieb genommen wurden.
++
+Die Außerbetriebnahme von Storage Nodes kann Tage oder Wochen dauern. Nach Abschluss aller Aufgaben wird die Knotenauswahlliste mit einer Erfolgsmeldung erneut angezeigt. Wenn ein nicht verbundener Storage Node außer Betrieb genommen wurde, weist eine Informationsmeldung darauf hin, dass die Reparaturjobs gestartet wurden.
+
+. Nachdem die Knoten im Rahmen des Außerbetriebnahmeverfahrens automatisch heruntergefahren wurden, sind alle verbleibenden virtuellen Maschinen oder anderen Ressourcen zu entfernen, die mit dem außer Betrieb genommenen Knoten verbunden sind.
++
+
+CAUTION: Führen Sie diesen Schritt erst aus, nachdem die Knoten automatisch heruntergefahren wurden.
+
+. Wenn ein Storage Node außer Betrieb genommen wird, sollte der Status der *replizierten Daten* und der *erasure-coded (EC) Daten* Reparaturaufträge überwacht werden, die während des Außerbetriebnahmeprozesses automatisch gestartet werden.
+
+
+[role="tabbed-block"]
+====
+.Replizierte Daten
+--
+* Um eine geschätzte prozentuale Fertigstellung für die replizierte Reparatur zu erhalten, kann die  `show-replicated-repair-status` Option zum Befehl repair-data hinzugefügt werden.
++
+`repair-data show-replicated-repair-status`
+
+* Zur Feststellung, ob die Reparaturen abgeschlossen sind:
++
+.. Wählen Sie *Knoten* > *_Speicherknoten, der repariert wird_* > *ILM*.
+.. Die Attribute im Abschnitt „Auswertung“ können überprüft werden. Nach Abschluss der Reparaturen zeigt das Attribut „Warten – Alle“ 0 Objekte an.
+
+
+* Um die Reparatur genauer zu überwachen:
++
+.. Wählen Sie *Knoten*.
+.. *_grid name_* > *ILM* auswählen.
+.. Fahren Sie mit dem Cursor über das ILM-Warteschlangendiagramm, um den Wert des Attributs *Scan rate (Objekte/Sek)* zu sehen, der die Rate angibt, mit der Objekte im Grid gescannt und für ILM in die Warteschlange gestellt werden.
+.. Im Abschnitt „ILM-Warteschlange“ sind die folgenden Attribute zu beachten:
++
+*** *Scandauer - geschätzt*: Die geschätzte Zeit für einen vollständigen ILM-Scan aller Objekte.
++
+Ein vollständiger Scan garantiert nicht, dass ILM auf alle Objekte angewendet wurde.
+
+*** *Reparaturversuche*: Die Gesamtzahl der versuchten Objektreparaturvorgänge für replizierte Daten, die als risikoreich gelten. Risikoreiche Objekte sind alle Objekte, von denen nur noch eine Kopie vorhanden ist, unabhängig davon, ob dies durch die ILM-Richtlinie festgelegt wurde oder als Folge verlorener Kopien auftritt. Dieser Zähler wird jedes Mal erhöht, wenn ein Storage Node versucht, ein risikoreiches Objekt zu reparieren. Risikoreiche ILM-Reparaturen erhalten Priorität, wenn das Grid ausgelastet ist.
++
+Die Reparatur desselben Objekts kann erneut erfolgen, wenn die Replikation nach der Reparatur fehlschlägt. + Diese Attribute können nützlich sein, wenn der Fortschritt der Storage Node Volume-Wiederherstellung überwacht wird. Wenn die Anzahl der durchgeführten Reparaturen nicht mehr ansteigt und ein vollständiger Scan abgeschlossen wurde, ist die Reparatur wahrscheinlich abgeschlossen.
+
+
+
+.. Alternativ lässt sich eine Prometheus-Abfrage für  `storagegrid_ilm_scan_period_estimated_minutes` und  `storagegrid_ilm_repairs_attempted` einreichen.
+
+
+
+
+--
+.Löschcodierte (EC) Daten
+--
+Zur Überwachung der Reparatur von erasure-coded Daten und zum erneuten Versuch aller Anfragen, die möglicherweise fehlgeschlagen sind:
+
+. Status der Reparaturen von löschcodierten Daten bestimmen:
++
+** *Support* > *Tools* > *Metrics* auswählen, um die geschätzte Restlaufzeit und den Fertigstellungsgrad des aktuellen Auftrags anzuzeigen. Anschließend im Grafana-Bereich *EC Overview* auswählen. Die Dashboards *Grid EC Job Estimated Time to Completion* und *Grid EC Job Percentage Completed* anzeigen.
+** Mit diesem Befehl wird der Status eines bestimmten  `repair-data`Vorgangs angezeigt:
++
+`repair-data show-ec-repair-status --repair-id repair ID`
+
+** Mit diesem Befehl werden alle Reparaturen aufgelistet:
++
+`repair-data show-ec-repair-status`
+
++
+Die Ausgabe listet Informationen auf, einschließlich  `repair ID`zu allen zuvor und aktuell laufenden Reparaturen.
+
+
+
+. Wenn die Ausgabe anzeigt, dass der Reparaturvorgang fehlgeschlagen ist, kann die Reparatur mit der  `--repair-id` Option erneut versucht werden.
++
+Dieser Befehl versucht eine fehlgeschlagene Knotenreparatur erneut, wobei die Reparatur-ID 6949309319275667690 verwendet wird:
+
++
+`repair-data start-ec-node-repair --repair-id 6949309319275667690`
+
++
+Dieser Befehl versucht eine fehlgeschlagene Volume-Reparatur erneut, wobei die Reparatur-ID 6949309319275667690 verwendet wird:
+
++
+`repair-data start-ec-volume-repair --repair-id 6949309319275667690`
+
+
+
+--
+====
+.Nachdem Sie fertig sind
+Sobald die getrennten Knoten außer Betrieb genommen und alle Datenreparaturaufträge abgeschlossen sind, können bei Bedarf beliebige angeschlossene Grid-Knoten außer Betrieb genommen werden.
+
+Führen Sie anschließend diese Schritte aus, nachdem das Außerbetriebnahmeverfahren abgeschlossen wurde:
+
+* Stellen Sie sicher, dass die Laufwerke des außer Betrieb genommenen Grid-Knotens vollständig gelöscht sind. Ein handelsübliches Datenlöschtool oder ein entsprechender Dienst kann verwendet werden, um Daten dauerhaft und sicher von den Laufwerken zu entfernen.
+* Wenn ein Appliance-Knoten außer Betrieb genommen wurde und die Daten auf der Appliance durch Knotenverschlüsselung geschützt waren, kann der StorageGRID Appliance Installer verwendet werden, um die Konfiguration des Schlüsselverwaltungsservers (Clear KMS) zu löschen. Die KMS-Konfiguration muss gelöscht werden, wenn die Appliance zu einem anderen Grid hinzugefügt werden soll. Anleitungen finden sich unter  https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/monitoring-node-encryption-in-maintenance-mode.html["Überwachung der Knotenverschlüsselung im Wartungsmodus"^].
+

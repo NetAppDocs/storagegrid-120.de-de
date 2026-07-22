@@ -1,0 +1,38 @@
+---
+permalink: maintain/considerations-for-decommissioning-admin-or-gateway-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission admin node, decommission gateway node 
+summary: Die Überlegungen zur Außerbetriebnahme eines Admin-Knotens oder Gateway-Knotens sind zu beachten. 
+---
+= Überlegungen zur Außerbetriebnahme von StorageGRID Admin- oder Gateway-Knoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Überlegungen zur Außerbetriebnahme eines Admin-Knotens oder Gateway-Knotens sind zu beachten.
+
+
+
+[[considerations-for-admin-node]]
+== Überlegungen zum Admin Node
+
+* Der primäre Admin-Node kann nicht außer Betrieb genommen werden.
+* Ein Admin-Knoten kann nicht außer Betrieb genommen werden, wenn eine seiner Netzwerkschnittstellen Teil einer Hochverfügbarkeitsgruppe (HA-Gruppe) ist. Zuerst müssen die Netzwerkschnittstellen aus der HA-Gruppe entfernt werden. Siehe die Anweisungen für link:../admin/managing-high-availability-groups.html["Verwaltung von HA-Gruppen"].
+* Bei Bedarf können ILM-Richtlinien während der Außerbetriebnahme eines Admin-Knotens gefahrlos geändert werden.
+* Wenn Sie einen Admin-Knoten außer Betrieb nehmen und Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, muss die Vertrauensstellung der vertrauenden Seite des Knotens aus den Active Directory Federation Services (AD FS) entfernt werden.
+* Wenn Sie link:../admin/grid-federation-overview.html["Grid-Föderation"] verwenden, muss sichergestellt sein, dass die IP-Adresse des Knotens, den Sie außer Betrieb nehmen, nicht für eine Grid-Federation-Verbindung angegeben wurde.
+* Wenn Sie einen nicht mehr verbundenen Admin Node außer Betrieb nehmen, gehen die Audit-Protokolle dieses Nodes verloren; diese Protokolle sollten jedoch auch auf dem primären Admin Node vorhanden sein.
+
+
+
+
+[[considerations-for-gateway-node]]
+== Überlegungen für Gateway Node
+
+* Ein Gateway-Knoten kann nicht außer Betrieb genommen werden, wenn eine seiner Netzwerkschnittstellen Teil einer Hochverfügbarkeitsgruppe (HA-Gruppe) ist. Zuerst müssen die Netzwerkschnittstellen aus der HA-Gruppe entfernt werden. Siehe die Anweisungen für link:../admin/managing-high-availability-groups.html["Verwaltung von HA-Gruppen"].
+* Bei Bedarf können ILM-Richtlinien während der Außerbetriebnahme eines Gateway-Knotens gefahrlos geändert werden.
+* Wenn Sie link:../admin/grid-federation-overview.html["Grid-Föderation"] verwenden, muss sichergestellt sein, dass die IP-Adresse des Knotens, den Sie außer Betrieb nehmen, nicht für eine Grid-Federation-Verbindung angegeben wurde.
+* Ein Gateway-Knoten kann gefahrlos außer Betrieb genommen werden, während er getrennt ist.
+

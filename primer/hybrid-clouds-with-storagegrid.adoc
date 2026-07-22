@@ -1,0 +1,55 @@
+---
+permalink: primer/hybrid-clouds-with-storagegrid.html 
+sidebar: sidebar 
+keywords: StorageGRID, hybrid cloud, cloud storage pool, platform services, fabricpool, ontap 
+summary: StorageGRID kann in einer Hybrid-Cloud-Konfiguration eingesetzt werden, indem richtlinienbasiertes Datenmanagement implementiert wird, um Objekte in Cloud Storage Pools zu speichern, die StorageGRID Plattformdienste genutzt werden und Daten von ONTAP zu StorageGRID mit NetApp FabricPool gestuft werden. 
+---
+= Hybrid Clouds mit StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID kann in einer Hybrid-Cloud-Konfiguration eingesetzt werden, indem richtlinienbasiertes Datenmanagement implementiert wird, um Objekte in Cloud Storage Pools zu speichern, die StorageGRID Plattformdienste genutzt werden und Daten von ONTAP zu StorageGRID mit NetApp FabricPool gestuft werden.
+
+
+
+[[cloud-storage-pools]]
+== Cloud-Storage-Pools
+
+Cloud Storage Pools ermöglichen das Speichern von Objekten außerhalb des StorageGRID Systems. Beispielsweise kann es sinnvoll sein, selten genutzte Objekte in kostengünstigeren Cloud Storage wie Amazon S3 Glacier, S3 Glacier Deep Archive, Google Cloud oder die Archive-Zugriffsebene in Microsoft Azure Blob storage zu verschieben. Oder es kann ein Cloud-Backup der StorageGRID Objekte vorgehalten werden, das zur Wiederherstellung von Daten dient, die durch einen Ausfall eines Storage-Volumes oder Storage Node verloren gegangen sind.
+
+Speicherlösungen von Drittanbietern werden ebenfalls unterstützt, darunter Festplatten- und Tape-Storage.
+
+
+NOTE: Die Verwendung von Cloud Storage Pools mit FabricPool wird aufgrund der zusätzlichen Latenz beim Abrufen eines Objekts vom Cloud Storage Pool-Ziel nicht unterstützt.
+
+
+
+[[s3-platform-services]]
+== S3 Plattformdienste
+
+S3-Plattformdienste bieten die Möglichkeit, Remote-Services als Endpunkte für Objektreplikation, Ereignisbenachrichtigungen oder Suchintegration zu nutzen. Plattformdienste arbeiten unabhängig von den ILM-Regeln des Grids und sind für einzelne S3 Buckets aktiviert. Die folgenden Dienste werden unterstützt:
+
+* Der CloudMirror Replikationsdienst spiegelt automatisch die angegebenen Objekte in einen Ziel-S3-Bucket, der sich entweder auf Amazon S3 oder auf einem zweiten StorageGRID System befinden kann.
+* Der Ereignisbenachrichtigungsdienst sendet Meldungen über bestimmte Aktionen an einen externen Endpunkt, der den Empfang von Ereignissen des Simple Notification Service (Amazon SNS) unterstützt.
+* Der Suchintegrationsdienst sendet Objektmetadaten an einen externen Elasticsearch-Dienst, sodass Metadaten mithilfe von Drittanbietertools durchsucht, visualisiert und analysiert werden können.
+
+
+Beispielsweise kann die CloudMirror-Replikation genutzt werden, um bestimmte Kundendatensätze in Amazon S3 zu spiegeln und anschließend AWS-Services für Analysen der Daten zu verwenden.
+
+
+
+[[ontap-data-tiering-using-fabricpool]]
+== ONTAP Datentiering mit FabricPool
+
+Die Kosten für ONTAP Storage lassen sich senken, indem Daten mit FabricPool zu StorageGRID getiert werden. FabricPool ermöglicht das automatisierte Tiering von Daten auf kostengünstige Objektspeicher-Tiers, sowohl lokal als auch extern.
+
+Im Gegensatz zu manuellen Tiering-Lösungen reduziert FabricPool die Gesamtbetriebskosten, indem das Tiering von Daten automatisiert wird, um die Speicherkosten zu senken. Die Vorteile der Cloud-Ökonomie werden durch Tiering in öffentliche und private Clouds, einschließlich StorageGRID, bereitgestellt.
+
+.Verwandte Informationen
+* link:../ilm/what-cloud-storage-pool-is.html["Was ist ein Cloud Storage Pool?"]
+* link:../tenant/what-platform-services-are.html["Plattformdienste verwalten"]
+* link:../fabricpool/index.html["StorageGRID für FabricPool konfigurieren"]
+

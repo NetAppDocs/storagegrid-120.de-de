@@ -1,0 +1,6 @@
+= 
+:allow-uri-read: 
+
+
+
+NOTE: Das Anwenden der Mandanteneinstellungen im gesamten Grid kann abhängig von der Netzwerkverbindung, dem Knotenstatus und den Cassandra-Operationen 15 Minuten oder länger in Anspruch nehmen.

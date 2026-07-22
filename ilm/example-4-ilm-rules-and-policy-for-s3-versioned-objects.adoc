@@ -1,0 +1,141 @@
+---
+permalink: ilm/example-4-ilm-rules-and-policy-for-s3-versioned-objects.html 
+sidebar: sidebar 
+keywords: object versions, example ILM rule, information lifecycle rule examples 
+summary: Wenn Sie einen S3-Bucket mit aktivierter Versionierung haben, können Sie die nicht aktuellen Objektversionen verwalten, indem Sie Regeln in Ihre ILM-Richtlinie aufnehmen, die Nicht aktuelle Zeit als Referenzzeit verwenden. 
+---
+= ILM-Regeln und -Richtlinien für nicht aktuelle S3-Objektversionen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Bucket mit aktivierter Versionierung haben, können Sie die nicht aktuellen Objektversionen verwalten, indem Sie Regeln in Ihre ILM-Richtlinie aufnehmen, die "Nicht aktuelle Zeit" als Referenzzeit verwenden.
+
+
+CAUTION: Wenn Sie eine begrenzte Aufbewahrungsdauer für Objekte festlegen, werden diese Objekte nach Ablauf der Frist endgültig gelöscht. Es sollte nachvollzogen werden, wie lange die Objekte aufbewahrt werden.
+
+Wie dieses Beispiel zeigt, kann die Menge des von versionierten Objekten verwendeten Speicherplatzes gesteuert werden, indem unterschiedliche Platzierungsanweisungen für nicht aktuelle Objektversionen verwendet werden.
+
+
+CAUTION: Die folgenden ILM-Regeln und Richtlinien sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie empfiehlt es sich, diese zu simulieren, um zu bestätigen, dass sie wie beabsichtigt funktioniert und Inhalte vor Verlust schützt.
+
+
+NOTE: Um eine ILM-Richtliniensimulation für eine nicht aktuelle Version eines Objekts durchzuführen, müssen Sie die UUID oder CBID der Objektversion kennen. Um die UUID und CBID zu ermitteln, verwenden Sie link:verifying-ilm-policy-with-object-metadata-lookup.html["Objektmetadaten-Lookup"] während das Objekt noch aktuell ist.
+
+.Verwandte Informationen
+link:how-objects-are-deleted.html["Wie Objekte gelöscht werden"]
+
+
+
+[[ilm-rule-1-for-example-4-save-three-copies-for-10-years]]
+== ILM-Regel 1 für Beispiel 4: Drei Kopien für 10 Jahre speichern
+
+Diese Beispiel-ILM-Regel speichert eine Kopie jedes Objekts an drei Standorten für 10 Jahre.
+
+Diese Regel gilt für alle Objekte, unabhängig davon, ob sie versioniert sind oder nicht.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Storage Pools
+ a| 
+Drei Speicherpools, die jeweils aus verschiedenen Rechenzentren bestehen, mit den Namen Site 1, Site 2 und Site 3.
+
+
+
+ a| 
+Regelname
+ a| 
+Drei Kopien zehn Jahre
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Platzierungen
+ a| 
+Am Tag 0 werden drei replizierte Kopien für 10 Jahre (3.652 Tage) aufbewahrt, eine in Standort 1, eine in Standort 2 und eine in Standort 3. Am Ende der 10 Jahre werden alle Kopien des Objekts gelöscht.
+
+|===
+
+
+[[ilm-rule-2-for-example-4-save-two-copies-of-noncurrent-versions-for-2-years]]
+== ILM-Regel 2 für Beispiel 4: Zwei Kopien nicht aktueller Versionen werden für 2 Jahre gespeichert.
+
+Dieses Beispiel einer ILM-Regel speichert zwei Kopien der nicht aktuellen Versionen eines versionierten S3-Objekts für 2 Jahre.
+
+Da die ILM-Regel 1 für alle Versionen des Objekts gilt, muss eine weitere Regel erstellt werden, um nicht aktuelle Versionen herauszufiltern.
+
+Um eine Regel zu erstellen, die „Nicht-aktuelle Zeit“ als Referenzzeit verwendet, wird im ersten Schritt (Details eingeben) des Assistenten zum Erstellen einer ILM-Regel für die Frage „Diese Regel nur auf ältere Objektversionen anwenden (in S3-Buckets mit aktivierter Versionierung)?“ die Option „Ja“ ausgewählt. Bei Auswahl von „Ja“ wird automatisch „Nicht-aktuelle Zeit“ als Referenzzeit festgelegt, und eine andere Referenzzeit kann nicht ausgewählt werden.
+
+image:ilm-rule-apply-only-to-older-object-verions.png["ILM-Regel nur auf ältere Objektversionen anwenden (Nicht aktuelle Zeit)"]
+
+In diesem Beispiel werden nur zwei Kopien der nicht aktuellen Versionen gespeichert, und diese Kopien werden zwei Jahre lang aufbewahrt.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Speicherpools
+ a| 
+Zwei Speicherpools, jeweils in unterschiedlichen Rechenzentren, Site 1 und Site 2.
+
+
+
+ a| 
+Regelname
+ a| 
+Nicht aktuelle Versionen: Zwei Kopien zwei Jahre
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Nichtaktuelle Zeit
+
+Wird automatisch ausgewählt, wenn im Assistenten zum Erstellen einer ILM-Regel für die Frage „Diese Regel nur auf ältere Objektversionen anwenden (in S3-Buckets mit aktivierter Versionierung)?“ *Ja* ausgewählt wird.
+
+
+
+ a| 
+Platzierungen
+ a| 
+Am Tag 0 relativ zum nichtaktuellen Zeitpunkt (d. h. beginnend mit dem Tag, an dem die Objektversion zur nichtaktuellen Version wird), werden zwei replizierte Kopien der nichtaktuellen Objektversionen für 2 Jahre (730 Tage) aufbewahrt, eine an Standort 1 und eine an Standort 2. Nach Ablauf von 2 Jahren werden die nichtaktuellen Versionen gelöscht.
+
+|===
+
+
+[[ilm-policy-for-example-4-s3-versioned-objects]]
+== ILM-Richtlinie für Beispiel 4: Versionierte S3-Objekte
+
+Wenn ältere Versionen eines Objekts anders als die aktuelle Version verwaltet werden sollen, müssen Regeln, die „Nicht-aktuelle Zeit“ als Referenzzeit verwenden, in der ILM-Richtlinie vor Regeln stehen, die für die aktuelle Objektversion gelten.
+
+Eine ILM-Richtlinie für versionierte S3-Objekte könnte ILM-Regeln wie die folgenden enthalten:
+
+* Alle älteren (nicht aktuellen) Versionen jedes Objekts werden 2 Jahre lang aufbewahrt, beginnend mit dem Tag, an dem die Version nicht mehr aktuell ist.
++
+
+NOTE: Die Regeln für „Nicht-aktuelle Zeit“ müssen in der Richtlinie vor den Regeln aufgeführt werden, die für die aktuelle Objektversion gelten. Andernfalls werden die nicht-aktuellen Objektversionen niemals von der Regel für „Nicht-aktuelle Zeit“ erfasst.
+
+* Beim Import werden drei Replikate erstellt und jeweils eines an drei Standorten gespeichert. Kopien der aktuellen Objektversion werden 10 Jahre lang aufbewahrt.
+
+
+Wenn die Beispielrichtlinie simuliert wird, ist zu erwarten, dass Testobjekte wie folgt ausgewertet werden:
+
+* Alle nicht mehr aktuellen Objektversionen würden der ersten Regel entsprechen. Ist eine nicht mehr aktuelle Objektversion älter als 2 Jahre, wird sie von ILM endgültig gelöscht (alle Kopien der nicht mehr aktuellen Version werden aus dem Grid entfernt).
+* Die aktuelle Objektversion wird von der zweiten Regel abgeglichen. Wenn die aktuelle Objektversion 10 Jahre lang gespeichert wurde, fügt der ILM-Prozess eine Löschmarkierung als aktuelle Version des Objekts hinzu und macht die vorherige Objektversion „nicht aktuell“. Bei der nächsten ILM-Auswertung wird diese nicht aktuelle Version von der ersten Regel abgeglichen. Dadurch wird die Kopie an Standort 3 gelöscht und die beiden Kopien an Standort 1 und Standort 2 werden für weitere 2 Jahre gespeichert.
+

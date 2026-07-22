@@ -1,0 +1,54 @@
+---
+permalink: monitor/monitoring-load-balancing-operations.html 
+sidebar: sidebar 
+keywords: load balancing, monitoring 
+summary: Wenn Sie einen Load Balancer zur Verwaltung von Clientverbindungen zu StorageGRID verwenden, empfiehlt es sich, die Load-Balancing-Vorgänge nach der anfänglichen Konfiguration des Systems sowie nach Konfigurationsänderungen oder einer Erweiterung zu überwachen. 
+---
+= Überwachen Sie die Lastverteilungsvorgänge in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen Load Balancer zur Verwaltung von Clientverbindungen zu StorageGRID verwenden, empfiehlt es sich, die Load-Balancing-Vorgänge nach der anfänglichen Konfiguration des Systems sowie nach Konfigurationsänderungen oder einer Erweiterung zu überwachen.
+
+.Über diese Aufgabe
+Sie können den Load Balancer Service auf Admin Nodes oder Gateway Nodes oder einen externen Load Balancer eines Drittanbieters verwenden, um Client-Anfragen auf mehrere Storage Nodes zu verteilen.
+
+Nach der Konfiguration des Lastausgleichs sollte bestätigt werden, dass die Objekterfassungs- und -abrufvorgänge gleichmäßig auf die Storage Nodes verteilt werden. Eine gleichmäßige Verteilung der Anfragen stellt sicher, dass StorageGRID auch unter Last auf Clientanfragen reagiert und kann dazu beitragen, die Clientleistung aufrechtzuerhalten.
+
+Wenn Sie eine Hochverfügbarkeitsgruppe (HA) von Gateway Nodes oder Admin Nodes im Aktiv-Backup-Modus konfiguriert haben, verteilt nur ein Node in der Gruppe aktiv Client-Anfragen.
+
+Weitere Informationen finden sich unter link:../admin/configuring-client-connections.html["Konfiguration von S3 Clientverbindungen"].
+
+.Schritte
+. Wenn S3-Clients über den Load Balancer Service eine Verbindung herstellen, sollte geprüft werden, ob die Admin Nodes oder Gateway Nodes den Datenverkehr wie erwartet aktiv verteilen:
++
+.. Wählen Sie *Knoten*.
+.. Es wird ein Gateway-Knoten oder ein Admin-Node ausgewählt.
+.. Auf der Registerkarte *Übersicht* lässt sich prüfen, ob sich eine Knotenschnittstelle in einer HA-Gruppe befindet und ob die Knotenschnittstelle die Rolle „Primär“ hat.
++
+Knoten mit der Rolle „Primary“ und Knoten, die keiner HA-Gruppe angehören, sollten Anfragen aktiv an Clients verteilen.
+
+.. Für jeden Knoten, der aktiv Client-Anfragen verteilen soll, die link:viewing-load-balancer-tab.html["Registerkarte Load Balancer"] auswählen.
+.. Das Diagramm des Load Balancer Request Traffic der letzten Woche gibt Aufschluss darüber, ob der Node aktiv Anforderungen verteilt hat.
++
+Knoten in einer Active-Backup HA-Gruppe können zeitweise die Backup-Rolle übernehmen. Während dieser Zeit verteilen die Knoten keine Client-Anfragen.
+
+.. Das Diagramm der eingehenden Anforderungsrate des Load Balancers für die letzte Woche bietet einen Überblick über den Objektdurchsatz des Knotens.
+.. Diese Schritte sind für jeden Admin Node oder Gateway Node im StorageGRID System zu wiederholen.
+.. Optional können Verkehrsklassifizierungsrichtlinien verwendet werden, um eine detailliertere Analyse des vom Load Balancer Service bedienten Datenverkehrs anzuzeigen.
+
+
+. Es sollte sichergestellt sein, dass diese Anfragen gleichmäßig auf die Storage Nodes verteilt werden.
++
+.. *_Storage Node_* > *LDR* > *HTTP* auswählen.
+.. Die Anzahl der *derzeit eingerichteten eingehenden Sitzungen* kann überprüft werden.
+.. Für jeden Storage Node im Grid wiederholen.
++
+Die Anzahl der Sitzungen sollte auf allen Storage Nodes annähernd gleich sein.
+
+
+
+

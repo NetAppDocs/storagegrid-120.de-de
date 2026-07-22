@@ -1,0 +1,25 @@
+---
+permalink: monitor/viewing-network-tab.html 
+sidebar: sidebar 
+keywords: network tab 
+summary: Auf der Registerkarte „Netzwerk“ wird ein Diagramm angezeigt, das den über alle Netzwerkschnittstellen des Node, Standorts oder Grids empfangenen und gesendeten Netzwerkverkehr darstellt. 
+---
+= Registerkarte „StorageGRID-Netzwerk“ anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Auf der Registerkarte „Netzwerk“ wird ein Diagramm angezeigt, das den über alle Netzwerkschnittstellen des Node, Standorts oder Grids empfangenen und gesendeten Netzwerkverkehr darstellt.
+
+Die Registerkarte „Netzwerk“ wird für alle Nodes, jeden Standort und das gesamte Grid angezeigt.
+
+Um ein anderes Zeitintervall anzuzeigen, kann eines der Steuerelemente oberhalb des Diagramms oder der Grafik ausgewählt werden. Die verfügbaren Informationen können für Intervalle von 1 Stunde, 1 Tag, 1 Woche oder 1 Monat angezeigt werden. Auch ein benutzerdefiniertes Intervall ist möglich, wodurch Datums- und Zeitbereiche angegeben werden können.
+
+Die Tabelle „Netzwerkschnittstellen“ liefert Informationen zu den physischen Netzwerkports jedes Knotens. Die Tabelle „Netzwerkkommunikation“ enthält Details zu den Empfangs- und Sendevorgängen jedes Knotens sowie zu etwaigen vom Treiber gemeldeten Fehlerzählern.
+
+image:nodes_page_network_tab.png["Registerkarte Netzwerk auf der Seite Nodes"]
+
+.Verwandte Informationen
+link:monitoring-network-connections-and-performance.html["Netzwerkverbindungen und Leistung überwachen"]

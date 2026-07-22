@@ -1,0 +1,107 @@
+---
+permalink: maintain/step-1-select-site.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, select site 
+summary: Um festzustellen, ob ein Standort stillgelegt werden kann, wird zunächst der Stilllegungsassistent aufgerufen. 
+---
+= Wählen Sie einen Standort für die Außerbetriebnahme in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um festzustellen, ob ein Standort stillgelegt werden kann, wird zunächst der Stilllegungsassistent aufgerufen.
+
+.Bevor Sie beginnen
+* Sie haben alle benötigten Materialien erhalten.
+* Sie haben die Überlegungen zur Entfernung eines Standorts geprüft.
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung oder die Wartungs- und ILM-Berechtigungen"].
+
+
+.Schritte
+. *Wartung* > *Aufgaben* > *Stilllegung* auswählen.
+. *Stilllegungsstandort* auswählen.
++
+Schritt 1 (Standort auswählen) des Assistenten zur Standortstilllegung wird angezeigt. Dieser Schritt enthält eine alphabetische Liste der Standorte in Ihrem StorageGRID System.
+
++
+image:decommission_site_step_select_site.png["Stilllegung des Standorts Schritt 1: Standort auswählen"]
+
+. Anhand der Werte in der Spalte *Belegte Speicherkapazität* lässt sich feststellen, wie viel Speicher aktuell an den einzelnen Standorten für Objektdaten verwendet wird.
++
+Die verwendete Speicherkapazität ist ein Schätzwert. Wenn Knoten offline sind, ist die verwendete Speicherkapazität der zuletzt bekannte Wert für den Standort.
+
++
+** Bei der Stilllegung eines verbundenen Standorts gibt dieser Wert an, wie viele Objektdaten auf andere Standorte verschoben oder von ILM gelöscht werden müssen, bevor dieser Standort sicher stillgelegt werden kann.
+** Bei der Stilllegung eines nicht verbundenen Standorts gibt dieser Wert an, wie viel des Datenspeichers Ihres Systems unzugänglich wird, wenn dieser Standort stillgelegt wird.
++
+
+NOTE: Wenn Ihre ILM-Richtlinie darauf ausgelegt war, vor dem Verlust eines einzelnen Standorts zu schützen, sollten Kopien Ihrer Objektdaten weiterhin auf den verbleibenden Standorten vorhanden sein.
+
+
+
+. Anhand der Gründe in der Spalte *Stilllegung möglich* lässt sich feststellen, welche Standorte aktuell stillgelegt werden können.
++
+
+NOTE: Wenn es mehr als einen Grund gibt, warum ein Standort nicht stillgelegt werden kann, wird der kritischste Grund angezeigt.
+
++
+[cols="1a,1a,1a"]
+|===
+| Außerbetriebnahme Möglicher Grund | Beschreibung | Nächster Schritt 
+
+
+ a| 
+Grünes Häkchen (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"])
+ a| 
+Diese Website kann außer Betrieb genommen werden.
+ a| 
+Gehen Sie zu <<decommission_possible,der nächste Schritt>>.
+
+
+
+ a| 
+Nein. Diese Website enthält den primären Admin-Node.
+ a| 
+Eine Site, die den primären Admin-Node enthält, kann nicht außer Betrieb genommen werden.
+ a| 
+Keine. Diese Prozedur kann nicht durchgeführt werden.
+
+
+
+ a| 
+Nein. Diese Website enthält einen oder mehrere Archive Nodes.
+ a| 
+Eine Site, die einen Archiv-Node enthält, kann nicht außer Betrieb genommen werden.
+ a| 
+Keine. Diese Prozedur kann nicht durchgeführt werden.
+
+
+
+ a| 
+Nein. Alle Nodes an diesem Standort sind getrennt. Ihr NetApp Kundenbetreuer kann kontaktiert werden.
+ a| 
+Eine Deaktivierung eines verbundenen Standorts ist nur möglich, wenn jeder Knoten im Standort verbunden ist (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]).
+ a| 
+Wenn eine Deaktivierung eines nicht verbundenen Standorts durchgeführt werden soll, ist die Kontaktaufnahme mit Ihrem NetApp Account Representative erforderlich, der Ihre Anforderungen prüft und den Rest des Decommission Site Assistenten freischaltet.
+
+*WICHTIG*: Online-Knoten dürfen niemals offline genommen werden, um eine Site zu entfernen. Dadurch gehen Daten verloren.
+
+|===
++
+Das Beispiel zeigt ein StorageGRID System mit drei Standorten. Das grüne Häkchen (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) bei den Standorten Raleigh und Sunnyvale zeigt an, dass diese Standorte außer Betrieb genommen werden können. Der Standort Vancouver kann jedoch nicht außer Betrieb genommen werden, da er den primären Admin Node enthält.
+
+
+
+[[decommission_possible]]
+. Wenn eine Stilllegung möglich ist, das Optionsfeld für den Standort auswählen.
++
+Die Schaltfläche *Weiter* ist aktiviert.
+
+. *Weiter* auswählen.
++
+Schritt 2 (Details anzeigen) wird angezeigt.
+
+

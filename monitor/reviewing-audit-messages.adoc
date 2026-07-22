@@ -1,0 +1,36 @@
+---
+permalink: monitor/reviewing-audit-messages.html 
+sidebar: sidebar 
+keywords: how to review audit messages, how to view audit messages 
+summary: Audit-Meldungen können dabei helfen, die detaillierten Abläufe Ihres StorageGRID Systems besser zu verstehen. Revisionsprotokolle lassen sich zur Fehlerbehebung und zur Bewertung der Performance nutzen. 
+---
+= StorageGRID-Auditmeldungen prüfen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Audit-Meldungen können dabei helfen, die detaillierten Abläufe Ihres StorageGRID Systems besser zu verstehen. Revisionsprotokolle lassen sich zur Fehlerbehebung und zur Bewertung der Performance nutzen.
+
+Während des normalen Systembetriebs generieren alle StorageGRID Dienste Revisionsprotokollmeldungen wie folgt:
+
+* System-Audit-Meldungen beziehen sich auf das Auditsystem selbst, Grid-Knotenzustände, systemweite Aufgabenaktivitäten und Service-Backup-Operationen.
+* Die Revisionsprotokoll-Meldungen für Objektspeicher beziehen sich auf die Speicherung und Verwaltung von Objekten innerhalb von StorageGRID, einschließlich Objektspeicherung und -abrufen, Grid-Node-zu-Grid-Node-Übertragungen und Verifizierungen.
+* Lese- und Schreib-Revisionsprotokollmeldungen werden protokolliert, wenn eine S3-Clientanwendung eine Anfrage zum Erstellen, Ändern oder Abrufen eines Objekts stellt.
+* Management Revisionsprotokoll-Meldungen protokollieren Benutzeranfragen an die Management-API.
+
+
+Jeder Admin-Knoten speichert Revisionsprotokoll-Meldungen in Textdateien. Die Revisionsprotokoll-Freigabe enthält die aktive Datei (audit.log) sowie komprimierte Revisionsprotokolle der Vortage. Jeder Knoten im Grid speichert außerdem eine Kopie der auf dem Knoten generierten Revisionsprotokoll-Informationen.
+
+Auf die Revisionsprotokolldateien kann direkt über die Befehlszeile des Admin-Knotens zugegriffen werden.
+
+StorageGRID sendet standardmäßig Revisionsprotokoll-Informationen, oder das Ziel kann geändert werden:
+
+* StorageGRID verwendet standardmäßig lokale Knoten als Revisionsprotokoll-Ziele.
+* Revisionsprotokoll-Einträge von Grid Manager und Tenant Manager können an einen Storage Node gesendet werden.
+* Optional kann das Ziel der Revisionsprotokolle geändert und Audit-Informationen an einen externen Syslog-Server gesendet werden. Lokale Revisionsprotokolle werden weiterhin generiert und gespeichert, wenn ein externer Syslog-Server konfiguriert ist.
+* link:../monitor/configure-log-management.html["Informationen zur Konfiguration der Protokollverwaltung"].
+
+
+Details zur Revisionsprotokoll Logdatei, zum Format der Audit-Meldungen, zu den Arten von Audit-Meldungen und zu den zur Analyse von Audit-Meldungen verfügbaren Tools finden sich unter link:../audit/index.html["Audit-Protokolle prüfen"].

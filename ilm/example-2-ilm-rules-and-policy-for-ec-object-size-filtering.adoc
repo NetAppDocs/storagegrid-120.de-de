@@ -1,0 +1,111 @@
+---
+permalink: ilm/example-2-ilm-rules-and-policy-for-ec-object-size-filtering.html 
+sidebar: sidebar 
+keywords: object size for erasure coding, example ILM rule, information lifecycle rule examples, 1 MB 
+summary: Die folgenden Beispielregeln und -richtlinien dienen als Ausgangspunkt für die Definition einer ILM-Richtlinie, die nach Objektgröße filtert, um die empfohlenen EC-Anforderungen zu erfüllen. 
+---
+= ILM-Regeln und Richtlinien für die Filterung der EC-Objektgröße in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die folgenden Beispielregeln und -richtlinien dienen als Ausgangspunkt für die Definition einer ILM-Richtlinie, die nach Objektgröße filtert, um die empfohlenen EC-Anforderungen zu erfüllen.
+
+
+CAUTION: Die folgenden ILM-Regeln und Richtlinien sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie empfiehlt es sich, diese zu simulieren, um zu bestätigen, dass sie wie beabsichtigt funktioniert und Inhalte vor Verlust schützt.
+
+
+
+[[ilm-rule-1-for-example-2-use-ec-for-objects-greater-than-1-mb]]
+== ILM-Regel 1 für Beispiel 2: EC für Objekte verwenden, die größer als 1 MB sind
+
+Dieses Beispiel einer ILM-Regel verwendet Erasure Coding für Objekte, die größer als 1 MB sind.
+
+
+NOTE: Erasure Coding eignet sich am besten für Objekte größer als 1 MB. Erasure Coding sollte für Objekte kleiner als 200 KB nicht verwendet werden, um den Aufwand für die Verwaltung sehr kleiner erasure-codierter Fragmente zu vermeiden.
+
+[cols="2a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+Nur EC Objekte > 1 MB
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Erweiterter Filter für Objektgröße
+ a| 
+Objektgröße größer als 1 MB
+
+
+
+ a| 
+Platzierungen
+ a| 
+Eine 2+1-Löschcodierungskopie mit drei Standorten erstellen
+
+|===
+image:policy_2_rule_1_ec_objects_adv_filtering.png["ILM-Regel 1 für Beispiel 2: EC für alle Objekte größer als 1 MB verwenden"]
+
+
+
+[[ilm-rule-2-for-example-2-two-replicated-copies]]
+== ILM-Regel 2 für Beispiel 2: Zwei replizierte Kopien
+
+Diese ILM-Beispielregel erstellt zwei replizierte Kopien und filtert nicht nach Objektgröße. Diese Regel ist die Standardregel für die Richtlinie. Da die erste Regel alle Objekte mit einer Größe von mehr als 1 MB herausfiltert, gilt diese Regel nur für Objekte, die 1 MB oder kleiner sind.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+Zwei replizierte Kopien
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Erweiterter Filter für Objektgröße
+ a| 
+Keine
+
+
+
+ a| 
+Platzierungen
+ a| 
+Vom Tag 0 an bis in alle Ewigkeit befindet sich eine replizierte Kopie an Standort 1 und eine replizierte Kopie an Standort 2.
+
+|===
+
+
+[[ilm-policy-for-example-2-use-ec-for-objects-greater-than-1-mb]]
+== ILM-Richtlinie für Beispiel 2: EC für Objekte größer als 1 MB
+
+Diese beispielhafte ILM-Richtlinie enthält zwei ILM-Regeln:
+
+* Die erste Regel verwendet Erasure Codes für alle Objekte, die größer als 1 MB sind.
+* Die zweite (Standard) ILM-Regel erstellt zwei replizierte Kopien. Da Objekte, die größer als 1 MB sind, durch Regel 1 herausgefiltert wurden, gilt Regel 2 nur für Objekte, die 1 MB oder kleiner sind.
+

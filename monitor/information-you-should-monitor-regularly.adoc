@@ -1,0 +1,83 @@
+---
+permalink: monitor/information-you-should-monitor-regularly.html 
+sidebar: sidebar 
+keywords: when to monitor, what to monitor 
+summary: Auch wenn das StorageGRID System bei Fehlern oder dem Ausfall von Teilen des Grids weiterhin funktionieren kann, sollten potenzielle Probleme überwacht und behoben werden, bevor sie die Effizienz oder Verfügbarkeit des Grids beeinträchtigen. 
+---
+= Was und wann in StorageGRID überwacht werden sollte
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Auch wenn das StorageGRID System bei Fehlern oder dem Ausfall von Teilen des Grids weiterhin funktionieren kann, sollten potenzielle Probleme überwacht und behoben werden, bevor sie die Effizienz oder Verfügbarkeit des Grids beeinträchtigen.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über Überwachungsaufgaben
+Ein stark ausgelastetes System erzeugt große Datenmengen. Die folgende Liste enthält Hinweise zu den wichtigsten Informationen, die fortlaufend überwacht werden sollten.
+
+[cols="1a,1a"]
+|===
+| Was überwacht werden sollte | Frequenz 
+
+
+ a| 
+link:monitoring-system-health.html["Systemgesundheitsstatus"]
+ a| 
+Täglich
+
+
+
+ a| 
+Rate, mit der link:monitoring-storage-capacity.html["Speicherknotenobjekt und Metadatenkapazität"] verbraucht wird
+ a| 
+Wöchentlich
+
+
+
+ a| 
+link:monitoring-information-lifecycle-management.html["Information Lifecycle Management-Operationen"]
+ a| 
+Wöchentlich
+
+
+
+ a| 
+link:monitoring-network-connections-and-performance.html["Netzwerk und Systemressourcen"]
+ a| 
+Wöchentlich
+
+
+
+ a| 
+link:monitoring-tenant-activity.html["Mandantenaktivität"]
+ a| 
+Wöchentlich
+
+
+
+ a| 
+link:monitoring-object-ingest-and-retrieval-rates.html["S3 Client-Operationen"]
+ a| 
+Wöchentlich
+
+
+
+ a| 
+link:monitoring-load-balancing-operations.html["Lastverteilungsoperationen"]
+ a| 
+Nach der Erstkonfiguration und nach Konfigurationsänderungen
+
+
+
+ a| 
+link:grid-federation-monitor-connections.html["Grid Federation Verbindungen"]
+ a| 
+Wöchentlich
+
+|===

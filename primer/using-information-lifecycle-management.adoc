@@ -1,0 +1,91 @@
+---
+permalink: primer/using-information-lifecycle-management.html 
+sidebar: sidebar 
+keywords: StorageGRID, what is information lifecycle management, how to use ilm 
+summary: 'Mit Information Lifecycle Management (ILM) wird die Platzierung, die Speicherdauer und das Aufnahmeverhalten aller Objekte im StorageGRID System gesteuert. ILM-Regeln bestimmen, wie StorageGRID Objekte im Zeitverlauf speichert. Eine oder mehrere ILM-Regeln werden konfiguriert und anschließend einer ILM-Richtlinie hinzugefügt.' 
+---
+= Informationslebenszyklusmanagement in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit Information Lifecycle Management (ILM) wird die Platzierung, Dauer und das Aufnahmeverhalten aller Objekte im StorageGRID System gesteuert. ILM-Regeln bestimmen, wie StorageGRID Objekte im Zeitverlauf speichert. Eine oder mehrere ILM-Regeln werden konfiguriert und anschließend einer ILM-Richtlinie hinzugefügt. Ein Grid kann mehr als eine aktive Richtlinie gleichzeitig haben.
+
+Die ILM-Regeln definieren:
+
+* Welche Objekte gespeichert werden sollen. Eine Regel kann für alle Objekte gelten, oder es können Filter angegeben werden, um festzulegen, auf welche Objekte eine Regel angewendet wird. Beispielsweise kann eine Regel nur für Objekte gelten, die bestimmten Mandantenkonten, bestimmten S3 Buckets oder bestimmten Metadatenwerten zugeordnet sind.
+* Speichertyp und Speicherort. Objekte können auf Speicherknoten oder in Cloud Storage Pools gespeichert werden.
+* Die Art der erstellten Objektkopien. Kopien können repliziert oder mit Löschcodierung erstellt werden.
+* Bei vervielfältigten Kopien die Anzahl der angefertigten Kopien.
+* Bei löschcodierten Kopien das verwendete Löschcodierungsverfahren.
+* Die Veränderungen im Laufe der Zeit hinsichtlich des Speicherorts eines Objekts und der Art der Kopien.
+* Wie Objektdaten beim Einfügen von Objekten in das Grid geschützt werden (synchrones Placement oder Dual Commit).
+
+
+Beachten Sie, dass Objektmetadaten nicht durch ILM-Regeln verwaltet werden. Stattdessen werden Objektmetadaten in einer Cassandra Datenbank in einem sogenannten Metadatenspeicher gespeichert. An jedem Standort werden automatisch drei Kopien der Objektmetadaten vorgehalten, um die Daten vor Verlust zu schützen.
+
+
+
+[[example-ilm-rule]]
+== Beispiel einer ILM-Regel
+
+Eine ILM Regel könnte beispielsweise Folgendes festlegen:
+
+* Gilt nur für Objekte, die zu Tenant A gehören.
+* Zwei replizierte Kopien dieser Objekte werden erstellt und jede Kopie an einem anderen Standort gespeichert.
+* Die beiden Kopien werden dauerhaft gespeichert, das bedeutet, dass StorageGRID sie nicht automatisch löscht. Stattdessen bewahrt StorageGRID diese Objekte auf, bis sie entweder durch eine Löschanforderung eines Clients oder durch das Ablaufen eines Bucket-Lebenszyklus gelöscht werden.
+* Die Option „Ausgewogen“ für das Aufnahmeverhalten bewirkt, dass die Anweisung zur Platzierung an zwei Standorten angewendet wird, sobald Mandant A ein Objekt in StorageGRID speichert, es sei denn, es ist nicht möglich, beide erforderlichen Kopien sofort zu erstellen.
++
+Wenn beispielsweise Standort 2 nicht erreichbar ist, wenn Mandant A ein Objekt speichert, erstellt StorageGRID zwei temporäre Kopien auf Speicherknoten an Standort 1. Sobald Standort 2 wieder verfügbar ist, erstellt StorageGRID die erforderliche Kopie an diesem Standort.
+
+
+
+
+
+[[how-an-ilm-policy-evaluates-objects]]
+== Wie eine ILM-Richtlinie Objekte auswertet
+
+Die aktiven ILM-Richtlinien Ihres StorageGRID Systems steuern die Platzierung, die Dauer und das Aufnahmeverhalten aller Objekte.
+
+Wenn Clients Objekte in StorageGRID speichern, werden die Objekte anhand der geordneten Menge von ILM-Regeln in der aktiven Richtlinie wie folgt ausgewertet:
+
+. Wenn die Filter der ersten Regel in der Richtlinie mit einem Objekt übereinstimmen, wird das Objekt gemäß dem Aufnahmeverhalten dieser Regel aufgenommen und gemäß den Platzierungsanweisungen dieser Regel gespeichert.
+. Wenn die Filter der ersten Regel nicht mit dem Objekt übereinstimmen, wird das Objekt mit jeder nachfolgenden Regel in der Richtlinie verglichen, bis eine Übereinstimmung gefunden wird.
+. Wenn keine Regel auf ein Objekt zutrifft, werden das Aufnahmeverhalten und die Platzierungsanweisungen der Standardregel in der Richtlinie angewendet. Die Standardregel ist die letzte Regel in einer Richtlinie und darf keine Filter verwenden. Sie muss für alle Mandanten, alle Buckets und alle Objektversionen gelten.
+
+
+
+
+[[example-ilm-policy]]
+== Beispiel einer ILM-Richtlinie
+
+Eine ILM-Richtlinie könnte beispielsweise drei ILM-Regeln enthalten, die Folgendes festlegen:
+
+* *Regel 1: Replizierte Kopien für Mandant A*
++
+** Alle Objekte, die zu Tenant A gehören, abgleichen.
+** Diese Objekte werden als drei replizierte Kopien an drei Standorten gespeichert.
+** Objekte, die anderen Mandanten gehören, werden von Regel 1 nicht erfasst, daher erfolgt die Auswertung anhand von Regel 2.
+
+
+* *Regel 2: Erasure Coding für Objekte größer als 1 MB*
++
+** Alle Objekte anderer Mandanten werden abgeglichen, jedoch nur, wenn sie größer als 1 MB sind. Diese größeren Objekte werden mithilfe von 6+3 Erasure Coding an drei Standorten gespeichert.
+** Entspricht nicht Objekten mit einer Größe von 1 MB oder kleiner, daher werden diese Objekte anhand von Regel 3 ausgewertet.
+
+
+* *Regel 3: 2 Kopien 2 Rechenzentren* (Standard)
++
+** Dies ist die letzte und Standardregel in der Richtlinie. Verwendet keine Filter.
+** Zwei replizierte Kopien aller Objekte, die nicht von Regel 1 oder Regel 2 erfasst werden (Objekte, die nicht zu Tenant A gehören und 1 MB oder kleiner sind), werden erstellt.
+
+
+
+
+image:ilm_policy_and_rules.png["ILM-Richtlinien und Regeln"]
+
+.Verwandte Informationen
+* link:../ilm/index.html["Objekte mit ILM verwalten"]
+

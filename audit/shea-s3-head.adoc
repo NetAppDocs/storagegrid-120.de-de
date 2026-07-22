@@ -1,0 +1,187 @@
+---
+permalink: audit/shea-s3-head.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SHEA, S3 HEAD 
+summary: Wenn ein S3-Client eine HEAD-Operation ausführt, wird eine Anfrage gesendet, um die Existenz eines Objekts oder Buckets zu prüfen und die Metadaten über ein Objekt abzurufen. Diese Meldung wird vom Server ausgegeben, wenn die Operation erfolgreich ist. 
+---
+= SHEA audit message für S3 HEAD-Operationen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn ein S3-Client eine HEAD-Operation ausführt, wird eine Anfrage gesendet, um die Existenz eines Objekts oder Buckets zu prüfen und die Metadaten über ein Objekt abzurufen. Diese Meldung wird vom Server ausgegeben, wenn die Operation erfolgreich ist.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CBID
+ a| 
+Inhaltsblockkennung
+ a| 
+Die eindeutige Kennung des angeforderten Inhaltsblocks. Ist die CBID unbekannt, wird dieses Feld auf 0 gesetzt. Operationen an Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+CNID
+ a| 
+Verbindungskennung
+ a| 
+Die eindeutige Systemkennung für die TCP/IP Verbindung.
+
+
+
+ a| 
+CSIZ
+ a| 
+Inhaltsgröße
+ a| 
+Die Größe des geprüften Objekts in Bytes. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+HTRH
+ a| 
+HTTP-Request-Header
+ a| 
+Liste der protokollierten HTTP-Anforderungsheader-Namen und -Werte, wie während der Konfiguration ausgewählt.
+
+ `X-Forwarded-For` wird automatisch miteinbezogen, wenn es in der Anfrage vorhanden ist und der  `X-Forwarded-For` Wert von der IP-Adresse des Anfrageabsenders abweicht (SAIP Audit-Feld).
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebniscode
+ a| 
+Ergebnis der GET-Transaktion. Das Ergebnis ist immer:
+
+SUCS: Erfolgreich
+
+
+
+ a| 
+S3AI
+ a| 
+S3-Mandantenkonto-ID (Absender der Anfrage)
+ a| 
+Die Mandantenkonto-ID des Benutzers, der die Anfrage gesendet hat. Ein leerer Wert gibt an, dass anonymer Zugriff vorliegt.
+
+
+
+ a| 
+S3AK
+ a| 
+S3 Access Key ID (Absender der Anfrage)
+ a| 
+Die gehashte S3-Zugriffsschlüssel-ID des Benutzers, der die Anfrage gesendet hat. Ein leerer Wert gibt an, dass anonymer Zugriff erfolgt.
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+
+
+ a| 
+S3KY
+ a| 
+S3 Schlüssel
+ a| 
+Der S3-Schlüsselname, ohne den Bucket-Namen. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+SACC
+ a| 
+Name des S3-Tenant-Kontos (Absender der Anfrage)
+ a| 
+Der Name des Mandantenkontos des Benutzers, der die Anfrage gesendet hat. Bei anonymen Anfragen leer.
+
+
+
+ a| 
+SAIP
+ a| 
+IP-Adresse (Absender der Anfrage)
+ a| 
+Die IP-Adresse der Client-Anwendung, die die Anfrage gestellt hat.
+
+
+
+ a| 
+SBAC
+ a| 
+Name des S3-Tenant-Kontos (Bucket-Inhaber)
+ a| 
+Der Mandantenkontoname für den Bucket-Eigentümer. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+SBAI
+ a| 
+S3-Mandantenkonto-ID (Bucket-Inhaber)
+ a| 
+Die Mandantenkonto-ID des Besitzers des Ziel-Buckets. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+SUSR
+ a| 
+S3 User URN (Absender der Anfrage)
+ a| 
+Die Mandantenkonto-ID und der Benutzername des anfragenden Benutzers. Der Benutzer kann entweder ein lokaler Benutzer oder ein LDAP-Benutzer sein. Beispiel: `urn:sgws:identity::03393893651506583485:root`
+
+Leer für anonyme Anfragen.
+
+
+
+ a| 
+ZEIT
+ a| 
+Zeit
+ a| 
+Gesamtbearbeitungszeit für die Anfrage in Mikrosekunden.
+
+
+
+ a| 
+TLIP
+ a| 
+Vertrauenswürdige Load Balancer-IP-Adresse
+ a| 
+Wenn die Anfrage von einem vertrauenswürdigen Layer 7 Load Balancer weitergeleitet wurde, die IP-Adresse des Load Balancers.
+
+
+
+ a| 
+UUID
+ a| 
+Universell eindeutiger Bezeichner
+ a| 
+Die Kennung des Objekts innerhalb des StorageGRID Systems.
+
+
+
+ a| 
+VSID
+ a| 
+Versions-ID
+ a| 
+Die Versions-ID der spezifischen Version eines Objekts, die angefordert wurde. Operationen an Buckets und Objekten in nicht versionierten Buckets beinhalten dieses Feld nicht.
+
+|===

@@ -1,0 +1,34 @@
+---
+permalink: tenant/viewing-your-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to view your s3 access key 
+summary: Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berechtigungen verfügen, kann eine Liste Ihrer S3-Zugriffsschlüssel angezeigt werden. Die Liste kann nach Ablaufzeit sortiert werden, sodass ersichtlich ist, welche Schlüssel demnächst ablaufen. Nach Bedarf können neue Schlüssel erstellt oder nicht mehr verwendete Schlüssel gelöscht werden. 
+---
+= Zeigen Sie Ihre S3-Zugriffsschlüssel in StorageGRID an
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Tenant verwenden und über die link:tenant-management-permissions.html["${post_edited_translations.segment}"] verfügen, kann eine Liste Ihrer S3-Zugriffsschlüssel angezeigt werden. Die Liste kann nach Ablaufzeit sortiert werden, sodass ersichtlich ist, welche Schlüssel demnächst ablaufen. Bei Bedarf können Sie link:creating-your-own-s3-access-keys.html["Neue Schlüssel erstellen"] oder link:deleting-your-own-s3-access-keys.html["Tasten zum Löschen"] verwenden, um nicht mehr benötigte Schlüssel zu entfernen.
+
+
+CAUTION: Auf die S3 Buckets und Objekte Ihres Kontos kann mit der Access Key ID und dem Secret Access Key zugegriffen werden, die für Ihr Konto im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig rotiert, ungenutzte Schlüssel aus Ihrem Konto entfernt und niemals mit anderen Benutzern geteilt werden.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die Berechtigung „Eigene S3-Anmeldeinformationen verwalten“ link:tenant-management-permissions.html["Berechtigung"] verfügt.
+
+
+.Schritte
+. *SPEICHER (S3)* > *Meine Zugriffsschlüssel* auswählen.
+. Auf der Seite „Meine Zugriffsschlüssel“ lassen sich alle vorhandenen Zugriffsschlüssel nach *Ablaufzeit* oder *Zugriffsschlüssel-ID* sortieren.
+. Bei Bedarf können neue Schlüssel erstellt oder nicht mehr benötigte Schlüssel gelöscht werden.
++
+Wenn Sie neue Schlüssel erstellen, bevor die vorhandenen Schlüssel ablaufen, können Sie die neuen Schlüssel verwenden, ohne vorübergehend den Zugriff auf die Objekte im Konto zu verlieren.
+
++
+Abgelaufene Schlüssel werden automatisch entfernt.
+
+

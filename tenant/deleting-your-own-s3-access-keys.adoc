@@ -1,0 +1,32 @@
+---
+permalink: tenant/deleting-your-own-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to delete S3 access key 
+summary: Wenn Sie einen S3-Mandanten verwenden und über die entsprechenden Berechtigungen verfügen, können Sie Ihre eigenen S3-Zugriffsschlüssel löschen. Nach dem Löschen eines Zugriffsschlüssels kann dieser nicht mehr für den Zugriff auf die Objekte und Buckets im Mandantenkonto verwendet werden. 
+---
+= Löschen Sie Ihre eigenen S3-Zugriffsschlüssel in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Mandanten verwenden und über die entsprechenden Berechtigungen verfügen, können Sie Ihre eigenen S3-Zugriffsschlüssel löschen. Nach dem Löschen eines Zugriffsschlüssels kann dieser nicht mehr für den Zugriff auf die Objekte und Buckets im Mandantenkonto verwendet werden.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie haben die link:tenant-management-permissions.html["Eigene S3-Anmeldeberechtigungen verwalten"].
+
+
+
+CAUTION: Auf die S3 Buckets und Objekte Ihres Kontos kann mit der Access Key ID und dem Secret Access Key zugegriffen werden, die für Ihr Konto im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig rotiert, ungenutzte Schlüssel aus Ihrem Konto entfernt und niemals mit anderen Benutzern geteilt werden.
+
+.Schritte
+. *SPEICHER (S3)* > *Meine Zugriffsschlüssel* auswählen.
+. Auf der Seite „My access keys“ das Kontrollkästchen für jeden Zugriffsschlüssel auswählen, der entfernt werden soll.
+. *Entf-Taste* auswählen.
+. Im Bestätigungsdialogfeld *Entf-Taste* auswählen.
++
+In der oberen rechten Ecke der Seite erscheint eine Bestätigungsmeldung.
+
+

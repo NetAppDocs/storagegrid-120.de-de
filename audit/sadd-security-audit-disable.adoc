@@ -1,0 +1,47 @@
+---
+permalink: audit/sadd-security-audit-disable.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SADD, Security Audit Disable 
+summary: 'Diese Meldung weist darauf hin, dass der Ursprungsdienst (Knoten-ID) die Protokollierung von Audit-Meldungen deaktiviert hat. StorageGRID erfasst und übermittelt keine Audit-Meldungen mehr.' 
+---
+= SADD-Revisionsprotokollmeldung zur Deaktivierung der Sicherheitsprüfung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Meldung weist darauf hin, dass der Ursprungsdienst (Knoten-ID) die Protokollierung von Audit-Meldungen deaktiviert hat. StorageGRID erfasst und übermittelt keine Audit-Meldungen mehr.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+AETM
+ a| 
+Methode aktivieren
+ a| 
+Die Methode, die zum Deaktivieren der Auditierung verwendet wurde.
+
+
+
+ a| 
+AEUN
+ a| 
+Benutzername
+ a| 
+Der Benutzername, mit dem der Befehl zum Deaktivieren der Protokollierung ausgeführt wurde.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Dieses Feld hat den Wert NONE. RSLT ist ein Pflichtfeld in der Nachricht, aber für diese Nachricht nicht relevant. Anstelle von SUCS wird NONE verwendet, damit diese Nachricht nicht gefiltert wird.
+
+|===
+Die Meldung deutet darauf hin, dass Protokollierung zuvor aktiviert, nun aber deaktiviert wurde. Dies wird üblicherweise nur während der Massenaufnahme verwendet, um die Systemleistung zu verbessern. Nach Abschluss der Massenaufnahme wird die Auditierung wiederhergestellt (SADE), und die Möglichkeit, die Auditierung zu deaktivieren, ist dann dauerhaft gesperrt.

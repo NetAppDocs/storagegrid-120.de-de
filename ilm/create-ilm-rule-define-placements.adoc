@@ -1,0 +1,178 @@
+---
+permalink: ilm/create-ilm-rule-define-placements.html 
+sidebar: sidebar 
+keywords: ilm rule step 2, define placements 
+summary: 'Im Schritt „Platzierungen definieren“ des Assistenten „ILM-Regel erstellen“ können die Platzierungsanweisungen definiert werden, die festlegen, wie lange Objekte gespeichert werden, welche Art von Kopien (repliziert oder mit Erasure-Coding), der Speicherort und die Anzahl der Kopien.' 
+---
+= Platzierungsanweisungen für eine StorageGRID ILM-Regel definieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Im Schritt *Platzierungen definieren* des Assistenten zum Erstellen von ILM-Regeln lassen sich die Platzierungsanweisungen festlegen, die bestimmen, wie lange Objekte gespeichert werden, welche Art von Kopien (repliziert oder mit Erasure-Coding), der Speicherort und die Anzahl der Kopien.
+
+
+NOTE: Die gezeigten Screenshots sind Beispiele. Ihre Ergebnisse können je nach StorageGRID Version abweichen.
+
+.Über diese Aufgabe
+Eine ILM-Regel kann eine oder mehrere Platzierungsanweisungen enthalten. Jede Platzierungsanweisung gilt für einen einzelnen Zeitraum. Wenn mehr als eine Anweisung verwendet wird, müssen die Zeiträume angrenzend sein, und mindestens eine Anweisung muss am Tag 0 beginnen. Die Anweisungen können entweder unbegrenzt fortgesetzt werden oder bis keine Objektkopien mehr benötigt werden.
+
+Jede Platzierungsanweisung kann mehrere Zeilen umfassen, wenn verschiedene Arten von Kopien erstellt oder während dieses Zeitraums verschiedene Orte genutzt werden sollen.
+
+In diesem Beispiel speichert die ILM-Regel im ersten Jahr je eine replizierte Kopie an Standort 1 und an Standort 2. Nach einem Jahr wird eine 2+1 erasure-coded Kopie erstellt und nur an einem Standort gespeichert.
+
+image:ilm_create_ilm_rule_wizard_2.png["ILM Rule Assistent erstellen Schritt 2"]
+
+.Schritte
+. Für *Referenzzeit* den Zeittyp auswählen, der bei der Berechnung der Startzeit für eine Platzierungsanweisung verwendet wird.
++
+[cols="1a,2a"]
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Ingest-Zeitpunkt
+ a| 
+Der Zeitpunkt, zu dem das Objekt aufgenommen wurde.
+
+
+
+ a| 
+Letzter Zugriff
+ a| 
+Der Zeitpunkt, zu dem das Objekt zuletzt abgerufen (gelesen oder angezeigt) wurde.
+
+Um diese Option nutzen zu können, müssen Aktualisierungen der letzten Zugriffszeit für den S3-Bucket aktiviert sein. Siehe link:using-last-access-time-in-ilm-rules.html["Letzte Zugriffszeit in ILM-Regeln verwenden"].
+
+
+
+ a| 
+Benutzerdefinierte Erstellungszeit
+ a| 
+Ein in benutzerdefinierten Metadaten festgelegter Zeitpunkt.
+
+
+
+ a| 
+Nichtaktuelle Zeit
+ a| 
+„Nicht-aktuelle Zeit“ wird automatisch ausgewählt, wenn *Ja* für die Frage „Diese Regel nur auf ältere Objektversionen anwenden (in S3-Buckets mit aktivierter Versionierung)?“ in link:create-ilm-rule-enter-details.html["Schritt 1 des Assistenten zum Erstellen einer ILM Regel"] ausgewählt wurde.
+
+|===
++
+Wenn Sie eine _konforme_ Regel erstellen möchten, muss *Aufnahmezeit* ausgewählt werden. Weitere Informationen finden Sie unter link:managing-objects-with-s3-object-lock.html["Objekte mit S3 Object Lock verwalten"].
+
+. Im Abschnitt *Zeitraum und Platzierungen* eine Startzeit und eine Dauer für den ersten Zeitraum eingeben.
++
+Beispielsweise kann festgelegt werden, wo Objekte im ersten Jahr gespeichert werden (Ab Tag 0 für 365 Tage speichern). Mindestens eine Anweisung muss bei Tag 0 beginnen.
+
+. Wenn Sie replizierte Kopien erstellen möchten:
++
+.. In der Dropdown-Liste *Objekte speichern nach* ist *Replikation* auszuwählen.
+.. Wählen Sie die Anzahl der Kopien aus, die Sie erstellen möchten.
++
+Eine Warnung wird angezeigt, wenn die Anzahl der Kopien auf 1 geändert wird. Eine ILM-Regel, die für einen beliebigen Zeitraum nur eine replizierte Kopie erstellt, setzt Daten dem Risiko eines dauerhaften Verlusts aus. Weitere Informationen unter link:why-you-should-not-use-single-copy-replication.html["Warum die Einzelkopie-Replikation nicht verwendet werden sollte"].
+
++
+Um das Risiko zu vermeiden, kann eine oder mehrere der folgenden Maßnahmen durchgeführt werden:
+
++
+*** Die Anzahl der Kopien für den Zeitraum erhöhen.
+*** Kopien können zu anderen Speicherpools oder zu einem Cloud Storage Pool hinzugefügt werden.
+*** *Erasure Coding* statt *Replicating* auswählen.
++
+Diese Warnung kann ignoriert werden, wenn diese Regel bereits mehrere Kopien für alle Zeiträume erstellt.
+
+
+
+.. Im Feld *Kopien bei* die Speicherpools auswählen, die hinzugefügt werden sollen.
++
+*Wenn Sie nur einen Speicherpool angeben*, ist zu beachten, dass StorageGRID nur eine replizierte Kopie eines Objekts auf einem Speicherknoten speichern kann. Wenn Ihr Grid drei Speicherknoten umfasst und Sie 4 als Anzahl der Kopien auswählen, werden nur drei Kopien erstellt, eine für jeden Speicherknoten.
+
++
+Die Warnung *ILM placement unachievable* wird ausgelöst, um anzuzeigen, dass die ILM-Regel nicht vollständig angewendet werden konnte.
+
++
+*Wenn Sie mehr als einen Speicherpool angeben*, sind folgende Regeln zu beachten:
+
++
+*** Die Anzahl der Kopien darf nicht größer sein als die Anzahl der Speicherpools.
+*** Wenn die Anzahl der Kopien der Anzahl der Speicherpools entspricht, wird in jedem Speicherpool eine Kopie des Objekts gespeichert.
+*** Ist die Anzahl der Kopien geringer als die Anzahl der Speicherpools, wird eine Kopie am Aufnahmestandort gespeichert, und das System verteilt anschließend die verbleibenden Kopien, um die Festplattennutzung auf die Pools auszugleichen, wobei sichergestellt wird, dass kein Standort mehr als eine Kopie eines Objekts erhält.
+*** Wenn sich die Speicherpools überschneiden (die gleichen Storage Nodes enthalten), könnten alle Kopien des Objekts nur an einem Standort gespeichert werden. Aus diesem Grund sollte weder der All Storage Nodes Speicherpool (StorageGRID 11.6 und früher) noch ein weiterer Speicherpool angegeben werden.
+
+
+
+
+. Wenn Sie eine löschcodierte Kopie erstellen möchten:
++
+.. In der Dropdown-Liste *Objekte speichern nach* ist *Erasure Coding* auszuwählen.
++
+
+NOTE: Erasure Coding eignet sich am besten für Objekte größer als 1 MB. Erasure Coding sollte für Objekte kleiner als 200 KB nicht verwendet werden, um den Aufwand für die Verwaltung sehr kleiner erasure-codierter Fragmente zu vermeiden.
+
+.. Wenn Sie keinen Objektgrößenfilter für einen Wert größer als 200 KB hinzugefügt haben, wählen Sie *Zurück*, um zu Schritt 1 zurückzukehren. Wählen Sie anschließend *Erweiterten Filter hinzufügen* und legen Sie einen *Objektgrößen*-Filter auf einen beliebigen Wert größer als 200 KB fest.
+.. Wählen Sie den Speicherpool aus, den Sie hinzufügen möchten, und das Erasure-Coding-Schema, das Sie verwenden möchten.
++
+Der Speicherort für eine löschcodierte Kopie enthält den Namen des Löschcodierungsverfahrens, gefolgt vom Namen des Speicherpools.
+
++
+Die verfügbaren Erasure-Coding-Verfahren sind durch die Anzahl der Storage Nodes im ausgewählten Speicherpool begrenzt. Ein `Recommended`-Abzeichen erscheint neben den Verfahren, die entweder die link:../ilm/what-erasure-coding-schemes-are.html["bester Schutz oder geringster Speicherplatzbedarf"] bereitstellen.
+
+
+
+. Optional:
++
+.. *Anderen Typ oder Standort hinzufügen* auswählen, um zusätzliche Kopien an verschiedenen Standorten zu erstellen.
+.. *Weiteren Zeitraum hinzufügen* auswählen, um verschiedene Zeiträume hinzuzufügen.
++
+[NOTE]
+====
+Objektlöschungen erfolgen auf Grundlage der folgenden Einstellungen:
+
+*** Objekte werden am Ende des letzten Zeitraums automatisch gelöscht, es sei denn, ein anderer Zeitraum endet mit *forever*.
+*** Je nach link:../ilm/example-8-priorities-for-s3-bucket-lifecycle-and-ilm-policy.html#example-of-bucket-lifecycle-taking-priority-over-ilm-policy["Einstellungen für Bucket- und Mandanten-Aufbewahrungsfristen"]Konfiguration werden Objekte möglicherweise auch dann nicht gelöscht, wenn die ILM-Aufbewahrungsfrist abläuft.
+
+
+====
+
+
+. Wenn Sie Objekte in einem Cloud Storage Pool speichern möchten:
++
+.. In der Dropdown-Liste *Objekte speichern nach* die Option *Replikation* auswählen.
+.. Wählen Sie das Feld *Kopien bei* aus und wählen Sie anschließend einen Cloud Storage Pool aus.
++
+Bei der Verwendung von Cloud Storage Pools sind die folgenden Regeln zu beachten:
+
++
+*** In einer einzelnen Platzierungsanweisung kann nicht mehr als ein Cloud Storage Pool ausgewählt werden. Ebenso kann in derselben Platzierungsanweisung nicht sowohl ein Cloud Storage Pool als auch ein Speicherpool ausgewählt werden.
+*** In einem Cloud-Speicherpool kann nur eine Kopie eines Objekts gespeichert werden. Eine Fehlermeldung erscheint, wenn *Kopien* auf 2 oder mehr gesetzt wird.
+*** Es können nicht mehrere Objektkopien gleichzeitig in einem Cloud Storage Pool gespeichert werden. Eine Fehlermeldung erscheint, wenn mehrere Platzierungen, die einen Cloud Storage Pool verwenden, sich überschneidende Datumsangaben aufweisen oder wenn mehrere Zeilen in derselben Platzierung einen Cloud Storage Pool verwenden.
+*** Sie können ein Objekt gleichzeitig in einem Cloud Storage Pool speichern, während dieses Objekt als replizierte oder mit Erasure-Codierung versehene Kopien in StorageGRID gespeichert wird. Allerdings muss die Platzierungsanweisung für den Zeitraum mehr als eine Zeile enthalten, sodass die Anzahl und die Typen der Kopien für jeden Speicherort angegeben werden können.
+
+
+
+
+. Im Retentionsdiagramm die Platzierungsanweisungen bestätigen.
++
+In diesem Beispiel speichert die ILM-Regel im ersten Jahr je eine replizierte Kopie an Standort 1 und eine replizierte Kopie an Standort 2. Nach einem Jahr und für weitere 10 Jahre wird eine 6+3-erasure-coded Kopie an drei Standorten gespeichert. Nach insgesamt 11 Jahren werden die Objekte aus StorageGRID gelöscht.
+
++
+Im Abschnitt „Regelanalyse“ des Aufbewahrungsdiagramms heißt es:
+
++
+** StorageGRID Site-Loss-Schutz gilt für die Dauer dieser Regel.
+** Objekte, die von dieser Regel verarbeitet wurden, werden nach Tag 4015 gelöscht.
++
+Siehe link:using-multiple-storage-pools-for-cross-site-replication.html["Schutz vor Standortausfall aktivieren."]
+
++
+image:ilm_rule_retention_diagram.png["ILM Rule Retention Diagramm"]
+
+
+
+. Wählen Sie *Weiter*. link:create-ilm-rule-select-ingest-behavior.html["Schritt 3 (Ingest-Verhalten auswählen)"] Der Assistent zum Erstellen einer ILM-Regel wird angezeigt.
+

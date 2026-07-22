@@ -1,0 +1,16 @@
+---
+permalink: maintain/recovering-from-archive-node-failures.html 
+sidebar: sidebar 
+keywords: recover, archive node failure, workflow 
+summary: Die Unterstützung für Archivknoten wurde entfernt. 
+---
+= Wiederherstellung nach StorageGRID-Archivknoten-Ausfällen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Unterstützung für Archivknoten wurde entfernt.
+
+Informationen zur Wiederherstellung von Archivknoten sind unter  https://docs.netapp.com/us-en/storagegrid-118/maintain/recovering-from-archive-node-failures.html["Wiederherstellung nach Ausfällen von Archivknoten (StorageGRID 11.8 doc site)"^] zu finden.

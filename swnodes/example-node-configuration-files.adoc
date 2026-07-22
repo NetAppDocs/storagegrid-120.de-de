@@ -1,0 +1,127 @@
+---
+permalink: swnodes/example-node-configuration-files.html 
+sidebar: sidebar 
+keywords: example debian node configuration file, example ubuntu linux node configuration file, example red hat linux node configuration file, example rhel node configuration file 
+summary: Die Beispiel-Knotenkonfigurationsdateien dienen als Unterstützung beim Einrichten der Knotenkonfigurationsdateien für Ihr StorageGRID System. Die Beispiele zeigen Knotenkonfigurationsdateien für alle Arten von Grid-Knoten. 
+---
+= Beispielkonfigurationsdateien für StorageGRID-Knoten unter Linux
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Beispiel-Knotenkonfigurationsdateien dienen als Unterstützung beim Einrichten der Knotenkonfigurationsdateien für Ihr StorageGRID System. Die Beispiele zeigen Knotenkonfigurationsdateien für alle Arten von Grid-Knoten.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+Bei den meisten Knoten können Admin- und Client-Netzwerk-Adressinformationen (IP, Maske, Gateway usw.) hinzugefügt werden, wenn das Grid mithilfe des Grid Manager oder der Installations-API konfiguriert wird. Eine Ausnahme ist der primäre Admin-Node. Wenn auf die Admin-Netzwerk-IP des primären Admin-Node zugegriffen werden soll, um die Grid-Konfiguration abzuschließen (zum Beispiel, weil das Grid-Netzwerk nicht geroutet ist), muss die Admin-Netzwerkverbindung für den primären Admin-Node in dessen Knotenkonfigurationsdatei konfiguriert werden. Dies wird im Beispiel dargestellt.
+
+
+NOTE: In den Beispielen wurde das Client Network-Ziel als Best Practice konfiguriert, obwohl das Client Network standardmäßig deaktiviert ist.
+
+
+
+[[example-for-primary-admin-node]]
+== Beispiel für den primären Admin Node
+
+*Beispieldateiname*: `/etc/storagegrid/nodes/dc1-adm1.conf`
+
+*Beispiel für den Dateiinhalt:*
+
+[listing]
+----
+NODE_TYPE = VM_Admin_Node
+ADMIN_ROLE = Primary
+TEMPORARY_PASSWORD_TYPE = Use custom password
+CUSTOM_TEMPORARY_PASSWORD = Passw0rd
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/dc1-adm1-var-local
+BLOCK_DEVICE_AUDIT_LOGS = /dev/mapper/dc1-adm1-audit-logs
+BLOCK_DEVICE_TABLES = /dev/mapper/dc1-adm1-tables
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+
+GRID_NETWORK_IP = 10.1.0.2
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+
+ADMIN_NETWORK_CONFIG = STATIC
+ADMIN_NETWORK_IP = 192.168.100.2
+ADMIN_NETWORK_MASK = 255.255.248.0
+ADMIN_NETWORK_GATEWAY = 192.168.100.1
+ADMIN_NETWORK_ESL = 192.168.100.0/21,172.16.0.0/21,172.17.0.0/21
+----
+
+
+[[example-for-storage-node]]
+== Beispiel für Storage Node
+
+*Beispieldateiname:* `/etc/storagegrid/nodes/dc1-sn1.conf`
+
+*Beispiel für den Dateiinhalt:*
+
+[listing]
+----
+NODE_TYPE = VM_Storage_Node
+ADMIN_IP = 10.1.0.2
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/dc1-sn1-var-local
+BLOCK_DEVICE_RANGEDB_00 = /dev/mapper/dc1-sn1-rangedb-0
+BLOCK_DEVICE_RANGEDB_01 = /dev/mapper/dc1-sn1-rangedb-1
+BLOCK_DEVICE_RANGEDB_02 = /dev/mapper/dc1-sn1-rangedb-2
+BLOCK_DEVICE_RANGEDB_03 = /dev/mapper/dc1-sn1-rangedb-3
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+
+GRID_NETWORK_IP = 10.1.0.3
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----
+
+
+[[example-for-gateway-node]]
+== Beispiel für einen Gateway Node
+
+*Beispieldateiname:* `/etc/storagegrid/nodes/dc1-gw1.conf`
+
+*Beispiel für den Dateiinhalt:*
+
+[listing]
+----
+NODE_TYPE = VM_API_Gateway
+ADMIN_IP = 10.1.0.2
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/dc1-gw1-var-local
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+GRID_NETWORK_IP = 10.1.0.5
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----
+
+
+[[example-for-a-non-primary-admin-node]]
+== Beispiel für einen nicht-primären Admin Node
+
+*Beispieldateiname:* `/etc/storagegrid/nodes/dc1-adm2.conf`
+
+*Beispiel für den Dateiinhalt:*
+
+[listing]
+----
+NODE_TYPE = VM_Admin_Node
+ADMIN_ROLE = Non-Primary
+ADMIN_IP = 10.1.0.2
+BLOCK_DEVICE_VAR_LOCAL = /dev/mapper/dc1-adm2-var-local
+BLOCK_DEVICE_AUDIT_LOGS = /dev/mapper/dc1-adm2-audit-logs
+BLOCK_DEVICE_TABLES = /dev/mapper/dc1-adm2-tables
+GRID_NETWORK_TARGET = bond0.1001
+ADMIN_NETWORK_TARGET = bond0.1002
+CLIENT_NETWORK_TARGET = bond0.1003
+
+GRID_NETWORK_IP = 10.1.0.6
+GRID_NETWORK_MASK = 255.255.255.0
+GRID_NETWORK_GATEWAY = 10.1.0.1
+----

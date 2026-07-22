@@ -1,0 +1,233 @@
+---
+permalink: admin/configuring-custom-server-certificate-for-storage-node.html 
+sidebar: sidebar 
+keywords: global S3 API certificate 
+summary: Sie können das Serverzertifikat, das für S3-Clientverbindungen zu Storage Nodes oder zu Load-Balancer-Endpunkten verwendet wird, ersetzen oder wiederherstellen. Das Ersatz-Serverzertifikat ist spezifisch für Ihre Organisation. 
+---
+= Konfigurieren Sie S3-API-Zertifikate in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können das Serverzertifikat, das für S3-Clientverbindungen zu Storage Nodes oder zu Load-Balancer-Endpunkten verwendet wird, ersetzen oder wiederherstellen. Das Ersatz-Serverzertifikat ist spezifisch für Ihre Organisation.
+
+
+TIP: Swift-Details wurden aus dieser Version der Dokumentationsseite entfernt. Siehe  https://docs.netapp.com/us-en/storagegrid-118/admin/configuring-custom-server-certificate-for-storage-node.html["StorageGRID 11.8: S3 und Swift API-Zertifikate konfigurieren"^].
+
+.Über diese Aufgabe
+Standardmäßig erhält jeder Storage Node ein vom Grid-CA signiertes X.509-Serverzertifikat. Diese von der CA signierten Zertifikate können durch ein einzelnes, gemeinsames benutzerdefiniertes Serverzertifikat und den entsprechenden privaten Schlüssel ersetzt werden.
+
+Für alle Storage Nodes wird ein einzelnes benutzerdefiniertes Serverzertifikat verwendet, daher muss das Zertifikat als Wildcard- oder Multi-Domain-Zertifikat angegeben werden, wenn Clients den Hostnamen beim Verbinden mit dem Storage Endpoint überprüfen müssen. Das benutzerdefinierte Zertifikat ist so zu definieren, dass es mit allen Storage Nodes im Grid übereinstimmt.
+
+Nach Abschluss der Konfiguration auf dem Server müssen Sie möglicherweise auch das Grid CA-Zertifikat im S3 API-Client installieren, den Sie für den Zugriff auf das System verwenden, abhängig von der verwendeten Stammzertifizierungsstelle (CA).
+
+
+NOTE: Um sicherzustellen, dass der Betrieb durch ein fehlerhaftes Serverzertifikat nicht beeinträchtigt wird, wird die Warnung *Ablauf des globalen Serverzertifikats für S3 API* ausgelöst, wenn das Stammserverzertifikat kurz vor dem Ablauf steht. Wie erforderlich, kann eingesehen werden, wann das aktuelle Zertifikat abläuft, indem *Konfiguration* > *Sicherheit* > *Zertifikate* ausgewählt und auf der Registerkarte „Global“ das Ablaufdatum des S3 API-Zertifikats betrachtet wird.
+
+Sie können ein benutzerdefiniertes S3 API-Zertifikat hochladen oder generieren.
+
+
+
+[[add-a-custom-s3-api-certificate]]
+== Ein benutzerdefiniertes S3 API-Zertifikat hinzufügen
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *S3 API certificate* auswählen.
+. *Benutzerdefiniertes Zertifikat verwenden* auswählen.
+. Das Zertifikat kann hochgeladen oder generiert werden.
++
+[role="tabbed-block"]
+====
+.Zertifikat hochladen
+--
+Die erforderlichen Serverzertifikatsdateien werden hochgeladen.
+
+.. *Zertifikat hochladen* auswählen.
+.. ${post_edited_translations.segment}
++
+*** ${post_edited_translations.segment}
+*** *Privater Zertifikatsschlüssel*: Die benutzerdefinierte private Schlüsseldatei des Serverzertifikats (`.key`).
++
+
+NOTE: Private EC-Schlüssel müssen mindestens 224 Bit groß sein. Private RSA-Schlüssel müssen mindestens 2048 Bit groß sein.
+
+*** *CA bundle*: Eine optionale Datei, die die Zertifikate aller ausstellenden Zwischenzertifizierungsstellen enthält. Die Datei sollte alle PEM-kodierten CA-Zertifikatsdateien in der Reihenfolge der Zertifikatskette enthalten.
+
+
+.. Wählen Sie die Zertifikatsdetails aus, um die Metadaten und die PEM für jedes hochgeladene benutzerdefinierte S3 API-Zertifikat anzuzeigen. Wenn ein optionales CA-Bundle hochgeladen wurde, erscheint jedes Zertifikat auf einer eigenen Registerkarte.
++
+*** ${post_edited_translations.segment}
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** ${post_edited_translations.segment}
+
+
+.. *Speichern* auswählen.
++
+Das benutzerdefinierte Serverzertifikat wird für nachfolgende neue S3-Clientverbindungen verwendet.
+
+
+
+--
+.Zertifikat generieren
+--
+Die Serverzertifikatsdateien werden generiert.
+
+.. *Zertifikat generieren* auswählen.
+.. ${post_edited_translations.segment}
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Domainname
+ a| 
+Ein oder mehrere vollqualifizierte Domain-Namen, die in das Zertifikat aufgenommen werden sollen. Ein * kann als Platzhalter verwendet werden, um mehrere Domain-Namen darzustellen.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Thema (optional)
+ a| 
+${post_edited_translations.segment}
+
+Wird in diesem Feld kein Wert eingegeben, verwendet das generierte Zertifikat den ersten Domänennamen oder die erste IP-Adresse als allgemeinen Subjektnamen (CN).
+
+
+
+ a| 
+Gültigkeitstage
+ a| 
+Anzahl der Tage nach der Erstellung, nach denen das Zertifikat abläuft.
+
+
+
+ a| 
+Schlüsselverwendungserweiterungen hinzufügen
+ a| 
+Wenn diese Option ausgewählt ist (Standard und empfohlen), werden die Schlüsselverwendungs- und erweiterten Schlüsselverwendungs-Erweiterungen dem generierten Zertifikat hinzugefügt.
+
+Diese Erweiterungen definieren den Zweck des im Zertifikat enthaltenen Schlüssels.
+
+*Hinweis*: Dieses Kontrollkästchen sollte aktiviert bleiben, es sei denn, bei älteren Clients treten Verbindungsprobleme auf, wenn die Zertifikate diese Erweiterungen enthalten.
+
+|===
+.. Wählen Sie *Generieren*.
+.. *Zertifikatdetails* auswählen, um die Metadaten und die PEM für das generierte benutzerdefinierte S3-API-Zertifikat anzuzeigen.
++
+*** *Zertifikat herunterladen* auswählen, um die Zertifikatsdatei zu speichern.
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** *Zertifikat PEM kopieren* auswählen, um den Zertifikatsinhalt zum Einfügen an anderer Stelle zu kopieren.
+
+
+.. *Speichern* auswählen.
++
+Das benutzerdefinierte Serverzertifikat wird für nachfolgende neue S3-Clientverbindungen verwendet.
+
+
+
+--
+====
+. Wählen Sie eine Registerkarte aus, um Metadaten für das Standard StorageGRID Serverzertifikat, ein hochgeladenes, von einer Zertifizierungsstelle signiertes Zertifikat oder ein generiertes benutzerdefiniertes Zertifikat anzuzeigen.
++
+
+NOTE: Nach dem Hochladen oder Generieren eines neuen Zertifikats kann es bis zu einem Tag dauern, bis etwaige Benachrichtigungen über das Ablaufdatum des Zertifikats entfernt werden.
+
+. ${post_edited_translations.segment}
+. Nachdem Sie ein benutzerdefiniertes S3 API-Zertifikat hinzugefügt haben, zeigt die Seite S3 API-Zertifikat detaillierte Zertifikatsinformationen für das verwendete benutzerdefinierte S3 API-Zertifikat an. + Das Zertifikat-PEM kann bei Bedarf heruntergeladen oder kopiert werden.
+
+
+
+
+[[restore-the-default-s3-api-certificate]]
+== Das Standard-S3-API-Zertifikat wiederherstellen
+
+Sie können für S3-Clientverbindungen zu Storage Nodes wieder das Standard-S3-API-Zertifikat verwenden. Das Standard-S3-API-Zertifikat kann jedoch nicht für einen Load Balancer Endpoint verwendet werden.
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *S3 API certificate* auswählen.
+. ${post_edited_translations.segment}
++
+Wenn die Standardversion des globalen S3-API-Zertifikats wiederhergestellt wird, werden die von Ihnen konfigurierten benutzerdefinierten Serverzertifikatsdateien gelöscht und können nicht aus dem System wiederhergestellt werden. Das Standard-S3-API-Zertifikat wird für nachfolgende neue S3-Clientverbindungen zu Storage Nodes verwendet.
+
+. *OK* auswählen bestätigt die Warnung und stellt das Standard-S3-API-Zertifikat wieder her.
++
+Wenn Sie über Root-Zugriffsberechtigung verfügen und das benutzerdefinierte S3-API-Zertifikat für Load-Balancer-Endpunktverbindungen verwendet wurde, wird eine Liste der Load-Balancer-Endpunkte angezeigt, die mit dem Standard-S3-API-Zertifikat nicht mehr zugänglich sind. Zur Bearbeitung oder Entfernung der betroffenen Endpunkte zu link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] wechseln.
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[download-or-copy-the-s3-api-certificate]]
+== Das S3 API-Zertifikat herunterladen oder kopieren
+
+Sie können den Inhalt des S3 API-Zertifikats speichern oder kopieren, um ihn an anderer Stelle zu verwenden.
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Zertifikate* auswählen.
+. Auf der Registerkarte *Global* die Option *S3 API certificate* auswählen.
+. ${post_edited_translations.segment}
++
+[role="tabbed-block"]
+====
+.${post_edited_translations.segment}
+--
+Die Zertifikats- oder CA-Bundle-Datei `.pem` herunterladen. Bei Verwendung eines optionalen CA-Bundles wird jedes Zertifikat im Bundle auf einer eigenen Unterregisterkarte angezeigt.
+
+.. *Zertifikat herunterladen* oder *CA-Bundle herunterladen* auswählen.
++
+${post_edited_translations.segment}
+
+.. Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+.${post_edited_translations.segment}
+--
+Kopieren Sie den Zertifikatstext, um ihn an anderer Stelle einzufügen. Wenn ein optionales CA-Bundle verwendet wird, wird jedes Zertifikat im Bundle auf einem eigenen Unterreiter angezeigt.
+
+.. ${post_edited_translations.segment}
++
+${post_edited_translations.segment}
+
+.. Das kopierte Zertifikat in einen Texteditor einfügen.
+.. Die Textdatei mit der Erweiterung  `.pem` speichern.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+====
+
+
+.Verwandte Informationen
+* link:../s3/index.html["S3 REST-API verwenden"]
+* link:configuring-s3-api-endpoint-domain-names.html["S3-Endpunkt-Domänennamen konfigurieren"]
+

@@ -1,0 +1,140 @@
+---
+permalink: tenant/grid-federation-account-clone.html 
+sidebar: sidebar 
+keywords: account clone, cloning tenant, grid federation, cross-grid replication 
+summary: 'Wurde ein Mandant für die Verwendung einer Grid-Federation-Verbindung erstellt oder bearbeitet, wird dieser Mandant von einem StorageGRID System (dem Quellmandanten) auf ein anderes StorageGRID System (den Replikatmandanten) repliziert. Nachdem der Mandant repliziert wurde, werden alle dem Quellmandanten hinzugefügten Gruppen und Benutzer in den Replikatmandanten übernommen.' 
+---
+= Mandantengruppen und Benutzer in StorageGRID klonen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wurde ein Mandant für die Verwendung einer Grid-Federation-Verbindung erstellt oder bearbeitet, wird dieser Mandant von einem StorageGRID System (dem Quellmandanten) auf ein anderes StorageGRID System (den Replikatmandanten) repliziert. Nachdem der Mandant repliziert wurde, werden alle dem Quellmandanten hinzugefügten Gruppen und Benutzer in den Replikatmandanten übernommen.
+
+Das StorageGRID-System, in dem der Mandant ursprünglich erstellt wurde, ist das Quell-Grid des Mandanten. Das StorageGRID-System, in dem der Mandant repliziert wird, ist das Ziel-Grid des Mandanten. Beide Mandantenkonten haben dieselbe Konto-ID, denselben Namen, dieselbe Beschreibung, dasselbe Speicherkontingent und dieselben zugewiesenen Berechtigungen, aber der Zielmandant verfügt anfänglich nicht über ein Root-Benutzer-Passwort. Weitere Informationen finden sich unter link:../admin/grid-federation-what-is-account-clone.html["Was ist Account Clone"] und link:../admin/grid-federation-manage-tenants.html["Zugelassene Mieter verwalten"].
+
+Das Klonen von Mandantenkontoinformationen ist für link:../admin/grid-federation-what-is-cross-grid-replication.html["gridübergreifende Replikation"] von Bucket-Objekten erforderlich. Die Verwendung derselben Mandantengruppen und Benutzer in beiden Grids stellt sicher, dass Sie auf die entsprechenden Buckets und Objekte in beiden Grids zugreifen können.
+
+
+
+[[tenant-workflow-for-account-clone]]
+== Mandanten-Workflow für das Klonen von Konten
+
+Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, zeigt das Workflow-Diagramm die Schritte, die beim Klonen von Gruppen, Benutzern und S3-Zugriffsschlüsseln durchgeführt werden.
+
+image:grid-federation-account-clone-workflow-tm.png["Der Workflow des Mandanten für die Kontoklonierung. Die Schritte werden im folgenden Text beschrieben."]
+
+Dies sind die wichtigsten Schritte im Arbeitsablauf:
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Eins"]Bei Mandant anmelden
+[role="quick-margin-para"]
+Im Mandantenkonto im Quell-Grid (dem Grid, in dem der Mandant ursprünglich erstellt wurde) anmelden.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Zwei"]Optional kann die Identitätsföderation konfiguriert werden.
+[role="quick-margin-para"]
+Wenn Ihr Mandantenkonto über die Berechtigung *Eigene Identitätsquelle verwenden* zum Einsatz von Verbundgruppen und -benutzern verfügt, ist für das Quell- und das Zielmandantenkonto dieselbe Identitätsquelle (mit denselben Einstellungen) zu konfigurieren. Verbundgruppen und -benutzer können nicht geklont werden, sofern nicht beide Grids dieselbe Identitätsquelle verwenden. Anweisungen finden Sie unter link:using-identity-federation.html["Identitätsföderation verwenden"].
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Drei"]Gruppen und Benutzer erstellen
+[role="quick-margin-para"]
+Beim Erstellen von Gruppen und Benutzern wird immer mit dem Quell-Grid des Mandanten begonnen. Beim Hinzufügen einer neuen Gruppe wird diese von StorageGRID automatisch in das Ziel-Grid geklont.
+
+[role="quick-margin-list"]
+* Wenn die Identitätsföderation für das gesamte StorageGRID System oder für Ihr Mandantenkonto konfiguriert ist, link:creating-groups-for-s3-tenant.html["Neue Mandantengruppen erstellen"] durch das Importieren föderierter Gruppen aus der Identitätsquelle.
+
+
+[role="quick-margin-list"]
+* Wenn Sie keine Identitätsföderation verwenden, link:creating-groups-for-s3-tenant.html["neue lokale Gruppen erstellen"] und dann link:manage-users.html["Lokale Benutzer erstellen"].
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Vier"]S3-Zugriffsschlüssel erstellen
+[role="quick-margin-para"]
+Sie können link:creating-your-own-s3-access-keys.html["Eigene Zugriffsschlüssel erstellen"] oder zu link:creating-another-users-s3-access-keys.html["Zugriffsschlüssel eines anderen Benutzers erstellen"] entweder im Quell-Grid oder im Ziel-Grid auf Buckets in diesem Grid zugreifen.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Fünf"]Optionales Klonen von S3-Zugriffsschlüsseln
+[role="quick-margin-para"]
+Wenn Sie auf Buckets mit denselben Zugriffsschlüsseln in beiden Grids zugreifen müssen, werden die Zugriffsschlüssel im Quell-Grid erstellt und anschließend mithilfe der Tenant Manager API manuell in das Ziel-Grid geklont. Anleitungen finden sich unter link:../tenant/grid-federation-clone-keys-with-api.html["Klonen von S3-Zugriffsschlüsseln mithilfe der API"].
+
+
+
+[[how-are-groups-users-and-s3-access-keys-cloned]]
+== Wie werden Gruppen, Benutzer und S3-Zugriffsschlüssel geklont?
+
+In diesem Abschnitt wird erläutert, wie Gruppen, Benutzer und S3-Zugriffsschlüssel zwischen dem Tenant-Quell-Grid und dem Tenant-Ziel-Grid geklont werden.
+
+
+
+[[local-groups-created-on-source-grid-are-cloned]]
+=== Lokal auf dem Quell-Grid erstellte Gruppen werden geklont.
+
+Nachdem ein Mandantenkonto erstellt und in das Ziel-Grid repliziert wurde, klont StorageGRID automatisch alle lokalen Gruppen, die Sie dem Quell-Grid des Mandanten hinzufügen, in das Ziel-Grid des Mandanten.
+
+Sowohl die ursprüngliche Gruppe als auch ihr Klon haben denselben Zugriffsmodus, dieselben Gruppenberechtigungen und dieselbe S3-Gruppenrichtlinie. Anweisungen finden sich unter link:creating-groups-for-s3-tenant.html["Gruppen für den S3-Mandanten erstellen"].
+
+image:grid-federation-account-clone.png["Abbildung, die zeigt, dass lokale Gruppen vom Quell-Grid in das Ziel-Grid geklont werden"]
+
+
+NOTE: Benutzer, die Sie beim Erstellen einer lokalen Gruppe im Quellgrid auswählen, werden beim Klonen der Gruppe in das Zielgrid nicht berücksichtigt. Aus diesem Grund sollten beim Erstellen der Gruppe keine Benutzer ausgewählt werden. Stattdessen wird die Gruppe beim Erstellen der Benutzer ausgewählt.
+
+
+
+[[local-users-created-on-source-grid-are-cloned]]
+=== Lokale Benutzer, die im Quell-Grid erstellt wurden, werden geklont
+
+Wenn ein neuer lokaler Benutzer im Quell-Grid erstellt wird, klont StorageGRID diesen Benutzer automatisch in das Ziel-Grid. Sowohl der ursprüngliche Benutzer als auch sein Klon haben denselben vollständigen Namen, Benutzernamen und die Einstellung *Zugriff verweigern*. Beide Benutzer gehören auch denselben Gruppen an. Anweisungen finden sich unter link:manage-users.html["Benutzer verwalten"].
+
+Aus Sicherheitsgründen werden lokale Benutzerkennwörter nicht in das Zielsystem kopiert. Wenn ein lokaler Benutzer Zugriff auf den Tenant Manager im Zielsystem benötigt, muss der Root-Benutzer des Mandantenkontos ein Kennwort für diesen Benutzer im Zielsystem hinzufügen. Anweisungen finden Sie unter link:manage-users.html["Benutzer verwalten"].
+
+image:grid-federation-local-user-clone.png["Abbildung, die zeigt, dass lokale Benutzer vom Quell-Grid in das Ziel-Grid geklont werden"]
+
+
+
+[[federated-groups-created-on-source-grid-are-cloned]]
+=== Föderierte Gruppen, die auf dem Quellgrid erstellt wurden, werden geklont.
+
+Sofern die Voraussetzungen für die Verwendung von Account Clone mit link:../admin/grid-federation-what-is-account-clone.html#account-clone-sso["Single Sign-On"] und link:../admin/grid-federation-what-is-account-clone.html#account-clone-identity-federation["Identitätsföderation"] erfüllt sind, werden föderierte Gruppen, die Sie für den Mandanten im Quell-Grid erstellen (importieren), automatisch in den Mandanten im Ziel-Grid geklont.
+
+Beide Gruppen haben denselben Zugriffsmodus, dieselben Gruppenberechtigungen und dieselbe S3-Gruppenrichtlinie.
+
+Nachdem föderierte Gruppen für den Quellmandanten erstellt und in den Zielmandanten geklont wurden, können sich föderierte Benutzer beim Mandanten auf beiden Grids anmelden.
+
+image:grid-federation-federated-group-clone.png["Abbildung, die zeigt, dass föderierte Gruppen vom Quell-Grid zum Ziel-Grid geklont werden"]
+
+
+
+[[s3-access-keys-can-be-manually-cloned]]
+=== S3-Zugriffsschlüssel können manuell geklont werden
+
+StorageGRID klont S3-Zugriffsschlüssel nicht automatisch, da die Sicherheit durch unterschiedliche Schlüssel auf jedem Grid verbessert wird.
+
+Um Zugriffsschlüssel auf den beiden Grids zu verwalten, sind folgende Optionen möglich:
+
+* Wenn Sie nicht für jedes Grid die gleichen Schlüssel verwenden müssen, können Sie link:creating-your-own-s3-access-keys.html["Eigene Zugriffsschlüssel erstellen"] oder link:creating-another-users-s3-access-keys.html["Zugriffsschlüssel eines anderen Benutzers erstellen"] auf jedem Grid verwenden.
+* Wenn Sie dieselben Schlüssel in beiden Grids verwenden müssen, können Sie Schlüssel im Quell-Grid erstellen und diese dann mithilfe der Tenant Manager API manuell link:../tenant/grid-federation-clone-keys-with-api.html["Schlüssel klonen"] zum Ziel-Grid hinzufügen.
+
+
+image:grid-federation-s3-access-key.png["Abbildung, die zeigt, dass S3-Zugriffsschlüssel optional vom Quell-Grid zum Ziel-Grid geklont werden können"]
+
+
+NOTE: Wenn S3-Zugriffsschlüssel für einen föderierten Benutzer geklont werden, werden sowohl der Benutzer als auch die S3-Zugriffsschlüssel in den Zielmandanten geklont.
+
+
+
+[[groups-and-users-added-to-destination-grid-arent-cloned]]
+=== Gruppen und Benutzer, die dem Ziel-Grid hinzugefügt werden, werden nicht geklont.
+
+Das Klonen erfolgt ausschließlich vom Quell-Grid des Mandanten zum Ziel-Grid des Mandanten. Wenn Gruppen und Benutzer im Ziel-Grid des Mandanten erstellt oder importiert werden, klont StorageGRID diese Elemente nicht zurück in das Quell-Grid des Mandanten.
+
+image:grid-federation-account-not-cloned.png["Abbildung, die zeigt, dass Details des Ziel-Grid nicht auf das Quell-Grid geklont werden."]
+
+
+
+[[edited-or-deleted-groups-users-and-access-keys-arent-cloned]]
+=== Bearbeitete oder gelöschte Gruppen, Benutzer und Zugriffsschlüssel werden nicht geklont
+
+Das Klonen erfolgt nur beim Erstellen neuer Gruppen und Benutzer.
+
+Wenn Gruppen, Benutzer oder Zugriffsschlüssel in einem der beiden Grids bearbeitet oder gelöscht werden, werden diese Änderungen nicht auf das andere Grid übertragen.
+
+image:grid-federation-account-clone-edit-delete.png["Abbildung, die zeigt, dass bearbeitete oder gelöschte Details nicht geklont werden"]

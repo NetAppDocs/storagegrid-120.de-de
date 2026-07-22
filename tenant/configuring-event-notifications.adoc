@@ -1,0 +1,135 @@
+---
+permalink: tenant/configuring-event-notifications.html 
+sidebar: sidebar 
+keywords: how to configure event notifications, bucket notification 
+summary: Benachrichtigungen für einen Bucket werden aktiviert, indem eine Benachrichtigungskonfigurations-XML erstellt und mithilfe des Tenant Managers auf einen Bucket angewendet wird. 
+---
+= Konfigurieren Sie Ereignisbenachrichtigungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Benachrichtigungen für einen Bucket werden aktiviert, indem eine Benachrichtigungskonfigurations-XML erstellt und mithilfe des Tenant Managers auf einen Bucket angewendet wird.
+
+.Bevor Sie beginnen
+* Die Plattformdienste wurden von einem StorageGRID Administrator für Ihr Mandantenkonto aktiviert.
+* Sie haben bereits einen Bucket erstellt, der als Quelle für Benachrichtigungen dient.
+* Der Endpunkt, den Sie als Ziel für Ereignisbenachrichtigungen verwenden möchten, existiert bereits und Sie haben seine URN.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Alle Buckets oder Root-Zugriffsberechtigung verwalten"] verfügt. Diese Berechtigungen überschreiben die Berechtigungseinstellungen in Gruppen- oder Bucket-Richtlinien, wenn der Bucket mit dem Tenant Manager konfiguriert wird.
+
+
+.Über diese Aufgabe
+Sie konfigurieren Ereignisbenachrichtigungen, indem Sie eine Benachrichtigungskonfigurations-XML einem Quell-Bucket zuordnen. Die Benachrichtigungskonfigurations-XML folgt den S3-Konventionen für die Konfiguration von Bucket-Benachrichtigungen, wobei das Ziel Amazon SNS-Thema, Kafka-Thema oder der Webhook-Endpunkt als URN eines Endpunkts angegeben wird.
+
+Allgemeine Informationen zu Ereignisbenachrichtigungen und deren Konfiguration sind in der  https://docs.aws.amazon.com/s3/["Amazon Dokumentation"^] zu finden. Informationen dazu, wie StorageGRID die S3 Bucket Notification Configuration API implementiert, sind in der link:../s3/index.html["Anleitung zur Implementierung von S3 Clientanwendungen"] zu finden.
+
+Beachten Sie bei der Konfiguration von Ereignisbenachrichtigungen für einen Bucket die folgenden Anforderungen und Merkmale:
+
+* Beim Erstellen und Anwenden einer gültigen Benachrichtigungskonfigurations-XML muss für jedes Ziel die URN eines Ereignisbenachrichtigungsendpunkts verwendet werden.
+* Obwohl Ereignisbenachrichtigungen für einen Bucket mit aktiviertem S3 Object Lock konfiguriert werden können, werden die S3 Object Lock Metadaten (einschließlich Retain Until Date und Legal Hold Status) der Objekte nicht in die Benachrichtigungsnachrichten aufgenommen.
+* Nach der Konfiguration der Ereignisbenachrichtigungen wird immer dann, wenn ein bestimmtes Ereignis für ein Objekt im Quell-Bucket eintritt, eine Benachrichtigung generiert und an das als Ziel verwendete Amazon SNS Topic, Kafka Topic oder den Webhook Endpoint gesendet.
+* Wenn Sie Ereignisbenachrichtigungen für einen Bucket aktivieren, der Objekte enthält, werden Benachrichtigungen nur für Aktionen gesendet, die nach dem Speichern der Benachrichtigungskonfiguration ausgeführt werden.
+
+
+.Schritte
+. Benachrichtigungen für Ihren Quell-Bucket aktivieren:
++
+** Verwenden Sie einen Texteditor, um die für die Aktivierung von Ereignisbenachrichtigungen erforderliche Benachrichtigungskonfigurations-XML gemäß der S3 Notification API zu erstellen.
+** Bei der Konfiguration des XML wird die URN eines Ereignisbenachrichtigungsendpunkts als Zielthema verwendet.
++
+[listing]
+----
+<NotificationConfiguration>
+  <TopicConfiguration>
+     <Id>Image-created</Id>
+     <Filter>
+        <S3Key>
+          <FilterRule>
+            <Name>prefix</Name>
+            <Value>images/</Value>
+          </FilterRule>
+        </S3Key>
+    </Filter>
+    <Topic>arn:aws:sns:us-east-1:050340950352:sgws-topic</Topic>
+    <Event>s3:ObjectCreated:*</Event>
+   </TopicConfiguration>
+ </NotificationConfiguration>
+----
+
+
+. Im Tenant Manager *STORAGE (S3)* > *Buckets* auswählen.
+. Den Namen des Quell-Buckets auswählen.
++
+Die Seite mit den Bucket-Details wird angezeigt.
+
+. *Plattformdienste* > *Ereignisbenachrichtigungen* auswählen.
+. Das Kontrollkästchen *Ereignisbenachrichtigungen aktivieren* auswählen.
+. Fügen Sie die Benachrichtigungskonfiguration-XML in das Textfeld ein und wählen Sie *Änderungen speichern*.
++
+
+NOTE: Die Plattformdienste müssen für jedes Mandantenkonto von einem StorageGRID Administrator mithilfe des Grid Managers oder der Grid Management API aktiviert werden. Wenden Sie sich an Ihren StorageGRID Administrator, wenn beim Speichern der Konfigurations-XML ein Fehler auftritt.
+
+. Es sollte überprüft werden, ob die Ereignisbenachrichtigungen korrekt konfiguriert sind:
++
+.. Führen Sie eine Aktion an einem Objekt im Quell-Bucket aus, das die in der Konfigurations-XML festgelegten Anforderungen für das Auslösen einer Benachrichtigung erfüllt.
++
+Im Beispiel wird eine Ereignisbenachrichtigung gesendet, wenn ein Objekt mit dem  `images/` Präfix erstellt wird.
+
+.. Es wird bestätigt, dass eine Benachrichtigung an das Ziel Amazon SNS-Thema, Kafka-Thema oder den Webhook-Endpunkt zugestellt wurde.
++
+Wenn Ihr Zielthema beispielsweise auf Amazon SNS gehostet wird, kann der Dienst so konfiguriert werden, dass Sie eine E-Mail erhalten, wenn die Benachrichtigung zugestellt wird.
+
++
+[listing]
+----
+{
+   "Records":[
+      {
+         "eventVersion":"2.0",
+         "eventSource":"sgws:s3",
+         "eventTime":"2017-08-08T23:52:38Z",
+         "eventName":"ObjectCreated:Put",
+         "userIdentity":{
+            "principalId":"1111111111111111111"
+         },
+         "requestParameters":{
+            "sourceIPAddress":"193.51.100.20"
+         },
+         "responseElements":{
+            "x-amz-request-id":"122047343"
+         },
+         "s3":{
+            "s3SchemaVersion":"1.0",
+            "configurationId":"Image-created",
+            "bucket":{
+               "name":"test1",
+               "ownerIdentity":{
+                  "principalId":"1111111111111111111"
+               },
+               "arn":"arn:sgws:s3:::test1"
+            },
+            "object":{
+               "key":"images/cat.jpg",
+               "size":0,
+               "eTag":"d41d8cd98f00b204e9800998ecf8427e",
+               "sequencer":"14D90402421461C7"
+            }
+         }
+      }
+   ]
+}
+----
++
+Wenn die Benachrichtigung im Zielthema empfangen wird, ist Ihr Quell-Bucket erfolgreich für StorageGRID Benachrichtigungen konfiguriert.
+
+
+
+
+
+.Verwandte Informationen
+* link:understanding-notifications-for-buckets.html["Benachrichtigungen für Buckets verstehen"]
+* link:../s3/index.html["S3 REST-API verwenden"]
+* link:creating-platform-services-endpoint.html["Plattform Services Endpunkt erstellen"]
+

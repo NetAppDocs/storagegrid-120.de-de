@@ -1,0 +1,128 @@
+---
+permalink: ilm/example-1-ilm-rules-and-policy-for-object-storage.html 
+sidebar: sidebar 
+keywords: example ILM rule, information lifecycle rule examples 
+summary: Die folgenden Beispielregeln und die folgende Richtlinie können als Ausgangspunkt bei der Definition einer ILM-Richtlinie dienen, um Anforderungen an den Objektschutz und die Aufbewahrung zu erfüllen. 
+---
+= ILM-Regeln und -Richtlinien für den grundlegenden Objektschutz und die Aufbewahrung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die folgenden Beispielregeln und die folgende Richtlinie können als Ausgangspunkt bei der Definition einer ILM-Richtlinie dienen, um Anforderungen an den Objektschutz und die Aufbewahrung zu erfüllen.
+
+
+CAUTION: Die folgenden ILM-Regeln und Richtlinien sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie empfiehlt es sich, diese zu simulieren, um zu bestätigen, dass sie wie beabsichtigt funktioniert und Inhalte vor Verlust schützt.
+
+
+
+[[ilm-rule-1-for-example-1-copy-object-data-to-two-sites]]
+== ILM-Regel 1 für Beispiel 1: Objektdaten an zwei Standorte kopieren
+
+Dieses Beispiel einer ILM-Regel kopiert Objektdaten in Speicherpools an zwei Standorten.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Speicherpools an einem Standort
+ a| 
+Zwei Speicherpools, die jeweils unterschiedliche Standorte enthalten, mit den Namen Site 1 und Site 2.
+
+
+
+ a| 
+Regelname
+ a| 
+Zwei Kopien zwei Standorte
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Platzierungen
+ a| 
+Vom Tag 0 an bis in alle Ewigkeit befindet sich eine replizierte Kopie an Standort 1 und eine replizierte Kopie an Standort 2.
+
+|===
+Im Abschnitt „Regelanalyse“ des Aufbewahrungsdiagramms heißt es:
+
+* StorageGRID Site-Loss-Schutz gilt für die Dauer dieser Regel.
+* Objekte, die von dieser Regel verarbeitet werden, werden von ILM nicht gelöscht.
+
+
+image:ilm_rule_two_copies_two_data_centers.png["ILM-Regel 1 für Beispiel 1: Objektdaten an zwei Standorte kopieren"]
+
+
+
+[[ilm-rule-2-for-example-1-erasure-coding-profile-with-bucket-matching]]
+== ILM-Regel 2 für Beispiel 1: Erasure-Coding-Profil mit Bucket-Matching
+
+Dieses Beispiel einer ILM Regel verwendet ein Erasure Coding Profil und einen S3 Bucket, um zu bestimmen, wo und wie lange das Objekt gespeichert wird.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Storage-Pool mit mehreren Standorten
+ a| 
+* Ein gemeinsamer Speicherpool an drei Standorten (Standorte 1, 2, 3)
+* 6+3-Löschcodierungsverfahren verwenden
+
+
+
+
+ a| 
+Regelname
+ a| 
+S3-Bucket finance-records
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Platzierungen
+ a| 
+Für Objekte im S3-Bucket „finance-records“ eine mit Erasure-Codierung versehene Kopie im durch das Erasure-Codierungsprofil angegebenen Pool erstellen. Diese Kopie bleibt dauerhaft erhalten.
+
+|===
+image:ilm_rule_ec_for_s3_bucket_finance_records.png["ILM-Regel 2 für Beispiel 1: Erasure-Coding-Profil mit Bucket Matching"]
+
+
+
+[[ilm-policy-for-example-1]]
+== ILM-Richtlinie für Beispiel 1
+
+In der Praxis sind die meisten ILM-Richtlinien einfach, auch wenn das StorageGRID System die Entwicklung anspruchsvoller und komplexer ILM-Richtlinien ermöglicht.
+
+Eine typische ILM Richtlinie für ein Multi Site Grid könnte ILM Regeln wie die folgenden umfassen:
+
+* Beim Import werden alle Objekte, die zum S3-Bucket mit dem Namen  `finance-records` gehören, in einem Speicherpool gespeichert, der drei Standorte umfasst. 6+3 Erasure Coding wird verwendet.
+* Wenn ein Objekt nicht mit der ersten ILM-Regel übereinstimmt, wird die Standard-ILM-Regel der Richtlinie, Two Copies Two Data Centers, verwendet, um eine Kopie dieses Objekts an Standort 1 und eine Kopie an Standort 2 zu speichern.
++
+image:policy_1_configured_policy.png["ILM-Richtlinie für Beispiel 1"]
+
+
+
+.Verwandte Informationen
+* link:ilm-policy-overview.html["ILM Richtlinien verwenden"]
+* link:creating-ilm-policy.html["ILM-Richtlinien erstellen"]
+

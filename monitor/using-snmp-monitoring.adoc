@@ -1,0 +1,125 @@
+---
+permalink: monitor/using-snmp-monitoring.html 
+sidebar: sidebar 
+keywords: snmp, monitoring 
+summary: 'Wenn StorageGRID mithilfe des Simple Network Management Protocol (SNMP) überwacht werden soll, ist die Konfiguration des mit StorageGRID enthaltenen SNMP-Agenten erforderlich.' 
+---
+= Verwenden Sie die SNMP-Überwachung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn StorageGRID mithilfe des Simple Network Management Protocol (SNMP) überwacht werden soll, ist die Konfiguration des mit StorageGRID enthaltenen SNMP-Agenten erforderlich.
+
+* link:configuring-snmp-agent.html["Den SNMP-Agenten konfigurieren"]
+* link:updating-snmp-agent.html["Den SNMP-Agent aktualisieren"]
+
+
+
+
+[[capabilities]]
+== Fähigkeiten
+
+Jeder StorageGRID Knoten führt einen SNMP-Agenten (Daemon) aus, der eine MIB bereitstellt. Die StorageGRID MIB enthält Tabellen- und Benachrichtigungsdefinitionen für Warnmeldungen. Die MIB enthält außerdem Systembeschreibungsinformationen wie Plattform und Modellnummer für jeden Knoten. Jeder StorageGRID Knoten unterstützt zudem eine Teilmenge der MIB-II-Objekte.
+
+
+NOTE: Siehe link:access-snmp-mib.html["Zugriff auf MIB-Dateien"], falls Sie die MIB-Dateien auf Ihren Grid-Knoten herunterladen möchten.
+
+SNMP ist anfänglich auf allen Knoten deaktiviert. Bei der Konfiguration des SNMP-Agenten erhalten alle StorageGRID-Knoten dieselbe Konfiguration.
+
+Der StorageGRID SNMP Agent unterstützt alle drei Versionen des SNMP Protokolls. Es steht schreibgeschützter MIB Zugriff für Abfragen zur Verfügung, und es können zwei Arten von ereignisgesteuerten Benachrichtigungen an ein Managementsystem gesendet werden:
+
+Fallen:: Traps sind Benachrichtigungen, die vom SNMP-Agenten gesendet werden und keine Bestätigung durch das Managementsystem erfordern. Traps dienen dazu, das Managementsystem darüber zu informieren, dass innerhalb von StorageGRID etwas passiert ist, wie zum Beispiel das Auslösen einer Warnmeldung.
++
+--
+Traps werden in allen drei Versionen von SNMP unterstützt.
+
+--
+Informiert:: Informs ähneln Traps, erfordern jedoch eine Bestätigung durch das Managementsystem. Erhält der SNMP-Agent innerhalb einer bestimmten Zeit keine Bestätigung, sendet er die Inform so lange erneut, bis eine Bestätigung eingeht oder der maximale Wiederholungswert erreicht ist.
++
+--
+Informs werden in SNMPv2c und SNMPv3 unterstützt.
+
+--
+
+
+Trap- und Inform-Benachrichtigungen werden in folgenden Fällen gesendet:
+
+* Eine Standard- oder benutzerdefinierte Warnung wird bei jedem Schweregrad ausgelöst. Um SNMP-Benachrichtigungen für eine Warnung zu unterdrücken, muss link:silencing-alert-notifications.html["eine Stille konfigurieren"] für die Warnung vorgenommen werden. Warnungsbenachrichtigungen werden vom link:../primer/what-admin-node-is.html["bevorzugter Absender Admin Node"] gesendet.
++
+Jede Warnung wird basierend auf dem Schweregrad einer von drei Trap-Typen zugeordnet: activeMinorAlert, activeMajorAlert und activeCriticalAlert. Eine Liste der Warnungen, die diese Traps auslösen können, ist unter link:alerts-reference.html["Benachrichtigungsreferenz"] zu finden.
+
+
+
+
+
+[[snmp-version-support]]
+== SNMP-Version Unterstützung
+
+Die Tabelle bietet eine Übersicht auf hoher Ebene darüber, was für jede SNMP-Version unterstützt wird.
+
+[cols="1a,2a,2a,2a"]
+|===
+|  | SNMPv1 | SNMPv2c | SNMPv3 
+
+
+ a| 
+Anfragen
+
+(GET und GETNEXT)
+ a| 
+Schreibgeschützte MIB-Abfragen
+ a| 
+Schreibgeschützte MIB-Abfragen
+ a| 
+Schreibgeschützte MIB-Abfragen
+
+
+
+ a| 
+Abfrageauthentifizierung
+ a| 
+Community-String
+ a| 
+Community-String
+ a| 
+Benutzerbasiertes Sicherheitsmodell (USM) Benutzer
+
+
+
+ a| 
+Benachrichtigungen
+
+(TRAP und INFORM)
+ a| 
+Nur Traps
+ a| 
+Traps und informiert
+ a| 
+Traps und informiert
+
+
+
+ a| 
+Benachrichtigungs-Authentifizierung
+ a| 
+Standard-Trap-Community oder eine benutzerdefinierte Community-Zeichenfolge für jedes Trap-Ziel
+ a| 
+Standard-Trap-Community oder eine benutzerdefinierte Community-Zeichenfolge für jedes Trap-Ziel
+ a| 
+USM-Benutzer für jedes Trap-Ziel
+
+|===
+
+
+[[limitations]]
+== Einschränkungen
+
+* StorageGRID unterstützt den schreibgeschützten Zugriff auf MIBs. Schreibzugriff wird nicht unterstützt.
+* Alle Knoten im Grid erhalten die gleiche Konfiguration.
+* SNMPv3: StorageGRID unterstützt den Transport Support Mode (TSM) nicht.
+* SNMPv3: Das einzige unterstützte Authentifizierungsprotokoll ist SHA (HMAC-SHA-96).
+* SNMPv3: Das einzige unterstützte Datenschutzprotokoll ist AES.
+

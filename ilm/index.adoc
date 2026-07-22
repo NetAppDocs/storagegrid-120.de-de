@@ -1,0 +1,41 @@
+---
+permalink: ilm/index.html 
+sidebar: sidebar 
+keywords: information lifecycle management overview, about information lifecycle management, ilm overview, about ilm 
+summary: 'Die Regeln für das Informationslebenszyklusmanagement (ILM) in einer ILM-Richtlinie geben StorageGRID Anweisungen, wie Kopien von Objektdaten erstellt und verteilt werden und wie diese Kopien im Laufe der Zeit verwaltet werden.' 
+---
+= Objekte mit ILM in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Regeln für das Informationslebenszyklusmanagement (ILM) in einer ILM-Richtlinie geben StorageGRID Anweisungen, wie Kopien von Objektdaten erstellt und verteilt werden und wie diese Kopien im Laufe der Zeit verwaltet werden.
+
+
+
+[[about-these-instructions]]
+== Über diese Anweisungen
+
+Die Entwicklung und Implementierung von ILM-Regeln und -Richtlinien erfordert sorgfältige Planung. Es ist erforderlich, die betrieblichen Anforderungen, die Topologie des StorageGRID Systems, die Anforderungen an den Objektschutz und die verfügbaren Speichertypen zu verstehen. Anschließend ist festzulegen, wie verschiedene Objekttypen kopiert, verteilt und gespeichert werden.
+
+Diese Anweisungen dienen dazu:
+
+* Informationen zu StorageGRID ILM, einschließlich link:how-ilm-operates-throughout-objects-life.html["wie ILM während der gesamten Lebensdauer eines Objekts funktioniert"].
+* Informationen zur Konfiguration von link:what-storage-pool-is.html["Storage Pools"], link:what-cloud-storage-pool-is.html["Cloud-Storage-Pools"] und link:what-ilm-rule-is.html["ILM Regeln"].
+* Informationen dazu, wie link:creating-ilm-policy.html["Erstellen, simulieren und Aktivieren einer ILM-Policy"] Objektdaten über eine oder mehrere Standorte hinweg geschützt werden können.
+* Informationen dazu, wie link:managing-objects-with-s3-object-lock.html["Objekte mit S3 Object Lock verwalten"] implementiert werden kann, was dazu beiträgt, dass Objekte in bestimmten S3-Buckets für einen festgelegten Zeitraum weder gelöscht noch überschrieben werden.
+
+
+
+
+[[learn-more]]
+== Mehr erfahren
+
+Weitere Informationen bieten diese Videos:
+
+.Überblick über ILM-Regeln
+video::9872d38f-80b3-4ad4-9f79-b1ff008760c7[panopto]
+.Überblick über ILM-Richtlinien
+video::e768d4da-da88-413c-bbaa-b1ff00874d10[panopto]

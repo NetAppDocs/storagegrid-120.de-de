@@ -1,0 +1,26 @@
+---
+permalink: swnodes/adding-sites.html 
+sidebar: sidebar 
+keywords: how to add sites 
+summary: Mindestens ein Standort muss bei der Installation von StorageGRID erstellt werden. Zusätzliche Standorte können erstellt werden, um die Zuverlässigkeit und Speicherkapazität Ihres StorageGRID Systems zu erhöhen. 
+---
+= Standorte in StorageGRID hinzufügen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mindestens ein Standort muss bei der Installation von StorageGRID erstellt werden. Zusätzliche Standorte können erstellt werden, um die Zuverlässigkeit und Speicherkapazität Ihres StorageGRID Systems zu erhöhen.
+
+.Schritte
+. Auf der Seite „Sites“ den *Site Name* eingeben.
+. ${post_edited_translations.segment}
++
+Fügen Sie so viele zusätzliche Standorte hinzu, wie für Ihre Grid-Topologie erforderlich sind. Es können bis zu 16 Standorte hinzugefügt werden.
+
++
+image:3_gmi_installer_sites_page.gif["Dieses Bild wird im umgebenden Text erläutert."]
+
+. Klicken Sie auf *Weiter*.
+

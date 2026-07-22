@@ -1,0 +1,107 @@
+---
+permalink: primer/exploring-tenant-manager.html 
+sidebar: sidebar 
+keywords: StorageGRID, what is the tenant manager, tenant manager dashboard 
+summary: Der Tenant Manager ist die browserbasierte grafische Benutzeroberfläche, über die Tenant-Benutzer ihre Speicherkonten konfigurieren, verwalten und überwachen. 
+---
+= Erkunden Sie den StorageGRID Tenant Manager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das link:../tenant/index.html["Tenant Manager"] ist die browserbasierte grafische Benutzeroberfläche, über die Mandantenbenutzer ihre Speicherkonten konfigurieren, verwalten und überwachen.
+
+
+NOTE: Der Tenant Manager wird mit jeder Version aktualisiert und entspricht möglicherweise nicht den Beispiel-Screenshots auf dieser Seite.
+
+Wenn sich Mandantenbenutzer beim Tenant Manager anmelden, stellen sie eine Verbindung zu einem Admin Node her.
+
+
+
+[[tenant-manager-dashboard]]
+== Tenant Manager Dashboard
+
+Nachdem ein Grid-Administrator mithilfe des Grid Managers oder der Grid Management API ein Mandantenkonto erstellt hat, können sich die Mandantenbenutzer beim Tenant Manager anmelden.
+
+Das Tenant Manager Dashboard ermöglicht es Mandantenbenutzern, die Speichernutzung auf einen Blick zu überwachen. Das Panel „Speichernutzung“ enthält eine Liste der größten S3 Buckets für den Mandanten. Der Wert „Belegter Speicherplatz“ entspricht der Gesamtmenge der Objektdaten im Bucket oder Container. Das Balkendiagramm stellt die relativen Größen dieser Buckets oder Container dar.
+
+Der Wert über dem Balkendiagramm entspricht der Summe des Speicherplatzes aller Buckets oder Container des Mandanten. Wurde bei der Kontoerstellung die maximale Anzahl an Gigabyte, Terabyte oder Petabyte für den Mandanten festgelegt, werden auch der genutzte und der verbleibende Anteil des Kontingents angezeigt.
+
+image:tenant_dashboard_with_buckets.png["Tenant Manager Dashboard"]
+
+
+
+[[storage-menu-s3]]
+== Speichermenü (S3)
+
+Dieses Menü ermöglicht S3 Benutzern Folgendes:
+
+* Zugriffsschlüssel verwalten
+* Buckets erstellen, verwalten und löschen
+* Plattform Services Endpunkte verwalten
+* Alle Grid Federation Verbindungen, zu deren Nutzung sie berechtigt sind, anzeigen
+
+
+
+
+[[my-access-keys]]
+=== Meine Zugangsschlüssel
+
+S3-Tenant-Benutzer können Zugriffsschlüssel wie folgt verwalten:
+
+* Benutzer, die über die Berechtigung "Eigene S3-Anmeldeinformationen verwalten" verfügen, können ihre eigenen S3-Zugriffsschlüssel erstellen oder entfernen.
+* Benutzer mit Root-Zugriffsberechtigung können die Zugriffsschlüssel für das S3-Root-Konto, ihr eigenes Konto und alle anderen Benutzer verwalten. Root-Zugriffsschlüssel gewähren außerdem vollen Zugriff auf die Buckets und Objekte des Mandanten, sofern dies nicht explizit durch eine Bucket-Richtlinie deaktiviert wird.
++
+
+NOTE: Die Verwaltung der Zugriffsschlüssel für andere Benutzer erfolgt über das Menü Access management.
+
+
+
+
+
+[[buckets]]
+=== Buckets
+
+S3-Tenant-Benutzer mit den entsprechenden Berechtigungen haben die Möglichkeit, die folgenden Aufgaben für ihre Buckets auszuführen:
+
+* Buckets erstellen
+* Aktivieren der S3-Objektsperre für einen neuen Bucket (setzt voraus, dass die S3-Objektsperre für das StorageGRID System aktiviert ist)
+* Konsistenzwerte aktualisieren
+* Aktivieren und Deaktivieren von Aktualisierungen der letzten Zugriffszeit
+* Objektversionierung aktivieren oder aussetzen
+* Standardaufbewahrungsdauer für S3 Object Lock aktualisieren
+* Konfiguration der ursprungsübergreifenden Ressourcenteilung (CORS)
+* Alle Objekte in einem Bucket löschen
+* Leere Buckets löschen
+* Die Funktion link:../tenant/use-s3-console.html["S3 Konsole"] dient zur Verwaltung von Bucket-Objekten.
+
+
+Wenn ein Grid-Administrator die Nutzung von Plattformdiensten für das Mandantenkonto aktiviert hat, kann ein S3-Mandantenbenutzer mit den entsprechenden Berechtigungen diese Aufgaben ebenfalls ausführen:
+
+* S3-Ereignisbenachrichtigungen konfigurieren, die an einen Zieldienst gesendet werden können, der den Amazon Simple Notification Service unterstützt.
+* Die CloudMirror-Replikation konfigurieren, wodurch der Mandant Objekte automatisch in einen externen S3-Bucket replizieren kann.
+* Die Suchintegration wird konfiguriert, sodass Objektmetadaten an einen Zielsuchindex gesendet werden, wenn ein Objekt erstellt oder gelöscht wird oder wenn dessen Metadaten oder Tags aktualisiert werden.
+
+
+
+
+[[platform-services-endpoints]]
+=== Endpunkte für Plattformdienste
+
+Wenn ein Grid-Administrator die Nutzung von Plattformdiensten für das Mandantenkonto aktiviert hat, kann ein S3-Mandantenbenutzer mit der Berechtigung „Endpunkte verwalten“ für jeden Plattformdienst einen Zielendpunkt konfigurieren.
+
+
+
+[[grid-federation-connections]]
+=== Grid Federation Verbindungen
+
+Wenn ein Grid-Administrator die Verwendung einer Grid-Federationsverbindung für das Mandantenkonto aktiviert hat, kann ein S3-Mandantenbenutzer mit Root-Zugriffsberechtigung den Verbindungsnamen anzeigen, auf die Bucket-Detailseite für jeden Bucket zugreifen, für den die Grid-übergreifende Replikation aktiviert ist, und den letzten Fehler einsehen, der bei der Replikation der Bucket-Daten in das andere Grid in der Verbindung aufgetreten ist. Siehe link:../tenant/grid-federation-view-connections-tenant.html["Grid Federation Verbindungen anzeigen"].
+
+
+
+[[access-management-menu]]
+== Menü „Access Management“
+
+Über das Menü „Zugriffsverwaltung“ können StorageGRID Mandanten Benutzergruppen aus einer föderierten Identitätsquelle importieren und Verwaltungsberechtigungen zuweisen. Mandanten können auch lokale Mandantengruppen und Benutzer verwalten, sofern nicht Single Sign-On (SSO) für das gesamte StorageGRID System aktiviert ist.

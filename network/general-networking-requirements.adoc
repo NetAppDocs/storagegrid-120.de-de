@@ -1,0 +1,52 @@
+---
+permalink: network/general-networking-requirements.html 
+sidebar: sidebar 
+keywords: networking requirements, storagegrid networks 
+summary: Alle StorageGRID Bereitstellungen müssen die folgenden Verbindungen unterstützen können. 
+---
+= Allgemeine Netzwerkanforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Alle StorageGRID Bereitstellungen müssen die folgenden Verbindungen unterstützen können.
+
+Diese Verbindungen können über das Grid, Admin oder Client Netzwerk oder über Kombinationen dieser Netzwerke erfolgen, wie in den Beispielen zur Netzwerktopologie dargestellt.
+
+* *Verwaltungsverbindungen*: Eingehende Verbindungen von einem Administrator zum Knoten, üblicherweise über SSH. Webbrowser-Zugriff auf den Grid Manager, den Tenant Manager und den StorageGRID Appliance Installer.
+* *NTP-Serververbindungen*: Ausgehende UDP-Verbindung, die eine eingehende UDP-Antwort empfängt.
++
+Mindestens ein NTP-Server muss vom primären Admin-Knoten erreichbar sein.
+
+* *DNS-Server-Verbindungen*: Ausgehende UDP-Verbindung, die eine eingehende UDP-Antwort empfängt.
+* *LDAP/Active Directory Serververbindungen*: Ausgehende TCP-Verbindung vom Identity Service auf Storage Nodes.
+* *AutoSupport*: Ausgehende TCP-Verbindung von den Admin-Nodes zu entweder  `support.netapp.com` oder einem vom Kunden konfigurierten Proxy.
+* *Externer Schlüsselverwaltungsserver*: Ausgehende TCP-Verbindung von jedem Appliance-Knoten mit aktivierter Knotenverschlüsselung.
+* Eingehende TCP-Verbindungen von S3 Clients.
+* Ausgehende Anfragen von StorageGRID Plattformdiensten wie CloudMirror Replikation oder von Cloud Storage Pools.
+
+
+Kann StorageGRID keinen der bereitgestellten NTP- oder DNS-Server über die Standard-Routingregeln erreichen, wird automatisch versucht, über alle Netzwerke (Grid, Admin und Client) Kontakt aufzunehmen, sofern die IP-Adressen der DNS- und NTP-Server angegeben sind. Sind die NTP- oder DNS-Server über ein Netzwerk erreichbar, erstellt StorageGRID automatisch zusätzliche Routingregeln, damit dieses Netzwerk für alle zukünftigen Verbindungsversuche verwendet wird.
+
+
+TIP: Obwohl Sie diese automatisch ermittelten Hostrouten nutzen können, sollte im Allgemeinen die manuelle Konfiguration der DNS- und NTP-Routen erfolgen, um die Konnektivität sicherzustellen, falls die automatische Ermittlung fehlschlägt.
+
+Wenn Sie die optionalen Admin- und Clientnetzwerke während der Implementierung noch nicht konfigurieren möchten, ist eine Konfiguration dieser Netzwerke möglich, wenn Sie die Grid-Knoten während der Konfigurationsschritte genehmigen. Zusätzlich können diese Netzwerke nach Abschluss der Installation mithilfe des Tools Change IP konfiguriert werden (siehe link:../maintain/configuring-ip-addresses.html["IP-Adressen konfigurieren"]).
+
+
+
+[[connections-for-admin-nodes-and-gateway-nodes]]
+== Verbindungen für Admin Nodes und Gateway Nodes
+
+Admin Nodes müssen stets vor nicht vertrauenswürdigen Clients, wie zum Beispiel solchen aus dem offenen Internet, geschützt werden. Es muss sichergestellt sein, dass kein nicht vertrauenswürdiger Client auf einen Admin Node im Grid Network, im Admin Network oder im Client Network zugreifen kann.
+
+Admin-Knoten und Gateway-Knoten, die Sie zu Hochverfügbarkeitsgruppen hinzufügen möchten, müssen mit einer statischen IP-Adresse konfiguriert werden. Siehe link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
+
+
+
+[[using-network-address-translation-nat]]
+== Verwendung von Netzwerkadressübersetzung (NAT)
+
+Keine Netzwerkadressübersetzung (NAT) im Grid Network zwischen Grid-Knoten oder zwischen StorageGRID Sites verwenden. Wenn private IPv4-Adressen für das Grid Network verwendet werden, müssen diese Adressen von jedem Grid-Knoten an jedem Standort direkt routbar sein. Falls erforderlich, kann jedoch NAT zwischen externen Clients und Grid-Knoten eingesetzt werden, beispielsweise um einer Gateway Node eine öffentliche IP-Adresse bereitzustellen. Die Verwendung von NAT zur Überbrückung eines öffentliches Netzwerk Segments wird nur unterstützt, wenn eine Tunneling-Anwendung eingesetzt wird, die für alle Knoten im Grid transparent ist, das heißt, die Grid-Knoten benötigen keine Kenntnis öffentlicher IP-Adressen.

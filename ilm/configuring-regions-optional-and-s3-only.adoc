@@ -1,0 +1,90 @@
+---
+permalink: ilm/configuring-regions-optional-and-s3-only.html 
+sidebar: sidebar 
+keywords: S3 regions, region, ilm rules 
+summary: ILM-Regeln können Objekte anhand der optionalen Regionen filtern, in denen S3-Buckets erstellt werden, sodass Objekte aus verschiedenen Regionen an verschiedenen Speicherorten abgelegt werden können. 
+---
+= S3-Regionen für StorageGRID konfigurieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ILM-Regeln können Objekte anhand der optionalen Regionen filtern, in denen S3-Buckets erstellt werden, sodass Objekte aus verschiedenen Regionen an verschiedenen Speicherorten abgelegt werden können.
+
+Wenn Sie eine S3-Bucket-Region als Filter in einer Regel verwenden möchten, müssen zuerst die Regionen erstellt werden, die von den Buckets in Ihrem System verwendet werden können.
+
+
+NOTE: Die Region eines Buckets kann nach der Erstellung des Buckets nicht mehr geändert werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Beim Erstellen eines S3-Buckets kann angegeben werden, dass der Bucket in einer bestimmten Region erstellt wird. Die Angabe einer Region ermöglicht es, den Bucket geografisch in der Nähe der Nutzer zu platzieren, was die Latenz optimieren, Kosten minimieren und regulatorische Anforderungen erfüllen kann.
+
+Beim Erstellen einer ILM-Regel kann es sinnvoll sein, die einem S3-Bucket zugeordnete Region als erweiterten Filter zu verwenden. Beispielsweise lässt sich eine Regel erstellen, die nur für Objekte in S3-Buckets gilt, die in der  `us-west-2` Region erstellt wurden. Anschließend kann festgelegt werden, dass Kopien dieser Objekte auf Storage Nodes an einem Rechenzentrumsstandort innerhalb dieser Region platziert werden, um die Latenz zu optimieren.
+
+Bei der Konfiguration von Regionen sind folgende Richtlinien zu beachten:
+
+* Standardmäßig werden alle Buckets als zur  `us-east-1`Region zugehörig betrachtet.
+* Sie müssen die Regionen mithilfe des Grid Managers erstellen, bevor eine nicht standardmäßige Region beim Erstellen von Buckets mit dem Tenant Manager, der Tenant Management API oder mit dem LocationConstraint-Anforderungselement für S3 PUT Bucket API-Anfragen angegeben werden kann. Ein Fehler tritt auf, wenn eine PUT Bucket-Anfrage eine Region verwendet, die nicht in StorageGRID definiert ist.
+* Beim Erstellen des S3-Buckets muss der exakte Regionsname verwendet werden. Regionsnamen sind Groß-/Kleinschreibung. Zulässige Zeichen sind Zahlen, Buchstaben und Bindestriche.
++
+
+NOTE: EU gilt nicht als Alias für eu-west-1. Für die Nutzung der Region EU oder eu-west-1 ist die genaue Bezeichnung erforderlich.
+
+* Eine Region kann nicht gelöscht oder geändert werden, wenn sie in einer Regel verwendet wird, die einer Richtlinie (aktiv oder inaktiv) zugewiesen ist.
+* Wenn in einer ILM-Regel eine ungültige Region als erweiterter Filter verwendet wird, kann diese Regel nicht zu einer Richtlinie hinzugefügt werden.
++
+Eine ungültige Region kann entstehen, wenn Sie eine Region als erweiterten Filter in einer ILM-Regel verwenden, diese Region aber später löschen oder wenn Sie die Grid Management API verwenden, um eine Regel zu erstellen und eine Region angeben, die Sie nicht definiert haben.
+
+* Wenn eine Region gelöscht wurde, nachdem sie zum Erstellen eines S3-Buckets verwendet wurde, ist es erforderlich, die Region erneut hinzuzufügen, falls der erweiterte Filter „Standortbeschränkung“ genutzt werden soll, um Objekte in diesem Bucket zu finden.
+
+
+.Schritte
+. *ILM* > *Regionen* auswählen.
++
+Die Seite „Regionen“ wird angezeigt.
+
+. Die Registerkarte *Alle Regionen* oder *Standardregion* auswählen.
++
+[role="tabbed-block"]
+====
+.Alle Regionen
+--
+Die Registerkarte *Alle Regionen* listet die aktuell definierten Regionen auf, einschließlich der definierten Standardregion.
+
+
+NOTE: Im Tab „Alle Regionen“ kann die Standardregion weder entfernt noch geändert werden. Im Tab „Standardregion“ lässt sich die Standardregion ändern.
+
+.. Zum Hinzufügen einer Region *Weitere Region hinzufügen* auswählen.
+.. Geben Sie den Namen einer Region ein, die beim Erstellen von S3 Buckets verwendet werden soll.
++
+Sie müssen genau diesen Regionsnamen als LocationConstraint Anforderungselement verwenden, wenn Sie den entsprechenden S3 Bucket erstellen.
+
+.. Um einen ungenutzten Bereich zu entfernen, das Löschsymbol image:icon-x-to-remove.png["Symbol entfernen"] auswählen.
++
+Es erscheint eine Fehlermeldung, wenn Sie versuchen, eine Region zu entfernen, die derzeit in einer Richtlinie (aktiv oder inaktiv) verwendet wird.
+
+.. Wenn Sie alle Änderungen vorgenommen haben, wählen Sie *Speichern*.
++
+Sie können diese Regionen nun im Abschnitt „Erweiterte Filter“ in Schritt 1 des Assistenten zum Erstellen von ILM-Regeln auswählen. Siehe link:create-ilm-rule-enter-details.html#use-advanced-filters-in-ilm-rules["Erweiterte Filter in ILM-Regeln verwenden"].
+
+
+
+--
+.Standardregion
+--
+Auf der Registerkarte *Standardregion* wird die aktuell definierte Standardregion angezeigt, die geändert werden kann.
+
+.. Um die Standardregion zu ändern, den Regionsnamen aus den verfügbaren Optionen in der Dropdown-Liste *Standardregion* auswählen.
+.. *Speichern* auswählen.
+
+
+--
+====
+

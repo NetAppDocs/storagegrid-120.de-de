@@ -1,0 +1,67 @@
+---
+permalink: s3/s3-rest-api-supported-operations-and-limitations.html 
+sidebar: sidebar 
+keywords: s3 rest api supported operations, s3 rest api limitations 
+summary: 'Das StorageGRID System implementiert die Simple Storage Service API (API Version 2006-03-01) mit Unterstützung für die meisten Operationen, jedoch mit einigen Einschränkungen. Beim Integrieren von S3 REST API Clientanwendungen sind die Implementierungsdetails zu berücksichtigen.' 
+---
+= Unterstützte Operationen und Einschränkungen der S3 REST API in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das StorageGRID System implementiert die Simple Storage Service API (API Version 2006-03-01) mit Unterstützung für die meisten Operationen, jedoch mit einigen Einschränkungen. Beim Integrieren von S3 REST API Clientanwendungen sind die Implementierungsdetails zu berücksichtigen.
+
+Das StorageGRID System unterstützt sowohl virtuelle Hosted-Style-Anfragen als auch Path-Style-Anfragen.
+
+
+
+[[date-handling]]
+== Datumsverarbeitung
+
+Die StorageGRID Implementierung der S3 REST API unterstützt nur gültige HTTP-Datumsformate.
+
+Das StorageGRID System unterstützt ausschließlich gültige HTTP-Datumsformate für Header, die Datumswerte akzeptieren. Der Zeitanteil des Datums kann im Greenwich Mean Time (GMT) Format oder im Universal Coordinated Time (UTC) Format ohne Zeitzonenverschiebung (+0000 muss angegeben werden) angegeben werden. Wenn der  `x-amz-date` Header in der Anfrage enthalten ist, überschreibt er jeden im Date-Header der Anfrage angegebenen Wert. Bei Verwendung von AWS Signature Version 4 muss der  `x-amz-date` Header in der signierten Anfrage vorhanden sein, da der Date-Header nicht unterstützt wird.
+
+
+
+[[common-request-headers]]
+== Gängige Anfrage-Header
+
+Das StorageGRID System unterstützt die allgemeinen Anforderungsheader, die von  https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html["Amazon Simple Storage Service API Reference: Allgemeine Anfrageheader"^] definiert wurden, mit einer Ausnahme.
+
+[cols="1a,2a"]
+|===
+| Anfrageheader | Implementierung 
+
+
+ a| 
+Autorisierung
+ a| 
+Volle Unterstützung für AWS Signature Version 2
+
+Unterstützung für AWS Signature Version 4, mit folgenden Ausnahmen:
+
+* Wenn Sie den tatsächlichen Nutzlast Prüfsumme-Wert in `x-amz-content-sha256` angeben, wird der Wert ohne Validierung akzeptiert, so als ob der Wert `UNSIGNED-PAYLOAD` für den Header angegeben worden wäre. Wenn ein `x-amz-content-sha256` Header-Wert angegeben wird, der `aws-chunked` Streaming impliziert (zum Beispiel STREAMING-AWS4-HMAC-SHA256-PAYLOAD), werden die Chunk-Signaturen nicht mit den Chunk-Daten überprüft.
+
+
+|===
+
+
+[[common-response-headers]]
+== Allgemeine Antwort-Header
+
+Das StorageGRID System unterstützt alle gängigen Antwortheader, die in der _Simple Storage Service API Reference_ definiert sind, mit einer Ausnahme.
+
+[cols="1a,2a"]
+|===
+| Antwort-Header | Implementierung 
+
+
+ a| 
+x-amz-id-2
+ a| 
+Nicht verwendet
+
+|===

@@ -1,0 +1,1466 @@
+---
+permalink: monitor/alerts-reference.html 
+sidebar: sidebar 
+keywords: alerts reference 
+summary: Diese Referenz listet die Standardwarnungen auf, die im Grid Manager angezeigt werden. Empfohlene Maßnahmen sind in der Warnmeldung enthalten, die Sie erhalten. 
+---
+= Warnungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Referenz listet die Standardwarnungen auf, die im Grid Manager angezeigt werden. Empfohlene Maßnahmen sind in der Warnmeldung enthalten, die Sie erhalten.
+
+Bei Bedarf lassen sich benutzerdefinierte Alarmregeln erstellen, die zu Ihrem Systemmanagement-Ansatz passen.
+
+Einige der Standardwarnungen verwenden link:commonly-used-prometheus-metrics.html["Prometheus-Metriken"].
+
+
+
+[[appliance-alerts]]
+== Gerätewarnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Gerätebatterie abgelaufen
+ a| 
+Die Batterie im Storage-Controller des Geräts ist abgelaufen.
+
+
+
+ a| 
+Gerätebatterie ausgefallen
+ a| 
+Die Batterie im Storage-Controller des Geräts ist ausgefallen.
+
+
+
+ a| 
+Die Batterie des Geräts hat eine unzureichend erlernte Kapazität
+ a| 
+Die Batterie im Speichercontroller des Geräts hat eine unzureichend erlernte Kapazität.
+
+
+
+ a| 
+Gerätebatterie nahe am Ablaufdatum
+ a| 
+Die Batterie im Storage-Controller des Geräts nähert sich dem Ende ihrer Lebensdauer.
+
+
+
+ a| 
+Gerätebatterie entfernt
+ a| 
+Die Batterie im Storage-Controller des Geräts fehlt.
+
+
+
+ a| 
+Gerätebatterie zu heiß
+ a| 
+Die Batterie im Storage-Controller des Geräts ist überhitzt.
+
+
+
+ a| 
+BMC-Kommunikationsfehler der Appliance
+ a| 
+Die Kommunikation mit dem Baseboard Management Controller (BMC) wurde verloren.
+
+
+
+ a| 
+Fehler am Appliance-Boot-Gerät erkannt
+ a| 
+Es wurde ein Problem mit dem Boot-Gerät in der Appliance festgestellt.
+
+
+
+ a| 
+Das Sicherungsgerät für den Appliance Cache ist ausgefallen.
+ a| 
+Ein Gerät zur Sicherung des persistenten Caches ist ausgefallen.
+
+
+
+ a| 
+Unzureichende Kapazität des Appliance Cache-Backup-Geräts
+ a| 
+Die Kapazität des Cache-Backup-Geräts reicht nicht aus.
+
+
+
+ a| 
+Appliance Cache Backup-Gerät schreibgeschützt
+ a| 
+Ein Cache Backup-Gerät ist schreibgeschützt.
+
+
+
+ a| 
+Größenkonflikt im Cache-Speicher der Appliance
+ a| 
+Die beiden Controller im Gerät haben unterschiedliche Cache-Größen.
+
+
+
+ a| 
+CMOS-Batterie-Fehler der Appliance
+ a| 
+Es wurde ein Problem mit der CMOS-Batterie des Geräts festgestellt.
+
+
+
+ a| 
+Die Gehäusetemperatur des Appliance Compute Controllers ist zu hoch
+ a| 
+Die Temperatur des Rechencontrollers in einer StorageGRID Appliance hat einen nominalen Schwellenwert überschritten.
+
+
+
+ a| 
+Die CPU-Temperatur des Appliance Compute Controllers ist zu hoch.
+ a| 
+Die Temperatur der CPU im Compute Controller eines StorageGRID Geräts hat einen nominalen Schwellenwert überschritten.
+
+
+
+ a| 
+Der Appliance Compute Controller benötigt Aufmerksamkeit.
+ a| 
+Im Compute-Controller einer StorageGRID Appliance wurde ein Hardwarefehler festgestellt.
+
+
+
+ a| 
+Das Netzteil des Appliance Compute Controllers A hat ein Problem.
+ a| 
+Das Netzteil A im Rechencontroller hat ein Problem.
+
+
+
+ a| 
+Das Netzteil B des Appliance Compute Controllers weist ein Problem auf.
+ a| 
+Das Netzteil B im Rechencontroller hat ein Problem.
+
+
+
+ a| 
+Der Dienst zur Überwachung der Appliance Compute-Hardware ist ausgefallen.
+ a| 
+Der Dienst zur Überwachung des Speicherhardware-Status ist ausgefallen.
+
+
+
+ a| 
+Das DAS-Laufwerk der Appliance überschreitet das Limit für die pro Tag geschriebene Datenmenge.
+ a| 
+Täglich wird eine übermäßige Datenmenge auf ein Laufwerk geschrieben, was zum Verlust der Garantie führen kann.
+
+
+
+ a| 
+Fehler im DAS-Laufwerk des Appliance erkannt
+ a| 
+Es wurde ein Problem mit einem direkt angeschlossenen Speicherlaufwerk (DAS) im Appliance festgestellt.
+
+
+
+ a| 
+Das Appliance DAS-Laufwerk befindet sich im falschen Steckplatz oder Node.
+ a| 
+Ein direkt angeschlossenes Speicherlaufwerk (DAS) befindet sich im falschen Steckplatz oder Node.
+
+
+
+ a| 
+Die DAS Laufwerkspositionsanzeigeleuchte des Geräts leuchtet
+ a| 
+Die Laufwerkslokalisierungsanzeige für ein oder mehrere direkt angeschlossene Storage-Laufwerke (DAS) in einem Storage Node einer Appliance ist eingeschaltet.
+
+
+
+ a| 
+Wiederherstellung des DAS-Laufwerks einer Appliance
+ a| 
+Ein direkt angeschlossenes Speicherlaufwerk (DAS) wird neu aufgebaut. Dies ist zu erwarten, wenn es kürzlich ausgetauscht oder entfernt und wieder eingesetzt wurde.
+
+
+
+ a| 
+Fehler beim Appliance-Lüfter erkannt
+ a| 
+Es wurde ein Problem mit einer Lüftereinheit im Gerät festgestellt.
+
+
+
+ a| 
+Fibre Channel-Fehler des Geräts erkannt
+ a| 
+Es wurde ein Problem mit der Fibre Channel Verbindung zwischen dem Storage Controller des Geräts und dem Compute Controller festgestellt.
+
+
+
+ a| 
+Ausfall des Fibre Channel HBA-Ports des Geräts
+ a| 
+Ein Fibre Channel HBA Port ist defekt oder ausgefallen.
+
+
+
+ a| 
+Appliance Flash Cache-Laufwerke nicht optimal
+ a| 
+Die für den SSD Cache verwendeten Laufwerke sind nicht optimal.
+
+
+
+ a| 
+Appliance-Verbindung/Batteriegehäuse entfernt
+ a| 
+Der Verbindungs-/Batteriebehälter fehlt.
+
+
+
+ a| 
+Fehlender LACP-Port der Appliance
+ a| 
+Ein Port an einem StorageGRID Gerät nimmt nicht an der LACP-Bond teil.
+
+
+
+ a| 
+Netzwerkkartenfehler des Geräts erkannt
+ a| 
+Es wurde ein Problem mit der Netzwerkkarte (NIC) des Geräts festgestellt.
+
+
+
+ a| 
+Gesamtstromversorgung der Appliance beeinträchtigt
+ a| 
+Die Leistung eines StorageGRID Geräts ist von der empfohlenen Betriebsspannung abgewichen.
+
+
+
+ a| 
+SANtricity OS Software-Update für Appliance erforderlich
+ a| 
+SANtricity Softwareversion ist niedriger als die empfohlene Mindestversion für diese Version von StorageGRID.
+
+
+
+ a| 
+Kritische SSD-Gerätewarnung
+ a| 
+Ein Appliance-SSD meldet eine kritische Warnung.
+
+
+
+ a| 
+Ausfall des Appliance Storage Controllers A
+ a| 
+Der Speichercontroller A in einer StorageGRID Appliance ist ausgefallen.
+
+
+
+ a| 
+Ausfall des Appliance Storage Controllers B
+ a| 
+Der Storage-Controller B in einer StorageGRID Appliance ist ausgefallen.
+
+
+
+ a| 
+Ausfall des Appliance-Speichercontrollers
+ a| 
+In einem StorageGRID Appliance ist ein oder mehrere Laufwerke ausgefallen oder sind nicht optimal.
+
+
+
+ a| 
+Hardwareproblem mit dem Appliance Storage-Controller
+ a| 
+SANtricity Software meldet für eine Komponente in einem StorageGRID Gerät den Status „Aktionsbedarf“.
+
+
+
+ a| 
+Ausfall der Stromversorgung des Appliance Storage Controllers
+ a| 
+Die Stromversorgung A in einem StorageGRID Gerät hat von der empfohlenen Betriebsspannung abgewichen.
+
+
+
+ a| 
+Ausfall der Stromversorgung B des Appliance Storage Controllers
+ a| 
+Die Stromversorgung B in einem StorageGRID Gerät hat von der empfohlenen Betriebsspannung abgewichen.
+
+
+
+ a| 
+Der Service zur Überwachung der Appliance Storage-Hardware ist ausgefallen
+ a| 
+Der Dienst zur Überwachung des Speicherhardware-Status ist ausgefallen.
+
+
+
+ a| 
+Appliance Storage Shelves beeinträchtigt
+ a| 
+Der Status einer der Komponenten im Storage Shelf eines Storage Appliance ist beeinträchtigt.
+
+
+
+ a| 
+Gerätetemperatur überschritten
+ a| 
+Die Nenn- oder Maximaltemperatur für den Storage-Controller des Geräts wurde überschritten.
+
+
+
+ a| 
+Temperatursensor der Appliance entfernt
+ a| 
+Ein Temperatursensor wurde entfernt.
+
+
+
+ a| 
+UEFI Secure-Boot-Fehler der Appliance
+ a| 
+Ein Gerät wurde nicht sicher hochgefahren.
+
+
+
+ a| 
+Die Festplatten-I/O ist sehr langsam
+ a| 
+Sehr langsame Festplatten-E/A könnte die Grid-Performance beeinträchtigen.
+
+
+
+ a| 
+Lüfterfehler des Storage Appliance erkannt
+ a| 
+Ein Problem mit einer Lüftereinheit im Speichercontroller eines Geräts wurde erkannt.
+
+
+
+ a| 
+Storage-Appliance-Speicheranbindung beeinträchtigt
+ a| 
+Es besteht ein Problem mit einer oder mehreren Verbindungen zwischen dem Compute Controller und dem Storage Controller.
+
+
+
+ a| 
+Speichermedium nicht zugänglich
+ a| 
+Auf ein Speichermedium kann nicht zugegriffen werden.
+
+|===
+
+
+[[audit-and-syslog-alerts]]
+== Audit- und Syslog-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Audit-Logs werden der In-Memory-Warteschlange hinzugefügt
+ a| 
+Der Knoten kann keine Protokolle an den lokalen Syslog Server senden und die In-Memory-Warteschlange füllt sich.
+
+
+
+ a| 
+Fehler bei der Weiterleitung des externen Syslog-Servers
+ a| 
+Der Knoten kann keine Protokolle an den externen Syslog-Server weiterleiten.
+
+
+
+ a| 
+Lange Prüfwarteschlange
+ a| 
+Die Warteschlange für Prüfmeldungen ist voll. Wenn dieses Problem nicht behoben wird, können S3-Operationen fehlschlagen.
+
+
+
+ a| 
+Protokolle werden der Warteschlange auf der Festplatte hinzugefügt
+ a| 
+Der Knoten kann keine Protokolle an den externen Syslog-Server weiterleiten und die Warteschlange auf der Festplatte füllt sich.
+
+|===
+
+
+[[bucket-alerts]]
+== Bucket-Benachrichtigungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+FabricPool Bucket hat eine nicht unterstützte Bucket-Konsistenzeinstellung.
+ a| 
+Ein FabricPool Bucket verwendet die Konsistenzstufe „Available“ oder „Strong-site“, die nicht unterstützt wird.
+
+
+
+ a| 
+FabricPool Bucket verfügt über eine nicht unterstützte Versionierungseinstellung.
+ a| 
+Ein FabricPool Bucket verfügt über aktivierte Versionierung oder S3 Object Lock, was nicht unterstützt wird.
+
+|===
+
+
+[[cassandra-alerts]]
+== Cassandra Warnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Cassandra Auto-Compactor-Fehler
+ a| 
+Beim Cassandra Auto-Compactor ist ein Fehler aufgetreten.
+
+
+
+ a| 
+Cassandra Auto-Compactor-Metriken veraltet
+ a| 
+Die Metriken, die den Cassandra Auto-Compactor beschreiben, sind veraltet.
+
+
+
+ a| 
+Cassandra-Kommunikationsfehler
+ a| 
+Die Knoten, auf denen der Cassandra-Dienst läuft, haben Schwierigkeiten bei der Kommunikation untereinander.
+
+
+
+ a| 
+Cassandra Compactions überlastet
+ a| 
+Der Cassandra Compaction-Prozess ist überlastet.
+
+
+
+ a| 
+Cassandra-Fehler beim Schreiben zu großer Datenmengen
+ a| 
+Ein interner StorageGRID-Prozess hat eine zu große Schreibanforderung an Cassandra gesendet.
+
+
+
+ a| 
+Cassandra Reparaturmetriken veraltet
+ a| 
+Die Kennzahlen, die Cassandra-Reparaturaufträge beschreiben, sind veraltet.
+
+
+
+ a| 
+Der Reparaturfortschritt von Cassandra ist langsam
+ a| 
+Der Fortschritt der Cassandra Datenbankreparaturen ist langsam.
+
+
+
+ a| 
+Cassandra Repair Service nicht verfügbar
+ a| 
+Der Cassandra Reparaturservice ist nicht verfügbar.
+
+
+
+ a| 
+Cassandra-Tabellenbeschädigung
+ a| 
+Cassandra hat eine Tabellenbeschädigung festgestellt. Cassandra startet automatisch neu, wenn eine Tabellenbeschädigung festgestellt wird.
+
+|===
+
+
+[[cloud-storage-pool-alerts]]
+== Cloud Storage Pool-Benachrichtigungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Fehler bei der Verbindung zum Cloud Storage Pool
+ a| 
+Bei der Integritätsprüfung der Cloud Storage Pools wurden ein oder mehrere neue Fehler festgestellt.
+
+
+
+ a| 
+Ablauf der IAM Roles Anywhere End-Entity-Zertifizierung
+ a| 
+Das IAM Roles Anywhere Endbenutzerzertifikat läuft demnächst ab.
+
+|===
+
+
+[[cross-grid-replication-alerts]]
+== Warnungen zur gridübergreifenden Replikation
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Permanenter Ausfall der netzübergreifenden Replikation
+ a| 
+Es ist ein Fehler bei der gridübergreifenden Replikation aufgetreten, der ein Eingreifen des Benutzers zur Behebung erfordert.
+
+
+
+ a| 
+Ressourcen für die netzübergreifende Replikation nicht verfügbar
+ a| 
+Cross-Grid-Replikationsanforderungen sind ausstehend, da eine Ressource nicht verfügbar ist.
+
+|===
+
+
+[[dhcp-alerts]]
+== DHCP-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+DHCP Lease abgelaufen
+ a| 
+Die DHCP-Lease für eine Netzwerkschnittstelle ist abgelaufen.
+
+
+
+ a| 
+DHCP Lease läuft bald ab
+ a| 
+Das DHCP-Lease einer Netzwerkschnittstelle läuft in Kürze ab.
+
+
+
+ a| 
+DHCP-Server nicht verfügbar
+ a| 
+Der DHCP Server ist nicht verfügbar.
+
+|===
+
+
+[[debug-and-trace-alerts]]
+== Debug- und Trace-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Auswirkungen des Debuggens auf die Leistung
+ a| 
+Wenn der Debug-Modus aktiviert ist, kann die Systemleistung negativ beeinflusst werden.
+
+
+
+ a| 
+Trace-Konfiguration aktiviert
+ a| 
+Wenn die Trace-Konfiguration aktiviert ist, kann sich dies negativ auf die Systemleistung auswirken.
+
+|===
+
+
+[[email-and-autosupport-alerts]]
+== E-Mail- und AutoSupport-Benachrichtigungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+AutoSupport-Nachricht konnte nicht gesendet werden
+ a| 
+Die letzte AutoSupport-Nachricht konnte nicht gesendet werden.
+
+
+
+ a| 
+Fehler bei der Domainnamenauflösung
+ a| 
+Der StorageGRID Knoten war nicht in der Lage, Domänennamen aufzulösen.
+
+
+
+ a| 
+E-Mail-Benachrichtigungsfehler
+ a| 
+Die E-Mail-Benachrichtigung für eine Warnung konnte nicht gesendet werden.
+
+
+
+ a| 
+Archivierungsziel-Bucket für Protokolle nicht gefunden
+ a| 
+Der Ziel-Bucket für die Protokollarchivierung fehlt, was verhindert, dass Protokolle im Ziel-Bucket archiviert werden.
+
+
+
+ a| 
+SNMP Inform-Fehler
+ a| 
+Fehler beim Senden von SNMP Inform-Benachrichtigungen an ein Trap-Ziel.
+
+
+
+ a| 
+Externer SSH-Zugriff aktiviert
+ a| 
+Der externe SSH-Zugriff ist seit mehr als 24 Stunden aktiviert.
+
+
+
+ a| 
+SSH- oder Konsolenanmeldung erkannt
+ a| 
+In den letzten 24 Stunden hat sich ein Benutzer mit Web Console oder SSH angemeldet.
+
+|===
+
+
+[[erasure-coding-ec-alerts]]
+== Erasure-Coding (EC)-Warnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Fehler bei der EC Neuausrichtung
+ a| 
+Das EC-Neugewichtsverfahren ist fehlgeschlagen oder wurde abgebrochen.
+
+
+
+ a| 
+EC-Reparaturfehler
+ a| 
+Ein Reparaturjob für EC-Daten ist fehlgeschlagen oder wurde gestoppt.
+
+
+
+ a| 
+EC-Reparatur ins Stocken geraten
+ a| 
+Die Reparaturarbeiten an den EC-Daten sind ins Stocken geraten.
+
+
+
+ a| 
+Fehler bei der Überprüfung des Erasure-Coded-Fragments
+ a| 
+Mit Löschcodierung versehene Fragmente können nicht mehr verifiziert werden. Beschädigte Fragmente werden möglicherweise nicht repariert.
+
+|===
+
+
+[[expiration-of-certificates-alerts]]
+== Benachrichtigungen zum Ablauf von Zertifikaten
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Ablauf des Admin Proxy CA-Zertifikats
+ a| 
+Mindestens ein Zertifikat im CA-Bundle des Admin-Proxyservers läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des Client-Zertifikats
+ a| 
+Mindestens ein Client-Zertifikat läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des globalen Serverzertifikats für S3
+ a| 
+Das globale Serverzertifikat für S3 läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des Load Balancer Endpunktzertifikats
+ a| 
+Mindestens ein Load Balancer Endpunktzertifikat läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des Serverzertifikats für die Managementoberfläche
+ a| 
+Das für die Managementoberfläche verwendete Serverzertifikat läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des externen Syslog-CA-Zertifikats
+ a| 
+Das Zertifikat der Zertifizierungsstelle (CA), das zur Signierung des externen Syslog-Serverzertifikats verwendet wurde, läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des externen Syslog-Client-Zertifikats
+ a| 
+Das Clientzertifikat für einen externen Syslog-Server läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des externen Syslog-Server-Zertifikats
+ a| 
+Das vom externen Syslog-Server präsentierte Serverzertifikat läuft demnächst ab.
+
+|===
+
+
+[[grid-network-alerts]]
+== Grid Network-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+MTU-Fehlanpassung im Grid Network
+ a| 
+Die MTU-Einstellung für die Grid Network Schnittstelle (eth0) unterscheidet sich erheblich zwischen den Knoten im Grid.
+
+|===
+
+
+[[grid-federation-alerts]]
+== Warnungen zur Grid-Föderation
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Ablauf des Grid Federation-Zertifikats
+ a| 
+Mindestens ein Zertifikat der Grid Federation läuft demnächst ab.
+
+
+
+ a| 
+Verbindungsfehler in der Grid-Föderation
+ a| 
+Die Grid Federation Verbindung zwischen dem lokalen und dem entfernten Grid funktioniert nicht.
+
+|===
+
+
+[[high-usage-or-high-latency-alerts]]
+== Warnmeldungen bei hoher Auslastung oder hoher Latenz
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Hohe Java Heap-Nutzung
+ a| 
+Ein hoher Prozentsatz des Java-Heap-Speichers wird verwendet.
+
+
+
+ a| 
+Hohe Latenz bei Metadatenabfragen
+ a| 
+Die durchschnittliche Abfragezeit für Cassandra-Metadaten ist zu lang.
+
+|===
+
+
+[[identity-federation-alerts]]
+== Warnungen zur Identitätsföderation
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Synchronisierungsfehler der Identitätsföderation
+ a| 
+Die Synchronisierung von föderierten Gruppen und Benutzern aus der Identitätsquelle ist nicht möglich.
+
+
+
+ a| 
+Fehler bei der Synchronisierung der Identitätsföderation für einen Mandanten
+ a| 
+Die Synchronisierung von Verbundgruppen und Benutzern aus der vom Mandanten konfigurierten Identitätsquelle ist nicht möglich.
+
+|===
+
+
+[[information-lifecycle-management-ilm-alerts]]
+== Warnmeldungen zum Information Lifecycle Management (ILM)
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+ILM Platzierung nicht erreichbar
+ a| 
+Eine Platzierungsanweisung in einer ILM-Regel kann für bestimmte Objekte nicht umgesetzt werden.
+
+
+
+ a| 
+Niedrige ILM Scanrate
+ a| 
+Die ILM Abtastrate ist auf weniger als 100 Objekte/Sekunde eingestellt.
+
+|===
+
+
+[[key-management-server-kms-alerts]]
+== Warnmeldungen des Key Management Servers (KMS)
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Ablauf des KMS CA-Zertifikats
+ a| 
+Das Zertifikat der Zertifizierungsstelle (CA), mit dem das Zertifikat des Schlüsselverwaltungsservers (KMS) signiert wurde, läuft demnächst ab.
+
+
+
+ a| 
+Ablauf des KMS Clientzertifikats
+ a| 
+Das Clientzertifikat für einen Schlüsselverwaltungsserver läuft demnächst ab
+
+
+
+ a| 
+Die KMS Konfiguration konnte nicht geladen werden.
+ a| 
+Die Konfiguration für den Schlüsselverwaltungsserver ist vorhanden, konnte jedoch nicht geladen werden.
+
+
+
+ a| 
+KMS-Verbindungsfehler
+ a| 
+Ein Appliance-Knoten konnte keine Verbindung zum Key Management Server für seinen Standort herstellen.
+
+
+
+ a| 
+KMS-Verschlüsselungsschlüsselname nicht gefunden
+ a| 
+Der konfigurierte Schlüsselverwaltungsserver verfügt nicht über einen Verschlüsselungsschlüssel, der mit dem angegebenen Namen übereinstimmt.
+
+
+
+ a| 
+KMS-Verschlüsselungsschlüsselrotation fehlgeschlagen
+ a| 
+Alle Appliance Volumes wurden erfolgreich entschlüsselt, aber bei einem oder mehreren Volumes konnte nicht auf den neuesten Schlüssel rotiert werden.
+
+
+
+ a| 
+KMS ist nicht konfiguriert
+ a| 
+Für diese Website existiert kein Schlüsselverwaltungsserver.
+
+
+
+ a| 
+Der KMS-Schlüssel konnte ein Appliance-Volume nicht entschlüsseln.
+ a| 
+Auf einem Gerät mit aktivierter Knotenverschlüsselung konnten ein oder mehrere Volumes mit dem aktuellen KMS-Schlüssel nicht entschlüsselt werden.
+
+
+
+ a| 
+Ablauf des KMS-Serverzertifikats
+ a| 
+Das vom Key Management Server (KMS) verwendete Serverzertifikat läuft demnächst ab.
+
+
+
+ a| 
+Verbindungsfehler des KMS-Servers
+ a| 
+Ein Appliance-Knoten konnte keine Verbindung zu einem oder mehreren Servern im Schlüsselverwaltungsserver-Cluster für seinen Standort herstellen.
+
+|===
+
+
+[[load-balancer-alerts]]
+== Load Balancer-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Erhöhte Zero-Request Load-Balancer-Verbindungen
+ a| 
+Ein erhöhter Prozentsatz der Verbindungen zu Load Balancer Endpunkten wurde getrennt, ohne dass Anfragen ausgeführt wurden.
+
+|===
+
+
+[[local-clock-offset-alerts]]
+== Warnungen zur lokalen Zeitabweichung
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Großer Zeitversatz der Ortsuhr
+ a| 
+Die Abweichung zwischen der lokalen Uhrzeit und der Network Time Protocol (NTP) Zeit ist zu groß.
+
+|===
+
+
+[[low-memory-or-low-space-alerts]]
+== Warnungen bei geringem Arbeitsspeicher oder geringem Speicherplatz
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Geringe Revisionsprotokoll-Speicherkapazität
+ a| 
+Der verfügbare Speicherplatz für Revisionsprotokolle ist gering. Wenn dieses Problem nicht behoben wird, können S3-Operationen fehlschlagen.
+
+
+
+ a| 
+Geringer verfügbarer Knotenspeicher
+ a| 
+Die auf einem Knoten verfügbare RAM-Menge ist gering.
+
+
+
+ a| 
+Geringer freier Speicherplatz für Storage-Pool
+ a| 
+Der im Storage Node verfügbare Speicherplatz für Objektdaten ist gering.
+
+
+
+ a| 
+Geringer installierter Knotenspeicher
+ a| 
+Die installierte Speicherkapazität des Knotens ist gering.
+
+
+
+ a| 
+Geringer Metadatenspeicher
+ a| 
+Der verfügbare Speicherplatz für Objektmetadaten ist gering.
+
+
+
+ a| 
+Niedrige Metrik Festplattenkapazität
+ a| 
+Der verfügbare Speicherplatz für die Metrikdatenbank ist gering.
+
+
+
+ a| 
+Niedriger Objektdatenspeicher
+ a| 
+Der verfügbare Speicherplatz für Objektdaten ist gering.
+
+
+
+ a| 
+Überschreiben des niedrigen schreibgeschützten Wasserzeichens
+ a| 
+Der Wert für die Überschreibung des Soft-Read-Only-Watermarks des Speichervolumens ist niedriger als das minimale optimierte Watermark für einen Storage Node.
+
+
+
+ a| 
+Geringe Root-Disk-Kapazität
+ a| 
+Der verfügbare Speicherplatz auf der Root-Festplatte ist gering.
+
+
+
+ a| 
+Geringe Systemdatenkapazität
+ a| 
+Der verfügbare Speicherplatz für /var/local ist knapp. Wenn dieses Problem nicht behoben wird, können S3-Operationen fehlschlagen.
+
+
+
+ a| 
+Geringer freier Speicherplatz im temporären Verzeichnis
+ a| 
+Der verfügbare Speicherplatz im Verzeichnis /tmp ist knapp.
+
+|===
+
+
+[[node-or-node-network-alerts]]
+== Knoten- oder Knotennetzwerk-Warnmeldungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+ADC-Quorum nicht erreicht
+ a| 
+Der Speicherknoten mit ADC-Dienst ist offline. Erweiterungs- und Außerbetriebnahmevorgänge sind blockiert, bis das ADC-Quorum wiederhergestellt ist.
+
+
+
+ a| 
+Admin Network Empfangsnutzung
+ a| 
+Die Auslastung des Admin Network ist hoch.
+
+
+
+ a| 
+Admin Network Übertragungsnutzung
+ a| 
+Die Auslastung des Admin Network ist hoch.
+
+
+
+ a| 
+Firewall-Konfigurationsfehler
+ a| 
+Die Firewall-Konfiguration konnte nicht angewendet werden.
+
+
+
+ a| 
+Managementoberflächen-Endpunkte im Fallback-Modus
+ a| 
+Alle Managementoberfläche-Endpunkte greifen schon viel zu lange auf die Standardports zurück.
+
+
+
+ a| 
+Fehler bei der Netzwerkverbindung des Node
+ a| 
+Beim Übertragen von Daten zwischen den Knoten sind Fehler aufgetreten.
+
+
+
+ a| 
+Empfangsfehler im Knotennetzwerk
+ a| 
+Ein hoher Prozentsatz der von einem Knoten empfangenen Netzwerk-Frames wies Fehler auf.
+
+
+
+ a| 
+Knoten nicht mit NTP-Server synchronisiert
+ a| 
+Der Knoten ist nicht mit dem Network Time Protocol (NTP)-Server synchronisiert.
+
+
+
+ a| 
+Knoten nicht mit NTP-Server gesperrt
+ a| 
+Der Knoten ist nicht an einen Network Time Protocol (NTP)-Server gebunden.
+
+
+
+ a| 
+Netzwerk des Non-appliance-Knotens ausgefallen
+ a| 
+Mindestens ein Netzwerkgerät ist ausgefallen oder nicht verbunden.
+
+
+
+ a| 
+Verbindung der Servicegeräte im Admin-Netzwerk unterbrochen
+ a| 
+Die Schnittstelle des Geräts zum Admin Network (eth1) ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Die Verbindung des Services Appliance zum Admin-Netzwerkport 1 ist unterbrochen.
+ a| 
+Der Admin Network Port 1 des Geräts ist ausgefallen oder nicht angeschlossen.
+
+
+
+ a| 
+Verbindung des Servicegeräts im Client Network unterbrochen
+ a| 
+Die Schnittstelle des Geräts zum Client-Netzwerk (eth2) ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung der Services Appliance an Netzwerkport 1 unterbrochen
+ a| 
+Netzwerkport 1 am Gerät ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Servicegerät-Verbindung an Netzwerkport 2 unterbrochen
+ a| 
+Netzwerkport 2 des Geräts ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Servicegerät-Link an Netzwerkport 3 ausgefallen
+ a| 
+Netzwerkport 3 des Geräts ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Services Appliance zu Netzwerkport 4 unterbrochen
+ a| 
+Netzwerkport 4 am Gerät ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance im Admin-Netzwerk unterbrochen
+ a| 
+Die Schnittstelle des Geräts zum Admin Network (eth1) ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance zu Admin Network Port 1 unterbrochen
+ a| 
+Der Admin Network Port 1 des Geräts ist ausgefallen oder nicht angeschlossen.
+
+
+
+ a| 
+Verbindung zum Storage Appliance im Clientnetzwerk unterbrochen
+ a| 
+Die Schnittstelle des Geräts zum Client-Netzwerk (eth2) ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance an Netzwerkport 1 unterbrochen
+ a| 
+Netzwerkport 1 am Gerät ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance an Netzwerkport 2 unterbrochen
+ a| 
+Netzwerkport 2 des Geräts ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance an Netzwerkport 3 unterbrochen
+ a| 
+Netzwerkport 3 des Geräts ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Verbindung des Storage Appliance an Netzwerkport 4 unterbrochen
+ a| 
+Netzwerkport 4 am Gerät ist ausgefallen oder getrennt.
+
+
+
+ a| 
+Speicherknoten befindet sich nicht im gewünschten Speicherzustand
+ a| 
+Der LDR-Dienst auf einem Storage Node kann aufgrund eines internen Fehlers oder eines volumenbezogenen Problems nicht in den gewünschten Zustand wechseln.
+
+
+
+ a| 
+TCP-Verbindungsnutzung
+ a| 
+Die Anzahl der TCP-Verbindungen auf diesem Knoten nähert sich der maximal nachverfolgbaren Anzahl.
+
+
+
+ a| 
+Kommunikation mit dem Knoten nicht möglich
+ a| 
+Ein oder mehrere Dienste reagieren nicht oder der Knoten ist nicht erreichbar.
+
+
+
+ a| 
+Unerwarteter Neustart des Knotens
+ a| 
+Ein Knoten wurde innerhalb der letzten 24 Stunden unerwartet neu gestartet.
+
+|===
+
+
+[[object-alerts]]
+== Objektwarnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Objektexistenzprüfung fehlgeschlagen
+ a| 
+Der Auftrag zur Überprüfung der Objektexistenz ist fehlgeschlagen.
+
+
+
+ a| 
+Objektexistenzprüfung angehalten
+ a| 
+Der Job zur Überprüfung der Objektexistenz ist hängen geblieben.
+
+
+
+ a| 
+Objekte, die möglicherweise verloren gegangen sind
+ a| 
+Ein oder mehrere Objekte sind möglicherweise aus dem Grid verloren gegangen.
+
+
+
+ a| 
+Verwaiste Objekte erkannt
+ a| 
+Es wurden verwaiste Objekte entdeckt.
+
+
+
+ a| 
+S3 PUT Objektgröße zu groß
+ a| 
+Ein Client versucht eine PUT Object-Operation, die die Größenbeschränkungen von S3 überschreitet.
+
+
+
+ a| 
+Nicht identifiziertes beschädigtes Objekt erkannt
+ a| 
+Im replizierten Objektspeicher wurde eine Datei gefunden, die nicht als repliziertes Objekt identifiziert werden konnte.
+
+|===
+
+
+[[object-corruption-alerts]]
+== Objektbeschädigungswarnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Objektgrößenkonflikt
+ a| 
+Während der Überprüfung der Objektexistenz wurde eine unerwartete Objektgröße festgestellt.
+
+|===
+
+
+[[platform-services-alerts]]
+== Benachrichtigungen von Plattformdiensten
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Die Kapazität der Plattformdienste für ausstehende Anfragen ist gering.
+ a| 
+Die Anzahl der ausstehenden Anfragen an die Plattformdienste nähert sich der Kapazitätsgrenze.
+
+
+
+ a| 
+Plattformdienste nicht verfügbar
+ a| 
+An einem Standort sind zu wenige Speicherknoten mit dem RSM-Dienst aktiv oder verfügbar.
+
+|===
+
+
+[[storage-volume-alerts]]
+== Warnungen zum Storage-Volumen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Speichervolumen erfordert Aufmerksamkeit
+ a| 
+Ein Speichervolumen ist offline und benötigt Aufmerksamkeit.
+
+
+
+ a| 
+Das Speichervolumen muss wiederhergestellt werden
+ a| 
+Ein Speichervolumen wurde wiederhergestellt und muss zurückgespielt werden.
+
+
+
+ a| 
+Speichervolumen offline
+ a| 
+Ein Speichervolumen ist seit mehr als 5 Minuten offline.
+
+
+
+ a| 
+Versuch, das Speichervolume erneut einzubinden
+ a| 
+Ein Speichervolume war offline und hat eine automatische Wiedereinbindung ausgelöst. Dies könnte auf ein Laufwerksproblem oder Dateisystemfehler hinweisen.
+
+
+
+ a| 
+Die Wiederherstellung des Volumes konnte die Reparatur der replizierten Daten nicht starten.
+ a| 
+Die Reparatur replizierter Daten für ein repariertes Volume konnte nicht automatisch gestartet werden.
+
+|===
+
+
+[[storagegrid-services-alerts]]
+== StorageGRID Services-Warnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+nginx Service mit Backup-Konfiguration
+ a| 
+Die Konfiguration des nginx Service ist ungültig. Die vorherige Konfiguration wird jetzt verwendet.
+
+
+
+ a| 
+nginx-gw Service mit Backup-Konfiguration
+ a| 
+Die Konfiguration des nginx-gw Dienstes ist ungültig. Die vorherige Konfiguration wird jetzt verwendet.
+
+
+
+ a| 
+Neustart erforderlich, um FIPS zu deaktivieren
+ a| 
+Die Sicherheitsrichtlinie erfordert keinen FIPS-Modus, aber FIPS-Module sind in Verwendung.
+
+
+
+ a| 
+Neustart erforderlich, um FIPS zu aktivieren
+ a| 
+Die Sicherheitsrichtlinie erfordert den FIPS-Modus, aber FIPS-Module sind nicht in Verwendung.
+
+
+
+ a| 
+SSH-Dienst mit Backup-Konfiguration
+ a| 
+Die Konfiguration des SSH-Dienstes ist ungültig. Die vorherige Konfiguration wird nun verwendet.
+
+|===
+
+
+[[tenant-alerts]]
+== Mandantenwarnungen
+
+[cols="1a,2a"]
+|===
+| Alarmname | Beschreibung 
+
+
+ a| 
+Hohe Mandantenquotenauslastung
+ a| 
+Ein hoher Prozentsatz des Quota-Speicherplatzes wird verwendet. Diese Regel ist standardmäßig deaktiviert, da sie zu viele Benachrichtigungen verursachen könnte.
+
+|===

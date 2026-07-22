@@ -1,0 +1,61 @@
+---
+permalink: expand/contacting-technical-support.html 
+sidebar: sidebar 
+keywords: troubleshoot expansion, contact technical support, StorageGRID 
+summary: Wenn während des Grid-Erweiterungsprozesses Fehler auftreten, die nicht behoben werden können, oder wenn eine Grid-Aufgabe fehlschlägt, sollten die Protokolldateien gesammelt und der technische Support kontaktiert werden. 
+---
+= Behebung von Erweiterungsfehlern in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn während des Grid-Erweiterungsprozesses Fehler auftreten, die nicht behoben werden können, oder wenn eine Grid-Aufgabe fehlschlägt, sollten die Protokolldateien gesammelt und der technische Support kontaktiert werden.
+
+${post_edited_translations.segment}
+
+.Schritte
+. Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
+. Stellen Sie eine Verbindung zu dem Erweiterungsknoten her, bei dem Ausfälle aufgetreten sind:
++
+.. Geben Sie den folgenden Befehl ein:``ssh -p 8022 admin@_grid_node_IP_``
++
+${post_edited_translations.segment}
+
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Nach dem Einloggen als Root ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Je nach erreichtem Installationsstand lassen sich die folgenden auf dem Grid-Knoten verfügbaren Protokolle abrufen:
++
+[cols="1a,2a"]
+|===
+| Plattform | Protokolle 
+
+
+ a| 
+VMware
+ a| 
+** `/var/log/daemon.log`
+** `/var/log/storagegrid/daemon.log`
+** `/var/log/storagegrid/nodes/<node-name>.log`
+
+
+
+
+ a| 
+Linux
+ a| 
+** `/var/log/storagegrid/daemon.log`
+** `/etc/storagegrid/nodes/<node-name>.conf` (für jeden ausgefallenen Knoten)
+** `/var/log/storagegrid/nodes/<node-name>.log` (für jeden ausgefallenen Knoten; möglicherweise nicht vorhanden)
+
+
+|===
+. Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] wenn Sie die Aufgabe abgeschlossen haben.
+

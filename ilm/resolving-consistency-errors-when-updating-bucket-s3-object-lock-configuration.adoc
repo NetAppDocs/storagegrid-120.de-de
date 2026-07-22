@@ -1,0 +1,36 @@
+---
+permalink: ilm/resolving-consistency-errors-when-updating-bucket-s3-object-lock-configuration.html 
+sidebar: sidebar 
+keywords: consistency error, s3 object lock and consistency 
+summary: Wenn ein Rechenzentrumsstandort oder mehrere Storage Nodes an einem Standort nicht verfügbar sind, könnte es erforderlich sein, S3-Tenant-Benutzern bei der Anwendung von Änderungen an der S3 Object Lock oder der Legacy Compliance-Konfiguration zu unterstützen. 
+---
+= Beheben Sie Konsistenzfehler beim Aktualisieren von S3 Object Lock oder älteren Compliance-Einstellungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn ein Rechenzentrumsstandort oder mehrere Storage Nodes an einem Standort nicht verfügbar sind, könnte es erforderlich sein, S3-Tenant-Benutzern bei der Anwendung von Änderungen an der S3 Object Lock oder der Legacy Compliance-Konfiguration zu unterstützen.
+
+Mandantenbenutzer, die Buckets mit aktiviertem S3 Object Lock (oder der älteren Compliance-Funktion) haben, können bestimmte Einstellungen ändern. Beispielsweise kann ein Mandantenbenutzer, der S3 Object Lock verwendet, eine Objektversion unter Legal Hold stellen.
+
+Wenn ein Benutzer eines Mandanten die Einstellungen für einen S3-Bucket oder eine Objektversion aktualisiert, versucht StorageGRID, die Metadaten des Buckets oder Objekts im gesamten Grid umgehend zu aktualisieren. Wenn das System die Metadaten nicht aktualisieren kann, weil ein Rechenzentrumsstandort oder mehrere Storage Nodes nicht verfügbar sind, wird ein Fehler zurückgegeben:
+
+[listing]
+----
+503: Service Unavailable
+Unable to update compliance settings because the settings can't be consistently applied on enough storage services. Contact your grid administrator for assistance.
+----
+Um diesen Fehler zu beheben, sind die folgenden Schritte erforderlich:
+
+. Alle Storage Nodes oder Standorte sollten so schnell wie möglich wieder verfügbar sein.
+. Falls Sie nicht genügend Speicherknoten an jedem Standort zur Verfügung stellen können, wenden Sie sich an den technischen Support, der Sie bei der Wiederherstellung der Knoten unterstützen und sicherstellen kann, dass die Änderungen im gesamten Grid einheitlich angewendet werden.
+. Sobald das zugrundeliegende Problem behoben ist, sollte der Mandantenbenutzer daran erinnert werden, die Konfigurationsänderungen erneut zu versuchen.
+
+
+.Verwandte Informationen
+* link:../tenant/index.html["Ein Mandantenkonto verwenden"]_
+* link:../s3/index.html["S3 REST-API verwenden"]
+* link:../maintain/index.html["Wiederherstellen und pflegen"]
+

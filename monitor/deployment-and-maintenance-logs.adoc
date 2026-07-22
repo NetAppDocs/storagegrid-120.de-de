@@ -1,0 +1,75 @@
+---
+permalink: monitor/deployment-and-maintenance-logs.html 
+sidebar: sidebar 
+keywords: deployment, logs, Maintenance 
+summary: Die Bereitstellungs- und Wartungsprotokolle bieten Unterstützung bei der Fehlerbehebung. 
+---
+= Bereitstellungs- und Wartungsprotokolle in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Bereitstellungs- und Wartungsprotokolle bieten Unterstützung bei der Fehlerbehebung.
+
+[cols="1a,3a,1a"]
+|===
+| Dateiname | Hinweise | Gefunden auf 
+
+
+| /var/local/log/install.log  a| 
+Erstellt während der Softwareinstallation. Enthält ein Protokoll der Installationsereignisse.
+ a| 
+Alle Knoten
+
+
+
+| /var/local/log/expansion-progress.log  a| 
+Erstellt im Rahmen der Erweiterungsmaßnahmen. Enthält eine Aufzeichnung der Erweiterungsereignisse.
+ a| 
+Speicherknoten
+
+
+
+| /var/local/log/pa-move.log  a| 
+Erstellt während der Ausführung des  `pa-move.sh` Skripts.
+ a| 
+Primärer Admin-Knoten
+
+
+
+| /var/local/log/pa-move-new_pa.log  a| 
+Erstellt während der Ausführung des  `pa-move.sh` Skripts.
+ a| 
+Primärer Admin-Knoten
+
+
+
+| /var/local/log/pa-move-old_pa.log  a| 
+Erstellt während der Ausführung des  `pa-move.sh` Skripts.
+ a| 
+Primärer Admin-Knoten
+
+
+
+| /var/local/log/gdu-server.log  a| 
+Erstellt vom GDU Service. Enthält Ereignisse im Zusammenhang mit Bereitstellungs- und Wartungsverfahren, die vom primären Admin-Node verwaltet werden.
+ a| 
+Admin-Nodes
+
+
+
+| /var/local/log/send_admin_hw.log  a| 
+Wurde während der Installation erstellt. Enthält Debugging-Informationen zur Kommunikation eines Knotens mit dem primären Admin Node.
+ a| 
+Alle Knoten
+
+
+
+| /var/local/log/upgrade.log  a| 
+Erstellt während eines Software-Upgrades. Enthält eine Aufzeichnung der Software-Update-Ereignisse.
+ a| 
+Alle Knoten
+
+|===

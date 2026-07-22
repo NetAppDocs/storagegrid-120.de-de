@@ -1,0 +1,246 @@
+---
+permalink: maintain/step-6-monitor-decommission.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, monitor decommission, decommission 
+summary: 'Ab Schritt 6 (Überwachung der Stilllegung) des Assistenten auf der Seite „Website stilllegen“ lässt sich der Fortschritt überwachen, während der Standort entfernt wird.' 
+---
+= Überwachen Sie den Fortschritt der Standortstilllegung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ab Schritt 6 (Überwachung der Stilllegung) des Assistenten auf der Seite „Website stilllegen“ lässt sich der Fortschritt überwachen, während der Standort entfernt wird.
+
+.Über diese Aufgabe
+Wenn StorageGRID einen verbundenen Standort entfernt, werden die Knoten in dieser Reihenfolge entfernt:
+
+. Gateway-Nodes
+. Admin-Nodes
+. Speicherknoten
+
+
+Wenn StorageGRID einen nicht verbundenen Standort entfernt, entfernt es die Knoten in dieser Reihenfolge:
+
+. Gateway-Nodes
+. Speicherknoten
+. Admin-Nodes
+
+
+Jeder Gateway-Knoten oder Admin-Knoten benötigt möglicherweise nur wenige Minuten oder eine Stunde für die Entfernung; bei Speicherknoten kann es jedoch Tage oder Wochen dauern.
+
+.Schritte
+. Sobald ein neues Wiederherstellungspaket generiert wurde, kann die Datei heruntergeladen werden.
++
+image:decommission_site_step_6_recovery_package.png["Wiederherstellungspaket für Site Decommission Schritt 6"]
+
++
+
+NOTE: Laden Sie das Wiederherstellungspaket so schnell wie möglich herunter, um sicherzustellen, dass Sie Ihr Grid wiederherstellen können, falls während der Decommission-Prozedur etwas schiefgeht.
+
++
+.. Den Link in der Nachricht auswählen oder *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. Die  `.zip`Datei herunterladen.
++
+Siehe die Anweisungen für link:downloading-recovery-package.html["Herunterladen des Wiederherstellungspakets"].
+
+
+
++
+
+NOTE: Die Wiederherstellungspaketdatei muss gesichert werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können.
+
+. Mit dem Datenbewegungsdiagramm lässt sich die Bewegung von Objektdaten von diesem Standort zu anderen Standorten überwachen.
++
+Die Datenübertragung begann mit der Aktivierung der neuen ILM-Richtlinie in Schritt 3 (ILM-Richtlinie überarbeiten). Die Datenübertragung wird während des gesamten Außerbetriebnahmeverfahrens fortgesetzt.
+
++
+image:decommission_site_step_6_data_movement.png["Stilllegung des Standorts Schritt 6 Datenmigration"]
+
+. Im Abschnitt „Knotenfortschritt“ der Seite lässt sich der Fortschritt des Deaktivierungsverfahrens beobachten, während die Knoten entfernt werden.
++
+Wird ein Storage Node entfernt, durchläuft jeder Node eine Reihe von Phasen. Obwohl die meisten dieser Phasen schnell oder sogar unmerklich ablaufen, kann es je nach Datenmenge, die verschoben werden muss, Tage oder sogar Wochen dauern, bis andere Phasen abgeschlossen sind. Zusätzliche Zeit ist erforderlich, um erasure-codierte Daten zu verwalten und das ILM neu zu bewerten.
+
++
+image:decommission_site_step_6_storage_node.png["Standort außer Betrieb nehmen Schritt 6 Storage Node"]
+
++
+Wenn Sie den Fortschritt der Stilllegung eines verbundenen Standorts überwachen, gibt diese Tabelle Aufschluss über die Stilllegungsphasen für einen Storage Node:
+
++
+[cols="1a,2a"]
+|===
+| Stufe | Geschätzte Dauer 
+
+
+ a| 
+Ausstehend
+ a| 
+Minute oder weniger
+
+
+
+ a| 
+Auf Sperren warten
+ a| 
+Minuten
+
+
+
+ a| 
+Aufgabe vorbereiten
+ a| 
+Minute oder weniger
+
+
+
+ a| 
+Kennzeichnung LDR als außer Betrieb genommen
+ a| 
+Minuten
+
+
+
+ a| 
+Stilllegung replizierter und erasure-codierter Daten
+ a| 
+Stunden, Tage oder Wochen, abhängig von der Datenmenge
+
+*Hinweis*: Falls Sie andere Wartungsarbeiten durchführen müssen, kann die Stilllegung des Standorts während dieser Phase unterbrochen werden.
+
+
+
+ a| 
+LDR-Status festlegen
+ a| 
+Minuten
+
+
+
+ a| 
+Audit-Warteschlangen leeren
+ a| 
+Minuten bis Stunden, abhängig von der Anzahl der Nachrichten und der Netzwerklatenz.
+
+
+
+ a| 
+Vollständig
+ a| 
+Minuten
+
+|===
++
+Wenn Sie den Fortschritt der Stilllegung eines getrennten Standorts überwachen, gibt diese Tabelle Aufschluss über die Stilllegungsphasen für einen Storage Node:
+
++
+[cols="1a,1a"]
+|===
+| Stufe | Geschätzte Dauer 
+
+
+ a| 
+Ausstehend
+ a| 
+Minute oder weniger
+
+
+
+ a| 
+Auf Sperren warten
+ a| 
+Minuten
+
+
+
+ a| 
+Aufgabe vorbereiten
+ a| 
+Minute oder weniger
+
+
+
+ a| 
+Externe Dienste deaktivieren
+ a| 
+Minuten
+
+
+
+ a| 
+Zertifikatswiderruf
+ a| 
+Minuten
+
+
+
+ a| 
+Knoten abmelden
+ a| 
+Minuten
+
+
+
+ a| 
+Storage Grade deregistrieren
+ a| 
+Minuten
+
+
+
+ a| 
+Entfernen der Storage-Gruppe
+ a| 
+Minuten
+
+
+
+ a| 
+Entitätsentfernung
+ a| 
+Minuten
+
+
+
+ a| 
+Vollständig
+ a| 
+Minuten
+
+|===
+. Nachdem alle Knoten den Status „Abgeschlossen“ erreicht haben, ist abzuwarten, bis die verbleibenden Stilllegungsarbeiten am Standort abgeschlossen sind.
++
+** Während des Schritts *Cassandra reparieren* führt StorageGRID alle notwendigen Reparaturen an den Cassandra-Clustern durch, die in Ihrem Grid verbleiben. Diese Reparaturen können mehrere Tage oder länger dauern, abhängig davon, wie viele Storage Nodes in Ihrem Grid verbleiben.
++
+image:decommission_site_step_6_repair_cassandra.png["Stilllegungsstandort Schritt 6 Cassandra-Reparatur"]
+
+** Während des Schritts *EC-Profile deaktivieren & Speicherpools löschen* erfolgen die folgenden ILM-Änderungen:
++
+*** Sämtliche Erasure-Codierungsprofile, die sich auf den Standort bezogen, sind deaktiviert.
+*** Alle Storage Pools, die sich auf den Standort beziehen, werden gelöscht.
++
+
+NOTE: Der Speicherpool „All Storage Nodes“ (StorageGRID 11.6 und früher) wird ebenfalls entfernt, da er den Standort „All Sites“ verwendet.
+
+
+
+** Im Schritt *Konfiguration entfernen* werden schließlich alle verbleibenden Verweise auf die Site und ihre Knoten aus dem restlichen Grid entfernt.
++
+image:decommission_site_step_6_remove_configuration.png["Stilllegung des Standorts Schritt 6 Konfiguration entfernen"]
+
+
+
+. Nach Abschluss des Stilllegungsverfahrens zeigt die Seite „Stilllegungsstandort“ eine Erfolgsmeldung an, und der entfernte Standort wird nicht mehr angezeigt.
++
+image:decommission_site_success_message.png["Erfolgsmeldung zur Stilllegung des Standorts"]
+
+
+
+.Nachdem Sie fertig sind
+Diese Aufgaben sind nach Abschluss des Verfahrens zur Stilllegung des Standorts auszuführen:
+
+* Stellen Sie sicher, dass die Laufwerke aller Storage Nodes am stillgelegten Standort vollständig gelöscht sind. Ein handelsübliches Datenlöschtool oder ein entsprechender Dienst kann verwendet werden, um die Daten dauerhaft und sicher von den Laufwerken zu entfernen.
+* Wenn der Standort einen oder mehrere Admin-Knoten umfasst und Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, sind alle Vertrauensstellungen der vertrauenden Seite für den Standort aus Active Directory Federation Services (AD FS) zu entfernen.
+* Nachdem die Knoten im Rahmen der Stilllegung des verbundenen Standorts automatisch und ordnungsgemäß heruntergefahren wurden, sind die zugehörigen virtuellen Maschinen zu entfernen.
+

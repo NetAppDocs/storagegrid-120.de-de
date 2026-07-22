@@ -1,0 +1,179 @@
+---
+permalink: maintain/considerations-for-removing-site.html 
+sidebar: sidebar 
+keywords: how to remove site 
+summary: Bevor das Verfahren zur Stilllegung eines Standorts verwendet wird, um diesen zu entfernen, sollten die zu beachtenden Punkte geprüft werden. 
+---
+= Überlegungen zur Standortstilllegung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor das Verfahren zur Stilllegung eines Standorts verwendet wird, um diesen zu entfernen, sollten die zu beachtenden Punkte geprüft werden.
+
+
+
+[[what-happens-when-you-decommission-a-site]]
+== Was passiert, wenn ein Standort stillgelegt wird
+
+Bei der Stilllegung eines Standorts entfernt StorageGRID dauerhaft alle Knoten an diesem Standort sowie den Standort selbst aus dem StorageGRID System.
+
+Wenn das Verfahren zur Stilllegung des Standorts abgeschlossen ist:
+
+* Sie können StorageGRID nicht mehr verwenden, um die Site oder einen der Knoten auf der Site anzuzeigen oder darauf zuzugreifen.
+* Sie können keine Speicherpools oder Erasure-Codierungsprofile mehr verwenden, die auf den Standort verwiesen haben. Wenn StorageGRID einen Standort außer Betrieb nimmt, entfernt StorageGRID diese Speicherpools automatisch und deaktiviert diese Erasure-Codierungsprofile.
+
+
+
+
+[[differences-between-connected-site-and-disconnected-site-decommission-procedures]]
+== Unterschiede zwischen den Stilllegungsverfahren für angeschlossene und nicht angeschlossene Standorte
+
+Sie können die Vorgehensweise zur Standortstilllegung nutzen, um einen Standort zu entfernen, bei dem alle Knoten mit StorageGRID verbunden sind (als Stilllegung eines verbundenen Standorts bezeichnet), oder um einen Standort zu entfernen, bei dem alle Knoten von StorageGRID getrennt sind (als Stilllegung eines getrennten Standorts bezeichnet). Vor Beginn ist es erforderlich, die Unterschiede zwischen diesen Vorgehensweisen zu verstehen.
+
+
+NOTE: Wenn eine Site eine Mischung aus verbundenen (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) und getrennten Knoten (image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"] oder image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"]) enthält, müssen alle Offline-Knoten wieder online geschaltet werden.
+
+* Die Stilllegung eines verbundenen Standorts ermöglicht das Entfernen eines betriebsbereiten Standorts aus dem StorageGRID System. Zum Beispiel kann eine verbundene Standort-Stilllegung durchgeführt werden, um einen Standort zu entfernen, der funktionsfähig, aber nicht mehr erforderlich ist.
+* Wenn StorageGRID einen verbundenen Standort entfernt, verwendet es ILM zur Verwaltung der Objektdaten am Standort. Bevor eine Außerbetriebnahme eines verbundenen Standorts gestartet werden kann, muss der Standort aus allen ILM-Regeln entfernt und eine neue ILM-Richtlinie aktiviert werden. Die ILM-Prozesse zur Migration der Objektdaten und die internen Prozesse zur Entfernung eines Standorts können gleichzeitig ablaufen, jedoch gilt als Best Practice, die ILM-Schritte abzuschließen, bevor die eigentliche Außerbetriebnahme eingeleitet wird.
+* Die Deaktivierung eines getrennten Standorts ermöglicht das Entfernen eines ausgefallenen Standorts aus dem StorageGRID System. Beispielsweise ist eine Deaktivierung eines getrennten Standorts möglich, um einen Standort zu entfernen, der durch Feuer oder Überschwemmung zerstört wurde.
++
+Wenn StorageGRID einen nicht verbundenen Standort entfernt, werden alle Knoten als nicht wiederherstellbar betrachtet und es wird kein Versuch unternommen, Daten zu erhalten. Bevor eine Außerbetriebnahme eines nicht verbundenen Standorts gestartet werden kann, muss der Standort aus allen ILM-Regeln entfernt und eine neue ILM-Richtlinie aktiviert werden.
+
++
+
+CAUTION: Bevor ein Verfahren zur Außerbetriebnahme einer getrennten Website durchgeführt wird, ist Ihr NetApp Account Representative zu kontaktieren. NetApp prüft Ihre Anforderungen, bevor alle Schritte im Assistenten zur Außerbetriebnahme der Website freigeschaltet werden. Eine Außerbetriebnahme einer getrennten Website sollte nicht versucht werden, wenn davon ausgegangen wird, dass die Website oder Objektdaten möglicherweise wiederhergestellt werden können.
+
+
+
+
+
+[[general-requirements-for-removing-a-connected-or-a-disconnected-site]]
+== Allgemeine Anforderungen für die Entfernung eines verbundenen oder getrennten Standorts
+
+Vor dem Entfernen eines verbundenen oder getrennten Standorts sind die folgenden Anforderungen zu beachten:
+
+* Eine Site, die den primären Admin-Node enthält, kann nicht außer Betrieb genommen werden.
+* Ein Standort kann nicht außer Betrieb genommen werden, wenn einer der Knoten über eine Schnittstelle verfügt, die zu einer Hochverfügbarkeitsgruppe (HA-Gruppe) gehört. Entweder ist die HA-Gruppe so zu bearbeiten, dass die Schnittstelle des Knotens entfernt wird, oder die gesamte HA-Gruppe ist zu entfernen.
+* Sie können einen Standort nicht außer Betrieb nehmen, wenn er eine Mischung aus verbundenen (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) und getrennten (image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"] oder image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"]) Knoten enthält.
+* Ein Standort kann nicht außer Betrieb genommen werden, wenn ein Knoten an einem anderen Standort getrennt ist (image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"] oder image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"]).
+* Die Stilllegung des Standorts kann nicht gestartet werden, wenn eine ec-node-repair-Operation läuft. Siehe link:checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"] zur Nachverfolgung von Reparaturen an erasure-coded Daten.
+* Während das Stilllegungsverfahren für den Standort läuft:
++
+** Es können keine ILM-Regeln erstellt werden, die sich auf den stillzulegenden Standort beziehen. Eine vorhandene ILM-Regel kann ebenfalls nicht so bearbeitet werden, dass sie sich auf den Standort bezieht.
+** Andere Wartungsverfahren wie Erweiterung oder Upgrade können nicht durchgeführt werden.
++
+
+NOTE: Falls während der Stilllegung eines verbundenen Standorts ein weiterer Wartungsvorgang erforderlich ist, kann link:pausing-and-resuming-decommission-process-for-storage-nodes.html["Die Prozedur wird pausiert, während die Storage Nodes entfernt werden."] durchgeführt werden. Die Schaltfläche *Pause* ist nur aktiviert, wenn die Phasen der ILM-Auswertung oder der Datenstilllegung mit Erasure-Codierung erreicht werden; jedoch läuft die ILM-Auswertung (Datenmigration) weiterhin im Hintergrund. Nach Abschluss des zweiten Wartungsvorgangs ist die Fortsetzung der Stilllegung möglich.
+
+** Falls nach Beginn der Stilllegungsprozedur ein Knoten wiederhergestellt werden muss, ist der Support zu kontaktieren.
+
+
+* Es kann nicht mehr als ein Standort gleichzeitig stillgelegt werden.
+* Wenn die Site einen oder mehrere Admin-Knoten umfasst und Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, müssen alle Vertrauensstellungen der vertrauenden Seite für die Site aus Active Directory Federation Services (AD FS) entfernt werden.
+
+
+
+
+[[requirements-for-information-lifecycle-management-ilm]]
+== Anforderungen an das Informationslebenszyklusmanagement (ILM)
+
+Im Rahmen der Entfernung eines Standorts muss die ILM-Konfiguration aktualisiert werden. Der Assistent zur Standortstilllegung führt durch eine Reihe von erforderlichen Schritten, um Folgendes sicherzustellen:
+
+* Die Website wird in keiner ILM-Richtlinie referenziert. Falls dies der Fall ist, sind die Richtlinien zu bearbeiten oder Richtlinien mit neuen ILM-Regeln zu erstellen und zu aktivieren.
+* Keine ILM-Regeln verweisen auf den Standort, selbst wenn diese Regeln in keiner Richtlinie verwendet werden. Alle Regeln, die auf den Standort verweisen, müssen gelöscht oder bearbeitet werden.
+
+
+Wenn StorageGRID einen Standort außer Betrieb nimmt, werden automatisch alle nicht mehr benötigten Erasure-Coding-Profile, die sich auf diesen Standort beziehen, deaktiviert und alle nicht mehr benötigten Speicherpools, die sich auf diesen Standort beziehen, automatisch gelöscht. Wenn der Speicherpool „All Storage Nodes“ existiert (StorageGRID 11.6 und früher), wird er entfernt, da er alle Standorte verwendet.
+
+
+CAUTION: Bevor Sie einen Standort entfernen können, kann es erforderlich sein, neue ILM-Regeln zu erstellen und eine neue ILM-Richtlinie zu aktivieren. Es wird vorausgesetzt, dass Sie mit der Funktionsweise von ILM sowie mit der Erstellung von Speicherpools, Erasure-Coding-Profilen, ILM-Regeln und der Simulation und Aktivierung einer ILM-Richtlinie vertraut sind. Siehe link:../ilm/index.html["Objekte mit ILM verwalten"].
+
+
+
+[[considerations-for-the-object-data-at-a-connected-site]]
+== Überlegungen zu den Objektdaten an einem verbundenen Standort
+
+Wenn Sie eine verbundene Site außer Betrieb nehmen, muss beim Erstellen neuer ILM-Regeln und einer neuen ILM-Richtlinie entschieden werden, was mit den vorhandenen Objektdaten an der Site geschieht. Folgendes ist möglich:
+
+* Objektdaten vom ausgewählten Standort auf einen oder mehrere andere Standorte im Grid verschieben.
++
+*Beispiel für die Datenübertragung*: Angenommen, Sie möchten einen Standort in Raleigh stilllegen, weil Sie einen neuen Standort in Sunnyvale hinzugefügt haben. In diesem Beispiel möchten Sie alle Objektdaten vom alten Standort zum neuen Standort verschieben. Vor der Aktualisierung Ihrer ILM-Regeln und ILM-Richtlinien ist die Kapazität an beiden Standorten zu überprüfen. Es ist sicherzustellen, dass der Standort Sunnyvale über ausreichend Kapazität verfügt, um die Objektdaten vom Standort Raleigh aufzunehmen, und dass in Sunnyvale auch für zukünftiges Wachstum genügend Kapazität verbleibt.
+
++
+
+NOTE: Um sicherzustellen, dass ausreichend Speicherkapazität zur Verfügung steht, kann es erforderlich sein, link:../expand/index.html["ein Grid erweitern"] durch das Hinzufügen von Speichervolumes oder Storage Nodes zu einem bestehenden Standort oder durch das Hinzufügen eines neuen Standorts vor Durchführung dieses Verfahrens bereitzustellen.
+
+* Objektkopien vom ausgewählten Standort entfernen.
++
+*Beispiel für das Löschen von Daten*: Angenommen, Sie verwenden derzeit eine ILM-Regel mit drei Kopien, um Objektdaten über drei Standorte zu replizieren. Vor der Außerbetriebnahme eines Standorts kann eine entsprechende ILM-Regel mit zwei Kopien erstellt werden, um Daten nur an zwei Standorten zu speichern. Wird eine neue ILM-Richtlinie aktiviert, die die Regel mit zwei Kopien verwendet, löscht StorageGRID die Kopien vom dritten Standort, da diese die ILM-Anforderungen nicht mehr erfüllen. Die Objektdaten bleiben jedoch weiterhin geschützt und die Kapazität der beiden verbleibenden Standorte bleibt unverändert.
+
++
+
+CAUTION: Es sollte niemals eine ILM-Regel mit nur einer Kopie erstellt werden, um die Entfernung eines Standorts zu berücksichtigen. Eine ILM-Regel, die nur eine replizierte Kopie für einen beliebigen Zeitraum erstellt, setzt Daten dem Risiko eines dauerhaften Verlusts aus. Wenn nur eine replizierte Kopie eines Objekts existiert, geht dieses Objekt verloren, falls ein Storage Node ausfällt oder einen schwerwiegenden Fehler aufweist. Auch während Wartungsarbeiten wie Upgrades ist der Zugriff auf das Objekt vorübergehend nicht möglich.
+
+
+
+
+
+[[additional-requirements-for-a-connected-site-decommission]]
+== Zusätzliche Anforderungen für die Stilllegung eines verbundenen Standorts
+
+Bevor StorageGRID einen verbundenen Standort entfernen kann, muss Folgendes sichergestellt sein:
+
+* Alle Knoten in Ihrem StorageGRID System müssen den Verbindungsstatus *Verbunden* (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) aufweisen; allerdings können auf den Knoten aktive Warnmeldungen vorhanden sein.
++
+
+NOTE: Die Schritte 1–4 des Assistenten zur Standortstilllegung können auch dann abgeschlossen werden, wenn ein oder mehrere Knoten nicht verbunden sind. Schritt 5 des Assistenten, der den Stilllegungsprozess startet, kann jedoch erst abgeschlossen werden, wenn alle Knoten verbunden sind.
+
+* Wenn der zu entfernende Standort einen Gateway-Knoten oder einen Admin-Knoten zur Lastverteilung enthält, könnte es erforderlich sein, link:../expand/index.html["ein Grid erweitern"] einen entsprechenden neuen Knoten an einem anderen Standort hinzuzufügen. Vor Beginn des Verfahrens zur Stilllegung des Standorts sollte sichergestellt sein, dass Clients eine Verbindung zum Ersatzknoten herstellen können.
+* Enthält der zu entfernende Standort Gateway-Knoten oder Admin-Nodes, die sich in einer Hochverfügbarkeitsgruppe (HA-Gruppe) befinden, können die Schritte 1–4 des Assistenten zur Standortstilllegung abgeschlossen werden. Schritt 5 des Assistenten, der den Stilllegungsprozess startet, kann jedoch erst abgeschlossen werden, nachdem diese Nodes aus allen HA-Gruppen entfernt wurden. Wenn bestehende Clients mit einer HA-Gruppe verbunden sind, die Nodes des Standorts enthält, muss sichergestellt werden, dass sie nach der Entfernung des Standorts weiterhin eine Verbindung zu StorageGRID herstellen können.
+* Wenn Clients sich direkt mit Storage Nodes an dem Standort verbinden, den Sie entfernen möchten, muss sichergestellt sein, dass sie sich mit Storage Nodes an anderen Standorten verbinden können, bevor das Verfahren zur Stilllegung des Standorts begonnen wird.
+* Sie müssen auf den verbleibenden Standorten ausreichend Speicherplatz für alle Objektdaten bereitstellen, die aufgrund von Änderungen an einer aktiven ILM-Richtlinie verschoben werden. In manchen Fällen kann es erforderlich sein, link:../expand/index.html["ein Grid erweitern"] durch das Hinzufügen von Storage Nodes, Speichervolumes oder neuen Standorten zu schaffen, bevor die Außerbetriebnahme eines verbundenen Standorts abgeschlossen werden kann.
+* Sie müssen ausreichend Zeit für den Abschluss des Stilllegungsverfahrens einplanen. StorageGRID ILM Prozesse können Tage, Wochen oder sogar Monate in Anspruch nehmen, um Objektdaten vom Standort zu verschieben oder zu löschen, bevor der Standort stillgelegt werden kann.
++
+
+NOTE: Das Verschieben oder Löschen von Objektdaten von einem Standort kann Tage, Wochen oder sogar Monate dauern, abhängig von der Datenmenge am Standort, der Systemlast, den Netzwerklatenzen und der Art der erforderlichen ILM-Änderungen.
+
+* Wenn möglich, sollten die Schritte 1–4 des Assistenten zur Standortstilllegung so früh wie möglich abgeschlossen werden. Das Stilllegungsverfahren wird schneller und mit weniger Unterbrechungen und Leistungseinbußen abgeschlossen, wenn die Daten vor Beginn des eigentlichen Stilllegungsverfahrens (durch Auswahl von *Start Decommission* in Schritt 5 des Assistenten) vom Standort verschoben werden.
+
+
+
+
+[[additional-requirements-for-a-disconnected-site-decommission]]
+== Zusätzliche Anforderungen für die Stilllegung eines nicht verbundenen Standorts
+
+Bevor StorageGRID einen getrennten Standort entfernen kann, muss Folgendes sichergestellt sein:
+
+* Sie haben Ihren NetApp Account Representative kontaktiert. NetApp prüft Ihre Anforderungen, bevor alle Schritte im Decommission Site Assistenten aktiviert werden.
++
+
+CAUTION: Eine Deaktivierung einer getrennten Website sollte nicht durchgeführt werden, wenn die Möglichkeit besteht, die Website oder Objektdaten von der Website wiederherzustellen. Siehe link:how-site-recovery-is-performed-by-technical-support.html["Wie der technische Support eine Website wiederherstellt"].
+
+* Alle Knoten am Standort müssen einen der folgenden Verbindungsstatus aufweisen:
++
+** *Unbekannt* (image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"]): Aus unbekanntem Grund ist ein Knoten getrennt oder Dienste auf dem Knoten sind unerwartet ausgefallen. Beispielsweise könnte ein Dienst auf dem Knoten beendet worden sein oder der Knoten könnte aufgrund eines Stromausfalls oder einer unerwarteten Unterbrechung seine Netzwerkverbindung verloren haben.
+** *Administrativ außer Betrieb* (image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"]): Der Knoten ist aus einem erwarteten Grund nicht mit dem Grid verbunden. Beispielsweise wurden der Knoten oder die Dienste auf dem Knoten ordnungsgemäß heruntergefahren.
+
+
+* Alle Knoten an allen anderen Standorten müssen den Verbindungsstatus *Verbunden* (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) aufweisen; allerdings können diese anderen Knoten aktive Warnmeldungen haben.
+* Sie müssen verstehen, dass Sie StorageGRID nicht mehr verwenden können, um Objektdaten anzuzeigen oder abzurufen, die am Standort gespeichert waren. Wenn StorageGRID dieses Verfahren durchführt, wird keinerlei Versuch unternommen, Daten vom getrennten Standort zu erhalten.
++
+
+NOTE: Wenn Ihre ILM-Regeln und Richtlinien darauf ausgelegt wurden, vor dem Verlust eines einzelnen Standorts zu schützen, existieren Kopien Ihrer Objekte weiterhin auf den verbleibenden Standorten.
+
+* Es ist zu beachten, dass, wenn der Standort die einzige Kopie eines Objekts enthielt, das Objekt verloren ist und nicht wiederhergestellt werden kann.
+
+
+
+
+[[considerations-for-consistency-when-you-remove-a-site]]
+== Überlegungen zur Konsistenz bei der Entfernung einer Website
+
+Die Konsistenz eines S3-Buckets bestimmt, ob StorageGRID die Objektmetadaten vollständig auf alle Knoten und Standorte repliziert, bevor einem Client die erfolgreiche Objektaufnahme gemeldet wird. Die Konsistenz bietet ein Gleichgewicht zwischen der Verfügbarkeit der Objekte und deren Konsistenz über verschiedene Storage Nodes und Standorte hinweg.
+
+Wenn StorageGRID eine Site entfernt, muss sichergestellt werden, dass keine Daten auf die zu entfernende Site geschrieben werden. Daher wird die Konsistenz für jeden Bucket oder Container vorübergehend außer Kraft gesetzt. Nach dem Start des Site-Deaktivierungsprozesses verwendet StorageGRID vorübergehend eine starke Site-Konsistenz, um zu verhindern, dass Objektmetadaten auf die zu entfernende Site geschrieben werden.
+
+Aufgrund dieser temporären Überschreibung ist zu beachten, dass alle Schreib-, Aktualisierungs- und Löschvorgänge von Clients, die während der Stilllegung eines Standorts erfolgen, fehlschlagen können, wenn mehrere Knoten an den verbleibenden Standorten nicht mehr verfügbar sind.

@@ -1,0 +1,32 @@
+= Memberof und Refint Overlays
+:allow-uri-read: 
+
+
+Wenn Sie einen OpenLDAP Server für die Identitätsföderation verwenden möchten, müssen bestimmte Einstellungen auf dem OpenLDAP Server konfiguriert werden.
+
+
+CAUTION: Bei Identitätsquellen, die weder Active Directory noch Microsoft Entra ID sind, blockiert StorageGRID den S3-Zugriff für extern deaktivierte Benutzer nicht automatisch. Zum Blockieren des S3-Zugriffs müssen alle S3-Schlüssel des Benutzers gelöscht oder der Benutzer aus allen Gruppen entfernt werden.
+
+
+
+[[memberof-and-refint-overlays]]
+=== Memberof und Refint Overlays
+
+Die memberof- und refint-Overlays sollten aktiviert sein. Weitere Informationen enthält die Anleitung zur Verwaltung der umgekehrten Gruppenmitgliedschaft in der http://www.openldap.org/doc/admin24/index.html["${post_edited_translations.segment}"^].
+
+
+
+[[indexing]]
+=== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+* `olcDbIndex: objectClass eq`
+* `olcDbIndex: uid eq,pres,sub`
+* `olcDbIndex: cn eq,pres,sub`
+* `olcDbIndex: entryUUID eq`
+
+
+Zusätzlich sollte sichergestellt sein, dass die in der Hilfe für Username genannten Felder für eine optimale Leistung indiziert sind.
+
+Informationen zur umgekehrten Gruppenmitgliedschaftsverwaltung befinden sich in der http://www.openldap.org/doc/admin24/index.html["${post_edited_translations.segment}"^].

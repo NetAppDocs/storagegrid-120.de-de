@@ -1,0 +1,123 @@
+---
+permalink: maintain/applying-hotfix.html 
+sidebar: sidebar 
+keywords: storagegrid, hotfix, software update 
+summary: Der Hotfix wird zunächst automatisch auf dem primären Admin-Knoten angewendet. Anschließend ist die Anwendung des Hotfixes auf die übrigen Grid-Knoten zu genehmigen, bis alle Knoten dieselbe Softwareversion verwenden. Die Genehmigungsreihenfolge lässt sich anpassen, indem einzelne Grid-Knoten, Gruppen von Grid-Knoten oder alle Grid-Knoten zur Genehmigung ausgewählt werden. 
+---
+= Einen Hotfix in StorageGRID anwenden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Hotfix wird zunächst automatisch auf dem primären Admin-Knoten angewendet. Anschließend ist die Anwendung des Hotfixes auf die übrigen Grid-Knoten zu genehmigen, bis alle Knoten dieselbe Softwareversion verwenden. Die Genehmigungsreihenfolge lässt sich anpassen, indem einzelne Grid-Knoten, Gruppen von Grid-Knoten oder alle Grid-Knoten zur Genehmigung ausgewählt werden.
+
+.Bevor Sie beginnen
+* Sie haben die link:storagegrid-hotfix-procedure.html["Überlegungen zur Anwendung eines Hotfixes"] überprüft.
+* Sie besitzen die Bereitstellungspassphrase.
+* Sie verfügen über Root-Zugriff oder die Wartungsberechtigung.
+
+
+.Über diese Aufgabe
+* Sie können die Anwendung eines Hotfixes auf einen Knoten verzögern, der Hotfix-Prozess ist jedoch erst abgeschlossen, wenn der Hotfix auf alle Knoten angewendet wurde.
+* Ein StorageGRID Software-Upgrade oder ein SANtricity OS Update kann erst durchgeführt werden, nachdem der Hotfix-Prozess abgeschlossen ist.
+
+
+.Schritte
+. Melden Sie sich beim Grid Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] an.
+. *Wartung* > *System* > *Software Update* auswählen.
++
+Die Seite „Software Update“ wird angezeigt.
+
++
+image:software_update_landing.png["Landingpage für Software Update"]
+
+. *Hotfix anwenden* auswählen.
++
+Die StorageGRID Hotfix-Seite wird angezeigt.
+
++
+image:hotfix_choose_file.png["Hotfix Datei auswählen"]
+
+. Wählen Sie die Hotfix-Datei aus, die Sie von der NetApp Support Site heruntergeladen haben.
++
+.. Wählen Sie *Durchsuchen*.
+.. Die Datei suchen und auswählen.
++
+`hotfix-install-_version_`
+
+.. *Öffnen* auswählen.
++
+Die Datei wurde hochgeladen. Nach Abschluss des Uploads wird der Dateiname im Feld „Details“ angezeigt.
+
++
+
+NOTE: Der Dateiname sollte nicht geändert werden, da er Teil des Verifizierungsprozesses ist.
+
+
+
+. Die Bereitstellungs-Passphrase im Textfeld eingeben.
++
+Die Schaltfläche *Start* wird aktiviert.
+
+. *Start* auswählen.
++
+Es erscheint eine Warnung, die darauf hinweist, dass die Verbindung Ihres Browsers vorübergehend unterbrochen werden könnte, da die Dienste auf dem primären Admin Node neu gestartet werden.
+
+. *OK* auswählen, um die Anwendung des Hotfixes auf den primären Admin-Node zu starten.
++
+Wenn der Hotfix startet:
+
++
+.. Die Hotfix-Validierungen werden ausgeführt, einschließlich der Überprüfung der Codesignatur.
++
+
+NOTE: Falls Fehler gemeldet werden, diese beheben, die Hotfix-Datei erneut hochladen und erneut *Start* auswählen.
+
+.. Die Fortschrittstabelle für die Hotfix-Installation wird angezeigt.
++
+Diese Tabelle zeigt alle Knoten in Ihrem Grid und den aktuellen Stand der Hotfix-Installation für jeden Knoten. Die Knoten in der Tabelle sind nach Typ gruppiert (Admin Nodes, Gateway Nodes und Storage Nodes).
+
+.. Der Fortschrittsbalken ist vollständig gefüllt, und anschließend wird der primäre Admin Node als „Abgeschlossen“ angezeigt.
++
+image:hotfix_progress_table.png["Hotfix-Fortschrittstabelle"]
+
+
+
+. Optional lassen sich die Knotenlisten in jeder Gruppe aufsteigend oder absteigend nach *Site*, *Name*, *Progress*, *Stage* oder *Details* sortieren. Alternativ kann im *Search*-Feld ein Begriff eingegeben werden, um nach bestimmten Knoten zu suchen.
+. Die Grid-Knoten, die zur Aktualisierung bereit sind, werden genehmigt. Genehmigte Knoten desselben Typs werden einzeln aktualisiert.
++
+
+CAUTION: Genehmigen Sie den Hotfix für einen Knoten nur, wenn Sie sicher sind, dass der Knoten für das Update bereit ist. Wenn der Hotfix auf einen Grid-Knoten angewendet wird, können einige Dienste auf diesem Knoten neu gestartet werden. Diese Vorgänge können zu Dienstunterbrechungen für Clients führen, die mit dem Knoten kommunizieren.
+
++
+** Eine oder mehrere *Genehmigen*-Schaltflächen auswählen, um einen oder mehrere einzelne Knoten zur Hotfix-Warteschlange hinzuzufügen.
+** Die Schaltfläche *Alle genehmigen* innerhalb jeder Gruppierung fügt alle Knoten desselben Typs zur Hotfix-Warteschlange hinzu. Wenn im Feld *Suchen* Suchkriterien eingegeben wurden, gilt die Schaltfläche *Alle genehmigen* für alle durch die Suchkriterien ausgewählten Knoten.
++
+
+NOTE: Die Schaltfläche *Alle genehmigen* oben auf der Seite genehmigt alle auf der Seite aufgeführten Nodes, während die Schaltfläche *Alle genehmigen* am oberen Rand einer Tabellengruppe nur alle Nodes in dieser Gruppe genehmigt. Falls die Reihenfolge, in der Nodes aktualisiert werden, wichtig ist, empfiehlt es sich, Nodes oder Gruppen von Nodes einzeln zu genehmigen und jeweils abzuwarten, bis das Upgrade auf jedem Node abgeschlossen ist, bevor der nächste Node oder die nächsten Nodes genehmigt werden.
+
+** Oben auf der Seite befindet sich die Schaltfläche *Approve All*, mit der alle Nodes im Grid zur Hotfix-Warteschlange hinzugefügt werden.
++
+
+NOTE: Sie müssen den StorageGRID Hotfix abschließen, bevor Sie ein anderes Software-Update starten können. Wenn der Hotfix nicht abgeschlossen werden kann, sollte der technische Support kontaktiert werden.
+
+** *Entfernen* oder *Alle entfernen* entfernt einen Node oder alle Nodes aus der Hotfix-Warteschlange.
++
+Sobald der Status über „In der Warteschlange“ hinausgeht, wird die Schaltfläche *Entfernen* ausgeblendet und der Node kann nicht mehr aus dem Hotfix-Prozess entfernt werden.
+
++
+image:approve_all_progresstable.png["Hotfix Fortschritt mit Entfernen-Schaltfläche"]
+
+
+
+. Es wird gewartet, während der Hotfix auf jeden genehmigten Grid-Knoten angewendet wird.
++
+Wenn der Hotfix erfolgreich auf allen Knoten installiert wurde, schließt sich die Hotfix-Installationsfortschritt-Tabelle. Ein grünes Banner zeigt das Datum und die Uhrzeit an, zu denen der Hotfix abgeschlossen wurde.
+
+. Falls der Hotfix auf keinem Node angewendet werden konnte, sollte der Fehler für jeden Node überprüft, das Problem behoben und diese Schritte wiederholt werden.
++
+Der Vorgang ist erst abgeschlossen, wenn der Hotfix erfolgreich auf allen Knoten angewendet wurde. Der Hotfix-Vorgang kann beliebig oft wiederholt werden, bis er abgeschlossen ist.
+
+

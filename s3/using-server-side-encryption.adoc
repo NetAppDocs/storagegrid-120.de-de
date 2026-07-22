@@ -1,0 +1,116 @@
+---
+permalink: s3/using-server-side-encryption.html 
+sidebar: sidebar 
+keywords: server side encryption, encryption, operations on objects, objects 
+summary: Serverseitige Verschlüsselung ermöglicht den Schutz Ihrer Objektdaten im Ruhezustand. StorageGRID verschlüsselt die Daten beim Schreiben des Objekts und entschlüsselt die Daten beim Zugriff auf das Objekt. 
+---
+= Wie StorageGRID die serverseitige Verschlüsselung verwendet
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Serverseitige Verschlüsselung ermöglicht den Schutz Ihrer Objektdaten im Ruhezustand. StorageGRID verschlüsselt die Daten beim Schreiben des Objekts und entschlüsselt die Daten beim Zugriff auf das Objekt.
+
+Wenn Sie serverseitige Verschlüsselung verwenden möchten, können Sie je nach Art der Verwaltung der Verschlüsselungsschlüssel zwischen zwei sich gegenseitig ausschließenden Optionen wählen:
+
+* *SSE (serverseitige Verschlüsselung mit von StorageGRID verwalteten Schlüsseln)*: Wenn eine S3-Anfrage zum Speichern eines Objekts gestellt wird, verschlüsselt StorageGRID das Objekt mit einem eindeutigen Schlüssel. Wenn eine S3-Anfrage zum Abrufen des Objekts gestellt wird, verwendet StorageGRID den gespeicherten Schlüssel, um das Objekt zu entschlüsseln.
+* *SSE-C (serverseitige Verschlüsselung mit kundenseitig bereitgestellten Schlüsseln)*: Wenn eine S3-Anfrage zum Speichern eines Objekts gestellt wird, wird ein eigener Verschlüsselungsschlüssel bereitgestellt. Beim Abrufen eines Objekts wird derselbe Verschlüsselungsschlüssel als Teil der Anfrage bereitgestellt. Wenn die beiden Verschlüsselungsschlüssel übereinstimmen, wird das Objekt entschlüsselt und die Objektdaten werden zurückgegeben.
++
+StorageGRID übernimmt zwar alle Verschlüsselungs- und Entschlüsselungsvorgänge für Objekte, die Verwaltung der von Ihnen bereitgestellten Verschlüsselungsschlüssel obliegt Ihnen jedoch.
+
++
+
+CAUTION: Die von Ihnen bereitgestellten Verschlüsselungsschlüssel werden niemals gespeichert. Wenn Sie einen Verschlüsselungsschlüssel verlieren, verlieren Sie das entsprechende Objekt.
+
++
+
+NOTE: Wenn ein Objekt mit SSE oder SSE-C verschlüsselt ist, werden alle Verschlüsselungseinstellungen auf Bucket- oder Grid-Ebene ignoriert.
+
+
+
+
+
+[[use-sse]]
+== ${post_edited_translations.segment}
+
+Um ein Objekt mit einem von StorageGRID verwalteten eindeutigen Schlüssel zu verschlüsseln, wird der folgende Anforderungsheader verwendet:
+
+`x-amz-server-side-encryption`
+
+Der SSE-Anforderungsheader wird von den folgenden Objektoperationen unterstützt:
+
+* link:put-object.html["PutObject"]
+* link:put-object-copy.html["CopyObject"]
+* link:initiate-multipart-upload.html["CreateMultipartUpload"]
+
+
+
+
+[[use-sse-c]]
+== ${post_edited_translations.segment}
+
+Um ein Objekt mit einem eindeutigen Schlüssel, den Sie verwalten, zu verschlüsseln, werden drei Anfrage-Header verwendet:
+
+[cols="1a,2a"]
+|===
+| Anfrageheader | Beschreibung 
+
+
+ a| 
+`x-amz-server-side​-encryption​-customer-algorithm`
+ a| 
+Geben Sie den Verschlüsselungsalgorithmus an. Der Header-Wert muss `AES256` sein.
+
+
+
+ a| 
+`x-amz-server-side​-encryption​-customer-key`
+ a| 
+Geben Sie den Verschlüsselungsschlüssel an, der zum Verschlüsseln oder Entschlüsseln des Objekts verwendet wird. Der Wert für den Schlüssel muss 256 Bit lang und Base64-kodiert sein.
+
+
+
+ a| 
+`x-amz-server-side​-encryption​-customer-key-MD5`
+ a| 
+Geben Sie den MD5-Digest des Verschlüsselungsschlüssels gemäß RFC 1321 an, der verwendet wird, um sicherzustellen, dass der Verschlüsselungsschlüssel fehlerfrei übertragen wurde. Der Wert für den MD5-Digest muss Base64-codiert mit 128 Bit sein.
+
+|===
+Die SSE-C-Anforderungsheader werden von den folgenden Objektoperationen unterstützt:
+
+* link:get-object.html["GetObject"]
+* link:head-object.html["HeadObject"]
+* link:put-object.html["PutObject"]
+* link:put-object-copy.html["CopyObject"]
+* link:initiate-multipart-upload.html["CreateMultipartUpload"]
+* link:upload-part.html["UploadPart"]
+* link:upload-part-copy.html["UploadPartCopy"]
+
+
+
+
+[[considerations-for-using-server-side-encryption-with-customer-provided-keys-sse-c]]
+== Überlegungen zur Verwendung von serverseitiger Verschlüsselung mit vom Kunden bereitgestellten Schlüsseln (SSE-C)
+
+Vor der Verwendung von SSE-C sind die folgenden Punkte zu beachten:
+
+* ${post_edited_translations.segment}
++
+
+CAUTION: StorageGRID lehnt alle Anfragen über HTTP ab, wenn SSE-C verwendet wird. Aus Sicherheitsgründen ist jeder versehentlich über HTTP gesendete Schlüssel als kompromittiert zu betrachten. Der Schlüssel sollte verworfen und gegebenenfalls rotiert werden.
+
+* ${post_edited_translations.segment}
+* Sie müssen die Zuordnung von Verschlüsselungsschlüsseln zu Objekten verwalten. StorageGRID speichert keine Verschlüsselungsschlüssel. Sie sind für die Verfolgung des Verschlüsselungsschlüssels verantwortlich, den Sie für jedes Objekt bereitstellen.
+* Wenn für Ihren Bucket die Versionierung aktiviert ist, sollte jede Objektversion über einen eigenen Verschlüsselungsschlüssel verfügen. Sie sind für die Nachverfolgung des für jede Objektversion verwendeten Verschlüsselungsschlüssels verantwortlich.
+* ${post_edited_translations.segment}
++
+
+CAUTION: Die von Ihnen bereitgestellten Verschlüsselungsschlüssel werden niemals gespeichert. Wenn Sie einen Verschlüsselungsschlüssel verlieren, verlieren Sie das entsprechende Objekt.
+
+* Wenn die Grid-übergreifende Replikation oder die CloudMirror Replikation für den Bucket konfiguriert ist, können Sie keine SSE-C-Objekte aufnehmen. Der Ingest-Vorgang schlägt fehl.
+
+
+.Verwandte Informationen
+https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html["Amazon S3 Benutzerhandbuch: Verwendung der serverseitigen Verschlüsselung mit vom Kunden bereitgestellten Schlüsseln (SSE-C)"^]

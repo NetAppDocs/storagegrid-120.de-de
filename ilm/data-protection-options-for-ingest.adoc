@@ -1,0 +1,63 @@
+---
+permalink: ilm/data-protection-options-for-ingest.html 
+sidebar: sidebar 
+keywords: ingest options, balanced ingest, strict ingest, dual-commit ingest 
+summary: Wenn eine ILM-Regel erstellt wird, können Objekte beim Ingest geschützt werden, indem entweder Dual commit, Strict oder Balanced angegeben wird. 
+---
+= ILM-Aufnahmeoptionen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beim Erstellen einer ILM-Regel wird eine von drei Optionen zum Schutz von Objekten beim Import angegeben: Dual commit, Strict oder Balanced.
+
+Je nach Auswahl erstellt StorageGRID Zwischenkopien und stellt die Objekte zur späteren ILM-Auswertung in die Warteschlange, oder es verwendet synchrone Platzierung und erstellt sofort Kopien, um die ILM-Anforderungen zu erfüllen.
+
+
+
+[[flowchart-of-ingest-options]]
+== Ablaufdiagramm der Aufnahmeoptionen
+
+Das Flussdiagramm zeigt, was passiert, wenn Objekte durch eine ILM-Regel abgeglichen werden, die jede der drei Aufnahmeoptionen verwendet.
+
+image:ingest_object_lifecycle.png["Diagramm, das zeigt, wie die Objekterfassung für jede Erfassungsoption erfolgt"]
+
+
+
+[[dual-commit]]
+== Dual Commit
+
+Wenn Sie die Option „Dual commit“ auswählen, erstellt StorageGRID sofort temporäre Objektkopien auf zwei verschiedenen Storage Nodes und sendet eine „Ingest erfolgreich“-Meldung an den Client zurück. Das Objekt wird zur ILM-Auswertung in die Warteschlange gestellt, und Kopien, die den Platzierungsanweisungen der Regel entsprechen, werden später erstellt. Wenn die ILM-Policy nicht unmittelbar nach dem Dual commit verarbeitet werden kann, kann es einige Zeit dauern, bis der Schutz vor Standortverlust erreicht ist.
+
+Die Option „Dual Commit“ kommt in einem der folgenden Fälle zum Einsatz:
+
+* Sie verwenden Multi-Site-ILM-Regeln, wobei die Latenz beim Client-Ingest für Sie von größter Bedeutung ist. Bei Verwendung von Dual commit muss sichergestellt werden, dass Ihr Grid die zusätzlichen Aufgaben zum Erstellen und Entfernen der Dual-commit-Kopien bewältigen kann, falls diese die ILM-Anforderungen nicht erfüllen. Konkret:
++
+** Die Netzlast muss niedrig genug sein, um einen ILM-Rückstand zu vermeiden.
+** Das Grid muss über überschüssige Hardware-Ressourcen (IOPS, CPU, Speicher, Netzwerkbandbreite usw.) verfügen.
+
+
+* Sie verwenden standortübergreifende ILM-Regeln, und die WAN-Verbindung zwischen den Standorten weist üblicherweise eine hohe Latenz oder begrenzte Bandbreite auf. In diesem Szenario kann die Option Dual commit dazu beitragen, Client-Timeouts zu verhindern. Vor der Auswahl der Option Dual commit empfiehlt sich ein Test der Client-Anwendung mit realistischen Arbeitslasten.
+
+
+
+
+[[balanced-default]]
+== Ausgewogen (Standard)
+
+Wenn die Option Balanced ausgewählt wird, verwendet StorageGRID ebenfalls die synchrone Platzierung beim Ingest und erstellt sofort alle in den Platzierungsanweisungen der Regel angegebenen Kopien. Im Gegensatz zur Option Strict verwendet StorageGRID, falls nicht alle Kopien sofort erstellt werden können, stattdessen Dual commit. Wenn die ILM-Richtlinie Platzierungen an mehreren Standorten vorsieht und ein sofortiger Schutz vor Standortverlust nicht erreicht werden kann, wird die Warnung *ILM placement unachievable* ausgelöst.
+
+Die Option „Ausgewogen“ bietet die beste Kombination aus Datenschutz, Grid-Performance und erfolgreicher Datenerfassung. „Ausgewogen“ ist die Standardoption im Assistenten zum Erstellen von ILM-Regeln.
+
+
+
+[[strict]]
+== Strikt
+
+Bei Auswahl der Option „Streng“ verwendet StorageGRID synchrone Platzierung beim Ingest und erstellt sofort alle in den Platzierungsanweisungen der Regel angegebenen Objektkopien. Der Ingest schlägt fehl, wenn StorageGRID nicht alle Kopien erstellen kann, beispielsweise weil ein erforderlicher Speicherort vorübergehend nicht verfügbar ist. Der Client muss den Vorgang wiederholen.
+
+Verwenden Sie die Option „Streng“, wenn Sie aufgrund betrieblicher oder regulatorischer Vorgaben Objekte ausschließlich an den in der ILM-Regel festgelegten Standorten speichern müssen. Um beispielsweise eine regulatorische Anforderung zu erfüllen, kann es erforderlich sein, die Option „Streng“ und einen erweiterten Filter für Standortbeschränkungen zu verwenden, um zu gewährleisten, dass Objekte niemals in bestimmten Rechenzentren gespeichert werden.
+
+Siehe link:example-5-ilm-rules-and-policy-for-strict-ingest-behavior.html["Beispiel 5: ILM-Regeln und Richtlinien für striktes Aufnahmeverhalten"].

@@ -1,0 +1,106 @@
+---
+permalink: fabricpool/creating-tenant-account-for-fabricpool.html 
+sidebar: sidebar 
+keywords: fabricPool, StorageGRID, tenant, SSO 
+summary: Im Grid Manager ist ein Mandantenkonto für die Nutzung von FabricPool zu erstellen. 
+---
+= Erstellen Sie ein Mandantenkonto für FabricPool in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Im Grid Manager ist ein Mandantenkonto für die Nutzung von FabricPool zu erstellen.
+
+Mandantenkonten ermöglichen es Clientanwendungen, Objekte auf StorageGRID zu speichern und abzurufen. Jedes Mandantenkonto verfügt über eine eigene Konto-ID, autorisierte Gruppen und Benutzer, Buckets und Objekte.
+
+Weitere Informationen zu dieser Aufgabe finden sich unter link:../admin/creating-tenant-account.html["Mandantenkonto erstellen"]. Zur Verwendung des FabricPool Setup-Assistenten für diese Aufgabe siehe link:use-fabricpool-setup-wizard-steps.html["Den FabricPool Setup-Assistenten aufrufen und abschließen"].
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Schritte
+. *Tenants* auswählen.
+. Wählen Sie *Create*.
+. Für die Schritte „Details eingeben“ sind die folgenden Informationen anzugeben.
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+Ein Name für das Mandantenkonto. Mandantennamen müssen nicht eindeutig sein. Wenn das Mandantenkonto erstellt wird, erhält es eine eindeutige, numerische Konto-ID.
+
+
+
+ a| 
+Beschreibung (optional)
+ a| 
+Eine Beschreibung zur Identifizierung des Tenants.
+
+
+
+ a| 
+Clienttyp
+ a| 
+Muss *S3* für FabricPool sein.
+
+
+
+ a| 
+Speicherkontingent (optional)
+ a| 
+Dieses Feld für FabricPool leer lassen.
+
+|===
+. Für den Schritt „Berechtigungen auswählen“:
++
+.. *Plattformdienste zulassen* darf nicht ausgewählt werden.
++
+FabricPool Mandanten benötigen in der Regel keine Plattformdienste wie die CloudMirror Replikation.
+
+.. Optional kann *Eigene Identitätsquelle verwenden* ausgewählt werden.
+.. *S3 Select zulassen* sollte nicht ausgewählt werden.
++
+FabricPool Mandanten müssen S3 Select in der Regel nicht verwenden.
+
+.. Optional kann *Grid-Federationsverbindung verwenden* ausgewählt werden, um dem Mandanten die Verwendung eines link:../admin/grid-federation-overview.html["Grid Federation Verbindung"] für Kontoklon und gridübergreifende Replikation zu ermöglichen. Anschließend wird die zu verwendende Grid-Federationsverbindung ausgewählt.
+
+
+. Geben Sie im Schritt „Root-Zugriff definieren“ an, welcher Benutzer die anfängliche Root-Zugriffsberechtigung für das Mandantenkonto erhält, abhängig davon, ob Ihr StorageGRID System link:../admin/using-identity-federation.html["Identitätsföderation"], link:../admin/how-sso-works.html["${post_edited_translations.segment}"] oder beides verwendet.
++
+[cols="1a,2a"]
+|===
+| Option | Tun Sie Folgendes 
+
+
+ a| 
+Wenn die Identitätsföderation nicht aktiviert ist
+ a| 
+Das Passwort, das beim Anmelden beim Mandanten als lokaler Root-Benutzer verwendet wird, angeben.
+
+
+
+ a| 
+Wenn die Identitätsföderation aktiviert ist
+ a| 
+.. Wählen Sie eine vorhandene Verbundgruppe aus, die die Root-Zugriffsberechtigung für den Mandanten erhält.
+.. Optional kann das Passwort angegeben werden, das beim Anmelden beim Mandanten als lokaler Root-Benutzer verwendet wird.
+
+
+
+
+ a| 
+Wenn sowohl Identitätsföderation als auch Single Sign-On (SSO) aktiviert sind
+ a| 
+Wählen Sie eine vorhandene Verbundgruppe aus, der Root-Zugriff für den Mandanten gewährt wird. Lokale Benutzer können sich nicht anmelden.
+
+|===
+. *Mandant erstellen* auswählen.
+

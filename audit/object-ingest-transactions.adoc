@@ -1,0 +1,102 @@
+---
+permalink: audit/object-ingest-transactions.html 
+sidebar: sidebar 
+keywords: object ingest transaction, S3 ingest, SPUT, ORLM, WPUT 
+summary: Client-Ingest-Transaktionen lassen sich im Revisionsprotokoll anhand S3-API-spezifischer Audit-Meldungen identifizieren. 
+---
+= Audit-Meldungen für Objektaufnahmetransaktionen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Client-Ingest-Transaktionen lassen sich im Revisionsprotokoll anhand S3-API-spezifischer Audit-Meldungen identifizieren.
+
+In der folgenden Tabelle sind nicht alle Revisionsmeldungen aufgeführt, die während einer Ingest-Transaktion generiert werden. Es sind nur die Meldungen enthalten, die zur Nachverfolgung der Ingest-Transaktion erforderlich sind.
+
+
+
+[[s3-ingest-audit-messages]]
+== S3 Ingest Revisionsprotokollnachrichten
+
+[cols="1a,1a,2a,1a,2a"]
+|===
+| Code | Name | Beschreibung | Verfolgen | Siehe 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+S3 PUT Transaktion
+ a| 
+${post_edited_translations.segment}
+ a| 
+CBID, S3BK, S3KY
+ a| 
+link:sput-s3-put.html["SPUT: S3 PUT"]
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+ a| 
+Die ILM Richtlinie ist für dieses Objekt erfüllt.
+ a| 
+CBID
+ a| 
+link:orlm-object-rules-met.html["ORLM: Objektregeln erfüllt"]
+
+|===
+
+
+[[example-s3-object-ingest]]
+== ${post_edited_translations.segment}
+
+Die folgende Reihe von Prüfmeldungen ist ein Beispiel für die Prüfmeldungen, die generiert und im Revisionsprotokoll gespeichert werden, wenn ein S3-Client ein Objekt in einen Storage Node (LDR-Service) einliest.
+
+${post_edited_translations.segment}
+
+
+NOTE: Im folgenden Beispiel sind nicht alle während einer Transaktion generierten Revisionsprotokollmeldungen aufgeführt. Es sind nur diejenigen aufgeführt, die sich auf die S3 Ingest-Transaktion (SPUT) beziehen.
+
+Dieses Beispiel setzt voraus, dass zuvor ein S3-Bucket erstellt wurde.
+
+
+
+[[sput-s3-put]]
+=== SPUT: S3 PUT
+
+Die SPUT-Nachricht wird generiert, um anzuzeigen, dass eine S3 PUT-Transaktion ausgelöst wurde, um ein Objekt in einem bestimmten Bucket zu erstellen.
+
+[listing, subs="specialcharacters,quotes"]
+----
+2017-07-17T21:17:58.959669[AUDT:[RSLT(FC32):SUCS][TIME(UI64):25771][SAIP(IPAD):"10.96.112.29"][S3AI(CSTR):"70899244468554783528"][SACC(CSTR):"test"][S3AK(CSTR):"SGKHyalRU_5cLflqajtaFmxJn946lAWRJfBF33gAOg=="][SUSR(CSTR):"urn:sgws:identity::70899244468554783528:root"][SBAI(CSTR):"70899244468554783528"][SBAC(CSTR):"test"][S3BK(CSTR):"example"][S3KY(CSTR):"testobject-0-3"][CBID\(UI64\):0x8EF52DF8025E63A8][CSIZ(UI64):30720][AVER(UI32):10][ATIM(UI64):150032627859669][ATYP\(FC32\):SPUT][ANID(UI32):12086324][AMID(FC32):S3RQ][ATID(UI64):14399932238768197038]]
+----
+
+
+[[orlm-object-rules-met]]
+=== ORLM: Objektregeln erfüllt
+
+Die ORLM-Meldung signalisiert, dass die ILM-Richtlinie für dieses Objekt erfüllt wurde. Die Meldung enthält die CBID des Objekts und den Namen der angewendeten ILM-Regel.
+
+Bei replizierten Objekten enthält das Feld LOCS die LDR-Knoten-ID und die Volumen-ID der Objektstandorte.
+
+[listing, subs="specialcharacters,quotes"]
+----
+2019-07-17T21:18:31.230669[AUDT:[CBID\(UI64\):0x50C4F7AC2BC8EDF7][RULE(CSTR):"Make 2 Copies"][STAT(FC32):DONE][CSIZ(UI64):0][UUID(CSTR):"0B344E18-98ED-4F22-A6C8-A93ED68F8D3F"][LOCS(CSTR):"CLDI 12828634 2148730112, CLDI 12745543 2147552014"][RSLT(FC32):SUCS][AVER(UI32):10][ATYP\(FC32\):ORLM][ATIM(UI64):1563398230669][ATID(UI64):15494889725796157557][ANID(UI32):13100453][AMID(FC32):BCMS]]
+----
+Bei Objekten, die mit einem Löschcodierverfahren versehen sind, enthält das Feld LOCS die Löschcodierungsprofil-ID und die Löschcodierungsgruppen-ID
+
+[listing, subs="specialcharacters,quotes"]
+----
+2019-02-23T01:52:54.647537 [AUDT:[CBID(UI64):0xFA8ABE5B5001F7E2][RULE(CSTR):"EC_2_plus_1"][STAT(FC32):DONE][CSIZ(UI64):10000][UUID(CSTR):"E291E456-D11A-4701-8F51-D2F7CC9AFECA"][LOCS(CSTR):"CLEC 1 A471E45D-A400-47C7-86AC-12E77F229831"][RSLT(FC32):SUCS][AVER(UI32):10][ATIM(UI64):1550929974537]\[ATYP\(FC32\):ORLM\][ANID(UI32):12355278][AMID(FC32):ILMX][ATID(UI64):4168559046473725560]]
+----
+Das Feld PATH enthält Informationen zu S3-Bucket und Schlüssel.
+
+[listing]
+----
+2019-09-15.txt:2018-01-24T13:52:54.131559 [AUDT:[CBID(UI64):0x82704DFA4C9674F4][RULE(CSTR):"Make 2 Copies"][STAT(FC32):DONE][CSIZ(UI64):3145729][UUID(CSTR):"8C1C9CAC-22BB-4880-9115-CE604F8CE687"][PATH(CSTR):"frisbee_Bucket1/GridDataTests151683676324774_1_1vf9d"][LOCS(CSTR):"CLDI 12525468, CLDI 12222978"][RSLT(FC32):SUCS][AVER(UI32):10][ATIM(UI64):1568555574559][ATYP(FC32):ORLM][ANID(UI32):12525468][AMID(FC32):OBDI][ATID(UI64):344833886538369336]]
+----

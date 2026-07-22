@@ -1,0 +1,101 @@
+---
+permalink: admin/requirements-for-sso.html 
+sidebar: sidebar 
+keywords: sso requirements, single sign on requirements, identity federation requirements for sso, pingfederate, entra id, ad fs 
+summary: Vor der Aktivierung von Single Sign-On für ein StorageGRID System sind die Anforderungen und Überlegungen zu prüfen. 
+---
+= Anforderungen und Überlegungen für StorageGRID SSO
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Aktivierung von Single Sign-On (SSO) für ein StorageGRID System sind die Anforderungen und Überlegungen zu prüfen.
+
+
+
+[[identity-provider-requirements]]
+== Anforderungen an Identitätsanbieter
+
+${post_edited_translations.segment}
+
+* Active Directory Federation Service (AD FS)
+* Microsoft Entra ID
+* PingFederate
+
+
+Sie müssen die Identitätsföderation für Ihr StorageGRID System konfigurieren, bevor Sie einen SSO-Identitätsanbieter einrichten können. Der Typ des LDAP-Dienstes, den Sie für die Identitätsföderation verwenden, bestimmt, welche Art von SSO Sie implementieren können.
+
+[cols="1a,1a"]
+|===
+| Konfigurierter LDAP-Diensttyp | Optionen für SSO Identitätsanbieter 
+
+
+ a| 
+Active Directory
+ a| 
+* Active Directory
+* Entra ID
+* PingFederate
+
+
+
+
+ a| 
+Entra ID
+ a| 
+Entra ID
+
+|===
+
+
+[[ad-fs-requirements]]
+=== AD FS Anforderungen
+
+Es können beliebige der folgenden Versionen von AD FS verwendet werden:
+
+* ${post_edited_translations.segment}
+* Windows Server 2019 AD FS
+* ${post_edited_translations.segment}
+
+
+
+NOTE: Windows Server 2016 sollte  https://support.microsoft.com/en-us/help/3201845/cumulative-update-for-windows-10-version-1607-and-windows-server-2016["${post_edited_translations.segment}"^] oder höher verwenden.
+
+
+
+[[additional-requirements]]
+=== Zusätzliche Anforderungen
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+
+
+[[considerations-for-entra-id]]
+=== Überlegungen zu Entra ID
+
+Wenn Sie Entra ID als SSO-Typ verwenden und Benutzer über Benutzerprinzipalnamen verfügen, die nicht sAMAccountName als Präfix verwenden, können Anmeldeprobleme auftreten, wenn StorageGRID die Verbindung zum LDAP-Server verliert. Damit sich Benutzer anmelden können, muss die Verbindung zum LDAP-Server wiederhergestellt werden.
+
+
+
+[[server-certificate-requirements]]
+== Anforderungen an Serverzertifikate
+
+Standardmäßig verwendet StorageGRID auf jedem Admin-Knoten ein Managementoberflächenzertifikat, um den Zugriff auf den Grid Manager, den Tenant Manager, die Grid Management API und die Tenant Management API zu sichern. Bei der Konfiguration von Vertrauensstellungen zwischen vertrauenden Parteien (AD FS), Unternehmensanwendungen (Entra ID) oder Dienstanbieterverbindungen (PingFederate) für StorageGRID wird das Serverzertifikat als Signaturzertifikat für StorageGRID-Anfragen verwendet.
+
+Falls Sie dies noch nicht link:configuring-custom-server-certificate-for-grid-manager-tenant-manager.html["Ein benutzerdefiniertes Zertifikat für die Managementoberfläche konfiguriert"] haben, sollte es jetzt erfolgen. Wenn ein benutzerdefiniertes Serverzertifikat installiert wird, wird es für alle Admin Nodes verwendet und kann in allen StorageGRID relying party trusts, enterprise applications oder SP connections genutzt werden.
+
+
+NOTE: Die Verwendung des Standardserverzertifikats eines Administratorknotens in einer Vertrauensstellung der vertrauenden Seite, einer Unternehmensanwendung oder SP Verbindung wird nicht empfohlen. Wenn der Knoten ausfällt und wiederhergestellt wird, wird ein neues Standardserverzertifikat generiert. Vor der Anmeldung am wiederhergestellten Knoten ist die Vertrauensstellung der vertrauenden Seite, die Unternehmensanwendung oder die SP Verbindung mit dem neuen Zertifikat zu aktualisieren.
+
+Sie können auf das Serverzertifikat eines Admin-Knotens zugreifen, indem Sie sich an der Befehlsshell des Knotens anmelden und zum  `/var/local/mgmt-api` Verzeichnis wechseln. Ein benutzerdefiniertes Serverzertifikat trägt den Namen  `custom-server.crt`. Das Standard-Serverzertifikat des Knotens trägt den Namen  `server.crt`.
+
+
+
+[[port-requirements]]
+== Port-Anforderungen
+
+Single Sign-On (SSO) ist auf den eingeschränkten Ports des Grid Manager oder Tenant Manager nicht verfügbar. Der Standard-HTTPS-Port (443) muss verwendet werden, wenn Benutzer sich mit Single Sign-On authentifizieren sollen. Siehe link:controlling-access-through-firewalls.html["Zugriffskontrolle an der externen Firewall"].

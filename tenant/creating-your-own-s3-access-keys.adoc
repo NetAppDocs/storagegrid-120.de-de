@@ -1,0 +1,63 @@
+---
+permalink: tenant/creating-your-own-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to create your own S3 access key 
+summary: Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berechtigungen verfügen, können Sie Ihre eigenen S3-Zugriffsschlüssel erstellen. Sie benötigen einen Zugriffsschlüssel, um auf Ihre Buckets und Objekte zuzugreifen. 
+---
+= Erstellen Sie Ihre eigenen S3-Zugriffsschlüssel in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berechtigungen verfügen, können Sie Ihre eigenen S3-Zugriffsschlüssel erstellen. Sie benötigen einen Zugriffsschlüssel, um auf Ihre Buckets und Objekte zuzugreifen.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Eigene S3-Anmeldeinformationen oder Root-Zugriffsberechtigung verwalten"].
+
+
+.Über diese Aufgabe
+Sie können einen oder mehrere S3-Zugriffsschlüssel erstellen, mit denen Sie Buckets für Ihr Mandantenkonto anlegen und verwalten können. Nach dem Erstellen eines neuen Zugriffsschlüssels ist die Anwendung mit Ihrer neuen Zugriffsschlüssel-ID und Ihrem geheimen Zugriffsschlüssel zu aktualisieren. Aus Sicherheitsgründen sollten nicht mehr Schlüssel als nötig erstellt und nicht verwendete Schlüssel gelöscht werden. Wenn nur ein Schlüssel vorhanden ist und dieser bald abläuft, ist vor Ablauf des alten Schlüssels ein neuer zu erstellen und anschließend der alte zu löschen.
+
+Jeder Schlüssel kann eine bestimmte Ablaufzeit haben oder unbegrenzt gültig sein. Folgende Richtlinien gelten für die Ablaufzeit:
+
+* Legen Sie eine Ablaufzeit für Ihre Schlüssel fest, um Ihren Zugriff auf einen bestimmten Zeitraum zu beschränken. Eine kurze Ablaufzeit kann Ihr Risiko verringern, falls Ihre Access Key ID und Ihr Secret Access Key versehentlich offengelegt werden. Abgelaufene Schlüssel werden automatisch entfernt.
+* Wenn das Sicherheitsrisiko in Ihrer Umgebung gering ist und Sie nicht regelmäßig neue Schlüssel erstellen müssen, müssen Sie kein Ablaufdatum für Ihre Schlüssel festlegen. Wenn Sie sich später entscheiden, neue Schlüssel zu erstellen, löschen Sie die alten Schlüssel manuell.
+
+
+
+CAUTION: Auf die S3 Buckets und Objekte Ihres Kontos kann mit der Access Key ID und dem Secret Access Key zugegriffen werden, die für Ihr Konto im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig rotiert, ungenutzte Schlüssel aus Ihrem Konto entfernt und niemals mit anderen Benutzern geteilt werden.
+
+.Schritte
+. *SPEICHER (S3)* > *Meine Zugriffsschlüssel* auswählen.
++
+Die Seite „My access keys“ wird angezeigt und listet alle vorhandenen Zugriffsschlüssel auf.
+
+. *Schlüssel erstellen* auswählen.
+. Führen Sie einen der folgenden Schritte aus:
++
+** *Keine Ablaufzeit festlegen* auswählen, um einen Schlüssel zu erstellen, der nicht abläuft. (Standard)
+** *Ablaufzeit festlegen* auswählen und Ablaufdatum sowie Ablaufzeit festlegen.
++
+
+NOTE: Das Ablaufdatum darf maximal fünf Jahre ab dem aktuellen Datum liegen. Die Ablaufzeit darf frühestens eine Minute ab der aktuellen Uhrzeit liegen.
+
+
+
+. *Zugriffsschlüssel erstellen* auswählen.
++
+Das Dialogfeld „Download-Zugriffsschlüssel“ wird angezeigt und listet Ihre Zugriffsschlüssel-ID sowie Ihren geheimen Zugriffsschlüssel auf.
+
+. Die Zugriffsschlüssel-ID und der geheime Zugriffsschlüssel können an einem sicheren Ort gespeichert oder mit *Download .csv* als Tabellenkalkulationsdatei mit Zugriffsschlüssel-ID und geheimem Zugriffsschlüssel heruntergeladen werden.
++
+
+CAUTION: Schließen Sie dieses Dialogfeld erst, nachdem Sie diese Informationen kopiert oder heruntergeladen haben. Nach dem Schließen des Dialogfelds können Schlüssel nicht mehr kopiert oder heruntergeladen werden.
+
+. Wählen Sie *Fertigstellen*.
++
+Der neue Schlüssel ist auf der Seite „Meine Zugriffsschlüssel“ aufgeführt.
+
+. Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, kann optional die Tenant Management API verwendet werden, um S3-Zugriffsschlüssel manuell vom Mandanten im Quell-Grid zum Mandanten im Ziel-Grid zu klonen. Siehe link:grid-federation-clone-keys-with-api.html["Klonen von S3-Zugriffsschlüsseln mithilfe der API"].
+

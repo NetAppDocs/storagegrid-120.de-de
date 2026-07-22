@@ -1,0 +1,28 @@
+= 
+:allow-uri-read: 
+
+
+* *Alle*: Alle Knoten erhalten die Objektmetadaten sofort oder die Anfrage schlägt fehl.
+* *Stark-global*: Gewährleistet Lese-nach-Schreib-Konsistenz für alle Clientanfragen an allen Standorten. Bei konfigurierter Quorum-Semantik gelten folgende Verhaltensweisen:
++
+** Ermöglicht die Standortausfalltoleranz für Clientanfragen bei Grids mit drei oder mehr Standorten. Grids mit nur zwei Standorten bieten keine Standortausfalltoleranz.
+** Die folgenden S3-Operationen sind bei einem Standortausfall nicht erfolgreich:
++
+*** DeleteBucketEncryption
+*** PutBucketBranch
+*** PutBucketEncryption
+*** PutBucketVersioning
+*** PutObjectLegalHold
+*** PutObjectLockConfiguration
+*** PutObjectRetention
+
+
+
+
++
+Falls erforderlich kann  https://kb.netapp.com/hybrid/StorageGRID/Object_Mgmt/Configuring_StorageGRID_quorum_semantics_for_strong-global_consistency["StorageGRID Quorumsemantik für starke globale Konsistenz konfigurieren"^] verwendet werden.
+
+* *Strong-site*: Objektmetadaten werden sofort an andere Knoten am Standort verteilt. Garantiert Lese-nach-Schreib-Konsistenz für alle Clientanfragen innerhalb eines Standorts.
+* *Read-after-new-write*: Gewährleistet Lesekonsistenz nach dem Schreiben für neue Objekte und letztendliche Konsistenz für Objektaktualisierungen. Bietet hohe Verfügbarkeit und Garantien für den Datenschutz. Empfohlen für die meisten Fälle.
+* *Verfügbar*: Gewährleistet letztendliche Konsistenz sowohl für neue Objekte als auch für Objektaktualisierungen. Für S3-Buckets nur bei Bedarf verwenden (zum Beispiel für einen Bucket, der Log-Werte enthält, die selten gelesen werden, oder für HEAD- oder GET-Operationen auf Schlüsseln, die nicht existieren). Nicht unterstützt für S3 FabricPool Buckets.
+

@@ -1,0 +1,46 @@
+---
+permalink: maintain/pausing-and-resuming-decommission-process-for-storage-nodes.html 
+sidebar: sidebar 
+keywords: how to pause decommission 
+summary: Falls ein zweiter Wartungsvorgang erforderlich ist, kann das Außerbetriebnahmeverfahren für einen Storage Node in bestimmten Phasen pausiert werden. Nach Abschluss des anderen Vorgangs kann die Außerbetriebnahme fortgesetzt werden. 
+---
+= Stilllegungsprozess für StorageGRID Storage Nodes anhalten und fortsetzen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Falls ein zweiter Wartungsvorgang erforderlich ist, kann das Außerbetriebnahmeverfahren für einen Storage Node in bestimmten Phasen pausiert werden. Nach Abschluss des anderen Vorgangs kann die Außerbetriebnahme fortgesetzt werden.
+
+
+NOTE: Die Schaltfläche *Pause* ist nur dann aktiviert, wenn die ILM-Evaluierungs- oder die Deaktivierungsphase der löschcodierten Daten erreicht ist; die ILM-Evaluierung (Datenmigration) läuft jedoch im Hintergrund weiter.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+
+
+.Schritte
+. *Wartung* > *Aufgaben* > *Stilllegung* auswählen.
++
+Die Seite „Stilllegung“ wird angezeigt.
+
+. *Knoten außer Betrieb nehmen* auswählen.
++
+Die Seite „Knoten außer Betrieb nehmen“ wird angezeigt. Wenn der Außerbetriebnahmevorgang eine der folgenden Phasen erreicht, wird die Schaltfläche *Pause* aktiviert.
+
++
+** Bewertung von ILM
+** Außerbetriebnahme von Erasure-Coded-Daten
+
+
+. *Pause* auswählen, um den Vorgang zu unterbrechen.
++
+Der aktuelle Vorgang ist pausiert, und die Schaltfläche *Fortsetzen* ist aktiviert.
+
++
+image:decommission_nodes_procedure_paused.png["Verfahren zur Stilllegung von Knoten pausiert"]
+
+. Nachdem das andere Wartungsverfahren abgeschlossen ist, *Fortsetzen* auswählen, um mit der Stilllegung fortzufahren.
+

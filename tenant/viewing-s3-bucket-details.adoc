@@ -1,0 +1,110 @@
+---
+permalink: tenant/viewing-s3-bucket-details.html 
+sidebar: sidebar 
+keywords: how to view bucket details 
+summary: Sie können die Buckets in Ihrem Mandantenkonto anzeigen. 
+---
+= S3-Bucket-Details in StorageGRID anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Buckets in Ihrem Mandantenkonto anzeigen.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Root-Zugriff, Berechtigung „Alle Buckets verwalten“ oder Berechtigung „Alle Buckets anzeigen“"] verfügt. Diese Berechtigungen überschreiben die Berechtigungseinstellungen in Gruppen- oder Bucket-Richtlinien.
+
+
+.Schritte
+. *View buckets* im Dashboard auswählen oder *STORAGE (S3)* > *Buckets*.
++
+Die Buckets-Seite wird angezeigt.
+
+. Die Zusammenfassungstabelle für jeden Bucket kann eingesehen werden.
++
+Bei Bedarf können Sie die Informationen nach jeder beliebigen Spalte sortieren oder in der Liste vor- und zurückblättern.
+
++
+
+NOTE: Die angezeigten Werte für Objektanzahl, Speicherplatznutzung und Auslastung sind Schätzwerte. Diese Schätzwerte werden durch den Zeitpunkt der Datenaufnahme, die Netzwerkverbindung und den Knotenstatus beeinflusst. Wenn für Buckets die Versionierung aktiviert ist, werden gelöschte Objektversionen in die Objektanzahl einbezogen.
+
++
+Name:: Der eindeutige Name des Buckets, der nicht geändert werden kann.
+Aktivierte Funktionen:: Die Liste der für den Bucket aktivierten Funktionen.
+S3 Object Lock:: Ob S3 Object Lock für den Bucket aktiviert ist.
++
+--
+Diese Spalte wird nur angezeigt, wenn S3 Object Lock für das Grid aktiviert ist. Diese Spalte zeigt außerdem Informationen zu allen älteren Compliant Buckets an.
+
+--
+Region:: Die Region des Buckets, die nicht geändert werden kann. Diese Spalte ist standardmäßig ausgeblendet.
+Objektanzahl:: Die Anzahl der Objekte in diesem Bucket. Wenn für Buckets die Versionierung aktiviert ist, sind nicht aktuelle Objektversionen in diesem Wert enthalten.
++
+--
+Wenn Objekte hinzugefügt oder gelöscht werden, wird dieser Wert möglicherweise nicht sofort aktualisiert.
+
+--
+Verwendeter Speicherplatz:: Die logische Größe aller Objekte im Bucket. Die logische Größe beinhaltet nicht den tatsächlich benötigten Speicherplatz für replizierte oder mit Löschkodierung versehene Kopien oder für Objektmetadaten.
++
+--
+Die Aktualisierung dieses Wertes kann bis zu 10 Minuten dauern.
+
+--
+Verwendung:: Der Prozentsatz der genutzten Kapazitätsgrenze des Buckets, sofern eine solche festgelegt wurde.
++
+--
+Der Nutzungswert basiert auf internen Schätzungen und kann in manchen Fällen überschritten werden. StorageGRID prüft beispielsweise das Kapazitätslimit (sofern festgelegt), wenn ein Mandant mit dem Hochladen von Objekten beginnt, und lehnt neue Uploads in diesen Bucket ab, falls das Kapazitätslimit überschritten wurde. StorageGRID berücksichtigt jedoch die Größe des aktuellen Uploads bei der Ermittlung, ob das Kapazitätslimit überschritten wurde, nicht. Werden Objekte gelöscht, kann ein Mandant vorübergehend daran gehindert werden, neue Objekte in diesen Bucket hochzuladen, bis die Kapazitätsnutzung neu berechnet wurde. Die Berechnungen können 10 Minuten oder länger dauern.
+
+Dieser Wert gibt die logische Größe an, nicht die physische Größe, die zum Speichern der Objekte und ihrer Metadaten erforderlich ist.
+
+--
+Kapazität:: Falls festgelegt, die Kapazitätsgrenze für den Bucket.
+Erstellungsdatum:: Datum und Uhrzeit, zu der der Bucket erstellt wurde. Diese Spalte ist standardmäßig ausgeblendet.
+
+
+. Details zu einem bestimmten Bucket werden angezeigt, wenn der Bucket-Name aus der Tabelle ausgewählt wird.
++
+.. Die zusammenfassenden Informationen oben auf der Webseite geben Aufschluss über die Details zum Bucket, wie Region und Objektanzahl.
+.. Die Auslastungsbalken für Kapazitätsgrenze und Objektanzahlgrenze anzeigen. Liegt die Auslastung bei 100 % oder nahe 100 %, empfiehlt es sich, das Limit zu erhöhen oder einige Objekte zu löschen.
+.. Bei Bedarf *Objekte im Bucket löschen* und *Bucket löschen* auswählen.
++
+[CAUTION]
+====
+Achten Sie genau auf die Warnhinweise, die beim Auswählen der einzelnen Optionen angezeigt werden. Weitere Informationen sind unter folgendem Link zu finden:
+
+*** link:deleting-s3-bucket-objects.html["Alle Objekte in einem Bucket löschen"]
+*** link:deleting-s3-bucket.html["Einen Bucket löschen"] (Der Bucket muss leer sein)
+
+
+====
+.. Die Einstellungen für den Bucket lassen sich bei Bedarf in den einzelnen Registerkarten anzeigen oder ändern.
++
+*** *S3-Konsole*: Die Objekte des Buckets anzeigen. Weitere Informationen finden sich unter link:use-s3-console.html["S3-Konsole verwenden"].
+*** *Bucket-Optionen*: Optionseinstellungen anzeigen oder ändern. Einige Einstellungen, wie zum Beispiel S3 Object Lock, können nach der Erstellung des Buckets nicht mehr geändert werden.
++
+**** link:manage-bucket-consistency.html["Konsistenz von Buckets verwalten"]
+**** link:enabling-or-disabling-last-access-time-updates.html["Letzte Zugriffszeit-Aktualisierungen"]
+**** link:../tenant/creating-s3-bucket.html#capacity-limit["Kapazitätsgrenze"]
+**** link:../tenant/creating-s3-bucket.html#object-count-limit["Objektanzahlbegrenzung"]
+**** link:changing-bucket-versioning.html["Objektversionierung"]
+**** link:using-s3-object-lock.html["S3 Object Lock"]
+**** link:update-default-retention-settings.html["Standardmäßige Bucket-Aufbewahrungsdauer"]
+**** link:grid-federation-manage-cross-grid-replication.html["Verwaltung der gridübergreifenden Replikation"] (sofern dies dem Mieter gestattet ist)
+
+
+*** *Plattformdienste*: link:considerations-for-platform-services.html["Plattformdienste verwalten"] (sofern für den Mandanten zulässig)
+*** *Bucket-Zugriff*: Optionseinstellungen anzeigen oder ändern. Spezielle Zugriffsberechtigungen sind erforderlich.
++
+**** Konfigurieren Sie link:configuring-cross-origin-resource-sharing-for-buckets-and-objects.html["CORS für Buckets und Objekte"] so, dass der Bucket und die darin enthaltenen Objekte für Webanwendungen in anderen Domänen zugänglich sind.
+**** link:../tenant/manage-bucket-policy.html["Benutzerzugriff kontrollieren"] für einen S3-Bucket und Objekte in diesem Bucket.
+
+
+*** *Branches*: Die Liste der Branch-Buckets für den Bucket anzeigen. link:../tenant/manage-branch-buckets.html["Einen neuen Branch Bucket erstellen oder Branch Buckets verwalten"].
+
+
+
+
+

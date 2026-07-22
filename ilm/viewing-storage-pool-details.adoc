@@ -1,0 +1,58 @@
+---
+permalink: ilm/viewing-storage-pool-details.html 
+sidebar: sidebar 
+keywords: storage pool, view details 
+summary: Sie können die Details eines Speicherpools einsehen, um festzustellen, wo der Speicherpool verwendet wird und welche Knoten und Speicherklassen enthalten sind. 
+---
+= Details zum Speicherpool in StorageGRID anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Details eines Speicherpools einsehen, um festzustellen, wo der Speicherpool verwendet wird und welche Knoten und Speicherklassen enthalten sind.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Schritte
+. *ILM* > *Speicherpools* auswählen.
++
+Die Tabelle „Speicherpools“ enthält für jeden Speicherpool, der Storage Nodes umfasst, die folgenden Informationen:
+
++
+** *Name*: Der eindeutige Anzeigename des Storage-Pools.
+** *Knotenanzahl*: Die Anzahl der Knoten im Storage-Pool.
+** *Speichernutzung*: Der Prozentsatz des gesamten nutzbaren Speicherplatzes, der auf diesem Knoten für Objektdaten verwendet wurde. Dieser Wert enthält keine Objektmetadaten.
+** *Gesamtkapazität*: Die Größe des Speicherpools, die der Gesamtmenge des nutzbaren Speicherplatzes für Objektdaten aller Knoten im Speicherpool entspricht.
+** *ILM-Nutzung*: Wie der Storage-Pool aktuell genutzt wird. Ein Storage-Pool kann ungenutzt sein oder in einer oder mehreren ILM-Regeln, Erasure-Coding-Profilen oder beidem verwendet werden.
+
+
+. Details zu einem bestimmten Speicherpool werden angezeigt, wenn dessen Name ausgewählt wird.
++
+Die Detailseite für den Speicherpool wird angezeigt.
+
+. Auf der Registerkarte *Knoten* werden Informationen zu den im Storage-Pool enthaltenen Storage-Nodes angezeigt.
++
+Die Tabelle enthält für jeden Knoten folgende Informationen:
+
++
+** Knotenname
+** Name der Website
+** Storage-Qualität
+** Speichernutzung: Der Prozentsatz des gesamten nutzbaren Speicherplatzes für Objektdaten, der für den Storage Node verwendet wurde.
++
+
+NOTE: Der gleiche Wert für die Speichernutzung (%) wird auch im Diagramm „Storage Used - Object Data“ für jeden Storage Node angezeigt (wählen Sie *Nodes* > *_Storage Node_* > *Storage*).
+
+
+
+. Die Registerkarte *ILM usage* zeigt an, ob der Storage-Pool aktuell in ILM-Regeln oder Erasure-Coding-Profilen verwendet wird.
+. Optional kann die *ILM-Regelseite* aufgerufen werden, um Informationen zu den Regeln zu erhalten und diese zu verwalten, die den Storage-Pool verwenden.
++
+Siehe link:working-with-ilm-rules-and-ilm-policies.html["Anleitung zum Arbeiten mit ILM-Regeln"].
+
+

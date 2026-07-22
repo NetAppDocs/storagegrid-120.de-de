@@ -1,0 +1,34 @@
+---
+permalink: monitor/monitoring-object-ingest-and-retrieval-rates.html 
+sidebar: sidebar 
+keywords: object ingest rates, object retrieval rates, monitor s3, client operations 
+summary: Sie können die Geschwindigkeit der Objektaufnahme und -abfrage sowie Metriken für Objektanzahl, Abfragen und Verifizierung überwachen. Sie können die Anzahl erfolgreicher und fehlgeschlagener Versuche von Clientanwendungen zum Lesen, Schreiben und Ändern von Objekten im StorageGRID System einsehen. 
+---
+= Überwachen Sie S3-Clientvorgänge in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Geschwindigkeit der Objektaufnahme und -abfrage sowie Metriken für Objektanzahl, Abfragen und Verifizierung überwachen. Sie können die Anzahl erfolgreicher und fehlgeschlagener Versuche von Clientanwendungen zum Lesen, Schreiben und Ändern von Objekten im StorageGRID System einsehen.
+
+.Bevor Sie beginnen
+Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+
+.Schritte
+. Im Dashboard die Registerkarte *Leistung* auswählen.
+. Siehe die S3-Diagramme, die die Anzahl der von den Storage Nodes durchgeführten Client-Operationen und die Anzahl der von den Storage Nodes empfangenen API-Anfragen im ausgewählten Zeitraum zusammenfassen.
+. *Knoten* auswählen, um auf die Seite „Knoten“ zuzugreifen.
+. Auf der Startseite von Nodes (Grid-Ebene) die Registerkarte *Objekte* auswählen.
++
+Das Diagramm zeigt die S3-Aufnahme- und -Abrufraten für Ihr gesamtes StorageGRID System in Byte pro Sekunde sowie die aufgenommene oder abgerufene Datenmenge. Es besteht die Möglichkeit, ein Zeitintervall auszuwählen oder ein benutzerdefiniertes Intervall anzuwenden.
+
+. Informationen zu einem bestimmten Storage Node werden angezeigt, wenn der Node in der Liste auf der linken Seite ausgewählt und die Registerkarte *Objekte* ausgewählt wird.
++
+Das Diagramm zeigt die Aufnahme- und Abrufraten für den Knoten. Die Registerkarte enthält außerdem Metriken für Objektanzahlen, Metadatenabfragen und Verifizierungsvorgänge.
+
++
+image:nodes_storage_node_objects_help.png["Screenshot von Nodes > _Storage Node_ > Objects > Attributhilfe"]
+
+

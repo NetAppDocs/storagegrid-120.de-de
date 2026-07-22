@@ -1,0 +1,59 @@
+---
+permalink: maintain/restoring-audit-log-on-recovered-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, restore audit log, primary admin node 
+summary: Wenn das Revisionsprotokoll des ausgefallenen primären Admin-Knotens erhalten werden konnte, lässt es sich auf den primären Admin-Knoten kopieren, der wiederhergestellt wird. 
+---
+= Revisionsprotokoll auf dem wiederhergestellten primären StorageGRID Admin-Node wiederherstellen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn das Revisionsprotokoll des ausgefallenen primären Admin-Knotens erhalten werden konnte, lässt es sich auf den primären Admin-Knoten kopieren, der wiederhergestellt wird.
+
+.Bevor Sie beginnen
+* Der wiederhergestellte Admin-Node ist installiert und betriebsbereit.
+* Die Revisionsprotokolle wurden an einen anderen Speicherort kopiert, nachdem der ursprüngliche Admin-Node ausgefallen ist.
+
+
+.Über diese Aufgabe
+Fällt ein Admin-Node aus, können die auf diesem Admin-Node gespeicherten Revisionsprotokolle möglicherweise verloren gehen. Es kann möglich sein, Datenverluste zu vermeiden, indem Revisionsprotokolle vom ausgefallenen Admin-Node kopiert und anschließend auf dem wiederhergestellten Admin-Node wiederhergestellt werden. Je nach Art des Ausfalls ist es möglicherweise nicht möglich, Revisionsprotokolle vom ausgefallenen Admin-Node zu kopieren. In diesem Fall können Revisionsprotokolle von einem anderen Admin-Node wiederhergestellt werden, wenn die Bereitstellung über mehr als einen Admin-Node verfügt, da Revisionsprotokolle auf alle Admin-Nodes repliziert werden.
+
+Wenn nur ein Admin-Node vorhanden ist und das Revisionsprotokoll nicht vom ausgefallenen Node kopiert werden kann, beginnt der wiederhergestellte Admin-Node mit der Aufzeichnung von Ereignissen im Revisionsprotokoll, als ob die Installation neu wäre.
+
+Ein Admin-Node sollte so schnell wie möglich wiederhergestellt werden, damit die Protokollierungsfunktion wiederhergestellt wird.
+
+[NOTE]
+====
+Standardmäßig werden Auditinformationen an das Revisionsprotokoll auf den Admin-Nodes gesendet. Diese Schritte können übersprungen werden, wenn eine der folgenden Bedingungen zutrifft:
+
+* Ein externer Syslog-Server wurde konfiguriert, und die Revisionsprotokolle werden nun an den Syslog-Server statt an die Admin-Nodes gesendet.
+* Es wurde ausdrücklich festgelegt, dass Revisionsprotokollmeldungen nur auf den lokalen Nodes gespeichert werden, die sie generiert haben.
+
+
+Siehe link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"] für Details.
+
+====
+.Schritte
+. Anmeldung am wiederhergestellten Admin-Knoten:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@recovery_Admin_Node_IP`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Nachdem Sie sich als Root angemeldet haben, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Es kann geprüft werden, welche Revisionsprotokolldateien aufbewahrt wurden: `cd /var/local/audit/export`
+. Kopieren Sie die gesicherten Revisionsprotokolldateien auf den wiederhergestellten Admin-Node: `scp admin@_grid_node_IP_:/var/local/tmp/saved-audit-logs/YYYY* .`
++
+Bei Aufforderung das Passwort für admin eingeben.
+
+. Aus Sicherheitsgründen die Revisionsprotokolle des ausgefallenen Grid-Knotens löschen, nachdem überprüft wurde, dass sie erfolgreich auf den wiederhergestellten Admin-Node kopiert wurden.
+. Die Benutzer- und Gruppeneinstellungen der Revisionsprotokolldateien auf dem wiederhergestellten Admin-Node aktualisieren: `chown ams-user:bycast *`
+. Als Root abmelden: `exit`
+

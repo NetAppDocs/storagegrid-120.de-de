@@ -1,0 +1,33 @@
+---
+permalink: monitor/manage-io-prioritization.html 
+sidebar: sidebar 
+keywords: ec repair priority, ec purge priority 
+summary: 'Die Priorisierung von Ein-/Ausgabe (E/A) ermöglicht eine Änderung der relativen Prioritäten für E/A-Operationen im Grid.' 
+---
+= Ändern Sie die E/A-Priorisierung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Priorisierung von Ein-/Ausgabe (E/A) ermöglicht eine Änderung der relativen Prioritäten für E/A-Operationen im Grid.
+
+Standardmäßig hat der PUT- und GET-E/A-Verkehr von Clients höchste Priorität gegenüber Hintergrundaktivitäten wie dem Löschen von erasure-coded (EC) Daten und der EC-Reparatur. Durch eine Erhöhung der Priorität von Aktivitäten wie dem Löschen von erasure-coded (EC) Daten und der EC-Reparatur können diese Aufgaben möglicherweise schneller abgeschlossen werden. Die Wirksamkeit von Änderungen bei der E/A-Priorisierung wird durch die Rate der Clientanfragen, Schwankungen im Netzwerkverkehr und andere laufende Netzwerkaufgaben beeinflusst.
+
+.Bevor Sie beginnen
+* Die Seite zur I/O-Priorisierung bietet einen Überblick darüber, welche Optionen Auswirkungen auf Ihr Grid haben könnten.
+* Es sollte bewertet werden, ob der laufende Clientverkehr längere Wartezeiten oder Client-Timeouts problemlos verkraften kann.
+* Es empfiehlt sich, die Auswirkungen der Priorisierungsänderung zu überwachen und bei Bedarf anzupassen. Diese Änderungen werden schnell umgesetzt, ihre Wirkung kann jedoch erst nach Stunden sichtbar werden.
+
+
+.Schritte
+. *Support* > *E/A-Priorisierung* auswählen.
+. (Optional) Die Priorität für die EC-Bereinigung und Reparatur kann für Hintergrundvorgänge, die EC-Daten bereinigen, von den Standardwerten geändert werden.
++
+
+NOTE: Die standardmäßige niedrige EC-Bereinigungs- und Reparaturpriorität wird für Grids mit RAID-basierten Knoten verwendet.
+
+. *Speichern* auswählen.
+. Die link:../monitor/commonly-used-prometheus-metrics.html#where-are-prometheus-metrics-used["Metriken"] sollte überwacht werden, um die Auswirkungen von Priorisierungsänderungen zu beurteilen.
+

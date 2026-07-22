@@ -1,0 +1,76 @@
+---
+permalink: expand/copying-admin-node-database.html 
+sidebar: sidebar 
+keywords: copy Admin Node database, alert history, Admin Node expansion, StorageGRID 
+summary: Wenn Sie Admin-Nodes über ein Erweiterungsverfahren hinzufügen, können Sie optional die Datenbank vom primären Admin-Node auf den neuen Admin-Node kopieren. Durch das Kopieren der Datenbank können Sie historische Informationen über Attribute, Alarme und Warnmeldungen beibehalten. 
+---
+= Die Admin Node Datenbank auf neue Admin Nodes in StorageGRID kopieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie Admin-Nodes über ein Erweiterungsverfahren hinzufügen, können Sie optional die Datenbank vom primären Admin-Node auf den neuen Admin-Node kopieren. Durch das Kopieren der Datenbank können Sie historische Informationen über Attribute, Alarme und Warnmeldungen beibehalten.
+
+.Bevor Sie beginnen
+* Sie haben die erforderlichen Erweiterungsschritte zum Hinzufügen eines Admin-Knotens abgeschlossen.
+* Sie haben die  `Passwords.txt` Datei.
+* Sie besitzen die Bereitstellungspassphrase.
+
+
+.Über diese Aufgabe
+Der StorageGRID Aktivierungsprozess erstellt eine leere Datenbank für den NMS-Service auf dem Erweiterungs-Admin-Knoten. Wenn der NMS-Service auf dem Erweiterungs-Admin-Knoten startet, werden Informationen zu Servern und Services erfasst, die aktuell Teil des Systems sind oder später hinzugefügt werden. Diese Admin-Knoten Datenbank enthält die folgenden Informationen:
+
+* Alarmverlauf
+* Historische Attributdaten, die in Diagrammen im älteren Stil auf der Seite „Knoten“ verwendet werden
+
+
+Um sicherzustellen, dass die Admin Node Datenbank zwischen den Knoten konsistent ist, kann die Datenbank vom primären Admin Node auf den Erweiterungs Admin Node kopiert werden.
+
+
+NOTE: Das Kopieren der Datenbank vom primären Admin-Knoten (dem Quell-Admin-Knoten) auf einen Erweiterungs-Admin-Knoten kann bis zu mehreren Stunden dauern. Während dieses Zeitraums ist der Grid Manager nicht erreichbar.
+
+Diese Schritte dienen dazu, den MI-Dienst und den Management API-Service sowohl auf dem primären Admin-Knoten als auch auf dem Erweiterungs-Admin-Knoten zu stoppen, bevor die Datenbank kopiert wird.
+
+.Schritte
+. Führen Sie die folgenden Schritte auf dem primären Admin-Node aus:
++
+.. ${post_edited_translations.segment}
++
+... Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+... Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
+.. Führen Sie folgenden Befehl aus: `recover-access-points`
+.. ${post_edited_translations.segment}
+.. Den MI-Service stoppen: `service mi stop`
+.. Den Dienst „Management Application Program Interface (mgmt-api)“ beenden: `service mgmt-api stop`
+
+
+. Führen Sie die folgenden Schritte auf dem Erweiterungs-Admin-Node aus:
++
+.. ${post_edited_translations.segment}
++
+... Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+... Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
+.. Den MI-Service stoppen: `service mi stop`
+.. Den mgmt-api-Service stoppen: `service mgmt-api stop`
+.. Fügen Sie den privaten SSH-Schlüssel zum SSH-Agenten hinzu. Geben Sie Folgendes ein:``ssh-add``
+.. Geben Sie das im  `Passwords.txt`-Datei aufgeführte SSH-Zugriffspasswort ein.
+.. Die Datenbank vom Quell-Admin-Knoten auf den Erweiterungs-Admin-Knoten kopieren: `/usr/local/mi/bin/mi-clone-db.sh _Source_Admin_Node_IP_`
+.. Wenn Sie dazu aufgefordert werden, bestätigen Sie, dass die MI Datenbank auf dem Erweiterungs-Admin-Node überschrieben werden soll.
++
+Die Datenbank und ihre historischen Daten werden auf den Erweiterungs-Admin Node kopiert. Wenn der Kopiervorgang abgeschlossen ist, startet das Skript den Erweiterungs-Admin Node.
+
+.. Wenn kein passwortloser Zugriff auf andere Server mehr erforderlich ist, sollte der private Schlüssel aus dem SSH-Agenten entfernt werden. Eingabe:``ssh-add -D``
+
+
+. Die Dienste auf dem primären Admin-Node neu starten: `service servermanager start`
+

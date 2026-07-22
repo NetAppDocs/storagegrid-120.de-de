@@ -1,0 +1,281 @@
+---
+permalink: monitor/considerations-for-external-syslog-server.html 
+sidebar: sidebar 
+keywords: syslog server, external syslog server, sizing, sizing syslog server, audit messages 
+summary: Ein externer Syslog-Server ist ein Server außerhalb von StorageGRID, mit dem Sie Revisionsprotokollinformationen zentral erfassen können. Die Verwendung eines externen Syslog-Servers ermöglicht eine Reduzierung des Netzwerkverkehrs auf den Admin-Knoten und eine effizientere Verwaltung der Revisionsprotokollinformationen. 
+---
+= Externe Syslog-Server in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein externer Syslog-Server ist ein Server außerhalb von StorageGRID, der zur zentralen Erfassung von Revisionsprotokollinformationen verwendet werden kann. Die Nutzung eines externen Syslog-Servers ermöglicht eine Reduzierung des Netzwerkverkehrs auf den Admin-Knoten und eine effizientere Verwaltung der Informationen. Für StorageGRID entspricht das ausgehende Syslog-Nachrichtenpaketformat RFC 3164.
+
+Zu den Arten von Revisionsprotokollinformationen, die an den externen Syslog-Server gesendet werden können, gehören:
+
+* Revisionsprotokolle, die die während des normalen Systembetriebs generierten Audit-Meldungen enthalten
+* Sicherheitsrelevante Ereignisse wie Anmeldungen und Eskalationen auf Root
+* Anwendungsprotokolle, die möglicherweise angefordert werden, falls es erforderlich ist, einen Support-Fall zu eröffnen, um ein aufgetretenes Problem zu untersuchen
+
+
+
+
+[[when-to-use-an-external-syslog-server]]
+== Wann ein externer Syslog Server verwendet wird
+
+Ein externer Syslog-Server ist besonders nützlich, wenn Sie ein großes Grid betreiben, mehrere Arten von S3-Anwendungen verwenden oder alle Revisionsprotokoll-Daten speichern möchten. Das Senden von Revisionsprotokoll-Informationen an einen externen Syslog-Server ermöglicht Folgendes:
+
+* Auditinformationen wie Auditmeldungen, Anwendungsprotokolle und Sicherheitsereignisse effizienter erfassen und verwalten.
+* Der Netzwerkverkehr auf den Admin-Knoten wird reduziert, da die Revisionsprotokoll-Informationen direkt von den verschiedenen Storage Nodes an den externen Syslog-Server übertragen werden, ohne einen Admin-Knoten passieren zu müssen.
++
+
+CAUTION: Wenn Protokolle an einen externen Syslog-Server gesendet werden, werden einzelne Protokolle, die größer als 8.192 Bytes sind, am Ende der Nachricht abgeschnitten, um den üblichen Beschränkungen in Implementierungen externer Syslog-Server zu entsprechen.
+
++
+
+NOTE: Um die Optionen für die vollständige Datenwiederherstellung im Falle eines Ausfalls des externen Syslog-Servers zu maximieren, werden bis zu 20 GB lokaler Protokolle von Revisionsdatensätzen (`localaudit.log` auf jedem Knoten gespeichert.
+
+
+
+
+
+[[how-to-configure-an-external-syslog-server]]
+== Konfiguration eines externen Syslog-Servers
+
+Informationen zur Konfiguration eines externen Syslog-Servers sind unter link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"] zu finden.
+
+Wenn die Konfiguration des TLS- oder RELP/TLS-Protokolls vorgesehen ist, müssen die folgenden Zertifikate vorhanden sein:
+
+* *Server CA-Zertifikate*: Ein oder mehrere vertrauenswürdige CA-Zertifikate zur Überprüfung des externen Syslog-Servers in PEM-Kodierung. Wenn dieses weggelassen wird, wird das Standard Grid CA-Zertifikat verwendet.
+* *Client certificate*: Das Client-Zertifikat zur Authentifizierung am externen Syslog-Server in PEM-Kodierung.
+* *Privater Client-Schlüssel*: Privater Schlüssel für das Client-Zertifikat in PEM-Kodierung.
++
+
+NOTE: Wenn Sie ein Clientzertifikat verwenden, müssen Sie auch einen privaten Clientschlüssel verwenden. Wenn Sie einen verschlüsselten privaten Schlüssel angeben, müssen Sie auch die Passphrase angeben. Es ergibt sich kein wesentlicher Sicherheitsvorteil durch die Verwendung eines verschlüsselten privaten Schlüssels, da sowohl der Schlüssel als auch die Passphrase gespeichert werden müssen; zur Vereinfachung wird empfohlen, einen unverschlüsselten privaten Schlüssel zu verwenden, sofern verfügbar.
+
+
+
+
+
+[[how-to-estimate-the-size-of-the-external-syslog-server]]
+== So lässt sich die Größe des externen Syslog-Servers abschätzen
+
+Normalerweise wird Ihr Grid so dimensioniert, dass ein bestimmter Durchsatz erreicht wird, der in S3-Operationen pro Sekunde oder Bytes pro Sekunde angegeben wird. Beispielsweise könnte die Anforderung bestehen, dass Ihr Grid 1.000 S3-Operationen pro Sekunde oder 2.000 MB pro Sekunde an Objekt-Ingestionen und Abrufen verarbeiten kann. Die Dimensionierung Ihres externen Syslog-Servers sollte den Datenanforderungen Ihres Grids entsprechen.
+
+Dieser Abschnitt enthält einige heuristische Formeln, die helfen, die Rate und die durchschnittliche Größe von Logmeldungen verschiedener Typen abzuschätzen, die Ihr externer Syslog-Server verarbeiten können muss, ausgedrückt in Bezug auf die bekannten oder gewünschten Leistungsmerkmale des Grids (S3-Operationen pro Sekunde).
+
+
+
+[[use-s3-operations-per-second-in-estimation-formulas]]
+=== S3-Operationen pro Sekunde in Schätzformeln verwenden
+
+Wenn Ihr Grid für einen Durchsatz in Byte pro Sekunde dimensioniert wurde, muss diese Dimensionierung in S3-Operationen pro Sekunde umgerechnet werden, um die Schätzformeln anwenden zu können. Um den Grid-Durchsatz umzurechnen, ist zunächst die durchschnittliche Objektgröße zu bestimmen, was mithilfe der Informationen in vorhandenen Revisionsprotokollen und Metriken (sofern vorhanden) oder auf Grundlage Ihres Wissens über die Anwendungen, die StorageGRID verwenden, erfolgen kann. Beispielsweise: Wenn Ihr Grid für einen Durchsatz von 2.000 MB/Sekunde dimensioniert wurde und die durchschnittliche Objektgröße 2 MB beträgt, wurde Ihr Grid so ausgelegt, dass es 1.000 S3-Operationen pro Sekunde (2.000 MB / 2 MB) verarbeiten kann.
+
+
+NOTE: Die Formeln zur Dimensionierung externer Syslog-Server in den folgenden Abschnitten liefern Schätzwerte für den Normalfall (statt für den Worst-Case). Abhängig von Ihrer Konfiguration und Arbeitslast kann die Anzahl der Syslog-Meldungen oder das Volumen der Syslog-Daten höher oder niedriger ausfallen als von den Formeln vorhergesagt. Die Formeln sind ausschließlich als Richtlinien zu verwenden.
+
+
+
+[[estimation-formulas-for-audit-logs]]
+=== Schätzformeln für Revisionsprotokolle
+
+Wenn Sie keine anderen Informationen über Ihre S3-Workload haben als die Anzahl der S3-Operationen pro Sekunde, die Ihr Grid voraussichtlich unterstützen wird, lässt sich das Volumen der Revisionsprotokolle, die Ihr externer Syslog-Server verarbeiten muss, anhand der folgenden Formeln schätzen, unter der Annahme, dass die Audit Levels auf die Standardwerte belassen werden (alle Kategorien auf Normal eingestellt, außer Storage, das auf Error eingestellt ist):
+
+[listing]
+----
+Audit Log Rate = 2 x S3 Operations Rate
+Audit Log Average Size = 800 bytes
+----
+Wenn Ihr Grid beispielsweise für 1.000 S3-Operationen pro Sekunde ausgelegt ist, sollte Ihr externer Syslog-Server so dimensioniert sein, dass er 2.000 Syslog-Nachrichten pro Sekunde verarbeiten kann und in der Lage sein sollte, Revisionsprotokoll-Daten mit einer Rate von 1,6 MB pro Sekunde zu empfangen (und typischerweise zu speichern).
+
+Wenn Sie mehr über Ihre Arbeitslast wissen, sind genauere Schätzungen möglich. Für Revisionsprotokolle sind die wichtigsten zusätzlichen Variablen der Prozentsatz der S3-Operationen, die PUTs (im Vergleich zu GETS) sind, und die durchschnittliche Größe der folgenden S3-Felder in Byte (die in der Tabelle verwendeten 4-stelligen Abkürzungen sind die Feldnamen des Revisionsprotokolls):
+
+[cols="1a,1a,1a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+SACC
+ a| 
+Name des S3-Tenant-Kontos (Absender der Anfrage)
+ a| 
+Der Name des Mandantenkontos des Benutzers, der die Anfrage gesendet hat. Bei anonymen Anfragen leer.
+
+
+
+ a| 
+SBAC
+ a| 
+Name des S3-Tenant-Kontos (Bucket-Inhaber)
+ a| 
+Der Mandantenkontoname für den Bucket-Eigentümer. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+
+
+ a| 
+S3KY
+ a| 
+S3 Schlüssel
+ a| 
+Der S3-Schlüsselname, ohne den Bucket-Namen. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+|===
+P steht für den Prozentsatz der S3-Operationen, die PUTs sind, wobei 0 ≤ P ≤ 1 gilt (bei einer 100%igen PUT-Last ist P = 1, bei einer 100%igen GET-Last ist P = 0).
+
+Wir verwenden K, um die durchschnittliche Größe der Summe aus S3-Kontonamen, S3-Bucket und S3-Schlüssel darzustellen. Angenommen, der S3-Kontoname lautet immer my-s3-account (13 Byte), Buckets haben Namen fester Länge wie /my/application/bucket-12345 (28 Byte), und Objekte haben Schlüssel fester Länge wie 5733a5d7-f069-41ef-8fbd-13247494c69c (36 Byte). Dann beträgt der Wert von K 90 (13+13+28+36).
+
+Wenn Sie die Werte für P und K bestimmen können, lässt sich mithilfe der folgenden Formeln das Volumen der Revisionsprotokolle abschätzen, die Ihr externer Syslog-Server verarbeiten muss, vorausgesetzt, die Audit Levels bleiben auf den Standardeinstellungen (alle Kategorien auf Normal eingestellt, außer Storage, das auf Error eingestellt ist):
+
+[listing]
+----
+Audit Log Rate = ((2 x P) + (1 - P)) x S3 Operations Rate
+Audit Log Average Size = (570 + K) bytes
+----
+Wenn Ihr Grid beispielsweise für 1.000 S3-Operationen pro Sekunde ausgelegt ist, Ihre Arbeitslast zu 50 % aus PUTs besteht und Ihre S3-Kontonamen, Bucket-Namen und Objektnamen durchschnittlich 90 Byte lang sind, sollte Ihr externer Syslog-Server so dimensioniert sein, dass er 1.500 Syslog-Nachrichten pro Sekunde verarbeiten kann und in der Lage sein sollte, Revisionsprotokoll Daten mit einer Rate von etwa 1 MB pro Sekunde zu empfangen und typischerweise zu speichern.
+
+
+
+[[estimation-formulas-for-non-default-audit-levels]]
+=== Schätzformeln für nicht standardmäßige Revisionsprotokollstufen
+
+Die bereitgestellten Formeln für Revisionsprotokolle gehen von den Standard-Einstellungen für die Überwachungsstufe aus (alle Kategorien auf „Normal“ gesetzt, außer Storage, das auf „Fehler“ gesetzt ist). Detaillierte Formeln zur Schätzung der Rate und der durchschnittlichen Größe von Revisionsprotokoll-Meldungen bei nicht standardmäßigen Einstellungen der Überwachungsstufe sind nicht verfügbar. Die folgende Tabelle kann jedoch zur groben Schätzung der Rate verwendet werden; die bereitgestellte Formel für die durchschnittliche Größe von Revisionsprotokollen kann genutzt werden, wobei zu beachten ist, dass dies wahrscheinlich zu einer Überschätzung führt, da die „zusätzlichen“ Revisionsprotokoll-Meldungen im Durchschnitt kleiner sind als die Standardmeldungen.
+
+[cols="1a,1a"]
+|===
+| Zustand | Formel 
+
+
+ a| 
+Replikation: Alle Revisionsprotokollstufen sind auf Debug oder Normal eingestellt
+ a| 
+Revisionsprotokollrate = 8 x S3-Operationsrate
+
+
+
+ a| 
+Erasure Coding: Alle Revisionsprotokoll-Stufen sind auf Debug oder Normal eingestellt.
+ a| 
+Dieselbe Formel wie für die Standardeinstellungen verwenden
+
+|===
+
+
+[[estimation-formulas-for-security-events]]
+=== Schätzformeln für Sicherheitsereignisse
+
+Sicherheitsereignisse korrelieren nicht mit S3-Operationen und erzeugen typischerweise nur ein vernachlässigbares Volumen an Protokollen und Daten. Aus diesen Gründen werden keine Schätzformeln bereitgestellt.
+
+
+
+[[estimation-formulas-for-application-logs]]
+=== Schätzformeln für Anwendungsprotokolle
+
+Wenn Sie keine anderen Informationen über Ihre S3-Arbeitslast haben als die Anzahl der S3-Operationen pro Sekunde, die Ihr Grid voraussichtlich unterstützen wird, lässt sich das Volumen der Anwendungsprotokolle, die Ihr externer Syslog-Server verarbeiten muss, mithilfe der folgenden Formeln abschätzen:
+
+[listing]
+----
+Application Log Rate = 3.3 x S3 Operations Rate
+Application Log Average Size = 350 bytes
+----
+Wenn Ihr Grid beispielsweise für 1.000 S3-Operationen pro Sekunde ausgelegt ist, sollte Ihr externer Syslog-Server so dimensioniert sein, dass er 3.300 Anwendungsprotokolle pro Sekunde unterstützt und Anwendungsprotokolldaten mit einer Rate von etwa 1,2 MB pro Sekunde empfangen und speichern kann.
+
+Wenn Sie mehr über Ihre Arbeitslast wissen, sind genauere Schätzungen möglich. Für Anwendungsprotokolle sind die wichtigsten zusätzlichen Variablen die Datensicherungsstrategie (Replikation vs. Erasure Coding), der Anteil der S3-Operationen, die PUTs sind (im Vergleich zu GETs/anderen), und die durchschnittliche Größe in Byte der folgenden S3-Felder (die in der Tabelle verwendeten 4-stelligen Abkürzungen sind die Feldnamen des Revisionsprotokolls):
+
+[cols="1a,1a,1a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+SACC
+ a| 
+Name des S3-Tenant-Kontos (Absender der Anfrage)
+ a| 
+Der Name des Mandantenkontos des Benutzers, der die Anfrage gesendet hat. Bei anonymen Anfragen leer.
+
+
+
+ a| 
+SBAC
+ a| 
+Name des S3-Tenant-Kontos (Bucket-Inhaber)
+ a| 
+Der Mandantenkontoname für den Bucket-Eigentümer. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+
+
+ a| 
+S3KY
+ a| 
+S3 Schlüssel
+ a| 
+Der S3-Schlüsselname, ohne den Bucket-Namen. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+|===
+
+
+[[example-sizing-estimations]]
+== Beispielhafte Größenabschätzungen
+
+In diesem Abschnitt werden Beispielanwendungen der Schätzformeln für Grids mit den folgenden Methoden des Datenschutzes erläutert:
+
+* Replication
+* Erasure Coding
+
+
+
+
+[[if-you-use-replication-for-data-protection]]
+=== Wenn Sie Replikation zum Datenschutz verwenden
+
+Sei P der Prozentsatz der S3-Operationen, die PUTs sind, wobei 0 ≤ P ≤ 1 (bei einer PUT-Auslastung von 100 % gilt P = 1 und bei einer GET-Auslastung von 100 % gilt P = 0).
+
+Sei K die durchschnittliche Größe der Summe aus S3-Kontonamen, S3-Bucket und S3-Schlüssel. Angenommen, der S3-Kontoname lautet immer my-s3-account (13 Byte), Buckets haben Namen fester Länge wie /my/application/bucket-12345 (28 Byte) und Objekte haben Schlüssel fester Länge wie 5733a5d7-f069-41ef-8fbd-13247494c69c (36 Byte). Dann hat K den Wert 90 (13+13+28+36).
+
+Wenn Sie Werte für P und K bestimmen können, lässt sich mithilfe der folgenden Formeln das Volumen der Anwendungsprotokolle abschätzen, das Ihr externer Syslog-Server verarbeiten können muss.
+
+[listing]
+----
+Application Log Rate = ((1.1 x P) + (2.5 x (1 - P))) x S3 Operations Rate
+Application Log Average Size = (P x (220 + K)) + ((1 - P) x (240 + (0.2 x K))) Bytes
+----
+Wenn Ihr Grid beispielsweise für 1.000 S3-Operationen pro Sekunde ausgelegt ist, Ihre Arbeitslast zu 50 % aus PUTs besteht und Ihre S3-Kontonamen, Bucket-Namen und Objektnamen durchschnittlich 90 Byte lang sind, sollte Ihr externer Syslog-Server so dimensioniert sein, dass er 1.800 Anwendungsprotokolle pro Sekunde unterstützt und Anwendungsdaten mit einer Rate von 0,5 MB pro Sekunde empfängt und typischerweise speichert.
+
+
+
+[[if-you-use-erasure-coding-for-data-protection]]
+=== Wenn Sie Erasure Coding zum Datenschutz verwenden
+
+Sei P der Prozentsatz der S3-Operationen, die PUTs sind, wobei 0 ≤ P ≤ 1 (bei einer PUT-Auslastung von 100 % gilt P = 1 und bei einer GET-Auslastung von 100 % gilt P = 0).
+
+Sei K die durchschnittliche Größe der Summe aus S3-Kontonamen, S3-Bucket und S3-Schlüssel. Angenommen, der S3-Kontoname lautet immer my-s3-account (13 Byte), Buckets haben Namen fester Länge wie /my/application/bucket-12345 (28 Byte) und Objekte haben Schlüssel fester Länge wie 5733a5d7-f069-41ef-8fbd-13247494c69c (36 Byte). Dann hat K den Wert 90 (13+13+28+36).
+
+Wenn Sie Werte für P und K bestimmen können, lässt sich mithilfe der folgenden Formeln das Volumen der Anwendungsprotokolle abschätzen, das Ihr externer Syslog-Server verarbeiten können muss.
+
+[listing]
+----
+Application Log Rate = ((3.2 x P) + (1.3 x (1 - P))) x S3 Operations Rate
+Application Log Average Size = (P x (240 + (0.4 x K))) + ((1 - P) x (185 + (0.9 x K))) Bytes
+----
+Wenn Ihr Grid beispielsweise für 1.000 S3 Operationen pro Sekunde ausgelegt ist, Ihre Arbeitslast zu 50 % aus PUTs besteht und Ihre S3 Account-Namen, Bucket-Namen und Objektnamen durchschnittlich 90 Byte lang sind, sollte Ihr externer Syslog Server so dimensioniert sein, dass er 2.250 Anwendungsprotokolle pro Sekunde unterstützt und Anwendungsdaten mit einer Rate von 0,6 MB pro Sekunde empfangen (und typischerweise speichern) kann.

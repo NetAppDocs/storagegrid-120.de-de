@@ -1,0 +1,129 @@
+---
+permalink: admin/how-sso-works.html 
+sidebar: sidebar 
+keywords: single sign on, sso, SAML 
+summary: 'Wenn Single Sign-On (SSO) aktiviert ist, können Benutzer auf den Grid Manager, den Tenant Manager, die Grid Management API oder die Tenant Management API nur zugreifen, wenn ihre Anmeldeinformationen über den von Ihrer Organisation implementierten SSO-Anmeldeprozess autorisiert werden. Lokale Benutzer können sich nicht bei StorageGRID anmelden.' 
+---
+= Erfahren Sie mehr über StorageGRID SSO
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Single Sign-On (SSO) aktiviert ist, ist der Zugriff auf Grid Manager, Tenant Manager, die Grid Management API oder die Tenant Management API für Benutzer nur möglich, wenn ihre Anmeldeinformationen über den von Ihrer Organisation implementierten SSO-Anmeldeprozess autorisiert werden. Lokale Benutzer können sich nicht bei StorageGRID anmelden.
+
+Das StorageGRID System unterstützt Single Sign-On (SSO) unter Verwendung des Security Assertion Markup Language 2.0 (SAML 2.0) Standards.
+
+${post_edited_translations.segment}
+
+
+
+[[sign-in-when-sso-is-enabled]]
+== Anmelden, wenn SSO aktiviert ist
+
+Wenn SSO aktiviert ist und Sie sich bei StorageGRID anmelden, werden Sie zur SSO-Seite Ihrer Organisation weitergeleitet, um Ihre Anmeldeinformationen zu bestätigen.
+
+.Schritte
+. Geben Sie den vollqualifizierten Domainnamen oder die IP-Adresse eines beliebigen StorageGRID Admin Node in einem Webbrowser ein.
++
+Die StorageGRID Anmeldeseite wird angezeigt.
+
++
+** Wenn Sie die URL zum ersten Mal mit diesem Browser aufrufen, werden Sie zur Eingabe einer Konto-ID aufgefordert.
+** Wenn Sie zuvor entweder auf den Grid Manager oder den Tenant Manager zugegriffen haben, werden Sie aufgefordert, ein kürzlich verwendetes Konto auszuwählen oder eine Konto-ID einzugeben.
++
+
+NOTE: Die StorageGRID Sign-in-Seite wird nicht angezeigt, wenn die vollständige URL für ein Mandantenkonto eingegeben wird (das heißt, eine vollqualifizierte Domain oder IP-Adresse gefolgt von  `/?accountId=_20-digit-account-id_`). Stattdessen erfolgt eine sofortige Weiterleitung zur SSO Sign-in-Seite Ihrer Organisation, wo <<signin_sso,Mit Ihren SSO-Anmeldeinformationen anmelden>> möglich ist.
+
+
+
+. Geben Sie an, ob Sie auf den Grid Manager oder den Tenant Manager zugreifen möchten:
++
+** Um auf den Grid Manager zuzugreifen, das Feld *Konto-ID* leer lassen, *0* als Konto-ID eingeben oder *Grid Manager* auswählen, falls dieser in der Liste der zuletzt verwendeten Konten erscheint.
+** ${post_edited_translations.segment}
+
+
+. *Anmelden* auswählen
++
+StorageGRID leitet Sie zur SSO-Anmeldeseite Ihrer Organisation weiter. Zum Beispiel:
+
+. [[signin_sso]]Mit Ihren SSO-Anmeldeinformationen anmelden.
++
+Wenn Ihre SSO-Anmeldeinformationen korrekt sind:
+
++
+.. Der Identitätsanbieter (IdP) stellt eine Authentifizierungsantwort für StorageGRID bereit.
+.. StorageGRID validiert die Authentifizierungsantwort.
+.. Wenn die Antwort gültig ist und Sie einer föderierten Gruppe mit StorageGRID-Zugriffsberechtigungen angehören, sind Sie beim Grid Manager oder beim Tenant Manager angemeldet, abhängig davon, welches Konto Sie ausgewählt haben.
++
+
+NOTE: Wenn das Dienstkonto nicht erreichbar ist, können Sie sich trotzdem anmelden, sofern Sie ein bestehender Benutzer sind, der einer Verbundgruppe mit StorageGRID Zugriffsberechtigungen angehört.
+
+
+
+. Optional ist auch der Zugriff auf andere Admin-Knoten, den Grid Manager oder den Tenant Manager möglich, sofern die entsprechenden Berechtigungen vorliegen.
++
+Sie müssen Ihre SSO-Anmeldeinformationen nicht erneut eingeben.
+
+
+
+
+
+[[sign-out-when-sso-is-enabled]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+.Schritte
+. ${post_edited_translations.segment}
+. ${post_edited_translations.segment}
++
+Die StorageGRID Sign in-Seite wird angezeigt. Das Dropdown-Menü *Recent Accounts* wurde aktualisiert und enthält nun *Grid Manager* oder den Namen des Mandanten, sodass zukünftig schneller auf diese Benutzeroberflächen zugegriffen werden kann.
+
++
+
+TIP: Die Tabelle fasst zusammen, was beim Abmelden geschieht, wenn Sie eine einzelne Browsersitzung verwenden. Wenn Sie über mehrere Browsersitzungen bei StorageGRID angemeldet sind, müssen Sie sich von allen Browsersitzungen separat abmelden.
+
++
+[cols="1a,1a,1a"]
+|===
+| ${post_edited_translations.segment} | Und Sie melden sich ab von... | Sie sind abgemeldet... 
+
+
+ a| 
+Grid Manager auf einem oder mehreren Admin Nodes
+ a| 
+Grid Manager auf einem beliebigen Admin-Node
+ a| 
+Grid Manager auf allen Admin Nodes
+
+*Hinweis:* Wenn Sie Entra ID für SSO verwenden, kann es einige Minuten dauern, bis Sie von allen Admin Nodes abgemeldet sind.
+
+
+
+ a| 
+Mandantenmanager auf einem oder mehreren Admin-Nodes
+ a| 
+Mandantenmanager auf einem beliebigen Admin-Node
+ a| 
+Mandantenmanager auf allen Admin-Nodes
+
+
+
+ a| 
+Sowohl Grid Manager als auch Tenant Manager
+ a| 
+Grid Manager
+ a| 
+Nur der Grid Manager. Um sich von SSO abzumelden, ist auch eine Abmeldung vom Tenant Manager erforderlich.
+
+
+
+ a| 
+Tenant Manager
+ a| 
+Nur für den Tenant Manager. Es ist außerdem erforderlich, sich vom Grid Manager abzumelden, um sich von SSO abzumelden.
+
+|===
+

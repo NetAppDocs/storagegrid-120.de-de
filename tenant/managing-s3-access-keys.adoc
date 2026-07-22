@@ -1,0 +1,22 @@
+---
+permalink: tenant/managing-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to manage s3 access key 
+summary: Jeder Benutzer eines S3-Mandantenkontos benötigt einen Zugriffsschlüssel, um Objekte im StorageGRID System zu speichern und abzurufen. Ein Zugriffsschlüssel besteht aus einer Zugriffsschlüssel-ID und einem geheimen Zugriffsschlüssel. 
+---
+= S3-Zugriffsschlüssel in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Jeder Benutzer eines S3-Mandantenkontos benötigt einen Zugriffsschlüssel, um Objekte im StorageGRID System zu speichern und abzurufen. Ein Zugriffsschlüssel besteht aus einer Zugriffsschlüssel-ID und einem geheimen Zugriffsschlüssel.
+
+S3-Zugriffsschlüssel können wie folgt verwaltet werden:
+
+* Benutzer mit der Berechtigung *Eigene S3-Anmeldeinformationen verwalten* können ihre eigenen S3-Zugriffsschlüssel erstellen oder entfernen.
+* Benutzer mit der Berechtigung *Root access* können die Zugriffsschlüssel für das S3 root account und alle anderen Benutzer verwalten. Root access keys gewähren vollen Zugriff auf alle Buckets und Objekte für den Tenant, sofern dies nicht explizit durch eine Bucket-Richtlinie deaktiviert wird.
+
+
+StorageGRID unterstützt die Authentifizierung mit Signature Version 2 und Signature Version 4. Kontoübergreifender Zugriff ist nicht gestattet, es sei denn, er wird ausdrücklich durch eine Bucket-Richtlinie ermöglicht.

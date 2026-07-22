@@ -1,0 +1,43 @@
+---
+permalink: swnodes/understanding-apparmor-profile-installation.html 
+sidebar: sidebar 
+keywords: how to install AppArmor profile 
+summary: Wenn Sie in einer selbst bereitgestellten Ubuntu-Umgebung arbeiten und das obligatorische Zugriffskontrollsystem AppArmor verwenden, können die AppArmor-Profile, die mit Paketen verknüpft sind, die Sie auf dem Basissystem installieren, durch die entsprechenden Pakete, die mit StorageGRID installiert werden, blockiert werden. 
+---
+= Erfahren Sie mehr über AppArmor-Profile für StorageGRID unter Ubuntu und Debian
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie in einer selbst bereitgestellten Ubuntu-Umgebung arbeiten und das obligatorische Zugriffskontrollsystem AppArmor verwenden, können die AppArmor-Profile, die mit Paketen verknüpft sind, die Sie auf dem Basissystem installieren, durch die entsprechenden Pakete, die mit StorageGRID installiert werden, blockiert werden.
+
+Standardmäßig werden AppArmor-Profile für Pakete installiert, die Sie auf dem Basisbetriebssystem installieren. Wenn diese Pakete aus dem StorageGRID Systemcontainer ausgeführt werden, werden die AppArmor-Profile blockiert. Die Basispakete DHCP, MySQL, NTP und tcdump stehen im Konflikt mit AppArmor, und auch andere Basispakete können in Konflikt stehen.
+
+Sie haben zwei Möglichkeiten, AppArmor-Profile zu verwalten:
+
+* Deaktivieren Sie einzelne Profile für die auf dem Basissystem installierten Pakete, die sich mit den Paketen im StorageGRID Systemcontainer überschneiden. Beim Deaktivieren einzelner Profile erscheint ein Eintrag in den StorageGRID-Protokolldateien, der angibt, dass AppArmor aktiviert ist.
++
+Die folgenden Befehle stehen zur Verfügung:
+
++
+[listing]
+----
+sudo ln -s /etc/apparmor.d/<profile.name> /etc/apparmor.d/disable/
+sudo apparmor_parser -R /etc/apparmor.d/<profile.name>
+----
++
+*Beispiel:*
+
++
+[listing]
+----
+sudo ln -s /etc/apparmor.d/bin.ping /etc/apparmor.d/disable/
+sudo apparmor_parser -R /etc/apparmor.d/bin.ping
+----
+* AppArmor vollständig deaktivieren. Für Ubuntu 9.10 oder neuer sind die Anweisungen in der Ubuntu Online-Community zu befolgen: https://help.ubuntu.com/community/AppArmor#Disable_AppArmor_framework["AppArmor deaktivieren"^]. Das vollständige Deaktivieren von AppArmor ist auf neueren Ubuntu Versionen möglicherweise nicht möglich.
++
+Nach der Deaktivierung von AppArmor erscheinen in den StorageGRID-Protokolldateien keine Einträge mehr, die darauf hinweisen, dass AppArmor aktiviert ist.
+
+

@@ -1,0 +1,46 @@
+---
+permalink: audit/ecmc-missing-erasure-coded-data-fragment.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, ECMC, Missing Erasure-Coded Data Fragment 
+summary: Diese Revisionsprotokollmeldung weist darauf hin, dass das System ein fehlendes, mit Löschcodierung versehenes Datenfragment erkannt hat. 
+---
+= ECMC-Revisionsprotokollmeldung für fehlende erasure-coded Daten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Revisionsprotokollmeldung weist darauf hin, dass das System ein fehlendes, mit Löschcodierung versehenes Datenfragment erkannt hat.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+VCMC
+ a| 
+VCS ID
+ a| 
+Der Name des Versionskontrollsystems, das das fehlende Chunk enthält.
+
+
+
+ a| 
+MCID
+ a| 
+Chunk-ID
+ a| 
+Die Kennung des fehlenden, mit Löschcode versehenen Fragments.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Dieses Feld hat den Wert 'NONE'. RSLT ist ein Pflichtfeld in Nachrichten, aber für diese Nachricht nicht relevant. 'NONE' wird anstelle von 'SUCS' verwendet, damit diese Nachricht nicht gefiltert wird.
+
+|===

@@ -1,0 +1,60 @@
+---
+permalink: maintain/warnings-and-considerations-for-grid-node-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, warning 
+summary: Fällt ein Grid-Knoten aus, sollte er so schnell wie möglich wiederhergestellt werden. Alle Warnungen und Hinweise zur Knotenwiederherstellung sind vor Beginn der Wiederherstellung sorgfältig zu prüfen. 
+---
+= Warnungen und Hinweise zur Wiederherstellung von StorageGRID-Knoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Fällt ein Grid-Knoten aus, sollte er so schnell wie möglich wiederhergestellt werden. Alle Warnungen und Hinweise zur Knotenwiederherstellung sind vor Beginn der Wiederherstellung sorgfältig zu prüfen.
+
+
+CAUTION: StorageGRID ist ein verteiltes System, das aus mehreren Knoten besteht, die miteinander arbeiten. Festplatten-Snapshots sollten nicht zur Wiederherstellung von Grid-Knoten verwendet werden. Stattdessen sind die Wiederherstellungs- und Wartungsverfahren für jeden Knotentyp zu berücksichtigen.
+
+
+NOTE: Wenn ein gesamter StorageGRID Standort ausgefallen ist, sollte der technische Support kontaktiert werden. Der technische Support arbeitet mit Ihnen zusammen, um einen Wiederherstellungsplan für den Standort zu entwickeln und umzusetzen, der die Menge der wiederhergestellten Daten maximiert und Ihre Geschäftsziele erfüllt. Siehe link:how-site-recovery-is-performed-by-technical-support.html["Wie der technische Support eine Website wiederherstellt"].
+
+Einige Gründe für die schnellstmögliche Wiederherstellung eines ausgefallenen Grid-Knotens sind unter anderem die folgenden:
+
+* Ein ausgefallener Grid-Knoten kann die Redundanz von System- und Objektdaten verringern, wodurch das Risiko eines dauerhaften Datenverlusts besteht, falls ein weiterer Knoten ausfällt.
+* Ein ausgefallener Grid-Node kann die Effizienz des täglichen Betriebs beeinträchtigen.
+* Ein ausgefallener Grid-Knoten kann Ihre Fähigkeit zur Überwachung des Systembetriebs beeinträchtigen.
+* Ein ausgefallener Grid-Knoten kann einen 500 Internal Server Error verursachen, wenn strenge ILM-Regeln gelten.
+* Wird ein Grid-Knoten nicht umgehend wiederhergestellt, können sich die Wiederherstellungszeiten verlängern. Beispielsweise können sich Warteschlangen bilden, die vor Abschluss der Wiederherstellung abgearbeitet werden müssen.
+
+
+Das Wiederherstellungsverfahren ist stets für den jeweiligen Grid-Knotentyp anzuwenden, der wiederhergestellt wird. Die Wiederherstellungsverfahren unterscheiden sich für primäre oder nicht-primäre Admin-Knoten, Gateway-Knoten, Appliance-Knoten und Storage-Knoten.
+
+
+
+[[preconditions-for-recovering-grid-nodes]]
+== Voraussetzungen für die Wiederherstellung von Netzknoten
+
+Bei der Wiederherstellung von Grid-Knoten werden alle folgenden Bedingungen angenommen:
+
+* Die defekte physische oder virtuelle Hardware wurde ersetzt und konfiguriert.
+* Die Version des StorageGRID Appliance Installers auf dem Ersatzgerät entspricht der Softwareversion Ihres StorageGRID Systems, wie in  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/verifying-and-upgrading-storagegrid-appliance-installer-version.html["Version des StorageGRID Appliance Installers überprüfen und aktualisieren"^] beschrieben.
+* Wenn ein anderer Grid-Knoten als der primäre Admin-Knoten wiederhergestellt wird, besteht eine Verbindung zwischen dem wiederherzustellenden Grid-Knoten und dem Admin-Knoten, der das Wiederherstellungsverfahren verwaltet.
+* Wenn Sie einen Appliance Storage Node wiederherstellen, muss während der Appliance-Installation derselbe Speichertyp wie bei der ursprünglichen Appliance angegeben werden (kombiniert, nur Metadaten oder nur Daten). Wenn ein anderer Speichertyp angegeben wird, schlägt die Wiederherstellung fehl und eine Neuinstallation der Appliance mit dem korrekten Speichertyp ist erforderlich.
+
+
+
+
+[[order-of-node-recovery-if-a-server-hosting-more-than-one-grid-node-fails]]
+== Reihenfolge der Knotenwiederherstellung bei Ausfall eines Servers, der mehr als einen Grid-Knoten hostet
+
+Fällt ein Server aus, der mehr als einen Grid-Knoten hostet, können die Knoten in beliebiger Reihenfolge wiederhergestellt werden. Wenn der ausgefallene Server jedoch den primären Admin Node hostet, muss dieser Knoten zuerst wiederhergestellt werden.
+
+
+
+[[ip-addresses-for-recovered-nodes]]
+== IP-Adressen für wiederhergestellte Nodes
+
+Versuchen Sie nicht, einen Knoten mithilfe einer IP-Adresse wiederherzustellen, die derzeit einem anderen Knoten zugewiesen ist. Beim Bereitstellen des neuen Knotens sollte die aktuelle IP-Adresse des ausgefallenen Knotens oder eine ungenutzte IP-Adresse verwendet werden.
+
+Wenn Sie für die Bereitstellung des neuen Knotens eine neue IP-Adresse verwenden und den Knoten anschließend wiederherstellen, wird die neue IP-Adresse weiterhin für den wiederhergestellten Knoten verwendet. Falls zur ursprünglichen IP-Adresse zurückgekehrt werden soll, ist nach Abschluss der Wiederherstellung das Tool „Change IP“ zu verwenden.

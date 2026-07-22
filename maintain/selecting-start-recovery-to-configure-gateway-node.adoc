@@ -1,0 +1,51 @@
+---
+permalink: maintain/selecting-start-recovery-to-configure-gateway-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, gateway node 
+summary: Nach dem Austausch eines Gateway-Knotens ist im Grid Manager die Option „Wiederherstellung starten“ auszuwählen, um den neuen Knoten als Ersatz für den ausgefallenen Knoten zu konfigurieren. 
+---
+= Wählen Sie „Wiederherstellung starten“, um den StorageGRID Gateway Node zu konfigurieren.
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach dem Austausch eines Gateway-Knotens ist im Grid Manager die Option „Wiederherstellung starten“ auszuwählen, um den neuen Knoten als Ersatz für den ausgefallenen Knoten zu konfigurieren.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie besitzen die Bereitstellungspassphrase.
+* Sie haben den Ersatzknoten bereitgestellt und konfiguriert.
+
+
+.Schritte
+. Im Grid Manager *Wartung* > *Aufgaben* > *Wiederherstellung* auswählen.
+. In der Liste der ausstehenden Knoten den Grid-Node auswählen, der wiederhergestellt werden soll.
++
+Knoten werden nach ihrem Ausfall in der Liste angezeigt, können aber erst ausgewählt werden, wenn sie neu installiert wurden und zur Wiederherstellung bereit sind.
+
+. Die *Bereitstellungs-Passphrase* eingeben.
+. Klicken Sie auf *Wiederherstellung starten*.
++
+image:4b_select_recovery_node.png["Screenshot der Seite Wartung > Wiederherstellung"]
+
+. Der Fortschritt der Wiederherstellung kann in der Tabelle „Wiederherstellende Grid-Knoten“ überwacht werden.
++
+
+NOTE: Während der Wiederherstellungsprozedur läuft, kann mit *Zurücksetzen* eine neue Wiederherstellung gestartet werden. Ein Dialogfeld erscheint, das darauf hinweist, dass der Node in einem undefinierten Zustand verbleibt, wenn die Prozedur zurückgesetzt wird.
+
++
+image:recovery_reset_warning.gif["Screenshot, der das Dialogfeld mit der Warnung zum Zurücksetzen der Wiederherstellung anzeigt"]
+
++
+Wenn Sie die Wiederherstellung nach dem Zurücksetzen des Vorgangs erneut versuchen möchten, muss der Knoten in einen Zustand vor der Installation zurückversetzt werden, wie folgt:
+
++
+** *VMware*: Den bereitgestellten virtuellen Grid-Knoten löschen. Anschließend, wenn die Wiederherstellung erneut gestartet werden soll, den Knoten erneut bereitstellen.
+** *Linux*: Der Knoten wird neu gestartet, indem folgender Befehl auf dem Linux-Host ausgeführt wird: `storagegrid node force-recovery _node-name_`
+** *Appliance*: Wenn die Wiederherstellung nach dem Zurücksetzen des Verfahrens erneut versucht werden soll, muss der Appliance-Knoten durch Ausführen von  `sgareinstall` auf dem Knoten in einen vorinstallierten Zustand versetzt werden. Siehe link:preparing-appliance-for-reinstallation-platform-replacement-only.html["Gerät für die Neuinstallation vorbereiten (nur Plattformaustausch)"].
+
+
+

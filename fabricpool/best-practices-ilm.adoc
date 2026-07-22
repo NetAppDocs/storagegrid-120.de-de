@@ -1,0 +1,48 @@
+---
+permalink: fabricpool/best-practices-ilm.html 
+sidebar: sidebar 
+keywords: FabricPool, StorageGRID, best practices, ILM, information lifecycle management, ILM rule, ILM policy, erasure-coding, replication 
+summary: 'Wenn Sie FabricPool verwenden, um Daten auf StorageGRID zu verschieben, müssen Sie die Anforderungen für die Verwendung von StorageGRID Information Lifecycle Management (ILM) mit FabricPool-Daten kennen.' 
+---
+= Bewährte Verfahren für die Verwendung von StorageGRID ILM mit FabricPool Daten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie FabricPool verwenden, um Daten auf StorageGRID zu verschieben, müssen Sie die Anforderungen für die Verwendung von StorageGRID Information Lifecycle Management (ILM) mit FabricPool-Daten kennen.
+
+
+CAUTION: FabricPool hat keine Kenntnis von StorageGRID ILM-Regeln oder -Richtlinien. Datenverlust kann auftreten, wenn die StorageGRID ILM-Richtlinie falsch konfiguriert ist. Ausführliche Informationen finden sich unter link:../ilm/what-ilm-rule-is.html["ILM-Regeln zur Verwaltung von Objekten verwenden"] und link:../ilm/creating-ilm-policy.html["ILM-Richtlinien erstellen"].
+
+
+
+[[guidelines-for-using-ilm-with-fabricpool]]
+== Richtlinien für die Verwendung von ILM mit FabricPool
+
+Wenn der FabricPool Setup-Assistent verwendet wird, erstellt der Assistent automatisch für jeden erstellten S3-Bucket eine neue ILM-Regel und fügt diese einer inaktiven Richtlinie hinzu. Es erfolgt eine Aufforderung, die Richtlinie zu aktivieren. Die automatisch erstellte Regel entspricht den empfohlenen Best Practices: Sie verwendet 2+1 Erasure Coding an einem einzelnen Standort.
+
+Wenn StorageGRID manuell statt mit dem FabricPool Setup-Assistenten konfiguriert wird, sollten diese Richtlinien geprüft werden, um sicherzustellen, dass die ILM-Regeln und die ILM-Richtlinie für FabricPool Daten und die geschäftlichen Anforderungen geeignet sind. Möglicherweise ist es erforderlich, neue Regeln zu erstellen und die aktiven ILM-Richtlinien zu aktualisieren, um diese Vorgaben zu erfüllen.
+
+* Sie können beliebige Kombinationen von Replikations- und Erasure-Codierungsregeln verwenden, um Cloud-Tier-Daten zu schützen.
++
+Die empfohlene Best Practice ist die Verwendung von 2+1 Erasure Coding innerhalb eines Standorts für kosteneffizienten Datenschutz. Erasure Coding benötigt mehr CPU, bietet jedoch deutlich weniger Speicherkapazität als Replikation. Die 4+1- und 6+1-Verfahren benötigen weniger Kapazität als das 2+1-Verfahren. Allerdings sind die 4+1- und 6+1-Verfahren weniger flexibel, falls während einer Grid-Erweiterung Speicherknoten hinzugefügt werden müssen. Weitere Details finden sich unter link:../expand/adding-storage-capacity-for-erasure-coded-objects.html["Speicherkapazität für mit Löschkodierung versehene Objekte hinzufügen"].
+
+* Jede auf FabricPool Daten angewendete Regel muss entweder eine Löschungscodierung verwenden oder mindestens zwei replizierte Kopien erstellen.
++
+
+CAUTION: Eine ILM-Regel, die nur eine replizierte Kopie für einen beliebigen Zeitraum erstellt, setzt Daten dem Risiko eines dauerhaften Datenverlusts aus. Existiert nur eine replizierte Kopie eines Objekts, geht dieses Objekt verloren, wenn ein Storage Node ausfällt oder einen schwerwiegenden Fehler aufweist. Auch während Wartungsarbeiten wie Upgrades ist der Zugriff auf das Objekt vorübergehend nicht möglich.
+
+* Falls Sie link:remove-fabricpool-data.html["Entfernen von FabricPool-Daten aus StorageGRID"] benötigen, kann ONTAP verwendet werden, um alle Daten für das FabricPool Volume abzurufen und in die Performance-Ebene zu verschieben.
++
+
+CAUTION: Um Datenverlust zu vermeiden, sollte keine ILM-Regel verwendet werden, die FabricPool Cloud-Tier-Daten ablaufen lässt oder löscht. Die Aufbewahrungsdauer ist in jeder ILM-Regel auf *unbegrenzt* festzulegen, damit FabricPool Objekte nicht von StorageGRID ILM gelöscht werden.
+
+* Es sollten keine Regeln erstellt werden, die FabricPool Cloud-Tier-Daten aus dem Bucket an einen anderen Speicherort verschieben. Ein Cloud Storage Pool kann nicht verwendet werden, um FabricPool Daten in einen anderen Objektspeicher zu verschieben.
++
+
+NOTE: Die Verwendung von Cloud Storage Pools mit FabricPool wird aufgrund der zusätzlichen Latenz beim Abrufen eines Objekts vom Cloud Storage Pool-Ziel nicht unterstützt.
+
+* Ab ONTAP 9.8 können optional Objekttags erstellt werden, um gestaffelte Daten zur einfacheren Verwaltung zu klassifizieren und zu sortieren. Beispielsweise können Tags nur auf FabricPool Volumes festgelegt werden, die an StorageGRID angebunden sind. Wenn ILM-Regeln in StorageGRID erstellt werden, kann der erweiterte Filter „Objekttag“ verwendet werden, um diese Daten auszuwählen und zu platzieren.
+

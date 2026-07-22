@@ -1,0 +1,86 @@
+---
+permalink: swnodes/index.html 
+sidebar: sidebar 
+keywords: about ubuntu, ubuntu overview, vnware, red hat enterprise linux, rhel, quick start 
+summary: Die folgenden allgemeinen Schritte führen zur Installation eines Linux- oder VMware StorageGRID Knotens. 
+---
+= Kurzanleitung für die Installation von StorageGRID auf einem softwarebasierten Knoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die folgenden allgemeinen Schritte führen zur Installation eines Linux- oder VMware StorageGRID Knotens.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Eins"]Vorbereitung
+[role="quick-margin-list"]
+* Informationen dazu link:../primer/storagegrid-architecture-and-network-topology.html["StorageGRID Architektur und Netzwerktopologie"].
+* Informationen zu den Einzelheiten von link:../network/index.html["StorageGRID Netzwerkinfrastruktur"].
+* Die link:required-materials.html["Erforderliche Informationen und Materialien"] werden gesammelt und vorbereitet.
+* (Nur VMware) Installation und Konfiguration von link:software-requirements.html["VMware vSphere Hypervisor, vCenter und die ESX Hosts"].
+* Die erforderlichen link:cpu-and-ram-requirements.html["CPU und RAM"] vorbereiten.
+* Vorsorge für link:storage-and-performance-requirements.html["Speicher- und Leistungsanforderungen"] treffen.
+* (Nur Linux) link:how-host-wide-settings-change.html["Die Linux-Server vorbereiten"] auf der Ihre StorageGRID Knoten gehostet werden.
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Zwei"] Einsatz
+[role="quick-margin-para"]
+Grid-Knoten werden bereitgestellt. Bei der Bereitstellung von Grid-Knoten werden diese als Teil des StorageGRID Systems erstellt und mit einem oder mehreren Netzwerken verbunden.
+
+[role="quick-margin-list"]
+* (Nur Linux) Zur Bereitstellung softwarebasierter Grid-Knoten auf den in Schritt 1 vorbereiteten Hosts die Linux-Befehlszeile und link:creating-node-configuration-files.html["Knoten Konfigurationsdateien"] verwenden.
+* (Nur VMware) Verwenden Sie den VMware vSphere Web Client, eine .vmdk-Datei und einen Satz von .ovf-Dateivorlagen, um link:collecting-information-about-your-deployment-environment.html["Die softwarebasierten Knoten als virtuelle Maschinen (VMs) bereitstellen"] auf den in Schritt 1 vorbereiteten Servern.
+* Zur Bereitstellung von StorageGRID Appliance Knoten sind die  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Schnellstart für die Hardwareinstallation"^]Anweisungen zu beachten.
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Drei"] Konfiguration
+[role="quick-margin-para"]
+Wenn alle Knoten bereitgestellt wurden, verwenden Sie den Grid Manager, um link:navigating-to-grid-manager.html["Konfigurieren Sie das Grid und schließen Sie die Installation ab"].
+
+
+
+[[automate-the-installation]]
+== Die Installation automatisieren
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+[role="tabbed-block"]
+====
+.Linux
+--
+Um Zeit zu sparen und Konsistenz zu gewährleisten, lässt sich die Installation des StorageGRID Hostdienstes und die Konfiguration der Grid-Knoten automatisieren.
+
+* Ein Standard-Orchestrierungsframework wie Ansible, Puppet oder Chef kann zur Automatisierung verwendet werden:
++
+** Installation von Linux
+** Konfiguration von Netzwerk und Storage
+** Installation der Container Engine und des StorageGRID Hostdienstes
+** Bereitstellung virtueller Grid-Knoten
+
+
++
+Siehe link:automating-installation-linux.html#automate-the-installation-and-configuration-of-the-storagegrid-host-service["Die Installation und Konfiguration des StorageGRID Hostdienstes automatisieren"].
+
+* Nach der Bereitstellung der Grid-Knoten link:automating-installation-linux.html#automate-the-configuration-of-storagegrid["die Konfiguration des StorageGRID Systems automatisieren"] erfolgt die Konfiguration mithilfe des im Installationsarchiv enthaltenen Python-Konfigurationsskripts.
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/automating-appliance-installation-and-configuration.html["Automatisierung der Installation und Konfiguration von Appliance Grid-Knoten"^]
+* Wenn Sie ein fortgeschrittener Entwickler von StorageGRID Bereitstellungen sind, kann die Installation von Grid-Knoten mithilfe von link:overview-of-installation-rest-api.html["Installation REST API"] automatisiert werden.
+
+
+--
+.VMware
+--
+Um Zeit zu sparen und Konsistenz zu gewährleisten, kann die Bereitstellung und Konfiguration von Grid-Knoten sowie die Konfiguration des StorageGRID Systems automatisiert werden.
+
+* link:automating-grid-node-deployment-in-vmware-vsphere.html#automate-grid-node-deployment["Automatisierte Bereitstellung von Grid-Knoten mit VMware vSphere"].
+* Nach der Bereitstellung der Grid-Knoten link:automating-grid-node-deployment-in-vmware-vsphere.html#automate-the-configuration-of-storagegrid["die Konfiguration des StorageGRID Systems automatisieren"] erfolgt die Konfiguration mithilfe des im Installationsarchiv enthaltenen Python-Konfigurationsskripts.
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/automating-appliance-installation-and-configuration.html["Automatisierung der Installation und Konfiguration von Appliance Grid-Knoten"^]
+* Wenn Sie ein fortgeschrittener Entwickler von StorageGRID Bereitstellungen sind, kann die Installation von Grid-Knoten mithilfe von link:overview-of-installation-rest-api.html["Installation REST API"] automatisiert werden.
+
+
+--
+====

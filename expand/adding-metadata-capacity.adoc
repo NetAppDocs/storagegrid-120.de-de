@@ -1,0 +1,75 @@
+---
+permalink: expand/adding-metadata-capacity.html 
+sidebar: sidebar 
+keywords: metadata capacity, add, adding, expand, expansion, guidelines, Storage Nodes, metadata storage, StorageGRID 
+summary: Um sicherzustellen, dass ausreichend Speicherplatz für Objektmetadaten zur Verfügung steht, kann es erforderlich sein, eine Erweiterungsprozedur durchzuführen, um an jedem Standort neue Storage Nodes hinzuzufügen. 
+---
+= Richtlinien zum Hinzufügen von Metadatenkapazität in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Um sicherzustellen, dass ausreichend Speicherplatz für Objektmetadaten zur Verfügung steht, kann es erforderlich sein, eine Erweiterungsprozedur durchzuführen, um an jedem Standort neue Storage Nodes hinzuzufügen.
+
+StorageGRID reserviert Speicherplatz für Objektmetadaten auf Volume 0 jedes Storage Node. An jedem Standort werden drei Kopien aller Objektmetadaten verwaltet, die gleichmäßig auf alle Storage Nodes verteilt sind.
+
+Mit dem Grid Manager können Sie die Metadatenkapazität von Storage Nodes überwachen und abschätzen, wie schnell die Metadatenkapazität verbraucht wird. Zusätzlich wird die Warnung *Low metadata storage* für einen Storage Node ausgelöst, wenn der belegte Metadatenspeicher bestimmte Schwellenwerte erreicht.
+
+Beachten Sie, dass die Metadatenkapazität eines Grids je nach Nutzung schneller erschöpft sein kann als dessen Objektspeicherkapazität. Wenn typischerweise große Mengen kleiner Objekte aufgenommen oder große Mengen an Benutzermetadaten oder Tags zu Objekten hinzugefügt werden, kann es erforderlich sein, Storage Nodes hinzuzufügen, um die Metadatenkapazität zu erhöhen, auch wenn noch ausreichend Objektspeicherkapazität vorhanden ist.
+
+Weitere Informationen sind in Folgendem zu finden:
+
+* link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"]
+* link:../monitor/monitoring-storage-capacity.html#monitor-object-metadata-capacity-for-each-storage-node["Metadatenkapazität der Objekte für jeden Storage Node überwachen"]
+
+
+
+
+[[guidelines-for-increasing-metadata-capacity]]
+== Leitlinien zur Erhöhung der Metadatenkapazität
+
+Vor dem Hinzufügen von Speicherknoten zur Erhöhung der Metadatenkapazität sind die folgenden Richtlinien und Einschränkungen zu beachten:
+
+* Sofern ausreichend Objektspeicher-Kapazität zur Verfügung steht, erhöht mehr Speicherplatz für Objektmetadaten die Anzahl der Objekte, die Sie in Ihrem StorageGRID System speichern können.
+* Die Metadatenkapazität eines Grids lässt sich erhöhen, indem jedem Standort ein oder mehrere Storage Nodes hinzugefügt werden.
+* Der tatsächlich für Objektmetadaten reservierte Speicherplatz auf einem beliebigen Storage Node hängt von der Speicheroption „Metadata Reserved Space“ (systemweite Einstellung), der dem Node zugewiesenen RAM-Menge und der Größe des Node-Volumes 0 ab.
+* Die Metadatenkapazität kann nicht durch Hinzufügen von Speichervolumes zu bestehenden Storage Nodes erhöht werden, da Metadaten nur auf Volume 0 gespeichert werden.
+* Die Metadatenkapazität kann nicht durch das Hinzufügen eines neuen Standorts erhöht werden.
+* StorageGRID speichert an jedem Standort drei Kopien aller Objektmetadaten. Daher ist die Metadatenkapazität Ihres Systems durch die Metadatenkapazität Ihres kleinsten Standorts begrenzt.
+* Beim Hinzufügen von Metadatenkapazität sollte jedem Standort die gleiche Anzahl von Storage Nodes hinzugefügt werden.
+
+
+Nur-Metadaten-Speicherknoten haben spezifische Hardwareanforderungen:
+
+* Bei Verwendung von StorageGRID Appliances können Metadaten-Only-Knoten nur auf SGF6112 Appliances mit zwölf 1,9-TB- oder zwölf 3,8-TB-Laufwerken konfiguriert werden.
+* Bei Verwendung softwarebasierter Knoten müssen die Metadaten-Knotenressourcen mit den vorhandenen Storage Nodes Ressourcen übereinstimmen. Beispielsweise:
++
+** Wenn der bestehende StorageGRID Standort SG6000 oder SG6100 Appliances verwendet, müssen die softwarebasierten Metadaten-only Nodes die folgenden Mindestanforderungen erfüllen:
++
+*** 128 GB RAM
+*** 8-Core-CPU
+*** 8 TB SSD oder gleichwertiger Speicherplatz für die Cassandra Datenbank (rangedb/0)
+
+
+** Wenn die bestehende StorageGRID Site virtuelle Storage Nodes mit 24 GB RAM, 8 Core CPU und 3 TB oder 4 TB Metadatenspeicher verwendet, sollten die softwarebasierten Metadaten-only Nodes ähnliche Ressourcen verwenden (24 GB RAM, 8 Core CPU und 4 TB Metadatenspeicher (rangedb/0)).
+
+
+* Beim Hinzufügen eines neuen StorageGRID Standorts sollte die Gesamtkapazität der Metadaten des neuen Standorts mindestens der Gesamtkapazität bestehender StorageGRID Standorte entsprechen, und die Ressourcen des neuen Standorts sollten den Storage Nodes an bestehenden StorageGRID Standorten entsprechen.
+
+
+Siehe link:../admin/managing-object-metadata-storage.html["Beschreibung dessen, was Metadaten reservierter Speicherplatz ist"].
+
+
+
+[[how-metadata-is-redistributed-when-you-add-storage-nodes]]
+== Wie Metadaten beim Hinzufügen von Storage Nodes neu verteilt werden
+
+Beim Hinzufügen von Speicherknoten im Rahmen einer Erweiterung verteilt StorageGRID die vorhandenen Objektmetadaten auf die neuen Knoten an jedem Standort neu, wodurch die Gesamtkapazität der Metadaten im Grid erhöht wird. Es ist keine Benutzeraktion erforderlich.
+
+Die folgende Abbildung zeigt, wie StorageGRID Objektmetadaten beim Hinzufügen von Storage Nodes im Rahmen einer Erweiterung neu verteilt. Die linke Seite der Abbildung stellt Volume 0 von drei Storage Nodes vor einer Erweiterung dar. Metadaten belegen einen relativ großen Teil des verfügbaren Metadatenspeichers jedes Knotens, und die Warnung *Low metadata storage* wurde ausgelöst.
+
+Die rechte Seite der Abbildung zeigt, wie die vorhandenen Metadaten nach dem Hinzufügen zweier Storage Nodes zur Site neu verteilt werden. Die Menge der Metadaten auf jedem Node hat abgenommen, die Warnung *Low metadata storage* wird nicht mehr ausgelöst, und der verfügbare Speicherplatz für Metadaten hat sich erhöht.
+
+image:metadata_space_after_expansion.png["Diagramm der neu verteilten Metadaten nach dem Hinzufügen von zwei Storage Nodes"]

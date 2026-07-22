@@ -1,0 +1,79 @@
+---
+permalink: ilm/using-last-access-time-in-ilm-rules.html 
+sidebar: sidebar 
+keywords: last access time, ilm rule reference time 
+summary: Sie können den Zeitpunkt des letzten Zugriffs als Referenzzeitpunkt in einer ILM-Regel verwenden. Zum Beispiel kann es gewünscht sein, Objekte, die in den letzten drei Monaten angezeigt wurden, auf lokalen Storage Nodes zu belassen, während Objekte, die nicht so kürzlich angezeigt wurden, an einen externen Standort verschoben werden. Der Zeitpunkt des letzten Zugriffs kann auch als erweiterter Filter verwendet werden, wenn eine ILM-Regel nur auf Objekte angewendet werden soll, auf die zuletzt an einem bestimmten Datum zugegriffen wurde. 
+---
+= Letzte Zugriffszeit in StorageGRID ILM-Regeln verwenden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Zeitpunkt des letzten Zugriffs als Referenzzeitpunkt in einer ILM-Regel verwenden. Zum Beispiel kann es gewünscht sein, Objekte, die in den letzten drei Monaten angezeigt wurden, auf lokalen Storage Nodes zu belassen, während Objekte, die nicht so kürzlich angezeigt wurden, an einen externen Standort verschoben werden. Der Zeitpunkt des letzten Zugriffs kann auch als erweiterter Filter verwendet werden, wenn eine ILM-Regel nur auf Objekte angewendet werden soll, auf die zuletzt an einem bestimmten Datum zugegriffen wurde.
+
+.Über diese Aufgabe
+Vor der Verwendung der letzten Zugriffszeit in einer ILM-Regel sind die folgenden Punkte zu berücksichtigen:
+
+* Wenn die letzte Zugriffszeit als Referenzzeit verwendet wird, ist zu beachten, dass eine Änderung der letzten Zugriffszeit für ein Objekt keine sofortige ILM-Auswertung auslöst. Stattdessen werden die Platzierungen des Objekts überprüft und das Objekt wird bei der Hintergrund-ILM-Auswertung entsprechend verschoben. Dies kann zwei Wochen oder länger nach dem Zugriff auf das Objekt dauern.
++
+Diese Latenz ist bei der Erstellung von ILM Regeln auf Basis der letzten Zugriffszeit zu berücksichtigen, und Platzierungen, die kurze Zeiträume (weniger als einen Monat) verwenden, sind zu vermeiden.
+
+* Wenn die letzte Zugriffszeit als erweiterter Filter oder als Referenzzeit verwendet wird, muss die Aktualisierung der letzten Zugriffszeit für S3-Buckets aktiviert werden. Es kann entweder die link:../tenant/enabling-or-disabling-last-access-time-updates.html["Tenant Manager"] oder die link:../s3/put-bucket-last-access-time-request.html["Mandantenverwaltungs-API"] verwendet werden.
++
+
+NOTE: Die Aktualisierung der letzten Zugriffszeit ist für S3 Buckets standardmäßig deaktiviert.
+
++
+
+NOTE: Beachten Sie, dass die Aktivierung von Aktualisierungen der letzten Zugriffszeit die Leistung beeinträchtigen kann, insbesondere in Systemen mit kleinen Objekten. Die Leistungseinbußen entstehen, weil StorageGRID die Objekte bei jedem Abruf mit neuen Zeitstempeln versehen muss.
+
+
+
+Die folgende Tabelle fasst zusammen, ob die letzte Zugriffszeit für alle Objekte im Bucket für verschiedene Anfragetypen aktualisiert wird.
+
+[cols="1a,1a,1a"]
+|===
+| Art der Anfrage | Ob die letzte Zugriffszeit aktualisiert wird, wenn Aktualisierungen der letzten Zugriffszeit deaktiviert sind | Ob die letzte Zugriffszeit aktualisiert wird, wenn Aktualisierungen der letzten Zugriffszeit aktiviert sind 
+
+
+ a| 
+Anfrage zum Abrufen eines Objekts, seiner Zugriffssteuerungsliste oder seiner Metadaten
+ a| 
+Nein
+ a| 
+Ja
+
+
+
+ a| 
+Anfrage zur Aktualisierung der Metadaten eines Objekts
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Anfrage zum Kopieren eines Objekts von einem Bucket in einen anderen
+ a| 
+* Nein, für die Quellkopie
+* Ja, für die Zielkopie
+
+ a| 
+* Ja, für die Quellkopie
+* Ja, für die Zielkopie
+
+
+
+
+ a| 
+Anfrage zum Abschließen eines mehrteiligen Uploads
+ a| 
+Ja, für das zusammengebaute Objekt
+ a| 
+Ja, für das zusammengebaute Objekt
+
+|===

@@ -1,0 +1,160 @@
+---
+permalink: harden/hardening-guidelines-for-storagegrid-nodes.html 
+sidebar: sidebar 
+keywords: StorageGRID, hardening guidelines, nodes, security 
+summary: StorageGRID-Knoten können auf VMware-VMs, innerhalb einer Container-Engine auf Linux-Hosts oder als dedizierte Hardware-Appliances bereitgestellt werden. Jede Plattform und jeder Knotentyp verfügt über eigene Best Practices zur Härtung. 
+---
+= Härtungsrichtlinien für StorageGRID Knoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID-Knoten können auf VMware-VMs, innerhalb einer Container-Engine auf Linux-Hosts oder als dedizierte Hardware-Appliances bereitgestellt werden. Jede Plattform und jeder Knotentyp verfügt über eigene Best Practices zur Härtung.
+
+
+
+[[block-remote-ipmicontrol-remote-ipmi-access-to-bmc]]
+== [[block-remote-ipmi]]Remote-IPMI-Zugriff auf BMC steuern
+
+Sie können den Remote-IPMI-Zugriff für alle Appliances mit einem BMC aktivieren oder deaktivieren. Die Remote-IPMI-Schnittstelle ermöglicht jedem Benutzer mit einem BMC-Konto und Passwort den hardwarenahen Zugriff auf Ihre StorageGRID Appliances. Wenn kein Remote-IPMI-Zugriff auf das BMC benötigt wird, sollte diese Option deaktiviert werden.
+
+* Um den Remote-IPMI-Zugriff auf den BMC im Grid Manager zu steuern, navigieren Sie zu *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* > *Appliances*:
++
+** Das Kontrollkästchen *Enable remote IPMI access* muss deaktiviert sein, damit der IPMI-Zugriff auf den BMC nicht möglich ist.
+** Das Kontrollkästchen *Enable remote IPMI access* aktivieren, um den IPMI-Zugriff auf den BMC zu ermöglichen.
+
+
+
+
+Weitere Informationen zur BMC-Härtung finden sich im  https://media.defense.gov/2023/Jun/14/2003241405/-1/-1/0/CSI_HARDEN_BMCS.PDF["Baseboard Management Controller härten"^]Informationsblatt zur Cybersicherheit von  https://www.nsa.gov/["National Security Agency (NSA)"^] und  https://www.cisa.gov/["Cybersecurity and Infrastructure Security Agency (CISA)"^].
+
+
+
+[[firewall-configuration]]
+== Firewall Konfiguration
+
+Im Rahmen der Systemhärtung ist eine Überprüfung und Anpassung der externen Firewall-Konfigurationen erforderlich, sodass Datenverkehr nur von den IP-Adressen und auf den Ports akzeptiert wird, von denen er unbedingt benötigt wird.
+
+StorageGRID verfügt über eine interne Firewall auf jedem Knoten, die die Sicherheit Ihres Grids erhöht, indem sie Ihnen die Kontrolle über den Netzwerkzugriff auf den Knoten ermöglicht. Es empfiehlt sich, link:../admin/manage-firewall-controls.html["interne Firewall-Steuerungen verwalten"] den Netzwerkzugriff auf alle Ports außer denen zu verhindern, die für Ihre spezifische Grid-Bereitstellung erforderlich sind. Die auf der Firewall-Steuerungsseite vorgenommenen Konfigurationsänderungen werden auf jeden Knoten angewendet.
+
+Konkret lassen sich diese Bereiche verwalten:
+
+* *Privilegierte Adressen*: Ausgewählten IP-Adressen oder Subnetzen kann der Zugriff auf Ports gewährt werden, die durch die Einstellungen auf der Registerkarte „Externen Zugriff verwalten“ geschlossen sind.
+* *Externen Zugriff verwalten*: Standardmäßig geöffnete Ports können geschlossen oder zuvor geschlossene Ports wieder geöffnet werden.
+* *Nicht vertrauenswürdiges Client-Netzwerk*: Es kann festgelegt werden, ob ein Knoten eingehenden Datenverkehr aus dem Client-Netzwerk als vertrauenswürdig behandelt, sowie welche zusätzlichen Ports geöffnet werden, wenn ein nicht vertrauenswürdiges Client-Netzwerk konfiguriert ist.
+
+
+Diese interne Firewall bietet zwar eine zusätzliche Schutzebene gegen einige häufige Bedrohungen, entfernt jedoch nicht die Notwendigkeit einer externen Firewall.
+
+Eine Liste aller internen und externen Ports, die von StorageGRID verwendet werden, ist unter link:../network/internal-grid-node-communications.html#storagegrid-internal-ports["StorageGRID interne Ports"] und link:../network/external-communications.html#ports-used-for-external-communications["Ports für externe Kommunikation"] zu finden.
+
+
+
+[[disable-unused-services]]
+== Nicht verwendete Dienste deaktivieren
+
+Für alle StorageGRID-Knoten sollte der Zugriff auf nicht verwendete Dienste deaktiviert oder blockiert werden. Wenn beispielsweise DHCP nicht verwendet wird, kann Port 68 über den Grid Manager geschlossen werden. *Konfiguration* > *Firewall control* > *Manage external access* auswählen. Den Statusschalter für Port 68 von *Open* auf *Closed* ändern.
+
+
+
+[[virtualization-containers-and-shared-hardware]]
+== Virtualisierung, Container und gemeinsam genutzte Hardware
+
+Für alle StorageGRID-Knoten sollte vermieden werden, StorageGRID auf derselben physischen Hardware wie nicht vertrauenswürdige Software auszuführen. Es sollte nicht davon ausgegangen werden, dass Hypervisor-Schutzmechanismen Malware am Zugriff auf StorageGRID-geschützte Daten hindern, wenn sich sowohl StorageGRID als auch die Malware auf derselben physischen Hardware befinden. Beispielsweise nutzen die Meltdown- und Spectre-Angriffe kritische Schwachstellen in modernen Prozessoren aus und ermöglichen Programmen, Daten im Arbeitsspeicher desselben Computers zu stehlen.
+
+
+
+[[protect-nodes-during-installation]]
+== Schutz der Knoten während der Installation
+
+Nicht vertrauenswürdigen Benutzern sollte kein Netzwerkzugriff auf StorageGRID-Knoten gewährt werden, während die Knoten installiert werden. Die Knoten sind erst vollständig sicher, nachdem sie dem Grid beigetreten sind.
+
+
+
+[[limit-physical-access-to-hardware]]
+== Physischer Zugriff auf die Hardware sollte eingeschränkt werden
+
+Der physische Zugriff auf StorageGRID Hardware Appliance-Knoten sowie auf VMware Virtual Machine-Hosts und Linux-Hosts, auf denen StorageGRID ausgeführt wird, ist ausschließlich autorisierten Administratoren vorbehalten. Beispiele für physische Zugriffskontrollen sind Schlösser, Wachpersonal, physische Barrieren und Videoüberwachung.
+
+Hardware Appliance-Knoten sind so konzipiert, dass sie ausschließlich von autorisierten Administratoren installiert und betrieben werden. Nicht autorisierten Administratoren darf kein Zugriff auf Hardware Appliance-Knoten gewährt werden.
+
+
+
+[[guidelines-for-admin-nodes]]
+== Richtlinien für Admin-Knoten
+
+Admin Nodes bieten Verwaltungsdienste wie Systemkonfiguration, Überwachung und Protokollierung. Bei der Anmeldung am Grid Manager oder Tenant Manager erfolgt eine Verbindung zu einem Admin Node.
+
+Diese Richtlinien tragen dazu bei, die Admin-Knoten im StorageGRID System abzusichern:
+
+* Alle Admin-Knoten sind vor nicht vertrauenswürdigen Clients, wie beispielsweise solchen aus dem offenen Internet, zu schützen. Es ist sicherzustellen, dass kein nicht vertrauenswürdiger Client auf einen Admin-Knoten im Grid Network, im Admin Network oder im Client Network zugreifen kann.
+* StorageGRID Gruppen steuern den Zugriff auf Grid Manager und Tenant Manager Funktionen. Jeder Benutzergruppe werden die für ihre Rolle erforderlichen Mindestberechtigungen gewährt, und der schreibgeschützte Zugriffsmodus verhindert, dass Benutzer die Konfiguration ändern.
+* Bei Verwendung von StorageGRID Load Balancer-Endpunkten sind für nicht vertrauenswürdigen Client-Datenverkehr Gateway-Knoten anstelle von Admin-Knoten zu nutzen.
+* Wenn Sie nicht vertrauenswürdige Mandanten haben, sollte ihnen kein direkter Zugriff auf den Tenant Manager oder die Tenant Management API gewährt werden. Stattdessen empfiehlt sich für diese Mandanten die Nutzung eines Mandantenportals oder eines externen Mandantenverwaltungssystems, das mit der Tenant Management API interagiert.
+* Optional kann ein Admin-Proxy verwendet werden, um die AutoSupport-Kommunikation von Admin-Knoten zu NetApp Support besser zu steuern. Siehe die Schritte für link:../admin/configuring-admin-proxy-settings.html["Erstellen eines Admin-Proxys"].
+* Optional können die eingeschränkten Ports 8443 und 9443 verwendet werden, um die Kommunikation zwischen Grid Manager und Tenant Manager zu trennen. Der gemeinsam genutzte Port 443 sollte blockiert und Tenant-Anfragen auf Port 9443 beschränkt werden, um zusätzlichen Schutz zu bieten.
+* Optional können separate Admin-Knoten für Grid-Administratoren und Mandantenbenutzer genutzt werden.
+
+
+Weitere Informationen sind in der Anleitung für link:../admin/index.html["Verwaltung von StorageGRID"] zu finden.
+
+
+
+[[guidelines-for-storage-nodes]]
+== Richtlinien für Speicherknoten
+
+Speicherknoten verwalten und speichern Objektdaten und Metadaten. Die folgenden Richtlinien tragen zur Absicherung der Speicherknoten im StorageGRID System bei.
+
+* Untrusted Clients sollte keine direkte Verbindung zu Storage Nodes ermöglicht werden. Ein Load Balancer Endpoint, der von einem Gateway Node oder einem Third Party Load Balancer bereitgestellt wird, ist zu verwenden.
+* Keine ausgehenden Dienste für nicht vertrauenswürdige Mandanten aktivieren. Beispielsweise sollte beim Erstellen eines Kontos für einen nicht vertrauenswürdigen Mandanten nicht erlaubt werden, dass dieser seine eigene Identitätsquelle verwendet oder Plattformdienste nutzt. Die Schritte für link:../admin/creating-tenant-account.html["Erstellen eines Mandantenkontos"] sind zu beachten.
+* Ein Load Balancer eines Drittanbieters kann für den Datenverkehr nicht vertrauenswürdiger Clients eingesetzt werden. Load Balancing durch Drittanbieter bietet mehr Kontrolle und zusätzliche Schutzebenen gegen Angriffe.
+* Optional kann ein Speicherproxy verwendet werden, um mehr Kontrolle über die Kommunikation von Cloud Storage Pools und Plattformdiensten von Storage Nodes zu externen Diensten zu erhalten. Siehe die Schritte für link:../admin/configuring-storage-proxy-settings.html["Erstellen eines Speicherproxys"].
+* Optional kann über das Clientnetzwerk eine Verbindung zu externen Diensten hergestellt werden. Dann *Konfiguration* > *Sicherheit* > *Firewall control* > *Untrusted Client Networks* auswählen und angeben, dass das Clientnetzwerk auf dem Storage Node nicht vertrauenswürdig ist. Der Storage Node akzeptiert keinen eingehenden Datenverkehr mehr über das Clientnetzwerk, erlaubt jedoch weiterhin ausgehende Anfragen an Platform Services.
+
+
+
+
+[[guidelines-for-gateway-nodes]]
+== Richtlinien für Gateway-Knoten
+
+Gateway Nodes bieten eine optionale Load-Balancing-Schnittstelle, die von Clientanwendungen zur Verbindung mit StorageGRID genutzt werden kann. Die folgenden Richtlinien dienen der Absicherung aller Gateway Nodes im StorageGRID System:
+
+* Load Balancer-Endpunkte konfigurieren und verwenden. Siehe link:../admin/managing-load-balancing.html["Überlegungen zum Lastausgleich"].
+* Ein Load Balancer eines Drittanbieters sollte zwischen dem Client und dem Gateway Node oder den Storage Nodes für nicht vertrauenswürdigen Client-Datenverkehr eingesetzt werden. Ein Load Balancer eines Drittanbieters bietet mehr Kontrolle und zusätzliche Schutzebenen gegen Angriffe. Wenn ein Load Balancer eines Drittanbieters verwendet wird, kann der Netzwerkverkehr optional weiterhin so konfiguriert werden, dass er über einen internen Load Balancer-Endpunkt geleitet oder direkt an die Storage Nodes gesendet wird.
+* Wenn Sie Load-Balancer-Endpunkte verwenden, können Clients optional über das Client-Netzwerk eine Verbindung herstellen. Anschließend *Konfiguration* > *Sicherheit* > *Firewall control* > *Nicht vertrauenswürdige Client-Netzwerke* auswählen und angeben, dass das Client-Netzwerk auf dem Gateway-Knoten nicht vertrauenswürdig ist. Der Gateway-Knoten akzeptiert eingehenden Datenverkehr nur auf den Ports, die explizit als Load-Balancer-Endpunkte konfiguriert sind.
+
+
+
+
+[[guidelines-for-hardware-appliance-nodes]]
+== Richtlinien für Hardware Appliance-Knoten
+
+StorageGRID Hardware Appliances sind speziell für den Einsatz in einem StorageGRID System konzipiert. Einige Appliances können als Storage Nodes verwendet werden. Andere Appliances können als Admin Nodes oder Gateway Nodes verwendet werden. Es besteht die Möglichkeit, Appliance Nodes mit softwarebasierten Nodes zu kombinieren oder vollständig entwickelte, ausschließlich aus Appliances bestehende Grids bereitzustellen.
+
+Diese Richtlinien dienen der Absicherung aller Hardware Appliance-Knoten in Ihrem StorageGRID System:
+
+* Wenn das Gerät SANtricity System Manager für die Verwaltung des Speichercontrollers verwendet, sollte verhindert werden, dass nicht vertrauenswürdige Clients über das Netzwerk auf SANtricity System Manager zugreifen.
+* Verfügt das Gerät über einen Baseboard Management Controller (BMC), ist zu beachten, dass der BMC Management Port den Zugriff auf die Hardware auf niedriger Ebene ermöglicht. Der BMC Management Port sollte ausschließlich mit einem sicheren, vertrauenswürdigen internen Management-Netzwerk verbunden werden.
++
+Sie können ein VLAN einrichten, um BMC-Netzwerkverbindungen zu isolieren und den Internetzugang von BMC auf vertrauenswürdige Netzwerke zu beschränken. Weitere Informationen zur Durchsetzung der VLAN-Trennung enthält das  https://media.defense.gov/2023/Jun/14/2003241405/-1/-1/0/CSI_HARDEN_BMCS.PDF["Baseboard Management Controller härten"^] Informationsblatt zur Cybersicherheit von  https://www.nsa.gov/["National Security Agency (NSA)"^] und  https://www.cisa.gov/["Cybersecurity and Infrastructure Security Agency (CISA)"^].
+
++
+Wenn kein sicheres, vertrauenswürdiges internes Managementnetzwerk verfügbar ist, sollte der BMC Managementport unverbunden oder blockiert bleiben. Der technische Support könnte während eines Supportfalls temporären Zugriff anfordern.
+
+* Wenn das Gerät die Fernverwaltung der Controller-Hardware über Ethernet unter Verwendung des Intelligent Platform Management Interface (IPMI)-Standards unterstützt, sollte nicht vertrauenswürdiger Datenverkehr auf Port 623 blockiert werden.
+
+
+
+NOTE: Sie können den Remote-IPMI-Zugriff für alle Appliances mit einem BMC aktivieren oder deaktivieren. Die Remote-IPMI-Schnittstelle ermöglicht jedem Benutzer mit einem BMC-Konto und -Passwort einen Low-Level-Hardwarezugriff auf Ihre StorageGRID Appliances. Wenn kein Remote-IPMI-Zugriff auf den BMC benötigt wird, kann diese Option mit einer der folgenden Methoden deaktiviert werden: + Im Grid Manager unter *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* > *Appliances* das Kontrollkästchen *Remote-IPMI-Zugriff aktivieren* deaktivieren. + In der Grid-Management-API den privaten Endpunkt verwenden:  `PUT /private/bmc`.
+
++ Sie können auch <<block-remote-ipmi,Remote IPMI-Zugriff deaktivieren>>.
+
+* Für Appliance-Modelle mit SED, FDE oder FIPS NL-SAS-Laufwerken, die Sie mit SANtricity System Manager verwalten, https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/accessing-and-configuring-santricity-system-manager.html["SANtricity Drive Security aktivieren und konfigurieren"^].
+* Für Appliance-Modelle mit SED- oder FIPS-NVMe-SSDs, die mit dem StorageGRID Appliance Installer und Grid Manager verwaltet werden https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-enabling-node-encryption.html#enable-drive-encryption["StorageGRID Laufwerkverschlüsselung aktivieren und konfigurieren"^].
+* Für Appliances ohne SED-, FDE- oder FIPS-Laufwerke kann ein Key Management Server (KMS) verwendet werden, um  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/optional-enabling-node-encryption.html#enable-node-encryption["StorageGRID Softwareknotenverschlüsselung aktivieren und konfigurieren"^].
+
+
+.Verwandte Informationen
+https://docs.netapp.com/us-en/e-series-santricity/sm-settings/overview-drive-security.html["Erfahren Sie mehr über die Laufwerkssicherheit im SANtricity System Manager"^]

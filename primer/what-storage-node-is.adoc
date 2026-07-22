@@ -1,0 +1,253 @@
+---
+permalink: primer/what-storage-node-is.html 
+sidebar: sidebar 
+keywords: StorageGRID, what is a storage node, how many storage nodes 
+summary: Speicherknoten verwalten und speichern Objektdaten und Metadaten. Speicherknoten umfassen die Dienste und Prozesse, die zum Speichern, Verschieben, Überprüfen und Abrufen von Objektdaten und Metadaten auf Festplatte erforderlich sind. 
+---
+= Was ist ein StorageGRID Storage Node?
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Speicherknoten verwalten und speichern Objektdaten und Metadaten. Speicherknoten umfassen die Dienste und Prozesse, die zum Speichern, Verschieben, Überprüfen und Abrufen von Objektdaten und Metadaten auf Festplatte erforderlich sind.
+
+Jeder Standort in Ihrem StorageGRID System muss über mindestens drei Speicherknoten verfügen.
+
+
+
+[[types-of-storage-nodes]]
+== Arten von Speicherknoten
+
+Während der Installation kann der Typ des zu installierenden Storage Node ausgewählt werden. Diese Typen sind für softwarebasierte Storage Nodes und für Appliance-basierte Storage Nodes verfügbar, die diese Funktion unterstützen:
+
+* Kombinierter Daten- und Metadaten Storage Node
+* Speicherknoten nur für Metadaten
+* reiner Datenspeicherknoten
+
+
+In folgenden Situationen kann der Storage Node-Typ ausgewählt werden:
+
+* Bei der Erstinstallation eines Storage Node
+* Wenn während der StorageGRID Systemerweiterung ein Speicherknoten hinzugefügt wird
+
+
+
+
+[[data-and-metadata-storage-node-combined]]
+=== Daten- und Metadaten Storage Node (kombiniert)
+
+Standardmäßig speichern alle neuen Storage Nodes sowohl Objektdaten als auch Metadaten. Dieser Typ von Storage Node wird als _kombinierter_ Storage Node bezeichnet.
+
+
+
+[[metadata-only-storage-node]]
+=== Speicherknoten nur für Metadaten
+
+Die Verwendung eines Storage Node ausschließlich für Metadaten kann sinnvoll sein, wenn Ihr Grid eine sehr große Anzahl kleiner Objekte speichert. Die Installation dedizierter Metadatenkapazität sorgt für ein besseres Gleichgewicht zwischen dem Speicherplatzbedarf für eine sehr große Anzahl kleiner Objekte und dem Speicherplatzbedarf für die Metadaten dieser Objekte. Zusätzlich können reine Metadaten-Storage Nodes, die auf Hochleistungsgeräten gehostet werden, die Performance erhöhen.
+
+Nur-Metadaten-Speicherknoten haben spezifische Hardwareanforderungen:
+
+* Bei Verwendung von StorageGRID Appliances können Metadaten-Only-Knoten nur auf SGF6112 Appliances mit zwölf 1,9-TB- oder zwölf 3,8-TB-Laufwerken konfiguriert werden.
+* Bei Verwendung softwarebasierter Knoten müssen die Metadaten-Knotenressourcen mit den vorhandenen Storage Nodes Ressourcen übereinstimmen. Beispielsweise:
++
+** Wenn der bestehende StorageGRID Standort SG6000 oder SG6100 Appliances verwendet, müssen die softwarebasierten Metadaten-only Nodes die folgenden Mindestanforderungen erfüllen:
++
+*** 128 GB RAM
+*** 8-Core-CPU
+*** 8 TB SSD oder gleichwertiger Speicherplatz für die Cassandra Datenbank (rangedb/0)
+
+
+** Wenn die bestehende StorageGRID Site virtuelle Storage Nodes mit 24 GB RAM, 8 Core CPU und 3 TB oder 4 TB Metadatenspeicher verwendet, sollten die softwarebasierten Metadaten-only Nodes ähnliche Ressourcen verwenden (24 GB RAM, 8 Core CPU und 4 TB Metadatenspeicher (rangedb/0)).
+
+
+* Beim Hinzufügen eines neuen StorageGRID Standorts sollte die Gesamtkapazität der Metadaten des neuen Standorts mindestens der Kapazität bestehender Standorte entsprechen. Die Ressourcen eines neuen Standorts sollten den Storage Nodes bestehender Standorte entsprechen.
+
+
+
+NOTE: Obwohl Speicherknoten, die nur Metadaten enthalten, die <<ldr-service,LDR-Service>> enthalten und S3-Clientanfragen verarbeiten können, könnte sich die Leistung von StorageGRID möglicherweise nicht erhöhen.
+
+
+
+[[data-only-storage-node]]
+=== reiner Datenspeicherknoten
+
+Die Verwendung eines Storage Node ausschließlich für Daten kann sinnvoll sein, wenn Ihre Storage Nodes unterschiedliche Leistungsmerkmale aufweisen. Beispielsweise könnten zur potenziellen Leistungssteigerung Daten-only Storage Nodes mit einer hohen Kapazität und Festplattenlaufwerken zusammen mit Metadaten-only Storage Nodes mit hoher Leistung eingesetzt werden.
+
+Zusätzlich kann mehr Metadatenkapazität erzielt werden, indem Knoten mit geringem Arbeitsspeicher aus Cassandra entfernt werden, was das Metadatenkapazitätslimit pro Knoten erhöht. Siehe link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"].
+
+Ein Storage Node, der nicht die <<adc-service,ADC-Service>> enthält, kann in einen reinen Daten-Storage Node umgewandelt werden. Weitere Informationen finden Sie unter link:../maintain/convert-to-data-only-node.html["Einen Speicherknoten in einen reinen Datenknoten umwandeln"].
+
+
+
+[[required-storage-nodes-per-grid-and-per-site]]
+== Erforderliche Speicherknoten pro Grid und pro Standort
+
+Bei der Auswahl der Storage Nodes für Ihre Topologie ist zu beachten, dass das Grid bzw. jeder Standort im Grid Folgendes enthalten muss:
+
+* Pro Standort (in einem Einzel- oder Mehrstandort-Grid): Drei <<adc-service,ADC>> Storage Nodes (kann jede Kombination aus kombinierten und nur Metadaten-Storage Nodes sein)
+* Einzelstandort-Grid: Mindestens zwei Objektspeicherknoten (jede Kombination aus kombinierten und nur Daten enthaltenden Knoten ist möglich)
+* Multi-site Grid: Mindestens ein Objekt Storage Node pro Standort (kann entweder kombiniert oder nur Daten enthalten)
+
+
+
+
+[[primary-services-for-storage-nodes]]
+== Primäre Dienste für Storage Nodes
+
+Die folgende Tabelle zeigt die primären Dienste für Storage Nodes; diese Tabelle listet jedoch nicht alle Knotendienste auf.
+
+
+NOTE: Einige Dienste, wie beispielsweise der ADC Service und der RSM Service, existieren typischerweise nur auf drei Storage Nodes an jedem Standort.
+
+[cols="1a,3a"]
+|===
+| Service | Schlüsselfunktion 
+
+
+ a| 
+Konto (acct)
+ a| 
+Verwaltet Mieterkonten.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+
+
+ a| 
+[[adc-service]]Administrativer Domain Controller (ADC)
+ a| 
+Die Topologie und die gridweite Konfiguration werden aufrechterhalten.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+.Details
+[%collapsible]
+====
+Der Dienst des administrativen Domänencontrollers (ADC) authentifiziert Grid-Knoten und deren Verbindungen untereinander. Der ADC-Dienst wird an einem Standort auf mindestens drei Storage Nodes gehostet.
+
+Der ADC-Dienst verwaltet Topologieinformationen, einschließlich Standort und Verfügbarkeit von Diensten. Wenn ein Grid-Knoten Informationen von einem anderen Grid-Knoten benötigt oder eine Aktion von einem anderen Grid-Knoten ausgeführt werden soll, kontaktiert er einen ADC-Dienst, um den am besten geeigneten Grid-Knoten für die Bearbeitung seiner Anfrage zu finden. Zusätzlich behält der ADC-Dienst eine Kopie der Konfigurationspakete der StorageGRID-Bereitstellung, sodass jeder Grid-Knoten aktuelle Konfigurationsinformationen abrufen kann.
+
+Um verteilte und isolierte Betriebsabläufe zu ermöglichen, synchronisiert jeder ADC-Dienst Zertifikate, Konfigurationspakete und Informationen über Dienste und Topologie mit den anderen ADC-Diensten im StorageGRID System.
+
+Im Allgemeinen unterhalten alle Grid-Knoten eine Verbindung zu mindestens einem ADC-Dienst. Dies stellt sicher, dass die Grid-Knoten stets auf die neuesten Informationen zugreifen. Wenn Grid-Knoten eine Verbindung herstellen, speichern sie die Zertifikate anderer Grid-Knoten im Cache, sodass Systeme auch dann mit bekannten Grid-Knoten weiterarbeiten können, wenn kein ADC-Dienst verfügbar ist. Neue Grid-Knoten können Verbindungen nur mithilfe eines ADC-Dienstes herstellen.
+
+Die Verbindung jedes Grid-Knotens ermöglicht es dem ADC-Dienst, Topologieinformationen zu erfassen. Diese Grid-Knoten-Informationen umfassen die CPU-Auslastung, den verfügbaren Speicherplatz (sofern Speicher vorhanden ist), die unterstützten Dienste und die Standort-ID des Grid-Knotens. Andere Dienste fordern beim ADC-Dienst Topologieinformationen über Topologieabfragen an. Der ADC-Dienst antwortet auf jede Abfrage mit den neuesten Informationen, die vom StorageGRID System empfangen wurden.
+
+====
+
+
+ a| 
+Cassandra
+ a| 
+Speichert und schützt Objektmetadaten.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+
+
+ a| 
+Cassandra Reaper
+ a| 
+Führt automatische Reparaturen an Objektmetadaten durch.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+
+
+ a| 
+Chunk
+ a| 
+Verwaltet löschcodierte Daten und Paritätsfragmente.
+
+
+
+ a| 
+Data Mover (dmv)
+ a| 
+Verschiebt Daten in Cloud Storage Pools.
+
+
+
+ a| 
+Verteilter Datenspeicher (DDS)
+ a| 
+Überwacht die Speicherung von Objektmetadaten.
+
+.Details
+[%collapsible]
+====
+Jeder Speicherknoten beinhaltet den Distributed Data Store (DDS) Dienst. Dieser Dienst kommuniziert mit der Cassandra Datenbank, um Hintergrundaufgaben für die im StorageGRID System gespeicherten Objektmetadaten auszuführen.
+
+Der DDS-Dienst erfasst die Gesamtzahl der in das StorageGRID System aufgenommenen Objekte sowie die Gesamtzahl der über jede der vom System unterstützten Schnittstellen (S3) aufgenommenen Objekte.
+
+====
+
+
+ a| 
+Identität (idnt)
+ a| 
+Föderiert Benutzeridentitäten aus LDAP und Active Directory.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+
+
+ a| 
+[[ldr-service]]Lokaler Distribution Router (LDR)
+ a| 
+Verarbeitet Anfragen nach dem Objektspeicherprotokoll und verwaltet Objektdaten auf der Festplatte.
+
+.Details
+[%collapsible]
+====
+Jeder kombinierte, reine Daten- oder reine Metadaten-Speicherknoten enthält den Local Distribution Router (LDR) Service. Dieser Service übernimmt die Funktionen des Content-Transports, einschließlich Datenspeicherung, Routing und Anfragebearbeitung. Der LDR Service übernimmt den Großteil der Arbeit im StorageGRID System, indem er Datentransfer-Lasten und Datenverkehrsfunktionen verarbeitet.
+
+Der LDR Dienst übernimmt die folgenden Aufgaben:
+
+* Anfragen
+* Information Lifecycle Management (ILM) Aktivität
+* Objektlöschung
+* Objektdatenspeicherung
+* Objektdatenübertragungen von einem anderen LDR Service (Storage Node)
+* Datenspeicherverwaltung
+* S3 Protokollschnittstelle
+
+
+Der LDR Service ordnet außerdem jedem S3-Objekt seine eindeutige UUID zu.
+
+Objektspeicher:: Der zugrundeliegende Datenspeicher eines LDR Dienstes ist in eine feste Anzahl von Objektspeichern (auch Speichervolumes genannt) unterteilt. Jeder Objektspeicher ist ein separater Mountpunkt.
++
+--
+Die Objektspeicher in einem Storage Node werden durch eine Hexadezimalzahl von 0000 bis 002F identifiziert, die als Volume-ID bezeichnet wird. Im ersten Objektspeicher (Volume 0) ist Platz für Objektmetadaten in einer Cassandra Datenbank reserviert; der verbleibende Speicherplatz auf diesem Volume wird für Objektdaten verwendet. Alle anderen Objektspeicher werden ausschließlich für Objektdaten verwendet, einschließlich replizierter Kopien und löschcodierter Fragmente.
+
+Um eine gleichmäßige Speichernutzung für replizierte Kopien zu gewährleisten, werden die Objektdaten eines bestimmten Objekts basierend auf dem verfügbaren Speicherplatz in einem Objektspeicher abgelegt. Wenn ein Objektspeicher seine Kapazität erreicht, speichern die verbleibenden Objektspeicher weiterhin Objekte, bis auf dem Storage Node kein Speicherplatz mehr verfügbar ist.
+
+--
+Metadatenschutz:: StorageGRID speichert Objektmetadaten in einer Cassandra Datenbank, die mit dem LDR Service interagiert.
++
+--
+Um Redundanz und damit Schutz vor Verlust zu gewährleisten, werden an jedem Standort drei Kopien der Objektmetadaten vorgehalten. Diese Replikation ist nicht konfigurierbar und erfolgt automatisch. Weitere Einzelheiten finden sich unter link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"].
+
+--
+
+
+====
+
+
+ a| 
+Replikierte Zustandsmaschine (RSM)
+ a| 
+Stellt sicher, dass Anfragen an S3-Plattformdienste an die jeweiligen Endpunkte gesendet werden.
+
+Reine Datenspeicherknoten hosten diesen Dienst nicht.
+
+
+
+ a| 
+Server Status Monitor (SSM)
+ a| 
+Überwacht das Betriebssystem und die zugrunde liegende Hardware.
+
+|===

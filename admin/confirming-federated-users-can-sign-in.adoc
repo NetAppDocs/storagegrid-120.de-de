@@ -1,0 +1,68 @@
+---
+permalink: admin/confirming-federated-users-can-sign-in.html 
+sidebar: sidebar 
+keywords: sso configuration 
+summary: 'Bevor Sie Single Sign-On (SSO) aktivieren, muss bestätigt werden, dass sich mindestens ein Verbundbenutzer beim Grid Manager und beim Tenant Manager für alle bestehenden Mandantenkonten anmelden kann.' 
+---
+= Bestätigen Sie, dass sich Verbundbenutzer bei StorageGRID anmelden können
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie Single Sign-On (SSO) aktivieren, muss bestätigt werden, dass sich mindestens ein Verbundbenutzer beim Grid Manager und beim Tenant Manager für alle bestehenden Mandantenkonten anmelden kann.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie haben die Identitätsföderation bereits konfiguriert.
+
+
+.Schritte
+. Falls bereits Mandantenkonten vorhanden sind, ist zu bestätigen, dass keiner der Mandanten seine eigene Identitätsquelle verwendet.
++
+
+TIP: Wenn Sie SSO aktivieren, wird eine im Tenant Manager konfigurierte Identitätsquelle durch die im Grid Manager konfigurierte Identitätsquelle überschrieben. Benutzer, die zur Identitätsquelle des Tenants gehören, können sich nicht mehr anmelden, es sei denn, sie verfügen über ein Konto bei der Grid Manager Identitätsquelle.
+
++
+.. Bei jedem Mieterkonto im Tenant Manager anmelden.
+.. *Zugriffsverwaltung* > *Identitätsföderation* auswählen.
+.. Bestätigen Sie, dass das Kontrollkästchen *Identitätsföderation aktivieren* nicht ausgewählt ist.
+.. ${post_edited_translations.segment}
+
+
+. Bestätigen, dass ein Verbundbenutzer auf den Grid Manager zugreifen kann:
++
+.. ${post_edited_translations.segment}
+.. Stellen Sie sicher, dass mindestens eine Verbundgruppe aus der Active Directory Identitätsquelle importiert wurde und dass ihr die Root-Zugriffsberechtigung zugewiesen wurde.
+.. Abmelden.
+.. Bestätigen Sie, dass eine erneute Anmeldung beim Grid Manager als Benutzer der Verbundgruppe möglich ist.
+
+
+. ${post_edited_translations.segment}
++
+.. Im Grid Manager *Mandanten* auswählen.
+.. ${post_edited_translations.segment}
+.. Auf der Registerkarte „Details eingeben“ *Weiter* auswählen.
+.. Wenn das Kontrollkästchen *Eigene Identitätsquelle verwenden* ausgewählt ist, das Kontrollkästchen deaktivieren und *Speichern* auswählen.
+
+
++
+Die Mieterseite wird angezeigt.
+
++
+.. Wählen Sie das Mandantenkonto aus, wählen Sie *Anmelden* und melden Sie sich beim Mandantenkonto als lokaler Root-Benutzer an.
+.. Im Mandantenmanager *Zugriffsverwaltung* > *Gruppen* auswählen.
+.. Stellen Sie sicher, dass mindestens einer föderierten Gruppe des Grid Managers die Root-Zugriffsberechtigung für diesen Mandanten zugewiesen wurde.
+.. Abmelden.
+.. ${post_edited_translations.segment}
+
+
+
+
+.Verwandte Informationen
+* link:requirements-for-sso.html["Anforderungen und Überlegungen zum Single Sign-On"]
+* link:managing-admin-groups.html["${post_edited_translations.segment}"]
+* link:../tenant/index.html["Ein Mandantenkonto verwenden"]_
+

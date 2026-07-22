@@ -1,0 +1,23 @@
+---
+permalink: network/grid-network-requirements.html 
+sidebar: sidebar 
+keywords: grid network requirements 
+summary: Beachten Sie diese Anforderungen und Richtlinien für das Grid-Netzwerk. 
+---
+= Grid-Netzwerk-Anforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beachten Sie diese Anforderungen und Richtlinien für das Grid-Netzwerk.
+
+* Zur Implementierungszeit muss jeder Grid-Knoten an das Grid Network angeschlossen sein und mit dem primären Admin Node über die Netzwerkkonfiguration kommunizieren können, die bei der Bereitstellung des Knotens angegeben wird.
+* Während des normalen Grid-Betriebs muss jeder Grid-Knoten in der Lage sein, über das Grid-Netzwerk mit allen anderen Grid-Knoten zu kommunizieren.
++
+
+NOTE: Das Grid-Netzwerk muss zwischen jedem Knoten direkt routingfähig sein. Network Address Translation (NAT) zwischen Knoten wird nicht unterstützt.
+
+* Wenn das Grid-Netzwerk aus mehreren Subnetzen besteht, werden diese der Grid-Netzwerk-Subnetzliste (GNSL) hinzugefügt. Statische Routen werden auf allen Knoten für jedes Subnetz in der GNSL erstellt.
+

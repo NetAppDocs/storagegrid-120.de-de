@@ -1,0 +1,51 @@
+---
+permalink: maintain/gathering-required-materials-site-decom.html 
+sidebar: sidebar 
+keywords: storagegrid, decommission 
+summary: Bevor Sie einen Standort stilllegen, müssen Sie die folgenden Materialien beschaffen. 
+---
+= Sammeln Sie die benötigten Materialien für die Stilllegung des StorageGRID-Standorts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Standort stilllegen, müssen Sie die folgenden Materialien beschaffen.
+
+[cols="1a,2a"]
+|===
+| Artikel | Hinweise 
+
+
+ a| 
+Wiederherstellungspaket `.zip`-Datei
+ a| 
+Sie müssen das aktuellste Wiederherstellungspaket `.zip`-Datei (`sgws-recovery-package-id-revision.zip` herunterladen. Die Wiederherstellungspaketdatei kann zur Wiederherstellung des Systems im Fehlerfall verwendet werden.
+
+link:downloading-recovery-package.html["Das Wiederherstellungspaket herunterladen"]
+
+
+
+ a| 
+`Passwords.txt` Datei
+ a| 
+Diese Datei enthält die Passwörter, die für den Zugriff auf Grid-Knoten über die Befehlszeile erforderlich sind, und ist im Wiederherstellungspaket enthalten.
+
+
+
+ a| 
+Bereitstellungspassphrase
+ a| 
+Die Passphrase wird bei der Erstinstallation des StorageGRID-Systems erstellt und dokumentiert. Die Bereitstellungspassphrase ist nicht in der  `Passwords.txt` Datei.
+
+
+
+ a| 
+Beschreibung der Topologie des StorageGRID-Systems vor der Stilllegung
+ a| 
+Falls verfügbar, sollte jegliche Dokumentation beschafft werden, die die aktuelle Topologie des Systems beschreibt.
+
+|===
+.Verwandte Informationen
+link:../admin/web-browser-requirements.html["Anforderungen an Webbrowser"]

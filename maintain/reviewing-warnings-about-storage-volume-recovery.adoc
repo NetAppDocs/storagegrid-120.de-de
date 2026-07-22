@@ -1,0 +1,37 @@
+---
+permalink: maintain/reviewing-warnings-about-storage-volume-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, volume warning 
+summary: Vor der Wiederherstellung ausgefallener Speichervolumes für einen Storage Node sind die folgenden Warnhinweise zu beachten. 
+---
+= Warnungen zur StorageGRID-Speichervolumen-Wiederherstellung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Wiederherstellung ausgefallener Speichervolumes für einen Storage Node sind die folgenden Warnhinweise zu beachten.
+
+Die Speichervolumes (oder Rangedbs) in einem Storage Node werden durch eine Hexadezimalzahl identifiziert, die als Volume-ID bezeichnet wird. Zum Beispiel ist 0000 das erste Volume und 000F das sechzehnte Volume. Der erste Objektspeicher (Volume 0) auf jedem Storage Node verwendet bis zu 4 TB Speicherplatz für Objektmetadaten und Cassandra Datenbankoperationen; der verbleibende Speicherplatz auf diesem Volume wird für Objektdaten genutzt. Alle anderen Speichervolumes werden ausschließlich für Objektdaten verwendet.
+
+Die Cassandra Datenbank könnte im Rahmen des Volume-Wiederherstellungsverfahrens neu aufgebaut werden, wenn:
+
+* Volume 0 schlägt fehl und wird wiederhergestellt.
+* Das Systemlaufwerk und ein oder mehrere Speichervolumes fallen aus und werden wiederhergestellt.
+
+
+Beim Neuaufbau von Cassandra verwendet das System Informationen von anderen Storage Nodes. Wurde Cassandra erst kürzlich neu aufgebaut, sind die Cassandra-Daten möglicherweise noch nicht im gesamten Grid konsistent. Wenn zu viele Storage Nodes offline sind:
+
+* Einige Cassandra-Daten sind möglicherweise nicht verfügbar.
+* Es kann zu Datenverlust kommen.
+
+
+
+CAUTION: Wenn mehr als ein Storage Node ausgefallen ist (oder offline ist), wenden Sie sich an den technischen Support. Die folgende Wiederherstellungsprozedur darf nicht durchgeführt werden. Es könnte zu Datenverlust kommen. Weitere Informationen finden sich unter link:how-site-recovery-is-performed-by-technical-support.html["Wie der technische Support eine Website wiederherstellt"].
+
+
+CAUTION: Wenn die ILM-Regeln so konfiguriert sind, dass nur eine replizierte Kopie gespeichert wird und sich die Kopie auf einem ausgefallenen Speichervolume befindet, ist eine Wiederherstellung des Objekts nicht möglich.
+
+.Verwandte Informationen
+link:warnings-and-considerations-for-grid-node-recovery.html["Warnungen und Überlegungen zur Wiederherstellung von Grid-Knoten"]

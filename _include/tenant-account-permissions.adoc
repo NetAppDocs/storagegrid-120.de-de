@@ -1,0 +1,31 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,3a"]
+|===
+| Berechtigung | Falls ausgewählt... 
+
+
+ a| 
+Plattformdienste zulassen
+ a| 
+Der Mandant kann S3-Plattformdienste wie CloudMirror nutzen. Siehe link:../admin/manage-platform-services-for-tenants.html["Plattformdienste für S3-Mandantenkonten verwalten"].
+
+
+
+ a| 
+Eigene Identitätsquelle verwenden
+ a| 
+Der Mandant kann seine eigene Identitätsquelle für Verbundgruppen und Benutzer konfigurieren und verwalten. Diese Option ist deaktiviert, wenn Sie link:../admin/how-sso-works.html["SSO konfiguriert"] für Ihr StorageGRID System haben.
+
+
+
+ a| 
+S3 Select zulassen
+ a| 
+Der Mandant kann S3 SelectObjectContent API-Anfragen stellen, um Objektdaten zu filtern und abzurufen. Siehe link:../admin/manage-s3-select-for-tenant-accounts.html["S3 Select für Mandantenkonten verwalten"].
+
+*Wichtig*: SelectObjectContent-Anfragen können die Leistung des Load-Balancers für alle S3 Clients und alle Mandanten beeinträchtigen. Diese Funktion sollte nur bei Bedarf und nur für vertrauenswürdige Mandanten aktiviert werden.
+
+|===

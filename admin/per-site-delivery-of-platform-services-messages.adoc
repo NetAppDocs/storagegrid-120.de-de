@@ -1,0 +1,24 @@
+---
+permalink: admin/per-site-delivery-of-platform-services-messages.html 
+sidebar: sidebar 
+keywords: platform services message delivery 
+summary: Alle Plattformdienste-Operationen werden standortbezogen ausgeführt. 
+---
+= Standortbezogene Zustellung von StorageGRID-Plattformdienste-Nachrichten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Alle Plattformdienste-Operationen werden standortbezogen ausgeführt.
+
+Das bedeutet: Wenn ein Mandant einen Client verwendet, um eine S3-API-Erstellungsoperation für ein Objekt durchzuführen, indem er eine Verbindung zu einem Gateway-Knoten am Rechenzentrumsstandort 1 herstellt, wird die Benachrichtigung über diese Aktion ausgelöst und vom Rechenzentrumsstandort 1 gesendet.
+
+image:notification_multiple_sites.gif["Diagramm, das zeigt, dass eine Aktion an einem Objekt an Standort 1 eine Benachrichtigung von Standort 1 auslöst"]
+
+${post_edited_translations.segment}
+
+image:notifications_site_2.gif["Diagramm, das zeigt, dass eine Aktion an einem Objekt von Standort 2 Benachrichtigungen von Standort 2 auslöst"]
+
+${post_edited_translations.segment}

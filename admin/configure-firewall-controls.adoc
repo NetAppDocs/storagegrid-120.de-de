@@ -1,0 +1,155 @@
+---
+permalink: admin/configure-firewall-controls.html 
+sidebar: sidebar 
+keywords: firewall, privileged IP address, untrusted client network, configure firewall controls, monitor 
+summary: Netzwerkzugriff kann für bestimmte interne StorageGRID Ports konfiguriert werden. 
+---
+= Konfigurieren Sie die interne Firewall von StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die StorageGRID Firewall kann so konfiguriert werden, dass der Netzwerkzugriff auf bestimmte Ports Ihrer StorageGRID Knoten gesteuert wird.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie haben die Informationen in link:../admin/manage-firewall-controls.html["Firewall-Steuerung verwalten"] und link:../network/index.html["Netzwerkrichtlinien"] überprüft.
+* Wenn ein Admin-Knoten oder Gateway-Knoten eingehenden Datenverkehr nur über explizit konfigurierte Endpunkte akzeptieren soll, sind die Load-Balancer-Endpunkte definiert.
++
+
+NOTE: Bei einer Änderung der Konfiguration des Client-Netzwerks können bestehende Client-Verbindungen fehlschlagen, wenn Load Balancer-Endpunkte nicht konfiguriert wurden.
+
+
+
+.Über diese Aufgabe
+StorageGRID verfügt über eine interne Firewall auf jedem Knoten, die es ermöglicht, einige der Ports auf den Knoten Ihres Grids zu öffnen oder zu schließen. Mit den Firewall-Steuerungsregisterkarten lassen sich Ports, die im Grid Network, Admin Network und Client Network standardmäßig geöffnet sind, öffnen oder schließen. Es kann außerdem eine Liste privilegierter IP-Adressen erstellt werden, die auf geschlossene Grid-Ports zugreifen können. Bei Verwendung eines Client Network kann festgelegt werden, ob ein Knoten eingehenden Datenverkehr aus dem Client Network vertraut, und der Zugriff auf bestimmte Ports im Client Network kann konfiguriert werden.
+
+Die Beschränkung der für IP-Adressen außerhalb Ihres Grids geöffneten Ports auf das absolut Notwendige erhöht die Sicherheit Ihres Grids. Die Einstellungen auf den drei Registerkarten der Firewall-Steuerung sorgen dafür, dass nur die benötigten Ports geöffnet sind.
+
+Weitere Informationen zur Verwendung von Firewall-Steuerelementen, einschließlich Beispielen, sind unter link:../admin/manage-firewall-controls.html["Firewall-Steuerung verwalten"] zu finden.
+
+Weitere Informationen zu externen Firewalls und Netzwerksicherheit sind unter link:../admin/controlling-access-through-firewalls.html["Zugriffskontrolle an der externen Firewall"] zu finden.
+
+
+
+[[access-firewall-controls]]
+[[Access-firewall-controls]]
+== Firewall-Steuerungen für den Zugriff
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Firewall-Steuerung* auswählen.
++
+Die drei Registerkarten auf dieser Seite sind in link:../admin/manage-firewall-controls.html["Firewall-Steuerung verwalten"] beschrieben.
+
+. Jede Registerkarte kann zur Konfiguration der Firewall-Steuerung ausgewählt werden.
++
+Sie können diese Registerkarten in beliebiger Reihenfolge verwenden. Die Konfigurationen, die Sie auf einer Registerkarte vornehmen, schränken die Möglichkeiten auf den anderen Registerkarten nicht ein, allerdings können Konfigurationsänderungen auf einer Registerkarte das Verhalten von Ports beeinflussen, die auf anderen Registerkarten konfiguriert sind.
+
+
+
+
+
+[[privileged-address-list]]
+== Liste privilegierter Adressen
+
+Die Registerkarte „Privilegierte Adressliste“ dient dazu, Hosts den Zugriff auf Ports zu ermöglichen, die standardmäßig geschlossen sind oder durch Einstellungen auf der Registerkarte „Externen Zugriff verwalten“ geschlossen wurden.
+
+Privilegierte IP-Adressen und Subnetze haben standardmäßig keinen internen Grid-Zugriff. Auch Load Balancer-Endpunkte und zusätzliche Ports, die im Tab „Privilegierte Adressenliste“ geöffnet sind, sind zugänglich, selbst wenn sie im Tab „Externen Zugriff verwalten“ blockiert sind.
+
+
+NOTE: Die Einstellungen auf der Registerkarte „Privilegierte Adressliste“ können die Einstellungen auf der Registerkarte „Untrusted Client Network“ nicht überschreiben.
+
+.Schritte
+. Auf der Registerkarte „Liste privilegierter Adressen“ die Adresse oder das IP-Subnetz eingeben, für das Sie den Zugriff auf geschlossene Ports gewähren möchten.
+. Optional kann *Weitere IP-Adresse oder Subnetz in CIDR-Notation hinzufügen* ausgewählt werden, um zusätzliche privilegierte Clients hinzuzufügen.
++
+
+TIP: So wenige Adressen wie möglich sollten zur privilegierten Liste hinzugefügt werden.
+
+. Optional kann *Privilegierten IP-Adressen der Zugriff auf interne StorageGRID-Ports erlaubt werden*. Siehe link:../network/internal-grid-node-communications.html["StorageGRID interne Ports"].
++
+
+TIP: Diese Option hebt einige Schutzmechanismen für interne Dienste auf. Wenn möglich, sollte sie deaktiviert bleiben.
+
+. *Speichern* auswählen.
+
+
+
+
+[[manage-external-access]]
+== Externen Zugriff verwalten
+
+Wenn ein Port im Tab „Externen Zugriff verwalten“ geschlossen wird, kann auf den Port von keiner Nicht-Grid-IP-Adresse zugegriffen werden, es sei denn, die IP-Adresse wird der Liste der privilegierten Adressen hinzugefügt. Es können nur Ports geschlossen werden, die standardmäßig geöffnet sind, und nur Ports geöffnet werden, die zuvor geschlossen wurden.
+
+
+NOTE: Die Einstellungen auf der Registerkarte „Externen Zugriff verwalten“ können die Einstellungen auf der Registerkarte „Nicht vertrauenswürdiges Clientnetzwerk“ nicht überschreiben. Wenn ein Knoten beispielsweise als nicht vertrauenswürdig eingestuft ist, wird Port SSH/22 im Clientnetzwerk blockiert, selbst wenn er auf der Registerkarte „Externen Zugriff verwalten“ geöffnet ist. Die Einstellungen auf der Registerkarte „Nicht vertrauenswürdiges Clientnetzwerk“ überschreiben geschlossene Ports (wie 443, 8443, 9443) im Clientnetzwerk.
+
+.Schritte
+. *Externen Zugriff verwalten* auswählen. Die Registerkarte zeigt eine Tabelle mit allen externen Ports (Ports, die standardmäßig von Nicht-Grid-Knoten zugänglich sind) für die Knoten in Ihrem Grid.
+. Die Ports, die geöffnet oder geschlossen sein sollen, lassen sich mit den folgenden Optionen konfigurieren:
++
+** Der Schalter neben jedem Port öffnet oder schließt den ausgewählten Port.
+** *Alle angezeigten Ports öffnen* öffnet alle in der Tabelle aufgeführten Ports.
+** *Alle angezeigten Ports schließen* schließt alle in der Tabelle aufgeführten Ports.
++
+
+CAUTION: Wenn Sie die Grid Manager Ports 443 oder 8443 schließen, verlieren alle Benutzer, die derzeit über einen blockierten Port verbunden sind, einschließlich Ihnen, den Zugriff auf Grid Manager, es sei denn, ihre IP-Adresse wurde der Privileged address list hinzugefügt.
+
++
+
+NOTE: Verwenden Sie die Bildlaufleiste auf der rechten Seite der Tabelle, um sicherzustellen, dass Sie alle verfügbaren Ports angezeigt haben. Verwenden Sie das Suchfeld, um die Einstellungen für einen beliebigen externen Port zu finden, indem Sie eine Portnummer eingeben. Es kann auch eine Teil-Portnummer eingegeben werden. Wenn zum Beispiel *2* eingegeben wird, werden alle Ports angezeigt, deren Name die Zeichenfolge „2“ enthält.
+
+
+
+. *Speichern* auswählen
+
+
+
+
+[[untrusted-client-network]]
+== Nicht vertrauenswürdiges Client-Netzwerk
+
+Wenn das Clientnetzwerk eines Knotens nicht vertrauenswürdig ist, akzeptiert der Knoten eingehenden Datenverkehr nur auf Ports, die als Load-Balancer-Endpunkte konfiguriert sind, und optional auf zusätzlichen Ports, die Sie auf dieser Registerkarte auswählen. Auf dieser Registerkarte lässt sich außerdem die Standardeinstellung für neue Knoten festlegen, die bei einer Erweiterung hinzugefügt werden.
+
+
+CAUTION: Bestehende Clientverbindungen können fehlschlagen, wenn Load-Balancer-Endpunkte nicht konfiguriert wurden.
+
+Die Konfigurationsänderungen, die Sie auf der Registerkarte *Nicht vertrauenswürdiges Clientnetzwerk* vornehmen, überschreiben die Einstellungen auf der Registerkarte *Externen Zugriff verwalten*.
+
+.Schritte
+. *Nicht vertrauenswürdiges Clientnetzwerk* auswählen.
+. Im Abschnitt „Standardeinstellungen für neue Knoten festlegen“ ist anzugeben, welche Standardeinstellung gelten soll, wenn im Rahmen einer Erweiterungsprozedur neue Knoten zum Grid hinzugefügt werden.
++
+** *Vertrauenswürdig* (Standard): Wenn ein Knoten in einer Erweiterung hinzugefügt wird, ist sein Client-Netzwerk vertrauenswürdig.
+** *Nicht vertrauenswürdig*: Wenn ein Knoten in einer Erweiterung hinzugefügt wird, ist sein Client-Netzwerk nicht vertrauenswürdig.
++
+Bei Bedarf kann zu diesem Tab zurückgekehrt werden, um die Einstellung für einen bestimmten neuen Knoten zu ändern.
+
++
+
+NOTE: Diese Einstellung hat keine Auswirkungen auf die bestehenden Knoten in Ihrem StorageGRID System.
+
+
+
+. Verwenden Sie die folgenden Optionen, um die Knoten auszuwählen, die Clientverbindungen nur an explizit konfigurierten Load Balancer-Endpunkten oder an zusätzlich ausgewählten Ports zulassen:
++
+** *Angezeigte Knoten als nicht vertrauenswürdig einstufen* auswählen, um alle in der Tabelle angezeigten Knoten zur Liste „Nicht vertrauenswürdiges Clientnetzwerk“ hinzuzufügen.
+** *Angezeigten Knoten vertrauen* auswählen, um alle in der Tabelle angezeigten Knoten aus der Liste „Nicht vertrauenswürdiges Clientnetzwerk“ zu entfernen.
+** Verwenden Sie den Schalter neben jedem Knoten, um das Client-Netzwerk für den ausgewählten Knoten als Trusted oder Untrusted festzulegen.
++
+Beispielsweise kann *Auf angezeigten Knoten als nicht vertrauenswürdig einstufen* ausgewählt werden, um alle Knoten zur Liste „Nicht vertrauenswürdiges Clientnetzwerk“ hinzuzufügen, und anschließend kann der Schalter neben einem einzelnen Knoten verwendet werden, um diesen einzelnen Knoten zur Liste „Vertrauenswürdiges Clientnetzwerk“ hinzuzufügen.
+
++
+
+NOTE: Verwenden Sie die Bildlaufleiste auf der rechten Seite der Tabelle, um sicherzustellen, dass Sie alle verfügbaren Nodes angezeigt haben. Das Suchfeld kann verwendet werden, um die Einstellungen eines beliebigen Nodes durch Eingabe des Node-Names zu finden. Es kann auch ein Teil des Namens eingegeben werden. Wenn zum Beispiel *GW* eingegeben wird, werden alle Nodes angezeigt, deren Name die Zeichenfolge "GW" enthält.
+
+
+
+. *Speichern* auswählen.
++
+Die neuen Firewall-Einstellungen werden sofort angewendet und durchgesetzt. Bestehende Client-Verbindungen können fehlschlagen, wenn Load-Balancer-Endpunkte nicht konfiguriert wurden.
+
+

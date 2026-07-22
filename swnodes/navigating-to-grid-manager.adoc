@@ -1,0 +1,52 @@
+---
+permalink: swnodes/navigating-to-grid-manager.html 
+sidebar: sidebar 
+keywords: how to navigate to Grid Manager 
+summary: Mit dem Grid Manager werden alle Informationen definiert, die zur Konfiguration Ihres StorageGRID Systems erforderlich sind. 
+---
+= Navigieren Sie zum StorageGRID Grid Manager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit dem Grid Manager werden alle Informationen definiert, die zur Konfiguration Ihres StorageGRID Systems erforderlich sind.
+
+.Bevor Sie beginnen
+Der primäre Admin-Node muss bereitgestellt sein und die anfängliche Startsequenz abgeschlossen haben.
+
+.Schritte
+. Öffnen Sie Ihren Webbrowser und navigieren Sie zu:
++
+`https://_primary_admin_node_ip_`
+
++
+Alternativ ist der Zugriff auf den Grid Manager über Port 8443 möglich:
+
++
+`https://_primary_admin_node_ip_:8443`
+
++
+Sie können die IP-Adresse des primären Admin-Knotens im Grid-Netzwerk oder im Admin-Netzwerk verwenden, je nach Ihrer Netzwerkkonfiguration. Möglicherweise muss die Option Sicherheit/Erweitert in Ihrem Browser verwendet werden, um zu einem nicht vertrauenswürdigen Zertifikat zu navigieren.
+
+. Ein temporäres Installationspasswort kann bei Bedarf verwaltet werden:
++
+** Wenn bereits mit einer dieser Methoden ein Passwort festgelegt wurde, ist zur Fortsetzung das Passwort einzugeben.
++
+*** Ein Benutzer hat das Passwort zuvor beim Zugriff auf das Installationsprogramm festgelegt.
+*** Unter Linux wurde das Passwort automatisch aus der Node-Konfigurationsdatei bei `/etc/storagegrid/nodes/_<node_name>_.conf` importiert
+*** Für VMware wurde das SSH-/Konsolenpasswort automatisch aus den OVF-Eigenschaften importiert
+
+
+** Falls noch kein Passwort festgelegt wurde, kann optional ein Passwort zum Schutz des StorageGRID Installationsprogramms festgelegt werden.
+
+
+. *StorageGRID System installieren* auswählen.
++
+Die Seite zur Konfiguration eines StorageGRID Grid wird angezeigt.
+
++
+image:gmi_installer_first_screen.gif["StorageGRID Installationsprogramm erste Seite"]
+
+

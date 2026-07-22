@@ -1,0 +1,44 @@
+---
+permalink: s3/deprecated-bucket-requests-for-legacy-compliance.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, deprecated bucket requests 
+summary: Möglicherweise ist die Verwendung der StorageGRID S3 REST API erforderlich, um Buckets zu verwalten, die mit der älteren Compliance-Funktion erstellt wurden. 
+---
+= Veraltete Bucket-Anfragen für die Legacy StorageGRID Compliance
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Möglicherweise ist die Verwendung der StorageGRID S3 REST API erforderlich, um Buckets zu verwalten, die mit der älteren Compliance-Funktion erstellt wurden.
+
+
+
+[[compliance-feature-deprecated]]
+== Compliance-Funktion veraltet
+
+Die in früheren StorageGRID Versionen verfügbare StorageGRID Compliance Funktion ist veraltet und wurde durch S3 Object Lock ersetzt.
+
+Wenn Sie zuvor die globale Compliance-Einstellung aktiviert hatten, ist die globale S3 Object Lock-Einstellung in StorageGRID 11.6 aktiviert. Es können keine neuen Buckets mehr mit aktivierter Compliance erstellt werden; jedoch kann bei Bedarf die StorageGRID S3 REST API verwendet werden, um vorhandene Legacy Compliant Buckets zu verwalten.
+
+* link:use-s3-api-for-s3-object-lock.html["S3 REST API zur Konfiguration von S3 Object Lock verwenden"]
+* link:../ilm/index.html["Objekte mit ILM verwalten"]
+* https://kb.netapp.com/Advice_and_Troubleshooting/Hybrid_Cloud_Infrastructure/StorageGRID/How_to_manage_legacy_Compliant_buckets_in_StorageGRID_11.5["NetApp Knowledge Base: Verwaltung älterer konformer Buckets in StorageGRID 11.5"^]
+
+
+Veraltete Compliance-Anfragen:
+
+* link:../s3/deprecated-put-bucket-request-modifications-for-compliance.html["Veraltet – Änderungen an PUT Bucket-Anfragen zur Einhaltung der Vorschriften"]
++
+Das XML-Element SGCompliance ist veraltet. Früher konnte dieses benutzerdefinierte StorageGRID Element im optionalen XML-Anforderungstext von PUT Bucket-Anfragen eingefügt werden, um einen konformen Bucket zu erstellen.
+
+* link:../s3/deprecated-get-bucket-compliance-request.html["Veraltet – GET Bucket Konformität"]
++
+Die GET Bucket compliance-Anfrage ist veraltet. Sie können diese Anfrage jedoch weiterhin verwenden, um die aktuell für einen vorhandenen Legacy Compliant bucket geltenden Konformitätseinstellungen zu ermitteln.
+
+* link:../s3/deprecated-put-bucket-compliance-request.html["Veraltet – PUT Bucket Konformität"]
++
+Die PUT Bucket compliance-Anfrage ist veraltet. Sie können diese Anfrage jedoch weiterhin verwenden, um die Compliance-Einstellungen eines bestehenden Legacy Compliant-Buckets zu ändern. Beispielsweise kann ein bestehender Bucket unter rechtliche Aufbewahrung gestellt oder seine Aufbewahrungsfrist verlängert werden.
+
+

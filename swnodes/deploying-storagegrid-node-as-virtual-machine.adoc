@@ -1,0 +1,319 @@
+---
+permalink: swnodes/deploying-storagegrid-node-as-virtual-machine.html 
+sidebar: sidebar 
+keywords: how to deploy grid nodes in vsphere or vsphere web client, port, remap, port remap, vmware 
+summary: Sie verwenden den VMware vSphere Web Client, um jeden Grid-Knoten als virtuelle Maschine bereitzustellen. Während der Bereitstellung wird jeder Grid-Knoten erstellt und mit einem oder mehreren StorageGRID Netzwerken verbunden. 
+---
+= Stellen Sie Grid-Knoten als virtuelle Maschinen für StorageGRID mit VMware vSphere
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie verwenden den VMware vSphere Web Client, um jeden Grid-Knoten als virtuelle Maschine bereitzustellen. Während der Bereitstellung wird jeder Grid-Knoten erstellt und mit einem oder mehreren StorageGRID Netzwerken verbunden.
+
+Wenn Sie StorageGRID Appliance-Speicherknoten bereitstellen müssen, siehe https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/deploying-appliance-storage-node.html["Appliance Storage Node bereitstellen"^].
+
+${post_edited_translations.segment}
+
+.Bevor Sie beginnen
+* Sie haben überprüft, wie Sie link:index.html["${post_edited_translations.segment}"], und Sie verstehen die Anforderungen an Software, CPU und RAM sowie Storage und Performance.
+* Sie sind mit dem VMware vSphere Hypervisor vertraut und haben Erfahrung mit der Bereitstellung virtueller Maschinen in dieser Umgebung.
++
+
+NOTE: Das Paket  `open-vm-tools`, eine Open-Source-Implementierung ähnlich wie VMware Tools, ist in der virtuellen StorageGRID Maschine enthalten. Sie müssen VMware Tools nicht manuell installieren.
+
+* Sie haben die richtige Version des StorageGRID Installationsarchivs für VMware heruntergeladen und extrahiert.
++
+
+CAUTION: ${post_edited_translations.segment}
+
+* Sie verfügen über die StorageGRID Virtual Machine Disk (`.vmdk`)-Datei:
+
+
+[listing, subs="specialcharacters,quotes"]
+----
+NetApp-_SG-version_-SHA.vmdk
+----
+* Sie verfügen über die  `.ovf`- und  `.mf`-Dateien für jeden Typ von Grid-Node, den Sie bereitstellen:
++
+[cols="1a,1a"]
+|===
+| Dateiname | Beschreibung 
+
+
+| vsphere-primary-admin.ovf vsphere-primary-admin.mf  a| 
+${post_edited_translations.segment}
+
+
+
+| vsphere-non-primary-admin.ovf vsphere-non-primary-admin.mf  a| 
+Die Vorlagendatei und die Manifestdatei für einen nicht-primären Admin Node.
+
+
+
+| vsphere-storage.ovf vsphere-storage.mf  a| 
+${post_edited_translations.segment}
+
+
+
+| vsphere-gateway.ovf vsphere-gateway.mf  a| 
+Die Vorlagendatei und die Manifestdatei für einen Gateway Node.
+
+|===
+* Die  `.vdmk`,  `.ovf` und  `.mf` Dateien befinden sich alle im selben Verzeichnis.
+* Sie haben einen Plan zur Minimierung von Ausfalldomänen. Beispielsweise sollten nicht alle Gateway-Knoten auf einem einzelnen vSphere ESXi Host bereitgestellt werden.
++
+
+CAUTION: Bei einer Implementierung in der Produktion darf nicht mehr als ein Storage Node auf einer einzelnen virtuellen Maschine ausgeführt werden. Es dürfen nicht mehrere virtuelle Maschinen auf demselben ESXi Host ausgeführt werden, wenn dies zu einem inakzeptablen Problem mit der Ausfalldomäne führen würde.
+
+* Wenn Sie einen Knoten im Rahmen einer Erweiterungs- oder Wiederherstellungsoperation bereitstellen, besteht die link:../expand/index.html["Anleitung zur Erweiterung eines StorageGRID Systems"] oder die link:../maintain/index.html["Wiederherstellungs- und Wartungsanweisungen"].
+* Wenn Sie einen StorageGRID-Knoten als virtuelle Maschine mit Speicher aus einem NetApp ONTAP-System bereitstellen, wurde bestätigt, dass für das Volume keine FabricPool Tiering-Richtlinie aktiviert ist. Wenn beispielsweise ein StorageGRID-Knoten als virtuelle Maschine auf einem VMware-Host ausgeführt wird, ist sicherzustellen, dass das Volume, das den Datenspeicher für den Knoten bereitstellt, keine FabricPool Tiering-Richtlinie aktiviert hat. Die Deaktivierung des FabricPool Tierings für Volumes, die mit StorageGRID-Knoten verwendet werden, vereinfacht die Fehlerbehebung und den Speicherbetrieb.
++
+
+NOTE: Es sollte niemals FabricPool verwendet werden, um Daten, die mit StorageGRID in Zusammenhang stehen, wieder auf StorageGRID selbst zu verschieben. Das Tiering von StorageGRID-Daten zurück auf StorageGRID erhöht die Komplexität bei der Fehlerbehebung und im Betrieb.
+
+
+
+.Über diese Aufgabe
+Befolgen Sie diese Anweisungen, um VMware Nodes initial bereitzustellen, einen neuen VMware Node im Rahmen einer Erweiterung hinzuzufügen oder einen VMware Node im Rahmen einer Wiederherstellung zu ersetzen. Sofern in den einzelnen Schritten nicht anders angegeben, ist das Bereitstellungsverfahren für alle Knotentypen, einschließlich Admin Nodes, Storage Nodes und Gateway Nodes, identisch.
+
+${post_edited_translations.segment}
+
+* Die Knoten können in beliebiger Reihenfolge bereitgestellt werden.
+* Es ist sicherzustellen, dass jede virtuelle Maschine über das Grid-Netzwerk eine Verbindung zum primären Admin Node herstellen kann.
+* ${post_edited_translations.segment}
+
+
+${post_edited_translations.segment}
+
+* Es ist sicherzustellen, dass die neue virtuelle Maschine über das Grid-Netzwerk eine Verbindung zu allen anderen Knoten herstellen kann.
+
+
+${post_edited_translations.segment}
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
+.Schritte
+. ${post_edited_translations.segment}
++
+Wenn Sie eine URL angeben, auf einen Ordner verweisen, der die folgenden Dateien enthält. Andernfalls ist jede dieser Dateien aus einem lokalen Verzeichnis auszuwählen.
+
++
+[listing, subs="specialcharacters,quotes"]
+----
+NetApp-_SG-version_-SHA.vmdk
+vsphere-_node_.ovf
+vsphere-_node_.mf
+----
++
+Wenn dies beispielsweise der erste Knoten ist, den Sie bereitstellen, können diese Dateien verwendet werden, um den primären Admin Node für Ihr StorageGRID System bereitzustellen:
+
++
+[listing, subs="specialcharacters,quotes"]
+----
+NetApp-_SG-version_-SHA.vmdk
+vsphere-primary-admin.ovf
+vsphere-primary-admin.mf
+----
+. ${post_edited_translations.segment}
++
+${post_edited_translations.segment}
+
+. Die virtuelle Maschine befindet sich im entsprechenden vApp oder Ressourcenpool.
+. Wenn der primäre Admin-Knoten bereitgestellt wird, muss die Endbenutzer-Lizenzvereinbarung gelesen und akzeptiert werden.
++
+Je nach Ihrer Version von vCenter variiert die Reihenfolge der Schritte zum Akzeptieren der Endbenutzer-Lizenzvereinbarung, zum Festlegen des Namens der virtuellen Maschine und zum Auswählen eines Datenspeichers.
+
+. Speicher für die virtuelle Maschine auswählen.
++
+Wenn Sie einen Node im Rahmen eines Wiederherstellungsvorgangs bereitstellen, müssen die Anweisungen in <<step_recovery_storage,${post_edited_translations.segment}>> befolgt werden, um neue virtuelle Festplatten hinzuzufügen, virtuelle Festplatten des ausgefallenen Grid-Nodes wieder anzuhängen oder beides.
+
++
+Beim Bereitstellen eines Storage Node sollten 3 oder mehr Storage Volumes verwendet werden, wobei jedes Storage Volume 4 TB oder größer ist. Mindestens 4 TB müssen Volume 0 zugewiesen werden.
+
++
+
+NOTE: Die .ovf-Datei des Storage Node definiert mehrere VMDKs für Speicher. Wenn diese VMDKs Ihren Speicheranforderungen nicht entsprechen, sollten Sie diese vor dem Einschalten des Nodes entfernen und entsprechende VMDKs oder RDMs für Speicher zuweisen. VMDKs werden in VMware Umgebungen häufiger verwendet und sind einfacher zu verwalten, während RDMs eine bessere Performance für Workloads bieten können, die größere Objektgrößen verwenden (beispielsweise mehr als 100 MB).
+
++
+
+NOTE: Einige StorageGRID Installationen verwenden möglicherweise größere, aktivere Storage-Volumes als typische virtualisierte Workloads. Möglicherweise müssen Sie einige Hypervisor-Parameter wie  `MaxAddressableSpaceTB` anpassen, um eine optimale Performance zu erzielen. Wenn eine unzureichende Performance auftritt, wenden Sie sich an Ihre Support-Ressource für Virtualisierung, um festzustellen, ob Ihre Umgebung von einer workloadspezifischen Konfigurationsanpassung profitieren könnte.
+
+. Netzwerke auswählen.
++
+Es wird festgelegt, welche StorageGRID Netzwerke der Knoten verwendet, indem für jedes Quellnetzwerk ein Zielnetzwerk ausgewählt wird.
+
++
+** Das Grid-Netzwerk ist erforderlich. Es muss ein Zielnetzwerk in der vSphere-Umgebung ausgewählt werden. + Das Grid-Netzwerk wird für den gesamten internen StorageGRID Datenverkehr verwendet. Es stellt die Konnektivität zwischen allen Knoten im Grid über alle Standorte und Subnetze hinweg sicher. Alle Knoten im Grid-Netzwerk müssen mit allen anderen Knoten kommunizieren können.
+** Wenn Sie das Admin Network verwenden, wählen Sie ein anderes Zielnetzwerk in der vSphere-Umgebung aus. Wenn Sie das Admin Network nicht verwenden, wählen Sie dasselbe Ziel aus, das Sie für das Grid Network ausgewählt haben.
+** Wenn Sie das Clientnetzwerk verwenden, wählen Sie ein anderes Zielnetzwerk in der vSphere-Umgebung aus. Wenn Sie das Clientnetzwerk nicht verwenden, wählen Sie dasselbe Zielnetzwerk aus, das Sie für das Grid Network ausgewählt haben.
+** Wenn Sie ein Admin- oder Client-Netzwerk verwenden, müssen die Nodes nicht im selben Admin- oder Client-Netzwerk sein.
+
+
+. Für *Vorlage anpassen* die erforderlichen StorageGRID Node-Eigenschaften konfigurieren.
++
+.. Den *Node-Name* eingeben.
++
+
+NOTE: Wenn Sie einen Grid-Node wiederherstellen, muss der Name des wiederherzustellenden Node eingegeben werden.
+
+.. Über das Dropdown-Menü *Temporäres Installationskennwort* kann ein temporäres Installationskennwort festgelegt werden, sodass auf die VM-Konsole oder die StorageGRID Installation API zugegriffen oder SSH verwendet werden kann, bevor der neue Node dem Grid beitritt.
++
+
+NOTE: Das temporäre Installationspasswort wird nur während der Knoteninstallation verwendet. Nachdem ein Knoten dem Grid hinzugefügt wurde, können Sie darauf zugreifen, indem Sie die link:../admin/change-node-console-password.html["Passwort für die Node-Konsole"] verwenden, die in der  `Passwords.txt` Datei im Wiederherstellungspaket aufgeführt ist.
+
++
+*** *Node-Name verwenden*: Der Wert, den Sie für das Feld *Node-Name* angegeben haben, wird als temporäres Installationspasswort verwendet.
+*** *Benutzerdefiniertes Passwort verwenden*: Ein benutzerdefiniertes Passwort wird als temporäres Installationspasswort verwendet.
+*** *Passwort deaktivieren*: Es wird kein temporäres Installationspasswort verwendet. Falls Sie zur Behebung von Installationsproblemen auf die VM zugreifen müssen, siehe link:troubleshooting-installation-issues.html["Installationsprobleme beheben"].
+
+
+.. Wenn Sie *Benutzerdefiniertes Kennwort verwenden* ausgewählt haben, geben Sie im Feld *Benutzerdefiniertes Kennwort* das temporäre Installationskennwort an, das Sie verwenden möchten.
+.. Im Abschnitt *Grid Network (eth0)* kann für die *Grid network IP configuration* STATIC oder DHCP ausgewählt werden.
++
+*** Wenn Sie STATIC auswählen, geben Sie die *Grid network IP*, die *Grid network mask*, das *Grid network gateway* und die *Grid network MTU* ein.
+*** Wenn Sie DHCP auswählen, werden die *Grid network IP*, die *Grid network mask* und das *Grid network gateway* automatisch zugewiesen.
+
+
+.. Im Feld *Primäre Admin-IP* ist die IP-Adresse des primären Admin-Knotens für das Grid-Netzwerk anzugeben.
++
+
+NOTE: Dieser Schritt ist nicht erforderlich, wenn der Knoten, den Sie bereitstellen, der primäre Admin-Node ist.
+
++
+Wird die IP-Adresse des primären Admin Node nicht angegeben, wird die IP-Adresse automatisch ermittelt, sofern sich der primäre Admin Node oder mindestens ein weiterer Grid-Node mit konfigurierter ADMIN_IP im selben Subnetz befindet. Es wird jedoch empfohlen, die IP-Adresse des primären Admin Node hier festzulegen.
+
+.. Im Abschnitt *Admin Network (eth1)* kann für die *Admin network IP configuration* STATIC, DHCP oder DISABLED ausgewählt werden.
++
+*** Wenn Sie das Admin Network nicht verwenden möchten, wählen Sie DISABLED und geben Sie *0.0.0.0* für die Admin Network IP ein. Die anderen Felder können leer bleiben.
+*** Wenn Sie STATIC auswählen, die *Admin-Netzwerk-IP*, die *Admin-Netzwerkmaske*, das *Admin-Netzwerk-Gateway* und die *Admin-Netzwerk-MTU* eingeben.
+*** Wenn Sie STATIC auswählen, geben Sie die *Admin network external subnet list* ein. Außerdem ist ein Gateway zu konfigurieren.
+*** Wenn Sie DHCP auswählen, werden die *Admin network IP*, die *Admin network mask* und das *Admin network gateway* automatisch zugewiesen.
+
+
+.. Im Abschnitt *Client Network (eth2)* kann für die *Client network IP configuration* STATIC, DHCP oder DISABLED ausgewählt werden.
++
+*** Wenn Sie das Client Network nicht verwenden möchten, wählen Sie DISABLED und geben Sie *0.0.0.0* für die Client Network-IP ein. Die anderen Felder können leer bleiben.
+*** Wenn Sie STATIC auswählen, geben Sie die *Client network IP*, die *Client network mask*, das *Client network gateway* und die *Client network MTU* ein.
+*** Wenn Sie DHCP auswählen, werden die *Client network IP*, die *Client network mask* und das *Client network gateway* automatisch zugewiesen.
+
+
+
+
+. Die Konfiguration der virtuellen Maschine sollte überprüft und bei Bedarf angepasst werden.
+. Wenn Sie bereit sind, den Vorgang abzuschließen, wählen Sie *Fertigstellen*, um den Upload der virtuellen Maschine zu starten.
+. [[step_recovery_storage]]Wenn dieser Node im Rahmen einer Wiederherstellungsoperation bereitgestellt wurde und es sich nicht um eine vollständige Node-Wiederherstellung handelt, sind nach Abschluss der Bereitstellung die folgenden Schritte durchzuführen:
++
+.. Klicken Sie mit der rechten Maustaste auf die virtuelle Maschine und wählen Sie *Einstellungen bearbeiten*.
+.. Jede standardmäßige virtuelle Festplatte, die für die Speicherung vorgesehen ist, auswählen und *Entfernen* wählen.
+.. Je nach den Gegebenheiten Ihrer Datenwiederherstellung neue virtuelle Festplatten entsprechend Ihren Speicheranforderungen hinzufügen, alle virtuellen Festplatten, die vom zuvor entfernten ausgefallenen Grid-Node erhalten geblieben sind, wieder anschließen oder beides.
++
+Beachten Sie die folgenden wichtigen Richtlinien:
+
++
+*** Wenn Sie neue Festplatten hinzufügen, sollte derselbe Speichertyp verwendet werden, der vor der Knotenwiederherstellung im Einsatz war.
+*** Die .ovf-Datei des Storage Node definiert mehrere VMDKs für Speicher. Wenn diese VMDKs Ihren Speicheranforderungen nicht entsprechen, sollten Sie diese vor dem Einschalten des Nodes entfernen und entsprechende VMDKs oder RDMs für Speicher zuweisen. VMDKs werden in VMware Umgebungen häufiger verwendet und sind einfacher zu verwalten, während RDMs eine bessere Performance für Workloads bieten können, die größere Objektgrößen verwenden (beispielsweise mehr als 100 MB).
+
+
+
+
+. [[vmware-remap-ports]]Wenn eine Neuzuordnung der von diesem Node verwendeten Ports erforderlich ist, sind die folgenden Schritte zu beachten.
++
+Möglicherweise ist eine Neuzuordnung eines Ports erforderlich, wenn die Netzwerkrichtlinien Ihres Unternehmens den Zugriff auf einen oder mehrere von StorageGRID verwendete Ports einschränken. Siehe die link:../network/index.html["Netzwerkrichtlinien"] für die von StorageGRID verwendeten Ports.
+
++
+
+NOTE: Die in Load-Balancer-Endpunkten verwendeten Ports dürfen nicht neu zugeordnet werden.
+
++
+.. Die neue VM auswählen.
+.. Auf der Registerkarte „Konfigurieren“ wird *Einstellungen* > *vApp Options* ausgewählt. Die Position von *vApp Options* hängt von der Version von vCenter ab.
+.. In der Tabelle *Properties* befinden sich PORT_REMAP_INBOUND und PORT_REMAP.
+.. Um sowohl eingehende als auch ausgehende Kommunikation für einen Port symmetrisch abzubilden, ist *PORT_REMAP* auszuwählen.
++
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
++
+
+NOTE: Wenn nur PORT_REMAP festgelegt ist, gilt die von Ihnen angegebene Zuordnung sowohl für eingehende als auch für ausgehende Kommunikation. Wenn zusätzlich PORT_REMAP_INBOUND angegeben ist, gilt PORT_REMAP nur für ausgehende Kommunikation.
+
++
+... *Wert festlegen* auswählen.
+... Geben Sie die Portzuordnung ein:
++
+`<network type>/<protocol>/<default port used by grid node>/<new port>`
+
++
+`<network type>` ist grid, admin oder client, und  `<protocol>` ist tcp oder udp.
+
++
+Beispielsweise kann der SSH-Verkehr von Port 22 auf Port 3022 umgeleitet werden, indem Folgendes eingegeben wird:
+
++
+`client/tcp/22/3022`
+
++
+Sie können mehrere Ports mit einer durch Kommas getrennten Liste neu zuordnen.
+
++
+Beispiel:
+
++
+`client/tcp/18082/443, client/tcp/18083/80`
+
+... Wählen Sie *OK*.
+
+
+.. Um den Port für eingehende Kommunikation mit dem Node festzulegen, *PORT_REMAP_INBOUND* auswählen.
++
+
+NOTE: Wenn Sie PORT_REMAP_INBOUND angeben und keinen Wert für PORT_REMAP festlegen, bleibt die ausgehende Kommunikation für den Port unverändert.
+
++
+... *Wert festlegen* auswählen.
+... Geben Sie die Portzuordnung ein:
++
+`<network type>/<protocol>/<remapped inbound port>/<default inbound port used by grid node>`
+
++
+`<network type>` ist grid, admin oder client, und  `<protocol>` ist tcp oder udp.
+
++
+Um beispielsweise eingehenden SSH-Datenverkehr, der an Port 3022 gesendet wird, so umzuleiten, dass er vom Grid-Node an Port 22 empfangen wird, ist Folgendes einzugeben:
+
++
+`client/tcp/3022/22`
+
++
+Mehrere eingehende Ports lassen sich mit einer durch Kommas getrennten Liste neu zuordnen.
+
++
+Beispiel:
+
++
+`grid/tcp/3022/22, admin/tcp/3022/22`
+
+... *OK* auswählen
+
+
+
+
+. Wenn Sie die CPU oder den Arbeitsspeicher für den Node gegenüber den Standardeinstellungen erhöhen möchten:
++
+.. Klicken Sie mit der rechten Maustaste auf die virtuelle Maschine und wählen Sie *Einstellungen bearbeiten*.
+.. Die Anzahl der CPUs oder die Speichermenge kann nach Bedarf angepasst werden.
++
+Die *Speicherreservierung* sollte auf die gleiche Größe wie der der virtuellen Maschine zugewiesene *Speicher* gesetzt werden.
+
+.. Wählen Sie *OK*.
+
+
+. Die virtuelle Maschine wird eingeschaltet.
+
+
+.Nachdem Sie fertig sind
+Wenn dieser Node im Rahmen einer Erweiterungs- oder Wiederherstellungsprozedur bereitgestellt wurde, sollten die entsprechenden Anweisungen zur Vervollständigung der Prozedur weiterverfolgt werden.

@@ -1,0 +1,181 @@
+---
+permalink: maintain/adding-to-or-changing-subnet-lists-on-grid-network.html 
+sidebar: sidebar 
+keywords: storagegrid, subnet list, grid network 
+summary: Mit dem Tool „IP ändern“ können Subnetze im Grid Network hinzugefügt oder geändert werden. 
+---
+= Subnetzlisten im Grid-Netzwerk in StorageGRID hinzufügen oder ändern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit dem Tool „IP ändern“ können Subnetze im Grid Network hinzugefügt oder geändert werden.
+
+.Bevor Sie beginnen
+* Sie haben die  `Passwords.txt` Datei.
+
+
+Sie können Subnetze in der Grid Network Subnet List hinzufügen, löschen oder ändern. Änderungen wirken sich auf das Routing aller Knoten im Grid aus.
+
+
+NOTE: Wenn nur Änderungen an der Grid Network Subnet List vorgenommen werden, kann die Netzwerkkonfiguration über den Grid Manager hinzugefügt oder geändert werden. In allen anderen Fällen ist das Change IP Tool zu verwenden, wenn der Grid Manager aufgrund eines Netzwerkkonfigurationsproblems nicht erreichbar ist oder sowohl eine Änderung des Grid Network Routings als auch andere Netzwerkänderungen gleichzeitig durchgeführt werden.
+
+[NOTE]
+====
+Für das Grid-Netzwerk, das Admin-Netzwerk oder das Client-Netzwerk eines beliebigen Knotens sollten keine Subnetze verwendet werden, die die folgenden IPv4-Adressen enthalten:
+
+* 192.168.130.101
+* 192.168.130.121
+* 192.168.131.101
+* 192.168.131.121
+* 192.168.130.102
+* 192.168.130.122
+* 192.168.131.102
+* 192.168.131.122
+* 198.51.100.2
+* 198.51.100.4
+
+
+Beispielsweise sollten die folgenden Subnetzbereiche nicht für das Grid Network, das Admin Network oder das Client Network eines beliebigen Knotens verwendet werden:
+
+* 192.168.130.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.130.101 und 192.168.130.102 enthält
+* 192.168.131.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.131.101 und 192.168.131.102 enthält
+* 198.51.100.0/24, da dieser Subnetzbereich die IP-Adressen 198.51.100.2 und 198.51.100.4 enthält
+
+
+====
+.Schritte
+. Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Das Tool „IP ändern“ wird durch Eingabe des folgenden Befehls gestartet: `change-ip`
+. Geben Sie an der Eingabeaufforderung die Bereitstellungs-Passphrase ein.
++
+Das Hauptmenü erscheint.
+
++
+image:change_ip_tool_main_menu.png["Screenshot des Begrüßungsbildschirms des Tools zum Ändern der IP-Adresse"]
+
+. Im Hauptmenü die Option zum Bearbeiten von Subnetzen für das Grid Network (Option *4*) auswählen.
++
+
+NOTE: Änderungen an der Subnetzliste des Grid-Netzwerks gelten grid-weit.
+
+. Wählen Sie eine der folgenden Optionen:
++
+--
+** Ein Subnetz kann hinzugefügt werden, indem folgender Befehl eingegeben wird: `add CIDR`
+** Ein Subnetz kann mit diesem Befehl gelöscht werden: `del CIDR`
+** Legen Sie die Liste der Subnetze mit folgendem Befehl fest: `set CIDR`
+
+
+--
++
+--
+
+NOTE: Bei allen Befehlen können Sie mehrere Adressen in diesem Format eingeben: `add CIDR, CIDR`
+
+Beispiel: `add 172.14.0.0/16, 172.15.0.0/16, 172.16.0.0/16`
+
+
+TIP: Sie können den Tippaufwand reduzieren, indem mit der Pfeiltaste nach oben zuvor eingegebene Werte in die aktuelle Eingabeaufforderung zurückgerufen und diese dann bei Bedarf bearbeitet werden.
+
+Das folgende Beispiel zeigt die Einrichtung von Subnetzen für die Grid Network Subnet List:
+
+image:change_ip_tool_gnsl_sample_input.gif["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
+--
+. Wenn Sie bereit sind, *q* eingeben, um zum Hauptmenü zurückzukehren. Ihre Änderungen bleiben erhalten, bis sie gelöscht oder angewendet werden.
+. Wählen Sie eine der folgenden Optionen:
++
+** Option *5* auswählen, um Änderungen in einer isolierten Ausgabe anzuzeigen, die nur das geänderte Element zeigt. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben, wie in der folgenden Beispielausgabe gezeigt:
++
+image:change_ip_tool_gnsl_sample_output.gif["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
+** Option *6* zeigt Änderungen in der Ausgabe an, die die vollständige Konfiguration darstellt. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben.
++
+
+NOTE: Bei bestimmten Befehlszeilenschnittstellen werden Hinzufügungen und Löschungen durch Durchstreichen dargestellt.
+
+
+
+. Option *7* auswählen, um alle bereitgestellten Änderungen zu validieren.
++
+Diese Validierung stellt sicher, dass die Regeln für die Grid, Admin und Client Netzwerke eingehalten werden, wie zum Beispiel die Verwendung überlappender Subnetze.
+
+. Optional kann Option *8* ausgewählt werden, um alle gestaffelten Änderungen zu speichern und später zurückzukehren, um weitere Änderungen vorzunehmen.
++
+Mit dieser Option besteht die Möglichkeit, das Tool „IP ändern“ zu beenden und es später erneut zu starten, ohne dass nicht angewendete Änderungen verloren gehen.
+
+. Führen Sie einen der folgenden Schritte aus:
++
+** Option *9* ist auszuwählen, wenn alle Änderungen verworfen werden sollen, ohne die neue Netzwerkkonfiguration zu speichern oder anzuwenden.
+** Option *10* ist auszuwählen, wenn Sie bereit sind, die Änderungen anzuwenden und die neue Netzwerkkonfiguration bereitzustellen. Während der Bereitstellung wird der Status der angewendeten Aktualisierungen in der Ausgabe angezeigt, wie im folgenden Beispieloutput:
++
+[listing]
+----
+Generating new grid networking description file...
+
+Running provisioning...
+
+Updating grid network configuration on Name
+----
+
+
+. Wenn Sie bei den Änderungen am Grid-Netzwerk die Option *10* ausgewählt haben, wählen Sie eine der folgenden Optionen:
++
+** *apply*: Die Änderungen werden sofort angewendet und jeder Knoten wird bei Bedarf automatisch neu gestartet.
++
+Wenn die neue Netzwerkkonfiguration gleichzeitig mit der alten Netzwerkkonfiguration ohne externe Änderungen funktionieren wird, kann die Option *apply* für eine vollautomatische Konfigurationsänderung verwendet werden.
+
+** *Phase*: Die Änderungen werden beim nächsten Neustart der Knoten übernommen.
++
+Falls physische oder virtuelle Netzwerkkonfigurationsänderungen erforderlich sind, damit die neue Netzwerkkonfiguration funktioniert, ist die Option *stage* zu verwenden, die betroffenen Knoten sind herunterzufahren, die notwendigen physischen Netzwerkänderungen vorzunehmen und die betroffenen Knoten neu zu starten.
+
++
+
+NOTE: Wenn Sie die Option *stage* verwenden, sollte der Knoten so bald wie möglich nach dem Staging neu gestartet werden, um Unterbrechungen zu minimieren.
+
+** *Abbrechen*: Zu diesem Zeitpunkt sollten keine Netzwerkänderungen vorgenommen werden.
++
+Falls Ihnen nicht bewusst war, dass die vorgeschlagenen Änderungen einen Neustart der Knoten erfordern, können die Änderungen verschoben werden, um die Auswirkungen auf die Benutzer zu minimieren. Die Auswahl von *Abbrechen* führt zurück zum Hauptmenü und bewahrt Ihre Änderungen, sodass diese später angewendet werden können.
+
+
+
++
+Nach dem Anwenden oder Bereitstellen von Änderungen wird aufgrund der Änderung der Grid-Konfiguration ein neues Wiederherstellungspaket generiert.
+
+. Falls die Konfiguration aufgrund von Fehlern abgebrochen wird, stehen folgende Optionen zur Verfügung:
++
+** Um den Vorgang zum IP-Wechsel zu beenden und zum Hauptmenü zurückzukehren, *a* eingeben.
+** Zum erneuten Versuch des fehlgeschlagenen Vorgangs *r* eingeben.
+** Um mit dem nächsten Vorgang fortzufahren, *c* eingeben.
++
+Der fehlgeschlagene Vorgang kann später wiederholt werden, indem im Hauptmenü die Option *10* (Änderungen übernehmen) ausgewählt wird. Das Verfahren zur Änderung der IP ist erst abgeschlossen, wenn alle Vorgänge erfolgreich abgeschlossen wurden.
+
+** Wenn ein manuelles Eingreifen erforderlich war (zum Beispiel ein Neustart eines Knotens) und Sie sicher sind, dass die Aktion, die das Tool als fehlgeschlagen betrachtet, tatsächlich erfolgreich abgeschlossen wurde, kann mit der Eingabe von *f* diese als erfolgreich markiert und zum nächsten Vorgang übergegangen werden.
+
+
+. Ein neues Wiederherstellungspaket kann vom Grid Manager heruntergeladen werden.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. ${post_edited_translations.segment}
+
+
++
+
+CAUTION: Die Wiederherstellungspaketdatei muss gesichert werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können.
+
+. Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] aktualisieren Sie die Subnetzlisten, sobald Sie mit dem Hinzufügen oder Ändern fertig sind.
+

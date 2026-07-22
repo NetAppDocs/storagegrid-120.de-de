@@ -1,0 +1,569 @@
+---
+permalink: admin/configuring-load-balancer-endpoints.html 
+sidebar: sidebar 
+keywords: how to configure load balancer endpoint, how to attach certificate to load balancer endpoint 
+summary: Die Load Balancer-Endpunkte legen die Ports und Netzwerkprotokolle fest, die S3-Clients für die Verbindung zum StorageGRID Load Balancer auf Gateway- und Admin-Knoten verwenden können. Endpunkte können auch für den Zugriff auf den Grid Manager, den Tenant Manager oder beide verwendet werden. 
+---
+= StorageGRID Load-Balancer-Endpunkte konfigurieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Load Balancer-Endpunkte legen die Ports und Netzwerkprotokolle fest, die S3-Clients für die Verbindung zum StorageGRID Load Balancer auf Gateway- und Admin-Knoten verwenden können. Endpunkte können auch für den Zugriff auf den Grid Manager, den Tenant Manager oder beide verwendet werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+* Sie haben die link:managing-load-balancing.html["Überlegungen zum Lastausgleich"] überprüft.
+* Wenn Sie zuvor einen Port, den Sie für den Load-Balancer-Endpunkt verwenden möchten, neu zugeordnet haben, haben Sie link:../maintain/removing-port-remaps.html["Port-Neuzuordnung entfernt"].
+* Sie haben alle Hochverfügbarkeitsgruppen (HA-Gruppen) erstellt, die Sie verwenden möchten. HA-Gruppen werden empfohlen, sind aber nicht erforderlich. Siehe link:managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
+* Wenn der Load-Balancer-Endpunkt von link:../admin/manage-s3-select-for-tenant-accounts.html["S3 Mandanten für S3 Select"] verwendet wird, dürfen weder die IP-Adressen noch die FQDNs von Bare-Metal-Knoten genutzt werden. Für die Load-Balancer-Endpunkte, die für S3 Select verwendet werden, sind ausschließlich Service-Appliances und VMware-basierte Softwareknoten zulässig.
+* Sie haben alle VLAN-Schnittstellen konfiguriert, die Sie verwenden möchten. Siehe link:configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+* Wenn Sie einen HTTPS-Endpunkt erstellen (empfohlen), liegen Ihnen die Informationen für das Serverzertifikat vor.
++
+
+NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.
+
++
+** Zum Hochladen eines Zertifikats benötigen Sie das Serverzertifikat, den privaten Schlüssel des Zertifikats und optional ein CA-Bundle.
+** Um ein Zertifikat zu generieren, benötigen Sie alle Domänennamen und IP-Adressen, die S3-Clients für den Zugriff auf den Endpunkt verwenden. Sie müssen außerdem den Betreff (Distinguished Name) kennen.
+** Wenn Sie das StorageGRID S3 API-Zertifikat verwenden möchten (das auch für direkte Verbindungen zu Storage Nodes verwendet werden kann), haben Sie das Standardzertifikat bereits durch ein benutzerdefiniertes, von einer externen Zertifizierungsstelle signiertes Zertifikat ersetzt. Siehe link:../admin/configuring-custom-server-certificate-for-storage-node.html["S3 API-Zertifikate konfigurieren"].
+
+
+
+
+
+
+[[create-a-load-balancer-endpoint]]
+[[create-lb-endpoint]]
+== ${post_edited_translations.segment}
+
+Jeder S3 Client Load Balancer Endpunkt spezifiziert einen Port, einen Clienttyp (S3) und ein Netzwerkprotokoll (HTTP oder HTTPS). Managementoberfläche Load Balancer Endpunkte spezifizieren einen Port, einen Schnittstellentyp und ein nicht vertrauenswürdiges Clientnetzwerk.
+
+
+
+[[access-the-wizard]]
+=== Assistenten aufrufen
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Load balancer endpoints* auswählen.
+. Zum Erstellen eines Endpunkts für einen S3 Client die Registerkarte *S3 Client* auswählen.
+. Um einen Endpunkt für den Zugriff auf den Grid Manager, den Tenant Manager oder beide zu erstellen, ist die Registerkarte *Managementoberfläche* auszuwählen.
+. Wählen Sie *Create*.
+
+
+
+
+[[enter-endpoint-details]]
+=== Endpunktdetails eingeben
+
+.Schritte
+. Wählen Sie die passenden Anweisungen aus, um Details für den Typ des Endpunkts einzugeben, den Sie erstellen möchten.
+
+
+[role="tabbed-block"]
+====
+.S3 Client
+--
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+Ein beschreibender Name für den Endpunkt, der in der Tabelle auf der Seite „Load balancer endpoints“ angezeigt wird.
+
+
+
+ a| 
+Port
+ a| 
+Der StorageGRID Port, den Sie für den Lastausgleich verwenden möchten. Dieses Feld ist standardmäßig für den ersten erstellten Endpunkt auf 10433 eingestellt, aber es kann jeder ungenutzte externe Port von 1 bis 65535 eingegeben werden.
+
+Wenn Sie *80* oder *8443* eingeben, wird der Endpunkt nur auf Gateway Nodes konfiguriert, es sei denn, Sie haben Port 8443 freigegeben. Dann kann Port 8443 als S3-Endpunkt verwendet werden, und der Port wird sowohl auf Gateway Nodes als auch auf Admin Nodes konfiguriert.
+
+
+
+ a| 
+Clienttyp
+ a| 
+Muss *S3* sein.
+
+
+
+ a| 
+Netzwerkprotokoll
+ a| 
+Das Netzwerkprotokoll, das Clients beim Verbinden mit diesem Endpunkt verwenden.
+
+* Wählen Sie *HTTPS* für eine sichere, TLS-verschlüsselte Kommunikation (empfohlen). Ein Sicherheitszertifikat muss angehängt werden, bevor der Endpunkt gespeichert werden kann.
+* *HTTP* für weniger sichere, unverschlüsselte Kommunikation auswählen. HTTP nur für ein Nicht-Produktions-Grid verwenden.
+
+
+
+
+ a| 
+Caching aktivieren
+ a| 
+Aktivieren oder deaktivieren Sie link:../admin/managing-load-balancing.html#considerations-for-load-balancer-caching["Zwischenspeicherung auf den Gateway Nodes"] für diesen Load-Balancer-Endpunkt.
+
+Wenn Probleme mit dem Caching auftreten, siehe link:../troubleshoot/troubleshooting-load-balancer-caching.html["Fehlerbehebung beim Load Balancer Caching"].
+
+|===
+--
+.Managementoberfläche
+--
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+Ein beschreibender Name für den Endpunkt, der in der Tabelle auf der Seite „Load balancer endpoints“ angezeigt wird.
+
+
+
+ a| 
+Port
+ a| 
+Der StorageGRID Port, der für den Zugriff auf den Grid Manager, den Tenant Manager oder beide verwendet werden soll.
+
+* Grid Manager: *8443*
+* Tenant Manager: *9443*
+* Sowohl Grid Manager als auch Tenant Manager: *443*
+
+
+*Hinweis*: Sie können diese voreingestellten Ports oder andere verfügbare Ports verwenden.
+
+
+
+ a| 
+Schnittstellentyp
+ a| 
+Wählen Sie das Optionsfeld für die StorageGRID Schnittstelle aus, auf die über diesen Endpunkt zugegriffen wird.
+
+
+
+ a| 
+Nicht vertrauenswürdiges Client-Netzwerk
+ a| 
+*Ja* auswählen, wenn dieser Endpunkt für nicht vertrauenswürdige Clientnetzwerke zugänglich sein soll. Andernfalls *Nein* auswählen.
+
+Wenn *Ja* ausgewählt wird, ist der Port auf allen nicht vertrauenswürdigen Client-Netzwerken geöffnet.
+
+*Hinweis*: Sie können nur festlegen, ob ein Port für nicht vertrauenswürdige Clientnetzwerke geöffnet oder geschlossen ist, wenn Sie den Load Balancer-Endpunkt erstellen.
+
+|===
+--
+====
+. Wählen Sie *Weiter*.
+
+
+
+
+[[select-a-binding-mode]]
+=== Einen Bindungsmodus auswählen
+
+.Schritte
+. Wählen Sie einen Bindungsmodus für den Endpunkt, um zu steuern, wie auf den Endpunkt entweder über eine beliebige IP-Adresse oder über bestimmte IP-Adressen und Netzwerkschnittstellen zugegriffen wird.
++
+Einige Bindungsmodi sind entweder für Client-Endpunkte oder Managementoberfläche-Endpunkte verfügbar. Alle Modi für beide Endpunkttypen sind hier aufgelistet.
+
++
+[cols="1a,3a"]
+|===
+| Modus | Beschreibung 
+
+
+ a| 
+Global (Standardeinstellung für Client-Endpunkte)
+ a| 
+Clients können mit der IP-Adresse eines beliebigen Gateway-Knotens oder Admin-Knotens, der virtuellen IP-Adresse (VIP) einer beliebigen HA-Gruppe in einem beliebigen Netzwerk oder einem entsprechenden FQDN auf den Endpunkt zugreifen.
+
+Die Einstellung *Global* sollte verwendet werden, es sei denn, die Zugänglichkeit dieses Endpunkts muss eingeschränkt werden.
+
+
+
+ a| 
+Virtuelle IPs von HA-Gruppen
+ a| 
+Clients müssen eine virtuelle IP-Adresse (oder den entsprechenden FQDN) einer HA-Gruppe verwenden, um auf diesen Endpunkt zuzugreifen.
+
+Endpunkte mit diesem Bindungsmodus können alle die gleiche Portnummer verwenden, solange sich die für die Endpunkte ausgewählten HA-Gruppen nicht überschneiden.
+
+
+
+ a| 
+Knotenschnittstellen
+ a| 
+Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählten Knotenschnittstellen verwenden, um auf diesen Endpunkt zuzugreifen.
+
+
+
+ a| 
+Knotentyp (nur Client-Endpunkte)
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Alle Admin-Knoten (Standard für Managementoberfläche-Endpunkte)
+ a| 
+Clients müssen die IP-Adresse (oder den entsprechenden FQDN) eines beliebigen Admin Node verwenden, um auf diesen Endpunkt zuzugreifen.
+
+|===
++
+Wenn mehrere Endpunkte denselben Port verwenden, verwendet StorageGRID diese Prioritätsreihenfolge, um zu entscheiden, welcher Endpunkt genutzt wird: *Virtuelle IPs von HA-Gruppen* > *Knotenschnittstellen* > *Knotentyp* > *Global*.
+
++
+Wenn Managementoberfläche Endpunkte erstellt werden, sind nur Admin-Nodes zulässig.
+
+. Wenn *Virtuelle IPs von HA-Gruppen* ausgewählt wurden, eine oder mehrere HA-Gruppen auswählen.
++
+Wenn Managementoberfläche-Endpunkte erstellt werden, sollten nur VIPs ausgewählt werden, die mit Admin Nodes verknüpft sind.
+
+. Wenn Sie *Knotenschnittstellen* ausgewählt haben, wählen Sie eine oder mehrere Knotenschnittstellen für jeden Admin Node oder Gateway Node aus, die Sie mit diesem Endpunkt verknüpfen möchten.
+. Wenn Sie *Knotentyp* ausgewählt haben, wählen Sie entweder Admin Nodes, zu denen sowohl der primäre Admin Node als auch alle nicht-primären Admin Nodes gehören, oder Gateway Nodes.
+
+
+
+
+[[control-tenant-access]]
+=== Mandantenzugriff kontrollieren
+
+
+NOTE: Ein Managementoberfläche Endpunkt kann den Mandantenzugriff nur steuern, wenn der Endpunkt über die <<enter-endpoint-details,Schnittstellentyp des Tenant Manager>> verfügt.
+
+.Schritte
+. Für den Schritt *Mandantenzugriff* eine der folgenden Optionen auswählen:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Alle Mandanten zulassen (Standard)
+ a| 
+Alle Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+Diese Option ist auszuwählen, wenn noch keine Mandantenkonten erstellt wurden. Nachdem Mandantenkonten hinzugefügt wurden, lässt sich der Load Balancer-Endpunkt bearbeiten, um bestimmte Konten zuzulassen oder zu blockieren.
+
+
+
+ a| 
+Ausgewählte Mandanten zulassen
+ a| 
+Nur die ausgewählten Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+
+
+ a| 
+Ausgewählte Mandanten blockieren
+ a| 
+Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff auf ihre Buckets verwenden. Alle anderen Mandanten können diesen Endpunkt verwenden.
+
+|===
+. Wenn Sie einen *HTTP*-Endpunkt erstellen, müssen Sie kein Zertifikat anhängen. *Erstellen* auswählen, um den neuen Load Balancer Endpunkt hinzuzufügen. Anschließend zu <<after-you-finish,Nachdem Sie fertig sind>> gehen. Andernfalls *Weiter* auswählen, um das Zertifikat anzuhängen.
+
+
+
+
+[[attach-certificate]]
+=== Zertifikat beifügen
+
+.Schritte
+. Wenn Sie einen *HTTPS*-Endpunkt erstellen, wählen Sie den Typ des Sicherheitszertifikats aus, das Sie dem Endpunkt zuordnen möchten.
++
+Das Zertifikat sichert die Verbindungen zwischen S3-Clients und dem Load Balancer Service auf dem Admin Node oder den Gateway Nodes.
+
++
+** *Zertifikat hochladen*. Diese Option ist auszuwählen, wenn benutzerdefinierte Zertifikate hochgeladen werden sollen.
+** *Zertifikat generieren*. Diese Option ist auszuwählen, wenn die erforderlichen Werte zum Generieren eines benutzerdefinierten Zertifikats vorliegen.
+** *StorageGRID S3-Zertifikat verwenden*. Diese Option ist auszuwählen, wenn das globale S3-API-Zertifikat genutzt werden soll, das auch für Verbindungen direkt zu Storage Nodes verwendet werden kann.
++
+Diese Option kann nicht ausgewählt werden, es sei denn, das standardmäßige S3-API-Zertifikat, das von der Grid-CA signiert ist, wurde durch ein benutzerdefiniertes Zertifikat ersetzt, das von einer externen Zertifizierungsstelle signiert ist. Siehe link:../admin/configuring-custom-server-certificate-for-storage-node.html["S3 API-Zertifikate konfigurieren"].
+
+** *Managementoberfläche-Zertifikat verwenden*. Diese Option ist auszuwählen, wenn das globale Managementoberfläche-Zertifikat verwendet werden soll, das auch für direkte Verbindungen zu Admin Nodes genutzt werden kann.
+
+
+. Falls das StorageGRID S3-Zertifikat nicht verwendet wird, das Zertifikat hochladen oder generieren.
++
+[role="tabbed-block"]
+====
+.Zertifikat hochladen
+--
+.. *Zertifikat hochladen* auswählen.
+.. ${post_edited_translations.segment}
++
+*** *Serverzertifikat*: Die benutzerdefinierte Serverzertifikatdatei in PEM-Kodierung.
+*** *Privater Zertifikatsschlüssel*: Die benutzerdefinierte private Schlüsseldatei des Serverzertifikats (`.key`).
++
+
+NOTE: Private EC-Schlüssel müssen mindestens 224 Bit groß sein. Private RSA-Schlüssel müssen mindestens 2048 Bit groß sein.
+
+*** *CA bundle*: Eine einzelne optionale Datei, die die Zertifikate aller zwischengeschalteten Zertifizierungsstellen (CAs) enthält. Die Datei sollte alle PEM-kodierten CA-Zertifikatsdateien, in der Reihenfolge der Zertifikatskette zusammengefügt, enthalten.
+
+
+.. *Zertifikatsdetails* kann erweitert werden, um die Metadaten jedes hochgeladenen Zertifikats anzuzeigen. Wenn ein optionales CA-Bundle hochgeladen wurde, wird jedes Zertifikat auf einem eigenen Tab angezeigt.
++
+*** ${post_edited_translations.segment}
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** ${post_edited_translations.segment}
+
+
+.. *Erstellen* auswählen. + Der Load Balancer Endpunkt wird erstellt. Das benutzerdefinierte Zertifikat wird für alle nachfolgenden neuen Verbindungen zwischen S3 Clients oder der Managementoberfläche und dem Endpunkt verwendet.
+
+
+--
+.Zertifikat generieren
+--
+.. *Zertifikat generieren* auswählen.
+.. ${post_edited_translations.segment}
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Domainname
+ a| 
+Ein oder mehrere vollqualifizierte Domain-Namen, die in das Zertifikat aufgenommen werden sollen. Ein * kann als Platzhalter verwendet werden, um mehrere Domain-Namen darzustellen.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Thema (optional)
+ a| 
+${post_edited_translations.segment}
+
+Wird in diesem Feld kein Wert eingegeben, verwendet das generierte Zertifikat den ersten Domänennamen oder die erste IP-Adresse als allgemeinen Subjektnamen (CN).
+
+
+
+ a| 
+Gültigkeitstage
+ a| 
+Anzahl der Tage nach der Erstellung, nach denen das Zertifikat abläuft.
+
+
+
+ a| 
+Schlüsselverwendungserweiterungen hinzufügen
+ a| 
+Wenn diese Option ausgewählt ist (Standard und empfohlen), werden die Schlüsselverwendungs- und erweiterten Schlüsselverwendungs-Erweiterungen dem generierten Zertifikat hinzugefügt.
+
+Diese Erweiterungen definieren den Zweck des im Zertifikat enthaltenen Schlüssels.
+
+*Hinweis*: Dieses Kontrollkästchen sollte aktiviert bleiben, es sei denn, bei älteren Clients treten Verbindungsprobleme auf, wenn die Zertifikate diese Erweiterungen enthalten.
+
+|===
+.. Wählen Sie *Generieren*.
+.. *Zertifikatdetails* zeigt die Metadaten des generierten Zertifikats an.
++
+*** *Zertifikat herunterladen* auswählen, um die Zertifikatsdatei zu speichern.
++
+Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
+
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+*** *Zertifikat PEM kopieren* auswählen, um den Zertifikatsinhalt zum Einfügen an anderer Stelle zu kopieren.
+
+
+.. Wählen Sie *Create*.
++
+Der Load-Balancer-Endpunkt wurde erstellt. Das benutzerdefinierte Zertifikat wird für alle nachfolgenden neuen Verbindungen zwischen S3-Clients oder der Managementoberfläche und diesem Endpunkt verwendet.
+
+
+
+--
+====
+
+
+
+
+[[after-you-finish]]
+=== Nachdem Sie fertig sind
+
+.Schritte
+. Wenn Sie einen DNS verwenden, muss sichergestellt sein, dass der DNS einen Eintrag enthält, der den StorageGRID vollqualifizierte Domainnamen (FQDN) mit jeder IP-Adresse verknüpft, die Clients für Verbindungen verwenden.
++
+Die im DNS-Eintrag angegebene IP-Adresse hängt davon ab, ob Sie eine HA-Gruppe von Load-Balancing-Knoten verwenden:
+
++
+** Wenn Sie eine HA-Gruppe konfiguriert haben, verbinden sich die Clients mit den virtuellen IP-Adressen dieser HA-Gruppe.
+** Wenn keine HA-Gruppe verwendet wird, stellen Clients über die IP-Adresse eines Gateway-Knotens oder Admin-Knotens eine Verbindung zum StorageGRID Load Balancer Service her.
++
+Es ist außerdem sicherzustellen, dass der DNS-Eintrag alle erforderlichen Endpunktdomänennamen, einschließlich aller Wildcard-Namen, referenziert.
+
+
+
+. S3-Clients werden die Informationen bereitgestellt, die für die Verbindung zum Endpunkt erforderlich sind:
++
+** Portnummer
+** Vollqualifizierte Domain oder IP-Adresse
+** Angaben zu erforderlichen Zertifikaten
+
+
+
+
+
+
+[[view-and-edit-load-balancer-endpoints]]
+== Load Balancer Endpunkte anzeigen und bearbeiten
+
+Sie können Details zu bestehenden Load Balancer Endpunkten anzeigen, einschließlich der Zertifikatsmetadaten für einen gesicherten Endpunkt. Bestimmte Einstellungen für einen Endpunkt lassen sich ändern.
+
+* Grundlegende Informationen zu allen Load Balancer Endpunkten finden sich in den Tabellen auf der Seite Load Balancer Endpunkte.
+* Alle Details zu einem bestimmten Endpunkt, einschließlich der Zertifikatsmetadaten, werden angezeigt, wenn der Name des Endpunkts in der Tabelle ausgewählt wird. Die angezeigten Informationen variieren je nach Endpunkttyp und dessen Konfiguration.
++
+image:load_balancer_endpoint_details.png["Details zum Load Balancer-Endpunkt"]
+
+* Um einen Endpunkt zu bearbeiten, verwenden Sie das Menü *Aktionen* auf der Seite Load balancer endpoints.
++
+
+NOTE: Wenn während der Bearbeitung des Ports eines Managementoberfläche Endpunkts der Zugriff auf Grid Manager verloren geht, sollten URL und Port aktualisiert werden, um den Zugriff wiederzuerlangen.
+
++
+
+TIP: Nach der Bearbeitung eines Endpunkts kann es bis zu 15 Minuten dauern, bis Ihre Änderungen auf alle Knoten angewendet werden.
+
++
+[cols="1a, 2a,2a"]
+|===
+| Aufgabe | Aktionsmenü | Detailseite 
+
+
+ a| 
+Endpunktname bearbeiten
+ a| 
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. Wählen Sie *Aktionen* > *Endpunktname bearbeiten*.
+.. Geben Sie den neuen Namen ein.
+.. *Speichern* auswählen.
+
+ a| 
+.. Den Endpunktnamen auswählen, um die Details anzuzeigen.
+.. Das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] auswählen.
+.. Geben Sie den neuen Namen ein.
+.. *Speichern* auswählen.
+
+
+
+
+ a| 
+Endpunktport bearbeiten
+ a| 
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. *Aktionen* > *Endpunktport bearbeiten* auswählen
+.. Geben Sie eine gültige Portnummer ein.
+.. *Speichern* auswählen.
+
+ a| 
+_n. v._
+
+
+
+ a| 
+Endpunktbindungsmodus bearbeiten
+ a| 
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. *Aktionen* > *Endpunktbindungsmodus bearbeiten* auswählen.
+.. Der Bindungsmodus wird bei Bedarf aktualisiert.
+.. Wählen Sie *Save changes*.
+
+ a| 
+.. Den Endpunktnamen auswählen, um die Details anzuzeigen.
+.. *Bindungsmodus bearbeiten* auswählen.
+.. Der Bindungsmodus wird bei Bedarf aktualisiert.
+.. Wählen Sie *Save changes*.
+
+
+
+
+ a| 
+Endpunktzertifikat bearbeiten
+ a| 
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. Wählen Sie *Aktionen* > *Endpunktzertifikat bearbeiten*.
+.. Ein neues benutzerdefiniertes Zertifikat kann hochgeladen oder generiert werden, oder das globale S3-Zertifikat kann verwendet werden, je nach Bedarf.
+.. Wählen Sie *Save changes*.
+
+ a| 
+.. Den Endpunktnamen auswählen, um die Details anzuzeigen.
+.. Die Registerkarte *Zertifikat* auswählen.
+.. *Zertifikat bearbeiten* auswählen.
+.. Ein neues benutzerdefiniertes Zertifikat kann hochgeladen oder generiert werden, oder das globale S3-Zertifikat kann verwendet werden, je nach Bedarf.
+.. Wählen Sie *Save changes*.
+
+
+
+
+ a| 
+Mandantenzugriff bearbeiten
+ a| 
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. *Aktionen* > *Mandantenzugriff bearbeiten* auswählen.
+.. Eine andere Zugriffsoption kann gewählt, Mandanten aus der Liste ausgewählt oder entfernt werden, oder beides.
+.. Wählen Sie *Save changes*.
+
+ a| 
+.. Den Endpunktnamen auswählen, um die Details anzuzeigen.
+.. Die Registerkarte *Mandantenzugriff* auswählen.
+.. *Mandantenzugriff bearbeiten* auswählen.
+.. Eine andere Zugriffsoption kann gewählt, Mandanten aus der Liste ausgewählt oder entfernt werden, oder beides.
+.. Wählen Sie *Save changes*.
+
+
+|===
+
+
+
+
+[[remove-load-balancer-endpoints]]
+== Load Balancer Endpunkte entfernen
+
+Sie können einen oder mehrere Endpunkte über das Menü *Aktionen* entfernen oder einen einzelnen Endpunkt auf der Detailseite entfernen.
+
+
+CAUTION: Um Client-Unterbrechungen zu vermeiden, sollten alle betroffenen S3-Client-Anwendungen aktualisiert werden, bevor ein Load Balancer Endpunkt entfernt wird. Jeder Client sollte so aktualisiert werden, dass er die Verbindung über einen Port herstellt, der einem anderen Load Balancer Endpunkt zugewiesen ist. Es ist darauf zu achten, dass auch alle erforderlichen Zertifikatsinformationen aktualisiert werden.
+
+
+NOTE: Wenn beim Entfernen eines Managementoberfläche Endpunkts der Zugriff auf Grid Manager verloren geht, sollte die URL aktualisiert werden.
+
+* Um einen oder mehrere Endpunkte zu entfernen:
++
+.. Auf der Load Balancer-Seite das Kontrollkästchen für jeden Endpunkt auswählen, der entfernt werden soll.
+.. *Aktionen* > *Entfernen* auswählen.
+.. Wählen Sie *OK*.
+
+
+* Einen Endpunkt von der Detailseite entfernen:
++
+.. Auf der Load-Balancer-Seite den Endpunktnamen auswählen.
+.. Auf der Detailseite die Option *Entfernen* auswählen.
+.. Wählen Sie *OK*.
+
+
+

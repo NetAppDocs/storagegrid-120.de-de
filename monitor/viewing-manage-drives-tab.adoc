@@ -1,0 +1,25 @@
+---
+permalink: monitor/viewing-manage-drives-tab.html 
+sidebar: sidebar 
+keywords: Manage drives tab, hardware diagnostics, fail drive, logically replace drive 
+summary: Die Registerkarte „Laufwerke verwalten“ ermöglicht den Zugriff auf Details sowie die Durchführung von Fehlerbehebungs- und Wartungsaufgaben an Laufwerken in den Appliances, die diese Funktion unterstützen. 
+---
+= Registerkarte „Laufwerke verwalten“ in StorageGRID anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Registerkarte „Laufwerke verwalten“ ermöglicht den Zugriff auf Details sowie die Durchführung von Fehlerbehebungs- und Wartungsaufgaben an Laufwerken in den Appliances, die diese Funktion unterstützen.
+
+Über die Registerkarte „Laufwerke verwalten“ sind folgende Aktionen möglich:
+
+* Eine Übersicht der Datenspeicherlaufwerke im Gerät anzeigen.
+* Eine Tabelle zeigt jeden Laufwerksstandort, Typ, Status, Firmware-Version und die Seriennummer auf.
+* Fehlerbehebungs- und Wartungsfunktionen an jedem Laufwerk ausführen
+
+
+Um auf die Registerkarte „Laufwerke verwalten“ zugreifen zu können, muss die link:../admin/admin-group-permissions.html["Administrator- oder Root-Zugriffsberechtigung für Storage Appliance"] vorhanden sein.
+
+Informationen zur Verwendung der Registerkarte „Laufwerke verwalten“ finden sich unter  https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/manage-drives-tab.html["Die Registerkarte „Laufwerke verwalten“ verwenden"^].

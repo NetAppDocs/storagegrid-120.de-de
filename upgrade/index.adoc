@@ -1,0 +1,33 @@
+---
+permalink: upgrade/index.html 
+sidebar: sidebar 
+keywords: storagegrid software upgrade 
+summary: Diese Anweisungen dienen zur Aktualisierung eines StorageGRID Systems auf eine neue Version. 
+---
+= StorageGRID Software aktualisieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Anweisungen dienen zur Aktualisierung eines StorageGRID Systems auf eine neue Version.
+
+Beim Upgrade werden alle Knoten in Ihrem StorageGRID System aktualisiert.
+
+
+CAUTION: Das Upgrade sollte nicht gestartet werden, wenn dringend eine Erweiterung des Speicherplatzes zur Kapazitätserhöhung erforderlich ist (wenn der Speicher fast voll ist). Das Upgrade-Verfahren sollte zeitnah abgeschlossen werden. Falls eine Wiederherstellung erforderlich ist, ist der technische Support zu kontaktieren.
+
+
+
+[[before-you-upgrade]]
+== Bevor Sie das Upgrade durchführen
+
+In diesen Themen finden sich Informationen zu den neuen Funktionen und Verbesserungen in StorageGRID 12.0, dazu, ob Funktionen veraltet oder entfernt wurden, sowie zu Änderungen an den StorageGRID APIs.
+
+* link:how-your-system-is-affected-during-upgrade.html["Wie sich das Upgrade auf Ihr System auswirkt"]
+* link:../release-notes/whats-new.html["Neues in StorageGRID 12.0"]
+* link:../release-notes/removed-or-deprecated-features.html["Entfernte oder veraltete Funktionen"]
+* link:../release-notes/changes-to-grid-management-api.html["Änderungen an der Grid Management API"]
+* link:../release-notes/changes-to-tenant-management-api.html["Änderungen an der Tenant Management API"]
+

@@ -1,0 +1,127 @@
+---
+permalink: monitor/silencing-alert-notifications.html 
+sidebar: sidebar 
+keywords: how to disable alert rules, how to remove a custom alert rule 
+summary: Optional lassen sich Stummschaltungen konfigurieren, um Warnmeldungen vorübergehend zu unterdrücken. 
+---
+= Warnmeldungen in StorageGRID stummschalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Optional lassen sich Stummschaltungen konfigurieren, um Warnmeldungen vorübergehend zu unterdrücken.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Über diese Aufgabe
+Sie können Alarmregeln für das gesamte Grid, einen einzelnen Standort oder einen einzelnen Knoten und für einen oder mehrere Schweregrade stummschalten. Jede Stummschaltung unterdrückt alle Benachrichtigungen für eine einzelne Alarmregel oder für alle Alarmregeln.
+
+Wenn Sie den SNMP-Agent aktiviert haben, unterdrücken Stummschaltungen auch SNMP-Traps und Informs.
+
+
+CAUTION: Seien Sie vorsichtig, wenn Sie eine Warnregel unterdrücken. Wenn Sie eine Warnregel unterdrücken, wird ein zugrundeliegendes Problem möglicherweise erst erkannt, wenn es die Ausführung eines kritischen Vorgangs verhindert.
+
+.Schritte
+. *Benachrichtigungen* > *Stummschaltungen* auswählen.
++
+Die Seite „Stille“ wird angezeigt.
+
++
+image:alerts_silences_page.png["Benachrichtigungen > Stummschaltungsseite"]
+
+. Wählen Sie *Create*.
++
+Das Dialogfeld „Stille erstellen“ wird angezeigt.
+
++
+image:alerts_create_silence.png["Benachrichtigungen > Stille erstellen"]
+
+. Folgende Informationen auswählen oder eingeben:
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Alarmregel
+ a| 
+Der Name der Benachrichtigungsregel, die Sie stummschalten möchten. Es kann jede Standard- oder benutzerdefinierte Benachrichtigungsregel ausgewählt werden, auch wenn die Benachrichtigungsregel deaktiviert ist.
+
+*Hinweis:* *Alle Regeln* kann ausgewählt werden, um alle Alarmregeln mit den in diesem Dialogfeld angegebenen Kriterien stummzuschalten.
+
+
+
+ a| 
+Beschreibung
+ a| 
+Optional kann eine Beschreibung der Stille angegeben werden. Zum Beispiel kann der Zweck dieser Stille beschrieben werden.
+
+
+
+ a| 
+Dauer
+ a| 
+Wie lange diese Stille in Minuten, Stunden oder Tagen wirksam bleiben soll. Eine Stille kann zwischen 5 Minuten und 1.825 Tagen (5 Jahren) wirksam sein.
+
+*Hinweis:* Sie sollten eine Alarmregel nicht über einen längeren Zeitraum stummschalten. Wenn eine Alarmregel stummgeschaltet ist, wird ein zugrundeliegendes Problem möglicherweise erst erkannt, wenn es die Ausführung eines kritischen Vorgangs verhindert. Eine längere Stummschaltung kann jedoch erforderlich sein, wenn ein Alarm durch eine bestimmte, beabsichtigte Konfiguration ausgelöst wird, wie es beispielsweise bei den *Services appliance link down*-Alarmen und den *Storage appliance link down*-Alarmen der Fall sein kann.
+
+
+
+ a| 
+Schwere
+ a| 
+Welche Schweregrade sollen unterdrückt werden. Wenn die Warnung bei einem der ausgewählten Schweregrade ausgelöst wird, werden keine Benachrichtigungen gesendet.
+
+
+
+ a| 
+Nodes
+ a| 
+Auf welche Knoten oder welchen Knoten diese Stummschaltung angewendet werden soll. Eine Alarmregel oder alle Regeln können im gesamten Grid, an einem einzelnen Standort oder auf einem einzelnen Knoten unterdrückt werden. Wenn das gesamte Grid ausgewählt wird, gilt die Stummschaltung für alle Standorte und alle Knoten. Wenn ein Standort ausgewählt wird, gilt die Stummschaltung nur für die Knoten an diesem Standort.
+
+*Hinweis:* Für jede Stummschaltung kann nicht mehr als ein Knoten oder mehr als ein Standort ausgewählt werden. Zusätzliche Stummschaltungen sind erforderlich, wenn dieselbe Alarmregel gleichzeitig auf mehr als einem Knoten oder mehr als einem Standort unterdrückt werden soll.
+
+|===
+. *Speichern* auswählen.
+. Wenn eine Stille vor deren Ablauf geändert oder beendet werden soll, kann sie bearbeitet oder entfernt werden.
++
+[cols="1a,3a"]
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Eine Stille bearbeiten
+ a| 
+.. *Benachrichtigungen* > *Stummschaltungen* auswählen.
+.. In der Tabelle das Optionsfeld für die Stille auswählen, die bearbeitet werden soll.
+.. *Bearbeiten* auswählen.
+.. Die Beschreibung, die verbleibende Zeit, die ausgewählten Schweregrade oder den betroffenen Knoten ändern.
+.. *Speichern* auswählen.
+
+
+
+
+ a| 
+Eine Stille entfernen
+ a| 
+.. *Benachrichtigungen* > *Stummschaltungen* auswählen.
+.. In der Tabelle das Optionsfeld für die Stille auswählen, die entfernt werden soll.
+.. Wählen Sie *Remove*.
+.. *OK* auswählen, um zu bestätigen, dass diese Stille entfernt werden soll.
++
+*Hinweis*: Benachrichtigungen werden nun versendet, sobald diese Warnung ausgelöst wird (sofern sie nicht durch eine andere Stummschaltung unterdrückt werden). Wenn diese Warnung aktuell ausgelöst ist, kann es einige Minuten dauern, bis E-Mail- oder SNMP-Benachrichtigungen versendet werden und die Seite „Warnungen“ aktualisiert wird.
+
+
+
+|===
+
+
+.Verwandte Informationen
+link:configuring-snmp-agent.html["Den SNMP-Agenten konfigurieren"]

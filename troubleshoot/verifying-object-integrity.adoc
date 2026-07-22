@@ -1,0 +1,176 @@
+---
+permalink: troubleshoot/verifying-object-integrity.html 
+sidebar: sidebar 
+keywords: how to verify object integrity, object existence check, background verification 
+summary: Das StorageGRID System überprüft die Integrität der Objektdaten auf den Storage Nodes und prüft sowohl auf beschädigte als auch auf fehlende Objekte. 
+---
+= Überprüfen Sie die Integrität der Objektdaten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das StorageGRID System überprüft die Integrität der Objektdaten auf den Storage Nodes und prüft sowohl auf beschädigte als auch auf fehlende Objekte.
+
+Es gibt zwei Verifizierungsprozesse: die Hintergrundverifizierung und die Objektexistenzprüfung (früher als Vordergrundverifizierung bezeichnet). Diese arbeiten zusammen, um die Datenintegrität sicherzustellen. Die Hintergrundverifizierung läuft automatisch und prüft kontinuierlich die Korrektheit der Objektdaten. Die Objektexistenzprüfung kann von einem Benutzer ausgelöst werden, um die Existenz (jedoch nicht die Korrektheit) von Objekten schneller zu überprüfen.
+
+
+
+[[what-is-background-verification]]
+== Was ist eine Hintergrundüberprüfung?
+
+Der Hintergrundüberprüfungsprozess prüft automatisch und kontinuierlich Storage Nodes auf beschädigte Kopien von Objektdaten und versucht automatisch, alle gefundenen Probleme zu beheben.
+
+Die Hintergrundverifizierung prüft die Integrität replizierter Objekte und Objekte mit Löschcodierung wie folgt:
+
+* *Replizierte Objekte*: Wenn der Hintergrundüberprüfungsprozess ein beschädigtes repliziertes Objekt findet, wird die beschädigte Kopie von ihrem Speicherort entfernt und an anderer Stelle auf dem Storage Node unter Quarantäne gestellt. Dann wird eine neue, unbeschädigte Kopie erstellt und platziert, um die aktiven ILM-Richtlinien zu erfüllen. Die neue Kopie wird möglicherweise nicht auf dem Storage Node platziert, der für die ursprüngliche Kopie verwendet wurde.
+
+
+
+NOTE: Beschädigte Objektdaten werden in Quarantäne verschoben, anstatt aus dem System gelöscht zu werden, sodass sie weiterhin zugänglich sind. Weitere Informationen zum Zugriff auf in Quarantäne verschobene Objektdaten sind beim technischen Support erhältlich.
+
+* *Erasure-codierte Objekte*: Wenn der Hintergrundüberprüfungsprozess feststellt, dass ein Fragment eines erasure-codierten Objekts beschädigt ist, versucht StorageGRID automatisch, das fehlende Fragment am selben Storage Node mithilfe der verbleibenden Daten- und Paritätsfragmente wiederherzustellen. Kann das beschädigte Fragment nicht wiederhergestellt werden, wird versucht, eine andere Kopie des Objekts abzurufen. Ist das Abrufen erfolgreich, erfolgt eine ILM-Auswertung, um eine Ersatzkopie des erasure-codierten Objekts zu erstellen.
++
+Der Hintergrundüberprüfungsprozess prüft ausschließlich Objekte auf Storage Nodes. Objekte in einem Cloud Storage Pool werden nicht geprüft. Objekte müssen älter als vier Tage sein, um für die Hintergrundüberprüfung in Frage zu kommen.
+
+
+
+Die Hintergrundprüfung läuft kontinuierlich und ist so ausgelegt, dass sie den normalen Systembetrieb nicht beeinträchtigt. Die Hintergrundprüfung kann nicht angehalten werden. Allerdings kann die Hintergrundprüfungsrate erhöht werden, um den Inhalt eines Storage Node schneller zu überprüfen, falls ein Problem vermutet wird.
+
+
+
+[[alerts-related-to-background-verification]]
+== Warnmeldungen im Zusammenhang mit der Hintergrundüberprüfung
+
+Wenn das System ein beschädigtes Objekt erkennt, das es nicht automatisch korrigieren kann (weil die Beschädigung die Identifizierung des Objekts verhindert), wird die Warnung *Unidentified corrupt object detected* ausgelöst.
+
+Wenn die Hintergrundprüfung ein beschädigtes Objekt nicht ersetzen kann, weil keine andere Kopie gefunden werden kann, wird die Warnung *Objects potentially lost* ausgelöst.
+
+
+
+[[what-is-object-existence-check]]
+== Was ist eine Objekt-Existenzprüfung?
+
+Die Objektexistenzprüfung verifiziert, ob alle erwarteten replizierten Kopien von Objekten und Erasure-Coding-Fragmenten auf einem Storage Node vorhanden sind. Die Objektexistenzprüfung überprüft nicht die Objektdaten selbst (die Hintergrundverifizierung übernimmt dies); vielmehr bietet sie eine Möglichkeit zur Überprüfung der Integrität von Speichermedien, insbesondere wenn ein kürzlich aufgetretenes Hardwareproblem die Datenintegrität beeinträchtigt haben könnte.
+
+Im Gegensatz zur Hintergrundprüfung, die automatisch erfolgt, muss ein Objektexistenzprüfungsauftrag manuell gestartet werden.
+
+Die Objektexistenzprüfung liest die Metadaten jedes in StorageGRID gespeicherten Objekts und überprüft das Vorhandensein sowohl replizierter Objektkopien als auch von löschcodierten Objektfragmenten. Fehlende Daten werden wie folgt behandelt:
+
+* *Replizierte Kopien*: Fehlt eine Kopie replizierter Objektdaten, versucht StorageGRID automatisch, diese durch eine an anderer Stelle im System gespeicherte Kopie zu ersetzen. Der Storage Node führt eine vorhandene Kopie durch eine ILM-Evaluierung, wobei festgestellt wird, dass die aktuelle ILM-Richtlinie für dieses Objekt nicht mehr erfüllt wird, da eine weitere Kopie fehlt. Eine neue Kopie wird erstellt und platziert, um die aktiven ILM-Richtlinien des Systems zu erfüllen. Diese neue Kopie wird möglicherweise nicht am selben Speicherort abgelegt, an dem die fehlende Kopie gespeichert war.
+* *Erasure-codierte Fragmente*: Fehlt ein Fragment eines erasure-codierten Objekts, versucht StorageGRID automatisch, das fehlende Fragment am selben Storage Node mithilfe der verbleibenden Fragmente wiederherzustellen. Kann das fehlende Fragment nicht wiederhergestellt werden (weil zu viele Fragmente verloren gegangen sind), versucht ILM, eine weitere Kopie des Objekts zu finden, mit der ein neues erasure-codiertes Fragment generiert werden kann.
+
+
+
+
+[[run-object-existence-check]]
+== Objektexistenzprüfung ausführen
+
+Sie erstellen und führen jeweils einen Objektexistenzprüfungsauftrag aus. Beim Erstellen eines Auftrags wählen Sie die Storage Nodes und Volumes aus, die Sie überprüfen möchten. Sie legen außerdem die Konsistenz für den Auftrag fest.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie haben sichergestellt, dass die Storage Nodes, die Sie überprüfen möchten, online sind. *Nodes* auswählen, um die Tabelle der Knoten anzuzeigen. Sicherstellen, dass neben dem Node-Name der Knoten, die Sie überprüfen möchten, keine Warnsymbole erscheinen.
+* Sie haben sichergestellt, dass die folgenden Prozeduren *nicht* auf den zu überprüfenden Nodes ausgeführt werden:
++
+** Grid-Erweiterung zum Hinzufügen eines Storage Node
+** Stilllegung des Storage Node
+** Wiederherstellung eines ausgefallenen Speichervolumens
+** Wiederherstellung eines Storage Node mit ausgefallenem Systemlaufwerk
+** EC Neuausrichtung
+** Appliance Node-Klon
+
+
+
+
+Die Überprüfung der Objektexistenz liefert während dieser Vorgänge keine nützlichen Informationen.
+
+.Über diese Aufgabe
+Ein Auftrag zur Prüfung der Objektexistenz kann je nach Anzahl der Objekte im Grid, den ausgewählten Storage Nodes und Volumes sowie der gewählten Konsistenz Tage oder Wochen in Anspruch nehmen. Es kann jeweils nur ein Auftrag ausgeführt werden, jedoch können mehrere Storage Nodes und Volumes gleichzeitig ausgewählt werden.
+
+.Schritte
+. Wählen Sie *Wartung* > *Aufgaben* > *Objektexistenzprüfung*.
+. *Auftrag erstellen* auswählen. Der Assistent zum Erstellen eines Auftrags zur Objektexistenzprüfung wird angezeigt.
+. Wählen Sie die Knoten aus, die die zu überprüfenden Volumes enthalten. Zum Auswählen aller Online-Knoten das Kontrollkästchen *Node-Name* in der Spaltenüberschrift aktivieren.
++
+Es ist möglich, nach Node-Name oder Standort zu suchen.
+
++
+Sie können keine Knoten auswählen, die nicht mit dem Grid verbunden sind.
+
+. Wählen Sie *Weiter*.
+. Wählen Sie ein oder mehrere Volumes für jeden Node in der Liste aus. Sie können nach Volumes mithilfe der Storage-Volume-Nummer oder des Node-Namens suchen.
++
+${post_edited_translations.segment}
+
+. Wählen Sie *Weiter*.
+. Die Konsistenz für die Aufgabe auswählen.
++
+Die Konsistenz bestimmt, wie viele Kopien der Objektmetadaten für die Objektexistenzprüfung verwendet werden.
+
++
+** ${post_edited_translations.segment}
+** ${post_edited_translations.segment}
+** *Alle* (Standard): Alle drei Kopien der Metadaten an jedem Standort.
++
+Weitere Informationen zur Konsistenz sind in den Beschreibungen im Assistenten enthalten.
+
+
+
+. Wählen Sie *Weiter*.
+. Überprüfen und verifizieren Sie Ihre Auswahl. Sie können *Zurück* auswählen, um zu einem vorherigen Schritt im Assistenten zu wechseln und Ihre Auswahl zu aktualisieren.
++
+Es wird ein Job zur Überprüfung der Objektexistenz generiert und läuft so lange, bis eines der folgenden Ereignisse eintritt:
+
++
+** Der Auftrag ist abgeschlossen.
+** Sie pausieren oder brechen den Auftrag ab. Ein pausierter Auftrag kann fortgesetzt werden, ein abgebrochener jedoch nicht.
+** Der Job hängt sich auf. Die Warnung *Objektexistenzprüfung ist hängen geblieben* wird ausgelöst. Es sind die in der Warnung angegebenen Korrekturmaßnahmen zu beachten.
+** Der Auftrag schlägt fehl. Die Warnung *Objektexistenzprüfung fehlgeschlagen* wird ausgelöst. Es sind die in der Warnung angegebenen Korrekturmaßnahmen zu beachten.
+** Es erscheint die Meldung „Dienst nicht verfügbar“ oder „Interner Serverfehler“. Nach einer Minute die Seite aktualisieren, um die Überwachung des Auftrags fortzusetzen.
++
+
+NOTE: Bei Bedarf können Sie die Seite zur Objektexistenzprüfung verlassen und zurückkehren, um die Überwachung des Auftrags fortzusetzen.
+
+
+
+. Während der Job läuft, kann auf der Registerkarte *Aktiver Job* der Wert für erkannte fehlende Objektkopien eingesehen werden.
++
+Dieser Wert stellt die Gesamtzahl der fehlenden Kopien replizierter Objekte und löschcodierter Objekte mit einem oder mehreren fehlenden Fragmenten dar.
+
++
+Wenn die Anzahl der erkannten fehlenden Objektkopien größer als 100 ist, könnte ein Problem mit dem Storage Node-Speicher vorliegen.
+
+. Nach Abschluss des Auftrags sind alle weiteren erforderlichen Maßnahmen durchzuführen:
++
+** Wenn die Anzahl der erkannten fehlenden Objektkopien null beträgt, wurden keine Probleme festgestellt. Es ist keine Aktion erforderlich.
+** Wenn die Anzahl der erkannten fehlenden Objektkopien größer als null ist und die Warnung *Objects potentially lost* nicht ausgelöst wurde, wurden alle fehlenden Kopien vom System repariert. Es sollte überprüft werden, ob etwaige Hardwareprobleme behoben wurden, um zukünftige Schäden an Objektkopien zu verhindern.
+** Wenn die Anzahl fehlender Objektkopien größer als null ist und die Warnung *Objects potentially lost* ausgelöst wurde, kann die Datenintegrität beeinträchtigt sein. Wenden Sie sich an den technischen Support.
+** Sie können potenziell verlorene Objektkopien untersuchen, indem Sie mit grep die LLST-Audit-Meldungen extrahieren: `grep LLST audit_file_name`.
++
+Dieses Verfahren ähnelt dem für link:../troubleshoot/investigating-potentially-lost-objects.html["${post_edited_translations.segment}"], obwohl Sie bei Objektkopien nach `LLST` statt nach `OLST` suchen.
+
+
+
+. Wenn für den Auftrag die starke Standort- oder starke globale Konsistenz ausgewählt wurde, sollte etwa drei Wochen auf die Metadatenkonsistenz gewartet werden, danach kann der Auftrag erneut auf denselben Volumes ausgeführt werden.
++
+Wenn StorageGRID genügend Zeit hatte, die Metadatenkonsistenz für die im Job enthaltenen Knoten und Volumes zu erreichen, kann das erneute Ausführen des Jobs fälschlicherweise als fehlend gemeldete Objektkopien entfernen oder dazu führen, dass zusätzliche Objektkopien überprüft werden, falls diese übersehen wurden.
+
++
+.. Wählen Sie *Wartung* > *Objektexistenzprüfung* > *Auftragsverlauf*.
+.. Ermitteln, welche Aufträge zur erneuten Ausführung bereit sind:
++
+... In der Spalte *Endzeit* lässt sich erkennen, welche Aufträge vor mehr als drei Wochen ausgeführt wurden.
+... In diesen Jobs die Spalte „Konsistenzkontrolle“ auf „strong-site“ oder „strong-global“ prüfen.
+
+
+.. Für jeden Job, der erneut ausgeführt werden soll, das Kontrollkästchen auswählen und anschließend *Erneut ausführen* wählen.
+.. Im Assistenten zum erneuten Ausführen von Aufträgen werden die ausgewählten Knoten und Volumes sowie die Konsistenz angezeigt.
+.. Wenn Sie bereit sind, die Aufträge erneut auszuführen, wählen Sie *Erneut ausführen*.
+
+
+
+
+Die Registerkarte „Aktive Aufträge“ wird angezeigt. Alle ausgewählten Aufträge werden als ein Auftrag mit der Konsistenz strong-site erneut ausgeführt. Im Abschnitt „Details“ listet das Feld „Verwandte Aufträge“ die Auftrags-IDs der ursprünglichen Aufträge auf.

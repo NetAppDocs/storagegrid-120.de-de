@@ -1,0 +1,49 @@
+---
+permalink: maintain/replacing-gateway-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, replace gateway node, replacing gateway node 
+summary: Ein ausgefallener Gateway-Knoten kann durch einen Gateway-Knoten ersetzt werden, der auf derselben physischen oder virtuellen Hardware läuft, oder ein Gateway-Knoten, der auf VMware oder einem Linux-Host läuft, kann durch einen Gateway-Knoten ersetzt werden, der auf einer Services Appliance gehostet wird. 
+---
+= Ersetzen Sie den StorageGRID Gateway Node
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein ausgefallener Gateway-Knoten kann durch einen Gateway-Knoten ersetzt werden, der auf derselben physischen oder virtuellen Hardware läuft, oder ein Gateway-Knoten, der auf VMware oder einem Linux-Host läuft, kann durch einen Gateway-Knoten ersetzt werden, der auf einer Services Appliance gehostet wird.
+
+Das Vorgehen beim Knotenaustausch hängt von der Plattform ab, die der Ersatzknoten verwenden soll. Nach Abschluss des Knotenaustauschverfahrens (das für alle Knotentypen geeignet ist), führt dieses Verfahren Sie zum nächsten Schritt für die Gateway-Knoten-Wiederherstellung.
+
+[cols="1a,2a"]
+|===
+| Ersatzplattform | Verfahren 
+
+
+ a| 
+VMware
+ a| 
+link:all-node-types-replacing-vmware-node.html["Einen VMware-Knoten ersetzen"]
+
+
+
+ a| 
+Linux
+ a| 
+link:all-node-types-replacing-linux-node.html["Einen Linux-Knoten ersetzen"]
+
+
+
+ a| 
+Service Appliances
+ a| 
+link:replacing-failed-node-with-services-appliance.html["Austausch eines Servicegeräts"]
+
+
+
+ a| 
+OpenStack
+ a| 
+NetApp-bereitgestellte virtuelle Maschinen-Festplattendateien und Skripte für OpenStack werden für Wiederherstellungsvorgänge nicht mehr unterstützt. Wenn ein Knoten in einer OpenStack-Bereitstellung wiederhergestellt werden muss, stehen die Dateien für das jeweilige Linux-Betriebssystem zum Download bereit. Anschließend ist das Verfahren für link:all-node-types-replacing-linux-node.html["einen Linux Knoten ersetzen"] zu befolgen.
+
+|===

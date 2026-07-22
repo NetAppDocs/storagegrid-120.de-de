@@ -1,0 +1,127 @@
+---
+permalink: ilm/example-3-ilm-rules-and-policy-for-better-protection-for-image-files.html 
+sidebar: sidebar 
+keywords: example ILM rule, information lifecycle rule examples 
+summary: Mit den folgenden Beispielregeln und der Beispielrichtlinie lässt sich sicherstellen, dass Bilder, die größer als 1 MB sind, mit einem Löschcodierverfahren geschützt werden und dass von kleineren Bildern zwei Kopien erstellt werden. 
+---
+= ILM-Regeln und -Richtlinien zum Schutz von Image-Dateien in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit den folgenden Beispielregeln und der Beispielrichtlinie lässt sich sicherstellen, dass Bilder, die größer als 1 MB sind, mit einem Löschcodierverfahren geschützt werden und dass von kleineren Bildern zwei Kopien erstellt werden.
+
+
+CAUTION: Die folgenden ILM-Regeln und Richtlinien sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie empfiehlt es sich, diese zu simulieren, um zu bestätigen, dass sie wie beabsichtigt funktioniert und Inhalte vor Verlust schützt.
+
+
+
+[[ilm-rule-1-for-example-3-use-ec-for-image-files-greater-than-1-mb]]
+== ILM-Regel 1 für Beispiel 3: EC für Bilddateien verwenden, die größer als 1 MB sind
+
+Diese Beispiel-ILM-Regel verwendet erweiterte Filterung, um alle Bilddateien größer als 1 MB mit Erasure Coding zu versehen.
+
+
+NOTE: Erasure Coding eignet sich am besten für Objekte größer als 1 MB. Erasure Coding sollte für Objekte kleiner als 200 KB nicht verwendet werden, um den Aufwand für die Verwaltung sehr kleiner erasure-codierter Fragmente zu vermeiden.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+EC Image-Dateien > 1 MB
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Erweiterter Filter für Objektgröße
+ a| 
+Objektgröße größer als 1 MB
+
+
+
+ a| 
+Erweiterte Filter für Schlüssel
+ a| 
+* Endet mit .jpg
+* Endet mit .png
+
+
+
+
+ a| 
+Platzierungen
+ a| 
+Eine 2+1-Löschcodierungskopie mit drei Standorten erstellen
+
+|===
+image:policy_3_rule_1_ec_images_adv_filtering.png["ILM-Regel 1 für Beispiel 3: EC für Bilddateien verwenden, die größer als 1 MB sind"]
+
+Da diese Regel als erste Regel in der Richtlinie konfiguriert ist, gilt die Anweisung zur Platzierung der Erasure-Codierung nur für .jpg und .png Dateien, die größer als 1 MB sind.
+
+
+
+[[ilm-rule-2-for-example-3-create-2-replicated-copies-for-all-remaining-image-files]]
+== ILM Regel 2 für Beispiel 3: Zwei replizierte Kopien für alle verbleibenden Image-Dateien erstellen
+
+Diese Beispielregel für ILM verwendet erweiterte Filter, um festzulegen, dass kleinere Bilddateien repliziert werden. Da die erste Regel in der Richtlinie bereits Bilddateien größer als 1 MB erfasst hat, gilt diese Regel für Bilddateien mit einer Größe von 1 MB oder weniger.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+2 Kopien für Image-Dateien
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Erweiterte Filter für Schlüssel
+ a| 
+* Endet mit .jpg
+* Endet mit .png
+
+
+
+
+ a| 
+Platzierungen
+ a| 
+2 replizierte Kopien in zwei Speicherpools erstellen
+
+|===
+
+
+[[ilm-policy-for-example-3-better-protection-for-image-files]]
+== ILM-Richtlinie für Beispiel 3: Besserer Schutz für Bilddateien
+
+Dieses Beispiel für eine ILM Richtlinie enthält drei Regeln:
+
+* Die erste Regel wendet Erasure Codes auf alle Bilddateien an, die größer als 1 MB sind.
+* Die zweite Regel erstellt zwei Kopien aller verbleibenden Bilddateien (das heißt, Bilder, die 1 MB oder kleiner sind).
+* Die Standardregel gilt für alle übrigen Objekte (d. h. alle Nicht-Bilddateien).
+
+
+image:policy_3_configured_policy.png["ILM-Richtlinie für Beispiel 3: Besserer Schutz für Bilddateien"]

@@ -1,0 +1,104 @@
+---
+permalink: swnodes/troubleshooting-installation-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot ubuntu or debian installation 
+summary: Sollten bei der Installation Ihres StorageGRID Systems Probleme auftreten, können Sie auf die Installationsprotokolldateien zugreifen. Auch der technische Support benötigt diese Installationsprotokolldateien möglicherweise zur Fehlerbehebung. 
+---
+= Beheben von Installationsproblemen bei StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sollten bei der Installation Ihres StorageGRID Systems Probleme auftreten, können Sie auf die Installationsprotokolldateien zugreifen. Auch der technische Support benötigt diese Installationsprotokolldateien möglicherweise zur Fehlerbehebung.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+[role="tabbed-block"]
+====
+.Linux
+--
+Die folgenden Installationsprotokolldateien sind aus dem Container verfügbar, der auf jedem Node ausgeführt wird:
+
+* `/var/local/log/install.log` (auf allen Grid-Nodes vorhanden)
+* `/var/local/log/gdu-server.log` (auf dem primären Admin-Node gefunden)
+
+
+Folgende Installationsprotokolldateien sind auf dem Host verfügbar:
+
+* `/var/log/storagegrid/daemon.log`
+* `/var/log/storagegrid/nodes/node-name.log`
+
+
+Informationen zum Zugriff auf die Protokolldateien finden Sie unter link:../monitor/collecting-log-files-and-system-data.html["Protokolldateien und Systemdaten sammeln"].
+
+--
+.VMware
+--
+Im Folgenden sind die wichtigsten Installationsprotokolldateien aufgeführt, die der technische Support möglicherweise zur Problemlösung benötigt.
+
+* `/var/local/log/install.log` (auf allen Grid-Nodes vorhanden)
+* `/var/local/log/gdu-server.log` (auf dem primären Admin-Node gefunden)
+
+
+*Die Reservierung virtueller Maschinenressourcen muss angepasst werden.*
+
+OVF-Dateien enthalten eine Ressourcenreservierung, die sicherstellt, dass jeder Grid-Knoten über ausreichend RAM und CPU für einen effizienten Betrieb verfügt. Werden virtuelle Maschinen erstellt, indem diese OVF-Dateien auf VMware bereitgestellt werden und die vordefinierte Anzahl an Ressourcen nicht verfügbar ist, starten die virtuellen Maschinen nicht.
+
+.Über diese Aufgabe
+Wenn Sie sicher sind, dass der VM-Host über ausreichende Ressourcen für jeden Grid-Knoten verfügt, die für jede virtuelle Maschine zugewiesenen Ressourcen manuell angepasst werden und anschließend versucht wird, die virtuellen Maschinen zu starten.
+
+.Schritte
+. Im VMware vSphere Hypervisor-Clientbaum die virtuelle Maschine auswählen, die nicht gestartet ist.
+. Klicken Sie mit der rechten Maustaste auf die virtuelle Maschine und wählen Sie *Einstellungen bearbeiten*.
+. Im Fenster „Eigenschaften der virtuellen Maschinen“ die Registerkarte *Ressourcen* auswählen.
+. Passen Sie die der virtuellen Maschine zugewiesenen Ressourcen an:
++
+.. *CPU* auswählen und anschließend den Schieberegler „Reservierung“ verwenden, um die für diese virtuelle Maschine reservierten MHz anzupassen.
+.. *Speicher* auswählen und dann den Schieberegler „Reservierung“ verwenden, um die für diese virtuelle Maschine reservierten MB anzupassen.
+
+
+. Klicken Sie auf *OK*.
+. Bei Bedarf für weitere virtuelle Maschinen auf demselben VM-Host wiederholen.
+
+
+*Das temporäre Installationspasswort wurde deaktiviert*
+
+Beim Bereitstellen eines VMware-Knotens kann optional ein temporäres Installationspasswort festgelegt werden. Dieses Passwort ist erforderlich, um auf die VM-Konsole zuzugreifen oder SSH zu verwenden, bevor der neue Knoten dem Grid beitritt.
+
+Wenn Sie das temporäre Installationspasswort deaktiviert haben, sind zusätzliche Schritte erforderlich, um Installationsprobleme zu debuggen.
+
+Es stehen folgende Optionen zur Verfügung:
+
+* Die VM wird erneut bereitgestellt, wobei ein temporäres Installationspasswort angegeben wird, sodass Zugriff auf die Konsole oder die Nutzung von SSH zur Fehlerbehebung bei Installationsproblemen möglich ist.
+* Verwenden Sie vCenter, um das Passwort festzulegen:
++
+.. Die VM ausschalten.
+.. Zu *VM* wechseln, die Registerkarte *Konfigurieren* auswählen und *vApp Options* auswählen.
+.. Geben Sie den Typ des temporären Installationskennworts an, das festgelegt werden soll:
++
+*** *CUSTOM_TEMPORARY_PASSWORD* auswählen, um ein benutzerdefiniertes temporäres Passwort festzulegen.
+*** *TEMPORARY_PASSWORD_TYPE* auswählen, um den Node-Name als temporäres Passwort zu verwenden.
+
+
+.. *Wert festlegen* auswählen.
+.. Temporäres Passwort festlegen:
++
+*** *CUSTOM_TEMPORARY_PASSWORD* in einen benutzerdefinierten Passwortwert ändern.
+*** *TEMPORARY_PASSWORD_TYPE* mit dem Wert *Use node name* aktualisieren.
+
+
+.. Die VM muss neu gestartet werden, damit das neue Passwort angewendet wird.
+
+
+
+
+--
+====
+.Verwandte Informationen
+* Informationen zum Zugriff auf die Protokolldateien finden Sie unter link:../monitor/logs-files-reference.html["Referenz zu Protokolldateien"].
+* link:../troubleshoot/index.html["Fehlerbehebung in einem StorageGRID System"]
+* Falls Sie weitere Hilfe benötigen, wenden Sie sich an  https://mysupport.netapp.com/site/global/dashboard["NetApp Support"^].
+

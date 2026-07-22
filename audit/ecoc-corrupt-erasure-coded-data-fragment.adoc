@@ -1,0 +1,55 @@
+---
+permalink: audit/ecoc-corrupt-erasure-coded-data-fragment.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, ECOC, Corrupt Erasure-Coded Data Fragment 
+summary: Diese Revisionsprotokollmeldung weist darauf hin, dass das System ein beschädigtes, mit Löschcodierung versehenes Datenfragment erkannt hat. 
+---
+= ECOC audit message für beschädigte, löschcodierte Daten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Revisionsprotokollmeldung weist darauf hin, dass das System ein beschädigtes, mit Löschcodierung versehenes Datenfragment erkannt hat.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+VCCO
+ a| 
+VCS ID
+ a| 
+Der Name des VCS, das den beschädigten Chunk enthält.
+
+
+
+ a| 
+VLID
+ a| 
+Volume-ID
+ a| 
+Das RangeDB Volume, das das beschädigte, mit einem Löschcode versehene Fragment enthält.
+
+
+
+ a| 
+CCID
+ a| 
+Chunk-ID
+ a| 
+Die Kennung des beschädigten, mit einem Löschcode versehenen Fragments.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Dieses Feld hat den Wert 'NONE'. RSLT ist ein Pflichtfeld in Nachrichten, aber für diese Nachricht nicht relevant. 'NONE' wird anstelle von 'SUCS' verwendet, damit diese Nachricht nicht gefiltert wird.
+
+|===

@@ -1,0 +1,24 @@
+---
+permalink: network/admin-network-topology.html 
+sidebar: sidebar 
+keywords: admin network topology, using admin network 
+summary: Die Verwendung eines Admin Network ist optional. Eine Möglichkeit, ein Admin Network und ein Grid Network zu nutzen, besteht darin, für jeden Node ein routbares Grid Network und ein begrenztes Admin Network zu konfigurieren. 
+---
+= Admin-Netzwerktopologie für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Verwendung eines Admin Network ist optional. Eine Möglichkeit, ein Admin Network und ein Grid Network zu nutzen, besteht darin, für jeden Node ein routbares Grid Network und ein begrenztes Admin Network zu konfigurieren.
+
+Bei der Konfiguration des Admin Network werden die Host-IP-Adresse, die Subnetzmaske und die Gateway-IP-Adresse für die eth1-Schnittstelle jedes Grid-Node festgelegt.
+
+Das Admin Network kann für jeden Node einzigartig sein und aus mehreren Subnetzen bestehen. Jeder Node kann mit einer Admin External Subnet List (AESL) konfiguriert werden. Die AESL listet die Subnetze auf, die über das Admin Network für jeden Node erreichbar sind. Die AESL muss außerdem die Subnetze aller Services enthalten, auf die das Grid über das Admin Network zugreift, wie NTP, DNS, KMS und LDAP. Statische Routen werden für jedes Subnetz in der AESL angewendet.
+
+In diesem Beispiel wird das Grid Network für den Datenverkehr im Zusammenhang mit S3-Clientanfragen und der Objektverwaltung verwendet, während das Admin Network für administrative Funktionen genutzt wird.
+
+image:grid_admin_networks.png["Grid Admin Netzwerke"]
+
+image:grid_admin_networks_ips.png["Grid Admin Netzwerk-IPs"]

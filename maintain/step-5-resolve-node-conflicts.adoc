@@ -1,0 +1,111 @@
+---
+permalink: maintain/step-5-resolve-node-conflicts.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, resolve node conflict 
+summary: 'Ab Schritt 5 (Knotenkonflikte beheben) des Assistenten zur Standortstilllegung kann festgestellt werden, ob Knoten in Ihrem StorageGRID System getrennt sind oder ob Knoten am ausgewählten Standort zu einer Hochverfügbarkeitsgruppe (HA) gehören. Nachdem alle Knotenkonflikte behoben wurden, wird das Stilllegungsverfahren von dieser Seite aus gestartet.' 
+---
+= Beheben Sie Knotenkonflikte und starten Sie die Standortstilllegung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ab Schritt 5 (Knotenkonflikte beheben) des Assistenten zur Standortstilllegung kann festgestellt werden, ob Knoten in Ihrem StorageGRID System getrennt sind oder ob Knoten am ausgewählten Standort zu einer Hochverfügbarkeitsgruppe (HA) gehören. Nachdem alle Knotenkonflikte behoben wurden, wird das Stilllegungsverfahren von dieser Seite aus gestartet.
+
+.Bevor Sie beginnen
+Es ist sicherzustellen, dass sich alle Knoten in Ihrem StorageGRID System im korrekten Zustand befinden, wie folgt:
+
+* Alle Knoten in Ihrem StorageGRID System müssen verbunden sein (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]).
++
+
+NOTE: Wenn Sie eine getrennte Standortstilllegung durchführen, müssen alle Knoten an dem Standort, den Sie entfernen, getrennt sein und alle Knoten an allen anderen Standorten verbunden sein.
+
++
+
+NOTE: Die Außerbetriebnahme wird nicht gestartet, wenn ein oder mehrere Volumes offline (nicht eingebunden) sind oder wenn sie zwar online (eingebunden) sind, sich aber in einem Fehlerzustand befinden.
+
++
+
+NOTE: Falls ein oder mehrere Volumes während eines laufenden Stilllegungsprozesses offline gehen, wird der Stilllegungsprozess abgeschlossen, nachdem diese Volumes wieder online sind.
+
+* Kein Knoten an dem Standort, den Sie entfernen, kann eine Schnittstelle haben, die zu einer Hochverfügbarkeitsgruppe (HA) gehört.
+
+
+.Über diese Aufgabe
+Falls ein Knoten für Schritt 5 (Knotenkonflikte beheben) aufgeführt ist, muss das Problem behoben werden, bevor die Außerbetriebnahme gestartet werden kann.
+
+Vor Beginn des Verfahrens zur Stilllegung des Standorts von dieser Seite aus sind die folgenden Punkte zu beachten:
+
+* Für den Abschluss des Stilllegungsverfahrens ist ausreichend Zeit einzuplanen.
++
+
+NOTE: Das Verschieben oder Löschen von Objektdaten von einem Standort kann Tage, Wochen oder sogar Monate dauern, abhängig von der Datenmenge am Standort, der Systemlast, den Netzwerklatenzen und der Art der erforderlichen ILM-Änderungen.
+
+* Während das Stilllegungsverfahren für den Standort läuft:
++
+** Es können keine ILM-Regeln erstellt werden, die sich auf den stillzulegenden Standort beziehen. Eine vorhandene ILM-Regel kann ebenfalls nicht so bearbeitet werden, dass sie sich auf den Standort bezieht.
+** Andere Wartungsverfahren wie Erweiterung oder Upgrade können nicht durchgeführt werden.
++
+
+NOTE: Falls während der Stilllegung eines verbundenen Standorts eine weitere Wartungsmaßnahme erforderlich ist, kann der Vorgang pausiert werden, während die Storage Nodes entfernt werden. Die Schaltfläche *Pause* ist während der Phase „Decommissioning Replicated and Erasure-Coded Data“ aktiviert.
+
+** Falls nach Beginn der Stilllegungsprozedur ein Knoten wiederhergestellt werden muss, ist der Support zu kontaktieren.
+
+
+
+
+.Schritte
+. Im Abschnitt „Getrennte Knoten“ von Schritt 5 (Knotenkonflikte lösen) kann festgestellt werden, ob Knoten in Ihrem StorageGRID System den Verbindungsstatus Unbekannt (image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"]) oder Administrativ deaktiviert (image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"]) aufweisen.
++
+image:decommission_site_step_5_disconnected_nodes.png["Stilllegung Site Schritt 5: Knotenkonflikte beheben"]
+
+. Falls einzelne Knoten die Verbindung verloren haben, werden diese wieder online geschaltet.
++
+Siehe link:../maintain/grid-node-procedures.html["Knotenprozeduren"]. Wenden Sie sich an den technischen Support, falls Sie Hilfe benötigen.
+
+. Wenn alle getrennten Knoten wieder online sind, sollte der Abschnitt HA-Gruppen in Schritt 5 (Knotenkonflikte beheben) überprüft werden.
++
+Diese Tabelle listet alle Knoten am ausgewählten Standort auf, die zu einer Hochverfügbarkeitsgruppe (HA) gehören.
+
++
+image:decommission_site_step_5_ha_groups.png["Stilllegungsstandort Schritt 5 HA Groups"]
+
+. Falls Knoten aufgelistet sind, kann einer der folgenden Schritte durchgeführt werden:
++
+** Jede betroffene HA Gruppe bearbeiten, um die Knotenschnittstelle zu entfernen.
+** Eine HA-Gruppe, die nur Knoten von diesem Standort enthält, entfernen. Die Anweisungen zur Administration von StorageGRID bieten weitere Informationen.
+
+
++
+Wenn alle Knoten verbunden sind und keine Knoten des ausgewählten Standorts in einer HA-Gruppe verwendet werden, ist das Feld *Bereitstellungspassphrase* aktiviert.
+
+. ${post_edited_translations.segment}
++
+Die Schaltfläche *Stilllegung starten* wird aktiviert.
+
++
+image:decommission_site_step_5_provision_passphrase.png["Stilllegungsstandort Schritt 5 Provision Passphrase"]
+
+. Wenn Sie bereit sind, mit der Stilllegung des Standorts zu beginnen, wählen Sie *Stilllegung starten*.
++
+Eine Warnung listet die Site und die Knoten auf, die entfernt werden. Es wird darauf hingewiesen, dass die vollständige Entfernung der Site Tage, Wochen oder sogar Monate dauern kann.
+
++
+image:decommission_site_step_5_warning.png["Warnung zu Schritt 5 der Standortstilllegung"]
+
+. Die Warnung sollte überprüft werden. Wenn Sie bereit sind zu beginnen, *OK* auswählen.
++
+Eine Meldung wird angezeigt, während die neue Grid-Konfiguration generiert wird. Dieser Vorgang kann je nach Art und Anzahl der stillgelegten Grid-Knoten einige Zeit in Anspruch nehmen.
+
++
+image:decommission_site_step_5_grid_configuration.png["Stilllegungsstandort Schritt 5 Grid-Konfiguration"]
+
++
+Sobald die neue Grid-Konfiguration generiert wurde, erscheint Schritt 6 (Monitor Decommission).
+
++
+
+NOTE: Die Schaltfläche *Zurück* bleibt deaktiviert, bis die Stilllegung abgeschlossen ist.
+
+

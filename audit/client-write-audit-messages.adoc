@@ -1,0 +1,78 @@
+---
+permalink: audit/client-write-audit-messages.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, messages, client write, OVWR, SDEL, SPOS, SPUT, SUPD, WDEL, WPUT, S3 
+summary: Client-Schreib-Auditmeldungen werden protokolliert, wenn eine S3-Clientanwendung eine Anfrage zum Erstellen oder Ändern eines Objekts stellt. 
+---
+= Audit-Meldungen für Client-Schreibvorgänge in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Client-Schreib-Auditmeldungen werden protokolliert, wenn eine S3-Clientanwendung eine Anfrage zum Erstellen oder Ändern eines Objekts stellt.
+
+[cols="1a,3a,1a,1a"]
+|===
+| Code | Beschreibung | Wird verwendet von | Siehe 
+
+
+ a| 
+OVWR
+ a| 
+Objektüberschreibung: Protokolliert eine Transaktion zum Überschreiben eines Objekts mit einem anderen Objekt.
+ a| 
+S3 Client
+ a| 
+link:ovwr-object-overwrite.html["OVWR: Objektüberschreibung"]
+
+
+
+ a| 
+SDEL
+ a| 
+S3 DELETE: Protokolliert eine erfolgreiche Transaktion zum Löschen eines Objekts oder Buckets.
+
+*Hinweis:* Wenn die Transaktion auf einer Unterressource ausgeführt wird, enthält die Prüfmeldung das Feld S3SR.
+ a| 
+S3 Client
+ a| 
+link:sdel-s3-delete.html["SDEL: S3-DELETE"]
+
+
+
+ a| 
+SPOS
+ a| 
+S3 POST: Protokolliert eine erfolgreiche Transaktion zur Wiederherstellung eines Objekts aus dem AWS Glacier Speicher in einen Cloud Storage Pool.
+ a| 
+S3 Client
+ a| 
+link:spos-s3-post.html["SPOS: S3 POST"]
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+S3 PUT: Protokolliert eine erfolgreiche Transaktion zum Erstellen eines neuen Objekts oder Buckets.
+
+*Hinweis:* Wenn die Transaktion auf einer Unterressource ausgeführt wird, enthält die Prüfmeldung das Feld S3SR.
+ a| 
+S3 Client
+ a| 
+link:sput-s3-put.html["SPUT: S3 PUT"]
+
+
+
+ a| 
+SUPD
+ a| 
+S3 Metadata aktualisiert: Protokolliert eine erfolgreiche Transaktion zur Aktualisierung der Metadaten für ein bestehendes Objekt oder einen Bucket.
+ a| 
+S3 Client
+ a| 
+link:supd-s3-metadata-updated.html["SUPD: S3 Metadaten aktualisiert"]
+
+|===

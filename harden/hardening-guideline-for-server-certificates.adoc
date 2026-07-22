@@ -1,0 +1,62 @@
+---
+permalink: harden/hardening-guideline-for-server-certificates.html 
+sidebar: sidebar 
+keywords: StorageGRID, hardening guidelines, certificates 
+summary: Die während der Installation erstellten Standardzertifikate sollten ersetzt und die passende Sicherheitsrichtlinie für TLS- und SSH-Verbindungen ausgewählt werden. 
+---
+= Härtungsrichtlinien für TLS und SSH in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie sollten den SSH-Zugriff kontrollieren, die Standard-TLS-Zertifikate ersetzen und die geeignete Sicherheitsrichtlinie für TLS- und SSH-Verbindungen auswählen.
+
+
+
+[[hardening-guidelines-for-certificates]]
+== Härtungsrichtlinien für Zertifikate
+
+Die während der Installation erstellten Standardzertifikate sollten durch eigene benutzerdefinierte Zertifikate ersetzt werden.
+
+Für viele Organisationen entspricht das selbstsignierte digitale Zertifikat für den StorageGRID-Webzugriff nicht ihren Informationssicherheitsrichtlinien. Auf Produktivsystemen ist ein von einer Zertifizierungsstelle signiertes digitales Zertifikat zur Authentifizierung von StorageGRID zu installieren.
+
+Insbesondere sollten benutzerdefinierte Serverzertifikate anstelle dieser Standardzertifikate verwendet werden:
+
+* *Management Interface-Zertifikat*: Dient zur Absicherung des Zugriffs auf den Grid Manager, den Tenant Manager, die Grid Management API und die Tenant Management API.
+* *S3 API-Zertifikat*: Dient zur Sicherung des Zugriffs auf Storage Nodes und Gateway Nodes, die von S3-Clientanwendungen zum Hoch- und Herunterladen von Objektdaten verwendet werden.
+
+
+Weitere Details und Anweisungen sind unter link:../admin/using-storagegrid-security-certificates.html["Sicherheitszertifikate verwalten"] zu finden.
+
+
+NOTE: StorageGRID verwaltet die für Load-Balancer-Endpunkte verwendeten Zertifikate separat. Zur Konfiguration von Load-Balancer-Zertifikaten siehe link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"].
+
+Bei der Verwendung benutzerdefinierter Serverzertifikate gelten folgende Richtlinien:
+
+* Zertifikate sollten ein `_subjectAltName_` enthalten, das mit den DNS-Einträgen für StorageGRID übereinstimmt. Einzelheiten finden sich in Abschnitt 4.2.1.6, „Subject Alternative Name“, in https://tools.ietf.org/html/rfc5280#section-4.2.1.6["RFC 5280: PKIX-Zertifikat und CRL-Profil"^].
+* Wenn möglich, sollte auf die Verwendung von Wildcard-Zertifikaten verzichtet werden. Eine Ausnahme von dieser Richtlinie ist das Zertifikat für einen S3 Virtual Hosted Style Endpoint, bei dem die Verwendung eines Wildcard-Zertifikats erforderlich ist, wenn die Bucket-Namen nicht im Voraus bekannt sind.
+* Wenn in Zertifikaten Wildcards verwendet werden müssen, sollten zusätzliche Maßnahmen ergriffen werden, um die Risiken zu minimieren. Ein Wildcard-Muster wie  `*.s3.example.com` sollte verwendet werden, und das  `s3.example.com` Suffix sollte für andere Anwendungen nicht verwendet werden. Dieses Muster funktioniert auch mit pfadbasierendem S3-Zugriff, wie  `dc1-s1.s3.example.com/mybucket`.
+* Die Gültigkeitsdauer der Zertifikate sollte kurz sein (zum Beispiel 2 Monate), und die Grid Management API kann zur Automatisierung der Zertifikatsrotation verwendet werden. Dies ist besonders wichtig für Wildcard-Zertifikate.
+
+
+Darüber hinaus wird empfohlen, dass Clients bei der Kommunikation mit StorageGRID eine strikte Hostnamenprüfung verwenden.
+
+
+
+[[hardening-guidelines-for-tls-and-ssh-policy]]
+== Härtungsrichtlinien für TLS- und SSH-Richtlinien
+
+Sie können eine Sicherheitsrichtlinie auswählen, um festzulegen, welche Protokolle und Verschlüsselungsverfahren verwendet werden, um sichere TLS-Verbindungen mit Clientanwendungen und sichere SSH-Verbindungen zu internen StorageGRID Diensten herzustellen.
+
+Die Sicherheitsrichtlinie steuert, wie TLS und SSH Daten während der Übertragung verschlüsseln. Als bewährte Methode sollten Verschlüsselungsoptionen deaktiviert werden, die für die Anwendungskompatibilität nicht erforderlich sind. Die Standardrichtlinie Modern sollte verwendet werden, es sei denn, das System muss Common Criteria-konform, FIPS 140-2-konform sein oder es müssen andere Verschlüsselungsverfahren verwendet werden.
+
+Siehe link:../admin/manage-tls-ssh-policy.html["TLS- und SSH-Richtlinie verwalten"] für Details und Anweisungen.
+
+
+
+[[manage-external-ssh-access]]
+== Externen SSH-Zugriff verwalten
+
+Zur Erhöhung der Systemsicherheit ist der externe SSH-Zugriff standardmäßig blockiert. SSH-Zugriff sollte nur aktiviert werden, wenn Aufgaben ausgeführt werden müssen, die einen eingehenden SSH-Zugriff erfordern, wie beispielsweise zur Fehlerbehebung. Weitere Informationen und Anweisungen sind unter link:../admin/manage-external-ssh-access.html["Externen SSH-Zugriff verwalten"] zu finden.

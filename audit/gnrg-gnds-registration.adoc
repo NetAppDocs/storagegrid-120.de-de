@@ -1,0 +1,79 @@
+---
+permalink: audit/gnrg-gnds-registration.html 
+sidebar: sidebar 
+keywords: storagegrid, audi, message, GNRG, GNDS Registration 
+summary: Der CMN-Dienst generiert diese Revisionsprotokollmeldung, wenn ein Dienst Informationen über sich selbst im StorageGRID System aktualisiert oder registriert hat. 
+---
+= GNRG audit message für GNDS registration in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der CMN-Dienst generiert diese Revisionsprotokollmeldung, wenn ein Dienst Informationen über sich selbst im StorageGRID System aktualisiert oder registriert hat.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Das Ergebnis der Aktualisierungsanfrage:
+
+* SUCS: Erfolgreich
+* SUNV: Dienst nicht verfügbar
+* GERR: Sonstiger Fehler
+
+
+
+
+ a| 
+GNID
+ a| 
+Knoten-ID
+ a| 
+Die Knoten-ID des Dienstes, der die Aktualisierungsanforderung initiiert hat.
+
+
+
+ a| 
+GNTP
+ a| 
+Gerätetyp
+ a| 
+Gerätetyp des Grid-Knotens (z. B. BLDR für einen LDR-Dienst).
+
+
+
+ a| 
+GNDV
+ a| 
+Gerätemodellversion
+ a| 
+Die Zeichenkette, die die Gerätemodellversion des Grid-Knotens im DMDL-Bundle identifiziert.
+
+
+
+ a| 
+GNGP
+ a| 
+Gruppe
+ a| 
+Die Gruppe, zu der der Grid-Knoten gehört (im Kontext von Verbindungskosten und Dienstanfrage-Ranking).
+
+
+
+ a| 
+GNIA
+ a| 
+IP-Adresse
+ a| 
+Die IP-Adresse des Grid-Node.
+
+|===
+Diese Meldung wird immer dann generiert, wenn ein Grid-Knoten seinen Eintrag im Grid Nodes Bundle aktualisiert.

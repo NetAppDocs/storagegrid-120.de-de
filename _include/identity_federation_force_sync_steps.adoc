@@ -1,0 +1,17 @@
+= 
+:allow-uri-read: 
+
+
+Das StorageGRID System synchronisiert periodisch föderierte Gruppen und Benutzer aus der Identitätsquelle. Sie können den Start der Synchronisierung erzwingen, wenn Sie Benutzerberechtigungen so schnell wie möglich aktivieren oder einschränken möchten.
+
+.Schritte
+. Zur Seite „Identitätsföderation“ wechseln.
+. Oben auf der Seite *Sync server* auswählen.
++
+Der Synchronisierungsprozess kann je nach Ihrer Umgebung einige Zeit in Anspruch nehmen.
+
++
+
+NOTE: Die Warnung *Fehler bei der Synchronisierung der Identitätsföderation* wird ausgelöst, wenn ein Problem bei der Synchronisierung von föderierten Gruppen und Benutzern aus der Identitätsquelle auftritt.
+
+

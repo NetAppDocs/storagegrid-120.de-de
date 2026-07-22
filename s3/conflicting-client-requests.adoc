@@ -1,0 +1,16 @@
+---
+permalink: s3/conflicting-client-requests.html 
+sidebar: sidebar 
+keywords: conflicting client requests 
+summary: Widersprüchliche Clientanfragen, wie zum Beispiel das gleichzeitige Schreiben zweier Clients auf denselben Schlüssel, werden nach dem Prinzip „Latest-wins“ gelöst. 
+---
+= Wie StorageGRID S3 REST API widersprüchliche Clientanfragen löst
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Widersprüchliche Clientanfragen, wie zum Beispiel das Schreiben zweier Clients auf denselben Schlüssel, werden nach dem Prinzip „latest-wins“ gelöst.
+
+Der Zeitpunkt für die Auswertung „latest-wins“ richtet sich danach, wann das StorageGRID System eine bestimmte Anfrage abschließt, und nicht danach, wann S3 Clients eine Operation starten.

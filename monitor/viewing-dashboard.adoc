@@ -1,0 +1,118 @@
+---
+permalink: monitor/viewing-dashboard.html 
+sidebar: sidebar 
+keywords: how to view dashboard, how to configure dashboard 
+summary: Mithilfe des Dashboards können Sie Systemaktivitäten auf einen Blick überwachen. Es besteht die Möglichkeit, benutzerdefinierte Dashboards zu erstellen, um die eigene StorageGRID Implementierung zu überwachen. 
+---
+= Anzeigen und Verwalten des Dashboards in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mithilfe des Dashboards können Sie Systemaktivitäten auf einen Blick überwachen. Es besteht die Möglichkeit, benutzerdefinierte Dashboards zu erstellen, um die eigene StorageGRID Implementierung zu überwachen.
+
+
+TIP: Um die Einheiten für die im Grid Manager angezeigten Speicherwerte zu ändern, das Benutzer-Drop-down-Menü oben rechts im Grid Manager auswählen und anschließend *Benutzereinstellungen* wählen.
+
+Ihr Dashboard kann je nach Systemkonfiguration unterschiedlich sein.
+
+image:grid_manager_dashboard.png["Grid Manager Dashboard"]
+
+
+
+[[view-the-dashboard]]
+== Dashboard anzeigen
+
+Das Dashboard besteht aus Registerkarten, die spezifische Informationen zum StorageGRID System enthalten. Jede Registerkarte enthält Kategorien von Informationen, die auf Karten dargestellt werden.
+
+Sie können das systemseitig bereitgestellte Dashboard unverändert verwenden. Zusätzlich ist es möglich, benutzerdefinierte Dashboards zu erstellen, die nur die Registerkarten und Karten enthalten, die für die Überwachung Ihrer StorageGRID Implementierung relevant sind.
+
+Die vom System bereitgestellten Dashboard-Registerkarten enthalten Karten mit folgenden Informationstypen:
+
+[cols="1a,3a"]
+|===
+| Registerkarte auf dem vom System bereitgestellten Dashboard | Enthält 
+
+
+ a| 
+Überblick
+ a| 
+Allgemeine Informationen über das Grid, wie aktive Warnmeldungen, Speichernutzung und die Gesamtzahl der Objekte im Grid.
+
+
+
+ a| 
+Performance
+ a| 
+Speicherplatznutzung, Speicherverbrauch im Zeitverlauf, S3-Operationen, Anfragedauer, Fehlerrate.
+
+
+
+ a| 
+Storage
+ a| 
+Nutzung von Mandantenkontingenten und logischem Speicherplatz. Prognosen zur Speicherplatznutzung für Benutzerdaten und Metadaten.
+
+
+
+ a| 
+ILM
+ a| 
+Informationslebenszyklusmanagement Warteschlange und Auswertungsrate.
+
+
+
+ a| 
+Nodes
+ a| 
+CPU-, Daten- und Speichernutzung pro Knoten. S3-Operationen pro Knoten. Verteilung der Knoten auf die Standorte.
+
+|===
+Einige Karten können zur besseren Ansicht maximiert werden. Das Maximieren-Symbol image:icon_dashboard_card_maximize.png["Symbol zum Maximieren"] befindet sich in der oberen rechten Ecke der Karte. Zum Schließen einer maximierten Karte kann das Minimieren-Symbol image:icon_dashboard_card_minimize.png["Symbol zum Minimieren"] oder *Schließen* ausgewählt werden.
+
+
+
+[[manage-dashboards]]
+== Dashboards verwalten
+
+Wenn Sie über Root-Zugriff verfügen (siehe link:../admin/admin-group-permissions.html["Administratorgruppenberechtigungen"]), stehen Ihnen die folgenden Verwaltungsaufgaben für Dashboards zur Verfügung:
+
+* Ein benutzerdefiniertes Dashboard kann von Grund auf neu erstellt werden. Mit benutzerdefinierten Dashboards lässt sich steuern, welche StorageGRID Informationen angezeigt werden und wie diese Informationen organisiert sind.
+* Ein Dashboard kann geklont werden, um benutzerdefinierte Dashboards zu erstellen.
+* Ein aktives Dashboard für einen Benutzer festlegen. Das aktive Dashboard kann das vom System bereitgestellte Dashboard oder ein benutzerdefiniertes Dashboard sein.
+* Ein Standard-Dashboard wird festgelegt, das allen Benutzern angezeigt wird, sofern sie nicht ihr eigenes Dashboard aktivieren.
+* Einen Dashboard-Namen bearbeiten.
+* Ein Dashboard kann bearbeitet werden, um Tabs und Karten hinzuzufügen oder zu entfernen. Es sind mindestens 1 und maximal 20 Tabs möglich.
+* Ein Dashboard entfernen.
+
+
+
+NOTE: Wenn Sie über eine andere Berechtigung als Root-Zugriff verfügen, kann nur ein aktives Dashboard festgelegt werden.
+
+Zum Verwalten von Dashboards *Aktionen* > *Dashboards verwalten* auswählen.
+
+image:dashboard_manage.png["Dashboards verwalten"]
+
+
+
+[[configure-dashboards]]
+== Dashboards konfigurieren
+
+Ein neues Dashboard kann durch Klonen des aktiven Dashboards erstellt werden, indem *Aktionen* > *Aktives Dashboard klonen* ausgewählt wird.
+
+Um ein vorhandenes Dashboard zu bearbeiten oder zu klonen, *Aktionen* > *Dashboards verwalten* auswählen.
+
+
+NOTE: Das vom System bereitgestellte Dashboard kann weder bearbeitet noch entfernt werden.
+
+Bei der Konfiguration eines Dashboards können Sie:
+
+* Tabs hinzufügen oder entfernen
+* Tabs umbenennen und neuen Tabs eindeutige Namen zuweisen
+* Karten für jede Registerkarte hinzufügen, entfernen oder neu anordnen (ziehen).
+* Die Größe der einzelnen Karten kann oben auf der Karte durch Auswahl von *S*, *M*, *L* oder *XL* festgelegt werden.
+
+
+image:dashboard_configure.png["Dashboard konfigurieren"]

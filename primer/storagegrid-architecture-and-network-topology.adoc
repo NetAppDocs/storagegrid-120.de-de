@@ -1,0 +1,69 @@
+---
+permalink: primer/storagegrid-architecture-and-network-topology.html 
+sidebar: sidebar 
+keywords: StorageGRID, architecture, deployment, topology, site, node redundancy, services, nodes 
+summary: Ein StorageGRID System besteht aus mehreren Arten von Grid-Knoten an einem oder mehreren Rechenzentrumsstandorten. 
+---
+= StorageGRID Architektur und Netzwerktopologie
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein StorageGRID System besteht aus mehreren Arten von Grid-Knoten an einem oder mehreren Rechenzentrumsstandorten.
+
+Informationen zu link:nodes-and-services.html["Grid-Node-Typen"].
+
+Weitere Informationen zur StorageGRID Netzwerktopologie, zu den Anforderungen und zur Grid-Kommunikation enthält die Dokumentation link:../network/index.html["Netzwerkrichtlinien"].
+
+
+
+[[deployment-topologies]]
+== Bereitstellungstopologien
+
+Das StorageGRID System kann an einem einzelnen Rechenzentrumsstandort oder an mehreren Rechenzentrumsstandorten eingesetzt werden. Die maximale Anzahl von Standorten pro Bereitstellung beträgt 16.
+
+
+
+[[single-site]]
+=== Einzelstandort
+
+In einer Bereitstellung mit einem einzelnen Standort sind die Infrastruktur und der Betrieb des StorageGRID Systems zentralisiert.
+
+image:data_center_site_single.png["Einzelnes Rechenzentrumsstandort"]
+
+
+
+[[multiple-sites]]
+=== Mehrere Standorte
+
+In einer Bereitstellung mit mehreren Standorten können an jedem Standort unterschiedliche Arten und Anzahlen von StorageGRID Ressourcen installiert werden. Beispielsweise kann in einem Rechenzentrum mehr Speicher benötigt werden als in einem anderen.
+
+Die Standorte befinden sich oft an geografisch unterschiedlichen Orten in verschiedenen Ausfallbereichen, beispielsweise entlang einer Erdbebenverwerfung oder in einem Überschwemmungsgebiet. Datenaustausch und Disaster Recovery erfolgen durch die automatisierte Verteilung von Daten an andere Standorte.
+
+image:data_center_sites_multiple.png["Mehrere Rechenzentrumsstandorte"]
+
+Innerhalb eines einzigen Rechenzentrums können auch mehrere logische Standorte existieren, um die Nutzung von verteilter Replikation und Erasure Coding für erhöhte Verfügbarkeit und Ausfallsicherheit zu ermöglichen.
+
+
+
+[[grid-node-redundancy]]
+=== Redundanz der Grid-Knoten
+
+Bei einer Bereitstellung an einem oder mehreren Standorten kann optional mehr als ein Admin Node oder Gateway Node zur Redundanz einbezogen werden. Beispielsweise ist es möglich, mehr als einen Admin Node an einem einzelnen Standort oder über mehrere Standorte hinweg zu installieren. Allerdings kann jedes StorageGRID System nur einen primären Admin Node haben.
+
+
+
+[[system-architecture]]
+== Systemarchitektur
+
+Dieses Diagramm zeigt, wie die Grid-Knoten in einem StorageGRID System angeordnet sind.
+
+image:grid_nodes_and_components.png["Diagramm, das durch den umgebenden Text beschrieben wird"]
+
+S3-Clients speichern und rufen Objekte in StorageGRID ab. Andere Clients dienen dazu, E-Mail-Benachrichtigungen zu versenden, auf die StorageGRID Managementoberfläche zuzugreifen und optional auf die Audit-Freigabe zuzugreifen.
+
+S3-Clients können sich mit einem Gateway Node oder einem Admin Node verbinden, um die Lastausgleichsoberfläche zu Storage Nodes zu nutzen. Alternativ können S3-Clients direkt über HTTPS eine Verbindung zu Storage Nodes herstellen.
+
+Objekte können innerhalb von StorageGRID auf software- oder hardwarebasierten Storage Nodes oder in Cloud Storage Pools gespeichert werden, die aus externen S3 Buckets oder Azure Blob Storage Containern bestehen.

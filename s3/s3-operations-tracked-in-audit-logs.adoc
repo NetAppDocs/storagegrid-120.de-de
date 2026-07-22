@@ -1,0 +1,55 @@
+---
+permalink: s3/s3-operations-tracked-in-audit-logs.html 
+sidebar: sidebar 
+keywords: audit log, auditing bucket and object operations, S3 audit messages 
+summary: Audit-Meldungen werden von StorageGRID-Diensten generiert und in Textprotokolldateien gespeichert. Im Revisionsprotokoll können die S3-spezifischen Audit-Meldungen überprüft werden, um Details zu Bucket- und Objektoperationen zu erhalten. 
+---
+= S3-Operationen, die in den StorageGRID-Audit-Protokollen protokolliert werden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Audit-Meldungen werden von StorageGRID-Diensten generiert und in Textprotokolldateien gespeichert. Im Revisionsprotokoll können die S3-spezifischen Audit-Meldungen überprüft werden, um Details zu Bucket- und Objektoperationen zu erhalten.
+
+
+
+[[bucket-operations-tracked-in-the-audit-logs]]
+== Bucket-Operationen werden in den Revisionsprotokollen protokolliert.
+
+* CreateBucket
+* DeleteBucket
+* DeleteBucketTagging
+* DeleteObjects
+* GetBucketTagging
+* HeadBucket
+* ListObjects
+* ListObjectVersions
+* PUT Bucket Compliance
+* PutBucketTagging
+* PutBucketVersioning
+
+
+
+
+[[object-operations-tracked-in-the-audit-logs]]
+== Objektoperationen, die in den Revisionsprotokollen protokolliert werden
+
+* CompleteMultipartUpload
+* CopyObject
+* DeleteObject
+* GetObject
+* HeadObject
+* PutObject
+* RestoreObject
+* SelectObject
+* UploadPart (wenn eine ILM-Regel Balanced oder Strict Ingest verwendet)
+* UploadPartCopy (wenn eine ILM-Regel Balanced oder Strict für die Datenerfassung verwendet)
+
+
+.Verwandte Informationen
+* link:../audit/accessing-audit-log-file.html["Revisionsprotokolldatei aufrufen"]
+* link:../audit/client-write-audit-messages.html["Client schreibt Revisionsprotokollmeldungen"]
+* link:../audit/client-read-audit-messages.html["Client-Lese-Revisionsprotokollmeldungen"]
+

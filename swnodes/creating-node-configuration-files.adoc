@@ -1,0 +1,1052 @@
+---
+permalink: swnodes/creating-node-configuration-files.html 
+sidebar: sidebar 
+keywords: how to create rhel ubuntu or debian node configuration files, port, remap, port remap 
+summary: Knotenkonfigurationsdateien sind kleine Textdateien, die dem StorageGRID Hostdienst die Informationen liefern, die zum Starten eines Knotens und zum Verbinden mit den entsprechenden Netzwerk- und Blockspeicherressourcen erforderlich sind. Knotenkonfigurationsdateien werden für virtuelle Knoten verwendet und nicht für Appliance-Knoten. 
+---
+= Erstellen Sie StorageGRID-Knotenkonfigurationsdateien für Linux-Bereitstellungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Knotenkonfigurationsdateien sind kleine Textdateien, die dem StorageGRID Hostdienst die Informationen liefern, die zum Starten eines Knotens und zum Verbinden mit den entsprechenden Netzwerk- und Blockspeicherressourcen benötigt werden. Knotenkonfigurationsdateien werden für virtuelle Knoten verwendet und nicht für Appliance-Knoten.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+
+
+[[location-for-node-configuration-files]]
+== Speicherort für Knotenkonfigurationsdateien
+
+Die Konfigurationsdatei für jeden StorageGRID Node ist im  `/etc/storagegrid/nodes` Verzeichnis auf dem Host abzulegen, auf dem der Node ausgeführt wird. Wenn beispielsweise ein Admin Node, ein Gateway Node und ein Storage Node auf HostA betrieben werden, sind drei Node-Konfigurationsdateien im  `/etc/storagegrid/nodes` auf HostA abzulegen.
+
+${post_edited_translations.segment}
+
+
+
+[[naming-of-node-configuration-files]]
+== Benennung von Knotenkonfigurationsdateien
+
+Die Namen der Konfigurationsdateien sind von Bedeutung. Das Format ist `node-name.conf`, wobei `node-name` ein Name ist, den Sie dem Node zuweisen. Dieser Name wird im StorageGRID Installer angezeigt und für Node-Wartungsarbeiten wie die Node-Migration verwendet.
+
+${post_edited_translations.segment}
+
+* Muss eindeutig sein
+* Muss mit einem Buchstaben beginnen
+* Kann die Zeichen A bis Z und a bis z enthalten
+* Kann die Zahlen 0 bis 9 enthalten
+* Kann einen oder mehrere Bindestriche (-) enthalten
+* Darf nicht mehr als 32 Zeichen lang sein, die Erweiterung  `.conf` nicht eingerechnet
+
+
+Alle Dateien in `/etc/storagegrid/nodes`, die diesen Namenskonventionen nicht entsprechen, werden vom Host-Service nicht analysiert.
+
+Wenn Sie für Ihr Grid eine Topologie mit mehreren Standorten planen, könnte ein typisches Knotenbenennungsschema wie folgt aussehen:
+
+`site-nodetype-nodenumber.conf`
+
+Sie können beispielsweise  `dc1-adm1.conf` für den ersten Admin-Node in Rechenzentrum 1 und  `dc2-sn3.conf` für den dritten Storage-Node in Rechenzentrum 2 verwenden. Sie können jedoch jedes beliebige Schema verwenden, solange alle Node-Namen den Benennungsregeln entsprechen.
+
+
+
+[[contents-of-a-node-configuration-file]]
+== ${post_edited_translations.segment}
+
+Eine Konfigurationsdatei enthält Schlüssel/Wert-Paare, wobei jede Zeile einen Schlüssel und einen Wert enthält. Für jedes Schlüssel/Wert-Paar gelten folgende Regeln:
+
+* Schlüssel und Wert müssen durch ein Gleichheitszeichen (`=` und optionale Leerzeichen getrennt sein.
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* Führende oder nachfolgende Leerzeichen werden ignoriert.
+
+
+In der folgenden Tabelle sind die Werte für alle unterstützten Schlüssel definiert. Jeder Schlüssel hat eine der folgenden Bezeichnungen:
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* *Optional*: Optional für alle Knoten
+
+
+
+
+[[admin-network-keys]]
+=== Admin Network-Schlüssel
+
+
+
+==== ADMIN_IP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Adresse des Grid-Netzwerks des Admin Node, der für die Installation des Linux-basierten Node verwendet werden soll. Für die Wiederherstellung ist die IP des primären Admin Node zu verwenden, sofern verfügbar, andernfalls die IP eines nicht-primären Admin Node. Wird dieser Parameter weggelassen, versucht der Node, einen primären Admin Node mithilfe von mDNS zu entdecken.
+
+link:how-grid-nodes-discover-primary-admin-node.html["Wie Grid-Knoten den primären Admin-Node erkennen"]
+
+*Hinweis*: Dieser Wert wird ignoriert und kann auf dem primären Admin-Knoten unzulässig sein.
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+==== ADMIN_NETWORK_CONFIG
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+DHCP, STATIC oder DISABLED
+ a| 
+Optional
+
+|===
+
+
+==== ADMIN_NETWORK_ESL
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Durch Kommas getrennte Liste von Subnetzen in CIDR-Notation, mit denen dieser Knoten über das Admin Network Gateway kommunizieren sollte.
+
+Beispiel: `172.16.0.0/21,172.17.0.0/21`
+ a| 
+Optional
+
+|===
+
+
+==== ${post_edited_translations.segment}
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Adresse des lokalen Admin-Netzwerk-Gateways für diesen Node. Muss sich im Subnetz befinden, das durch ADMIN_NETWORK_IP und ADMIN_NETWORK_MASK definiert ist. Dieser Wert wird für DHCP-konfigurierte Netzwerke ignoriert.
+
+Beispiele:
+
+`1.1.1.1`
+
+`10.224.4.81`
+ a| 
+Erforderlich, wenn `ADMIN_NETWORK_ESL` angegeben ist. Andernfalls optional.
+
+|===
+
+
+==== ${post_edited_translations.segment}
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Adresse dieses Knotens im Admin-Netzwerk. Dieser Schlüssel ist nur erforderlich, wenn ADMIN_NETWORK_CONFIG = STATIC; geben Sie ihn für andere Werte nicht an.
+
+Beispiele:
+
+`1.1.1.1`
+
+`10.224.4.81`
+ a| 
+Erforderlich, wenn ADMIN_NETWORK_CONFIG = STATIC.
+
+Optional, ansonsten.
+
+|===
+
+
+==== ADMIN_NETWORK_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die MAC-Adresse der Admin Network Schnittstelle im Container.
+
+Dieses Feld ist optional. Wenn dieses Feld weggelassen wird, wird automatisch eine MAC-Adresse generiert.
+
+Es müssen 6 Paare von Hexadezimalziffern sein, die durch Doppelpunkte getrennt sind.
+
+Beispiel: `b2:9c:02:c2:27:10`
+ a| 
+Optional
+
+|===
+
+
+==== ADMIN_NETWORK_MASK
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Netzmaske für diesen Knoten im Admin-Netzwerk. Dieser Schlüssel ist anzugeben, wenn ADMIN_NETWORK_CONFIG = STATIC; für andere Werte nicht angeben.
+
+Beispiele:
+
+`255.255.255.0`
+
+`255.255.248.0`
+ a| 
+Erforderlich, wenn ADMIN_NETWORK_IP angegeben ist und ADMIN_NETWORK_CONFIG = STATIC.
+
+Optional, ansonsten.
+
+|===
+
+
+==== ADMIN_NETWORK_MTU
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die maximale Übertragungseinheit (MTU) für diesen Knoten im Admin Network. Nicht angeben, wenn ADMIN_NETWORK_CONFIG = DHCP. Falls angegeben, muss der Wert zwischen 1280 und 9216 liegen. Wenn weggelassen, wird 1500 verwendet.
+
+Wenn Sie Jumbo-Frames verwenden möchten, sollte die MTU auf einen für Jumbo-Frames geeigneten Wert wie 9000 gesetzt werden. Andernfalls bleibt der Standardwert bestehen.
+
+*WICHTIG*: Der MTU-Wert des Netzwerks muss mit dem Wert übereinstimmen, der am Switch-Port konfiguriert ist, an den der Knoten angeschlossen ist. Andernfalls können Netzwerkleistungsprobleme oder Paketverluste auftreten.
+
+Beispiele:
+
+`1500`
+
+`8192`
+ a| 
+Optional
+
+|===
+
+
+==== ADMIN_NETWORK_TARGET
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Name des Hostgeräts, das für den Zugriff des StorageGRID Knotens auf das Admin-Netzwerk verwendet wird. Es werden nur Netzwerkschnittstellennamen unterstützt. In der Regel wird ein anderer Schnittstellenname verwendet als der, der für GRID_NETWORK_TARGET oder CLIENT_NETWORK_TARGET angegeben wurde.
+
+*Hinweis*: Bond- oder Bridge-Geräte sollten nicht als Netzwerkziel verwendet werden. Entweder wird ein VLAN (oder eine andere virtuelle Schnittstelle) auf dem Bond-Gerät konfiguriert oder eine Bridge und ein virtuelles Ethernet-Paar (veth) verwendet.
+
+*Bewährte Vorgehensweise*: Geben Sie einen Wert an, auch wenn dieser Knoten anfänglich keine Admin Network IP-Adresse haben wird. Dann kann später eine Admin Network IP-Adresse hinzugefügt werden, ohne dass der Knoten auf dem Host neu konfiguriert werden muss.
+
+Beispiele:
+
+`bond0.1002`
+
+`ens256`
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+==== ADMIN_NETWORK_TARGET_TYPE
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Schnittstelle (Dies ist der einzige unterstützte Wert.)
+ a| 
+Optional
+
+|===
+
+
+==== ADMIN_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Richtig oder Falsch
+
+Setzen Sie den Schlüssel auf "true", damit der StorageGRID Container die MAC-Adresse der Host-Zielschnittstelle im Admin-Netzwerk verwendet.
+
+*Bewährte Vorgehensweise:* In Netzwerken, in denen der Promiscuous-Modus erforderlich wäre, sollte stattdessen der Schlüssel ADMIN_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC verwendet werden.
+
+Weitere Informationen zum Klonen von MAC-Adressen unter Linux finden sich unter link:../swnodes/configuring-host-network.html#considerations-and-recommendations-for-mac-address-cloning["Überlegungen und Empfehlungen zum Klonen von MAC-Adressen"]
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+==== ADMIN_ROLE
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Primär oder nicht primär
+
+Dieser Schlüssel ist nur erforderlich, wenn NODE_TYPE = VM_Admin_Node; für andere Knotentypen ist er nicht anzugeben.
+ a| 
+Erforderlich, wenn NODE_TYPE = VM_Admin_Node
+
+Optional, ansonsten.
+
+|===
+
+
+[[block-device-keys]]
+=== Blockgeräteschlüssel
+
+
+
+==== BLOCK_DEVICE_AUDIT_LOGS
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Pfad und Name der Blockgeräte-Spezialdatei, die dieser Knoten für die dauerhafte Speicherung von Audit-Logs verwendet.
+
+Beispiele:
+
+`/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:0:0`
+
+`/dev/disk/by-id/wwn-0x600a09800059d6df000060d757b475fd`
+
+`/dev/mapper/sgws-adm1-audit-logs`
+ a| 
+Erforderlich für Knoten mit NODE_TYPE = VM_Admin_Node. Für andere Knotentypen nicht angeben.
+
+|===
+
+
+==== BLOCK_DEVICE_RANGEDB_nnn
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Pfad und Name der Blockgeräte-Spezialdatei, die dieser Knoten für die persistente Objektspeicherung verwendet. Dieser Schlüssel ist nur für Knoten mit NODE_TYPE = VM_Storage_Node erforderlich; für andere Knotentypen ist er nicht anzugeben.
+
+Lediglich BLOCK_DEVICE_RANGEDB_000 ist erforderlich; die übrigen sind optional. Das für BLOCK_DEVICE_RANGEDB_000 angegebene Blockgerät muss mindestens 4 TB groß sein; die anderen können kleiner sein.
+
+Lassen Sie keine Lücken. Wenn Sie BLOCK_DEVICE_RANGEDB_005 angeben, müssen Sie auch BLOCK_DEVICE_RANGEDB_004 angeben.
+
+*Hinweis*: Um die Kompatibilität mit bestehenden Installationen zu gewährleisten, werden für aktualisierte Knoten zweistellige Schlüssel unterstützt.
+
+Beispiele:
+
+`/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:0:0`
+
+`/dev/disk/by-id/wwn-0x600a09800059d6df000060d757b475fd`
+
+`/dev/mapper/sgws-sn1-rangedb-000`
+ a| 
+Erforderlich:
+
+BLOCK_DEVICE_RANGEDB_000
+
+Optional:
+
+BLOCK_DEVICE_RANGEDB_001
+
+BLOCK_DEVICE_RANGEDB_002
+
+BLOCK_DEVICE_RANGEDB_003
+
+BLOCK_DEVICE_RANGEDB_004
+
+BLOCK_DEVICE_RANGEDB_005
+
+BLOCK_DEVICE_RANGEDB_006
+
+BLOCK_DEVICE_RANGEDB_007
+
+BLOCK_DEVICE_RANGEDB_008
+
+BLOCK_DEVICE_RANGEDB_009
+
+BLOCK_DEVICE_RANGEDB_010
+
+BLOCK_DEVICE_RANGEDB_011
+
+BLOCK_DEVICE_RANGEDB_012
+
+BLOCK_DEVICE_RANGEDB_013
+
+BLOCK_DEVICE_RANGEDB_014
+
+BLOCK_DEVICE_RANGEDB_015
+
+|===
+
+
+==== BLOCK_DEVICE_TABLES
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Pfad und Name der Blockgeräte-Spezialdatei, die dieser Knoten für die persistente Speicherung von Datenbanktabellen verwendet. Dieser Schlüssel ist nur für Knoten mit NODE_TYPE = VM_Admin_Node erforderlich; für andere Knotentypen darf er nicht angegeben werden.
+
+Beispiele:
+
+`/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:0:0`
+
+`/dev/disk/by-id/wwn-0x600a09800059d6df000060d757b475fd`
+
+`/dev/mapper/sgws-adm1-tables`
+ a| 
+Erforderlich
+
+|===
+
+
+==== BLOCK_DEVICE_VAR_LOCAL
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Pfad und Name der Blockgeräte-Spezialdatei, die dieser Knoten für seinen  `/var/local` persistenten Speicher verwendet.
+
+Beispiele:
+
+`/dev/disk/by-path/pci-0000:03:00.0-scsi-0:0:0:0`
+
+`/dev/disk/by-id/wwn-0x600a09800059d6df000060d757b475fd`
+
+`/dev/mapper/sgws-sn1-var-local`
+ a| 
+Erforderlich
+
+|===
+
+
+[[client-network-keys]]
+=== Client Network-Schlüssel
+
+
+
+==== CLIENT_NETWORK_CONFIG
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+DHCP, STATIC oder DISABLED
+ a| 
+Optional
+
+|===
+
+
+==== CLIENT_NETWORK_GATEWAY
+
+[cols="4a,2a"]
+|===
+
+
+ a| 
+Wert
+ a| 
+Bezeichnung
+
+
+
+ a| 
+IPv4-Adresse des lokalen Client-Netzwerk-Gateways für diesen Knoten, die sich im durch CLIENT_NETWORK_IP und CLIENT_NETWORK_MASK definierten Subnetz befinden muss. Dieser Wert wird für DHCP-konfigurierte Netzwerke ignoriert.
+
+Beispiele:
+
+`1.1.1.1`
+
+`10.224.4.81`
+ a| 
+Optional
+
+|===
+
+
+==== CLIENT_NETWORK_IP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Adresse dieses Knotens im Client-Netzwerk.
+
+Dieser Schlüssel ist nur erforderlich, wenn CLIENT_NETWORK_CONFIG = STATIC; für andere Werte sollte er nicht angegeben werden.
+
+Beispiele:
+
+`1.1.1.1`
+
+`10.224.4.81`
+ a| 
+Erforderlich, wenn CLIENT_NETWORK_CONFIG = STATIC
+
+Optional, ansonsten.
+
+|===
+
+
+==== CLIENT_NETWORK_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die MAC-Adresse der Client-Netzwerkschnittstelle im Container.
+
+Dieses Feld ist optional. Wenn dieses Feld weggelassen wird, wird automatisch eine MAC-Adresse generiert.
+
+Es müssen 6 Paare von Hexadezimalziffern sein, die durch Doppelpunkte getrennt sind.
+
+Beispiel: `b2:9c:02:c2:27:20`
+ a| 
+Optional
+
+|===
+
+
+==== CLIENT_NETWORK_MASK
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Netzmaske für diesen Knoten im Client Network.
+
+Dieser Schlüssel muss angegeben werden, wenn CLIENT_NETWORK_CONFIG = STATIC ist; für andere Werte darf er nicht angegeben werden.
+
+Beispiele:
+
+`255.255.255.0`
+
+`255.255.248.0`
+ a| 
+Erforderlich, wenn CLIENT_NETWORK_IP angegeben ist und CLIENT_NETWORK_CONFIG = STATIC
+
+Optional, ansonsten.
+
+|===
+
+
+==== CLIENT_NETWORK_MTU
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die maximale Übertragungseinheit (MTU) für diesen Knoten im Client-Netzwerk. Nicht angeben, wenn CLIENT_NETWORK_CONFIG = DHCP. Falls angegeben, muss der Wert zwischen 1280 und 9216 liegen. Wenn keine Angabe erfolgt, wird 1500 verwendet.
+
+Wenn Sie Jumbo-Frames verwenden möchten, sollte die MTU auf einen für Jumbo-Frames geeigneten Wert wie 9000 gesetzt werden. Andernfalls bleibt der Standardwert bestehen.
+
+*WICHTIG*: Der MTU-Wert des Netzwerks muss mit dem Wert übereinstimmen, der am Switch-Port konfiguriert ist, an den der Knoten angeschlossen ist. Andernfalls können Netzwerkleistungsprobleme oder Paketverluste auftreten.
+
+Beispiele:
+
+`1500`
+
+`8192`
+ a| 
+Optional
+
+|===
+
+
+==== CLIENT_NETWORK_TARGET
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Name des Hostgeräts, das für den Client-Netzwerkzugriff durch den StorageGRID Knoten verwendet wird. Es werden nur Netzwerkschnittstellennamen unterstützt. In der Regel wird ein anderer Schnittstellenname verwendet als der, der für GRID_NETWORK_TARGET oder ADMIN_NETWORK_TARGET angegeben wurde.
+
+*Hinweis*: Bond- oder Bridge-Geräte sollten nicht als Netzwerkziel verwendet werden. Entweder wird ein VLAN (oder eine andere virtuelle Schnittstelle) auf dem Bond-Gerät konfiguriert oder eine Bridge und ein virtuelles Ethernet-Paar (veth) verwendet.
+
+*Bewährte Vorgehensweise:* Es sollte ein Wert angegeben werden, auch wenn dieser Knoten anfänglich keine Client-Netzwerk-IP-Adresse hat. Dadurch kann eine Client-Netzwerk-IP-Adresse später hinzugefügt werden, ohne dass der Knoten auf dem Host neu konfiguriert werden muss.
+
+Beispiele:
+
+`bond0.1003`
+
+`ens423`
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+==== CLIENT_NETWORK_TARGET_TYPE
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Schnittstelle (Dies ist der einzig unterstützte Wert.)
+ a| 
+Optional
+
+|===
+
+
+==== CLIENT_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Richtig oder Falsch
+
+Setzen Sie den Schlüssel auf „true“, damit der StorageGRID Container die MAC-Adresse der Host-Zielschnittstelle im Client-Netzwerk verwendet.
+
+*Bewährte Vorgehensweise:* In Netzwerken, in denen der Promiscuous-Modus erforderlich wäre, sollte stattdessen der Schlüssel CLIENT_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC verwendet werden.
+
+Weitere Informationen zum Klonen von MAC-Adressen unter Linux finden sich unter link:../swnodes/configuring-host-network.html#considerations-and-recommendations-for-mac-address-cloning["Überlegungen und Empfehlungen zum Klonen von MAC-Adressen"]
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+[[grid-network-keys]]
+=== Grid Network-Schlüssel
+
+
+
+==== GRID_NETWORK_CONFIG
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+STATISCH oder DHCP
+
+Standardmäßig wird STATIC verwendet, falls nichts anderes angegeben ist.
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+==== GRID_NETWORK_GATEWAY
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die IPv4-Adresse des lokalen Grid-Netzwerk-Gateways für diesen Knoten, die sich im durch GRID_NETWORK_IP und GRID_NETWORK_MASK definierten Subnetz befinden muss. Dieser Wert wird für DHCP-konfigurierte Netzwerke ignoriert.
+
+Wenn das Grid-Netzwerk ein einzelnes Subnetz ohne Gateway ist, kann entweder die Standard-Gateway-Adresse für das Subnetz (X.Y.Z.1) oder der GRID_NETWORK_IP-Wert dieses Knotens verwendet werden; beide Werte erleichtern mögliche zukünftige Erweiterungen des Grid-Netzwerks.
+ a| 
+Erforderlich
+
+|===
+
+
+==== GRID_NETWORK_IP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Adresse dieses Knotens im Grid-Netzwerk. Dieser Schlüssel ist nur erforderlich, wenn GRID_NETWORK_CONFIG = STATIC; für andere Werte ist keine Angabe erforderlich.
+
+Beispiele:
+
+`1.1.1.1`
+
+`10.224.4.81`
+ a| 
+Erforderlich, wenn GRID_NETWORK_CONFIG = STATIC
+
+Optional, ansonsten.
+
+|===
+
+
+==== GRID_NETWORK_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die MAC-Adresse der Grid-Netzwerkschnittstelle im Container.
+
+Es müssen 6 Paare von Hexadezimalziffern sein, die durch Doppelpunkte getrennt sind.
+
+Beispiel: `b2:9c:02:c2:27:30`
+ a| 
+Optional
+
+Wenn keine MAC-Adresse angegeben wird, wird automatisch eine MAC-Adresse generiert.
+
+|===
+
+
+==== GRID_NETWORK_MASK
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+IPv4-Netzmaske für diesen Knoten im Grid-Netzwerk. Dieser Schlüssel ist anzugeben, wenn GRID_NETWORK_CONFIG = STATIC; für andere Werte ist er nicht erforderlich.
+
+Beispiele:
+
+`255.255.255.0`
+
+`255.255.248.0`
+ a| 
+Erforderlich, wenn GRID_NETWORK_IP angegeben ist und GRID_NETWORK_CONFIG = STATIC.
+
+Optional, ansonsten.
+
+|===
+
+
+==== GRID_NETWORK_MTU
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die maximale Übertragungseinheit (MTU) für diesen Knoten im Grid Network. Nicht angeben, wenn GRID_NETWORK_CONFIG = DHCP. Falls angegeben, muss der Wert zwischen 1280 und 9216 liegen. Wenn keine Angabe erfolgt, wird 1500 verwendet.
+
+Wenn Sie Jumbo-Frames verwenden möchten, sollte die MTU auf einen für Jumbo-Frames geeigneten Wert wie 9000 gesetzt werden. Andernfalls bleibt der Standardwert bestehen.
+
+*WICHTIG*: Der MTU-Wert des Netzwerks muss mit dem Wert übereinstimmen, der am Switch-Port konfiguriert ist, an den der Knoten angeschlossen ist. Andernfalls können Netzwerkleistungsprobleme oder Paketverluste auftreten.
+
+*WICHTIG*: Für optimale Netzwerkleistung sollten alle Knoten mit ähnlichen MTU-Werten an ihren Grid-Netzwerk-Schnittstellen konfiguriert sein. Die Warnung *Grid Network MTU mismatch* wird ausgelöst, wenn die MTU-Einstellungen für das Grid-Netzwerk auf einzelnen Knoten deutlich voneinander abweichen. Die MTU-Werte müssen nicht für alle Netzwerktypen identisch sein.
+
+Beispiele:
+
+`1500`
+
+`8192`
+ a| 
+Optional
+
+|===
+
+
+==== GRID_NETWORK_TARGET
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Name des Hostgeräts, das für den Grid-Netzwerkzugriff durch den StorageGRID-Knoten verwendet wird. Es werden nur Netzwerkschnittstellennamen unterstützt. In der Regel wird ein anderer Schnittstellenname verwendet als der, der für ADMIN_NETWORK_TARGET oder CLIENT_NETWORK_TARGET angegeben wurde.
+
+*Hinweis*: Bond- oder Bridge-Geräte sollten nicht als Netzwerkziel verwendet werden. Entweder wird ein VLAN (oder eine andere virtuelle Schnittstelle) auf dem Bond-Gerät konfiguriert oder eine Bridge und ein virtuelles Ethernet-Paar (veth) verwendet.
+
+Beispiele:
+
+`bond0.1001`
+
+`ens192`
+ a| 
+Erforderlich
+
+|===
+
+
+==== ${post_edited_translations.segment}
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Schnittstelle (Dies ist der einzige unterstützte Wert.)
+ a| 
+Optional
+
+|===
+
+
+==== GRID_NETWORK_TARGET_TYPE_INTERFACE_CLONE_MAC
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Richtig oder Falsch
+
+Der Wert des Schlüssels wird auf "true" gesetzt, damit der StorageGRID Container die MAC-Adresse der Host-Zielschnittstelle im Grid Network verwendet.
+
+${post_edited_translations.segment}
+
+Weitere Informationen zum Klonen von MAC-Adressen unter Linux finden sich unter link:../swnodes/configuring-host-network.html#considerations-and-recommendations-for-mac-address-cloning["Überlegungen und Empfehlungen zum Klonen von MAC-Adressen"]
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+[[installation-password-key-temporary]]
+=== Installationspasswortschlüssel (temporär)
+
+
+
+==== CUSTOM_TEMPORARY_PASSWORD_HASH
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Für den primären Admin-Knoten wird während der Installation ein temporäres Standardpasswort für die StorageGRID Installations-API festgelegt.
+
+*Hinweis*: Ein Installationspasswort wird nur auf dem primären Admin-Knoten festgelegt. Bei dem Versuch, ein Passwort auf einem anderen Knotentyp festzulegen, schlägt die Validierung der Knotenkonfigurationsdatei fehl.
+
+Die Einstellung dieses Wertes hat keine Auswirkung, wenn die Installation abgeschlossen ist.
+
+Wird dieser Schlüssel weggelassen, wird standardmäßig kein temporäres Passwort festgelegt. Alternativ kann ein temporäres Passwort mithilfe der StorageGRID Installation API festgelegt werden.
+
+Muss ein  `crypt()`SHA-512-Passwort-Hash im Format  `$6$<salt>$<password hash>`für ein Passwort mit mindestens 8 und höchstens 32 Zeichen sein.
+
+Dieser Hash kann mithilfe von CLI-Tools generiert werden, wie beispielsweise mit dem Befehl  `openssl passwd` im SHA-512-Modus.
+ a| 
+Bewährte Vorgehensweise
+
+|===
+
+
+[[interfaces-key]]
+=== ${post_edited_translations.segment}
+
+
+
+==== ${post_edited_translations.segment}
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Name und optionale Beschreibung für eine zusätzliche Schnittstelle, die zu diesem Knoten hinzugefügt werden soll. Jedem Knoten können mehrere zusätzliche Schnittstellen hinzugefügt werden.
+
+Für _nnnn_ ist für jeden INTERFACE_TARGET Eintrag, der hinzugefügt wird, eine eindeutige Nummer anzugeben.
+
+Als Wert ist der Name der physischen Schnittstelle auf dem Bare-Metal-Host anzugeben. Optional kann anschließend ein Komma und eine Beschreibung der Schnittstelle hinzugefügt werden, die auf der Seite VLAN-Schnittstellen und der Seite HA-Gruppen angezeigt wird.
+
+Beispiel: `INTERFACE_TARGET_0001=ens256, Trunk`
+
+Wenn Sie eine Trunk-Schnittstelle hinzufügen, müssen Sie eine VLAN-Schnittstelle in StorageGRID konfigurieren. Wenn Sie eine Zugriffsschnittstelle hinzufügen, kann die Schnittstelle direkt zu einer HA-Gruppe hinzugefügt werden; die Konfiguration einer VLAN-Schnittstelle ist nicht erforderlich.
+ a| 
+Optional
+
+|===
+
+
+[[maximum-ram-key]]
+=== Maximaler RAM-Schlüssel
+
+
+
+==== ${post_edited_translations.segment}
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Die maximale RAM-Menge, die diese Node verbrauchen darf. Wenn dieser Schlüssel ausgelassen wird, hat die Node keine Speicherbegrenzungen. Beim Festlegen dieses Felds für eine Node auf Produktionsebene ist ein Wert anzugeben, der mindestens 24 GB beträgt und 16 bis 32 GB unter dem gesamten System-RAM liegt.
+
+*Hinweis*: Der RAM-Wert beeinflusst den tatsächlich reservierten Speicherplatz für Metadaten eines Nodes. Siehe die link:../admin/managing-object-metadata-storage.html["Beschreibung dessen, was Metadaten reservierter Speicherplatz ist"].
+
+Das Format für dieses Feld ist  `_numberunit_`, wobei  `_unit_`  `b`,  `k`,  `m` oder  `g` sein können.
+
+Beispiele:
+
+`24g`
+
+`38654705664b`
+
+*Hinweis*: Wenn Sie diese Option nutzen möchten, muss die Kernel-Unterstützung für Speicher-Cgroups aktiviert sein.
+ a| 
+Optional
+
+|===
+
+
+[[node-type-keys]]
+=== Knotentypschlüssel
+
+
+
+==== KNOTENTYP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Knotentyp:
+
+* VM_Admin_Node
+* VM_Speicherknoten
+* ${post_edited_translations.segment}
+* VM_API_Gateway
+
+ a| 
+Erforderlich
+
+|===
+
+
+==== SPEICHERTYP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Definiert den Typ der Objekte, die ein Storage Node enthält. Weitere Informationen finden sich unter link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"]. Dieser Schlüssel ist nur für Knoten mit NODE_TYPE = VM_Storage_Node erforderlich; für andere Knotentypen ist er nicht anzugeben. Speichertypen:
+
+* kombiniert
+* Daten
+* Metadaten
+
+
+*Hinweis*: Wenn der STORAGE_TYPE nicht angegeben ist, wird der Storage Node-Typ standardmäßig auf kombiniert (Daten und Metadaten) gesetzt.
+ a| 
+Optional
+
+|===
+
+
+[[port-remap-keys]]
+=== Port-Remap-Schlüssel
+
+
+NOTE: Die Unterstützung für Port-Remapping ist veraltet und wird in einer zukünftigen Version entfernt. Zum Entfernen umgeleiteter Ports siehe link:../maintain/removing-port-remaps-on-bare-metal-hosts.html["Port-Remaps auf Bare-Metal-Hosts entfernen"].
+
+
+
+==== PORT_REMAP
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Ordnet jeden Port neu zu, der von einem Knoten für die interne Grid-Knoten-Kommunikation oder externe Kommunikation verwendet wird. Die Neuzuordnung von Ports ist erforderlich, wenn Netzwerkrichtlinien von Unternehmen einen oder mehrere von StorageGRID verwendete Ports einschränken, wie in link:../network/internal-grid-node-communications.html["Interne Grid-Knoten-Kommunikation"] oder link:../network/external-communications.html["${post_edited_translations.segment}"] beschrieben.
+
+*WICHTIG*: Ordnen Sie die Ports, die Sie zur Konfiguration der Load-Balancer-Endpunkte verwenden möchten, nicht neu zu.
+
+*Hinweis*: Wenn nur PORT_REMAP festgelegt ist, wird die angegebene Zuordnung sowohl für eingehende als auch für ausgehende Kommunikation verwendet. Wenn zusätzlich PORT_REMAP_INBOUND angegeben ist, gilt PORT_REMAP nur für ausgehende Kommunikation.
+
+Das verwendete Format lautet: `_network type_/_protocol_/_default port used by grid node_/_new port_`, wobei `_network type_` grid, admin oder client ist und `_protocol_` tcp oder udp ist.
+
+Beispiel: `PORT_REMAP = client/tcp/18082/443`
+
+Sie können auch mehrere Ports mithilfe einer durch Kommas getrennten Liste neu zuordnen.
+
+Beispiel: `PORT_REMAP = client/tcp/18082/443, client/tcp/18083/80`
+ a| 
+Optional
+
+|===
+
+
+==== PORT_REMAP_INBOUND
+
+[cols="4a,2a"]
+|===
+| Wert | Bezeichnung 
+
+
+ a| 
+Leitet eingehende Kommunikation an den angegebenen Port um. Wenn PORT_REMAP_INBOUND angegeben wird, aber kein Wert für PORT_REMAP festgelegt ist, bleibt die ausgehende Kommunikation für den Port unverändert.
+
+*WICHTIG*: Ordnen Sie die Ports, die Sie zur Konfiguration der Load-Balancer-Endpunkte verwenden möchten, nicht neu zu.
+
+Das verwendete Format ist:  `_network type_/_protocol_/_remapped port_/_default port used by grid node_`, wobei  `_network type_` grid, admin oder client ist und  `_protocol_` tcp oder udp ist.
+
+Beispiel: `PORT_REMAP_INBOUND = grid/tcp/3022/22`
+
+Es ist auch möglich, mehrere eingehende Ports mithilfe einer durch Kommas getrennten Liste neu zuzuordnen.
+
+Beispiel: `PORT_REMAP_INBOUND = grid/tcp/3022/22, admin/tcp/3022/22`
+ a| 
+Optional
+
+|===

@@ -1,0 +1,42 @@
+---
+permalink: audit/gnur-gnds-unregistration.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, GNUR, GNDS Unregistration 
+summary: Der CMN-Dienst generiert diese Revisionsprotokollmeldung, wenn ein Dienst Informationen über sich selbst aus dem StorageGRID-System abgemeldet hat. 
+---
+= GNUR-Revisionsprotokollmeldung für die GNDS-Abmeldung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der CMN-Dienst generiert diese Revisionsprotokollmeldung, wenn ein Dienst Informationen über sich selbst aus dem StorageGRID-System abgemeldet hat.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Das Ergebnis der Aktualisierungsanfrage:
+
+* SUCS: Erfolgreich
+* SUNV: Dienst nicht verfügbar
+* GERR: Sonstiger Fehler
+
+
+
+
+ a| 
+GNID
+ a| 
+Knoten-ID
+ a| 
+Die Knoten-ID des Dienstes, der die Aktualisierungsanforderung initiiert hat.
+
+|===

@@ -1,0 +1,36 @@
+---
+permalink: monitor/managing-alerts.html 
+sidebar: sidebar 
+keywords: alert rules, managing alerts, alerts, alert notifications. edit alert rules 
+summary: Das Alarmsystem bietet eine benutzerfreundliche Oberfläche zum Erkennen, Bewerten und Beheben von Problemen, die während des StorageGRID Betriebs auftreten können. 
+---
+= Warnmeldungen in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Alarmsystem bietet eine benutzerfreundliche Oberfläche zum Erkennen, Bewerten und Beheben von Problemen, die während des StorageGRID Betriebs auftreten können.
+
+Warnmeldungen werden bei bestimmten Schweregraden ausgelöst, wenn die Bedingungen der Warnregel als erfüllt gelten. Wenn eine Warnmeldung ausgelöst wird, erfolgen die folgenden Aktionen:
+
+* Ein Symbol für den Schweregrad der Warnung wird im Grid Manager auf dem Dashboard angezeigt, und die Anzahl der aktuellen Warnungen wird erhöht.
+* Die Warnung wird auf der *Knoten* Übersichtsseite und auf der Registerkarte *Knoten* > *_node_* > *Übersicht* angezeigt.
+* Eine E-Mail-Benachrichtigung wird versendet, sofern ein SMTP-Server konfiguriert und E-Mail-Adressen für die Empfänger angegeben wurden.
+* Eine Simple Network Management Protocol (SNMP)-Benachrichtigung wird gesendet, vorausgesetzt, Sie haben den StorageGRID SNMP-Agent konfiguriert.
+
+
+Sie können benutzerdefinierte Warnmeldungen erstellen, Warnmeldungen bearbeiten oder deaktivieren und Warnmeldungsbenachrichtigungen verwalten.
+
+Weitere Informationen:
+
+* Videos im Überblick:
++
+.Benachrichtigungsübersicht
+video::2eea81c5-8323-417f-b0a0-b1ff008506c1[panopto]
++
+.Benutzerdefinierte Benachrichtigungen
+video::54af90c4-9a38-4136-9621-b1ff008604a3[panopto]
+* Siehe link:alerts-reference.html["Benachrichtigungsreferenz"].
+

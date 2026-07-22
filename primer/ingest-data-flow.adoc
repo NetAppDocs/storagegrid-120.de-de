@@ -1,0 +1,32 @@
+---
+permalink: primer/ingest-data-flow.html 
+sidebar: sidebar 
+keywords: StorageGRID, object data, ingest 
+summary: Ein Datenimport bzw. Speichervorgang besteht aus einem definierten Datenfluss zwischen dem Client und dem StorageGRID System. 
+---
+= Wie StorageGRID die Objektaufnahme handhabt
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Datenimport bzw. Speichervorgang besteht aus einem definierten Datenfluss zwischen dem Client und dem StorageGRID System.
+
+
+
+[[data-flow]]
+== Datenfluss
+
+Wenn ein Client ein Objekt in das StorageGRID System einliest, verarbeitet der LDR-Dienst auf den Storage Nodes die Anfrage und speichert die Metadaten und Daten auf der Festplatte.
+
+image:ingest_data_flow.png["Ingest mit synchroner Platzierung"]
+
+. Die Clientanwendung erstellt das Objekt und sendet es über eine HTTP PUT-Anfrage an das StorageGRID System.
+. Das Objekt wird anhand der ILM-Richtlinie des Systems bewertet.
+. Der LDR-Dienst speichert die Objektdaten als replizierte Kopie oder als löschcodierte Kopie. (Das Diagramm zeigt eine vereinfachte Darstellung der Speicherung einer replizierten Kopie auf der Festplatte.)
+. Der LDR-Dienst sendet die Objektmetadaten an den Metadatenspeicher.
+. Der Metadatenspeicher speichert die Objektmetadaten auf der Festplatte.
+. Der Metadatenspeicher verteilt Kopien der Objektmetadaten an andere Storage Nodes. Diese Kopien werden ebenfalls auf der Festplatte gespeichert.
+. Der LDR-Dienst gibt eine HTTP 200 OK-Antwort an den Client zurück, um zu bestätigen, dass das Objekt aufgenommen wurde.
+

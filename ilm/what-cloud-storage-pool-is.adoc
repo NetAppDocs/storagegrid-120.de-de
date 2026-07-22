@@ -1,0 +1,102 @@
+---
+permalink: ilm/what-cloud-storage-pool-is.html 
+sidebar: sidebar 
+keywords: what is a cloud storage pool 
+summary: Ein Cloud Storage Pool ermöglicht die Nutzung von ILM, um Objektdaten außerhalb Ihres StorageGRID-Systems zu verschieben. Beispielsweise kann es sinnvoll sein, selten genutzte Objekte in kostengünstigeren Cloud-Storage wie Amazon S3 Glacier, S3 Glacier Deep Archive, Google Cloud oder die Archive-Zugriffsebene in Microsoft Azure Blob Storage zu verschieben. Ebenso kann eine Cloud-Sicherung der StorageGRID-Objekte zur Verbesserung der Disaster Recovery sinnvoll sein. 
+---
+= Erfahren Sie mehr über Cloud Storage Pools in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Cloud Storage Pool ermöglicht die Nutzung von ILM, um Objektdaten außerhalb Ihres StorageGRID-Systems zu verschieben. Beispielsweise kann es sinnvoll sein, selten genutzte Objekte in kostengünstigeren Cloud-Storage wie Amazon S3 Glacier, S3 Glacier Deep Archive, Google Cloud oder die Archive-Zugriffsebene in Microsoft Azure Blob Storage zu verschieben. Ebenso kann eine Cloud-Sicherung der StorageGRID-Objekte zur Verbesserung der Disaster Recovery sinnvoll sein.
+
+Aus ILM-Sicht ähnelt ein Cloud Storage Pool einem Speicherpool. Zum Speichern von Objekten an einem der beiden Speicherorte wird der Pool beim Erstellen der Platzierungsanweisungen für eine ILM-Regel ausgewählt. Während Speicherpools jedoch aus Storage Nodes innerhalb des StorageGRID Systems bestehen, besteht ein Cloud Storage Pool aus einem externen Bucket (S3) oder Container (Azure Blob storage).
+
+Die Tabelle vergleicht Speicherpools mit Cloud Storage Pools und zeigt die wichtigsten Gemeinsamkeiten und Unterschiede.
+
+[cols="1a,2a,5a"]
+|===
+|  | Storage-Pool | Cloud Storage Pool 
+
+
+ a| 
+Wie wird es erstellt?
+ a| 
+Verwendung der Option *ILM* > *Storage pools* im Grid Manager.
+ a| 
+Verwendung der Option *ILM* > *Storage pools* > *Cloud Storage Pools* im Grid Manager.
+
+Der externe Bucket oder Container muss eingerichtet werden, bevor der Cloud Storage Pool erstellt werden kann.
+
+
+
+ a| 
+Wie viele Pools können Sie erstellen?
+ a| 
+Unbegrenzt.
+ a| 
+Bis zu 10.
+
+
+
+ a| 
+Wo werden Objekte gespeichert?
+ a| 
+Auf einem oder mehreren Speicherknoten innerhalb von StorageGRID.
+ a| 
+In einem Amazon S3 Bucket, einem Azure Blob Storage Container oder einer Google Cloud, die sich außerhalb des StorageGRID Systems befindet.
+
+Wenn der Cloud Storage Pool ein Amazon S3-Bucket ist:
+
+* Optional kann ein Bucket-Lebenszyklus konfiguriert werden, um Objekte in kostengünstigen Langzeit-Storage wie Amazon S3 Glacier oder S3 Glacier Deep Archive zu überführen. Das externe Storage-System muss die Glacier-Storage-Klasse und die S3 RestoreObject API unterstützen.
+* Cloud-Speicherpools können für die Verwendung mit AWS Commercial Cloud Services (C2S) erstellt werden, die die AWS Secret Region unterstützen.
+
+
+Wenn es sich bei dem Cloud Storage Pool um einen Azure Blob Storage Container handelt, verschiebt StorageGRID das Objekt in die Archivschicht.
+
+*Hinweis:* Im Allgemeinen sollte die Azure Blob Storage-Lebenszyklusverwaltung nicht für den Container konfiguriert werden, der für einen Cloud Storage Pool verwendet wird. RestoreObject-Vorgänge an Objekten im Cloud Storage Pool können durch den konfigurierten Lebenszyklus beeinträchtigt werden.
+
+
+
+ a| 
+Was steuert die Platzierung von Objekten?
+ a| 
+Eine ILM-Regel in den aktiven ILM-Richtlinien.
+ a| 
+Eine ILM-Regel in den aktiven ILM-Richtlinien.
+
+
+
+ a| 
+Welche Datenschutzmethode wird verwendet?
+ a| 
+Replikation oder Löschcodierung.
+ a| 
+Replikation.
+
+
+
+ a| 
+Wie viele Kopien jedes Objekts sind zulässig?
+ a| 
+Mehrere.
+ a| 
+Eine Kopie im Cloud Storage Pool und optional eine oder mehrere Kopien in StorageGRID.
+
+*Hinweis:* Ein Objekt kann nicht gleichzeitig in mehr als einem Cloud Storage Pool gespeichert werden.
+
+
+
+ a| 
+Welche Vorteile gibt es?
+ a| 
+Objekte sind jederzeit schnell zugänglich.
+ a| 
+Kostengünstiger Storage.
+
+*Hinweis*: FabricPool-Daten können nicht in Cloud Storage Pools verschoben werden.
+
+|===

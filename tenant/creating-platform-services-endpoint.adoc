@@ -1,0 +1,457 @@
+---
+permalink: tenant/creating-platform-services-endpoint.html 
+sidebar: sidebar 
+keywords: how to create platform services endpoint 
+summary: Bevor Sie einen Plattformdienst aktivieren können, muss mindestens ein Endpunkt des richtigen Typs erstellt werden. 
+---
+= Erstellen Sie einen StorageGRID Plattformdienste-Endpunkt
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie einen Plattformdienst aktivieren können, muss mindestens ein Endpunkt des richtigen Typs erstellt werden.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Die Plattformdienste wurden von einem StorageGRID Administrator für Ihr Mandantenkonto aktiviert.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Endpunkte oder Root-Zugriffsberechtigung verwalten"].
+* Die vom Plattformdienste-Endpunkt referenzierte Ressource wurde erstellt:
++
+** CloudMirror Replikation: S3-Bucket
+** Ereignisbenachrichtigung: Amazon Simple Notification Service (Amazon SNS) Thema, Kafka Thema oder Webhook-Endpunkt
+** Suchbenachrichtigung: Elasticsearch Index, falls der Ziel-Cluster nicht für die automatische Erstellung von Indizes konfiguriert ist.
+
+
+* Sie verfügen über die Informationen zur Zielressource:
++
+** Host und Port für den Uniform Resource Identifier (URI)
++
+
+NOTE: Wenn ein auf einem StorageGRID System gehosteter Bucket als Endpunkt für CloudMirror Replikation verwendet werden soll, ist der Grid-Administrator zu kontaktieren, um die erforderlichen Werte zu ermitteln.
+
+** Eindeutiger Ressourcenname (URN)
++
+link:specifying-urn-for-platform-services-endpoint.html["URN für den Plattformdienste-Endpunkt angeben"]
+
+** Authentifizierungsdaten (falls erforderlich):
++
+[role="tabbed-block"]
+====
+.Such-Integrationsendpunkte
+--
+Für Suchintegrationsendpunkte können die folgenden Anmeldeinformationen verwendet werden:
+
+*** Zugriffsschlüssel: Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
+*** Basis-HTTP: Benutzername und Passwort
+
+
+--
+.CloudMirror Replikationsendpunkte
+--
+Für CloudMirror Replikationsendpunkte können die folgenden Anmeldeinformationen verwendet werden:
+
+*** Zugriffsschlüssel: Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
+*** CAP (C2S Access Portal): Temporäre Anmeldeinformationen-URL, Server- und Clientzertifikate, Clientschlüssel und optional eine Passphrase für den privaten Clientschlüssel.
+
+
+--
+.Amazon SNS Endpunkte
+--
+Für Amazon SNS Endpunkte können Sie die folgenden Anmeldeinformationen verwenden:
+
+*** Zugriffsschlüssel: Zugriffsschlüssel-ID und geheimer Zugriffsschlüssel
+
+
+--
+.Kafka Endpunkte
+--
+Für Kafka-Endpunkte können die folgenden Anmeldeinformationen genutzt werden:
+
+*** SASL/PLAIN: Benutzername und Passwort
+*** SASL/SCRAM-SHA-256: Benutzername und Passwort
+*** SASL/SCRAM-SHA-512: Benutzername und Passwort
+
+
+--
+====
+** Sicherheitszertifikat (falls eine Zertifikatsprüfung erforderlich ist)
+
+
+* Wenn die Elasticsearch-Sicherheitsfunktionen aktiviert sind, besteht die Berechtigung zum Überwachen des Clusters für Konnektivitätstests sowie entweder die Schreibberechtigung für Indizes oder sowohl die Index- als auch die Löschberechtigung für Indizes für Dokumentaktualisierungen.
+
+
+.Schritte
+. Wählen Sie *STORAGE (S3)* > *Platform services endpoints*. Die Seite „Platform services endpoints“ wird angezeigt.
+. *Endpunkt erstellen* auswählen.
+. Geben Sie einen Anzeigenamen ein, der den Endpunkt und seinen Zweck kurz beschreibt.
++
+Der Typ des Plattformdienstes, den der Endpunkt unterstützt, wird neben dem Endpunktnamen angezeigt, wenn er auf der Seite „Endpunkte“ aufgeführt ist, sodass diese Information nicht in den Namen aufgenommen werden muss.
+
+. Im Feld *URI* ist der Unique Resource Identifier (URI) des Endpunkts anzugeben.
++
+--
+Eines der folgenden Formate kann verwendet werden:
+
+[listing]
+----
+https://host:port
+http://host:port
+----
+Wenn Sie keinen Port angeben, werden die folgenden Standardports verwendet:
+
+** Port 443 für HTTPS-URIs und Port 80 für HTTP-URIs (die meisten Endpunkte)
+** Port 9092 für HTTPS- und HTTP-URIs (nur Kafka Endpunkte)
+
+
+--
++
+Die URI für einen auf StorageGRID gehosteten Bucket könnte beispielsweise wie folgt lauten:
+
++
+[listing]
+----
+https://s3.example.com:10443
+----
++
+In diesem Beispiel  `s3.example.com` steht für den DNS-Eintrag für die virtuelle IP (VIP) der StorageGRID High Availability (HA) Gruppe, und  `10443` steht für den im Load-Balancer-Endpunkt definierten Port.
+
++
+
+NOTE: Nach Möglichkeit empfiehlt sich eine Verbindung zu einer HA Gruppe von Load-Balancing-Knoten, um einen Single Point of Failure zu vermeiden.
+
++
+Ebenso könnte die URI für einen auf AWS gehosteten Bucket wie folgt lauten:
+
++
+[listing]
+----
+https://s3-aws-region.amazonaws.com
+----
++
+
+NOTE: Wird der Endpunkt für den CloudMirror Replikationsdienst verwendet, darf der Bucket-Name nicht in die URI aufgenommen werden. Der Bucket-Name wird im Feld *URN* angegeben.
+
+. Geben Sie den eindeutigen Ressourcennamen (URN) für den Endpunkt ein.
++
+
+NOTE: Die URN eines Endpunkts kann nach der Erstellung des Endpunkts nicht mehr geändert werden.
+
+. Wählen Sie *Weiter*.
+. Wählen Sie einen Wert für *Authentifizierungstyp* aus.
++
+
+NOTE: Wenn für Webhook-Endpunkte eine Authentifizierung erforderlich ist, kann Mutual Transport Layer Security (mTLS) in <<verify-certs,Schritt 9>> konfiguriert werden.
+
++
+[role="tabbed-block"]
+====
+.Such-Integrationsendpunkte
+--
+Anmeldeinformationen für einen Suchintegrationsendpunkt eingeben oder hochladen.
+
+Die von Ihnen angegebenen Anmeldeinformationen müssen Schreibberechtigungen für die Zielressource besitzen.
+
+[cols="1a,2a,2a"]
+|===
+| Authentifizierungstyp | Beschreibung | Anmeldeinformationen 
+
+
+ a| 
+Anonym
+ a| 
+Bietet anonymen Zugriff auf das Ziel. Funktioniert nur für Endpunkte, bei denen die Sicherheit deaktiviert ist.
+ a| 
+Keine Authentifizierung.
+
+
+
+ a| 
+Zugangsschlüssel
+ a| 
+Verwendet Anmeldeinformationen im AWS-Stil, um Verbindungen mit dem Ziel-Cluster zu authentifizieren.
+ a| 
+** Zugriffsschlüssel-ID
+** Geheimer Zugriffsschlüssel
+
+
+
+
+ a| 
+Grundlegendes HTTP
+ a| 
+Verwendet einen Benutzernamen und ein Passwort zur Authentifizierung von Verbindungen zum Ziel-Cluster.
+ a| 
+** Benutzername
+** Passwort
+
+
+|===
+--
+.CloudMirror Replikationsendpunkte
+--
+Geben Sie die Anmeldeinformationen für einen CloudMirror Replikationsendpunkt ein oder laden Sie sie hoch.
+
+Die von Ihnen angegebenen Anmeldeinformationen müssen Schreibberechtigungen für die Zielressource besitzen.
+
+[cols="1a,2a,2a"]
+|===
+| Authentifizierungstyp | Beschreibung | Anmeldeinformationen 
+
+
+ a| 
+Anonym
+ a| 
+Bietet anonymen Zugriff auf das Ziel. Funktioniert nur für Endpunkte, bei denen die Sicherheit deaktiviert ist.
+ a| 
+Keine Authentifizierung.
+
+
+
+ a| 
+Zugangsschlüssel
+ a| 
+Verwendet Anmeldeinformationen im AWS-Stil, um Verbindungen mit dem Ziel-Cluster zu authentifizieren.
+ a| 
+** Zugriffsschlüssel-ID
+** Geheimer Zugriffsschlüssel
+
+
+
+
+ a| 
+CAP (C2S Access Portal)
+ a| 
+Verwendet Zertifikate und Schlüssel zur Authentifizierung von Verbindungen zum Ziel.
+ a| 
+** URL für temporäre Anmeldeinformationen
+** Server-CA-Zertifikat (PEM-Datei-Upload)
+** Clientzertifikat (PEM-Datei-Upload)
+** Privater Schlüssel des Clients (PEM-Datei-Upload, OpenSSL-verschlüsseltes Format oder unverschlüsseltes privates Schlüsselformat)
+** Passphrase für den privaten Client-Schlüssel (optional)
+
+
+|===
+--
+.Amazon SNS Endpunkte
+--
+Geben Sie die Zugangsdaten für einen Amazon SNS Endpunkt ein oder laden Sie sie hoch.
+
+Die von Ihnen angegebenen Anmeldeinformationen müssen Schreibberechtigungen für die Zielressource besitzen.
+
+[cols="1a,2a,2a"]
+|===
+| Authentifizierungstyp | Beschreibung | Anmeldeinformationen 
+
+
+ a| 
+Anonym
+ a| 
+Bietet anonymen Zugriff auf das Ziel. Funktioniert nur für Endpunkte, bei denen die Sicherheit deaktiviert ist.
+ a| 
+Keine Authentifizierung.
+
+
+
+ a| 
+Zugangsschlüssel
+ a| 
+Verwendet Anmeldeinformationen im AWS-Stil, um Verbindungen mit dem Ziel-Cluster zu authentifizieren.
+ a| 
+** Zugriffsschlüssel-ID
+** Geheimer Zugriffsschlüssel
+
+
+|===
+--
+.Kafka Endpunkte
+--
+Geben Sie die Anmeldedaten für einen Kafka-Endpunkt ein oder laden Sie diese hoch.
+
+Die von Ihnen angegebenen Anmeldeinformationen müssen Schreibberechtigungen für die Zielressource besitzen.
+
+[cols="1a,2a,2a"]
+|===
+| Authentifizierungstyp | Beschreibung | Anmeldeinformationen 
+
+
+ a| 
+Anonym
+ a| 
+Bietet anonymen Zugriff auf das Ziel. Funktioniert nur für Endpunkte, bei denen die Sicherheit deaktiviert ist.
+ a| 
+Keine Authentifizierung.
+
+
+
+ a| 
+SASL/PLAIN
+ a| 
+Verwendet einen Benutzernamen und ein Passwort im Klartext, um Verbindungen zum Ziel zu authentifizieren.
+ a| 
+** Benutzername
+** Passwort
+
+
+
+
+ a| 
+SASL/SCRAM-SHA-256
+ a| 
+Verwendet einen Benutzernamen und ein Passwort unter Verwendung eines Challenge-Response-Protokolls und SHA-256-Hashing zur Authentifizierung der Verbindungen zum Ziel.
+ a| 
+** Benutzername
+** Passwort
+
+
+
+
+ a| 
+SASL/SCRAM-SHA-512
+ a| 
+Verwendet einen Benutzernamen und ein Passwort unter Verwendung eines Challenge-Response-Protokolls und SHA-512-Hashing zur Authentifizierung der Verbindungen zum Ziel.
+ a| 
+** Benutzername
+** Passwort
+
+
+|===
+*Delegierungstoken-Authentifizierung verwenden* ist auszuwählen, wenn Benutzername und Passwort von einem Delegierungstoken abgeleitet werden, das von einem Kafka-Cluster bezogen wurde.
+
+--
+====
+. Wählen Sie *Weiter*.
+. [[verify-certs]]Eine Optionsschaltfläche für *Zertifikate überprüfen* ermöglicht die Auswahl, wie die TLS-Verbindung zum Endpunkt überprüft wird.
++
+[role="tabbed-block"]
+====
+.Die meisten Endpunkte
+--
+Die TLS-Verbindung für die Suchintegration, CloudMirror Replikation, Amazon SNS oder Kafka-Endpunkte wird überprüft.
+
+[cols="1a,2a"]
+|===
+| Art der Zertifikatsprüfung | Beschreibung 
+
+
+ a| 
+TLS
+ a| 
+Validiert das Serverzertifikat für TLS-Verbindungen zur Endpunktressource.
+
+
+
+ a| 
+Deaktiviert
+ a| 
+Die Zertifikatsprüfung ist deaktiviert. Diese Option ist nicht sicher.
+
+
+
+ a| 
+Benutzerdefiniertes CA-Zertifikat verwenden
+ a| 
+Das benutzerdefinierte CA-Zertifikat wird verwendet, um die Identität des Servers beim Verbindungsaufbau zum Endpunkt zu überprüfen.
+
+
+
+ a| 
+CA-Zertifikat des Betriebssystems verwenden
+ a| 
+Das standardmäßig auf dem Betriebssystem installierte Grid-CA-Zertifikat wird verwendet, um Verbindungen zu sichern.
+
+|===
+--
+.Nur Webhook Endpunkte
+--
+Die TLS-Verbindung für Webhook-Endpunkte wird überprüft.
+
+[cols="1a,2a"]
+|===
+| Art der Zertifikatsprüfung | Beschreibung 
+
+
+ a| 
+TLS
+ a| 
+Validiert das Serverzertifikat für TLS-Verbindungen zur Endpunktressource.
+
+
+
+ a| 
+mTLS
+ a| 
+Validiert die Client- und Serverzertifikate für Mutual TLS-Verbindungen zur Endpunktressource.
+
+
+
+ a| 
+Deaktiviert
+ a| 
+Die Zertifikatsprüfung ist deaktiviert. Diese Option ist nicht sicher.
+
+
+
+ a| 
+Benutzerdefiniertes CA-Zertifikat verwenden
+ a| 
+Das benutzerdefinierte CA-Zertifikat wird verwendet, um die Identität des Servers beim Verbindungsaufbau zum Endpunkt zu überprüfen.
+
+|===
+Wenn *mTLS* ausgewählt wird, werden diese Optionen verfügbar.
+
+[cols="1a,2a"]
+|===
+| Art der Zertifikatsprüfung | Beschreibung 
+
+
+ a| 
+Serverzertifikat nicht überprüfen
+ a| 
+Deaktiviert die Serverzertifikatsprüfung, wodurch die Identität des Servers nicht überprüft wird. Diese Option ist unsicher.
+
+
+
+ a| 
+Client-Zertifikat
+ a| 
+Das Clientzertifikat wird verwendet, um die Identität des Clients bei der Verbindung zum Endpunkt zu überprüfen.
+
+
+
+ a| 
+Privater Schlüssel des Clients
+ a| 
+Der private Schlüssel für das Clientzertifikat. Falls verschlüsselt, muss er im traditionellen Format PKCS #1 vorliegen (PKCS #8-Format wird nicht unterstützt).
+
+
+
+ a| 
+Passphrase für den privaten Schlüssel des Clients
+ a| 
+Die Passphrase zum Entschlüsseln des privaten Client-Schlüssels. Wenn der private Schlüssel nicht verschlüsselt ist, dieses Feld leer lassen.
+
+|===
+--
+====
+. *Testen und Endpunkt erstellen* auswählen.
++
+** Eine Erfolgsmeldung wird angezeigt, wenn der Endpunkt mit den angegebenen Anmeldeinformationen erreicht werden kann. Die Verbindung zum Endpunkt wird von einem Knoten an jedem Standort validiert.
+** Eine Fehlermeldung wird angezeigt, wenn die Endpunktvalidierung fehlschlägt. Falls der Endpunkt zur Fehlerbehebung geändert werden muss, kann *Zurück zu den Endpunktdetails* ausgewählt und die Informationen aktualisiert werden. Anschließend kann *Endpunkt testen und erstellen* ausgewählt werden.
++
+
+NOTE: Die Erstellung von Endpunkten schlägt fehl, wenn die Plattformdienste für Ihr Mandantenkonto nicht aktiviert sind. Der StorageGRID Administrator ist zu kontaktieren.
+
+
+
+
+
+Nachdem Sie einen Endpunkt konfiguriert haben, kann dessen URN zur Konfiguration eines Plattformdienstes verwendet werden.
+
+.Verwandte Informationen
+* link:specifying-urn-for-platform-services-endpoint.html["URN für den Plattformdienste-Endpunkt angeben"]
+* link:configuring-cloudmirror-replication.html["Konfiguration der CloudMirror Replikation"]
+* link:configuring-event-notifications.html["Ereignisbenachrichtigungen konfigurieren"]
+* link:configuring-search-integration-service.html["Suchintegrationsdienst konfigurieren"]
+

@@ -1,0 +1,100 @@
+---
+permalink: maintain/recovering-failed-storage-volumes-and-rebuilding-cassandra-database.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, maintenance, maintain, failed storage volumes, failed volumes, cassandra, cassandra rebuild, rebuild cassandra, cassandra database 
+summary: Ein Skript muss ausgeführt werden, das den Speicher auf ausgefallenen Speichervolumes neu formatiert und wieder einbindet sowie die Cassandra Datenbank auf dem Storage Node neu aufbaut, falls das System dies für notwendig erachtet. 
+---
+= Ausgefallene Speichervolumes wiederherstellen und die Cassandra-Datenbank in StorageGRID neu aufbauen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Skript muss ausgeführt werden, das den Speicher auf ausgefallenen Speichervolumes neu formatiert und wieder einbindet sowie die Cassandra Datenbank auf dem Storage Node neu aufbaut, falls das System dies für notwendig erachtet.
+
+.Bevor Sie beginnen
+* Sie haben die  `Passwords.txt` Datei.
+* Die Systemlaufwerke auf dem Server sind intakt.
+* Die Ursache des Fehlers wurde ermittelt und gegebenenfalls ist Ersatzspeicherhardware bereits beschafft worden.
+* Die Gesamtgröße des Ersatzspeichers ist identisch mit der des Originals.
+* Es wurde überprüft, dass keine Außerbetriebnahme eines Storage Node im Gange ist oder dass das Außerbetriebnahmeverfahren des Node pausiert wurde. (Im Grid Manager unter *Wartung* > *Aufgaben* > *Außerbetriebnahme* auswählen.)
+* Sie haben überprüft, dass derzeit keine Erweiterung im Gange ist. (Im Grid Manager unter *Wartung* > *Aufgaben* > *Erweiterung*.)
+* Du hast link:reviewing-warnings-about-storage-volume-recovery.html["Die Warnungen zur Wiederherstellung von Speichervolumes wurden überprüft."].
+
+
+.Schritte
+. Bei Bedarf können die ausgefallenen physischen oder virtuellen Speicher, die mit den zuvor identifizierten und ausgehängten ausgefallenen Speichervolumes verbunden sind, ersetzt werden.
++
+Die Volumes dürfen in diesem Schritt nicht neu eingebunden werden. Der Speicher wird neu eingebunden und zu `/etc/fstab` in einem späteren Schritt hinzugefügt.
+
+. Im Grid Manager navigieren Sie zu *Knoten* > `*appliance Storage Node*` > *Hardware*. Überprüfen Sie im Abschnitt „StorageGRID Appliance“ der Seite, ob der Storage RAID-Modus fehlerfrei ist.
+. Melden Sie sich am ausgefallenen Storage Node an:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Verwenden Sie einen Texteditor (vi oder vim), um fehlgeschlagene Volumes aus der  `/etc/fstab` Datei zu löschen und die Datei anschließend zu speichern.
++
+
+NOTE: Das Auskommentieren eines fehlerhaften Volumes in der  `/etc/fstab` Datei ist nicht ausreichend. Das Volume muss aus  `fstab` gelöscht werden, da der Wiederherstellungsprozess überprüft, ob alle Zeilen in der  `fstab` Datei mit den eingebundenen Dateisystemen übereinstimmen.
+
+. Fehlerhafte Speichervolumes werden bei Bedarf neu formatiert und die Cassandra Datenbank wird neu aufgebaut. Eingabe: `reformat_storage_block_devices.rb`
++
+** Wenn Speichervolume 0 ausgehängt ist, weisen Hinweise und Meldungen darauf hin, dass der Cassandra-Dienst gestoppt wird.
+** Gegebenenfalls erfolgt eine Aufforderung, die Cassandra-Datenbank neu aufzubauen.
++
+*** Überprüfen Sie die Warnungen. Falls keine davon zutrifft, die Cassandra Datenbank neu erstellen. *y* eingeben
+*** Wenn mehr als ein Storage Node offline ist. *n* eingeben
++
+Das Skript wird beendet, ohne Cassandra neu zu erstellen. Der technische Support ist zu kontaktieren.
+
+
+
+** Für jedes rangedb-Laufwerk auf dem Storage Node, wenn Sie dazu aufgefordert werden: `Reformat the rangedb drive _<name>_ (device _<major number>:<minor number>_)? [y/n]?`, eine der folgenden Antworten eingeben:
++
+*** *y* zum Neuformatieren eines fehlerhaften Laufwerks. Dadurch wird das Speichervolume neu formatiert und das neu formatierte Speichervolume der  `/etc/fstab` Datei hinzugefügt.
+*** *n* wenn das Laufwerk keine Fehler enthält und Sie es nicht neu formatieren möchten.
++
+
+NOTE: Durch Auswahl von *n* wird das Skript beendet. Entweder das Laufwerk einbinden (wenn die Daten auf dem Laufwerk erhalten bleiben sollen und das Laufwerk irrtümlich ausgehängt wurde) oder das Laufwerk entfernen. Dann den  `reformat_storage_block_devices.rb` Befehl erneut ausführen.
+
++
+
+NOTE: Einige StorageGRID-Wiederherstellungsverfahren verwenden Reaper zur Durchführung von Cassandra-Reparaturen. Reparaturen erfolgen automatisch, sobald die zugehörigen oder erforderlichen Dienste gestartet sind. In der Skriptausgabe kann ein Hinweis auf „reaper“ oder „Cassandra repair“ erscheinen. Wird eine Fehlermeldung angezeigt, die auf einen fehlgeschlagenen Reparaturvorgang hinweist, sollte der in der Fehlermeldung angegebene Befehl ausgeführt werden.
+
++
+Im folgenden Beispielausgabe muss das Laufwerk `/dev/sdf` neu formatiert werden, und Cassandra musste nicht neu aufgebaut werden:
+
++
+[listing]
+----
+root@DC1-S1:~ # reformat_storage_block_devices.rb
+Formatting devices that are not in use...
+Skipping in use device /dev/sdc
+Skipping in use device /dev/sdd
+Skipping in use device /dev/sde
+Reformat the rangedb drive /dev/sdf (device 8:64)? [Y/n]? y
+Successfully formatted /dev/sdf with UUID b951bfcb-4804-41ad-b490-805dfd8df16c
+All devices processed
+Running: /usr/local/ldr/setup_rangedb.sh 12368435
+Cassandra does not need rebuilding.
+Starting services.
+Informing storage services of new volume
+
+Reformatting done.  Now do manual steps to
+restore copies of data.
+----
+
+
+
+
+
+
+Nachdem die Speichervolumes neu formatiert und wieder eingebunden wurden und die notwendigen Cassandra-Operationen abgeschlossen sind, können Sie link:../maintain/restoring-volume.html["Objektdaten mithilfe von Grid Manager wiederherstellen"].

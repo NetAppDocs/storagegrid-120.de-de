@@ -1,0 +1,14 @@
+---
+permalink: harden/system-hardening-guidelines.html 
+sidebar: sidebar 
+keywords: StorageGRID, security, system hardening 
+summary: Während der Installation und Konfiguration von StorageGRID können diese Richtlinien dabei unterstützen, die vorgeschriebenen Sicherheitsziele in Bezug auf Vertraulichkeit, Integrität und Verfügbarkeit von Informationssystemen zu erfüllen. 
+---
+= Systemhärtungsrichtlinien für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Während der Installation und Konfiguration von StorageGRID können diese Richtlinien dabei unterstützen, die vorgeschriebenen Sicherheitsziele in Bezug auf Vertraulichkeit, Integrität und Verfügbarkeit von Informationssystemen zu erfüllen.

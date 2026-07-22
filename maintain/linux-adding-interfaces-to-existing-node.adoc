@@ -1,0 +1,49 @@
+---
+permalink: maintain/linux-adding-interfaces-to-existing-node.html 
+sidebar: sidebar 
+keywords: add interfaces, add client network interface, add admin network interface 
+summary: Mit diesen Schritten wird nach der Installation einem Linux-Knoten eine Schnittstelle im Admin-Netzwerk oder im Client-Netzwerk hinzugefügt. 
+---
+= Fügen Sie einem Linux-Knoten in StorageGRID Admin- oder Client-Schnittstellen hinzu
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit diesen Schritten wird nach der Installation einem Linux-Knoten eine Schnittstelle im Admin-Netzwerk oder im Client-Netzwerk hinzugefügt.
+
+Wenn ADMIN_NETWORK_TARGET oder CLIENT_NETWORK_TARGET in der Node-Konfigurationsdatei auf dem Linux-Host während der Installation nicht konfiguriert wurden, kann mit diesem Verfahren die Schnittstelle hinzugefügt werden. Weitere Informationen zur Node-Konfigurationsdatei sind unter link:../swnodes/index.html["StorageGRID auf softwarebasierten Knoten installieren"] zu finden.
+
+Diese Prozedur wird auf dem Linux-Server durchgeführt, der den Node hostet, der die neue Netzwerkzuweisung benötigt, nicht innerhalb des Nodes. Diese Prozedur fügt dem Node lediglich die Schnittstelle hinzu; ein Validierungsfehler tritt auf, wenn versucht wird, weitere Netzwerkparameter anzugeben.
+
+Um Adressinformationen bereitzustellen, ist das Tool „IP ändern“ zu verwenden. Siehe link:changing-nodes-network-configuration.html["Netzwerkkonfiguration des Node ändern"].
+
+.Schritte
+. Melden Sie sich beim Linux-Server an, auf dem der Node gehostet wird.
+. Die Node-Konfigurationsdatei bearbeiten: `/etc/storagegrid/nodes/_node-name_.conf`.
++
+
+NOTE: Keine weiteren Netzwerkparameter angeben, da dies zu einem Validierungsfehler führt.
+
++
+.. Einen Eintrag für das neue Netzwerkziel hinzufügen. Beispiel:
++
+`CLIENT_NETWORK_TARGET = bond0.3206`
+
+.. Optional: Einen Eintrag für die MAC-Adresse hinzufügen. Zum Beispiel:
++
+`CLIENT_NETWORK_MAC = aa:57:61:07:ea:5c`
+
+
+
+. Den Befehl node validate ausführen:
++
+`sudo storagegrid node validate _node-name_`
+
+. Alle Validierungsfehler wurden behoben.
+. Den Befehl „node reload“ ausführen:
++
+`sudo storagegrid node reload _node-name_`
+
+

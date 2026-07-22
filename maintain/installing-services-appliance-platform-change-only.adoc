@@ -1,0 +1,29 @@
+---
+permalink: maintain/installing-services-appliance-platform-change-only.html 
+sidebar: sidebar 
+keywords: storagegrid, recover services appliance, recover appliance, recovering appliance, recovering services appliance, install services appliance, installing services appliance, services appliance 
+summary: 'Wenn Sie einen ausgefallenen Grid-Knoten wiederherstellen, der auf VMware oder einem Linux-Host gehostet wurde, und Sie eine Services Appliance für den Ersatzknoten verwenden, muss zunächst die neue Appliance-Hardware mit demselben Node-Name (Systemname) wie der ausgefallene Knoten installiert werden.' 
+---
+= StorageGRID-Services-Appliance installieren (nur Plattformwechsel)
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen ausgefallenen Grid-Knoten wiederherstellen, der auf VMware oder einem Linux-Host gehostet wurde, und Sie eine Services Appliance für den Ersatzknoten verwenden, muss zunächst die neue Appliance-Hardware mit demselben Node-Name (Systemname) wie der ausgefallene Knoten installiert werden.
+
+.Bevor Sie beginnen
+Sie verfügen über folgende Informationen zum ausgefallenen Node:
+
+* *Node-Name*: Die Services-Appliance muss mit demselben Node-Name wie der ausgefallene Node installiert werden. Der Node-Name ist der Hostname (Systemname).
+* *IP-Adressen*: Sie können der Services Appliance dieselben IP-Adressen wie dem ausgefallenen Node zuweisen, was die bevorzugte Option ist, oder Sie können in jedem Netzwerk eine neue, ungenutzte IP-Adresse auswählen.
+
+
+.Über diese Aufgabe
+Diese Prozedur ist nur anzuwenden, wenn ein ausgefallener Node, der auf VMware oder Linux gehostet wurde, wiederhergestellt und durch einen Node ersetzt wird, der auf einer Services Appliance gehostet ist.
+
+.Schritte
+. Befolgen Sie die Anweisungen zur Installation eines neuen Services Appliance. Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Schnellstart für die Hardwareinstallation"^].
+. Bei der Aufforderung zur Eingabe eines Node-Name ist der Node-Name des ausgefallenen Knotens zu verwenden.
+

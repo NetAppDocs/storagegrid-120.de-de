@@ -1,0 +1,78 @@
+---
+permalink: maintain/all-node-types-replacing-vmware-node.html 
+sidebar: sidebar 
+keywords: replace VMware node 
+summary: Wenn ein ausgefallener StorageGRID Knoten, der auf VMware gehostet wurde, wiederhergestellt wird, erfolgt die Entfernung des ausgefallenen Knotens und die Bereitstellung eines Wiederherstellungsknotens. 
+---
+= Ersetzen Sie einen VMware-Knoten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn ein ausgefallener StorageGRID Knoten, der auf VMware gehostet wurde, wiederhergestellt wird, erfolgt die Entfernung des ausgefallenen Knotens und die Bereitstellung eines Wiederherstellungsknotens.
+
+.Bevor Sie beginnen
+Sie haben festgestellt, dass die virtuelle Maschine nicht wiederhergestellt werden kann und ersetzt werden muss.
+
+.Über diese Aufgabe
+Sie verwenden den VMware vSphere Web Client, um zunächst die virtuelle Maschine zu entfernen, die mit dem ausgefallenen Grid-Knoten verknüpft ist. Anschließend kann eine neue virtuelle Maschine bereitgestellt werden.
+
+Dieses Verfahren ist nur ein Schritt im Wiederherstellungsprozess der Grid-Knoten. Das Verfahren zur Entfernung und Bereitstellung von Knoten ist für alle VMware-Knoten, einschließlich Admin-Knoten, Storage Nodes und Gateway-Knoten, identisch.
+
+.Schritte
+. Melden Sie sich beim VMware vSphere Web Client an.
+. Zur ausgefallenen Grid-Node-virtuellen Maschine navigieren.
+. Alle Informationen, die für die Bereitstellung des Wiederherstellungsknotens erforderlich sind, sollten notiert werden.
++
+.. Klicken Sie mit der rechten Maustaste auf die virtuelle Maschine, wählen Sie die Registerkarte *Einstellungen bearbeiten* und notieren Sie die verwendeten Einstellungen.
+.. Die Registerkarte *vApp Optionen* zeigt die Netzwerkeinstellungen der Grid-Knoten an und ermöglicht deren Protokollierung.
+
+
+. Falls es sich bei dem ausgefallenen Grid-Knoten um einen Storage Node handelt, ist zu prüfen, ob virtuelle Festplatten, die zur Datenspeicherung verwendet werden, unbeschädigt sind, und diese für die Wiederanbindung an den wiederhergestellten Grid-Knoten aufzubewahren.
+. Die virtuelle Maschine wird ausgeschaltet.
+. *Aktionen* > *Alle vCenter Actions* > *Von Festplatte löschen* auswählen, um die virtuelle Maschine zu löschen.
+. Eine neue virtuelle Maschine wird als Ersatzknoten bereitgestellt und mit einem oder mehreren StorageGRID Netzwerken verbunden. Anleitungen finden sich unter link:../swnodes/deploying-storagegrid-node-as-virtual-machine.html["Bereitstellen eines StorageGRID Knotens als virtuelle Maschine"].
++
+Beim Deployment des Knotens können optional die Node-Ports neu zugeordnet oder die CPU- oder Speichereinstellungen erhöht werden.
+
++
+
+NOTE: Nach der Bereitstellung des neuen Knotens können neue virtuelle Festplatten entsprechend den Speicheranforderungen hinzugefügt, zuvor vom entfernten, ausgefallenen Grid-Knoten erhalten gebliebene virtuelle Festplatten wieder angeschlossen oder beides durchgeführt werden.
+
+. Die Knotenwiederherstellungsprozedur ist entsprechend dem Typ des Knotens, den Sie wiederherstellen, abzuschließen.
++
+[cols="1a,2a"]
+|===
+| Knotentyp | Wechseln Sie zu 
+
+
+ a| 
+Primärer Admin-Knoten
+ a| 
+link:configuring-replacement-primary-admin-node.html["Ersatz-Primary Admin Node konfigurieren"]
+
+
+
+ a| 
+Nicht-primärer Admin-Node
+ a| 
+link:selecting-start-recovery-to-configure-non-primary-admin-node.html["Start Recovery auswählen, um den nicht-primären Admin-Node zu konfigurieren"]
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+link:selecting-start-recovery-to-configure-gateway-node.html["„Wiederherstellung starten“ auswählen, um den Gateway Node zu konfigurieren."]
+
+
+
+ a| 
+Speicherknoten
+ a| 
+link:selecting-start-recovery-to-configure-storage-node.html["Start Recovery auswählen, um den Storage Node zu konfigurieren."]
+
+|===
+

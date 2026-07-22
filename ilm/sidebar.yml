@@ -1,0 +1,138 @@
+---
+section: ilm
+title: Objekte mit ILM verwalten
+entries:
+- title: ILM verwenden
+  pdf-filename: StorageGRID Objekte mit ILM verwalten
+  url: "/ilm/index.html"
+- title: ILM und Objektlebenszyklus
+  entries:
+  - title: Wie ILM während der gesamten Lebensdauer eines Objekts funktioniert
+    url: "/ilm/how-ilm-operates-throughout-objects-life.html"
+  - title: Wie Objekte aufgenommen werden
+    entries:
+    - title: Aufnahmeoptionen
+      url: "/ilm/data-protection-options-for-ingest.html"
+    - title: Vorteile, Nachteile und Einschränkungen der Ingest-Optionen
+      url: "/ilm/advantages-disadvantages-of-ingest-options.html"
+  - title: Wie Objekte gespeichert werden (Replikation oder Erasure Coding)
+    entries:
+    - title: Was ist Replikation
+      url: "/ilm/what-replication-is.html"
+    - title: Warum die Einzelkopie-Replikation nicht verwendet werden sollte
+      url: "/ilm/why-you-should-not-use-single-copy-replication.html"
+    - title: Was ist Erasure Coding
+      url: "/ilm/what-erasure-coding-is.html"
+    - title: Was sind Löschcodierungsverfahren
+      url: "/ilm/what-erasure-coding-schemes-are.html"
+    - title: Vorteile, Nachteile und Anforderungen der Löschcodierung
+      url: "/ilm/advantages-disadvantages-and-requirements-for-ec.html"
+  - title: Wie die Objektretention bestimmt wird
+    url: "/ilm/how-object-retention-is-determined.html"
+  - title: Wie Objekte gelöscht werden
+    url: "/ilm/how-objects-are-deleted.html"
+- title: Speicherkategorien erstellen und zuweisen
+  url: "/ilm/creating-and-assigning-storage-grades.html"
+- title: Speicherpools verwenden
+  entries:
+  - title: Was ist ein Storage-Pool
+    url: "/ilm/what-storage-pool-is.html"
+  - title: Richtlinien für die Erstellung von Speicherpools
+    url: "/ilm/guidelines-for-creating-storage-pools.html"
+  - title: Standortverlustschutz aktivieren
+    url: "/ilm/using-multiple-storage-pools-for-cross-site-replication.html"
+  - title: Speicherpool erstellen
+    url: "/ilm/creating-storage-pool.html"
+  - title: Details zum Speicherpool
+    url: "/ilm/viewing-storage-pool-details.html"
+  - title: Speicherpool bearbeiten
+    url: "/ilm/editing-storage-pool.html"
+  - title: Speicherpool entfernen
+    url: "/ilm/removing-storage-pool.html"
+- title: Cloud Storage Pools verwenden
+  entries:
+  - title: Was ist ein Cloud Storage Pool
+    url: "/ilm/what-cloud-storage-pool-is.html"
+  - title: Lebenszyklus des Cloud Storage Pool-Objekts
+    url: "/ilm/lifecycle-of-cloud-storage-pool-object.html"
+  - title: Wann werden Cloud Storage Pools verwendet?
+    url: "/ilm/when-to-use-cloud-storage-pools.html"
+  - title: Überlegungen zu Cloud Storage Pools
+    url: "/ilm/considerations-for-cloud-storage-pools.html"
+  - title: Vergleich von Cloud Storage Pools und CloudMirror Replikation
+    url: "/ilm/comparing-cloud-storage-pools-to-cloudmirror-replication.html"
+  - title: Cloud Storage Pool erstellen
+    url: "/ilm/creating-cloud-storage-pool.html"
+  - title: Details zum Cloud Storage Pool
+    url: "/ilm/view-cloud-storage-pool-details.html"
+  - title: Cloud Storage Pool bearbeiten
+    url: "/ilm/editing-cloud-storage-pool.html"
+  - title: Cloud Storage Pool entfernen
+    url: "/ilm/removing-cloud-storage-pool.html"
+  - title: Fehlerbehebung bei Cloud Storage Pools
+    url: "/ilm/troubleshooting-cloud-storage-pools.html"
+- title: Erasure-Coding-Profile verwalten
+  url: "/ilm/manage-erasure-coding-profiles.html"
+- title: S3-Regionen konfigurieren
+  url: "/ilm/configuring-regions-optional-and-s3-only.html"
+- title: "${post_edited_translations.segment}"
+  entries:
+  - title: Regeln zur Verwaltung von Objekten verwenden
+    url: "/ilm/what-ilm-rule-is.html"
+  - title: Zugriff auf den Assistenten zum Erstellen von ILM Regeln
+    url: "/ilm/access-create-ilm-rule-wizard.html"
+  - title: 'Schritt 1 von 3: Details eingeben'
+    url: "/ilm/create-ilm-rule-enter-details.html"
+  - title: 'Schritt 2 von 3: Platzierungen definieren'
+    url: "/ilm/create-ilm-rule-define-placements.html"
+  - title: Letzte Zugriffszeit in ILM-Regeln verwenden
+    url: "/ilm/using-last-access-time-in-ilm-rules.html"
+  - title: 'Schritt 3 von 3: Aufnahmeverhalten auswählen'
+    url: "/ilm/create-ilm-rule-select-ingest-behavior.html"
+  - title: Standard-ILM-Regel erstellen
+    url: "/ilm/creating-default-ilm-rule.html"
+- title: ILM Richtlinien verwalten
+  entries:
+  - title: ILM Richtlinien verwenden
+    url: "/ilm/ilm-policy-overview.html"
+  - title: ILM-Richtlinien erstellen
+    url: "/ilm/creating-ilm-policy.html"
+  - title: Beispielhafte ILM-Policy-Simulationen
+    url: "/ilm/simulating-ilm-policy-examples.html"
+  - title: ILM-Richtlinien-Tags verwalten
+    url: "/ilm/manage-ilm-policy-tags.html"
+  - title: ILM-Richtlinie mit Objektmetadatenabfrage verifizieren
+    url: "/ilm/verifying-ilm-policy-with-object-metadata-lookup.html"
+- title: Mit ILM-Richtlinien und -Regeln arbeiten
+  url: "/ilm/working-with-ilm-rules-and-ilm-policies.html"
+- title: S3 Object Lock verwenden
+  entries:
+  - title: Objekte mit S3 Object Lock verwalten
+    url: "/ilm/managing-objects-with-s3-object-lock.html"
+  - title: S3 Object Lock Aufgaben
+    url: "/ilm/workflow-for-s3-object-lock.html"
+  - title: Anforderungen für S3 Object Lock
+    url: "/ilm/requirements-for-s3-object-lock.html"
+  - title: S3 Object Lock global aktivieren
+    url: "/ilm/enabling-s3-object-lock-globally.html"
+  - title: Konsistenzfehler beim Aktualisieren der S3 Object Lock oder der Legacy
+      Compliance-Konfiguration beheben
+    url: "/ilm/resolving-consistency-errors-when-updating-bucket-s3-object-lock-configuration.html"
+- title: Beispielhafte ILM Regeln und Richtlinien
+  entries:
+  - title: 'Beispiel 1: ILM Regeln und Richtlinien für die Objektspeicherung'
+    url: "/ilm/example-1-ilm-rules-and-policy-for-object-storage.html"
+  - title: 'Beispiel 2: ILM Regeln und Richtlinien für die Filterung der EC Objektgröße'
+    url: "/ilm/example-2-ilm-rules-and-policy-for-ec-object-size-filtering.html"
+  - title: 'Beispiel 3: ILM Regeln und Richtlinien für besseren Schutz von Bilddateien'
+    url: "/ilm/example-3-ilm-rules-and-policy-for-better-protection-for-image-files.html"
+  - title: 'Beispiel 4: ILM Regeln und Richtlinien für versionierte S3-Objekte'
+    url: "/ilm/example-4-ilm-rules-and-policy-for-s3-versioned-objects.html"
+  - title: 'Beispiel 5: ILM-Regeln und Richtlinien für striktes Aufnahmeverhalten'
+    url: "/ilm/example-5-ilm-rules-and-policy-for-strict-ingest-behavior.html"
+  - title: 'Beispiel 6: ILM Richtlinie ändern'
+    url: "/ilm/example-6-changing-ilm-policy.html"
+  - title: 'Beispiel 7: Konforme ILM-Richtlinie für S3 Object Lock'
+    url: "/ilm/example-7-compliant-ilm-policy-for-s3-object-lock.html"
+  - title: 'Beispiel 8: Prioritäten für den S3 Bucket-Lebenszyklus und die ILM-Richtlinie'
+    url: "/ilm/example-8-priorities-for-s3-bucket-lifecycle-and-ilm-policy.html"

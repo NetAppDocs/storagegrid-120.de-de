@@ -1,0 +1,49 @@
+---
+permalink: monitor/disabling-alert-rules.html 
+sidebar: sidebar 
+keywords: how to disable alert rules, how to remove a custom alert rule 
+summary: Sie können den Aktivierungs-/Deaktivierungsstatus für eine Standard- oder benutzerdefinierte Alarmregel ändern. 
+---
+= Warnregeln in StorageGRID deaktivieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Aktivierungs-/Deaktivierungsstatus für eine Standard- oder benutzerdefinierte Alarmregel ändern.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Über diese Aufgabe
+Wenn eine Alarmregel deaktiviert ist, werden ihre Ausdrücke nicht ausgewertet und keine Alarme ausgelöst.
+
+
+CAUTION: Generell wird davon abgeraten, eine Standard-Warnregel zu deaktivieren. Wenn eine Warnregel deaktiviert ist, wird ein zugrundeliegendes Problem möglicherweise erst erkannt, wenn es die Ausführung eines kritischen Vorgangs verhindert.
+
+.Schritte
+. *Benachrichtigungen* > *Regeln* auswählen.
++
+Die Seite „Alarmregeln“ wird angezeigt.
+
+. Wählen Sie das Optionsfeld für die Alarmregel aus, die Sie deaktivieren oder aktivieren möchten.
+. *Regel bearbeiten* auswählen.
++
+Das Dialogfeld „Regel bearbeiten“ wird angezeigt.
+
+. Aktivieren oder deaktivieren Sie das Kontrollkästchen *Aktiviert*, um festzustellen, ob diese Warnregel aktuell aktiviert ist.
++
+Wenn eine Alarmregel deaktiviert ist, werden ihre Ausdrücke nicht ausgewertet und keine Alarme ausgelöst.
+
++
+
+NOTE: Wenn die Alarmregel für einen aktuellen Alarm deaktiviert wird, kann es einige Minuten dauern, bis der Alarm nicht mehr als aktiver Alarm angezeigt wird.
+
+. *Speichern* auswählen.
++
+*Deaktiviert* erscheint in der Spalte *Status*.
+
+

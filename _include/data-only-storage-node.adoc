@@ -1,0 +1,7 @@
+= 
+:allow-uri-read: 
+
+
+Die Verwendung eines Storage Node ausschließlich für Daten kann sinnvoll sein, wenn Ihre Storage Nodes unterschiedliche Leistungsmerkmale aufweisen. Beispielsweise könnten zur potenziellen Leistungssteigerung Daten-only Storage Nodes mit einer hohen Kapazität und Festplattenlaufwerken zusammen mit Metadaten-only Storage Nodes mit hoher Leistung eingesetzt werden.
+
+Zusätzlich kann mehr Metadatenkapazität erzielt werden, indem Knoten mit geringem Arbeitsspeicher aus Cassandra entfernt werden, was das Metadatenkapazitätslimit pro Knoten erhöht. Siehe link:../admin/managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"].

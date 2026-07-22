@@ -1,0 +1,61 @@
+---
+permalink: admin/configuring-admin-proxy-settings.html 
+sidebar: sidebar 
+keywords: admin proxy, autosupport, non-transparent proxy 
+summary: 'Wenn Sie AutoSupport-Pakete über HTTP oder HTTPS versenden, kann ein nicht transparenter Proxyserver zwischen Admin-Nodes und dem technischen Support (AutoSupport) konfiguriert werden.' 
+---
+= Konfigurieren Sie die Admin-Proxy-Einstellungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie AutoSupport-Pakete über HTTP oder HTTPS versenden, kann ein nicht transparenter Proxyserver zwischen Admin-Nodes und dem technischen Support (AutoSupport) konfiguriert werden.
+
+Weitere Informationen zu AutoSupport sind unter link:configure-autosupport-grid-manager.html["Konfiguration von AutoSupport"] verfügbar.
+
+.Bevor Sie beginnen
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+
+
+.Über diese Aufgabe
+Die Einstellungen für einen einzelnen Admin-Proxy können konfiguriert werden.
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Proxy-Einstellungen* auswählen.
++
+Die Seite „Proxy-Einstellungen“ wird angezeigt. Standardmäßig ist im Tab-Menü Storage ausgewählt.
+
+. Die Registerkarte *Admin* auswählen.
+. Das Kontrollkästchen *Admin Proxy aktivieren* auswählen.
+. Den Hostnamen oder die IP-Adresse des Proxyserver eingeben.
+. Geben Sie den Port ein, der für die Verbindung zum Proxyserver verwendet wird.
+. Optional kann ein Benutzername und ein Passwort für den Proxyserver eingegeben werden.
++
+Lassen Sie diese Felder leer, wenn Ihr Proxyserver keinen Benutzernamen oder kein Passwort benötigt.
+
+. Wählen Sie eine der folgenden Optionen aus:
++
+** Wenn die Verbindung zum Admin-Proxy gesichert werden soll, ist *Proxy-Zertifikat überprüfen* auszuwählen. Ein CA-Bundle kann hochgeladen werden, um die Authentizität der vom Admin Proxyserver präsentierten SSL-Zertifikate zu überprüfen.
++
+
+CAUTION: AutoSupport on Demand, E-Series AutoSupport durch StorageGRID und die Update Path-Bestimmung auf der StorageGRID Upgrade-Seite funktionieren nicht, wenn ein Proxy-Zertifikat verifiziert wird.
+
++
+Nach dem Hochladen des CA-Bundle werden dessen Metadaten angezeigt.
+
+** Wenn keine Zertifikate bei der Kommunikation mit dem Admin Proxyserver validiert werden sollen, ist *Proxy-Zertifikat nicht überprüfen* auszuwählen.
+
+
+. *Speichern* auswählen.
++
+Nachdem der Admin-Proxy gespeichert wurde, wird der Proxyserver zwischen den Admin-Knoten und dem technischen Support konfiguriert.
+
++
+
+NOTE: Es kann bis zu 10 Minuten dauern, bis Proxy-Änderungen wirksam werden.
+
+. Falls der Admin-Proxy deaktiviert werden soll, das Kontrollkästchen *Admin-Proxy aktivieren* deaktivieren und anschließend *Speichern* auswählen.
+

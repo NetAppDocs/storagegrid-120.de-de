@@ -1,0 +1,63 @@
+---
+permalink: upgrade/obtaining-required-materials-for-software-upgrade.html 
+sidebar: sidebar 
+keywords: upgrade, requirements, rhel, red hat, linux, ubuntu, debian 
+summary: Vor Beginn des Software-Upgrades sollten alle benötigten Materialien bereitliegen. 
+---
+= Beschaffen Sie die erforderlichen Materialien für ein StorageGRID-Software-Upgrade
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor Beginn des Software-Upgrades sollten alle benötigten Materialien bereitliegen.
+
+[cols="1a,3a"]
+|===
+| Artikel | Hinweise 
+
+
+ a| 
+Service Laptop
+ a| 
+Der Service-Laptop muss Folgendes aufweisen:
+
+* Netzwerkport
+* SSH-Client (zum Beispiel PuTTY)
+
+
+
+
+ a| 
+link:../admin/web-browser-requirements.html["Unterstützte Webbrowser"]
+ a| 
+Die Browserunterstützung ändert sich üblicherweise mit jeder StorageGRID Version. Es sollte sichergestellt sein, dass Ihr Browser mit der neuen StorageGRID Version kompatibel ist.
+
+
+
+ a| 
+Bereitstellungspassphrase
+ a| 
+Die Passphrase wird bei der Erstinstallation des StorageGRID-Systems erstellt und dokumentiert. Die Bereitstellungspassphrase ist nicht in der  `Passwords.txt` Datei aufgeführt.
+
+
+
+ a| 
+Linux RPM oder DEB Archiv
+ a| 
+Falls Knoten auf Linux-Hosts bereitgestellt sind, muss link:linux-installing-rpm-or-deb-package-on-all-hosts.html["Das RPM- oder DEB-Paket auf allen Hosts herunterladen und installieren."] vor Beginn des Upgrades durchgeführt werden.
+
+Stellen Sie sicher, dass Ihr Linux-Betriebssystem die Mindestanforderungen an die Kernelversion von StorageGRID erfüllt. Siehe link:../swnodes/installing-linux.html["StorageGRID auf Linux Hosts installieren"].
+
+
+
+ a| 
+StorageGRID Dokumentation
+ a| 
+* https://library.netapp.com/ecm/ecm_download_file/ECMLP3351267["Versionshinweise"^]. Sie müssen sich mit Ihrem NetApp Konto anmelden oder ein Konto erstellen, um auf die Versionshinweise zuzugreifen. Lesen Sie diese bitte sorgfältig durch, bevor Sie mit dem Upgrade beginnen.
+* https://kb.netapp.com/hybrid/StorageGRID/Maintenance/StorageGRID_12.0_software_upgrade_resolution_guide["Leitfaden zur Behebung von Problemen bei StorageGRID Software-Upgrades"^] für die Hauptversion, auf die Sie aktualisieren (Anmeldung erforderlich)
+* Sonstige https://docs.netapp.com/us-en/storagegrid-family/index.html["StorageGRID Dokumentation"^], nach Bedarf.
+
+
+|===

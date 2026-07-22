@@ -1,0 +1,48 @@
+---
+permalink: admin/networking-and-ports-for-platform-services.html 
+sidebar: sidebar 
+keywords: platform services, ports for platform services, 443, 80 
+summary: Wenn Sie einem S3-Mandanten die Nutzung von Plattformdiensten gestatten, müssen Sie das Netzwerk für das Grid so konfigurieren, dass Plattformdienstnachrichten an ihre Ziele zugestellt werden können. 
+---
+= Netzwerk und Ports für StorageGRID Plattformdienste
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einem S3-Mandanten die Nutzung von Plattformdiensten gestatten, müssen Sie das Netzwerk für das Grid so konfigurieren, dass Plattformdienstnachrichten an ihre Ziele zugestellt werden können.
+
+Plattformdienste können für ein S3-Mandantenkonto beim Erstellen oder Aktualisieren des Mandantenkontos aktiviert werden. Wenn Plattformdienste aktiviert sind, kann der Mandant Endpunkte erstellen, die als Ziel für CloudMirror-Replikation, Ereignisbenachrichtigungen oder Suchintegrationsnachrichten aus seinen S3-Buckets dienen. Diese Plattformdienstnachrichten werden von Storage Nodes, auf denen der ADC-Dienst ausgeführt wird, an die Zielendpunkte gesendet.
+
+Beispielsweise könnten Mandanten die folgenden Arten von Zielendpunkten konfigurieren:
+
+* Ein lokal gehosteter Elasticsearch Cluster
+* Eine lokale Anwendung, die den Empfang von Amazon Simple Notification Service Nachrichten unterstützt.
+* Ein lokal gehosteter Kafka Cluster
+* Ein externer oder lokal gehosteter Webhook-Endpunkt, der HTTP POST-Benachrichtigungsanfragen unterstützt.
++
+Dieser Endpunkt kann auf verschiedenen Webservern, Frameworks oder Datenverarbeitungstools wie Fluentd gehostet werden.
+
+* Ein lokal gehosteter S3-Bucket auf derselben oder einer anderen Instanz von StorageGRID
+* Ein externer Endpunkt, beispielsweise ein Endpunkt bei Amazon Web Services.
+
+
+Um sicherzustellen, dass Plattformdienstnachrichten zugestellt werden können, müssen die Netzwerke, die die ADC Storage Nodes enthalten, konfiguriert werden. Es muss sichergestellt sein, dass die folgenden Ports für das Senden von Plattformdienstnachrichten an die Zielendpunkte verwendet werden können.
+
+Standardmäßig werden Plattformdienstnachrichten über die folgenden Ports gesendet:
+
+* *80*: Für Endpunkt-URIs, die mit http beginnen (die meisten Endpunkte)
+* *443*: Für Endpunkt-URIs, die mit https beginnen (die meisten Endpunkte)
+* ${post_edited_translations.segment}
+
+
+Mandanten können beim Erstellen oder Bearbeiten eines Endpunkts einen anderen Port angeben.
+
+
+NOTE: Wenn eine StorageGRID-Bereitstellung als Ziel für die CloudMirror-Replikation verwendet wird, können Replikationsnachrichten möglicherweise auf einem anderen Port als 80 oder 443 empfangen werden. Es muss sichergestellt sein, dass der von der Ziel StorageGRID Bereitstellung für S3 verwendete Port im Endpunkt angegeben ist.
+
+Wenn Sie einen nicht transparenten Proxyserver verwenden, muss auch link:configuring-storage-proxy-settings.html["Speicher-Proxy-Einstellungen konfigurieren"] zugelassen werden, damit Nachrichten an externe Endpunkte, wie beispielsweise einen Endpunkt im Internet, gesendet werden können.
+
+.Verwandte Informationen
+link:../tenant/index.html["Ein Mandantenkonto verwenden"]_

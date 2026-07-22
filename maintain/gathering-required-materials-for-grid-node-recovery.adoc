@@ -1,0 +1,415 @@
+---
+permalink: maintain/gathering-required-materials-for-grid-node-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, recovery, grid node recovery, node recovery 
+summary: Vor der Durchführung von Wartungsarbeiten muss sichergestellt sein, dass die notwendigen Materialien zur Wiederherstellung eines ausgefallenen Netzknotens vorhanden sind. 
+---
+= Sammeln Sie die benötigten Materialien für die Wiederherstellung des StorageGRID-Grid-Knotens
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Durchführung von Wartungsarbeiten muss sichergestellt sein, dass die notwendigen Materialien zur Wiederherstellung eines ausgefallenen Netzknotens vorhanden sind.
+
+[cols="1a,2a"]
+|===
+| Artikel | Hinweise 
+
+
+ a| 
+StorageGRID Installationsarchiv
+ a| 
+Wenn ein Grid-Knoten wiederhergestellt werden muss, ist <<download-and-extract-install-files-recover,StorageGRID Installationsdateien herunterladen>> für Ihre Plattform erforderlich.
+
+*Hinweis:* Es ist nicht erforderlich, Dateien herunterzuladen, wenn ausgefallene Speichervolumes auf einem Storage Node wiederhergestellt werden.
+
+
+
+ a| 
+Service Laptop
+ a| 
+Der Dienstlaptop muss Folgendes aufweisen:
+
+* Netzwerkport
+* SSH-Client (zum Beispiel PuTTY)
+* link:../admin/web-browser-requirements.html["Unterstützte Webbrowser"]
+
+
+
+
+ a| 
+Wiederherstellungspaket `.zip`-Datei
+ a| 
+Eine Kopie der aktuellsten Wiederherstellungspaket `.zip`-Datei erhalten:
+`sgws-recovery-package-_id-revision_.zip`
+
+Der Inhalt der  `.zip` Datei wird bei jeder Änderung des Systems aktualisiert. Es wird empfohlen, die aktuellste Version des Wiederherstellungspakets nach solchen Änderungen an einem sicheren Ort aufzubewahren. Die aktuellste Kopie dient zur Wiederherstellung nach Grid-Ausfällen.
+
+Nach der Anmeldung an einem beliebigen Admin-Knoten steht im Grid Manager die Option zum Herunterladen eines Wiederherstellungspakets zur Verfügung. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+
+Falls kein Zugriff auf den Grid Manager möglich ist, befinden sich verschlüsselte Kopien des Wiederherstellungspakets auf einigen Storage Nodes, die den ADC-Service enthalten. Auf jedem Storage Node ist an folgendem Speicherort nach dem Wiederherstellungspaket zu suchen: `/var/local/install/sgws-recovery-package-_grid-id_-_revision_.zip.gpg` Das Wiederherstellungspaket mit der höchsten Revisionsnummer ist zu verwenden.
+
+
+
+ a| 
+`Passwords.txt` Datei
+ a| 
+Enthält die Passwörter, die für den Zugriff auf Grid-Knoten über die Befehlszeile erforderlich sind. Im Wiederherstellungspaket enthalten.
+
+
+
+ a| 
+Bereitstellungspassphrase
+ a| 
+Die Passphrase wird bei der Erstinstallation des StorageGRID-Systems erstellt und dokumentiert. Die Bereitstellungspassphrase ist nicht in der  `Passwords.txt` Datei.
+
+
+
+ a| 
+Aktuelle Dokumentation für Ihre Plattform
+ a| 
+Die Dokumentation befindet sich auf der Website des Plattformanbieters.
+
+Die aktuell unterstützten Versionen Ihrer Plattform sind in der  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix-Tool"^] aufgeführt.
+
+|===
+
+
+[[download-and-extract-storagegrid-installation-files]]
+== StorageGRID Installationsdateien herunterladen und extrahieren
+
+.[[download-and-extract-install-files-recover]]
+Laden Sie die Software herunter und extrahieren Sie die Dateien, es sei denn, Sie sind link:recovering-from-storage-node-failures.html["Wiederherstellung ausgefallener Speichervolumes auf einem Storage Node"].
+
+Es ist die Version von StorageGRID zu verwenden, die aktuell auf dem Grid ausgeführt wird.
+
+.Schritte
+. Ermitteln, welche Version der Software aktuell installiert ist. Oben im Grid Manager das Hilfesymbol auswählen und *Über* wählen.
+. Gehe zu https://mysupport.netapp.com/site/products/all/details/storagegrid/downloads-tab["NetApp Downloads-Seite für StorageGRID"^].
+. Die Version von StorageGRID, die aktuell im Grid ausgeführt wird, auswählen.
++
+StorageGRID Softwareversionen haben dieses Format: `11.x.y`.
+
+. Melden Sie sich mit dem Benutzernamen und Passwort für Ihr NetApp-Konto an.
+. Die Endbenutzer-Lizenzvereinbarung anzeigen, das Kontrollkästchen auswählen und anschließend *Akzeptieren & Fortfahren* wählen.
+. Wählen Sie in der Spalte *Install StorageGRID* auf der Downloadseite die  `.tgz` oder  `.zip` Datei für Ihre Plattform aus.
++
+Die in der Installationsarchivdatei angegebene Version muss mit der Version der aktuell installierten Software übereinstimmen.
+
++
+Die  `.zip` Datei wird bei Verwendung von Windows genutzt.
+
++
+[cols="1a,2a"]
+|===
+| Plattform | Installationsarchiv 
+
+
+ a| 
+RHEL
+| `StorageGRID-Webscale-_version_-RPM-_uniqueID_.zip` 
+`StorageGRID-Webscale-_version_-RPM-_uniqueID_.tgz` 
+
+
+ a| 
+Ubuntu oder Debian oder Appliances
+| `StorageGRID-Webscale-_version_-DEB-_uniqueID_.zip` 
+`StorageGRID-Webscale-_version_-DEB-_uniqueID_.tgz` 
+
+
+ a| 
+VMware
+| `StorageGRID-Webscale-_version_-VMware-_uniqueID_.zip` 
+`StorageGRID-Webscale-_version_-VMware-_uniqueID_.tgz` 
+|===
+. Die Archivdatei wird heruntergeladen und extrahiert.
+. Wechseln Sie zum entsprechenden Abschnitt für Ihre Plattform, um die benötigten Dateien auszuwählen, basierend auf Ihrer Plattform und den Grid-Knoten, die wiederhergestellt werden müssen.
++
+${post_edited_translations.segment}
+
+. Wenn Sie eine link:../swnodes/index.html["softwarebasierter Knoten"] wiederherstellen, wählen Sie die entsprechenden Dateien aus:
++
+[role="tabbed-block"]
+====
+.RHEL
+--
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./rpms/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./rpms/NLF000000.txt  a| 
+Eine kostenlose Lizenz, die keinerlei Supportanspruch für das Produkt beinhaltet.
+
+
+
+| ./rpms/StorageGRID-Webscale-Images-_version_-SHA.rpm  a| 
+RPM-Paket zur Installation der StorageGRID Knotenabbilder auf Ihren RHEL Hosts.
+
+
+
+| ./rpms/StorageGRID-Webscale-Service-_version_-SHA.rpm  a| 
+RPM-Paket zur Installation des StorageGRID Hostdienstes auf Ihren RHEL Hosts.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ./rpms/configure-storagegrid.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./rpms/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./rpms/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./rpms/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On aktiviert ist. Dieses Skript kann auch für die Integration mit Ping Federate verwendet werden.
+
+
+
+| ./rpms/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./rpms/extras/ansible  a| 
+Beispiel einer Ansible-Rolle und eines Playbooks zur Konfiguration von RHEL-Hosts für die StorageGRID Container-Bereitstellung. Die Rolle oder das Playbook kann nach Bedarf angepasst werden.
+
+
+
+| ${post_edited_translations.segment}  a| 
+${post_edited_translations.segment}
+
+
+
+| ${post_edited_translations.segment}  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ${post_edited_translations.segment}  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===
+--
+.Ubuntu oder Debian
+--
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./debs/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./debs/NLF000000.txt  a| 
+Eine NetApp Lizenzdatei für Nicht-Produktionsumgebungen, die für Tests und Proof-of-Concept-Bereitstellungen verwendet werden kann.
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
+${post_edited_translations.segment}
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb.md5  a| 
+MD5 Prüfsumme für die Datei `/debs/storagegrid-webscale-images-version-SHA.deb`.
+
+
+
+| ./debs/storagegrid-webscale-service-version-SHA.deb  a| 
+DEB-Paket zur Installation des StorageGRID Hostdienstes auf Ubuntu- oder Debian Hosts.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ${post_edited_translations.segment}  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./debs/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./debs/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On aktiviert ist. Dieses Skript kann auch für die Integration mit Ping Federate verwendet werden.
+
+
+
+| ./debs/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./debs/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./debs/extras/ansible  a| 
+Beispiel für eine Ansible Rolle und ein Playbook zur Konfiguration von Ubuntu- oder Debian-Hosts für die StorageGRID Container-Bereitstellung. Sie können die Rolle oder das Playbook nach Bedarf anpassen.
+
+
+
+| ./debs/storagegrid-ssoauth-azure.py  a| 
+${post_edited_translations.segment}
+
+
+
+| ./debs/storagegrid-ssoauth-azure.js  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ./debs/extras/api-schemas  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===
+--
+.VMware
+--
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./vsphere/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./vsphere/NLF000000.txt  a| 
+Eine kostenlose Lizenz, die keinerlei Supportanspruch für das Produkt beinhaltet.
+
+
+
+| ./vsphere/NetApp-SG-version-SHA.vmdk  a| 
+Die virtuelle Maschinenfestplattendatei, die als Vorlage für die Erstellung von Grid-Knoten-virtuellen Maschinen verwendet wird.
+
+
+
+| ./vsphere/vsphere-primary-admin.ovf ./vsphere/vsphere-primary-admin.mf  a| 
+Die Open Virtualization Format Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung des primären Admin Node.
+
+
+
+| ./vsphere/vsphere-non-primary-admin.ovf ./vsphere/vsphere-non-primary-admin.mf  a| 
+Die Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung von nicht-primären Admin-Knoten.
+
+
+
+| ./vsphere/vsphere-gateway.ovf ./vsphere/vsphere-gateway.mf  a| 
+Die Vorlagendatei (`.ovf`) und die Manifestdatei (`.mf`) für die Bereitstellung von Gateway-Nodes.
+
+
+
+| ./vsphere/vsphere-storage.ovf ./vsphere/vsphere-storage.mf  a| 
+Die Vorlagendatei (`.ovf` und die Manifestdatei (`.mf` für die Bereitstellung von virtuellen Maschinen basierten Storage Nodes.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ./vsphere/deploy-vsphere-ovftool.sh  a| 
+Ein Bash-Shell-Skript zur Automatisierung der Bereitstellung virtueller Grid-Knoten.
+
+
+
+| ./vsphere/deploy-vsphere-ovftool-sample.ini  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `deploy-vsphere-ovftool.sh` Skript.
+
+
+
+| ./vsphere/configure-storagegrid.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./vsphere/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./vsphere/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On (SSO) aktiviert ist. Dieses Skript kann auch für die Integration von Ping Federate verwendet werden.
+
+
+
+| ./vsphere/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./vsphere/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./vsphere/storagegrid-ssoauth-azure.py  a| 
+${post_edited_translations.segment}
+
+
+
+| ./vsphere/storagegrid-ssoauth-azure.js  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ./vsphere/extras/api-schemas  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===
+--
+====
+
+
+. Wenn Sie ein StorageGRID Appliance-basiertes System wiederherstellen, wählen Sie die entsprechenden Dateien aus.
+
+
+
+NOTE: Für die Installation des Geräts werden diese Dateien nur benötigt, wenn Sie Netzwerkverkehr vermeiden müssen. Das Gerät kann die erforderlichen Dateien vom Admin Node herunterladen, auf dem Sie die Wiederherstellungsprozedur durchführen.
+
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
+DEB-Paket zur Installation der StorageGRID Knotenabbilder auf Ihren Appliances.
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb.md5  a| 
+MD5-Prüfsumme für die Datei `/debs/storagegridwebscale-
+images-version-SHA.deb`.
+
+|===

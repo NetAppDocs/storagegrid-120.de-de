@@ -1,0 +1,85 @@
+---
+permalink: monitor/running-diagnostics.html 
+sidebar: sidebar 
+keywords: how to run diagnostics 
+summary: Bei der Fehlersuche besteht die Möglichkeit, gemeinsam mit dem technischen Support Diagnose auf Ihrem StorageGRID System durchzuführen und die Ergebnisse zu überprüfen. 
+---
+= Führen Sie Diagnose in StorageGRID aus
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei der Fehlersuche besteht die Möglichkeit, gemeinsam mit dem technischen Support Diagnose auf Ihrem StorageGRID System durchzuführen und die Ergebnisse zu überprüfen.
+
+* link:reviewing-support-metrics.html["Support-Metriken überprüfen"]
+* link:commonly-used-prometheus-metrics.html["Häufig verwendete Prometheus Metriken"]
+
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Die Diagnoseseite führt eine Reihe von Diagnoseprüfungen des aktuellen Zustands des Grids durch. Jede Diagnoseprüfung kann einen von drei Statuswerten annehmen:
+
+* image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"] *Normal*: Alle Werte liegen im Normalbereich.
+* image:icon_alert_yellow_minor.png["Symbolwarnung Gelb Geringfügig"] *Achtung*: Mindestens ein Wert liegt außerhalb des normalen Bereichs.
+* image:icon_alert_red_critical.png["Symbolwarnung Rot Kritisch"]*Vorsicht*: Einer oder mehrere der Werte liegen deutlich außerhalb des Normbereichs.
+
+
+Die Diagnosestatus sind unabhängig von aktuellen Warnmeldungen und weisen möglicherweise nicht auf betriebliche Probleme mit dem Grid hin. Beispielsweise kann eine Diagnoseprüfung den Status „Warnung“ anzeigen, selbst wenn keine Warnmeldung ausgelöst wurde.
+
+.Schritte
+. *Support* > *Tools* > *Diagnose* auswählen.
++
+Die Seite „Diagnose“ wird angezeigt und listet die Ergebnisse jeder Diagnoseprüfung auf. Die Ergebnisse sind nach Schweregrad (Vorsicht, Aufmerksamkeit und dann Normal) sortiert. Innerhalb jedes Schweregrads sind die Ergebnisse alphabetisch sortiert.
+
++
+In diesem Beispiel hat eine Diagnose den Status „Aufmerksamkeit“ und drei Diagnosen haben den Status „Normal“.
+
++
+image:support_diagnostics_page.png["Support Diagnose-Seite"]
+
+. Weitere Informationen zu einer bestimmten Diagnose erhalten Sie, wenn Sie irgendwo in die Zeile klicken.
++
+Details zur Diagnose und deren aktuellen Ergebnissen werden angezeigt. Folgende Details sind aufgeführt:
+
++
+** *Status*: Der aktuelle Status dieser Diagnose: Normal, Aufmerksamkeit oder Vorsicht.
+** *Prometheus-Abfrage*: Falls für die Diagnose verwendet, der Prometheus-Ausdruck, der zur Generierung der Statuswerte verwendet wurde. (Ein Prometheus-Ausdruck wird nicht für alle Diagnosen verwendet.)
+** *Schwellenwerte*: Sofern für die Diagnose verfügbar, die systemdefinierten Schwellenwerte für jeden abnormalen Diagnosestatus. (Schwellenwerte werden nicht für alle Diagnosen verwendet.)
++
+
+NOTE: Diese Schwellenwerte können nicht geändert werden.
+
+** *Statuswerte*: Ein Diagramm und eine Tabelle (Tabelle nicht im Screenshot dargestellt) zeigen den Status und den Wert der Diagnose im gesamten StorageGRID System. In diesem Beispiel wird die aktuelle CPU-Auslastung für jeden Knoten in einem StorageGRID System angezeigt. Alle Knotenwerte liegen unterhalb der Schwellenwerte für Attention und Caution, daher ist der Gesamtstatus der Diagnose Normal.
++
+image:support_diagnostics_cpu_utilization.png["Beispiel für Diagnose-Statuswerte"]
+
+
+
+. *Optional*: Um Grafana-Diagramme zu dieser Diagnose anzuzeigen, *Grafana dashboard* auswählen.
++
+Dieser Link wird nicht für alle Diagnose angezeigt.
+
++
+Das zugehörige Grafana Dashboard wird angezeigt. In diesem Beispiel wird das Node Dashboard angezeigt, das die CPU-Auslastung dieses Knotens im Zeitverlauf sowie weitere Grafana-Diagramme für den Knoten darstellt.
+
++
+
+NOTE: Auch über den Grafana-Bereich der Seite *Support* > *Tools* > *Metrics* besteht Zugriff auf die vorkonfigurierten Grafana Dashboards.
+
++
+image:grafana_dashboard_nodes.png["Grafana Dashboard Knoten"]
+
+. *Optional*: Ein Diagramm des Prometheus-Ausdrucks im Zeitverlauf ist über *In Prometheus anzeigen* einsehbar.
++
+Ein Prometheus-Graph des im Diagnoseverfahren verwendeten Ausdrucks wird angezeigt.
+
++
+image:support_diagnostics_prometheus_png.png["Support Diagnose Prometheus Seite"]
+
+

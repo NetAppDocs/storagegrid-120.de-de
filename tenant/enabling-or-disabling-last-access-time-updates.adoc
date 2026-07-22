@@ -1,0 +1,149 @@
+---
+permalink: tenant/enabling-or-disabling-last-access-time-updates.html 
+sidebar: sidebar 
+keywords: how to enable or disable last access time updates 
+summary: 'Wenn Grid-Administratoren die Information Lifecycle Management (ILM)-Regeln für ein StorageGRID System erstellen, kann optional festgelegt werden, dass die letzte Zugriffszeit eines Objekts verwendet wird, um zu bestimmen, ob dieses Objekt an einen anderen Speicherort verschoben werden soll. Wenn ein S3-Tenant verwendet wird, kann von solchen Regeln profitiert werden, indem die Aktualisierung der letzten Zugriffszeit für die Objekte in einem S3-Bucket aktiviert wird.' 
+---
+= Aktivieren oder deaktivieren Sie Aktualisierungen der letzten Zugriffszeit in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Grid-Administratoren die Information Lifecycle Management (ILM)-Regeln für ein StorageGRID System erstellen, kann optional festgelegt werden, dass die letzte Zugriffszeit eines Objekts zur Bestimmung, ob dieses Objekt an einen anderen Speicherort verschoben wird, verwendet wird. Bei Verwendung eines S3-Tenants besteht die Möglichkeit, solche Regeln zu nutzen, indem die Aktualisierung der letzten Zugriffszeit für die Objekte in einem S3-Bucket aktiviert wird.
+
+Diese Anweisungen gelten nur für StorageGRID Systeme, die mindestens eine ILM-Regel enthalten, die die Option *Letzter Zugriffszeitpunkt* als erweiterten Filter oder als Referenzzeitpunkt verwendet. Diese Anweisungen sind nicht relevant, wenn Ihr StorageGRID System keine solche Regel enthält. Siehe link:../ilm/using-last-access-time-in-ilm-rules.html["Letzte Zugriffszeit in ILM-Regeln verwenden"] für Details.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die link:tenant-management-permissions.html["Alle Buckets oder Root-Zugriffsberechtigung verwalten"] verfügt. Diese Berechtigungen überschreiben die Berechtigungseinstellungen in Gruppen- oder Bucket-Richtlinien.
+
+
+.Über diese Aufgabe
+*Letzter Zugriff* ist eine der verfügbaren Optionen für die Platzierungsanweisung *Referenzzeit* einer ILM-Regel. Wenn die Referenzzeit für eine Regel auf Letzter Zugriff gesetzt wird, können Grid-Administratoren festlegen, dass Objekte an bestimmten Speicherorten abgelegt werden, basierend darauf, wann diese Objekte zuletzt abgerufen (gelesen oder angezeigt) wurden.
+
+Um beispielsweise sicherzustellen, dass kürzlich angezeigte Objekte auf schnellerem Speicher verbleiben, kann ein Grid-Administrator eine ILM-Regel erstellen, die Folgendes festlegt:
+
+* Objekte, die im letzten Monat abgerufen wurden, sollten auf den lokalen Storage Nodes verbleiben.
+* Objekte, die im letzten Monat nicht abgerufen wurden, sollten an einen externen Standort verschoben werden.
+
+
+Standardmäßig sind Aktualisierungen der letzten Zugriffszeit deaktiviert. Wenn Ihr StorageGRID System eine ILM-Regel enthält, die die Option *Letzte Zugriffszeit* verwendet und diese Option auf Objekte in diesem Bucket angewendet werden soll, müssen Aktualisierungen der letzten Zugriffszeit für die in dieser Regel angegebenen S3 Buckets aktiviert werden.
+
+
+CAUTION: Das Aktualisieren der letzten Zugriffszeit beim Abruf eines Objekts kann die Leistung von StorageGRID beeinträchtigen, insbesondere bei kleinen Objekten.
+
+Bei Aktualisierungen der letzten Zugriffszeit kommt es zu Leistungseinbußen, da StorageGRID diese zusätzlichen Schritte jedes Mal ausführen muss, wenn Objekte abgerufen werden:
+
+* Aktualisieren Sie die Objekte mit neuen Zeitstempeln
+* Die Objekte werden der ILM-Warteschlange hinzugefügt, sodass sie anhand der aktuellen ILM-Regeln und Richtlinien erneut geprüft werden können.
+
+
+Die Tabelle fasst das Verhalten zusammen, das auf alle Objekte im Bucket angewendet wird, wenn die letzte Zugriffszeit deaktiviert oder aktiviert ist.
+
+[cols="1a,1a,1a,1a,1a"]
+|===
+
+
+.2+| Art der Anfrage 2+| Verhalten, wenn die letzte Zugriffszeit deaktiviert ist (Standardeinstellung) 2+| Verhalten, wenn die letzte Zugriffszeit aktiviert ist 
+
+
+| Letzte Zugriffszeit aktualisiert? | Objekt zur ILM-Auswertungswarteschlange hinzugefügt? | Letzte Zugriffszeit aktualisiert? | Objekt zur ILM-Auswertungswarteschlange hinzugefügt? 
+
+
+ a| 
+Anfrage zum Abrufen der Metadaten eines Objekts, wenn eine HEAD-Operation ausgeführt wird
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+
+
+
+ a| 
+Anfrage zum Abrufen eines Objekts, seiner Zugriffssteuerungsliste oder seiner Metadaten
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Anfrage zur Aktualisierung der Metadaten eines Objekts
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+ a| 
+Ja
+
+
+
+ a| 
+Anfrage zum Auflisten von Objekten oder Objektversionen
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+ a| 
+Nein
+
+
+
+ a| 
+Anfrage zum Kopieren eines Objekts von einem Bucket in einen anderen
+ a| 
+* Nein, für die Quellkopie
+* Ja, für die Zielkopie
+
+ a| 
+* Nein, für die Quellkopie
+* Ja, für die Zielkopie
+
+ a| 
+* Ja, für die Quellkopie
+* Ja, für die Zielkopie
+
+ a| 
+* Ja, für die Quellkopie
+* Ja, für die Zielkopie
+
+
+
+
+ a| 
+Anfrage zum Abschließen eines mehrteiligen Uploads
+ a| 
+Ja, für das zusammengebaute Objekt
+ a| 
+Ja, für das zusammengebaute Objekt
+ a| 
+Ja, für das zusammengebaute Objekt
+ a| 
+Ja, für das zusammengebaute Objekt
+
+|===
+.Schritte
+. *View buckets* im Dashboard auswählen oder *STORAGE (S3)* > *Buckets*.
+. Den Bucket-Namen aus der Tabelle auswählen.
++
+Die Seite mit den Bucket-Details wird angezeigt.
+
+. Auf der Registerkarte *Bucket Optionen* das Akkordeon *Letzte Zugriffszeitaktualisierungen* auswählen.
+. Aktualisierungen der letzten Zugriffszeit aktivieren oder deaktivieren.
+. Wählen Sie *Save changes*.
+

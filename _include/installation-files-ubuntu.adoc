@@ -1,0 +1,83 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./debs/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./debs/NLF000000.txt  a| 
+Eine NetApp Lizenzdatei für Nicht-Produktionsumgebungen, die für Tests und Proof-of-Concept-Bereitstellungen verwendet werden kann.
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb  a| 
+${post_edited_translations.segment}
+
+
+
+| ./debs/storagegrid-webscale-images-version-SHA.deb.md5  a| 
+MD5 Prüfsumme für die Datei `/debs/storagegrid-webscale-images-version-SHA.deb`.
+
+
+
+| ./debs/storagegrid-webscale-service-version-SHA.deb  a| 
+DEB-Paket zur Installation des StorageGRID Hostdienstes auf Ubuntu- oder Debian Hosts.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ${post_edited_translations.segment}  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./debs/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./debs/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On aktiviert ist. Dieses Skript kann auch für die Integration mit Ping Federate verwendet werden.
+
+
+
+| ./debs/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./debs/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./debs/extras/ansible  a| 
+Beispiel für eine Ansible Rolle und ein Playbook zur Konfiguration von Ubuntu- oder Debian-Hosts für die StorageGRID Container-Bereitstellung. Sie können die Rolle oder das Playbook nach Bedarf anpassen.
+
+
+
+| ./debs/storagegrid-ssoauth-azure.py  a| 
+${post_edited_translations.segment}
+
+
+
+| ./debs/storagegrid-ssoauth-azure.js  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ./debs/extras/api-schemas  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===

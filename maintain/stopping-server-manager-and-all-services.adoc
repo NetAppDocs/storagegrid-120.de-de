@@ -1,0 +1,36 @@
+---
+permalink: maintain/stopping-server-manager-and-all-services.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, stop server manager, stop all services, stop services 
+summary: Server-Manager ist so konzipiert, dass er permanent läuft, jedoch kann es erforderlich sein, Server-Manager und alle auf einem Grid-Knoten laufenden Dienste zu stoppen. 
+---
+= Beenden Sie den StorageGRID Server-Manager und alle Dienste
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Server-Manager ist so konzipiert, dass er permanent läuft, jedoch kann es erforderlich sein, Server-Manager und alle auf einem Grid-Knoten laufenden Dienste zu stoppen.
+
+.Bevor Sie beginnen
+Sie haben die  `Passwords.txt` Datei.
+
+.Schritte
+. Anmeldung am Grid-Knoten:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Server-Manager und alle auf dem Grid-Knoten laufenden Dienste anhalten: `service servermanager stop`
++
+Server-Manager und alle auf dem Grid-Knoten ausgeführten Dienste werden ordnungsgemäß beendet. Das Herunterfahren der Dienste kann bis zu 15 Minuten dauern.
+
+. Von der Befehlsshell abmelden: `exit`
+

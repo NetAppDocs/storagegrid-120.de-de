@@ -1,0 +1,232 @@
+---
+permalink: admin/configure-high-availability-group.html 
+sidebar: sidebar 
+keywords: how to configure high availability group, node priority order, failover 
+summary: 'Sie können Hochverfügbarkeitsgruppen (HA-Gruppen) konfigurieren, um hochverfügbaren Zugriff auf die Dienste auf Admin-Nodes oder Gateway-Nodes bereitzustellen.' 
+---
+= Konfigurieren von Hochverfügbarkeitsgruppen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Hochverfügbarkeitsgruppen (HA-Gruppen) konfigurieren, um hochverfügbaren Zugriff auf die Dienste auf Admin-Nodes oder Gateway-Nodes bereitzustellen.
+
+
+NOTE: Ein StorageGRID System kann maximal 255 HA Gruppen haben.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+* Wenn Sie eine VLAN-Schnittstelle in einer HA-Gruppe verwenden möchten, haben Sie die VLAN-Schnittstelle erstellt. Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"].
+* Wenn eine Zugriffsschnittstelle für einen Node in einer HA-Gruppe verwendet werden soll, wurde die Schnittstelle erstellt:
++
+** *Linux (vor der Installation des Node)*: link:../swnodes/creating-node-configuration-files.html["Knotenkonfigurationsdateien erstellen"]
+** *Linux (nach der Installation des Nodes)*: link:../maintain/linux-adding-trunk-or-access-interfaces-to-node.html["Trunk- oder Zugriffsschnittstellen zu einem Node hinzufügen"]
+** *VMware (nach der Installation des Knotens)*: link:../maintain/vmware-adding-trunk-or-access-interfaces-to-node.html["Trunk- oder Zugriffsschnittstellen zu einem Node hinzufügen"]
+
+
+
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+
+
+[[create-a-high-availability-group]]
+== Eine Hochverfügbarkeitsgruppe erstellen
+
+Beim Erstellen einer Hochverfügbarkeitsgruppe werden eine oder mehrere Schnittstellen ausgewählt und in eine Prioritätsreihenfolge gebracht. Danach werden der Gruppe eine oder mehrere VIP-Adressen zugewiesen.
+
+Eine Schnittstelle muss für einen Gateway-Node oder einen Admin-Node vorhanden sein, um in eine HA-Gruppe aufgenommen zu werden. Eine HA-Gruppe kann für einen bestimmten Node nur eine Schnittstelle verwenden, jedoch können andere Schnittstellen desselben Nodes in anderen HA-Gruppen verwendet werden.
+
+
+
+[[access-the-wizard]]
+=== Assistenten aufrufen
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* auswählen.
+. Wählen Sie *Create*.
+
+
+
+
+[[enter-details-for-the-ha-group]]
+=== Details für die HA-Gruppe eingeben
+
+.Schritte
+. Einen eindeutigen Namen für die HA Gruppe angeben.
+. Optional kann eine Beschreibung für die HA Gruppe eingegeben werden.
+. Wählen Sie *Weiter*.
+
+
+
+
+[[add-interfaces-to-the-ha-group]]
+=== Schnittstellen zur HA-Gruppe hinzufügen
+
+.Schritte
+. Wählen Sie eine oder mehrere Schnittstellen aus, die zu dieser HA Gruppe hinzugefügt werden sollen.
++
+Mit den Spaltenüberschriften lassen sich die Zeilen sortieren, oder durch Eingabe eines Suchbegriffs können Schnittstellen schneller gefunden werden.
+
++
+image:ha_group_add_interfaces.png["HA Groups Schnittstellen hinzufügen"]
+
++
+
+NOTE: Nach dem Erstellen einer VLAN-Schnittstelle kann es bis zu 5 Minuten dauern, bis die neue Schnittstelle in der Tabelle erscheint.
+
++
+.Richtlinien für die Auswahl von Schnittstellen
+** Sie müssen mindestens eine Schnittstelle auswählen.
+** Sie können für einen Node nur eine Schnittstelle auswählen.
+** Wenn die HA-Gruppe für den HA-Schutz von Admin-Node-Diensten vorgesehen ist, zu denen der Grid Manager und der Tenant Manager gehören, sollten nur Schnittstellen auf Admin-Nodes ausgewählt werden.
+** Wenn die HA-Gruppe für den HA-Schutz des S3-Client-Datenverkehrs vorgesehen ist, werden Schnittstellen auf Admin Nodes, Gateway Nodes oder beiden ausgewählt.
+** Wenn Sie Schnittstellen auf verschiedenen Knotentypen auswählen, erscheint ein Informationshinweis. Es wird darauf hingewiesen, dass bei einem Failover die vom zuvor aktiven Node bereitgestellten Dienste auf dem neu aktiven Node möglicherweise nicht verfügbar sind. Beispielsweise kann ein Backup Gateway Node keinen HA-Schutz für die Admin Node-Dienste bieten. Ebenso kann ein Backup Admin Node nicht alle Wartungsverfahren ausführen, die der primäre Admin Node bereitstellen kann.
+** Wenn Sie keine Schnittstelle auswählen können, ist das entsprechende Kontrollkästchen deaktiviert. Die QuickInfo bietet weitere Informationen.
++
+image:vlan_parent_interface_tooltip.png["Tooltip zur VLAN-Schnittstelle"]
+
+** Eine Schnittstelle kann nicht ausgewählt werden, wenn deren Subnetzwert oder Gateway mit einer anderen ausgewählten Schnittstelle in Konflikt steht.
+** Eine konfigurierte Schnittstelle kann nicht ausgewählt werden, wenn sie keine statische IP-Adresse besitzt.
+
+
+. Wählen Sie *Weiter*.
+
+
+
+
+[[determine-the-priority-order]]
+=== Prioritätsreihenfolge festlegen
+
+Wenn die HA-Gruppe mehr als eine Schnittstelle umfasst, kann bestimmt werden, welche die primäre Schnittstelle ist und welche die Backup- (Failover-) Schnittstellen sind. Wenn die primäre Schnittstelle ausfällt, werden die VIP-Adressen auf die verfügbare Schnittstelle mit der höchsten Priorität verschoben. Fällt diese Schnittstelle aus, werden die VIP-Adressen auf die verfügbare Schnittstelle mit der nächsthöheren Priorität verschoben und so weiter.
+
+.Schritte
+. Zeilen in der Spalte *Prioritätsreihenfolge* ziehen, um die primäre Schnittstelle und etwaige Backup-Schnittstellen zu bestimmen.
++
+Die erste Schnittstelle in der Liste ist die Primary-Schnittstelle. Die Primary-Schnittstelle ist die aktive Schnittstelle, sofern kein Fehler auftritt.
+
++
+image:ha_group_determine_failover.png["HA Groups bestimmen die Prioritätsreihenfolge"]
+
++
+
+TIP: Wenn die HA-Gruppe Zugriff auf den Grid Manager gewährt, muss eine Schnittstelle auf dem primären Admin-Node als primäre Schnittstelle ausgewählt werden. Einige Wartungsvorgänge sind nur vom primären Admin-Node aus möglich.
+
+. Wählen Sie *Weiter*.
+
+
+
+
+[[enter-ip-addresses]]
+=== IP-Adressen eingeben
+
+.Schritte
+. Im Feld *Subnet CIDR* ist das VIP-Subnetz in CIDR-Notation anzugeben, also eine IPv4-Adresse, gefolgt von einem Schrägstrich und der Subnetzlänge (0-32).
++
+Die Netzwerkadresse darf keine gesetzten Host-Bits aufweisen. Zum Beispiel  `192.16.0.0/22`.
+
++
+
+NOTE: Bei Verwendung eines 32-Bit-Präfixes dient die VIP-Netzwerkadresse auch als Gateway-Adresse und VIP-Adresse.
+
++
+image:ha_group_select_virtual_ips.png["HA-Gruppen geben VIPs ein"]
+
+. Optional kann die *Gateway-IP-Adresse* eingegeben werden, falls S3-Administrations- oder Mandantenclients von einem anderen Subnetz auf diese VIP-Adressen zugreifen. Die Gateway-Adresse muss sich innerhalb des VIP-Subnetzes befinden.
++
+Client- und Administratorbenutzer nutzen dieses Gateway für den Zugriff auf die virtuellen IP-Adressen.
+
+. Geben Sie mindestens eine und höchstens zehn VIP-Adressen für die aktive Schnittstelle in der HA-Gruppe ein. Alle VIP-Adressen müssen sich innerhalb des VIP-Subnetzes befinden und sind gleichzeitig auf der aktiven Schnittstelle aktiv.
++
+Sie müssen mindestens eine IPv4-Adresse angeben. Optional können Sie zusätzliche IPv4- und IPv6-Adressen angeben.
+
+. *HA-Gruppe erstellen* auswählen und *Fertigstellen* wählen.
++
+Die HA Group ist erstellt, und die konfigurierten virtuellen IP-Adressen können nun verwendet werden.
+
+
+
+
+
+[[next-steps]]
+=== Nächste Schritte
+
+Wenn diese HA-Gruppe für den Lastausgleich verwendet wird, sollte ein Load-Balancer-Endpunkt erstellt werden, um den Port und das Netzwerkprotokoll zu bestimmen und alle erforderlichen Zertifikate anzuhängen. Siehe link:configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"].
+
+
+
+[[edit-a-high-availability-group]]
+== Eine hochverfügbare Gruppe bearbeiten
+
+Sie können eine hochverfügbare (HA) Gruppe bearbeiten, um ihren Namen und ihre Beschreibung zu ändern, Schnittstellen hinzuzufügen oder zu entfernen, die Prioritätsreihenfolge zu ändern oder virtuelle IP-Adressen hinzuzufügen oder zu aktualisieren.
+
+Beispielsweise kann es erforderlich sein, eine HA-Gruppe zu bearbeiten, wenn der Node entfernt werden soll, der einer ausgewählten Schnittstelle in einem Standort- oder Node-Decommissioning-Verfahren zugeordnet ist.
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* auswählen.
++
+Die Seite „Hochverfügbarkeitsgruppen“ zeigt alle vorhandenen HA Gruppen.
+
+. Aktivieren Sie das Kontrollkästchen für die HA Gruppe, die bearbeitet werden soll.
+. Führen Sie je nach gewünschter Aktualisierung eine der folgenden Optionen aus:
++
+** *Aktionen* > *Virtuelle IP-Adresse bearbeiten* auswählen, um VIP-Adressen hinzuzufügen oder zu entfernen.
+** *Aktionen* > *HA-Gruppe bearbeiten* auswählen, um den Namen oder die Beschreibung der Gruppe zu aktualisieren, Schnittstellen hinzuzufügen oder zu entfernen, die Prioritätsreihenfolge zu ändern oder VIP-Adressen hinzuzufügen oder zu entfernen.
+
+
+. Wenn Sie *Virtuelle IP-Adresse bearbeiten* ausgewählt haben:
++
+.. Die virtuellen IP-Adressen für die HA-Gruppe werden aktualisiert.
+.. *Speichern* auswählen.
+.. Wählen Sie *Fertigstellen*.
+
+
+. Wenn Sie *HA-Gruppe bearbeiten* ausgewählt haben:
++
+.. Optional kann der Name oder die Beschreibung der Gruppe aktualisiert werden.
+.. Optional können die Kontrollkästchen aktiviert oder deaktiviert werden, um Schnittstellen hinzuzufügen oder zu entfernen.
++
+
+NOTE: Wenn die HA-Gruppe Zugriff auf den Grid Manager gewährt, ist eine Schnittstelle auf dem primären Admin-Node als primäre Schnittstelle auszuwählen. Einige Wartungsvorgänge sind nur vom primären Admin-Node aus möglich.
+
+.. Optional lassen sich Zeilen per Drag & Drop verschieben, um die Prioritätsreihenfolge der Primary-Schnittstelle und aller Backup-Schnittstellen für diese HA-Gruppe zu ändern.
+.. Optional können die virtuellen IP-Adressen aktualisiert werden.
+.. *Speichern* auswählen und anschließend *Fertigstellen* auswählen.
+
+
+
+
+
+
+[[remove-a-high-availability-group]]
+== Eine Hochverfügbarkeitsgruppe entfernen
+
+Sie können eine oder mehrere Hochverfügbarkeitsgruppen (HA) gleichzeitig entfernen.
+
+
+TIP: Eine HA-Gruppe kann nicht entfernt werden, wenn sie an einen Load-Balancer-Endpunkt gebunden ist. Zum Löschen einer HA-Gruppe muss sie von allen Load-Balancer-Endpunkten entfernt werden, die sie verwenden.
+
+Um Client-Unterbrechungen zu vermeiden, sollten alle betroffenen S3-Clientanwendungen aktualisiert werden, bevor eine HA Gruppe entfernt wird. Jeder Client muss so aktualisiert werden, dass er eine andere IP-Adresse verwendet, zum Beispiel die virtuelle IP-Adresse einer anderen HA Gruppe oder die IP-Adresse, die während der Installation für eine Schnittstelle konfiguriert wurde.
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* auswählen.
+. Die Spalte *Load balancer endpoints* für jede HA-Gruppe, die entfernt werden soll, prüfen. Wenn Load balancer endpoints aufgeführt sind:
++
+.. Zu *Konfiguration* > *Netzwerk* > *Load balancer endpoints* wechseln.
+.. Das Kontrollkästchen für den Endpunkt auswählen.
+.. *Aktionen* > *Endpunktbindungsmodus bearbeiten* auswählen.
+.. Der Bindungsmodus wird aktualisiert, um die HA Gruppe zu entfernen.
+.. Wählen Sie *Save changes*.
+
+
+. Wenn keine Load-Balancer-Endpunkte aufgeführt sind, das Kontrollkästchen für jede HA-Gruppe auswählen, die entfernt werden soll.
+. Wählen Sie *Aktionen* > *HA-Gruppe entfernen*.
+. Die Nachricht kann überprüft werden, und mit *HA-Gruppe löschen* wird die Auswahl bestätigt.
++
+Alle ausgewählten HA-Gruppen werden entfernt. Auf der Seite Hochverfügbarkeitsgruppen erscheint ein grünes Erfolgsbanner.
+
+

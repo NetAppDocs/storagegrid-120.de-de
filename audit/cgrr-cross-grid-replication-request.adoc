@@ -1,0 +1,98 @@
+---
+permalink: audit/cgrr-cross-grid-replication-request.html 
+sidebar: sidebar 
+keywords: cgrr, cross-grid replication request, audit message, 
+summary: Diese Meldung wird generiert, wenn StorageGRID versucht, eine netzübergreifende Replikationsoperation durchzuführen, um Objekte zwischen Buckets in einer Grid-Federation-Verbindung zu replizieren. 
+---
+= CGRR-Revisionsprotokollmeldung für netzübergreifende Replikationsanforderungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Meldung wird generiert, wenn StorageGRID versucht, eine netzübergreifende Replikationsoperation durchzuführen, um Objekte zwischen Buckets in einer Grid-Federation-Verbindung zu replizieren.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CSIZ
+ a| 
+Objektgröße
+ a| 
+Die Größe des Objekts in Bytes.
+
+Das CSIZ-Attribut wurde in StorageGRID 11.8 eingeführt. Infolgedessen kann es bei Cross-Grid-Replikationsanforderungen, die ein Upgrade von StorageGRID 11.7 auf 11.8 umfassen, zu einer ungenauen Gesamtobjektgröße kommen.
+
+
+
+ a| 
+S3AI
+ a| 
+S3 Mandantenkonto-ID
+ a| 
+Die ID des Mandantenkontos, dem der Bucket gehört, aus dem das Objekt repliziert wird.
+
+
+
+ a| 
+GFID
+ a| 
+Grid Federation Verbindungs-ID
+ a| 
+Die ID der Grid Federation-Verbindung, die für die netzübergreifende Replikation verwendet wird.
+
+
+
+ a| 
+BEDIENUNG
+ a| 
+CGR Betrieb
+ a| 
+Die Art der versuchten netzübergreifenden Replikationsoperation:
+
+* 0 = Objekt replizieren
+* 1 = Mehrteiliges Objekt replizieren
+* 2 = Replikat-Löschmarkierung
+
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+
+
+ a| 
+S3KY
+ a| 
+S3 Schlüssel
+ a| 
+Der S3-Schlüsselname, ohne den Bucket Namen.
+
+
+
+ a| 
+VSID
+ a| 
+Versions-ID
+ a| 
+Die Versions-ID der spezifischen Version eines Objekts, das repliziert wurde.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebniscode
+ a| 
+Gibt erfolgreich (SUCS) oder allgemeinen Fehler (GERR) zurück.
+
+|===

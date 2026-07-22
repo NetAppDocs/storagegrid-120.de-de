@@ -1,0 +1,24 @@
+---
+permalink: maintain/recovering-from-non-primary-admin-node-failures.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, non-primary admin node failure 
+summary: 'Die folgenden Aufgaben sind erforderlich, um sich von einem Ausfall eines nicht-primären Admin-Knotens zu erholen. Ein Admin-Knoten hostet den Configuration Management Node (CMN) Service und wird als primärer Admin-Knoten bezeichnet. Obwohl mehrere Admin-Knoten vorhanden sein können, enthält jedes StorageGRID-System nur einen primären Admin-Knoten. Alle anderen Admin-Knoten sind nicht-primäre Admin-Knoten.' 
+---
+= Wiederherstellung nach Ausfällen von nicht-primären StorageGRID-Admin-Knoten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die folgenden Aufgaben sind erforderlich, um sich von einem Ausfall eines nicht-primären Admin-Knotens zu erholen. Ein Admin-Knoten hostet den Configuration Management Node (CMN) Service und wird als primärer Admin-Knoten bezeichnet. Obwohl mehrere Admin-Knoten vorhanden sein können, enthält jedes StorageGRID-System nur einen primären Admin-Knoten. Alle anderen Admin-Knoten sind nicht-primäre Admin-Knoten.
+
+Die folgenden allgemeinen Schritte dienen der Wiederherstellung eines nicht primären Admin-Node:
+
+. link:copying-audit-logs-from-failed-non-primary-admin-node.html["Audit-Logs vom ausgefallenen nicht primären Admin-Knoten kopieren"]
+. link:replacing-non-primary-admin-node.html["Den nicht primären Admin-Node ersetzen"]
+. link:selecting-start-recovery-to-configure-non-primary-admin-node.html["„Wiederherstellung starten“ auswählen, um den nicht-primären Admin-Node zu konfigurieren."]
+. link:restoring-audit-log-on-recovered-non-primary-admin-node.html["Das Revisionsprotokoll auf einem wiederhergestellten nicht primären Admin-Node wiederherstellen"]
+. link:restoring-admin-node-database-non-primary-admin-node.html["Die Admin-Node-Datenbank bei der Wiederherstellung eines nicht primären Admin-Node wiederherstellen"]
+. link:restoring-prometheus-metrics-non-primary-admin-node.html["Prometheus-Metriken bei der Wiederherstellung eines nicht-primären Admin-Knotens wiederherstellen"]
+

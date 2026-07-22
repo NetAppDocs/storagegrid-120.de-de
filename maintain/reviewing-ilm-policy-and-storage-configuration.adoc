@@ -1,0 +1,65 @@
+---
+permalink: maintain/reviewing-ilm-policy-and-storage-configuration.html 
+sidebar: sidebar 
+keywords: storagegrid, restore, ilm policy, storage configuration 
+summary: Wenn die Außerbetriebnahme eines Speicherknotens geplant ist, empfiehlt sich vor Beginn des Außerbetriebnahmeprozesses eine Überprüfung der ILM-Richtlinie des StorageGRID-Systems. 
+---
+= Überprüfen Sie die StorageGRID ILM-Richtlinie und die Speicherkonfiguration
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie die Außerbetriebnahme eines Storage Node planen, sollte vor Beginn des Außerbetriebnahmeprozesses die ILM-Richtlinie Ihres StorageGRID-Systems überprüft werden.
+
+Während der Stilllegung werden alle Objektdaten vom stillgelegten Storage Node auf andere Storage Nodes migriert.
+
+
+NOTE: Die ILM-Richtlinie, die Sie _während_ der Stilllegung verwenden, wird _nach_ der Stilllegung verwendet. Es muss sichergestellt sein, dass diese Richtlinie Ihre Datenanforderungen sowohl vor Beginn der Stilllegung als auch nach deren Abschluss erfüllt.
+
+Die Regeln in jedem link:../ilm/creating-ilm-policy.html["aktive ILM Richtlinie"] sollten überprüft werden, damit das StorageGRID System weiterhin über genügend Kapazität des richtigen Typs und an den richtigen Standorten verfügt, um die Außerbetriebnahme eines Storage Node zu ermöglichen.
+
+Folgendes ist zu beachten:
+
+* Wird es für ILM Evaluierungsdienste möglich sein, Objektdaten so zu kopieren, dass die ILM-Regeln erfüllt werden?
+* Was geschieht, wenn ein Standort während der Stilllegung vorübergehend nicht erreichbar ist? Können an einem alternativen Standort zusätzliche Kopien erstellt werden?
+* Wie wirkt sich der Außerbetriebnahmeprozess auf die endgültige Verteilung der Inhalte aus? Wie in link:consolidating-storage-nodes.html["Speicherknoten konsolidieren"] beschrieben, sollte link:../expand/index.html["Neue Storage Nodes hinzufügen"] vor der Außerbetriebnahme alter Speicherknoten erfolgen. Wenn nach der Außerbetriebnahme eines kleineren Storage Node ein größerer Ersatz-Storage Node hinzugefügt wird, könnten die alten Storage Nodes nahezu ausgelastet sein und der neue Storage Node fast keine Inhalte enthalten. Die meisten Schreibvorgänge für neue Objektdaten würden dann an den neuen Storage Node gerichtet, wodurch die Gesamteffizienz des Systembetriebs verringert wird.
+* Verfügt das System jederzeit über genügend Storage Nodes, um die aktiven ILM-Richtlinien zu erfüllen?
++
+
+NOTE: Eine ILM-Richtlinie, die nicht erfüllt werden kann, führt zu Rückständen und Warnmeldungen und kann den Betrieb des StorageGRID Systems unterbrechen.
+
+
+
+Es sollte überprüft werden, ob die vorgeschlagene Topologie, die sich aus dem Stilllegungsprozess ergibt, die ILM-Richtlinie erfüllt, indem die in der Tabelle aufgeführten Bereiche bewertet werden.
+
+[cols="1a,2a"]
+|===
+| Zu beurteilender Bereich | Was zu beachten ist 
+
+
+ a| 
+Verfügbare Kapazität
+ a| 
+Wird ausreichend Speicherkapazität vorhanden sein, um alle im StorageGRID System gespeicherten Objektdaten aufzunehmen, einschließlich der permanenten Kopien der Objektdaten, die derzeit auf dem außer Betrieb zu nehmenden Storage Node gespeichert sind?
+
+Wird nach Abschluss der Stilllegung für einen angemessenen Zeitraum ausreichend Kapazität vorhanden sein, um das erwartete Wachstum der gespeicherten Objektdaten zu bewältigen?
+
+
+
+ a| 
+Speicherort
+ a| 
+Ist im StorageGRID System insgesamt noch ausreichend Kapazität vorhanden, befindet sich diese Kapazität an den richtigen Standorten, um die Geschäftsregeln des StorageGRID Systems zu erfüllen?
+
+
+
+ a| 
+Speichertyp
+ a| 
+Wird nach Abschluss der Stilllegung ausreichend Speicher des entsprechenden Typs vorhanden sein?
+
+Beispielsweise können ILM Regeln Inhalte mit zunehmendem Alter von einem Speichertyp in einen anderen verschieben. In diesem Fall muss sichergestellt werden, dass in der endgültigen Konfiguration des StorageGRID Systems ausreichend Speicherplatz des entsprechenden Typs verfügbar ist.
+
+|===

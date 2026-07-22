@@ -1,0 +1,43 @@
+---
+indexpage:
+  title: Knoten wiederherstellen oder ersetzen
+  summary: Wenn ein Grid-Knoten ausfällt, kann er wiederhergestellt werden, indem
+    der ausgefallene physische oder virtuelle Server ersetzt, die StorageGRID Software
+    neu installiert und die wiederherstellbaren Daten wiederhergestellt werden.
+  keywords: recover node, replace node
+  lead: Wenn ein Grid-Knoten ausfällt, kann er wiederhergestellt werden, indem der
+    ausgefallene physische oder virtuelle Server ersetzt, die StorageGRID Software
+    neu installiert und die wiederherstellbaren Daten wiederhergestellt werden.
+  tiles:
+  - title: Los geht's
+    links:
+    - title: Warnungen und Hinweise
+      url: "../maintain/warnings-and-considerations-for-grid-node-recovery.html"
+    - title: Benötigte Materialien zusammenstellen
+      url: "../maintain/gathering-required-materials-for-grid-node-recovery.html"
+  - title: Fehlgeschlagene Knoten wiederherstellen
+    links:
+    - title: Warnungen und Hinweise
+      url: "../maintain/warnings-and-considerations-for-grid-node-recovery.html"
+    - title: Speicherknoten
+      url: "../maintain/recovering-from-storage-node-failures.html"
+    - title: Admin-Nodes
+      url: "../maintain/recovering-from-admin-node-failures.html"
+    - title: Gateway-Nodes
+      url: "../maintain/replacing-gateway-node.html"
+    - title: Archivknoten
+      url: "../maintain/recovering-from-archive-node-failures.html"
+  - title: Knoten ersetzen
+    links:
+    - title: Linux-Knoten austauschen
+      url: "../maintain/all-node-types-replacing-linux-node.html"
+    - title: VMware Node ersetzen
+      url: "../maintain/all-node-types-replacing-vmware-node.html"
+    - title: Linux- oder VMware-Knoten durch eine Services Appliance ersetzen
+      url: "../maintain/installing-services-appliance-platform-change-only.html"
+    - title: Appliance-Knoten klonen
+      url: https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/how-appliance-node-cloning-works.html
+  - title: Eine Website wiederherstellen
+    links:
+    - title: Wie der technische Support eine Website wiederherstellt
+      url: "../maintain/how-site-recovery-is-performed-by-technical-support.html"

@@ -1,0 +1,25 @@
+---
+permalink: maintain/checking-storage-state-after-recovering-sga.html 
+sidebar: sidebar 
+keywords: storagegrid, recovery, node recovery, storage state 
+summary: Nach der Wiederherstellung eines Appliance Storage Node muss überprüft werden, ob der gewünschte Status des Appliance Storage Node auf „online“ gesetzt ist und sichergestellt werden, dass der Status standardmäßig „online“ ist, wenn der Storage Node Server neu gestartet wird. 
+---
+= Überprüfen Sie den Speicherstatus nach der Wiederherstellung eines StorageGRID Appliance Storage Node
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach der Wiederherstellung eines Appliance Storage Node muss überprüft werden, ob der gewünschte Status des Appliance Storage Node auf „online“ gesetzt ist und sichergestellt werden, dass der Status standardmäßig „online“ ist, wenn der Storage Node Server neu gestartet wird.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Der Storage Node wurde wiederhergestellt und die Datenwiederherstellung ist abgeschlossen.
+
+
+.Schritte
+. Wählen Sie *Knoten* > *Speicherknoten* > *Aufgaben*.
+. Wenn die Dropdown-Liste *Speicherstatus* auf *Schreibgeschützt* oder *Offline* eingestellt ist, *Online* auswählen.
+. *Speichern* auswählen.
+

@@ -1,0 +1,73 @@
+---
+permalink: audit/lkcu-overwritten-object-cleanup.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, LKCU, Overwritten Object Cleanup 
+summary: Diese Meldung wird generiert, wenn StorageGRID ein überschriebenes Objekt entfernt, das zuvor bereinigt werden musste, um Speicherplatz freizugeben. Ein Objekt wird überschrieben, wenn ein S3-Client ein Objekt in einen Pfad schreibt, der bereits ein Objekt enthält. Die Entfernung erfolgt automatisch und im Hintergrund. 
+---
+= LKCU-Revisionsprotokollmeldung zur Bereinigung überschriebener Objekte in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Meldung wird generiert, wenn StorageGRID ein überschriebenes Objekt entfernt, das zuvor bereinigt werden musste, um Speicherplatz freizugeben. Ein Objekt wird überschrieben, wenn ein S3-Client ein Objekt in einen Pfad schreibt, der bereits ein Objekt enthält. Die Entfernung erfolgt automatisch und im Hintergrund.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CSIZ
+ a| 
+Inhaltsgröße
+ a| 
+Die Größe des Objekts in Bytes.
+
+
+
+ a| 
+LTYP
+ a| 
+Art der Bereinigung
+ a| 
+_Nur für den internen Gebrauch._
+
+
+
+ a| 
+LUID
+ a| 
+Entfernte Objekt-UUID
+ a| 
+Die Kennung des entfernten Objekts.
+
+
+
+ a| 
+WEG
+ a| 
+S3 Bucket/Schlüssel
+ a| 
+Der S3 Bucket Name und der S3 Key Name.
+
+
+
+ a| 
+SEGC
+ a| 
+Container-UUID
+ a| 
+UUID des Containers für das segmentierte Objekt. Dieser Wert ist nur verfügbar, wenn das Objekt segmentiert ist.
+
+
+
+ a| 
+UUID
+ a| 
+Universell eindeutiger Bezeichner
+ a| 
+Die Kennung des noch existierenden Objekts. Dieser Wert ist nur verfügbar, wenn das Objekt nicht gelöscht wurde.
+
+|===

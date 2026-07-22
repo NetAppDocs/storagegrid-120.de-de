@@ -1,0 +1,40 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,3a"]
+|===
+| Modus | Beschreibung 
+
+
+ a| 
+Global (Standard)
+ a| 
+Clients können mit der IP-Adresse eines beliebigen Gateway-Knotens oder Admin-Knotens, der virtuellen IP-Adresse (VIP) einer beliebigen HA-Gruppe in einem beliebigen Netzwerk oder einem entsprechenden FQDN auf den Endpunkt zugreifen.
+
+Die Einstellung *Global* (Standard) sollte verwendet werden, es sei denn, die Zugänglichkeit dieses Endpunkts muss eingeschränkt werden.
+
+
+
+ a| 
+Virtuelle IPs von HA-Gruppen
+ a| 
+Clients müssen eine virtuelle IP-Adresse (oder den entsprechenden FQDN) einer HA-Gruppe verwenden, um auf diesen Endpunkt zuzugreifen.
+
+Endpunkte mit diesem Bindungsmodus können alle die gleiche Portnummer verwenden, solange sich die für die Endpunkte ausgewählten HA-Gruppen nicht überschneiden.
+
+
+
+ a| 
+Knotenschnittstellen
+ a| 
+Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählten Knotenschnittstellen verwenden, um auf diesen Endpunkt zuzugreifen.
+
+
+
+ a| 
+Knotentyp
+ a| 
+${post_edited_translations.segment}
+
+|===

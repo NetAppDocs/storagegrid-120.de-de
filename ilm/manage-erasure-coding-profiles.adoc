@@ -1,0 +1,169 @@
+---
+permalink: ilm/manage-erasure-coding-profiles.html 
+sidebar: sidebar 
+keywords: rename erasure-coding profile, ec profile 
+summary: Sie können die Details eines Erasure-Coding-Profils einsehen und das Profil bei Bedarf umbenennen. Ein Erasure-Coding-Profil kann deaktiviert werden, wenn es aktuell in keiner ILM-Regel verwendet wird. 
+---
+= Verwalten Sie Erasure-Coding-Profile in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Details eines Erasure-Coding-Profils einsehen und das Profil bei Bedarf umbenennen. Ein Erasure-Coding-Profil kann deaktiviert werden, wenn es aktuell in keiner ILM-Regel verwendet wird.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Erforderliche Zugriffsberechtigungen"].
+
+
+
+
+[[view-erasure-coding-profile-details]]
+== Details zum Erasure Coding Profil
+
+Sie können die Details eines Erasure-Coding-Profils einsehen, um dessen Status, das verwendete Erasure-Coding-Verfahren und weitere Informationen zu ermitteln.
+
+.Schritte
+. *Konfiguration* > *System* > *Erasure Coding* auswählen.
+. Wählen Sie das Profil aus. Die Detailseite für das Profil erscheint.
+. Optional kann auf der Registerkarte „ILM-Regeln“ eine Liste der ILM-Regeln angezeigt werden, die das Profil verwenden, sowie der ILM-Richtlinien, die diese Regeln verwenden.
+. Optional kann die Registerkarte „Storage Nodes“ angezeigt werden, um Details zu jedem Storage Node im Storage-Pool des Profils zu sehen, wie zum Beispiel den Standort und die Speichernutzung.
+
+
+
+
+[[rename-an-erasure-coding-profile]]
+== Ein Erasure-Coding-Profil umbenennen
+
+Es kann sinnvoll sein, ein Erasure-Coding-Profil umzubenennen, um deutlicher zu machen, wofür das Profil dient.
+
+.Schritte
+. *Konfiguration* > *System* > *Erasure Coding* auswählen.
+. Wählen Sie das Profil aus, das umbenannt werden soll.
+. *Umbenennen* auswählen.
+. Geben Sie einen eindeutigen Namen für das Erasure-Coding-Profil ein.
++
+Der Name des Erasure-Coding-Profils wird in der Platzierungsanweisung für eine ILM-Regel an den Namen des Speicherpools angehängt.
+
++
+
+NOTE: Die Namen von Erasure-Coding-Profilen müssen eindeutig sein. Ein Validierungsfehler tritt auf, wenn der Name eines vorhandenen Profils verwendet wird, selbst wenn dieses Profil deaktiviert wurde.
+
+. *Speichern* auswählen.
+
+
+
+
+[[deactivate-an-erasure-coding-profile]]
+== Ein Erasure-Coding-Profil deaktivieren
+
+Sie können ein Erasure-Coding-Profil deaktivieren, wenn Sie es nicht mehr verwenden möchten und wenn das Profil derzeit in keiner ILM-Regel verwendet wird.
+
+
+TIP: Bestätigen Sie, dass keine Reparaturvorgänge für erasure-codierte Daten oder Decommission-Verfahren im Gange sind. Eine Fehlermeldung wird zurückgegeben, wenn versucht wird, ein Erasure-Coding-Profil zu deaktivieren, während einer dieser Vorgänge läuft.
+
+.Über diese Aufgabe
+StorageGRID verhindert die Deaktivierung eines Erasure-Coding-Profils, wenn eine der folgenden Bedingungen zutrifft:
+
+* Das Erasure-Coding-Profil wird aktuell in einer ILM-Regel verwendet.
+* Das Erasure-Coding-Profil wird in keiner ILM-Regel mehr verwendet, aber Objektdaten und Paritätsfragmente für das Profil existieren weiterhin.
+
+
+.Schritte
+. *Konfiguration* > *System* > *Erasure Coding* auswählen.
+. Auf der Registerkarte „Aktiv“ in der Spalte *Status* kann überprüft werden, ob das Erasure-Coding-Profil, das deaktiviert werden soll, in keiner ILM-Regel verwendet wird.
++
+Ein Erasure-Coding-Profil kann nicht deaktiviert werden, wenn es in einer ILM-Regel verwendet wird. Im Beispiel wird das Profil 2+1 Data Center 1 in mindestens einer ILM-Regel verwendet.
+
++
+image:ec_profile_used_in_ilm_rule.png["EC Profile, das in der ILM-Regel verwendet wird"]
+
+. Wenn das Profil in einer ILM-Regel verwendet wird, sind die folgenden Schritte auszuführen:
++
+.. Wählen Sie *ILM* > *Regeln*.
+.. Jede Regel auswählen und das Aufbewahrungsdiagramm überprüfen, um festzustellen, ob die Regel das gewünschte Löschcodierungsprofil verwendet, das deaktiviert werden soll.
+.. Wenn die ILM-Regel das Erasure-Coding-Profil verwendet, das Sie deaktivieren möchten, ermitteln Sie, ob die Regel in einer ILM-Richtlinie verwendet wird.
+.. Schließen Sie die zusätzlichen Schritte in der Tabelle ab, abhängig davon, wo das Löschcodierungsprofil verwendet wird.
++
+[cols="2a,4a,1a"]
+|===
+| Wo wurde das Profil verwendet? | Zusätzliche Schritte, die vor der Deaktivierung des Profils auszuführen sind | Weitere Anweisungen sind zu beachten. 
+
+
+ a| 
+Niemals in einer ILM-Regel verwendet
+ a| 
+Es sind keine weiteren Schritte erforderlich. Mit diesem Verfahren kann fortgefahren werden.
+ a| 
+_Keine_
+
+
+
+ a| 
+In einer ILM Regel, die noch nie in einer ILM Richtlinie verwendet wurde
+ a| 
+... Bearbeiten oder löschen Sie alle betroffenen ILM-Regeln. Wenn die Regel bearbeitet wird, sind alle Platzierungen zu entfernen, die das Erasure-Coding-Profil verwenden.
+... Fahren Sie mit diesem Verfahren fort.
+
+ a| 
+link:working-with-ilm-rules-and-ilm-policies.html["Mit ILM-Regeln und ILM-Richtlinien arbeiten"]
+
+
+
+ a| 
+In einer ILM-Regel, die sich derzeit in einer aktiven ILM-Richtlinie befindet
+ a| 
+... Die Richtlinie klonen.
+... Die ILM-Regel, die das Erasure-Coding-Profil verwendet, entfernen.
+... Eine oder mehrere neue ILM-Regeln hinzufügen, damit Objekte geschützt sind.
+... Die neue Richtlinie kann gespeichert, simuliert und aktiviert werden.
+... Warten Sie, bis die neue Richtlinie angewendet wird und bestehende Objekte basierend auf den hinzugefügten neuen Regeln an neue Standorte verschoben werden.
++
+*Hinweis:* Je nach Anzahl der Objekte und der Größe Ihres StorageGRID Systems kann es Wochen oder sogar Monate dauern, bis die ILM Vorgänge die Objekte gemäß den neuen ILM Regeln an neue Speicherorte verschieben.
+
++
+Sie können zwar versuchen, ein Erasure-Codierungsprofil zu deaktivieren, solange es noch mit Daten verknüpft ist, jedoch schlägt die Deaktivierung fehl. Eine Fehlermeldung informiert Sie, falls das Profil noch nicht zur Deaktivierung bereit ist.
+
+... Bearbeiten oder löschen Sie die Regel, die Sie aus der Richtlinie entfernt haben. Wenn die Regel bearbeitet wird, sind alle Platzierungen zu entfernen, die das Erasure-Coding-Profil verwenden.
+... Fahren Sie mit diesem Verfahren fort.
+
+ a| 
+link:creating-ilm-policy.html["Eine ILM-Richtlinie erstellen"]
+
+link:working-with-ilm-rules-and-ilm-policies.html["Mit ILM-Regeln und ILM-Richtlinien arbeiten"]
+
+
+
+ a| 
+In einer ILM-Regel, die sich derzeit in einer ILM-Richtlinie befindet
+ a| 
+... Die Richtlinie bearbeiten.
+... Die ILM-Regel, die das Erasure-Coding-Profil verwendet, entfernen.
+... Eine oder mehrere neue ILM-Regeln hinzufügen, damit alle Objekte geschützt sind.
+... Die Richtlinie wird gespeichert.
+... Bearbeiten oder löschen Sie die Regel, die Sie aus der Richtlinie entfernt haben. Wenn die Regel bearbeitet wird, sind alle Platzierungen zu entfernen, die das Erasure-Coding-Profil verwenden.
+... Fahren Sie mit diesem Verfahren fort.
+
+ a| 
+link:creating-ilm-policy.html["Eine ILM-Richtlinie erstellen"]
+
+link:working-with-ilm-rules-and-ilm-policies.html["Mit ILM-Regeln und ILM-Richtlinien arbeiten"]
+
+|===
+.. Die Seite „Erasure-Coding-Profile“ aktualisieren, um sicherzustellen, dass das Profil nicht in einer ILM-Regel verwendet wird.
+
+
+. Wird das Profil in keiner ILM-Regel verwendet, wählen Sie das Optionsfeld und anschließend *Deaktivieren*. Das Dialogfeld „Erasure-Coding-Profil deaktivieren“ wird angezeigt.
++
+
+TIP: Sie können mehrere Profile gleichzeitig deaktivieren, sofern jedes Profil in keiner Regel verwendet wird.
+
+. Wenn Sie sicher sind, dass Sie das Profil deaktivieren möchten, wählen Sie *Deaktivieren*.
+
+
+.Ergebnisse
+* Wenn StorageGRID das Erasure-Coding-Profil deaktivieren kann, lautet dessen Status „Deaktiviert“. Dieses Profil kann für keine ILM-Regel mehr ausgewählt werden. Ein deaktiviertes Profil kann nicht reaktiviert werden.
+* Wenn StorageGRID das Profil nicht deaktivieren kann, wird eine Fehlermeldung angezeigt. Eine Fehlermeldung wird beispielsweise angezeigt, wenn Objektdaten noch mit diesem Profil verknüpft sind. Es kann erforderlich sein, mehrere Wochen zu warten, bevor der Deaktivierungsvorgang erneut versucht wird.
+

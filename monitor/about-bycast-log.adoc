@@ -1,0 +1,1398 @@
+---
+permalink: monitor/about-bycast-log.html 
+sidebar: sidebar 
+keywords: bycast, log 
+summary: Die Datei /var/local/log/bycast.log ist die primäre Fehlerbehebungsdatei für die StorageGRID Software. Für jeden Grid-Knoten existiert eine bycast.log Datei. Diese Datei enthält Meldungen, die spezifisch für den jeweiligen Grid-Knoten sind. 
+---
+= Erfahren Sie mehr über die StorageGRID bycast.log
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Datei `/var/local/log/bycast.log` ist die primäre Datei zur Fehlerbehebung für die StorageGRID-Software. Für jeden Grid-Knoten gibt es eine `bycast.log` Datei. Die Datei enthält Meldungen, die spezifisch für diesen Grid-Knoten sind.
+
+Die Datei `/var/local/log/bycast-err.log` ist eine Teilmenge von `bycast.log`. Sie enthält Meldungen mit dem Schweregrad ERROR und CRITICAL.
+
+Optional kann das Ziel der Audit-Logs geändert und Audit-Informationen an einen externen Syslog-Server gesendet werden. Lokale Protokolle der Audit-Einträge werden weiterhin generiert und gespeichert, wenn ein externer Syslog-Server konfiguriert ist. Siehe link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"].
+
+
+
+[[file-rotation-for-bycast-log]]
+== Dateirotation für bycast.log
+
+Wenn die  `bycast.log` Datei 1 GB groß ist, wird die bestehende Datei gespeichert und eine neue Protokolldatei erstellt.
+
+Die gespeicherte Datei wird umbenannt `bycast.log.1`, und die neue Datei erhält den Namen `bycast.log`. Wenn die neue `bycast.log` 1 GB erreicht, `bycast.log.1` wird sie umbenannt und komprimiert, um `bycast.log.2.gz` zu werden, und `bycast.log` wird umbenannt `bycast.log.1`.
+
+Die Rotationsgrenze für `bycast.log` beträgt 21 Dateien. Wenn die 22. Version der `bycast.log` Datei erstellt wird, wird die älteste Datei gelöscht.
+
+Die Rotationsgrenze für `bycast-err.log` beträgt sieben Dateien.
+
+
+NOTE: Wenn eine Protokolldatei komprimiert wurde, darf sie nicht am selben Speicherort dekomprimiert werden, an dem sie geschrieben wurde. Das Dekomprimieren der Datei am selben Speicherort kann die Protokollrotationsskripte beeinträchtigen.
+
+Optional kann das Ziel der Audit-Logs geändert und Audit-Informationen an einen externen Syslog-Server gesendet werden. Lokale Protokolle der Audit-Einträge werden weiterhin generiert und gespeichert, wenn ein externer Syslog-Server konfiguriert ist. Siehe link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"].
+
+.Verwandte Informationen
+link:collecting-log-files-and-system-data.html["Protokolldateien und Systemdaten sammeln"]
+
+
+
+[[messages-in-bycast-log]]
+== Meldungen in bycast.log
+
+Nachrichten in `bycast.log` werden von der ADE (Asynchronous Distributed Environment) geschrieben. ADE ist die Laufzeitumgebung, die von den Diensten jedes Grid-Knotens verwendet wird.
+
+Beispiel einer ADE-Nachricht:
+
+[listing]
+----
+May 15 14:07:11 um-sec-rg1-agn3 ADE: |12455685    0357819531
+SVMR EVHR 2019-05-05T27T17:10:29.784677| ERROR 0906 SVMR: Health
+check on volume 3 has failed with reason 'TOUT'
+----
+ADE-Meldungen enthalten die folgenden Informationen:
+
+[cols="1a,2a"]
+|===
+| Nachrichtensegment | Wert im Beispiel 
+
+
+ a| 
+Knoten-ID
+| 12455685 
+
+
+ a| 
+ADE-Prozess-ID
+| 0357819531 
+
+
+ a| 
+Modulname
+| SVMR 
+
+
+ a| 
+Nachrichtenkennung
+| EVHR 
+
+
+ a| 
+UTC Systemzeit
+| 2019-05-05T27T17:10:29.784677 (YYYY-MM-DDTHH:MM:SS.uuuuuu) 
+
+
+ a| 
+Schweregrad
+| FEHLER 
+
+
+ a| 
+Interne Nachverfolgungsnummer
+| 0906 
+
+
+ a| 
+Nachricht
+| SVMR: Die Integritätsprüfung für Volume 3 ist mit dem Grund 'TOUT' fehlgeschlagen. 
+|===
+
+
+[[message-severities-in-bycast-log]]
+== Schweregrade von Meldungen in bycast.log
+
+Die Meldungen in `bycast.log` sind Schweregraden zugeordnet.
+
+Beispiel:
+
+* *HINWEIS* – Es ist ein Ereignis eingetreten, das protokolliert werden sollte. Die meisten Protokollmeldungen befinden sich auf dieser Ebene.
+* *WARNUNG* -- Es ist ein unerwarteter Zustand aufgetreten.
+* *FEHLER* -- Ein schwerwiegender Fehler ist aufgetreten, der die Abläufe beeinträchtigen wird.
+* *KRITISCH* – Es ist ein anormaler Zustand eingetreten, der den normalen Betrieb gestoppt hat. Die zugrunde liegende Ursache sollte umgehend behoben werden.
+
+
+
+
+[[error-codes-in-bycast-log]]
+== Fehlercodes in `bycast.log`
+
+Die meisten Fehlermeldungen in `bycast.log` enthalten Fehlercodes.
+
+Die folgende Tabelle listet gängige nicht-numerische Codes in  `bycast.log` auf. Die genaue Bedeutung eines nicht-numerischen Codes hängt vom Kontext ab, in dem er gemeldet wird.
+
+[cols="1a,1a"]
+|===
+| Fehlercode | Bedeutung 
+
+
+ a| 
+SUCS
+ a| 
+Kein Fehler
+
+
+
+ a| 
+GERR
+ a| 
+Unbekannt
+
+
+
+ a| 
+ABGESAGT
+ a| 
+Abgesagt
+
+
+
+ a| 
+ABRT
+ a| 
+Abgebrochen
+
+
+
+ a| 
+TOUT
+ a| 
+Zeitüberschreitung
+
+
+
+ a| 
+INVL
+ a| 
+Ungültig
+
+
+
+ a| 
+NFND
+ a| 
+Nicht gefunden
+
+
+
+ a| 
+VERS
+ a| 
+Version
+
+
+
+ a| 
+CONF
+ a| 
+Konfiguration
+
+
+
+ a| 
+FEHLER
+ a| 
+Fehlgeschlagen
+
+
+
+ a| 
+ICPL
+ a| 
+Unvollständig
+
+
+
+ a| 
+ERLEDIGT
+ a| 
+Erledigt
+
+
+
+ a| 
+SUNV
+ a| 
+Dienst nicht verfügbar
+
+|===
+Die folgende Tabelle listet die numerischen Fehlercodes in  `bycast.log` auf.
+
+[cols="1a,2a,3a"]
+|===
+| Fehlernummer | Fehlercode | Bedeutung 
+
+
+ a| 
+001
+ a| 
+EPERM
+ a| 
+Betrieb nicht gestattet
+
+
+
+ a| 
+002
+ a| 
+ENOENT
+ a| 
+Keine solche Datei oder Verzeichnis
+
+
+
+ a| 
+003
+ a| 
+ESRCH
+ a| 
+Kein solcher Prozess
+
+
+
+ a| 
+004
+ a| 
+EINTR
+ a| 
+Unterbrochener Systemaufruf
+
+
+
+ a| 
+005
+ a| 
+EIO
+ a| 
+E/A Fehler
+
+
+
+ a| 
+006
+ a| 
+ENXIO
+ a| 
+Kein solches Gerät oder keine solche Adresse
+
+
+
+ a| 
+007
+ a| 
+E2BIG
+ a| 
+Argumentliste zu lang
+
+
+
+ a| 
+008
+ a| 
+ENOEXEC
+ a| 
+Exec-Formatfehler
+
+
+
+ a| 
+009
+ a| 
+EBADF
+ a| 
+Ungültige Dateinummer
+
+
+
+ a| 
+010
+ a| 
+ECHILD
+ a| 
+Keine Kindprozesse
+
+
+
+ a| 
+011
+ a| 
+EAGAIN
+ a| 
+Erneut versuchen
+
+
+
+ a| 
+012
+ a| 
+ENOMEM
+ a| 
+Speicher erschöpft
+
+
+
+ a| 
+013
+ a| 
+EACCES
+ a| 
+Zugriff verweigert
+
+
+
+ a| 
+014
+ a| 
+FEHLER
+ a| 
+Falsche Adresse
+
+
+
+ a| 
+015
+ a| 
+ENOTBLK
+ a| 
+Blockgerät erforderlich
+
+
+
+ a| 
+016
+ a| 
+EBUSY
+ a| 
+Gerät oder Ressource belegt
+
+
+
+ a| 
+017
+ a| 
+EEXIST
+ a| 
+Datei existiert
+
+
+
+ a| 
+018
+ a| 
+EXDEV
+ a| 
+Geräteübergreifende Verbindung
+
+
+
+ a| 
+019
+ a| 
+ENODEV
+ a| 
+Kein solches Gerät
+
+
+
+ a| 
+020
+ a| 
+ENOTDIR
+ a| 
+Kein Verzeichnis
+
+
+
+ a| 
+021
+ a| 
+EISDIR
+ a| 
+Ist ein Verzeichnis
+
+
+
+ a| 
+022
+ a| 
+EINVAL
+ a| 
+Ungültiges Argument
+
+
+
+ a| 
+023
+ a| 
+ENFILE
+ a| 
+Dateitabellenüberlauf
+
+
+
+ a| 
+024
+ a| 
+EMFILE
+ a| 
+Zu viele geöffnete Dateien
+
+
+
+ a| 
+025
+ a| 
+ENOTTY
+ a| 
+Keine Schreibmaschine
+
+
+
+ a| 
+026
+ a| 
+ETXTBSY
+ a| 
+Textdatei belegt
+
+
+
+ a| 
+027
+ a| 
+EFBIG
+ a| 
+Datei zu groß
+
+
+
+ a| 
+028
+ a| 
+ENOSPC
+ a| 
+Kein Speicherplatz mehr auf dem Gerät
+
+
+
+ a| 
+029
+ a| 
+ESPIPE
+ a| 
+Ungültiger Suchvorgang
+
+
+
+ a| 
+030
+ a| 
+EROFS
+ a| 
+Schreibgeschütztes Dateisystem
+
+
+
+ a| 
+031
+ a| 
+EMLINK
+ a| 
+Zu viele Links
+
+
+
+ a| 
+032
+ a| 
+EPIPE
+ a| 
+Verbindung unterbrochen
+
+
+
+ a| 
+033
+ a| 
+EDOM
+ a| 
+Mathematisches Argument außerhalb des Definitionsbereichs der Funktion
+
+
+
+ a| 
+034
+ a| 
+ERANGE
+ a| 
+Mathematisches Ergebnis nicht darstellbar
+
+
+
+ a| 
+035
+ a| 
+EDEADLK
+ a| 
+Ein Ressourcen-Deadlock würde auftreten.
+
+
+
+ a| 
+036
+ a| 
+ENAMETOOLONG
+ a| 
+Dateiname zu lang
+
+
+
+ a| 
+037
+ a| 
+ENOLCK
+ a| 
+Keine Datensatzsperren verfügbar
+
+
+
+ a| 
+038
+ a| 
+ENOSYS
+ a| 
+Funktion nicht implementiert
+
+
+
+ a| 
+039
+ a| 
+ENOTEMPTY
+ a| 
+Verzeichnis nicht leer
+
+
+
+ a| 
+040
+ a| 
+ELOOP
+ a| 
+Zu viele symbolische Verknüpfungen gefunden
+
+
+
+ a| 
+041
+ a| 
+ a| 
+
+
+
+ a| 
+042
+ a| 
+ENOMSG
+ a| 
+Keine Meldung des gewünschten Typs
+
+
+
+ a| 
+043
+ a| 
+EIDRM
+ a| 
+Kennung entfernt
+
+
+
+ a| 
+044
+ a| 
+ECHRNG
+ a| 
+Kanalnummer außerhalb des gültigen Bereichs
+
+
+
+ a| 
+045
+ a| 
+EL2NSYNC
+ a| 
+Level 2 nicht synchronisiert
+
+
+
+ a| 
+046
+ a| 
+EL3HLT
+ a| 
+Stufe 3 gestoppt
+
+
+
+ a| 
+047
+ a| 
+EL3RST
+ a| 
+Level 3 zurücksetzen
+
+
+
+ a| 
+048
+ a| 
+ELNRNG
+ a| 
+Verbindungsnummer außerhalb des zulässigen Bereichs
+
+
+
+ a| 
+049
+ a| 
+EUNATCH
+ a| 
+Protokolltreiber nicht angehängt
+
+
+
+ a| 
+050
+ a| 
+ENOCSI
+ a| 
+Keine CSI Struktur verfügbar
+
+
+
+ a| 
+051
+ a| 
+EL2HLT
+ a| 
+Stufe 2 gestoppt
+
+
+
+ a| 
+052
+ a| 
+EBADE
+ a| 
+Ungültiger Austausch
+
+
+
+ a| 
+053
+ a| 
+EBADR
+ a| 
+Ungültiger Anforderungsdeskriptor
+
+
+
+ a| 
+054
+ a| 
+EXFULL
+ a| 
+Exchange vollständig
+
+
+
+ a| 
+055
+ a| 
+ENOANO
+ a| 
+Keine Anode
+
+
+
+ a| 
+056
+ a| 
+EBADRQC
+ a| 
+Ungültiger Anforderungscode
+
+
+
+ a| 
+057
+ a| 
+EBADSLT
+ a| 
+Ungültiger Slot
+
+
+
+ a| 
+058
+ a| 
+ a| 
+
+
+
+ a| 
+059
+ a| 
+EBFONT
+ a| 
+Ungültiges Schriftartdateiformat
+
+
+
+ a| 
+060
+ a| 
+ENOSTR
+ a| 
+Gerät ist kein Stream
+
+
+
+ a| 
+061
+ a| 
+ENODATA
+ a| 
+Keine Daten verfügbar
+
+
+
+ a| 
+062
+ a| 
+ETIME
+ a| 
+Zeitüberschreitung
+
+
+
+ a| 
+063
+ a| 
+ENOSR
+ a| 
+Keine Stream-Ressourcen mehr verfügbar
+
+
+
+ a| 
+064
+ a| 
+ENONET
+ a| 
+Die Maschine ist nicht im Netzwerk.
+
+
+
+ a| 
+065
+ a| 
+ENOPKG
+ a| 
+Paket nicht installiert
+
+
+
+ a| 
+066
+ a| 
+EREMOTE
+ a| 
+Objekt ist remote
+
+
+
+ a| 
+067
+ a| 
+ENOLINK
+ a| 
+Die Verbindung wurde getrennt.
+
+
+
+ a| 
+068
+ a| 
+EADV
+ a| 
+Werbefehler
+
+
+
+ a| 
+069
+ a| 
+ESRMNT
+ a| 
+Srmount Fehler
+
+
+
+ a| 
+070
+ a| 
+ECOMM
+ a| 
+Kommunikationsfehler beim Senden
+
+
+
+ a| 
+071
+ a| 
+EPROTO
+ a| 
+Protokollfehler
+
+
+
+ a| 
+072
+ a| 
+EMULTIHOP
+ a| 
+Multihop-Versuch
+
+
+
+ a| 
+073
+ a| 
+EDOTDOT
+ a| 
+RFS spezifischer Fehler
+
+
+
+ a| 
+074
+ a| 
+EBADMSG
+ a| 
+Keine Datenmeldung
+
+
+
+ a| 
+075
+ a| 
+ÜBERLAUF
+ a| 
+Wert zu groß für den definierten Datentyp
+
+
+
+ a| 
+076
+ a| 
+ENOTUNIQ
+ a| 
+Name nicht eindeutig im Netzwerk
+
+
+
+ a| 
+077
+ a| 
+EBADFD
+ a| 
+Dateideskriptor in fehlerhaftem Zustand
+
+
+
+ a| 
+078
+ a| 
+EREMCHG
+ a| 
+Remote-Adresse geändert
+
+
+
+ a| 
+079
+ a| 
+ELIBACC
+ a| 
+Auf eine benötigte gemeinsam genutzte Bibliothek kann nicht zugegriffen werden
+
+
+
+ a| 
+080
+ a| 
+ELIBBAD
+ a| 
+Zugriff auf eine beschädigte gemeinsam genutzte Bibliothek
+
+
+
+ a| 
+081
+ a| 
+ELIBSCN
+ a| 
+
+
+
+ a| 
+082
+ a| 
+ELIBMAX
+ a| 
+Versuch, zu viele gemeinsam genutzte Bibliotheken einzubinden
+
+
+
+ a| 
+083
+ a| 
+ELIBEXEC
+ a| 
+Eine gemeinsam genutzte Bibliothek kann nicht direkt ausgeführt werden.
+
+
+
+ a| 
+084
+ a| 
+EILSEQ
+ a| 
+Ungültige Bytefolge
+
+
+
+ a| 
+085
+ a| 
+ERESTART
+ a| 
+Der unterbrochene Systemaufruf sollte neu gestartet werden
+
+
+
+ a| 
+086
+ a| 
+ESTRPIPE
+ a| 
+Streams Pipe-Fehler
+
+
+
+ a| 
+087
+ a| 
+EUSERS
+ a| 
+Zu viele Nutzer
+
+
+
+ a| 
+088
+ a| 
+ENOTSOCK
+ a| 
+Socket-Operation an Nicht-Socket
+
+
+
+ a| 
+089
+ a| 
+EDESTADDRREQ
+ a| 
+Zieladresse erforderlich
+
+
+
+ a| 
+090
+ a| 
+EMSGSIZE
+ a| 
+Nachricht zu lang
+
+
+
+ a| 
+091
+ a| 
+EPROTOTYPE
+ a| 
+Falscher Protokolltyp für Socket
+
+
+
+ a| 
+092
+ a| 
+ENOPROTOOPT
+ a| 
+Protokoll nicht verfügbar
+
+
+
+ a| 
+093
+ a| 
+EPROTONOSUPPORT
+ a| 
+Protokoll nicht unterstützt
+
+
+
+ a| 
+094
+ a| 
+ESOCKTNOSUPPORT
+ a| 
+Sockeltyp wird nicht unterstützt
+
+
+
+ a| 
+095
+ a| 
+EOPNOTSUPP
+ a| 
+Vorgang wird auf dem Transportendpunkt nicht unterstützt
+
+
+
+ a| 
+096
+ a| 
+EPFNOSUPPORT
+ a| 
+Protokollfamilie nicht unterstützt
+
+
+
+ a| 
+097
+ a| 
+EAFNOSUPPORT
+ a| 
+Adressfamilie wird vom Protokoll nicht unterstützt
+
+
+
+ a| 
+098
+ a| 
+EADDRINUSE
+ a| 
+Adresse wird bereits verwendet
+
+
+
+ a| 
+099
+ a| 
+EADDRNOTAVAIL
+ a| 
+Angeforderte Adresse kann nicht zugewiesen werden
+
+
+
+ a| 
+100
+ a| 
+ENETDOWN
+ a| 
+Netzwerk ist ausgefallen
+
+
+
+ a| 
+101
+ a| 
+ENETUNREACH
+ a| 
+Netzwerk nicht erreichbar
+
+
+
+ a| 
+102
+ a| 
+ENETRESET
+ a| 
+Netzwerkverbindung aufgrund eines Resets getrennt
+
+
+
+ a| 
+103
+ a| 
+ECONNABORTED
+ a| 
+Die Software hat die Verbindung beendet
+
+
+
+ a| 
+104
+ a| 
+ECONNRESET
+ a| 
+Verbindung vom Gegenüber zurückgesetzt
+
+
+
+ a| 
+105
+ a| 
+ENOBUFS
+ a| 
+Kein Pufferspeicher verfügbar
+
+
+
+ a| 
+106
+ a| 
+EISCONN
+ a| 
+Transportendpunkt ist bereits verbunden
+
+
+
+ a| 
+107
+ a| 
+ENOTCONN
+ a| 
+Transportendpunkt ist nicht verbunden
+
+
+
+ a| 
+108
+ a| 
+ESHUTDOWN
+ a| 
+Senden nach Abschaltung des Transportendpunkts nicht möglich
+
+
+
+ a| 
+109
+ a| 
+ETOOMANYREFS
+ a| 
+Zu viele Referenzen: kann nicht zusammengefügt werden
+
+
+
+ a| 
+110
+ a| 
+Zeitüberschreitung
+ a| 
+Zeitüberschreitung bei der Verbindung
+
+
+
+ a| 
+111
+ a| 
+ECONNREFUSED
+ a| 
+Verbindung abgelehnt
+
+
+
+ a| 
+112
+ a| 
+EHOSTDOWN
+ a| 
+Host ist ausgefallen
+
+
+
+ a| 
+113
+ a| 
+EHOSTUNREACH
+ a| 
+Keine Route zum Host
+
+
+
+ a| 
+114
+ a| 
+EALREADY
+ a| 
+Operation läuft bereits
+
+
+
+ a| 
+115
+ a| 
+EINPROGRESS
+ a| 
+Vorgang läuft
+
+
+
+ a| 
+116
+ a| 
+ a| 
+
+
+
+ a| 
+117
+ a| 
+EUCLEAN
+ a| 
+Die Struktur muss bereinigt werden.
+
+
+
+ a| 
+118
+ a| 
+ENOTNAM
+ a| 
+Keine XENIX-Datei mit dem Namenstyp
+
+
+
+ a| 
+119
+ a| 
+ENAVAIL
+ a| 
+Keine XENIX Semaphore verfügbar
+
+
+
+ a| 
+120
+ a| 
+EISNAM
+ a| 
+Ist eine benannte Datei
+
+
+
+ a| 
+121
+ a| 
+EREMOTEIO
+ a| 
+Remote I/O-Fehler
+
+
+
+ a| 
+122
+ a| 
+EDQUOT
+ a| 
+Quota überschritten
+
+
+
+ a| 
+123
+ a| 
+ENOMEDIUM
+ a| 
+Kein Medium gefunden
+
+
+
+ a| 
+124
+ a| 
+EMEDIUMTYPE
+ a| 
+Falscher Medientyp
+
+
+
+ a| 
+125
+ a| 
+ABGESAGT
+ a| 
+Vorgang abgebrochen
+
+
+
+ a| 
+126
+ a| 
+ENOKEY
+ a| 
+Erforderlicher Schlüssel nicht verfügbar
+
+
+
+ a| 
+127
+ a| 
+EKEYEXPIRED
+ a| 
+Schlüssel ist abgelaufen
+
+
+
+ a| 
+128
+ a| 
+EKEYREVOKED
+ a| 
+Der Schlüssel wurde widerrufen
+
+
+
+ a| 
+129
+ a| 
+EKEYREJECTED
+ a| 
+Der Schlüssel wurde vom Dienst abgelehnt
+
+
+
+ a| 
+130
+ a| 
+EOWNERDEAD
+ a| 
+Für robuste Mutexe: Besitzer ist verstorben
+
+
+
+ a| 
+131
+ a| 
+ENOTRECOVERABLE
+ a| 
+Für robuste Mutexe: Zustand nicht wiederherstellbar
+
+|===

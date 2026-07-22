@@ -1,0 +1,57 @@
+---
+permalink: tenant/use-s3-console.html 
+sidebar: sidebar 
+keywords: how to use s3 console 
+summary: ${post_edited_translations.segment} 
+---
+= Verwenden Sie die S3-Konsole in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+${post_edited_translations.segment}
+
+Die S3-Konsole ermöglicht Folgendes:
+
+* Objekte hochladen, herunterladen, umbenennen, kopieren, verschieben und löschen
+* ${post_edited_translations.segment}
+* Suche nach Objekten anhand des Präfixes
+* Objekttags verwalten
+* Objektmetadaten anzeigen
+* Ordner anzeigen, erstellen, umbenennen, kopieren, verschieben und löschen
+
+
+[NOTE]
+====
+S3 Console bietet eine verbesserte Benutzererfahrung für die häufigsten Anwendungsfälle. Sie ist nicht dafür ausgelegt, CLI- oder API-Operationen in allen Situationen zu ersetzen.
+
+Falls die Verwendung der S3-Konsole dazu führt, dass Vorgänge zu lange dauern (zum Beispiel Minuten oder Stunden), kann Folgendes in Betracht gezogen werden:
+
+* Reduzierung der Anzahl ausgewählter Objekte
+* Verwendung nicht-grafischer Methoden (API oder CLI) für den Zugriff auf Ihre Daten
+
+
+====
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Wenn Sie Objekte verwalten möchten, gehören Sie einer Benutzergruppe an, die über die Root-Zugriffsberechtigung verfügt. Alternativ gehören Sie einer Benutzergruppe an, die über die Berechtigung „S3-Konsole verwenden“ sowie entweder die Berechtigung „Alle Buckets anzeigen“ oder „Alle Buckets verwalten“ verfügt. Siehe link:tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"].
+* Für den Benutzer wurde eine S3 Group- oder Bucket-Richtlinie konfiguriert. Siehe link:../s3/use-access-policies.html["Bucket- und Gruppenzugriffsrichtlinien"].
+* Sie kennen die Zugriffsschlüssel-ID und den geheimen Zugriffsschlüssel des Benutzers. Optional steht eine  `.csv` Datei mit diesen Informationen zur Verfügung. Siehe link:creating-your-own-s3-access-keys.html["Anleitung zum Erstellen von Zugriffsschlüsseln"].
+
+
+.Schritte
+. Wählen Sie *Storage* > *Buckets* > *_bucket name_*.
+. Die Registerkarte S3 Console auswählen.
+. Fügen Sie die Zugriffsschlüssel-ID und den geheimen Zugriffsschlüssel in die Felder ein. Andernfalls *Zugriffsschlüssel hochladen* auswählen und die  `.csv` Datei auswählen.
+. *Anmelden* auswählen.
+. Die Tabelle mit den Bucket-Objekten wird angezeigt. Objekte können nach Bedarf verwaltet werden.
+
+
+.Weitere Informationen
+* *Suche nach Präfix*: Die Präfixsuche findet nur Objekte, die mit einem bestimmten Wort relativ zum aktuellen Ordner beginnen. Die Suche schließt Objekte aus, die das Wort an anderer Stelle enthalten. Diese Regel gilt auch für Objekte innerhalb von Ordnern. Beispielsweise würde eine Suche nach `folder1/folder2/somefile-` Objekte zurückgeben, die sich im `folder1/folder2/` Ordner befinden und mit dem Wort `somefile-` beginnen.
+* *Drag and drop*: Sie können Dateien per Drag and drop aus dem Dateimanager Ihres Computers in die S3 Console ziehen. Das Hochladen von Ordnern ist jedoch nicht möglich.
+* ${post_edited_translations.segment}
+* *Endgültiges Löschen bei deaktivierter Bucket-Versionierung*: Wenn ein Objekt in einem Bucket mit deaktivierter Versionierung überschrieben oder gelöscht wird, ist der Vorgang endgültig. Siehe link:changing-bucket-versioning.html["${post_edited_translations.segment}"].
+

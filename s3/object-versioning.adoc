@@ -1,0 +1,40 @@
+---
+permalink: s3/object-versioning.html 
+sidebar: sidebar 
+keywords: object version, object versioning 
+summary: Sie können den Versionsstatus eines Buckets festlegen, wenn Sie mehrere Versionen eines Objekts aufbewahren möchten. Die Aktivierung der Versionierung für einen Bucket kann vor versehentlichem Löschen von Objekten schützen und ermöglicht das Abrufen und Wiederherstellen früherer Versionen eines Objekts. 
+---
+= Wie StorageGRID die Objektversionierung nutzt
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den Versionsstatus eines Buckets festlegen, wenn Sie mehrere Versionen jedes Objekts aufbewahren möchten. Die Aktivierung der Versionierung für einen Bucket kann vor versehentlichem Löschen von Objekten schützen und ermöglicht das Abrufen und Wiederherstellen früherer Versionen eines Objekts.
+
+Das StorageGRID System implementiert Versionierung mit Unterstützung für die meisten Funktionen, jedoch mit einigen Einschränkungen. StorageGRID unterstützt bis zu 10.000 Versionen jedes Objekts.
+
+Die Objektversionierung kann mit StorageGRID Information Lifecycle Management (ILM) oder mit der S3 Bucket-Lifecycle-Konfiguration kombiniert werden. Die Versionierung muss für jeden Bucket explizit aktiviert werden. Wenn die Versionierung für einen Bucket aktiviert ist, erhält jedes dem Bucket hinzugefügte Objekt eine Versions-ID, die vom StorageGRID System generiert wird.
+
+Die Verwendung von MFA (Multi-Faktor Authentifizierung) Delete wird nicht unterstützt.
+
+
+NOTE: Die Versionsverwaltung kann nur für Buckets aktiviert werden, die mit StorageGRID Version 10.3 oder höher erstellt wurden.
+
+
+
+[[ilm-and-versioning]]
+== ILM und Versionierung
+
+ILM-Richtlinien werden auf jede Version eines Objekts angewendet. Ein ILM-Scanprozess durchsucht kontinuierlich alle Objekte und bewertet sie anhand der aktuellen ILM-Richtlinie neu. Alle Änderungen an ILM-Richtlinien werden auf alle zuvor erfassten Objekte angewendet. Dies schließt zuvor erfasste Versionen ein, wenn die Versionierung aktiviert ist. Die ILM-Überprüfung wendet neue ILM-Änderungen auf zuvor erfasste Objekte an.
+
+Für S3-Objekte in versioning-fähigen Buckets ermöglicht die Versionierungsunterstützung die Erstellung von ILM-Regeln, die „Nicht-aktuelle Zeit“ als Referenzzeit verwenden (bei der Frage „Diese Regel nur auf ältere Objektversionen anwenden?“ in link:../ilm/create-ilm-rule-enter-details.html["Schritt 1 des Assistenten zum Erstellen einer ILM Regel"] *Ja* auswählen). Wenn ein Objekt aktualisiert wird, werden die vorherigen Versionen zu nicht-aktuellen Versionen. Mit einem Filter für „Nicht-aktuelle Zeit“ lassen sich Richtlinien erstellen, die den Speicherbedarf vorheriger Objektversionen reduzieren.
+
+
+NOTE: Wenn Sie eine neue Version eines Objekts mit einer Multipart-Upload-Operation hochladen, entspricht der nicht aktuelle Zeitpunkt der ursprünglichen Version dem Zeitpunkt, zu dem der Multipart-Upload für die neue Version erstellt wurde, nicht dem Zeitpunkt, zu dem der Multipart-Upload abgeschlossen wurde. In einigen Fällen kann der nicht aktuelle Zeitpunkt der ursprünglichen Version Stunden oder Tage vor dem Zeitpunkt der aktuellen Version liegen.
+
+.Verwandte Informationen
+* link:../ilm/how-objects-are-deleted.html#delete-s3-versioned-objects["Wie versionierte S3-Objekte gelöscht werden"]
+* link:../ilm/example-4-ilm-rules-and-policy-for-s3-versioned-objects.html["ILM-Regeln und Richtlinien für versionierte S3-Objekte (Beispiel 4)"].
+

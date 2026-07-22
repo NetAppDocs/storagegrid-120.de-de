@@ -1,0 +1,63 @@
+---
+permalink: ilm/guidelines-for-creating-storage-pools.html 
+sidebar: sidebar 
+keywords: storage pool guidelines 
+summary: Speicherpools können so konfiguriert und genutzt werden, dass Datenverlust durch die Verteilung von Daten auf mehrere Standorte vermieden wird. Replizierte Kopien und Kopien mit Erasure-Codierung erfordern unterschiedliche Speicherpoolkonfigurationen. 
+---
+= Richtlinien zur Speicherpool-Konfiguration in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Speicherpools können so konfiguriert und genutzt werden, dass Datenverlust durch die Verteilung von Daten auf mehrere Standorte vermieden wird. Replizierte Kopien und Kopien mit Erasure-Codierung erfordern unterschiedliche Speicherpoolkonfigurationen.
+
+Siehe link:using-multiple-storage-pools-for-cross-site-replication.html["Beispiele für die Aktivierung des Schutzes vor Standortverlust durch Replikation und Erasure Coding"].
+
+
+
+[[guidelines-for-all-storage-pools]]
+== Richtlinien für alle Storage Pools
+
+* Die Konfigurationen der Speicherpools sollten so einfach wie möglich gehalten werden. Es sollten nicht mehr Speicherpools als nötig erstellt werden.
+* Speicherpools sollten mit möglichst vielen Knoten erstellt werden. Jeder Speicherpool sollte zwei oder mehr Knoten enthalten. Ein Speicherpool mit einer unzureichenden Anzahl von Knoten kann zu ILM-Rückständen führen, wenn ein Knoten nicht verfügbar ist.
+* Es sollte vermieden werden, Speicherpools zu erstellen oder zu verwenden, die sich überschneiden (einen oder mehrere gleiche Knoten enthalten). Wenn sich Speicherpools überschneiden, kann mehr als eine Kopie von Objektdaten auf demselben Knoten gespeichert werden.
+* Im Allgemeinen sollte der Speicherpool All Storage Nodes (StorageGRID 11.6 und früher) oder der Standort All Sites nicht verwendet werden. Diese Elemente werden automatisch aktualisiert, um alle neuen Standorte einzuschließen, die bei einer Erweiterung hinzugefügt werden, was möglicherweise nicht das gewünschte Verhalten ist.
+
+
+
+
+[[guidelines-for-storage-pools-used-for-replicated-copies]]
+== Richtlinien für Speicherpools, die für replizierte Kopien verwendet werden
+
+* Für den Schutz vor Standortverlust mithilfe von link:what-replication-is.html["Replikation"] sind ein oder mehrere standortspezifische Speicherpools im link:create-ilm-rule-define-placements.html["Platzierungsanweisungen für jede ILM-Regel"] anzugeben.
++
+Für jeden Standort wird während der Installation von StorageGRID automatisch ein Speicherpool erstellt.
+
++
+Durch die Verwendung eines Speicherpools für jeden Standort wird sichergestellt, dass replizierte Objektkopien genau dort platziert werden, wo Sie es erwarten (zum Beispiel eine Kopie jedes Objekts an jedem Standort zum Schutz vor Standortverlust).
+
+* Wenn Sie im Rahmen einer Erweiterung einen Standort hinzufügen, erstellen Sie einen neuen Speicherpool, der nur den neuen Standort enthält. Anschließend link:working-with-ilm-rules-and-ilm-policies.html#edit-an-ilm-rule["ILM-Regeln aktualisieren"] lässt sich steuern, welche Objekte auf dem neuen Standort gespeichert werden.
+* Ist die Anzahl der Kopien geringer als die Anzahl der Speicherpools, verteilt das System die Kopien, um die Festplattennutzung auf die Pools auszugleichen.
+* Wenn sich die Speicherpools überschneiden (die gleichen Storage Nodes enthalten), könnten alle Kopien des Objekts nur an einem Standort gespeichert werden. Es ist sicherzustellen, dass die ausgewählten Speicherpools nicht die gleichen Storage Nodes enthalten.
+
+
+
+
+[[guidelines-for-storage-pools-used-for-erasure-coded-copies]]
+== Richtlinien für Speicherpools, die für löschcodierte Kopien verwendet werden
+
+* Für den Schutz vor Standortverlusten mit link:what-erasure-coding-is.html["Erasure Coding"] sollten Speicherpools erstellt werden, die aus mindestens drei Standorten bestehen. Wenn ein Speicherpool nur zwei Standorte umfasst, kann dieser Speicherpool nicht für Erasure Coding verwendet werden. Für einen Speicherpool mit zwei Standorten stehen keine Erasure-Coding-Verfahren zur Verfügung.
+* Die Anzahl der im Storage-Pool enthaltenen Storage Nodes und Standorte bestimmt, welche link:what-erasure-coding-schemes-are.html["Löschcodierungsverfahren"] verfügbar sind.
+* Ein Speicherpool sollte nach Möglichkeit mehr Speicherknoten umfassen als die Mindestanzahl, die für das gewählte Erasure-Coding-Verfahren erforderlich ist. Bei Verwendung eines 6+3 Erasure-Coding-Verfahrens sind mindestens neun Speicherknoten erforderlich. Es wird jedoch empfohlen, pro Standort mindestens einen zusätzlichen Speicherknoten vorzusehen.
+* Die Speicherknoten sollten so gleichmäßig wie möglich auf die Standorte verteilt werden. Zur Unterstützung eines 6+3-Erasure-Coding-Verfahrens empfiehlt sich die Konfiguration eines Speicherpools, der mindestens drei Speicherknoten an drei Standorten umfasst.
+* Wenn Anforderungen an den Durchsatz hoch sind, wird die Verwendung eines Speicherpools, der mehrere Standorte umfasst, nicht empfohlen, wenn die Netzwerklatenz zwischen den Standorten mehr als 100 ms beträgt. Mit zunehmender Latenz verringert sich die Geschwindigkeit, mit der StorageGRID Objektfragmente erstellen, platzieren und abrufen kann, aufgrund des verringerten TCP-Netzwerkdurchsatzes deutlich.
++
+Die Verringerung des Durchsatzes beeinträchtigt die maximal erreichbaren Raten für die Objektaufnahme und -abfrage (wenn „Balanced“ oder „Strict“ als Aufnahmeverhalten ausgewählt sind) oder könnte zu Rückständen in der ILM-Warteschlange führen (wenn „Dual commit“ als Aufnahmeverhalten ausgewählt ist). Siehe link:what-ilm-rule-is.html#ilm-rule-ingest-behavior["ILM-Regel-Ingest-Verhalten"].
+
++
+
+NOTE: Wenn Ihr Grid nur einen Standort umfasst, ist die Verwendung des Speicherpools „All Storage Nodes“ (StorageGRID 11.6 und früher) oder des Standorts „All Sites“ in einem Erasure-Coding-Profil nicht möglich. Dieses Verhalten verhindert, dass das Profil ungültig wird, wenn ein zweiter Standort hinzugefügt wird.
+
+

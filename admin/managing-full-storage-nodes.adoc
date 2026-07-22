@@ -1,0 +1,35 @@
+---
+permalink: admin/managing-full-storage-nodes.html 
+sidebar: sidebar 
+keywords: storage node is full 
+summary: Sobald die Speicherkapazität der Speicherknoten erschöpft ist, muss das StorageGRID System durch Hinzufügen von neuem Speicher erweitert werden. Dies ist möglich durch das Hinzufügen von Speichervolumes, Speichererweiterungsgehäusen und Speicherknoten. 
+---
+= Verwalten Sie vollständige Storage Nodes in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sobald die Speicherkapazität der Storage Nodes erreicht ist, muss das StorageGRID System durch das Hinzufügen von neuem Speicher erweitert werden. Es stehen drei Optionen zur Verfügung: Hinzufügen von Speichervolumes, Hinzufügen von Speichererweiterungsregalen und Hinzufügen von Storage Nodes.
+
+
+
+[[add-storage-volumes]]
+== Speichervolumen hinzufügen
+
+Jeder Storage Node unterstützt eine maximale Anzahl an Speichervolumes. Die definierte maximale Anzahl variiert je nach Plattform. Wenn ein Storage Node weniger als die maximale Anzahl an Speichervolumes enthält, können Volumes hinzugefügt werden, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].
+
+
+
+[[add-storage-expansion-shelves]]
+== ${post_edited_translations.segment}
+
+Einige StorageGRID Appliance-Speicherknoten, wie der SG6060 oder SG6160, können zusätzliche Speicher-Shelves unterstützen. Wenn Sie über StorageGRID Appliances mit Erweiterungsfunktionen verfügen, die noch nicht auf die maximale Kapazität erweitert wurden, können Sie Speicher-Shelves hinzufügen, um die Kapazität zu erhöhen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].
+
+
+
+[[add-storage-nodes]]
+== ${post_edited_translations.segment}
+
+Sie können die Speicherkapazität durch Hinzufügen von Storage Nodes erhöhen. Beim Hinzufügen von Speicher sind die aktuell aktiven ILM-Regeln und Kapazitätsanforderungen sorgfältig zu berücksichtigen. Siehe die Anweisungen für link:../expand/index.html["${post_edited_translations.segment}"].

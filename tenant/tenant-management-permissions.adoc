@@ -1,0 +1,88 @@
+---
+permalink: tenant/tenant-management-permissions.html 
+sidebar: sidebar 
+keywords: tenant management permissions 
+summary: Bevor eine Mandantengruppe erstellt wird, sollte überlegt werden, welche Berechtigungen dieser Gruppe zugewiesen werden sollen. Die Berechtigungen für die Mandantenverwaltung bestimmen, welche Aufgaben Benutzer mit dem Tenant Manager oder der Tenant Management API ausführen können. Ein Benutzer kann einer oder mehreren Gruppen angehören. Die Berechtigungen sind kumulativ, wenn ein Benutzer mehreren Gruppen angehört. 
+---
+= StorageGRID Mandantenverwaltungsberechtigungen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor eine Mandantengruppe erstellt wird, sollte überlegt werden, welche Berechtigungen dieser Gruppe zugewiesen werden sollen. Die Berechtigungen für die Mandantenverwaltung bestimmen, welche Aufgaben Benutzer mit dem Tenant Manager oder der Tenant Management API ausführen können. Ein Benutzer kann einer oder mehreren Gruppen angehören. Die Berechtigungen sind kumulativ, wenn ein Benutzer mehreren Gruppen angehört.
+
+Um sich beim Tenant Manager anzumelden oder die Tenant Management API zu nutzen, müssen Benutzer einer Gruppe angehören, die über mindestens eine Berechtigung verfügt. Alle Benutzer, die sich anmelden können, können die folgenden Aufgaben ausführen:
+
+* Dashboard anzeigen
+* Eigenes Passwort ändern (für lokale Benutzer)
+
+
+Bei allen Berechtigungen bestimmt die Zugriffsmodus-Einstellung der Gruppe, ob Benutzer Einstellungen ändern und Vorgänge durchführen können oder ob sie die zugehörigen Einstellungen und Funktionen nur anzeigen können.
+
+
+NOTE: Gehört ein Benutzer mehreren Gruppen an und ist eine dieser Gruppen auf „Schreibgeschützt“ eingestellt, hat der Benutzer nur Lesezugriff auf alle ausgewählten Einstellungen und Funktionen.
+
+Sie können einer Gruppe die folgenden Berechtigungen zuweisen.
+
+[cols="1a,3a,3a"]
+|===
+| Berechtigung | Beschreibung | Details 
+
+
+ a| 
+Root-Zugriff
+ a| 
+Bietet vollen Zugriff auf den Tenant Manager und die Tenant Management API.
+ a| 
+
+
+
+ a| 
+Eigene S3-Zugangsdaten verwalten
+ a| 
+Ermöglicht Benutzern das Erstellen und Entfernen ihrer eigenen S3-Zugriffsschlüssel.
+ a| 
+Benutzer, die diese Berechtigung nicht besitzen, sehen die Menüoption *SPEICHER (S3)* > *Meine S3-Zugriffsschlüssel* nicht.
+
+
+
+ a| 
+Alle Buckets anzeigen
+ a| 
+Ermöglicht Benutzern die Anzeige aller Buckets und Bucket-Konfigurationen.
+ a| 
+Benutzer, die weder die Berechtigung „Alle Buckets anzeigen“ noch die Berechtigung „Alle Buckets verwalten“ besitzen, sehen die Menüoption *Buckets* nicht.
+
+Diese Berechtigung wird durch die Berechtigung „Alle Buckets verwalten“ ersetzt. Sie wirkt sich nicht auf S3-Bucket- oder Gruppenrichtlinien aus, die von S3-Clients oder der S3-Konsole verwendet werden.
+
+
+
+ a| 
+Alle Buckets verwalten
+ a| 
+Ermöglicht Benutzern die Nutzung des Tenant Manager und der Tenant Management API, um S3-Buckets zu erstellen und zu löschen sowie die Einstellungen für alle S3-Buckets im Mandantenkonto zu verwalten, unabhängig von S3-Bucket- oder Gruppenrichtlinien.
+ a| 
+Benutzer, die weder die Berechtigung „Alle Buckets anzeigen“ noch die Berechtigung „Alle Buckets verwalten“ besitzen, sehen die Menüoption *Buckets* nicht.
+
+Diese Berechtigung ersetzt die Berechtigung „Alle Buckets anzeigen“. Sie wirkt sich nicht auf S3-Bucket- oder Gruppenrichtlinien aus, die von S3-Clients oder der S3 Console verwendet werden.
+
+
+
+ a| 
+Endpunkte verwalten
+ a| 
+Ermöglicht Benutzern die Verwendung des Tenant Managers oder der Tenant Management API zum Erstellen oder Bearbeiten von Plattformdienstendpunkten, die als Ziel für StorageGRID Plattformdienste verwendet werden.
+ a| 
+Benutzer, die diese Berechtigung nicht besitzen, sehen die Menüoption *Platform services endpoints* nicht.
+
+
+
+ a| 
+Registerkarte S3 Console verwenden
+ a| 
+${post_edited_translations.segment}
+ a| 
+
+|===

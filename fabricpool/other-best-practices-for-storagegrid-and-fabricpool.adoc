@@ -1,0 +1,63 @@
+---
+permalink: fabricpool/other-best-practices-for-storagegrid-and-fabricpool.html 
+sidebar: sidebar 
+keywords: fabricPool, StorageGRID, best practices, audit log, encryption, compressions, tiering, ontap, consistency 
+summary: Bei der Konfiguration eines StorageGRID Systems für die Verwendung mit FabricPool kann es erforderlich sein, weitere StorageGRID Optionen zu ändern. Vor einer Änderung einer globalen Einstellung sollte berücksichtigt werden, wie sich diese Änderung auf andere S3 Applikationen auswirkt. 
+---
+= Bewährte Methoden für StorageGRID globale Einstellungen mit FabricPool
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei der Konfiguration eines StorageGRID Systems für die Verwendung mit FabricPool kann es erforderlich sein, weitere StorageGRID Optionen zu ändern. Vor einer Änderung einer globalen Einstellung sollte berücksichtigt werden, wie sich diese Änderung auf andere S3 Applikationen auswirkt.
+
+
+
+[[audit-message-and-log-destinations]]
+== Ziele für Revisionsmeldungen und Revisionsprotokolle
+
+FabricPool Arbeitslasten weisen häufig eine hohe Anzahl von Lesevorgängen auf, was zu einem hohen Volumen an Revisionsmeldungen führen kann.
+
+* Wenn kein Protokoll der Client-Lesevorgänge für FabricPool oder eine andere S3-Applikation benötigt wird, kann optional zu *Konfiguration* > *Überwachung* > *Audit und Syslog-Server* gewechselt werden. Die Einstellung *Client-Lesevorgänge* kann auf *Fehler* geändert werden, um die Anzahl der im Revisionsprotokoll aufgezeichneten Audit-Meldungen zu verringern. Siehe link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"] für Details.
+* Wenn ein großes Grid vorhanden ist, mehrere Typen von S3-Anwendungen verwendet werden oder alle Revisionsdaten aufbewahrt werden sollen, empfiehlt sich die Konfiguration eines externen Syslog-Servers und das Speichern der Revisionsinformationen extern. Die Nutzung eines externen Servers minimiert die Auswirkungen der Protokollierung von Revisionsmeldungen auf die Performance, ohne die Vollständigkeit der Revisionsdaten zu verringern. Siehe link:../monitor/considerations-for-external-syslog-server.html["Überlegungen zum externen Syslog-Server"] für Details.
+
+
+
+
+[[object-encryption]]
+== Objektverschlüsselung
+
+Bei der Konfiguration von StorageGRID kann optional die link:../admin/changing-network-options-object-encryption.html["Globale Option für die Verschlüsselung gespeicherter Objekte"] aktiviert werden, wenn eine Datenverschlüsselung für andere StorageGRID Clients erforderlich ist. Die von FabricPool zu StorageGRID ausgelagerten Daten sind bereits verschlüsselt, daher ist die Aktivierung der StorageGRID-Einstellung nicht erforderlich. Die clientseitigen Verschlüsselungsschlüssel gehören ONTAP.
+
+
+
+[[object-compression]]
+== Objektkomprimierung
+
+Aktivieren Sie bei der Konfiguration von StorageGRID die Option link:../admin/configuring-stored-object-compression.html["Globale Option zum Komprimieren gespeicherter Objekte"] nicht. Die von FabricPool zu StorageGRID ausgelagerten Daten sind bereits komprimiert. Die Verwendung der StorageGRID Option reduziert die Größe eines Objekts nicht weiter.
+
+
+
+[[s3-object-lock]]
+== S3 Object Lock
+
+Wenn die globale S3 Object Lock-Einstellung für Ihr StorageGRID System aktiviert ist, link:../s3/use-s3-api-for-s3-object-lock.html["S3 Object Lock"] nicht aktivieren, wenn FabricPool Buckets erstellt werden. S3 Object Lock wird für FabricPool Buckets nicht unterstützt.
+
+
+
+[[bucket-consistency]]
+== Bucket-Konsistenz
+
+Für FabricPool Buckets wird die Bucket-Konsistenz *Read-after-new-write* empfohlen, was die Standardkonsistenz für einen neuen Bucket ist. FabricPool Buckets sollten nicht so bearbeitet werden, dass *Available* oder *Strong-site* verwendet wird.
+
+
+
+[[fabricpool-tiering]]
+== FabricPool Tiering
+
+Wenn ein StorageGRID Knoten Speicher nutzt, der von einem NetApp ONTAP System zugewiesen wurde, ist sicherzustellen, dass für das Volume keine FabricPool Tiering-Richtlinie aktiviert ist. Wenn ein StorageGRID Knoten beispielsweise auf einem VMware Host ausgeführt wird, ist sicherzustellen, dass für das Volume, das den Datenspeicher des StorageGRID Knotens bereitstellt, keine FabricPool Tiering-Richtlinie aktiviert ist. Das Deaktivieren des FabricPool Tierings für Volumes, die mit StorageGRID Knoten verwendet werden, vereinfacht die Fehlersuche und den Speicherbetrieb.
+
+
+CAUTION: Es sollte niemals FabricPool verwendet werden, um Daten, die mit StorageGRID in Zusammenhang stehen, wieder auf StorageGRID selbst zu verschieben. Das Tiering von StorageGRID-Daten zurück auf StorageGRID erhöht die Komplexität bei der Fehlerbehebung und im Betrieb.

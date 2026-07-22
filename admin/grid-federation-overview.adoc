@@ -1,0 +1,106 @@
+---
+permalink: admin/grid-federation-overview.html 
+sidebar: sidebar 
+keywords: grid federation, cross-grid replication, account clone, cgr, disaster recovery 
+summary: Mit der Grid-Federation ist das Klonen von Mandanten und das Replizieren ihrer Objekte zwischen zwei StorageGRID Systemen zur Notfallwiederherstellung möglich. 
+---
+= Erfahren Sie mehr über StorageGRID Grid-Föderation
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit der Grid-Federation ist das Klonen von Mandanten und das Replizieren ihrer Objekte zwischen zwei StorageGRID Systemen zur Notfallwiederherstellung möglich.
+
+
+
+[[what-is-a-grid-federation-connection]]
+== Was ist eine Grid Federation Verbindung?
+
+Eine Grid-Federation-Verbindung ist eine bidirektionale, vertrauenswürdige und sichere Verbindung zwischen Admin- und Gateway-Knoten in zwei StorageGRID Systemen.
+
+
+
+[[workflow-for-grid-federation]]
+== Workflow für Grid Federation
+
+Das Workflow-Diagramm fasst die Schritte zur Konfiguration einer Grid Federation-Verbindung zwischen zwei Grids zusammen.
+
+image:grid-federation-workflow.png["Arbeitsablauf für die Grid Federation Verbindung"]
+
+
+
+[[considerations-and-requirements-for-grid-federation-connections]]
+== Überlegungen und Anforderungen für Grid Federation Verbindungen
+
+* Die für die Grid Federation verwendeten Grids müssen StorageGRID Versionen verwenden, die entweder identisch sind oder sich in maximal einer Hauptversion unterscheiden.
++
+Einzelheiten zu den Versionsvoraussetzungen finden Sie in der  https://library.netapp.com/ecm/ecm_download_file/ECMLP3351267["Versionshinweise"^]. Sie müssen sich mit Ihrem NetApp Konto anmelden oder ein Konto erstellen, um auf die Versionshinweise zuzugreifen.
+
+* Ein Grid kann eine oder mehrere Grid-Federationsverbindungen zu anderen Grids haben. Jede Grid-Federationsverbindung ist unabhängig von anderen Verbindungen. Wenn beispielsweise Grid 1 eine Verbindung zu Grid 2 und eine zweite Verbindung zu Grid 3 hat, besteht keine implizite Verbindung zwischen Grid 2 und Grid 3.
+* Grid Federation-Verbindungen sind bidirektional. Nach der Verbindungsherstellung besteht die Möglichkeit, die Verbindung von beiden Grids aus zu überwachen und zu verwalten.
+* Mindestens eine Grid Federation-Verbindung muss vorhanden sein, bevor link:grid-federation-what-is-account-clone.html["Konto klonen"] oder link:grid-federation-what-is-cross-grid-replication.html["gridübergreifende Replikation"] verwendet werden können.
+
+
+
+
+[[networking-and-ip-address-requirements]]
+=== Netzwerk- und IP-Adressanforderungen
+
+* Grid Federation-Verbindungen können im Grid Network, im Admin Network oder im Client Network auftreten.
+* Eine Grid-Federation-Verbindung verbindet ein Grid mit einem anderen Grid. Die Konfiguration jedes Grids legt einen Grid-Federation-Endpunkt im jeweils anderen Grid fest, der aus Admin-Knoten, Gateway-Knoten oder beiden bestehen kann.
+* Die bewährte Methode ist, link:managing-high-availability-groups.html["Hochverfügbarkeitsgruppen (HA)"] von Gateway- und Admin-Knoten in jedem Grid zu verbinden. Durch die Verwendung von HA-Gruppen wird sichergestellt, dass Grid-Federation-Verbindungen online bleiben, wenn Knoten nicht verfügbar sind. Wenn die aktive Schnittstelle in einer der beiden HA-Gruppen ausfällt, kann die Verbindung eine Backup-Schnittstelle nutzen.
+* Es wird nicht empfohlen, eine Grid Federation Verbindung über die IP-Adresse eines einzelnen Admin-Knotens oder Gateway-Knotens herzustellen. Wenn dieser Knoten nicht verfügbar ist, steht auch die Grid Federation Verbindung nicht zur Verfügung.
+* link:grid-federation-what-is-cross-grid-replication.html["Gridübergreifende Replikation"]Die Verwaltung von Objekten erfordert, dass die Storage Nodes in jedem Grid auf die konfigurierten Admin- und Gateway Nodes im jeweils anderen Grid zugreifen können. Für jedes Grid sollte bestätigt werden, dass alle Storage Nodes eine Route mit hoher Bandbreite zu den als Admin Nodes oder Gateway Nodes für die Verbindung genutzten Knoten haben.
+
+
+
+
+[[use-fqdns-to-load-balance-the-connection]]
+=== FQDNs zur Lastverteilung der Verbindung verwenden
+
+Für eine Produktionsumgebung sollten vollqualifizierte Domainnamen (FQDNs) verwendet werden, um jedes Grid in der Verbindung zu identifizieren. Anschließend sind die entsprechenden DNS-Einträge wie folgt zu erstellen:
+
+* Der FQDN für Grid 1 ist einer oder mehreren virtuellen IP (VIP)-Adressen für HA-Gruppen in Grid 1 oder der IP-Adresse eines oder mehrerer Admin- oder Gateway-Knoten in Grid 1 zugeordnet.
+* Der FQDN für Grid 2 ist einer oder mehreren VIP-Adressen für Grid 2 oder der IP-Adresse eines oder mehrerer Admin- oder Gateway-Nodes in Grid 2 zugeordnet.
+
+
+Bei Verwendung mehrerer DNS-Einträge wird die Nutzung der Verbindung wie folgt auf verschiedene Anfragen verteilt (Lastausgleich):
+
+* DNS-Einträge, die den VIP-Adressen mehrerer HA-Gruppen zugeordnet sind, werden zwischen den aktiven Knoten in den HA-Gruppen lastausgeglichen.
+* DNS-Einträge, die den IP-Adressen mehrerer Admin-Knoten oder Gateway-Knoten zugeordnet sind, werden zwischen den zugeordneten Knoten per Lastausgleich verteilt.
+
+
+
+
+[[port-requirements]]
+=== Port-Anforderungen
+
+Beim Erstellen einer Grid Federation Verbindung kann eine beliebige ungenutzte Portnummer von 23000 bis 23999 angegeben werden. Beide Grids in dieser Verbindung verwenden denselben Port.
+
+Es ist sicherzustellen, dass kein Knoten in einem der beiden Grids diesen Port für andere Verbindungen verwendet.
+
+
+
+[[certificate-requirements]]
+=== Zertifikatsanforderungen
+
+Wenn eine Grid-Federation-Verbindung konfiguriert wird, generiert StorageGRID automatisch vier SSL-Zertifikate:
+
+* Server- und Clientzertifikate zur Authentifizierung und Verschlüsselung von Informationen, die von Grid 1 zu Grid 2 gesendet werden
+* Server- und Clientzertifikate zur Authentifizierung und Verschlüsselung von Informationen, die von Grid 2 an Grid 1 übertragen werden
+
+
+image:grid-federation-certificates.png["Grid Federation Zertifikate"]
+
+Standardmäßig sind die Zertifikate 730 Tage (2 Jahre) gültig. Wenn diese Zertifikate sich dem Ablaufdatum nähern, weist die Warnmeldung *Expiration of grid federation certificate* darauf hin, dass die Zertifikate erneuert werden sollten, was über den Grid Manager möglich ist.
+
+
+CAUTION: Wenn die Zertifikate an einem der beiden Enden der Verbindung ablaufen, funktioniert die Verbindung nicht mehr. Die Datenreplikation bleibt ausstehend, bis die Zertifikate aktualisiert werden.
+
+.Mehr erfahren
+* link:grid-federation-create-connection.html["Grid Federation Verbindungen erstellen"]
+* link:grid-federation-manage-connection.html["Grid Federation-Verbindungen verwalten"]
+* link:grid-federation-troubleshoot.html["Fehler in der Grid-Federation beheben"]
+

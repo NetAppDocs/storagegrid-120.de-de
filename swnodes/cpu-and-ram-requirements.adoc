@@ -1,0 +1,66 @@
+---
+permalink: swnodes/cpu-and-ram-requirements.html 
+sidebar: sidebar 
+keywords: cpu, ram, cpu cores 
+summary: Vor der Installation der StorageGRID Software sollte die Hardware überprüft und so konfiguriert werden, dass sie für die Unterstützung des StorageGRID Systems bereit ist. 
+---
+= CPU- und RAM-Anforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Installation der StorageGRID Software sollte die Hardware überprüft und so konfiguriert werden, dass sie für die Unterstützung des StorageGRID Systems bereit ist.
+
+Jeder StorageGRID Node benötigt mindestens die folgenden Ressourcen:
+
+* CPU-Kerne: 8 pro Knoten
+* RAM: Abhängig vom insgesamt verfügbaren RAM und der Menge an nicht-StorageGRID Software, die auf dem System ausgeführt wird
++
+** Im Allgemeinen mindestens 24 GB pro Knoten und 2 bis 16 GB weniger als der gesamte Arbeitsspeicher des Systems
+** Mindestens 64 GB für jeden Mandanten, der etwa 5.000 Buckets haben wird
+
+
+
+
+Softwarebasierte Metadaten-only-Knotenressourcen müssen mit den vorhandenen Storage Nodes-Ressourcen übereinstimmen. Beispielsweise:
+
+* Wenn der bestehende StorageGRID Standort SG6000 oder SG6100 Appliances verwendet, müssen die softwarebasierten Metadaten-only Nodes die folgenden Mindestanforderungen erfüllen:
++
+** 128 GB RAM
+** 8-Core-CPU
+** 8 TB SSD oder gleichwertiger Speicherplatz für die Cassandra Datenbank (rangedb/0)
+
+
+* Wenn die bestehende StorageGRID Site virtuelle Storage Nodes mit 24 GB RAM, 8 Core CPU und 3 TB oder 4 TB Metadatenspeicher verwendet, sollten die softwarebasierten Metadaten-only Nodes ähnliche Ressourcen verwenden (24 GB RAM, 8 Core CPU und 4 TB Metadatenspeicher (rangedb/0)).
+
+
+Beim Hinzufügen eines neuen StorageGRID Standorts sollte die Gesamtkapazität der Metadaten des neuen Standorts mindestens der Gesamtkapazität bestehender StorageGRID Standorte entsprechen, und die Ressourcen des neuen Standorts sollten den Storage Nodes an bestehenden StorageGRID Standorten entsprechen.
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+[role="tabbed-block"]
+====
+.Linux
+--
+Stellen Sie sicher, dass die Anzahl der StorageGRID Knoten, die Sie auf jedem physischen oder virtuellen Host ausführen möchten, die Anzahl der verfügbaren CPU-Kerne oder des verfügbaren physischen Arbeitsspeichers nicht überschreitet. Wenn die Hosts nicht ausschließlich für StorageGRID verwendet werden (nicht empfohlen), sollten die Ressourcenanforderungen der anderen Anwendungen berücksichtigt werden.
+
+--
+.VMware
+--
+VMware unterstützt einen Knoten pro virtueller Maschine. Es ist sicherzustellen, dass der StorageGRID Knoten den verfügbaren physischen Arbeitsspeicher nicht überschreitet. Jede virtuelle Maschine muss ausschließlich für den Betrieb von StorageGRID vorgesehen sein.
+
+--
+====
+
+CAUTION: Die CPU- und Speicherauslastung sollte regelmäßig überwacht werden, damit diese Ressourcen weiterhin für die jeweilige Arbeitslast ausreichen. Eine Verdopplung der RAM- und CPU-Zuweisung für virtuelle Storage Nodes würde beispielsweise ähnliche Ressourcen bereitstellen wie für StorageGRID Appliance Nodes. Überschreitet die Metadatenmenge pro Knoten 500 GB, empfiehlt sich zudem eine Erhöhung des RAM pro Knoten auf 48 GB oder mehr. Informationen zur Verwaltung des Objekt-Metadatenspeichers, zur Erhöhung der Einstellung „Metadata Reserved Space“ sowie zur Überwachung der CPU- und Speicherauslastung bieten die Anleitungen zu link:../admin/index.html["Verwaltung"], link:../monitor/index.html["Überwachung"], und link:../upgrade/index.html["Upgrade"] StorageGRID.
+
+Wenn Hyperthreading auf den zugrunde liegenden physischen Hosts aktiviert ist, können 8 virtuelle Kerne (4 physische Kerne) pro Knoten bereitgestellt werden. Wenn Hyperthreading auf den zugrunde liegenden physischen Hosts nicht aktiviert ist, sind 8 physische Kerne pro Knoten bereitzustellen.
+
+Wenn Sie virtuelle Maschinen als Hosts verwenden und die Kontrolle über die Größe und Anzahl der VMs haben, sollte für jeden StorageGRID Knoten eine einzelne VM verwendet und die VM entsprechend dimensioniert werden.
+
+(Nur RHEL, Debian und Ubuntu) Für Implementierungen in der Produktion sollten nicht mehrere Storage Nodes auf derselben physischen Speicherhardware oder demselben virtuellen Host betrieben werden. Jeder Storage Node in einer einzelnen StorageGRID Implementierung sollte sich in einer eigenen isolierten Ausfalldomäne befinden. Die Haltbarkeit und Verfügbarkeit von Objektdaten kann maximiert werden, wenn sichergestellt ist, dass ein einzelner Hardwareausfall nur einen einzelnen Storage Node beeinträchtigen kann.
+
+Siehe auch link:storage-and-performance-requirements.html["Speicher- und Leistungsanforderungen"].

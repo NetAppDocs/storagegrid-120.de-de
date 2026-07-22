@@ -1,0 +1,42 @@
+---
+permalink: admin/protecting-against-cross-site-request-forgery-csrf.html 
+sidebar: sidebar 
+keywords: csrf, cross site request forgery, token 
+summary: 'Gegen Cross-Site Request Forgery (CSRF)-Angriffe auf StorageGRID kann durch die Verwendung von CSRF-Token zum Schutz der Authentifizierung, die Cookies verwendet, vorgebeugt werden.' 
+---
+= Schutz vor Cross-Site Request Forgery (CSRF) in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können zum Schutz vor Cross-Site-Request-Forgery-Angriffen (CSRF) auf StorageGRID beitragen, indem Sie CSRF-Token verwenden, um die Authentifizierung über Cookies zu verbessern. Der Grid Manager und der Tenant Manager aktivieren diese Sicherheitsfunktion automatisch; andere API-Clients können beim Anmelden auswählen, ob sie diese aktivieren möchten.
+
+${post_edited_translations.segment}
+
+StorageGRID schützt vor CSRF-Angriffen durch die Verwendung von CSRF-Tokens. Wenn diese Option aktiviert ist, muss der Inhalt eines bestimmten Cookies mit dem Inhalt eines bestimmten Headers oder eines bestimmten POST-Body-Parameters übereinstimmen.
+
+Um die Funktion zu aktivieren, legen Sie den Parameter `csrfToken` während der Authentifizierung auf `true` fest. Der Standardwert ist `false`.
+
+[listing]
+----
+curl -X POST --header "Content-Type: application/json" --header "Accept: application/json" -d "{
+  \"username\": \"MyUserName\",
+  \"password\": \"MyPassword\",
+  \"cookie\": true,
+  \"csrfToken\": true
+}" "https://example.com/api/v3/authorize"
+----
+Wenn dieser Wert auf „true“ festgelegt ist, wird ein  `GridCsrfToken`-Cookie mit einem zufälligen Wert für Anmeldungen beim Grid Manager gesetzt, und das  `AccountCsrfToken`-Cookie wird mit einem zufälligen Wert für Anmeldungen beim Tenant Manager gesetzt.
+
+${post_edited_translations.segment}
+
+* Der `X-Csrf-Token`-Header, wobei der Wert des Headers auf den Wert des CSRF-Token-Cookies festgelegt ist.
+* Für Endpunkte, die einen formularcodierten Body akzeptieren: Ein  `csrfToken` formularcodierter Anfragekörperparameter.
+
+
+Zusätzliche Beispiele und Details sind in der Online-API-Dokumentation zu finden.
+
+
+NOTE: ${post_edited_translations.segment}

@@ -1,0 +1,28 @@
+---
+permalink: monitor/snmp-alert-notifications.html 
+sidebar: sidebar 
+keywords: how to use snmp notifications for alerts 
+summary: Wenn StorageGRID SNMP-Benachrichtigungen senden soll, wenn Warnmeldungen auftreten, muss der StorageGRID SNMP-Agent aktiviert und mindestens ein Trap-Ziel konfiguriert werden. 
+---
+= SNMP-Benachrichtigungen für StorageGRID-Warnungen einrichten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn StorageGRID SNMP-Benachrichtigungen senden soll, wenn Warnmeldungen auftreten, muss der StorageGRID SNMP-Agent aktiviert und mindestens ein Trap-Ziel konfiguriert werden.
+
+Sie können die Option *Konfiguration* > *Überwachung* > *SNMP-Agent* im Grid Manager oder die SNMP-Endpunkte der Grid Management API verwenden, um den StorageGRID SNMP-Agenten zu aktivieren und zu konfigurieren. Der SNMP-Agent unterstützt alle drei Versionen des SNMP-Protokolls.
+
+Weitere Informationen zur Konfiguration des SNMP-Agenten finden sich unter link:using-snmp-monitoring.html["SNMP Überwachung"].
+
+Nach der Konfiguration des StorageGRID SNMP-Agenten können zwei Arten von ereignisgesteuerten Benachrichtigungen gesendet werden:
+
+* Traps sind Benachrichtigungen, die vom SNMP-Agenten gesendet werden und keine Bestätigung durch das Managementsystem erfordern. Traps dienen dazu, das Managementsystem darüber zu informieren, dass innerhalb von StorageGRID etwas passiert ist, wie zum Beispiel das Auslösen einer Warnung. Traps werden in allen drei Versionen von SNMP unterstützt.
+* Informs ähneln Traps, erfordern jedoch eine Bestätigung durch das Managementsystem. Erhält der SNMP-Agent innerhalb einer bestimmten Zeit keine Bestätigung, sendet er die Inform so lange erneut, bis eine Bestätigung eingeht oder der maximale Wiederholungswert erreicht ist. Informs werden in SNMPv2c und SNMPv3 unterstützt.
+
+
+Trap- und Inform-Benachrichtigungen werden gesendet, wenn eine Standard- oder benutzerdefinierte Warnung bei jedem Schweregrad ausgelöst wird. Um SNMP-Benachrichtigungen für eine Warnung zu unterdrücken, ist eine Stummschaltung für die Warnung zu konfigurieren. Siehe link:silencing-alert-notifications.html["Alarmbenachrichtigungen stummschalten"].
+
+Wenn Ihre StorageGRID Bereitstellung mehrere Admin-Knoten umfasst, ist der primäre Admin-Knoten der bevorzugte Absender für Warnmeldungen, AutoSupport-Pakete sowie SNMP-Traps und -Informs. Wenn der primäre Admin-Knoten nicht verfügbar ist, werden Benachrichtigungen vorübergehend von anderen Admin-Knoten gesendet. Siehe link:../primer/what-admin-node-is.html["Was ist ein Admin Node?"].

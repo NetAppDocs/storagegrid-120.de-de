@@ -1,0 +1,219 @@
+---
+permalink: network/storagegrid-network-types.html 
+sidebar: sidebar 
+keywords: network types, grid traffic, admin traffic, client traffic, grid network, admin network, client network 
+summary: Die Grid-Knoten eines StorageGRID Systems verarbeiten Grid-Traffic, Admin-Traffic und Client-Traffic. Die Netzwerkkonfiguration muss entsprechend angepasst werden, damit diese drei Arten von Traffic verwaltet sowie Kontrolle und Sicherheit bereitgestellt werden. 
+---
+= StorageGRID Netzwerktypen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Grid-Knoten eines StorageGRID Systems verarbeiten Grid-Traffic, Admin-Traffic und Client-Traffic. Die Netzwerkkonfiguration muss entsprechend angepasst werden, um diese drei Arten von Traffic zu verwalten und Kontrolle sowie Sicherheit zu gewährleisten.
+
+
+
+[[traffic-types]]
+== Verkehrsarten
+
+[cols="1a,4a,2a"]
+|===
+| Verkehrsart | Beschreibung | Netzwerktyp 
+
+
+ a| 
+Grid-Verkehr
+ a| 
+Der interne StorageGRID Datenverkehr, der zwischen allen Knoten im Grid übertragen wird. Alle Grid-Knoten müssen über dieses Netzwerk mit allen anderen Grid-Knoten kommunizieren können.
+ a| 
+Grid-Netzwerk (erforderlich)
+
+
+
+ a| 
+Administratorverkehr
+ a| 
+Der Datenverkehr, der für Systemadministration und Wartung verwendet wird.
+ a| 
+Admin-Netzwerk (optional), <<Optionale VLAN Netzwerke,VLAN Netzwerk (optional)>>
+
+
+
+ a| 
+Client-Datenverkehr
+ a| 
+Der gesamte Datenverkehr zwischen externen Clientanwendungen und dem Grid, einschließlich aller Objektspeicheranforderungen von S3-Clients.
+ a| 
+Client-Netzwerk (optional), <<Optionale VLAN Netzwerke,VLAN Netzwerk (optional)>>
+
+|===
+Die Netzwerkkonfiguration ist auf folgende Weise möglich:
+
+* Nur im Grid Network
+* Grid und Admin Netzwerke
+* Grid und Client Netzwerke
+* Grid, Admin und Client Netzwerke
+
+
+Das Grid Network ist obligatorisch und kann den gesamten Grid-Datenverkehr verwalten. Das Admin Network und das Client Network können bei der Installation einbezogen oder später hinzugefügt werden, um sich an geänderte Anforderungen anzupassen. Obwohl das Admin Network und das Client Network optional sind, kann das Grid Network isoliert und gesichert werden, wenn diese Netzwerke für die Abwicklung des administrativen und des Client-Datenverkehrs verwendet werden.
+
+Interne Ports sind nur über das Grid-Netzwerk erreichbar. Externe Ports sind von allen Netzwerktypen aus erreichbar. Diese Flexibilität bietet vielfältige Möglichkeiten für die Planung einer StorageGRID Bereitstellung und die Einrichtung externer IP- und Portfilter in Switches und Firewalls. Siehe link:../network/internal-grid-node-communications.html["interne Grid-Knoten-Kommunikation"] und link:../network/external-communications.html["externe Kommunikation"].
+
+
+
+[[network-interfaces]]
+== Netzwerkschnittstellen
+
+StorageGRID Knoten sind über die folgenden spezifischen Schnittstellen mit den jeweiligen Netzwerken verbunden:
+
+[cols="1a,1a"]
+|===
+| Netzwerk | Schnittstellenname 
+
+
+ a| 
+Grid-Netzwerk (erforderlich)
+ a| 
+eth0
+
+
+
+ a| 
+Admin-Netzwerk (optional)
+ a| 
+eth1
+
+
+
+ a| 
+Client-Netzwerk (optional)
+ a| 
+eth2
+
+|===
+Weitere Informationen zur Zuordnung virtueller oder physischer Ports zu Knotennetzwerkschnittstellen finden Sie unter link:../swnodes/index.html["StorageGRID auf softwarebasierten Knoten installieren"].
+
+.Geräteknoten
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg6100.html["SG6160 Storage Appliance"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg6100.html["SGF6112 Storage Appliance"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg6000.html["SG6000 Storage Appliance"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg5800.html["SG5800 Storage Appliance"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg5700.html["SG5700 Storage Appliance"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg110-and-1100.html["SG110 und SG1100 Services Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/hardware-description-sg100-and-1000.html["SG100 und SG1000 Services Appliances"^]
+
+
+
+
+[[network-information-for-each-node]]
+=== Netzwerkinformationen für jeden Knoten
+
+Für jedes Netzwerk, das Sie auf einem Knoten aktivieren, ist Folgendes zu konfigurieren:
+
+* IP-Adresse
+* Subnetzmaske
+* Gateway-IP-Adresse
+
+
+Sie können für jedes der drei Netzwerke auf jedem Grid-Knoten nur eine IP-Adresse/Maske/Gateway-Kombination konfigurieren. Wenn für ein Netzwerk kein Gateway konfiguriert werden soll, ist die IP-Adresse als Gateway-Adresse zu verwenden.
+
+
+
+[[high-availability-groups]]
+=== Hochverfügbarkeitsgruppen
+
+Hochverfügbarkeitsgruppen (HA-Gruppen) bieten die Möglichkeit, virtuelle IP-Adressen (VIP-Adressen) zur Grid- oder Client-Netzwerkschnittstelle hinzuzufügen. Weitere Informationen finden sich unter link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
+
+
+
+[[grid-network]]
+== Grid-Netzwerk
+
+Das Grid Network ist erforderlich. Es wird für den gesamten internen StorageGRID-Datenverkehr verwendet. Das Grid Network stellt die Konnektivität zwischen allen Knoten im Grid über alle Standorte und Subnetze hinweg bereit. Alle Knoten im Grid Network müssen mit allen anderen Knoten kommunizieren können. Das Grid Network kann aus mehreren Subnetzen bestehen. Netzwerke mit kritischen Grid-Diensten, wie NTP, können ebenfalls als Grid-Subnetze hinzugefügt werden.
+
+
+NOTE: StorageGRID unterstützt keine Netzwerkadressübersetzung (NAT) zwischen Knoten.
+
+Das Grid-Netzwerk kann für den gesamten Admin-Datenverkehr und den gesamten Client-Datenverkehr verwendet werden, selbst wenn das Admin-Netzwerk und das Client-Netzwerk konfiguriert sind. Das Grid-Netzwerk-Gateway ist das Standardgateway des Knotens, es sei denn, für den Knoten ist das Client-Netzwerk konfiguriert.
+
+
+CAUTION: Bei der Konfiguration des Grid-Netzwerks muss sichergestellt werden, dass das Netzwerk vor nicht vertrauenswürdigen Clients wie solchen im offenen Internet geschützt ist.
+
+Beachten Sie die folgenden Anforderungen und Details für das Grid Network Gateway:
+
+* Das Grid Network Gateway muss konfiguriert werden, wenn mehrere Grid-Subnetze vorhanden sind.
+* Das Grid Network Gateway ist das Standard-Gateway des Knotens, bis die Grid-Konfiguration abgeschlossen ist.
+* Für alle Knoten werden automatisch statische Routen zu allen in der globalen Grid Network Subnet List konfigurierten Subnetzen generiert.
+* Wenn ein Client-Netzwerk hinzugefügt wird, wechselt das Standardgateway nach Abschluss der Grid-Konfiguration vom Grid-Netzwerk-Gateway zum Client-Netzwerk-Gateway.
+
+
+
+
+[[admin-network]]
+== ${post_edited_translations.segment}
+
+Das Admin Network ist optional. Wenn es konfiguriert ist, kann es für Systemadministration und Wartungsdatenverkehr verwendet werden. Das Admin Network ist typischerweise ein privates Netzwerk und muss nicht zwischen den Knoten routbar sein.
+
+Sie können auswählen, auf welchen Grid-Knoten das Admin-Netzwerk aktiviert sein soll.
+
+Bei Verwendung des Admin Network muss der administrative und Wartungsdatenverkehr nicht über das Grid Network geleitet werden. Typische Anwendungsfälle des Admin Network sind die folgenden:
+
+* Zugriff auf die Benutzeroberflächen von Grid Manager und Tenant Manager.
+* Zugriff auf kritische Dienste wie NTP-Server, DNS-Server, externe Schlüsselverwaltungsserver (KMS) und Lightweight Directory Access Protocol (LDAP)-Server.
+* Zugriff auf die Überwachungsprotokolle auf den Admin Nodes.
+* Secure Shell Protocol (SSH)-Zugriff für Wartung und Support.
+
+
+Das Admin Network wird niemals für internen Grid-Datenverkehr verwendet. Ein Admin Network Gateway ist vorhanden und ermöglicht dem Admin Network die Kommunikation mit mehreren externen Subnetzen. Das Admin Network Gateway wird jedoch niemals als Standard-Gateway des Knotens verwendet.
+
+Beachten Sie die folgenden Anforderungen und Details für das Admin Network Gateway:
+
+* Das Admin Network Gateway ist erforderlich, wenn Verbindungen von außerhalb des Admin Network Subnetzes hergestellt werden oder wenn mehrere Admin Network Subnetze konfiguriert sind.
+* Statische Routen werden für jedes Subnetz erstellt, das in der Admin-Netzwerk-Subnetzliste des Knotens konfiguriert ist.
+
+
+
+
+[[client-network]]
+== Client-Netzwerk
+
+Das Clientnetzwerk ist optional. Wenn es konfiguriert ist, wird es verwendet, um Clientanwendungen wie S3 den Zugriff auf Grid-Dienste bereitzustellen. Wenn StorageGRID-Daten für eine externe Ressource (zum Beispiel einen Cloud Storage Pool oder den StorageGRID CloudMirror Replikationsdienst) zugänglich gemacht werden sollen, kann diese externe Ressource ebenfalls das Clientnetzwerk verwenden. Grid-Knoten können mit jedem Subnetz kommunizieren, das über das Clientnetzwerk-Gateway erreichbar ist.
+
+Sie können auswählen, für welche Grid-Knoten das Client-Netzwerk aktiviert sein soll. Nicht alle Knoten müssen sich im selben Client-Netzwerk befinden, und die Knoten kommunizieren niemals über das Client-Netzwerk miteinander. Das Client-Netzwerk wird erst nach Abschluss der Grid-Installation betriebsbereit.
+
+Zur Erhöhung der Sicherheit kann festgelegt werden, dass die Client Network-Schnittstelle eines Knotens als nicht vertrauenswürdig gilt, sodass das Client Network restriktiver hinsichtlich der zulässigen Verbindungen ist. Wenn die Client Network-Schnittstelle eines Knotens als nicht vertrauenswürdig eingestuft ist, akzeptiert die Schnittstelle ausgehende Verbindungen, wie sie beispielsweise von CloudMirror-Replikation verwendet werden, akzeptiert jedoch eingehende Verbindungen nur auf Ports, die explizit als Load Balancer-Endpunkte konfiguriert wurden. Siehe link:../admin/manage-firewall-controls.html["Firewall-Steuerung verwalten"] und link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"].
+
+Wenn ein Client Network verwendet wird, muss der Client-Datenverkehr nicht über das Grid Network laufen. Grid Network-Datenverkehr kann auf ein sicheres, nicht routbares Netzwerk getrennt werden. Die folgenden Knotentypen werden häufig mit einem Client Network konfiguriert:
+
+* Gateway Nodes, da diese Nodes Zugriff auf den StorageGRID Load Balancer Service und S3-Clientzugriff auf das Grid bieten.
+* Speicherknoten, da diese Knoten den Zugriff auf das S3-Protokoll und auf Cloud-Speicherpools sowie den CloudMirror Replikationsdienst ermöglichen.
+* Admin-Knoten, damit Mandantenbenutzer eine Verbindung zum Tenant Manager herstellen können, ohne das Admin-Netzwerk nutzen zu müssen.
+
+
+Beachten Sie Folgendes für das Client Network Gateway:
+
+* Das Client Network Gateway ist erforderlich, wenn das Client Network konfiguriert ist.
+* Das Client Network Gateway wird zur Standardroute für den Grid-Knoten, sobald die Grid-Konfiguration abgeschlossen ist.
+
+
+
+
+[[optional-vlan-networks]]
+== Optionale VLAN Netzwerke
+
+Bei Bedarf können optional virtuelle LAN (VLAN) Netzwerke für Client-Datenverkehr und für bestimmte Arten von Administrator-Datenverkehr verwendet werden. Grid-Datenverkehr kann jedoch keine VLAN-Schnittstelle verwenden. Der interne StorageGRID Datenverkehr zwischen den Knoten muss immer das Grid-Netzwerk auf eth0 verwenden.
+
+Um die Verwendung von VLANs zu unterstützen, muss eine oder mehrere Schnittstellen eines Knotens als Trunk-Schnittstellen am Switch konfiguriert werden. Die Grid Network-Schnittstelle (eth0) oder die Client Network-Schnittstelle (eth2) kann als Trunk konfiguriert werden, oder dem Knoten können Trunk-Schnittstellen hinzugefügt werden.
+
+Wenn eth0 als Trunk konfiguriert ist, fließt der Grid Network-Datenverkehr über die nativ-Schnittstelle des Trunks, wie am Switch konfiguriert. Analog dazu verwendet das Client Network, wenn eth2 als Trunk konfiguriert ist und das Client Network ebenfalls auf demselben Knoten konfiguriert ist, das native VLAN des Trunk-Ports, wie am Switch konfiguriert.
+
+Über VLAN-Netzwerke wird ausschließlich eingehender Administrator-Datenverkehr unterstützt, beispielsweise für SSH, Grid Manager oder Tenant Manager. Ausgehender Datenverkehr, beispielsweise für NTP, DNS, LDAP, KMS und Cloud Storage Pools, wird über VLAN-Netzwerke nicht unterstützt.
+
+
+NOTE: VLAN-Schnittstellen können nur zu Admin-Knoten und Gateway-Knoten hinzugefügt werden. Eine VLAN-Schnittstelle kann nicht für den Client- oder Administratorzugriff auf Storage Nodes verwendet werden.
+
+Siehe link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"] Anweisungen und Richtlinien.
+
+VLAN-Schnittstellen werden nur in HA-Gruppen verwendet und erhalten VIP-Adressen auf dem aktiven Knoten. Siehe link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"] für Anweisungen und Richtlinien.

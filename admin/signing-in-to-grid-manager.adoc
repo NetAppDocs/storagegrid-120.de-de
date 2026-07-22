@@ -1,0 +1,132 @@
+---
+permalink: admin/signing-in-to-grid-manager.html 
+sidebar: sidebar 
+keywords: grid manager, sign in, log in 
+summary: 'Auf die Anmeldeseite des Grid Manager wird zugegriffen, indem der vollqualifizierte Domainname (FQDN) oder die IP-Adresse eines Admin Node in die Adresszeile eines unterstützten Webbrowsers eingegeben wird.' 
+---
+= Melden Sie sich beim StorageGRID Grid Manager an
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Auf die Anmeldeseite des Grid Manager wird zugegriffen, indem der vollqualifizierte Domainname (FQDN) oder die IP-Adresse eines Admin Node in die Adresszeile eines unterstützten Webbrowsers eingegeben wird.
+
+Jedes StorageGRID System besteht aus einem primären Admin Node und beliebig vielen nicht-primären Admin Nodes. Eine Anmeldung am Grid Manager ist auf jedem Admin Node möglich, um das StorageGRID System zu verwalten. Einige Wartungsverfahren können jedoch nur vom primären Admin Node aus durchgeführt werden.
+
+
+
+[[connect-to-ha-group]]
+=== Verbindung zur HA-Gruppe
+
+Wenn Admin-Knoten in einer hochverfügbaren (HA) Gruppe enthalten sind, erfolgt die Verbindung über die virtuelle IP-Adresse der HA-Gruppe oder eine vollqualifizierte Domain, die der virtuellen IP-Adresse zugeordnet ist. Der primäre Admin-Knoten sollte als primäre Schnittstelle der Gruppe ausgewählt werden, sodass beim Zugriff auf den Grid Manager der Zugriff auf den primären Admin-Knoten erfolgt, es sei denn, der primäre Admin-Knoten ist nicht verfügbar. Siehe link:managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
+
+
+
+[[use-sso]]
+=== SSO verwenden
+
+Die Anmeldeschritte unterscheiden sich geringfügig, wenn link:how-sso-works.html["Single Sign-On (SSO) wurde konfiguriert"].
+
+
+
+[[sign-in-to-grid-manager-on-first-admin-node]]
+== Anmeldung bei Grid Manager auf dem ersten Admin-Node
+
+.Bevor Sie beginnen
+* Sie haben Ihre Anmeldedaten.
+* Sie verwenden ein link:../admin/web-browser-requirements.html["unterstützte Webbrowser"].
+* Cookies sind in Ihrem Webbrowser aktiviert.
+* Sie gehören einer Benutzergruppe an, die über mindestens eine Berechtigung verfügt.
+* Sie haben die URL für den Grid Manager:
++
+`https://_FQDN_or_Admin_Node_IP_/`
+
++
+Sie können den vollqualifizierten Domainnamen, die IP-Adresse eines Admin-Knotens oder die virtuelle IP-Adresse einer HA-Gruppe von Admin-Knoten verwenden.
+
++
+Um auf den Grid Manager über einen anderen Port als den Standardport für HTTPS (443) zuzugreifen, ist die Portnummer in der URL anzugeben:
+
++
+`https://_FQDN_or_Admin_Node_IP:port_/`
+
++
+
+NOTE: SSO ist über den eingeschränkten Grid Manager Port nicht verfügbar. Port 443 muss verwendet werden.
+
+
+
+.Schritte
+. ${post_edited_translations.segment}
+. In der Adressleiste des Browsers die URL für den Grid Manager eingeben.
+. Wenn eine Sicherheitswarnung angezeigt wird, kann das Zertifikat mit dem Installationsassistenten des Browsers installiert werden. Siehe link:using-storagegrid-security-certificates.html["Sicherheitszertifikate verwalten"].
+. Melden Sie sich beim Grid Manager an.
++
+${post_edited_translations.segment}
+
++
+[role="tabbed-block"]
+====
+.SSO wird nicht verwendet
+--
+.. Geben Sie Ihren Benutzernamen und Ihr Passwort für den Grid Manager ein.
+.. *Anmelden* auswählen.
+
+
+--
+.Verwendung von SSO
+--
+** Wenn StorageGRID SSO verwendet und dies das erste Mal ist, dass Sie die URL in diesem Browser aufrufen:
++
+... *Anmelden* auswählen. Die 0 kann im Feld Konto belassen werden.
+... Geben Sie Ihre Standard-SSO-Anmeldedaten auf der SSO-Anmeldeseite Ihrer Organisation ein.
++
+${post_edited_translations.segment}
+
++
+.... ${post_edited_translations.segment}
+.... *Anmelden* auswählen.
+.... Mit den üblichen SSO-Anmeldedaten auf der SSO-Anmeldeseite der Organisation anmelden.
+
+
+
+
+
+
+--
+====
+
+
+Nach der Anmeldung wird die Startseite des Grid Managers angezeigt, die das Dashboard enthält. Welche Informationen bereitgestellt werden, ist unter link:../monitor/viewing-dashboard.html["Dashboard anzeigen und verwalten"] zu finden.
+
+
+
+[[sign-into-another-admin-node]]
+== Bei einem anderen Admin-Node anmelden
+
+${post_edited_translations.segment}
+
+[role="tabbed-block"]
+====
+.SSO wird nicht verwendet
+--
+.Schritte
+. In der Adresszeile des Browsers den vollqualifizierten Domainnamen oder die IP-Adresse des anderen Admin Node eingeben. Die Portnummer bei Bedarf angeben.
+. Geben Sie Ihren Benutzernamen und Ihr Passwort für den Grid Manager ein.
+. *Anmelden* auswählen.
+
+
+--
+.Verwendung von SSO
+--
+Wenn StorageGRID SSO verwendet und Sie sich bei einem Admin-Knoten angemeldet haben, ist der Zugriff auf andere Admin-Knoten möglich, ohne sich erneut anmelden zu müssen.
+
+.Schritte
+. Den vollqualifizierten Domainnamen oder die IP-Adresse des anderen Admin-Knotens in die Adressleiste des Browsers eingeben.
+. Wenn Ihre SSO-Sitzung abgelaufen ist, geben Sie Ihre Anmeldeinformationen erneut ein.
+
+
+--
+====

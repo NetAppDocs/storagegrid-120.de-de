@@ -1,0 +1,196 @@
+---
+permalink: expand/considerations-for-rebalancing-erasure-coded-data.html 
+sidebar: sidebar 
+keywords: erasure coding, rebalance, ec rebalance, site rebalance, StorageGRID 
+summary: Wenn Sie eine Erweiterung zur Hinzufügung von Storage Nodes durchführen und ILM-Regeln zur Erasure-Codierung von Daten verwenden, könnte die Durchführung der EC-Rebalance-Prozedur erforderlich sein, falls nicht genügend Storage Nodes für das von Ihnen verwendete Erasure-Coding-Schema hinzugefügt werden können. 
+---
+= Informationen zum EC-Rebalancing nach der Erweiterung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie eine Erweiterung zur Hinzufügung von Storage Nodes durchführen und ILM-Regeln zur Erasure-Codierung von Daten verwenden, könnte das Erasure Coding (EC) Rebalance-Verfahren erforderlich sein, wenn nicht genügend Storage Nodes für das von Ihnen verwendete Erasure-Coding-Schema hinzugefügt werden können.
+
+Nach Durchsicht dieser Punkte erfolgt die Erweiterung, anschließend zu link:rebalancing-erasure-coded-data-after-adding-storage-nodes.html["Erasure-codierte Daten nach dem Hinzufügen von Storage Nodes neu ausbalancieren"] wechseln, um die Prozedur auszuführen.
+
+
+
+[[what-is-ec-rebalancing]]
+== Was ist EC Rebalancing?
+
+Die EC-Neuverteilung ist ein StorageGRID-Verfahren, das nach einer Erweiterung eines Storage Node erforderlich sein kann. Das Verfahren wird als Befehlszeilenskript vom primären Admin Node ausgeführt. Wenn die EC-Neuverteilungsprozedur ausgeführt wird, verteilt StorageGRID die erasure-codierten Fragmente zwischen den bestehenden und den neu hinzugefügten Storage Nodes an einem Standort neu.
+
+Das EC-Neugewichtsverfahren:
+
+* Verschiebt ausschließlich Daten von Objekten, die mit einem Erasure-Codierungsverfahren versehen wurden. Replizierte Objektdaten werden nicht verschoben.
+* Verteilt die Daten innerhalb eines Standorts neu. Es verschiebt keine Daten zwischen Standorten.
+* Verteilt Daten auf alle Storage Nodes eines Standorts. Es erfolgt keine Datenverteilung innerhalb von Storage Volumes.
+* Es wird versucht, jedem Knoten die gleiche Anzahl an Bytes zuzuweisen. Knoten, die mehr replizierte Daten enthalten, speichern nach Abschluss des Rebalancing weniger erasure-codierte Daten.
+* Verteilt erasure-codierte Daten gleichmäßig auf die Storage Nodes, ohne die jeweiligen Kapazitäten der einzelnen Nodes zu berücksichtigen. Replizierte Daten werden in die Berechnung einbezogen.
+* Daten mit Löschcodierung werden nicht an Storage Nodes verteilt, die zu mehr als 80 % belegt sind.
+* Kann die Leistung von ILM-Operationen und S3-Client-Operationen verringern, wenn es ausgeführt wird, da zusätzliche Ressourcen benötigt werden, um die Erasure-Coding-Fragmente neu zu verteilen.
+
+
+Wenn das EC-Rebalancing-Verfahren abgeschlossen ist:
+
+* Erasure-coded Daten wurden von Storage Nodes mit weniger verfügbarem Speicherplatz auf Storage Nodes mit mehr verfügbarem Speicherplatz verschoben.
+* Der Datenschutz von löschcodierten Objekten bleibt unverändert.
+* Die Auslastungswerte (%) können zwischen den Storage Nodes aus zwei Gründen unterschiedlich sein:
++
+** Die replizierten Objektkopien belegen weiterhin Speicherplatz auf den bestehenden Knoten, das EC-Rebalance-Verfahren verschiebt keine replizierten Daten.
+** Knoten mit höherer Kapazität werden im Vergleich zu Knoten mit geringerer Kapazität relativ weniger ausgelastet sein, obwohl alle Knoten am Ende ungefähr die gleiche Datenmenge enthalten werden.
++
+Angenommen, drei Knoten mit je 200 TB Speicherkapazität sind jeweils zu 80 % belegt (200 × 0,8 = 160 TB pro Knoten, also 480 TB für den Standort). Wenn ein 400-TB-Knoten hinzugefügt und die Rebalance-Prozedur ausgeführt wird, verfügen alle Knoten nun über ungefähr die gleiche Menge an Erasure-Code-Daten (480 / 4 = 120 TB). Allerdings ist der Wert für „Used (%)“ beim größeren Knoten geringer als bei den kleineren Knoten.
+
++
+image:used_space_with_larger_node.png["Verwendeter Speicherplatz vor der Erweiterung"]
+
+
+
+
+
+
+
+[[when-to-rebalance-erasure-coded-data]]
+== Zeitpunkt für das Rebalancing von löschcodierten Daten
+
+Das EC-Rebalancing-Verfahren verteilt vorhandene, mit Erasure Coding versehene Daten neu, um zu verhindern, dass Knoten voll werden oder bleiben. Das Verfahren trägt dazu bei, dass die EC-Codierung am Standort fortgesetzt werden kann.
+
+Die Rebalance-Prozedur kommt zum Einsatz, wenn eine besorgniserregende Verzerrung in der Datenverteilung an einem Standort vorliegt und der Standort hauptsächlich EC-Daten speichert (da replizierte Daten nicht durch Rebalance verschoben werden können).
+
+Folgendes Szenario ist zu berücksichtigen:
+
+* StorageGRID läuft an einem einzelnen Standort, der drei Storage Nodes umfasst.
+* Die ILM-Richtlinie verwendet eine 2+1-Erasure-Coding-Regel für alle Objekte, die größer als 1,0 MB sind, und eine 2-Kopien-Replikationsregel für kleinere Objekte.
+* Alle Storage Nodes sind vollständig voll. Die Warnung *Low Object Storage* wurde auf der Schweregradstufe „major“ ausgelöst.
++
+image:used_space_before_expansion.png["Verwendeter Speicherplatz vor der Erweiterung"]
+
+
+
+
+
+[[rebalance-is-not-required-if-you-add-enough-nodes]]
+=== Eine Neuausrichtung ist nicht erforderlich, wenn genügend Knoten hinzugefügt werden.
+
+Um zu verstehen, wann ein EC-Rebalance nicht erforderlich ist, wird angenommen, dass drei (oder mehr) neue Speicherknoten hinzugefügt wurden. In diesem Fall ist kein EC-Rebalance erforderlich. Die ursprünglichen Speicherknoten bleiben voll, aber neue Objekte nutzen nun die drei neuen Knoten für 2+1 Erasure Coding, wobei die beiden Datenfragmente und das eine Paritätsfragment jeweils auf einem anderen Knoten gespeichert werden können.
+
+image:used_space_after_3_node_expansion.png["Belegter Speicherplatz nach der 3-Node-Erweiterung"]
+
+
+CAUTION: Obwohl in diesem Fall die EC-Rebalance-Prozedur ausgeführt werden kann, führt das Verschieben der vorhandenen erasure-codierten Daten zu einer vorübergehenden Verringerung der Grid-Leistung, was sich auf die Client-Operationen auswirken kann.
+
+
+
+[[rebalance-is-required-if-you-cant-add-enough-nodes]]
+=== Ein Rebalancing ist erforderlich, wenn Sie nicht genügend Knoten hinzufügen können.
+
+Um zu verstehen, wann ein EC-Rebalancing erforderlich ist, nehmen wir an, Sie können nur zwei statt drei Storage Nodes hinzufügen. Da das 2+1-Schema mindestens drei Storage Nodes mit freiem Speicherplatz erfordert, können die leeren Nodes nicht für neue erasure-coded Daten verwendet werden.
+
+image:used_space_after_2_node_expansion.png["Belegter Speicherplatz nach 2-Knoten-Erweiterung"]
+
+Um die neuen Storage Nodes zu nutzen, sollte die EC-Rebalance-Prozedur ausgeführt werden. Wenn diese Prozedur ausgeführt wird, verteilt StorageGRID die vorhandenen erasure-codierten Daten und Paritätsfragmente auf alle Storage Nodes am Standort. In diesem Beispiel sind nach Abschluss der EC-Rebalance-Prozedur alle fünf Nodes nur noch zu 60 % ausgelastet, und Objekte können weiterhin im 2+1-Erasure-Coding-Schema auf allen Storage Nodes aufgenommen werden.
+
+image:used_space_after_ec_rebalance.png["Genutzter Speicherplatz aAfter EC-Neuausrichtung"]
+
+
+
+[[recommendations-for-ec-rebalancing]]
+== Empfehlungen für die EC-Neuausrichtung
+
+NetApp erfordert eine EC-Neugewichtung, wenn _alle_ der folgenden Aussagen zutreffen:
+
+* Erasure Coding wird für Ihre Objektdaten verwendet.
+* ${post_edited_translations.segment}
+* Es können nicht genügend neue Speicherknoten für das verwendete Erasure-Coding-Verfahren hinzugefügt werden. Siehe link:adding-storage-capacity-for-erasure-coded-objects.html["Speicherkapazität für mit Löschkodierung versehene Objekte hinzufügen"].
+* Ihre S3-Clients können eine geringere Leistung bei ihren Schreib- und Lesevorgängen tolerieren, während das EC-Rebalance-Verfahren ausgeführt wird.
+
+
+Sie können optional die EC Rebalance-Prozedur ausführen, wenn Sie es vorziehen, dass die Storage Nodes auf ähnlichem Niveau gefüllt sind und Ihre S3-Clients eine geringere Leistung bei ihren Schreib- und Lesevorgängen tolerieren können, während die EC Rebalance-Prozedur ausgeführt wird.
+
+
+
+[[how-ec-rebalance-procedure-interacts-with-other-maintenance-tasks]]
+== Wie die EC-Rebalance-Prozedur mit anderen Wartungsaufgaben interagiert
+
+Bestimmte Wartungsvorgänge können nicht gleichzeitig mit dem EC-Rebalance-Verfahren durchgeführt werden.
+
+[cols="1a,2a"]
+|===
+| Verfahren | Während des EC-Rebalance-Verfahrens zulässig? 
+
+
+ a| 
+Zusätzliche EC-Rebalance-Verfahren
+ a| 
+Nr.
+
+Es kann immer nur ein EC Rebalance-Vorgang gleichzeitig ausgeführt werden.
+
+
+
+ a| 
+Außerbetriebnahmeverfahren
+
+EC Datenreparaturauftrag
+ a| 
+Nr.
+
+* Es ist Ihnen untersagt, eine Außerbetriebnahmeprozedur oder eine EC-Datenreparatur zu starten, solange die EC-Neuausrichtungsprozedur ausgeführt wird.
+* Das Starten der EC-Rebalance-Prozedur ist nicht möglich, während eine Storage Node Decommission-Prozedur oder eine EC-Datenreparatur läuft.
+
+
+
+
+ a| 
+Erweiterungsverfahren
+ a| 
+Nr.
+
+Wenn im Rahmen einer Erweiterung neue Storage Nodes hinzugefügt werden müssen, sollte nach dem Hinzufügen aller neuen Nodes die EC-Rebalance-Prozedur ausgeführt werden.
+
+
+
+ a| 
+Upgrade-Verfahren
+ a| 
+Nr.
+
+Falls eine Aktualisierung der StorageGRID Software erforderlich ist, sollte die Aktualisierung entweder vor oder nach dem EC-Rebalance-Verfahren durchgeführt werden. Bei Bedarf kann das EC-Rebalance-Verfahren beendet werden, um eine Softwareaktualisierung vorzunehmen.
+
+
+
+ a| 
+Verfahren zum Klonen von Appliance-Knoten
+ a| 
+Nr.
+
+Wenn ein Appliance Storage Node geklont werden soll, ist nach dem Hinzufügen des neuen Knotens das EC-Rebalance-Verfahren auszuführen.
+
+
+
+ a| 
+Hotfix Verfahren
+ a| 
+Ja.
+
+Sie können einen StorageGRID Hotfix anwenden, während das EC-Rebalance-Verfahren läuft.
+
+
+
+ a| 
+Weitere Wartungsverfahren
+ a| 
+Nr.
+
+Die EC-Rebalance-Prozedur muss beendet werden, bevor andere Wartungsprozeduren ausgeführt werden.
+
+|===
+
+
+[[how-ec-rebalance-procedure-interacts-with-ilm]]
+== Wie das EC-Rebalance-Verfahren mit ILM interagiert
+
+Während die EC-Rebalance-Prozedur läuft, sollten ILM-Änderungen vermieden werden, die den Speicherort vorhandener erasure-codierter Objekte verändern könnten. Beispielsweise sollte keine ILM-Regel verwendet werden, die ein anderes Erasure-Coding-Profil hat. Falls solche ILM-Änderungen erforderlich sind, ist die EC-Rebalance-Prozedur zu beenden.

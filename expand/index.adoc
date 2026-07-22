@@ -1,0 +1,78 @@
+---
+permalink: expand/index.html 
+sidebar: sidebar 
+keywords: expand grid, StorageGRID 
+summary: Sie können die Kapazität oder die Fähigkeiten Ihres StorageGRID Systems erweitern, ohne den Systembetrieb zu unterbrechen. 
+---
+= Informationen zur Erweiterung Ihres StorageGRID Systems
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Informationen zur Erweiterung Ihres StorageGRID Systems, um die Kapazität oder Funktionalität zu erhöhen, ohne den Betrieb zu unterbrechen. Es besteht die Möglichkeit, Speichervolumes zu bestehenden Storage Nodes hinzuzufügen, neue Grid-Nodes zu einem bestehenden Standort hinzuzufügen oder einen neuen Standort hinzuzufügen.
+
+Vor der Erweiterung eines Grid-Knotens muss bestätigt werden, dass keine Datenreparaturaufträge aktiv sind. Wenn Reparaturen fehlgeschlagen sind, müssen diese neu gestartet werden und ihr Abschluss muss abgewartet werden, bevor die Außerbetriebnahme oder Erweiterung erfolgt. Siehe link:../maintain/checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].
+
+Eine StorageGRID Erweiterung ermöglicht das Hinzufügen von:
+
+* Speichervolumes zu Storage Nodes
+* Neue Grid-Knoten an einem bestehenden Standort
+* Ein völlig neuer Standort
+
+
+Der Grund für die Erweiterung bestimmt, wie viele neue Knoten jedes Typs hinzugefügt werden müssen und wo sich diese neuen Knoten befinden. Beispielsweise bestehen unterschiedliche Anforderungen an die Knoten, je nachdem, ob eine Erweiterung zur Erhöhung der Speicherkapazität, zur Hinzufügung von Metadatenkapazität oder zur Ergänzung von Redundanz oder neuen Funktionen erfolgt.
+
+Führen Sie die Schritte für den Typ der Erweiterung aus, den Sie durchführen:
+
+[role="tabbed-block"]
+====
+.Grid-Knoten hinzufügen
+--
+. Die Schritte für link:adding-grid-nodes-to-existing-site-or-adding-new-site.html["Hinzufügen von Grid-Knoten zu einem bestehenden Standort"] sind zu beachten.
+. link:updating-subnets-for-grid-network.html["Die Subnetze aktualisieren"].
+. Grid-Knoten bereitstellen:
++
+** link:deploying-new-grid-nodes.html#appliances-deploying-storage-gateway-or-non-primary-admin-nodes["Appliances"]
+** link:deploying-new-grid-nodes.html#vmware-deploy-grid-nodes["VMware"]
+** link:deploying-new-grid-nodes.html#linux-deploy-grid-nodes["Linux"]
+
+
+
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+. link:performing-expansion.html["Die Erweiterung durchführen"].
+. link:configuring-expanded-storagegrid-system.html["Das erweiterte System konfigurieren"].
+
+
+--
+.Speichervolumen hinzufügen
+--
+Die Schritte für link:adding-storage-volumes-to-storage-nodes.html["Hinzufügen von Speichervolumes zu Storage Nodes"] sind zu beachten.
+
+--
+.Neue Website hinzufügen
+--
+. Die Schritte für link:adding-grid-nodes-to-existing-site-or-adding-new-site.html["Hinzufügen einer neuen Site"] sind zu beachten.
+. link:updating-subnets-for-grid-network.html["Die Subnetze aktualisieren"].
+. Grid-Knoten bereitstellen:
++
+** link:deploying-new-grid-nodes.html#appliances-deploying-storage-gateway-or-non-primary-admin-nodes["Appliances"]
+** link:deploying-new-grid-nodes.html#vmware-deploy-grid-nodes["VMware"]
+** link:deploying-new-grid-nodes.html#linux-deploy-grid-nodes["Linux"]
+
+
+
+
+
+NOTE: „Linux“ bezieht sich auf eine RHEL-, Ubuntu- oder Debian-Installation. Eine Liste der unterstützten Versionen befindet sich unter  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^].
+
+. link:performing-expansion.html["Die Erweiterung durchführen"].
+. link:configuring-expanded-storagegrid-system.html["Das erweiterte System konfigurieren"].
+
+
+--
+====

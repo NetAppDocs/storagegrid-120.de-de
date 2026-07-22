@@ -1,0 +1,274 @@
+---
+permalink: primer/exploring-grid-manager.html 
+sidebar: sidebar 
+keywords: StorageGRID, what is the grid manager, grid manager dashboard 
+summary: Der Grid Manager ist die browserbasierte grafische Benutzeroberfläche, die die Konfiguration, Verwaltung und Überwachung Ihres StorageGRID Systems ermöglicht. 
+---
+= Erkunden Sie den StorageGRID Grid Manager
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Grid Manager ist die browserbasierte grafische Benutzeroberfläche, die die Konfiguration, Verwaltung und Überwachung Ihres StorageGRID Systems ermöglicht.
+
+
+NOTE: Der Grid Manager wird mit jeder neuen Version aktualisiert und entspricht möglicherweise nicht den Beispiel-Screenshots auf dieser Seite.
+
+Wenn Sie sich im Grid Manager anmelden, stellen Sie eine Verbindung zu einem Admin-Knoten her. Jedes StorageGRID System umfasst einen primären Admin-Knoten und beliebig viele nicht-primäre Admin-Knoten. Sie können sich mit jedem Admin-Knoten verbinden, und jeder Admin-Knoten zeigt eine ähnliche Ansicht des StorageGRID Systems an.
+
+Sie können mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] auf den Grid Manager zugreifen.
+
+
+
+[[grid-manager-dashboard]]
+== Grid Manager Dashboard
+
+Wenn Sie sich zum ersten Mal im Grid Manager anmelden, kann das Dashboard genutzt werden, um link:../monitor/viewing-dashboard.html["Systemaktivitäten überwachen"] einen Überblick zu erhalten.
+
+Das Dashboard enthält Informationen zum Systemzustand und zur Leistung, zur Speichernutzung, zu ILM-Prozessen, zu S3-Operationen und zu den Knoten im Grid. Es besteht die Möglichkeit, link:../monitor/viewing-dashboard.html["Das Dashboard konfigurieren"] aus einer Sammlung von Karten auszuwählen, die die benötigten Informationen für eine effektive Überwachung Ihres Systems enthalten.
+
+image:grid_manager_dashboard_and_menu.png["Dashboard im Grid Manager"]
+
+Eine Erklärung der auf den einzelnen Karten angezeigten Informationen findet sich durch Auswahl des Hilfesymbols image:icon_nms_question.png["Fragezeichen-Symbol"] für die jeweilige Karte.
+
+
+
+[[search-field]]
+== Suchfeld
+
+Das *Suchfeld* in der Kopfzeile ermöglicht eine schnelle Navigation zu einer bestimmten Seite im Grid Manager. Beispielsweise kann *km* eingegeben werden, um die Seite des Key management server (KMS) aufzurufen.
+
+Sie können die *Suche* verwenden, um Einträge in der Seitenleiste des Grid Manager sowie in den Menüs „Konfiguration“, „Wartung“ und „Support“ zu finden. Es besteht außerdem die Möglichkeit, nach Namen zu suchen, beispielsweise nach Grid Nodes und Tenant Accounts.
+
+
+
+[[help-menu]]
+== Hilfemenü
+
+Das Hilfemenü image:icon-help-menu-bar.png["Hilfesymbol in der Menüleiste"] bietet Zugriff auf:
+
+* Die link:../fabricpool/use-fabricpool-setup-wizard.html["FabricPool"] und link:../admin/use-s3-setup-wizard.html["S3 Setup"] Assistenten
+* Die StorageGRID Dokumentationsseite für die aktuelle Version
+* link:../admin/using-grid-management-api.html["API-Dokumentation"]
+* Informationen darüber, welche Version von StorageGRID aktuell installiert ist
+
+
+
+
+[[alerts-menu]]
+== Benachrichtigungsmenü
+
+Das Menü „Warnungen“ bietet eine benutzerfreundliche Oberfläche zum Erkennen, Bewerten und Beheben von Problemen, die während des StorageGRID Betriebs auftreten können.
+
+Im Menü „Benachrichtigungen“ können Sie Folgendes für link:../monitor/managing-alerts.html["Benachrichtigungen verwalten"] tun:
+
+* Aktuelle Warnmeldungen prüfen
+* Gelöste Warnmeldungen überprüfen
+* Stummschaltungen konfigurieren, um Warnmeldungen zu unterdrücken
+* Alarmregeln für Bedingungen definieren, die Alarme auslösen
+* Den E-Mail-Server für Benachrichtigungen konfigurieren
+
+
+
+
+[[nodes-page]]
+== Nodes-Seite
+
+Die link:../monitor/viewing-nodes-page.html["Nodes-Seite"] zeigt Informationen über das gesamte Grid, jeden Standort im Grid und jeden Knoten an einem Standort an. Informationen zu einem bestimmten Standort oder Knoten werden angezeigt, wenn der entsprechende Standort oder Knoten ausgewählt wird.
+
+
+
+[[tenants-page]]
+== Mandantenseite
+
+Das link:../admin/managing-tenants.html["Mandantenseite"] ermöglicht es, link:../tenant/index.html["Speichermandantenkonten erstellen und überwachen"] für Ihr StorageGRID System zu nutzen. Mindestens ein Mandantenkonto muss erstellt werden, um festzulegen, wer Objekte speichern und abrufen kann und welche Funktionen diesen Personen zur Verfügung stehen.
+
+Die Seite „Mandanten“ enthält außerdem Nutzungsdetails für jeden Mandanten, einschließlich des belegten Speicherplatzes und der Anzahl der Objekte. Wenn bei der Erstellung des Mandanten ein Kontingent festgelegt wurde, ist ersichtlich, wie viel dieses Kontingents bereits genutzt wurde.
+
+
+
+[[ilm-menu]]
+== ILM Menü
+
+Das link:using-information-lifecycle-management.html["ILM Menü"] ermöglicht das link:../ilm/index.html["die Regeln und Richtlinien für das Information Lifecycle Management (ILM) konfigurieren"] Festlegen von Richtlinien für Datenbeständigkeit und Datenverfügbarkeit. Es besteht außerdem die Möglichkeit, eine Objektkennung einzugeben, um die Metadaten für dieses Objekt anzuzeigen.
+
+Im ILM-Menü lassen sich ILM anzeigen und verwalten:
+
+* Regeln
+* Richtlinien
+* Richtlinien-Tags
+* Storage Pools
+* Storage-Grades
+* Regionen
+* Objektmetadatenabfrage
+
+
+
+
+[[configuration-menu]]
+== Konfigurationsmenü
+
+Im Konfigurationsmenü lassen sich Netzwerkeinstellungen, Sicherheitseinstellungen, Systemeinstellungen, Überwachungsoptionen und Zugriffskontrolloptionen angeben.
+
+
+
+[[network-tasks]]
+=== Netzwerkaufgaben
+
+Zu den Netzwerkaufgaben gehören:
+
+* link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"]
+* link:../admin/managing-load-balancing.html["Load Balancer Endpunkte verwalten"]
+* link:../admin/configuring-s3-api-endpoint-domain-names.html["S3-Endpunkt-Domänennamen konfigurieren"]
+* link:../admin/managing-traffic-classification-policies.html["Verkehrsklassifizierungsrichtlinien verwalten"]
+* link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"]
+* link:../admin/enable-cross-origin-resource-sharing-for-management-interface.html["StorageGRID CORS für eine Managementoberfläche aktivieren"]
+
+
+
+
+[[security-tasks]]
+=== Sicherheitsaufgaben
+
+Zu den Sicherheitsaufgaben gehören:
+
+* link:../admin/using-storagegrid-security-certificates.html["Sicherheitszertifikate verwalten"]
+* link:../admin/manage-firewall-controls.html["Interne Firewall-Steuerungen verwalten"]
+* link:../admin/kms-configuring.html["Schlüsselverwaltungsserver konfigurieren"]
+* Sicherheitseinstellungen konfigurieren, einschließlich link:../admin/manage-tls-ssh-policy.html["TLS und SSH-Richtlinie"], link:../admin/changing-network-options-object-encryption.html["Netzwerk- und Objektsicherheitsoptionen"], link:../admin/changing-browser-session-timeout-interface.html["Schnittstellen-Sicherheitseinstellungen"] und link:../admin/manage-external-ssh-access.html["SSH-Zugriffsoptionen"]
+* Einstellungen für ein link:../admin/configuring-storage-proxy-settings.html["Storage Proxy"] oder ein link:../admin/configuring-admin-proxy-settings.html["Admin-Proxy"] konfigurieren
+
+
+
+
+[[system-tasks]]
+=== Systemaufgaben
+
+Zu den Systemaufgaben gehören:
+
+* Verwenden Sie link:../admin/grid-federation-overview.html["Grid-Föderation"] zum Klonen von Mandantenkontoinformationen und zum Replizieren von Objektdaten zwischen zwei StorageGRID Systemen
+* Optional kann die link:../admin/configuring-stored-object-compression.html["Gespeicherte Objekte komprimieren"] Option aktiviert werden.
+* Optional kann die link:../s3/consistency.html["Standardeinstellung für Bucket-Konsistenz"]
+* link:../ilm/managing-objects-with-s3-object-lock.html["S3 Object Lock verwalten"]
+* Speichereinstellungen wie link:../admin/what-storage-volume-watermarks-are.html["Speichervolumen Wasserzeichen"] verstehen
+* link:../ilm/manage-erasure-coding-profiles.html["Erasure-Coding-Profile verwalten"]
+
+
+
+
+[[monitoring-tasks]]
+=== Überwachungsaufgaben
+
+Zu den Überwachungsaufgaben gehören:
+
+* link:../monitor/configure-log-management.html["Protokollverwaltung konfigurieren"]
+* link:../monitor/using-snmp-monitoring.html["SNMP Überwachung"]
+
+
+
+
+[[access-control-tasks]]
+=== Zugriffskontrollaufgaben
+
+Zu den Aufgaben der Zugangskontrolle gehören:
+
+* link:../admin/managing-admin-groups.html["${post_edited_translations.segment}"]
+* link:../admin/managing-users.html["Administratorbenutzer verwalten"]
+* Ändern Sie die link:../admin/changing-provisioning-passphrase.html["Bereitstellungspassphrase"] oder link:../admin/change-node-console-password.html["Konsolenpasswörter für Nodes"]
+* link:../admin/using-identity-federation.html["Identitätsföderation verwenden"]
+* link:../admin/how-sso-works.html["SSO konfigurieren"]
+
+
+
+
+[[maintenance-menu]]
+== Wartungsmenü
+
+Das Wartungsmenü ermöglicht die Durchführung von Wartungsaufgaben, Systemwartung und Netzwerkwartung.
+
+
+
+[[tasks]]
+=== Aufgaben
+
+Zu den Wartungsaufgaben gehören:
+
+* link:../maintain/decommission-procedure.html["Stilllegungsoperationen"] zum Entfernen ungenutzter Grid-Nodes und Standorte
+* link:../expand/index.html["Erweiterungsvorgänge"] neue Grid-Knoten und Standorte hinzufügen
+* link:../maintain/warnings-and-considerations-for-grid-node-recovery.html["Verfahren zur Wiederherstellung von Grid-Knoten"] einen ausgefallenen Knoten ersetzen und Daten wiederherstellen
+* link:../maintain/rename-grid-site-node-overview.html["Umbenennungsverfahren"]die Anzeigenamen Ihres Grids, Ihrer Standorte und Knoten zu ändern
+* link:../troubleshoot/verifying-object-integrity.html["Objektexistenzprüfungsoperationen"]um die Existenz (jedoch nicht die Korrektheit) von Objektdaten zu überprüfen
+* Einen link:../maintain/rolling-reboot-procedure.html["Rolling-Reboot"]Neustart mehrerer Grid-Knoten durchführen
+* link:../maintain/restoring-volume.html["Volumenwiederherstellungsmaßnahmen"]
+
+
+
+
+[[system]]
+=== System
+
+Zu den Systemwartungsaufgaben, die Sie durchführen können, gehören:
+
+* link:../admin/viewing-storagegrid-license-information.html["${post_edited_translations.segment}"] oder link:../admin/updating-storagegrid-license-information.html["Lizenzinformationen aktualisieren"]
+* Generieren und Herunterladen der link:../maintain/downloading-recovery-package.html["Wiederherstellungspaket"]
+* Durchführen von StorageGRID Softwareaktualisierungen, einschließlich Software-Upgrades, Hotfixes und Aktualisierungen der SANtricity OS Software auf ausgewählten Appliances
++
+** link:../upgrade/index.html["Upgrade-Verfahren"]
+** link:../maintain/storagegrid-hotfix-procedure.html["Hotfix Verfahren"]
+** https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/upgrading-santricity-os-on-storage-controllers-using-grid-manager-sg6000.html["SANtricity OS auf SG6000 Storage Controllern mit Grid Manager aktualisieren"^]
+** https://docs.netapp.com/us-en/storagegrid-appliances/sg5700/upgrading-santricity-os-on-storage-controllers-using-grid-manager-sg5700.html["Upgrade von SANtricity OS auf SG5700 Storage Controllern mit Grid Manager"^]
+
+
+
+
+
+
+[[network]]
+=== Netzwerk
+
+Zu den Netzwerkwartungsaufgaben, die Sie durchführen können, gehören:
+
+* link:../maintain/configuring-dns-servers.html["DNS-Server konfigurieren"]
+* link:../maintain/updating-subnets-for-grid-network.html["Grid Network-Subnetze aktualisieren"]
+* link:../maintain/configuring-ntp-servers.html["NTP Server verwalten"]
+
+
+
+
+[[support-menu]]
+== Support Menü
+
+Das Support Menü bietet Optionen, die dem technischen Support bei der Analyse und Fehlerbehebung Ihres Systems helfen.
+
+
+
+[[tools]]
+=== Tools
+
+Im Bereich „Tools“ des Support-Menüs sind folgende Aktionen möglich:
+
+* link:../admin/configure-autosupport-grid-manager.html["Konfiguration von AutoSupport"]
+* link:../monitor/running-diagnostics.html["Diagnose ausführen"] zum aktuellen Zustand des Grid
+* link:../monitor/collecting-log-files-and-system-data.html["Protokolldateien und Systemdaten sammeln"]
+* link:../monitor/reviewing-support-metrics.html["Support-Metriken überprüfen"]
++
+
+NOTE: Die unter der Option *Metriken* verfügbaren Tools sind für den Einsatz durch den technischen Support vorgesehen. Einige Funktionen und Menüpunkte innerhalb dieser Tools sind absichtlich nicht funktionsfähig.
+
+
+
+
+
+[[other]]
+=== Sonstige
+
+Im Abschnitt „Sonstiges“ des Support-Menüs sind folgende Aktionen möglich:
+
+* Konfigurieren link:../monitor/manage-io-prioritization.html["E/A-Priorisierung"]
+* Konfigurieren link:../admin/configure-autosupport-grid-manager.html["AutoSupport E-Mail-Einrichtung (Legacy)"]
+* Verwalten link:../admin/manage-link-costs.html["Verbindungskosten"]
+* Service-IDs des Knotens anzeigen
+* Verwalten link:../admin/what-storage-volume-watermarks-are.html["Speicherwasserzeichen"]
+

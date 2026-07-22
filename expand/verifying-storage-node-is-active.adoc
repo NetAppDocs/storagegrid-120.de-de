@@ -1,0 +1,21 @@
+---
+permalink: expand/verifying-storage-node-is-active.html 
+sidebar: sidebar 
+keywords: expand, expansion, add storage nodes, verify node is active, StorageGRID 
+summary: Nach Abschluss einer Erweiterungsoperation, bei der neue Speicherknoten hinzugefügt werden, sollte das StorageGRID-System die neuen Speicherknoten automatisch verwenden. Im StorageGRID-System muss überprüft werden, ob der neue Speicherknoten aktiv ist. 
+---
+= Überprüfung, ob die Speicherknoten nach einer StorageGRID Erweiterung aktiv sind
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach Abschluss einer Erweiterungsoperation, bei der neue Speicherknoten hinzugefügt werden, sollte das StorageGRID-System die neuen Speicherknoten automatisch verwenden. Im StorageGRID-System muss überprüft werden, ob der neue Speicherknoten aktiv ist.
+
+.Schritte
+. Melden Sie sich beim Grid Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] an.
+. Wählen Sie *Knoten* > *_Erweiterungsspeicherknoten_* > *Speicher*.
+. Fahren Sie mit dem Cursor über das Diagramm *Storage Used - Object Data*, um den Wert für *Used* anzuzeigen, der die Menge des insgesamt nutzbaren Speicherplatzes angibt, die für Objektdaten verwendet wurde.
+. Es sollte überprüft werden, ob der Wert von *Used* zunimmt, wenn der Cursor im Diagramm nach rechts bewegt wird.
+

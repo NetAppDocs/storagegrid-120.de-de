@@ -1,0 +1,72 @@
+---
+permalink: maintain/restoring-admin-node-database-non-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, restore admin node database, restore database, non-primary admin node 
+summary: Wenn die historischen Informationen über Attribute und Warnungen auf einem nicht primären Admin-Knoten, der ausgefallen ist, beibehalten werden sollen, kann die Admin Node Datenbank vom primären Admin Node wiederhergestellt werden. 
+---
+= Stellen Sie die StorageGRID Admin Node Datenbank wieder her, wenn Sie einen nicht-primären Admin Node wiederherstellen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn die historischen Informationen über Attribute und Warnungen auf einem nicht primären Admin-Knoten, der ausgefallen ist, beibehalten werden sollen, kann die Admin Node Datenbank vom primären Admin Node wiederhergestellt werden.
+
+.Bevor Sie beginnen
+* Der wiederhergestellte Admin-Node ist installiert und betriebsbereit.
+* Das StorageGRID System umfasst mindestens zwei Admin-Nodes.
+* Sie haben die  `Passwords.txt` Datei.
+* Sie besitzen die Bereitstellungspassphrase.
+
+
+.Über diese Aufgabe
+Fällt ein Admin-Node aus, gehen die in seiner Admin-Node-Datenbank gespeicherten historischen Informationen verloren. Diese Datenbank enthält die folgenden Informationen:
+
+* Alarmverlauf
+* Historische Attributdaten, die in Diagrammen im älteren Stil auf der Seite „Nodes“ verwendet werden
+
+
+Bei der Wiederherstellung eines Admin-Knotens erstellt der Softwareinstallationsprozess eine leere Admin-Node-Datenbank auf dem wiederhergestellten Knoten. Die neue Datenbank enthält jedoch nur Informationen zu Servern und Diensten, die aktuell Teil des Systems sind oder später hinzugefügt werden.
+
+Wenn Sie einen nicht primären Admin-Knoten wiederhergestellt haben, können Sie die historischen Informationen wiederherstellen, indem Sie die Admin Node Datenbank vom primären Admin Node (dem _source Admin Node_) auf den wiederhergestellten Knoten kopieren.
+
+
+NOTE: Das Kopieren der Admin Node Datenbank kann mehrere Stunden dauern. Einige Grid Manager Funktionen sind nicht verfügbar, solange die Dienste auf dem Quell-Node angehalten sind.
+
+.Schritte
+. Anmeldung am Quell-Admin Node:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
+. Führen Sie den folgenden Befehl auf dem Quell-Admin-Node aus. Anschließend ist die Bereitstellungspassphrase einzugeben, falls dazu eine Aufforderung erscheint. `recover-access-points`
+. Auf dem Quell-Admin-Node den MI-Dienst stoppen: `service mi stop`
+. Auf dem Quell-Admin-Node den Dienst „Management Application Program Interface (mgmt-api)“ stoppen: `service mgmt-api stop`
+. Führen Sie die folgenden Schritte auf dem wiederhergestellten Admin-Node aus:
++
+.. Anmeldung am wiederhergestellten Admin-Knoten:
++
+... Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+... Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+... Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
+.. Den MI-Service stoppen: `service mi stop`
+.. Den mgmt-api-Service stoppen: `service mgmt-api stop`
+.. Fügen Sie den privaten SSH-Schlüssel zum SSH-Agenten hinzu. Geben Sie Folgendes ein:``ssh-add``
+.. Geben Sie das im  `Passwords.txt`-Datei aufgeführte SSH-Zugriffspasswort ein.
+.. Die Datenbank vom Quell-Admin-Node auf den wiederhergestellten Admin-Node kopieren: `/usr/local/mi/bin/mi-clone-db.sh Source_Admin_Node_IP`
+.. Bei entsprechender Aufforderung bestätigen, dass die MI Datenbank auf dem wiederhergestellten Admin-Node überschrieben werden soll.
++
+Die Datenbank und ihre historischen Daten werden auf den wiederhergestellten Admin Node kopiert. Nach Abschluss des Kopiervorgangs startet das Skript den wiederhergestellten Admin Node.
+
+.. Wenn kein passwortloser Zugriff auf andere Server mehr erforderlich ist, sollte der private Schlüssel aus dem SSH-Agenten entfernt werden. Eingabe:``ssh-add -D``
+
+
+. Die Dienste auf dem Quell-Admin-Node neu starten: `service servermanager start`
+

@@ -1,0 +1,80 @@
+---
+permalink: audit/audit-message-flow-and-retention.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, flow, retention 
+summary: Alle StorageGRID Dienste generieren während des normalen Systembetriebs Revisionsprotokollmeldungen. Es ist wichtig nachzuvollziehen, wie diese Revisionsprotokollmeldungen durch das StorageGRID System zur Datei audit.log gelangen. 
+---
+= Wie Audit-Meldungen durch das StorageGRID System in die Datei audit.log zur Aufbewahrung gelangen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Alle StorageGRID Dienste generieren während des normalen Systembetriebs Revisionsprotokollmeldungen. Es ist wichtig nachzuvollziehen, wie diese Revisionsprotokollmeldungen durch das StorageGRID System zur  `audit.log` Datei gelangen.
+
+Die folgenden Workflows für Revisionsmeldungen und die Aufbewahrung von Revisionsmeldungen sind nur anwendbar, wenn StorageGRID für *Admin-Nodes/lokale Nodes* oder *Admin-Node und externer Syslog-Server* konfiguriert ist. Wenn StorageGRID für „Nur lokale Nodes“ (Standard) oder „Externer Syslog-Server“ konfiguriert ist, werden die Revisionsmeldungen lokal auf jedem Node in der Datei  `/var/local/log/localaudit.log` gespeichert und können nicht von Admin-Nodes oder Storage-Nodes verarbeitet werden.
+
+
+
+[[audit-message-flow]]
+== ${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+Wie im Ablaufdiagramm für Audit-Meldungen dargestellt, sendet jeder StorageGRID Knoten seine Audit-Meldungen an einen der ADC-Dienste am Rechenzentrum-Standort. Der ADC-Dienst wird automatisch für die ersten drei an jedem Standort installierten Storage-Knoten aktiviert.
+
+Im Gegenzug fungiert jeder ADC-Dienst als Relais und sendet seine Sammlung von Revisionsprotokollmeldungen an jeden Admin-Node im StorageGRID System, wodurch jeder Admin-Node eine vollständige Aufzeichnung der Systemaktivität erhält.
+
+Jeder Admin-Knoten speichert Audit-Meldungen in Textprotokolldateien; die aktive Protokolldatei heißt  `audit.log`.
+
+image:audit_message_flow.gif["${post_edited_translations.segment}"]
+
+
+
+[[audit-message-retention]]
+=== Aufbewahrung von Audit-Meldungen
+
+StorageGRID verwendet einen Kopier- und Löschvorgang, um sicherzustellen, dass keine Audit-Meldungen verloren gehen, bevor sie in das Revisionsprotokoll geschrieben werden können.
+
+Wenn ein Knoten eine Revisionsprotokollmeldung generiert oder weiterleitet, wird die Meldung in einer Revisionsprotokollmeldungswarteschlange auf der Systemfestplatte des Grid-Knotens gespeichert. Eine Kopie der Meldung verbleibt stets in einer Revisionsprotokollmeldungswarteschlange, bis die Meldung in die Revisionsprotokolldatei im  `/var/local/audit/export` Verzeichnis des Admin Node geschrieben wird. Dies hilft, den Verlust einer Revisionsprotokollmeldung während des Transports zu verhindern.
+
+image:audit_message_retention.gif["Diagramm, das den Empfang von Prüfmeldungen im AMS zusammenfasst"]
+
+Die Warteschlange für Revisionsmeldungen kann sich aufgrund von Netzwerkverbindungsproblemen oder unzureichender Revisionskapazität vorübergehend vergrößern. Mit dem Anwachsen der Warteschlangen verbrauchen sie mehr des verfügbaren Speicherplatzes im  `/var/local/`-Verzeichnis jedes Nodes. Wenn das Problem weiterhin besteht und das Verzeichnis für Revisionsmeldungen eines Nodes zu voll wird, priorisieren die einzelnen Nodes die Verarbeitung ihres Rückstands und stehen vorübergehend nicht für neue Meldungen zur Verfügung.
+
+Konkret könnten folgende Verhaltensweisen auftreten:
+
+* Wenn das  `/var/local/audit/export` Verzeichnis, das von einem Admin-Knoten verwendet wird, voll ist, wird der Admin-Knoten für neue Revisionsprotokoll-Meldungen als nicht verfügbar markiert, bis das Verzeichnis nicht mehr voll ist. S3 Client-Anfragen sind nicht betroffen. Der XAMS (Unreachable Audit Repositories) Alarm wird ausgelöst, wenn ein Revisionsprotokoll-Repository nicht erreichbar ist.
+* Wenn das `/var/local/` Verzeichnis, das von einem Storage Node mit dem ADC-Dienst verwendet wird, zu 92 % gefüllt ist, wird der Node als für Revisionsmeldungen nicht verfügbar gekennzeichnet, bis das Verzeichnis nur noch zu 87 % gefüllt ist. S3-Client-Anfragen an andere Nodes sind nicht betroffen. Der Alarm NRLY (Available Audit Relays) wird ausgelöst, wenn Audit-Relays nicht erreichbar sind.
++
+
+NOTE: Falls keine Storage Nodes mit dem ADC-Service verfügbar sind, speichern die Storage Nodes die Audit-Meldungen lokal in der  `/var/local/log/localaudit.log` Datei.
+
+* Wenn das von einem Storage Node verwendete  `/var/local/` Verzeichnis zu 85 % gefüllt ist, beginnt der Node, S3-Client-Anfragen mit  `503 Service Unavailable` abzulehnen.
+
+
+Die folgenden Arten von Problemen können dazu führen, dass die Warteschlangen für Prüfmeldungen sehr groß werden:
+
+* Der Ausfall eines Admin-Knotens oder eines Speicherknotens mit dem ADC-Dienst. Wenn einer der Systemknoten ausfällt, können die verbleibenden Knoten einen Rückstau aufweisen.
+* Eine kontinuierliche Aktivitätsrate, die die Revisionsprotokoll-Kapazität des Systems übersteigt.
+* Der `/var/local/` Speicherplatz auf einem ADC Storage Node füllt sich aus Gründen, die nicht mit Revisionsmeldungen zusammenhängen. Wenn dies geschieht, nimmt der Knoten keine neuen Revisionsmeldungen mehr an und priorisiert seinen aktuellen Rückstau, was zu Rückstaus auf anderen Knoten führen kann.
+
+
+
+
+[[large-audit-queue-alert-and-audit-messages-queued-amqs-alarm]]
+=== Warnung bei großer Revisionsprotokoll-Warteschlange und Audit Messages Queued (AMQS) Alarm
+
+${post_edited_translations.segment}
+
+Wenn die Warnung *Large audit queue* oder der Legacy-AMQS-Alarm ausgelöst wird, sollte zunächst die Systemlast überprüft werden. Falls in letzter Zeit eine signifikante Anzahl von Transaktionen stattgefunden hat, lösen sich die Warnung und der Alarm im Laufe der Zeit auf und können ignoriert werden.
+
+Wenn die Warnung oder der Alarm weiterhin besteht und der Schweregrad zunimmt, kann ein Diagramm der Warteschlangengröße angezeigt werden. Wenn die Anzahl über Stunden oder Tage hinweg stetig ansteigt, hat die Revisionslast wahrscheinlich die Revisionskapazität des Systems überschritten. Die Client-Operationsrate kann reduziert oder die Anzahl der protokollierten Revisionsmeldungen verringert werden, indem die Revisionsstufe für Client Writes und Client Reads auf Error oder Off geändert wird. Siehe link:../monitor/configure-log-management.html["Logverwaltung und externen Syslog-Server konfigurieren"].
+
+
+
+[[duplicate-messages]]
+=== Doppelte Nachrichten
+
+Das StorageGRID System verfolgt bei einem Netzwerk- oder Knotenausfall einen konservativen Ansatz. Aus diesem Grund können doppelte Meldungen im Revisionsprotokoll vorhanden sein.

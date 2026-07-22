@@ -1,0 +1,306 @@
+---
+permalink: audit/sput-s3-put.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SPUT, S3 PUT 
+summary: Wenn ein S3-Client eine PUT-Transaktion ausführt, wird eine Anfrage zum Erstellen eines neuen Objekts oder Buckets gestellt. Diese Meldung wird vom Server ausgegeben, wenn die Transaktion erfolgreich ist. 
+---
+= SPUT-Revisionsprotokollmeldung für S3 PUT-Transaktionen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn ein S3-Client eine PUT-Transaktion ausführt, wird eine Anfrage zum Erstellen eines neuen Objekts oder Buckets oder zur Entfernung einer Bucket-/Objekt-Subressource gestellt. Diese Meldung wird vom Server ausgegeben, wenn die Transaktion erfolgreich ist.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+CBID
+ a| 
+Inhaltsblockkennung
+ a| 
+Die eindeutige Kennung des angeforderten Inhaltsblocks. Ist die CBID unbekannt, wird dieses Feld auf 0 gesetzt. Operationen an Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+CMPS
+ a| 
+Compliance Einstellungen
+ a| 
+Die beim Erstellen des Buckets verwendeten Compliance-Einstellungen, sofern in der Anfrage vorhanden (auf die ersten 1024 Zeichen gekürzt).
+
+
+
+ a| 
+CNCH
+ a| 
+Konsistenzkontroll-Header
+ a| 
+Der Wert des HTTP-Anforderungs-Headers „Consistency-Control“, sofern in der Anforderung vorhanden.
+
+
+
+ a| 
+CNID
+ a| 
+Verbindungskennung
+ a| 
+Die eindeutige Systemkennung für die TCP/IP Verbindung.
+
+
+
+ a| 
+CSIZ
+ a| 
+Inhaltsgröße
+ a| 
+Die Größe des abgerufenen Objekts in Bytes. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+GFID
+ a| 
+Grid Federation Verbindungs-ID
+ a| 
+Die Verbindungs-ID der Grid Federation-Verbindung, die einer PUT-Anforderung für die netzübergreifende Replikation zugeordnet ist. Nur in den Audit-Protokollen des Ziel-Grids enthalten.
+
+
+
+ a| 
+GFSA
+ a| 
+Grid Federation Quellkonto-ID
+ a| 
+Die Konto-ID des Mandanten im Quell-Grid für eine PUT-Anfrage zur gridübergreifenden Replikation. Nur in den Audit-Protokollen des Ziel-Grids enthalten.
+
+
+
+ a| 
+HTRH
+ a| 
+HTTP-Request-Header
+ a| 
+Liste der protokollierten HTTP-Anforderungsheader-Namen und -Werte, wie während der Konfiguration ausgewählt.
+
+ `X-Forwarded-For` wird automatisch miteinbezogen, wenn es in der Anfrage vorhanden ist und der  `X-Forwarded-For` Wert von der IP-Adresse des Anfrageabsenders abweicht (SAIP Audit-Feld).
+
+`x-amz-bypass-governance-retention` wird automatisch miteinbezogen, wenn es in der Anfrage vorhanden ist.
+
+
+
+ a| 
+LKEN
+ a| 
+Objektsperre aktiviert
+ a| 
+Wert des Anfrageheaders `x-amz-bucket-object-lock-enabled`, falls dieser in der Anfrage vorhanden ist.
+
+
+
+ a| 
+LKLH
+ a| 
+Object Lock Legal Hold
+ a| 
+Wert des Anfrageheaders `x-amz-object-lock-legal-hold`, falls dieser in der PutObject-Anfrage vorhanden ist.
+
+
+
+ a| 
+LKMD
+ a| 
+Objektsperre Beibehaltungsmodus
+ a| 
+Wert des Anfrageheaders `x-amz-object-lock-mode`, falls dieser in der PutObject-Anfrage vorhanden ist.
+
+
+
+ a| 
+LKRU
+ a| 
+Objektsperre Beibehalten-bis-Datum
+ a| 
+Wert des Anfrageheaders `x-amz-object-lock-retain-until-date`, sofern in der PutObject-Anfrage vorhanden. Die Werte sind auf einen Zeitraum von maximal 100 Jahren ab dem Datum der Objekterfassung beschränkt.
+
+
+
+ a| 
+MTME
+ a| 
+Letzte Änderungszeit
+ a| 
+Der Unix-Zeitstempel in Mikrosekunden, der angibt, wann das Objekt zuletzt geändert wurde.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebniscode
+ a| 
+Ergebnis der PUT-Transaktion. Das Ergebnis ist immer:
+
+SUCS: Erfolgreich
+
+
+
+ a| 
+S3AI
+ a| 
+S3-Mandantenkonto-ID (Absender der Anfrage)
+ a| 
+Die Mandantenkonto-ID des Benutzers, der die Anfrage gesendet hat. Ein leerer Wert gibt an, dass anonymer Zugriff vorliegt.
+
+
+
+ a| 
+S3AK
+ a| 
+S3 Access Key ID (Absender der Anfrage)
+ a| 
+Die gehashte S3-Zugriffsschlüssel-ID des Benutzers, der die Anfrage gesendet hat. Ein leerer Wert gibt an, dass anonymer Zugriff erfolgt.
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+
+
+ a| 
+S3KY
+ a| 
+S3 Schlüssel
+ a| 
+Der S3-Schlüsselname, ohne den Bucket-Namen. Operationen auf Buckets berücksichtigen dieses Feld nicht.
+
+
+
+ a| 
+S3SR
+ a| 
+S3 Subressource
+ a| 
+Die Bucket- oder Objekt-Subressource, auf die sich der Vorgang gegebenenfalls bezieht.
+
+
+
+ a| 
+SACC
+ a| 
+Name des S3-Tenant-Kontos (Absender der Anfrage)
+ a| 
+Der Name des Mandantenkontos des Benutzers, der die Anfrage gesendet hat. Bei anonymen Anfragen leer.
+
+
+
+ a| 
+SAIP
+ a| 
+IP-Adresse (Absender der Anfrage)
+ a| 
+Die IP-Adresse der Client-Anwendung, die die Anfrage gestellt hat.
+
+
+
+ a| 
+SBAC
+ a| 
+Name des S3-Tenant-Kontos (Bucket-Inhaber)
+ a| 
+Der Mandantenkontoname für den Bucket-Eigentümer. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+SBAI
+ a| 
+S3-Mandantenkonto-ID (Bucket-Inhaber)
+ a| 
+Die Mandantenkonto-ID des Besitzers des Ziel-Buckets. Wird zur Identifizierung von kontoübergreifendem oder anonymem Zugriff verwendet.
+
+
+
+ a| 
+SRCF
+ a| 
+Subressourcen-Konfiguration
+ a| 
+Die neue Subressourcenkonfiguration (auf die ersten 1024 Zeichen gekürzt).
+
+
+
+ a| 
+SUSR
+ a| 
+S3 User URN (Absender der Anfrage)
+ a| 
+Die Mandantenkonto-ID und der Benutzername des anfragenden Benutzers. Der Benutzer kann entweder ein lokaler Benutzer oder ein LDAP-Benutzer sein. Beispiel: `urn:sgws:identity::03393893651506583485:root`
+
+Leer für anonyme Anfragen.
+
+
+
+ a| 
+ZEIT
+ a| 
+Zeit
+ a| 
+Gesamtbearbeitungszeit für die Anfrage in Mikrosekunden.
+
+
+
+ a| 
+TLIP
+ a| 
+Vertrauenswürdige Load Balancer-IP-Adresse
+ a| 
+Wenn die Anfrage von einem vertrauenswürdigen Layer 7 Load Balancer weitergeleitet wurde, die IP-Adresse des Load Balancers.
+
+
+
+ a| 
+ULID
+ a| 
+Upload-ID
+ a| 
+Nur in SPUT-Meldungen für CompleteMultipartUpload Operationen enthalten. Gibt an, dass alle Teile hochgeladen und zusammengefügt wurden.
+
+
+
+ a| 
+UUID
+ a| 
+Universell eindeutiger Bezeichner
+ a| 
+Die Kennung des Objekts innerhalb des StorageGRID Systems.
+
+
+
+ a| 
+VSID
+ a| 
+Versions-ID
+ a| 
+Die Versions-ID eines neuen Objekts, das in einem versionierten Bucket erstellt wurde. Operationen an Buckets und Objekten in nicht versionierten Buckets enthalten dieses Feld nicht.
+
+
+
+ a| 
+VSST
+ a| 
+Versionsstatus
+ a| 
+Der neue Versionsstatus eines Buckets. Es werden zwei Zustände verwendet: „aktiviert“ oder „angehalten“. Operationen an Objekten berücksichtigen dieses Feld nicht.
+
+|===

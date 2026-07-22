@@ -1,0 +1,209 @@
+---
+permalink: monitor/monitoring-storage-capacity.html 
+sidebar: sidebar 
+keywords: how to monitor storage capacity 
+summary: Der insgesamt verfügbare Speicherplatz sollte überwacht werden, damit dem StorageGRID System weder für Objekte noch für Objektmetadaten der Speicherplatz ausgeht. 
+---
+= Überwachen Sie die Speicherkapazität in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der insgesamt verfügbare Speicherplatz sollte überwacht werden, damit dem StorageGRID System weder für Objekte noch für Objektmetadaten der Speicherplatz ausgeht.
+
+StorageGRID speichert Objektdaten und Objektmetadaten getrennt und reserviert einen bestimmten Speicherplatz für eine verteilte Cassandra Datenbank, die Objektmetadaten enthält. Der gesamte Speicherplatzverbrauch für Objekte und für Objektmetadaten sowie die Entwicklung des jeweiligen Verbrauchs sollte überwacht werden. Dadurch wird eine vorausschauende Planung für die Hinzufügung von Knoten und die Vermeidung von Serviceausfällen ermöglicht.
+
+Sie können link:viewing-storage-tab.html["Informationen zur Speicherkapazität anzeigen"] für das gesamte Grid, für jeden Standort und für jeden Speicherknoten in Ihrem StorageGRID System.
+
+
+
+[[monitor-storage-capacity-for-the-entire-grid]]
+== Die Speicherkapazität des gesamten Grids überwachen
+
+Die Gesamtspeicherkapazität Ihres Grids sollte überwacht werden, damit ausreichend freier Speicherplatz für Objektdaten und Objektmetadaten verbleibt. Ein Verständnis dafür, wie sich die Speicherkapazität im Laufe der Zeit verändert, unterstützt die Planung zur Erweiterung um Storage Nodes oder Speichervolumes, bevor die nutzbare Speicherkapazität des Grids ausgeschöpft ist.
+
+Das Grid Manager Dashboard ermöglicht eine schnelle Einschätzung, wie viel Speicherplatz für das gesamte Grid und für jedes einzelne Rechenzentrum verfügbar ist. Die Seite „Knoten“ bietet detailliertere Werte für Objektdaten und Objektmetadaten.
+
+.Schritte
+. Es kann ermittelt werden, wie viel Speicherplatz für das gesamte Grid und für jedes einzelne Rechenzentrum zur Verfügung steht.
++
+.. *Dashboard > Übersicht* auswählen.
+.. Beachten Sie die Werte auf den Karten „Aufschlüsselung der Datenspeichernutzung“ und „Aufschlüsselung der zulässigen Metadatenspeichernutzung“. Jede Karte zeigt den prozentualen Anteil der Speichernutzung, die Kapazität des belegten Speicherplatzes und den insgesamt verfügbaren bzw. zulässigen Speicherplatz pro Standort.
++
+
+NOTE: Die Zusammenfassung umfasst keine Archivmedien.
+
++
+image:dashboard_data_and_metadata_space_usage_breakdown.png["Aufschlüsselung der Daten- und Metadaten-Speichernutzung"]
+
+.. Beachten Sie das Diagramm auf der Karte „Storage over time“. Das Dropdown-Menü für den Zeitraum unterstützt dabei, zu erkennen, wie schnell Speicherplatz verbraucht wird.
++
+image:dashboard_storage_over_time.png["Speicherverlaufsdiagramm"]
+
+
+
+. Auf der Seite „Knoten“ sind zusätzliche Details darüber verfügbar, wie viel Speicherplatz bereits genutzt wurde und wie viel Speicherplatz im Grid noch für Objektdaten und Objektmetadaten zur Verfügung steht.
++
+.. Wählen Sie *Knoten*.
+.. *_grid_* > *Speicher* auswählen.
++
+image:nodes_deployment_storage_tab.png["Registerkarte „Nodes Deployment Storage“"]
+
+.. Positionieren Sie den Cursor über die Diagramme *Storage used - object data* und *Storage used - object metadata*, um zu sehen, wie viel Objektspeicher und Objektmetadatenspeicher für das gesamte Grid verfügbar sind und wie viel im Laufe der Zeit genutzt wurde.
++
+
+NOTE: Die Gesamtwerte für einen Standort oder das Grid beinhalten keine Knoten, die seit mindestens fünf Minuten keine Metriken gemeldet haben, wie zum Beispiel Offline-Knoten.
+
+
+
+. Es sollte eine Erweiterung zur Hinzufügung von Storage Nodes oder Speichervolumes vorgesehen werden, bevor die nutzbare Speicherkapazität des Grids aufgebraucht ist.
++
+Bei der Planung des Zeitpunkts einer Erweiterung ist zu berücksichtigen, wie lange die Beschaffung und Installation zusätzlicher Storage dauern wird.
+
++
+
+NOTE: Wenn Ihre ILM-Richtlinie Erasure Coding verwendet, kann es bevorzugt werden, die Erweiterung vorzunehmen, wenn die vorhandenen Speicherknoten etwa zu 70 % belegt sind, um die Anzahl der hinzuzufügenden Knoten zu reduzieren.
+
++
+Weitere Informationen zur Planung einer Speichererweiterung sind im link:../expand/index.html["Anleitung zum Erweitern von StorageGRID"] zu finden.
+
+
+
+
+
+[[monitor-storage-capacity-for-each-storage-node]]
+== Speicherkapazität für jeden Storage Node überwachen
+
+Der gesamte nutzbare Speicherplatz jedes Storage Node sollte überwacht werden, um sicherzustellen, dass der Node über ausreichend Speicherplatz für neue Objektdaten verfügt.
+
+.Über diese Aufgabe
+Der nutzbare Speicherplatz ist die Menge an Speicherplatz, die zum Speichern von Objekten zur Verfügung steht. Der gesamte nutzbare Speicherplatz eines Storage Node wird berechnet, indem der verfügbare Speicherplatz aller Objektspeicher innerhalb des Knotens addiert wird.
+
+image:calculating_watermarks.gif["Konzeptzeichnung für den insgesamt nutzbaren Speicherplatz"]
+
+.Schritte
+. Wählen Sie *Nodes* > *_Storage Node_* > *Storage*.
++
+Die Diagramme und Tabellen für den Knoten werden angezeigt.
+
+. Positionieren Sie Ihren Cursor über das Diagramm „Storage used - object data“.
++
+Folgende Werte werden angezeigt:
+
++
+** *Belegt (%)*: Der Prozentsatz des gesamten nutzbaren Speicherplatzes, der für Objektdaten verwendet wurde.
+** *Verwendet*: Der Anteil des gesamten nutzbaren Speicherplatzes, der für Objektdaten verwendet wurde.
+** *Replizierte Daten*: Eine Schätzung der Menge an replizierten Objektdaten auf diesem Knoten, Standort oder Grid.
+** *Erasure-coded data*: Eine Schätzung der Menge an erasure-coded Objektdaten auf diesem Knoten, Standort oder Grid.
+** *Gesamt*: Die Gesamtmenge des nutzbaren Speicherplatzes auf diesem Knoten, Standort oder Grid. Der Wert „Belegt“ ist die  `storagegrid_storage_utilization_data_bytes` Messgröße.
++
+image:nodes_page_storage_used_object_data.png["Knotenseite Speicher verwendet Objektdaten"]
+
+
+
+. Die verfügbaren Werte in den Tabellen „Volumes“ und „Object Stores“ unterhalb der Diagramme sind ersichtlich.
++
+
+NOTE: Zum Anzeigen von Diagrammen dieser Werte auf die Diagrammsymbole image:icon_chart_new_for_11_5.png["Diagrammsymbol"] in den verfügbaren Spalten klicken.
+
++
+image:nodes_page_storage_tables.png["Objektspeicher Tabellen"]
+
+. Die Werte sollten im Zeitverlauf überwacht werden, um die Geschwindigkeit abzuschätzen, mit der nutzbarer Speicherplatz verbraucht wird.
+. Um den normalen Systembetrieb aufrechtzuerhalten, Storage Nodes oder Speichervolumes hinzufügen oder Objektdaten archivieren, bevor der nutzbare Speicherplatz aufgebraucht ist.
++
+Bei der Planung des Zeitpunkts einer Erweiterung ist zu berücksichtigen, wie lange die Beschaffung und Installation zusätzlicher Storage dauern wird.
+
++
+
+NOTE: Wenn Ihre ILM-Richtlinie Erasure Coding verwendet, kann es bevorzugt werden, die Erweiterung vorzunehmen, wenn die vorhandenen Speicherknoten etwa zu 70 % belegt sind, um die Anzahl der hinzuzufügenden Knoten zu reduzieren.
+
++
+Weitere Informationen zur Planung einer Speichererweiterung sind im link:../expand/index.html["Anleitung zum Erweitern von StorageGRID"] zu finden.
+
++
+Die link:../troubleshoot/troubleshooting-low-object-data-storage-alert.html["Niedriger Objektdatenspeicher"] Warnung wird ausgelöst, wenn auf einem Storage Node nicht mehr genügend Speicherplatz für Objektdaten vorhanden ist.
+
+
+
+
+
+[[monitor-object-metadata-capacity-for-each-storage-node]]
+== Metadatenkapazität der Objekte für jeden Storage Node überwachen
+
+Die Metadatennutzung jedes Storage Node sollte überwacht werden, damit ausreichend Speicherplatz für essentielle Datenbankoperationen verfügbar bleibt. Neue Storage Nodes müssen an jedem Standort hinzugefügt werden, bevor die Objektmetadaten 100 % des erlaubten Metadatenspeicherplatzes überschreiten.
+
+.Über diese Aufgabe
+StorageGRID speichert an jedem Standort drei Kopien der Objektmetadaten, um Redundanz zu gewährleisten und Objektmetadaten vor Verlust zu schützen. Die drei Kopien werden gleichmäßig auf alle Storage Nodes jedes Standorts verteilt und nutzen dabei den für Metadaten reservierten Speicherplatz auf Storage Volume 0 jedes Storage Node.
+
+In manchen Fällen kann die Metadatenkapazität des Grids schneller erschöpft sein als seine Objektspeicherkapazität. Beispielsweise kann es erforderlich sein, Storage Nodes hinzuzufügen, um die Metadatenkapazität zu erhöhen, wenn typischerweise große Mengen kleiner Objekte aufgenommen werden, auch wenn noch ausreichend Objektspeicherkapazität vorhanden ist.
+
+Zu den Faktoren, die die Nutzung von Metadaten erhöhen können, gehören die Größe und Menge der Benutzermetadaten und Tags, die Gesamtzahl der Teile bei einem Multipart-Upload und die Häufigkeit von Änderungen an den ILM-Speicherorten.
+
+.Schritte
+. Wählen Sie *Nodes* > *_Storage Node_* > *Storage*.
+. Positionieren Sie den Mauszeiger über das Diagramm „Storage used - object metadata“, um die Werte für einen bestimmten Zeitpunkt anzuzeigen.
++
+image:storage_used_object_metadata.png["Verwendeter Speicher – Objektmetadaten"]
+
++
+Verwendet (%):: Der Prozentsatz des zulässigen Metadatenbereichs, der auf diesem Storage Node verwendet wurde.
++
+--
+Prometheus Metriken: `storagegrid_storage_utilization_metadata_bytes` und `storagegrid_storage_utilization_metadata_allowed_bytes`
+
+--
+Gebraucht:: Die Bytes des zulässigen Metadatenbereichs, die auf diesem Storage Node verwendet wurden.
++
+--
+Prometheus Metrik: `storagegrid_storage_utilization_metadata_bytes`
+
+--
+Erlaubt:: Der für Objektmetadaten auf diesem Storage Node vorgesehene Speicherplatz. Wie dieser Wert für jeden Storage Node bestimmt wird, ist im link:../admin/managing-object-metadata-storage.html#allowed-metadata-space["vollständige Beschreibung des zulässigen Metadatenbereichs"] beschrieben.
++
+--
+Prometheus Metrik: `storagegrid_storage_utilization_metadata_allowed_bytes`
+
+--
+Tatsächlich reserviert:: Der tatsächlich für Metadaten auf diesem Storage Node reservierte Speicherplatz. Umfasst den zulässigen Speicherplatz und den für essentielle Metadatenoperationen erforderlichen Speicherplatz. Wie dieser Wert für jeden Storage Node berechnet wird, ist im link:../admin/managing-object-metadata-storage.html#actual-reserved-space-for-metadata["vollständige Beschreibung des tatsächlich reservierten Speicherplatzes für Metadaten"] beschrieben.
++
+--
+Die Prometheus-Metrik wird in einer zukünftigen Version hinzugefügt.
+
+--
+
+
++
+
+NOTE: Die Gesamtwerte für einen Standort oder das Grid beinhalten keine Knoten, die seit mindestens fünf Minuten keine Metriken gemeldet haben, wie zum Beispiel Offline-Knoten.
+
+. Wenn der Wert *Auslastung (%)* 70 % oder höher ist, sollte das StorageGRID System durch das Hinzufügen von Storage Nodes zu jedem Standort erweitert werden.
++
+
+CAUTION: Die Warnung „Geringer Metadatenspeicher“ wird ausgelöst, wenn der Wert für „Belegt (%)“ bestimmte Schwellenwerte erreicht. Unerwünschte Ergebnisse können auftreten, wenn Objektmetadaten mehr als 100 % des zulässigen Speicherplatzes belegen.
+
++
+Beim Hinzufügen neuer Knoten gleicht das System die Objektmetadaten automatisch auf alle Storage Nodes innerhalb des Standorts aus. Siehe link:../expand/index.html["Anleitung zur Erweiterung eines StorageGRID Systems"].
+
+
+
+
+
+[[monitor-space-usage-forecasts]]
+== Raumnutzungsprognosen überwachen
+
+Prognosen zur Speichernutzung von Benutzerdaten und Metadaten überwachen, um abzuschätzen, wann link:../expand/index.html["ein Grid erweitern"] erforderlich sein wird.
+
+Wenn Sie feststellen, dass sich die Verbrauchsrate im Laufe der Zeit ändert, wählen Sie im Dropdown-Menü *Durchschnitt über* einen kürzeren Zeitraum, um nur die aktuellsten Ingest-Muster abzubilden. Wenn saisonale Muster erkennbar sind, empfiehlt sich die Auswahl eines längeren Zeitraums.
+
+Bei einer neuen StorageGRID Installation empfiehlt es sich, zunächst genügend Daten und Metadaten ansammeln zu lassen, bevor die Prognosen zur Speicherplatznutzung ausgewertet werden.
+
+.Schritte
+. Im Dashboard die Option *Speicher* auswählen.
+. Die Dashboard-Karten Prognose der Datennutzung nach Speicherpool und Prognose der Metadatennutzung nach Standort werden angezeigt.
+. Anhand dieser Werte lässt sich abschätzen, wann neue Storage Nodes für die Daten- und Metadatenspeicherung hinzugefügt werden müssen.
+
+
+image:forecast-metadata-usage.png["Prognose der Metadatennutzung nach Standort"]

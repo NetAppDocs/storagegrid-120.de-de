@@ -1,0 +1,56 @@
+---
+permalink: admin/copying-storagegrid-system-ca-certificate.html 
+sidebar: sidebar 
+keywords: grid ca certificate, copy certificate 
+summary: 'StorageGRID verwendet eine interne Zertifizierungsstelle (CA), um den internen Datenverkehr zu sichern. Dieses Zertifikat ändert sich nicht, wenn Sie eigene Zertifikate hochladen.' 
+---
+= Kopieren Sie das StorageGRID Grid CA-Zertifikat
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID verwendet eine interne Zertifizierungsstelle (CA), um den internen Datenverkehr zu sichern. Dieses Zertifikat ändert sich nicht, wenn Sie eigene Zertifikate hochladen.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Wenn ein benutzerdefiniertes Serverzertifikat konfiguriert wurde, sollten Clientanwendungen den Server mithilfe des benutzerdefinierten Serverzertifikats verifizieren. Sie sollten das CA-Zertifikat nicht vom StorageGRID System kopieren.
+
+.Schritte
+. ${post_edited_translations.segment}
+. Im Abschnitt *Certificate PEM* das Zertifikat herunterladen oder kopieren.
++
+[role="tabbed-block"]
+====
+.Zertifikatsdatei herunterladen
+--
+Laden Sie die Zertifikatsdatei  `.pem` herunter.
+
+.. *Zertifikat herunterladen* auswählen.
+.. Geben Sie den Namen der Zertifikatsdatei und den Speicherort für den Download an. Die Datei wird mit der Erweiterung  `.pem` gespeichert.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+.Zertifikat-PEM kopieren
+--
+Den Zertifikatstext kopieren, um ihn an anderer Stelle einzufügen.
+
+.. *Zertifikat PEM kopieren* auswählen.
+.. Das kopierte Zertifikat in einen Texteditor einfügen.
+.. Die Textdatei mit der Erweiterung  `.pem` speichern.
++
+Zum Beispiel: `storagegrid_certificate.pem`
+
+
+
+--
+====
+

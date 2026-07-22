@@ -1,0 +1,160 @@
+---
+permalink: maintain/linux-migrating-grid-node-to-new-host.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, linux, migrate node, migrating node, new host for node 
+summary: Sie können einen oder mehrere StorageGRID Knoten von einem Linux Host auf einen anderen Linux Host migrieren, um Hostwartungsarbeiten durchzuführen, ohne die Funktionalität oder Verfügbarkeit Ihres Grids zu beeinträchtigen. 
+---
+= Migrieren Sie einen StorageGRID-Knoten auf einen neuen Linux-Host
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können einen oder mehrere StorageGRID Knoten von einem Linux Host (dem _Quellhost_) auf einen anderen Linux Host (den _Zielhost_) migrieren, um Wartungsarbeiten am Host durchzuführen, ohne die Funktionalität oder Verfügbarkeit Ihres Grids zu beeinträchtigen.
+
+Beispielsweise kann es erforderlich sein, einen Knoten zu migrieren, um ein Betriebssystem-Patching durchzuführen und einen Neustart vorzunehmen.
+
+.Bevor Sie beginnen
+* Sie haben Ihre StorageGRID Bereitstellung so geplant, dass sie Migrationsunterstützung beinhaltet. Siehe link:../swnodes/node-container-migration-requirements.html["Anforderungen an die Migration von Node Containern"].
+* Der Zielhost ist bereits für die Verwendung mit StorageGRID vorbereitet.
+* Gemeinsam genutzter Speicher wird für alle Speichervolumes pro Knoten verwendet
+* Netzwerkschnittstellen haben auf allen Hosts einheitliche Namen.
+
+
+[NOTE]
+====
+In einer Implementierung in der Produktion wird nicht mehr als ein Storage Node auf einem einzelnen Host betrieben. Die Verwendung eines dedizierten Hosts für jeden Storage Node bietet eine isolierte Ausfalldomäne.
+
+Andere Knotentypen, wie zum Beispiel Admin Nodes oder Gateway Nodes, können auf demselben Host bereitgestellt werden. Wenn jedoch mehrere Knoten desselben Typs vorhanden sind (zum Beispiel zwei Gateway Nodes), sollten nicht alle Instanzen auf demselben Host installiert werden.
+
+====
+
+
+[[export-node-from-source-host]]
+== Knoten vom Quellhost exportieren
+
+Als erster Schritt besteht darin, den Grid-Knoten herunterzufahren und vom Quell-Linux-Host zu exportieren.
+
+Die folgenden Befehle werden auf dem Quellhost ausgeführt.
+
+.Schritte
+. Der Status aller aktuell auf dem Quellhost laufenden Knoten kann abgerufen werden.
++
+`sudo storagegrid node status all`
+
++
+Beispielausgabe:
+
++
+[listing]
+----
+Name Config-State Run-State
+DC1-ADM1 Configured Running
+DC1-ARC1 Configured Running
+DC1-GW1 Configured Running
+DC1-S1 Configured Running
+DC1-S2 Configured Running
+DC1-S3 Configured Running
+----
+. Den Namen des Knotens, der migriert werden soll, identifizieren und anhalten, falls sein Run-State „Running“ ist.
++
+`sudo storagegrid node stop DC1-S3`
+
++
+Beispielausgabe:
+
++
+[listing]
+----
+Stopping node DC1-S3
+Waiting up to 630 seconds for node shutdown
+----
+. Der Knoten wird vom Quellhost exportiert.
++
+`sudo storagegrid node export DC1-S3`
+
++
+Beispielausgabe:
+
++
+[listing]
+----
+Finished exporting node DC1-S3 to /dev/mapper/sgws-dc1-s3-var-local.
+Use 'storagegrid node import /dev/mapper/sgws-dc1-s3-var-local' if you
+want to import it again.
+----
+. Beachten Sie den im Ausgabeergebnis vorgeschlagenen  `import` Befehl.
++
+Dieser Befehl wird im nächsten Schritt auf dem Zielhost ausgeführt.
+
+
+
+
+
+[[import-node-on-target-host]]
+== Importknoten auf dem Zielhost
+
+Nach dem Export des Knotens vom Quellhost werden der Import und die Validierung des Knotens auf dem Zielhost durchgeführt. Die Validierung bestätigt, dass der Knoten Zugriff auf dieselben Blockspeicher- und Netzwerkschnittstellengeräte hat wie auf dem Quellhost.
+
+Die folgenden Befehle werden auf dem _Zielhost_ ausgeführt.
+
+.Schritte
+. Der Knoten wird auf dem Zielhost importiert.
++
+`sudo storagegrid node import /dev/mapper/sgws-dc1-s3-var-local`
+
++
+Beispielausgabe:
+
++
+[listing]
+----
+Finished importing node DC1-S3 from /dev/mapper/sgws-dc1-s3-var-local.
+You should run 'storagegrid node validate DC1-S3'
+----
+. Die Knotenkonfiguration auf dem neuen Host wird validiert.
++
+`sudo storagegrid node validate DC1-S3`
+
++
+Beispielausgabe:
+
++
+[listing]
+----
+Confirming existence of node DC1-S3... PASSED
+Checking configuration file /etc/storagegrid/nodes/DC1-S3.conf for node DC1-S3... PASSED
+Checking for duplication of unique values... PASSED
+----
+. Wenn Validierungsfehler auftreten, sollten diese behoben werden, bevor der migrierte Knoten gestartet wird.
++
+Informationen zur Fehlerbehebung befinden sich in der StorageGRID link:../swnodes/index.html["Installationsanleitung"] für Ihr Linux-Betriebssystem.
+
+
+
+
+
+[[start-migrated-node]]
+== Start des migrierten Knotens
+
+Nach der Validierung des migrierten Knotens wird der Knoten durch Ausführen eines Befehls auf dem _Zielhost_ gestartet.
+
+.Schritte
+. Der Knoten wird auf dem neuen Host gestartet.
++
+`sudo storagegrid node start DC1-S3`
+
+. Im Grid Manager anmelden und überprüfen, dass der Status des Knotens grün ist und keine Warnung vorliegt.
++
+
+CAUTION: Die Überprüfung des grünen Status des Knotens stellt sicher, dass der migrierte Knoten vollständig neu gestartet wurde und dem Grid wieder beigetreten ist. Wenn der Status nicht grün ist, sollten keine weiteren Knoten migriert werden, damit nicht mehr als ein Knoten außer Betrieb ist.
+
+. Falls kein Zugriff auf den Grid Manager möglich ist, nach 10 Minuten den folgenden Befehl ausführen:
++
+`sudo storagegrid node status _node-name`
+
++
+Bestätigt werden kann, dass der migrierte Knoten den Run-State „Running“ aufweist.
+
+

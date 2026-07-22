@@ -1,0 +1,50 @@
+---
+permalink: monitor/reviewing-support-metrics.html 
+sidebar: sidebar 
+keywords: how to view support metrics, how to review support metrics 
+summary: Bei der Fehlersuche besteht die Möglichkeit, gemeinsam mit dem technischen Support detaillierte Metriken und Diagramme für Ihr StorageGRID System zu überprüfen. 
+---
+= Überprüfen Sie die StorageGRID-Support-Metriken
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei der Fehlersuche besteht die Möglichkeit, gemeinsam mit dem technischen Support detaillierte Metriken und Diagramme für Ihr StorageGRID System zu überprüfen.
+
+.Bevor Sie beginnen
+* Sie müssen mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] im Grid Manager angemeldet sein.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Die Seite „Metriken“ ermöglicht den Zugriff auf die Benutzeroberflächen von Prometheus und Grafana. Prometheus ist Open-Source-Software zur Erfassung von Metriken. Grafana ist Open-Source-Software zur Visualisierung von Metriken.
+
+
+NOTE: Die auf der Seite „Metriken“ verfügbaren Tools sind für den Einsatz durch den technischen Support vorgesehen. Einige Funktionen und Menüpunkte dieser Tools sind absichtlich nicht funktionsfähig und können sich ändern. Siehe die Liste link:commonly-used-prometheus-metrics.html["häufig verwendete Prometheus Metriken"].
+
+.Schritte
+. Wie vom technischen Support vorgegeben, *Support* > *Tools* > *Metrics* auswählen.
++
+Ein Beispiel für die Seite „Metriken“ ist hier dargestellt:
+
++
+image:metrics_page.png["Metrikseite"]
+
+. Zum Abfragen der aktuellen Werte der StorageGRID-Metriken und zum Anzeigen von Diagrammen der Werte im Zeitverlauf auf den Link im Abschnitt Prometheus klicken.
++
+Die Prometheus-Oberfläche wird angezeigt. Mit dieser Oberfläche lassen sich Abfragen zu den verfügbaren StorageGRID-Metriken ausführen und StorageGRID-Metriken im Zeitverlauf grafisch darstellen.
+
++
+
+NOTE: Metriken, die _private_ in ihrem Namen enthalten, sind nur für den internen Gebrauch bestimmt und können sich zwischen StorageGRID Versionen ohne Vorankündigung ändern.
+
+. Zum Zugriff auf vorgefertigte Dashboards mit Diagrammen der StorageGRID-Metriken im Zeitverlauf stehen die Links im Abschnitt Grafana zur Verfügung.
++
+Die Grafana Oberfläche für den ausgewählten Link erscheint.
+
++
+image:metrics_page_grafana.png["Metriken-Seite Grafana"]
+
+

@@ -1,0 +1,33 @@
+---
+permalink: tenant/deleting-another-users-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to delete access key for other user 
+summary: Wenn Sie einen S3-Mandanten verwenden und über die entsprechenden Berechtigungen verfügen, können Sie die S3-Zugriffsschlüssel eines anderen Benutzers löschen. Nach dem Löschen eines Zugriffsschlüssels kann dieser nicht mehr für den Zugriff auf die Objekte und Buckets im Mandantenkonto verwendet werden. 
+---
+= Löschen Sie die S3-Zugriffsschlüssel eines anderen Benutzers in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Mandanten verwenden und über die entsprechenden Berechtigungen verfügen, können Sie die S3-Zugriffsschlüssel eines anderen Benutzers löschen. Nach dem Löschen eines Zugriffsschlüssels kann dieser nicht mehr für den Zugriff auf die Objekte und Buckets im Mandantenkonto verwendet werden.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie haben die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"].
+
+
+
+CAUTION: Auf die S3-Buckets und Objekte eines Benutzers kann mit der Zugriffsschlüssel-ID und dem geheimen Zugriffsschlüssel zugegriffen werden, die für diesen Benutzer im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig ausgetauscht, ungenutzte Schlüssel aus dem Konto entfernt und niemals mit anderen Benutzern geteilt werden.
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. Auf der Seite „Benutzer“ den Benutzer auswählen, dessen S3-Zugriffsschlüssel verwaltet werden sollen.
+. Auf der Seite „Benutzerdetails“ die Option *Zugriffsschlüssel* auswählen und dann das Kontrollkästchen für jeden Zugriffsschlüssel markieren, der gelöscht werden soll.
+. *Aktionen* > *Ausgewählten Schlüssel löschen* auswählen.
+. Im Bestätigungsdialogfeld *Entf-Taste* auswählen.
++
+In der oberen rechten Ecke der Seite erscheint eine Bestätigungsmeldung.
+
+

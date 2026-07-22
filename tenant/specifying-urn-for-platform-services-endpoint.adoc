@@ -1,0 +1,181 @@
+---
+permalink: tenant/specifying-urn-for-platform-services-endpoint.html 
+sidebar: sidebar 
+keywords: how to specify platform services urn 
+summary: 'Beim Erstellen eines Plattformdienste-Endpunkts müssen Sie einen eindeutigen Ressourcennamen (URN) angeben. Der URN wird verwendet, um auf den Endpunkt zu verweisen, wenn eine Konfigurations-XML für den Plattformdienst erstellt wird. Der URN für jeden Endpunkt muss eindeutig sein.' 
+---
+= Geben Sie eine URN für einen StorageGRID Plattformdienste-Endpunkt an
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beim Erstellen eines Plattformdienste-Endpunkts müssen Sie einen eindeutigen Ressourcennamen (URN) angeben. Der URN wird verwendet, um auf den Endpunkt zu verweisen, wenn eine Konfigurations-XML für den Plattformdienst erstellt wird. Der URN für jeden Endpunkt muss eindeutig sein.
+
+StorageGRID validiert Plattformdienste-Endpunkte bei deren Erstellung. Vor dem Erstellen eines Plattformdienste-Endpunkts sollte bestätigt werden, dass die im Endpunkt angegebene Ressource existiert und erreichbar ist.
+
+
+
+[[urn-elements]]
+== URN-Elemente
+
+Die URN für einen Plattformdienste-Endpunkt muss entweder mit  `arn:aws` oder  `urn:mysite` beginnen, wie folgt:
+
+* Wenn der Dienst auf Amazon Web Services (AWS) gehostet wird, verwenden Sie `arn:aws`
+* Wenn der Dienst auf der Google Cloud Platform (GCP) gehostet wird, verwenden Sie `arn:aws`
+* Wenn der Dienst lokal gehostet wird, verwenden Sie `urn:mysite`
+
+
+Wenn Sie beispielsweise die URN für einen CloudMirror Endpunkt angeben, der auf StorageGRID gehostet wird, könnte die URN mit  `urn:sgws` beginnen.
+
+Das nächste Element der URN spezifiziert die Art des Plattformdienstes wie folgt:
+
+[cols="2a,1a"]
+|===
+| Service | Typ 
+
+
+ a| 
+CloudMirror Replikation
+ a| 
+`s3`
+
+
+
+ a| 
+Benachrichtigungen
+ a| 
+`sns`, `kafka`, oder `webhook`
+
+
+
+ a| 
+Suchintegration
+ a| 
+`es`
+
+|===
+Um beispielsweise die URN für einen CloudMirror-Endpunkt auf StorageGRID weiter anzugeben, würde  `s3` hinzugefügt, um  `urn:sgws:s3` zu erhalten.
+
+Bei den meisten Endpunkten identifiziert das letzte Element der URN die spezifische Zielressource unter dem Ziel-URI, zum Beispiel  `sns-topic-name`.
+
+Bei Webhook-Endpunkten ist die Zielressource die Ziel-URI selbst.
+
+[cols="1a,2a"]
+|===
+| Service | Spezifische Ressource 
+
+
+ a| 
+CloudMirror Replikation
+ a| 
+`bucket-name`
+
+
+
+ a| 
+Benachrichtigungen
+ a| 
+`sns-topic-name` oder `kafka-topic-name`
+
+*Hinweis:* Bei Webhook-Endpunkten kann das letzte Element der URN eine beliebige Zeichenkette sein, solange die URN des Endpunkts eindeutig ist.
+
+
+
+ a| 
+Suchintegration
+ a| 
+`domain-name/index-name/type-name`
+
+*Hinweis:* Wenn der Elasticsearch Cluster *nicht* so konfiguriert ist, dass Indizes automatisch erstellt werden, muss der Index manuell erstellt werden, bevor der Endpunkt erstellt wird.
+
+|===
+
+
+[[urns-for-services-hosted-on-aws-and-gcp]]
+== URNs für Dienste, die auf AWS und GCP gehostet werden
+
+Für AWS- und GCP-Entitäten ist die vollständige URN ein gültiger AWS ARN. Beispiel:
+
+* CloudMirror Replikation:
++
+[listing]
+----
+arn:aws:s3:::bucket-name
+----
+* Benachrichtigungen:
++
+[listing]
+----
+arn:aws:sns:region:account-id:topic-name
+----
+* Suchintegration:
++
+[listing]
+----
+arn:aws:es:region:account-id:domain/domain-name/index-name/type-name
+----
++
+
+NOTE: Für einen AWS-Suchintegrationsendpunkt muss  `domain-name` die Zeichenkette  `domain/` wörtlich enthalten sein, wie hier gezeigt.
+
+
+
+
+
+[[urns-for-locally-hosted-services]]
+== URNs für lokal gehostete Dienste
+
+Bei der Verwendung lokal gehosteter Dienste anstelle von Cloud-Diensten kann die URN auf beliebige Weise angegeben werden, solange sie gültig und eindeutig ist und die erforderlichen Elemente an der dritten und letzten Stelle enthält. Die mit „optional“ gekennzeichneten Elemente können leer gelassen oder auf eine Weise angegeben werden, die hilft, die Ressource zu identifizieren und die URN eindeutig zu machen. Beispiel:
+
+* CloudMirror Replikation:
++
+[listing]
+----
+urn:mysite:s3:optional:optional:bucket-name
+----
++
+Für einen CloudMirror Endpoint auf StorageGRID kann eine gültige URN angegeben werden, die mit  `urn:sgws` beginnt:
+
++
+[listing]
+----
+urn:sgws:s3:optional:optional:bucket-name
+----
+* Benachrichtigungen:
++
+Einen Amazon Simple Notification Service Endpunkt angeben:
+
++
+[listing]
+----
+urn:mysite:sns:optional:optional:sns-topic-name
+----
++
+Einen Kafka-Endpunkt angeben:
+
++
+[listing]
+----
+urn:mysite:kafka:optional:optional:kafka-topic-name
+----
++
+Einen Webhook-Endpunkt angeben:
+
++
+[listing]
+----
+urn:mysite:webhook:optional:optional:webhook-name
+----
+* Suchintegration:
++
+[listing]
+----
+urn:mysite:es:optional:optional:domain-name/index-name/type-name
+----
++
+
+NOTE: Bei lokal gehosteten Suchintegrationsendpunkten kann das  `domain-name` Element eine beliebige Zeichenkette sein, solange die URN des Endpunkts eindeutig ist.
+
+

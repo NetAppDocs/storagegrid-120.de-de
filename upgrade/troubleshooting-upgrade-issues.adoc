@@ -1,0 +1,176 @@
+---
+permalink: upgrade/troubleshooting-upgrade-issues.html 
+sidebar: sidebar 
+keywords: upgrade, troubleshoot, troubleshooting, errors, upgrade precheck 
+summary: Sollte bei einem Upgrade ein Fehler auftreten, können Sie das Problem möglicherweise selbst beheben. Wenn das Problem nicht gelöst werden kann, sollten so viele Informationen wie möglich gesammelt und anschließend der technische Support kontaktiert werden. 
+---
+= Beheben von StorageGRID-Aktualisierungsproblemen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sollte bei einem Upgrade ein Fehler auftreten, können Sie diesen möglicherweise selbst beheben. Falls Sie das Problem nicht selbst lösen können, sammeln Sie so viele Informationen wie möglich und kontaktieren Sie anschließend den technischen Support.
+
+
+
+[[upgrade-does-not-complete]]
+== Upgrade wird nicht abgeschlossen
+
+Die folgenden Abschnitte beschreiben, wie eine Wiederherstellung aus Situationen erfolgt, in denen das Upgrade teilweise fehlgeschlagen ist.
+
+
+
+[[upgrade-precheck-errors]]
+=== Upgrade-Vorabprüfungsfehler
+
+Um Probleme zu erkennen und zu beheben, können Sie die Upgrade-Vorabprüfungen manuell ausführen, bevor Sie das eigentliche Upgrade starten. Die meisten Fehler in den Vorabprüfungen liefern Informationen zur Problembehebung.
+
+
+
+[[provisioning-failures]]
+=== Bereitstellungsfehler
+
+Falls der automatische Bereitstellungsprozess fehlschlägt, sollte der technische Support kontaktiert werden.
+
+
+
+[[grid-node-crashes-or-fails-to-start]]
+=== Grid-Node stürzt ab oder startet nicht
+
+Falls ein Grid-Knoten während des Upgrade-Prozesses abstürzt oder nach Abschluss des Upgrades nicht erfolgreich startet, sollte der technische Support kontaktiert werden, um die Ursache zu untersuchen und zu beheben.
+
+
+
+[[ingest-or-data-retrieval-is-interrupted]]
+=== Die Datenaufnahme oder der Datenabruf ist unterbrochen
+
+Wenn die Datenaufnahme oder der Datenabruf unerwartet unterbrochen wird, obwohl kein Grid-Knoten aktualisiert wird, sollte der technische Support kontaktiert werden.
+
+
+
+[[database-upgrade-errors]]
+=== Datenbank-Upgrade-Fehler
+
+Wenn das Upgrade der Datenbank mit einem Fehler fehlschlägt, sollte das Upgrade erneut versucht werden. Falls es erneut fehlschlägt, ist der technische Support zu kontaktieren.
+
+.Verwandte Informationen
+link:checking-systems-condition-before-upgrading-software.html["Überprüfung des Systemzustands vor dem Software-Upgrade"]
+
+
+
+[[user-interface-issues]]
+== Probleme mit der Benutzeroberfläche
+
+Es könnten während oder nach dem Upgrade Probleme mit dem Grid Manager oder dem Tenant Manager auftreten.
+
+
+
+[[grid-manager-displays-multiple-error-messages-during-upgrade]]
+=== Grid Manager zeigt während des Upgrades mehrere Fehlermeldungen an
+
+Wenn Sie Ihren Browser aktualisieren oder eine andere Grid Manager-Seite aufrufen, während der primäre Admin-Knoten aktualisiert wird, werden möglicherweise mehrere Fehlermeldungen „503: Dienst nicht verfügbar“ und „Problem beim Verbinden mit dem Server“ angezeigt. Diese Meldungen können ohne Bedenken ignoriert werden, sie werden nicht mehr angezeigt, sobald der Knoten aktualisiert ist.
+
+Wenn diese Meldungen länger als eine Stunde nach Beginn des Upgrades angezeigt werden, ist möglicherweise ein Problem aufgetreten, das das Upgrade des primären Admin Node verhindert hat. Falls das Problem nicht eigenständig behoben werden kann, sollte der technische Support kontaktiert werden.
+
+
+
+[[web-interface-does-not-respond-as-expected]]
+=== Die Weboberfläche reagiert nicht wie erwartet
+
+Der Grid Manager oder der Tenant Manager reagieren nach einem Upgrade der StorageGRID-Software möglicherweise nicht wie erwartet.
+
+Sollten Sie Probleme mit der Weboberfläche haben:
+
+* Stellen Sie sicher, dass Sie ein link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] verwenden.
++
+
+NOTE: Die Browserunterstützung ändert sich typischerweise mit jeder StorageGRID Version.
+
+* Leeren Sie den Cache Ihres Webbrowsers.
++
+Durch das Leeren des Caches werden veraltete Ressourcen der vorherigen Version der StorageGRID Software entfernt, und die Benutzeroberfläche kann wieder korrekt funktionieren. Anleitungen dazu enthält die Dokumentation Ihres Webbrowsers.
+
+
+
+
+
+[[docker-image-availability-check-error-messages]]
+== Fehlermeldungen der „Docker image availability check“-Prüfung
+
+Beim Versuch, den Upgrade-Prozess zu starten, wird möglicherweise eine Fehlermeldung angezeigt, die besagt: „Die folgenden Probleme wurden von der Docker-Image-Verfügbarkeitsprüfung identifiziert.“ Alle Probleme müssen behoben werden, bevor das Upgrade abgeschlossen werden kann.
+
+Wenden Sie sich an den technischen Support, wenn Sie sich bezüglich der zur Behebung der festgestellten Probleme erforderlichen Änderungen unsicher sind.
+
+[cols="1a,1a,1a"]
+|===
+| Nachricht | Ursache | Lösung 
+
+
+ a| 
+Die Upgrade-Version konnte nicht ermittelt werden. Die Upgrade-Versionsinformationsdatei  `{file_path}` entsprach nicht dem erwarteten Format.
+ a| 
+Das Upgrade-Paket ist beschädigt.
+ a| 
+Laden Sie das Upgrade-Paket erneut hoch und versuchen Sie es erneut. Wenn das Problem weiterhin besteht, wenden Sie sich an den technischen Support.
+
+
+
+ a| 
+Die Upgrade-Versionsinformationsdatei  `{file_path}` wurde nicht gefunden. Die Upgrade-Version konnte nicht ermittelt werden.
+ a| 
+Das Upgrade-Paket ist beschädigt.
+ a| 
+Laden Sie das Upgrade-Paket erneut hoch und versuchen Sie es erneut. Wenn das Problem weiterhin besteht, wenden Sie sich an den technischen Support.
+
+
+
+ a| 
+Die aktuell installierte Release-Version auf  `{node_name}` konnte nicht ermittelt werden.
+ a| 
+Eine wichtige Datei auf dem Knoten ist beschädigt.
+ a| 
+Wenden Sie sich an den technischen Support.
+
+
+
+ a| 
+Verbindungsfehler beim Versuch, Versionen auf `{node_name}` aufzulisten
+ a| 
+Der Knoten ist offline oder die Verbindung wurde unterbrochen.
+ a| 
+Prüfen Sie, ob alle Knoten online und vom primären Admin-Node aus erreichbar sind, und versuchen Sie es erneut.
+
+
+
+ a| 
+Auf dem Host für den Knoten `{node_name}` ist kein StorageGRID `{upgrade_version}` Image geladen. Images und Dienste müssen auf dem Host installiert sein, bevor das Upgrade fortgesetzt werden kann.
+ a| 
+Die RPM- oder DEB-Pakete für das Upgrade wurden auf dem Host, auf dem der Node läuft, noch nicht installiert oder die Images befinden sich noch im Importvorgang.
+
+*Hinweis:* Dieser Fehler betrifft nur Knoten, die als Container unter Linux ausgeführt werden.
+ a| 
+Überprüfen Sie, ob die RPM- oder DEB-Pakete auf allen Linux-Hosts installiert wurden, auf denen die Nodes ausgeführt werden. Es sollte sichergestellt sein, dass die Version sowohl für den Service als auch für die Images-Datei korrekt ist. Einige Minuten abwarten und anschließend erneut versuchen.
+
+Siehe link:../upgrade/linux-installing-rpm-or-deb-package-on-all-hosts.html["Linux: RPM- oder DEB-Paket auf allen Hosts installieren"].
+
+
+
+ a| 
+Fehler beim Überprüfen des Knotens `{node_name}`
+ a| 
+Es ist ein unerwarteter Fehler aufgetreten.
+ a| 
+Warten Sie einige Minuten und versuchen Sie es erneut.
+
+
+
+ a| 
+Beim Ausführen der Vorabprüfungen ist ein nicht abgefangener Fehler aufgetreten. `{error_string}`
+ a| 
+Es ist ein unerwarteter Fehler aufgetreten.
+ a| 
+Warten Sie einige Minuten und versuchen Sie es erneut.
+
+|===

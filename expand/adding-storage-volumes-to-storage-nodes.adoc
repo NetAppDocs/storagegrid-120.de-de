@@ -1,0 +1,50 @@
+---
+permalink: expand/adding-storage-volumes-to-storage-nodes.html 
+sidebar: sidebar 
+keywords: storage volumes, expand, expansion, add, storage nodes, adding storage capacity, StorageGRID 
+summary: Sie können die Speicherkapazität von Storage Nodes erweitern, die sich unter der maximal unterstützten Anzahl von Volumes befinden. Es kann erforderlich sein, mehreren Storage Nodes Speichervolumes hinzuzufügen, um die ILM-Anforderungen für replizierte oder löschcodierte Kopien zu erfüllen. 
+---
+= Speichervolumes zum StorageGRID System hinzufügen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Speicherkapazität von Storage Nodes erweitern, die sich unter der maximal unterstützten Anzahl von Volumes befinden. Es kann erforderlich sein, mehreren Storage Nodes Speichervolumes hinzuzufügen, um die ILM-Anforderungen für replizierte oder löschcodierte Kopien zu erfüllen.
+
+.Bevor Sie beginnen
+Bevor Speichervolumes hinzugefügt werden, sollte die link:guidelines-for-adding-object-capacity.html["Richtlinien zum Hinzufügen von Objektkapazität"] überprüft werden, um sicherzustellen, dass bekannt ist, wo Volumes hinzugefügt werden müssen, um die Anforderungen der ILM-Richtlinie zu erfüllen.
+
+
+NOTE: Diese Anweisungen gelten nur für softwarebasierte Storage Nodes. Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/adding-expansion-shelf-to-deployed-sg6060.html["Erweiterungsfach zum bereits installierten SG6060 hinzufügen"^] oder  https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/adding-expansion-shelf-to-deployed-sg6160.html["Erweiterungsfach zum bereits installierten SG6160 hinzufügen"^], um zu erfahren, wie dem SG6060 oder SG6160 durch die Installation von Erweiterungsgehäusen Speichervolumen hinzugefügt werden kann. Andere Appliance Storage Nodes können nicht erweitert werden.
+
+.Über diese Aufgabe
+Der zugrundeliegende Speicher eines Storage Node ist in Speichervolumes unterteilt. Speichervolumes sind blockbasierter Storage-Geräte, die vom StorageGRID System formatiert und zum Speichern von Objekten eingebunden werden. Jeder Storage Node kann bis zu 48 Speichervolumes unterstützen, die im Grid Manager als Objektspeicher bezeichnet werden.
+
+
+NOTE: Objektmetadaten werden immer im Objektspeicher 0 gespeichert.
+
+Jeder Objektspeicher ist auf einem Volume eingebunden, das seiner ID entspricht. Beispielsweise entspricht der Objektspeicher mit der ID 0000 dem  `/var/local/rangedb/0` Mountpunkt.
+
+Bevor neue Speichervolumes hinzugefügt werden, kann im Grid Manager eine Übersicht der aktuellen Objektspeicher für jeden Storage Node sowie der entsprechenden Mountpunkte angezeigt werden. Diese Informationen sind beim Hinzufügen von Speichervolumes hilfreich.
+
+.Schritte
+. *Nodes* > *_site_* > *_Storage Node_* > *Storage* auswählen.
+. Scrollen Sie nach unten, um die verfügbaren Speichermengen für jedes Volume und jeden Objektspeicher anzuzeigen.
++
+Bei Appliance-Speicherknoten entspricht der weltweite Name jeder Festplatte der weltweiten Kennung des Datenträgers (WWID), die erscheint, wenn die Standard-Datenträgereigenschaften in SANtricity OS (der mit dem Storage-Controller der Appliance verbundenen Management-Software) angezeigt werden.
+
++
+Zur Unterstützung bei der Interpretation der Lese- und Schreibstatistiken von Datenträgern in Bezug auf Volume-Mountpunkte entspricht der erste Teil des Namens, der in der Spalte *Name* der Tabelle „Disk Devices“ angezeigt wird (also _sdc_, _sdd_, _sde_ usw.), dem Wert, der in der Spalte *Device* der Tabelle „Volumes“ angezeigt wird.
+
++
+image:nodes_page_storage_tables_vol_expansion.png["Knoten Seite Speichertabellen"]
+
+. ${post_edited_translations.segment}
++
+** link:vmware-adding-storage-volumes-to-storage-node.html["VMware: Speichervolumes zu Storage Node hinzufügen"]
+** link:linux-adding-direct-attached-or-san-volumes-to-storage-node.html["Linux: Direkt angeschlossene oder SAN-Volumes zu Storage Node hinzufügen"]
+
+
+

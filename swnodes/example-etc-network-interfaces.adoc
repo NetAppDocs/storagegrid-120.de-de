@@ -1,0 +1,85 @@
+---
+permalink: swnodes/example-etc-network-interfaces.html 
+sidebar: sidebar 
+keywords: example etc network interfaces 
+summary: 'Die Datei `/etc/network/interfaces` enthält drei Abschnitte, die die physischen Schnittstellen, die Bond-Schnittstelle und die VLAN-Schnittstellen definieren. Die drei Beispielabschnitte können in einer einzigen Datei zusammengefasst werden, wodurch vier physische Linux-Schnittstellen zu einem einzelnen LACP Bond aggregiert werden und anschließend drei VLAN-Schnittstellen eingerichtet werden, die diesem Bond untergeordnet sind und als StorageGRID Grid, Admin und Client Network Schnittstellen dienen.' 
+---
+= Beispiel für die Aggregation physischer Schnittstellen für StorageGRID auf Ubuntu und Debian
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die  `/etc/network/interfaces` Datei enthält drei Abschnitte, die die physischen Schnittstellen, die Bond-Schnittstelle und die VLAN-Schnittstellen definieren. Die drei Beispielabschnitte können in einer einzigen Datei zusammengefasst werden, wodurch vier physische Linux-Schnittstellen zu einem einzelnen LACP Bond aggregiert werden und anschließend drei VLAN-Schnittstellen eingerichtet werden, die dem Bond als StorageGRID Grid, Admin und Client Network Schnittstellen dienen.
+
+
+
+[[physical-interfaces]]
+== Physikalische Schnittstellen
+
+Beachten Sie, dass die Switches an den anderen Enden der Verbindungen die vier Ports ebenfalls als einen einzigen LACP-Trunk oder Portkanal behandeln und mindestens die drei referenzierten VLANs mit Tags weiterleiten müssen.
+
+[listing]
+----
+# loopback interface
+auto lo
+iface lo inet loopback
+
+# ens160 interface
+auto ens160
+iface ens160 inet manual
+    bond-master bond0
+    bond-primary en160
+
+# ens192 interface
+auto ens192
+iface ens192 inet manual
+    bond-master bond0
+
+# ens224 interface
+auto ens224
+iface ens224 inet manual
+    bond-master bond0
+
+# ens256 interface
+auto ens256
+iface ens256 inet manual
+    bond-master bond0
+----
+
+
+[[bond-interface]]
+== Bond Schnittstelle
+
+[listing]
+----
+# bond0 interface
+auto bond0
+iface bond0 inet manual
+    bond-mode 4
+    bond-miimon 100
+    bond-slaves ens160 ens192 end224 ens256
+----
+
+
+[[vlan-interfaces]]
+== VLAN Schnittstellen
+
+[listing]
+----
+# 1001 vlan
+auto bond0.1001
+iface bond0.1001 inet manual
+vlan-raw-device bond0
+
+# 1002 vlan
+auto bond0.1002
+iface bond0.1002 inet manual
+vlan-raw-device bond0
+
+# 1003 vlan
+auto bond0.1003
+iface bond0.1003 inet manual
+vlan-raw-device bond0
+----

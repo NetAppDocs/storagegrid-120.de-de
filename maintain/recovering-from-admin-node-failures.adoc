@@ -1,0 +1,23 @@
+---
+permalink: maintain/recovering-from-admin-node-failures.html 
+sidebar: sidebar 
+keywords: recover, admin node failure, workflow 
+summary: Der Wiederherstellungsprozess für einen Admin-Node hängt davon ab, ob es sich um den primären Admin-Node oder einen nicht-primären Admin-Node handelt. 
+---
+= Wiederherstellung des primären oder nicht-primären Admin-Node in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der Wiederherstellungsprozess für einen Admin-Node hängt davon ab, ob es sich um den primären Admin-Node oder einen nicht-primären Admin-Node handelt.
+
+Die grundlegenden Schritte zur Wiederherstellung eines primären oder nicht-primären Admin-Knotens sind dieselben, obwohl sich die Details der Schritte unterscheiden.
+
+Stets ist das korrekte Wiederherstellungsverfahren für den Admin-Node, den Sie wiederherstellen, zu verwenden. Die Verfahren sehen auf hoher Ebene ähnlich aus, unterscheiden sich jedoch in den Details.
+
+.Auswahlmöglichkeiten
+* link:recovering-from-primary-admin-node-failures.html["Wiederherstellung nach Ausfällen des primären Admin-Node"]
+* link:recovering-from-non-primary-admin-node-failures.html["Wiederherstellung nach Ausfällen von nicht primären Admin-Nodes"]
+

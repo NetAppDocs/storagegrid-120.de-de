@@ -1,0 +1,65 @@
+---
+permalink: ilm/creating-and-assigning-storage-grades.html 
+sidebar: sidebar 
+keywords: what is a storage grade, create storage grade 
+summary: Speicherklassen kennzeichnen den Speichertyp, der von einem Storage Node verwendet wird. Speicherklassen können erstellt werden, wenn ILM-Regeln bestimmte Objekte auf bestimmten Storage Nodes platzieren sollen. 
+---
+= Erstellen und Zuweisen von Speicherklassen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Speicherklassen kennzeichnen den Speichertyp, der von einem Storage Node verwendet wird. Speicherklassen können erstellt werden, wenn ILM-Regeln bestimmte Objekte auf bestimmten Storage Nodes platzieren sollen.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Bei der Erstinstallation von StorageGRID wird jedem Storage Node in Ihrem System automatisch die *Default* Storage Grade zugewiesen. Bei Bedarf können benutzerdefinierte Storage Grades definiert und verschiedenen Storage Nodes zugewiesen werden.
+
+Durch die Verwendung benutzerdefinierter Speicherklassen können ILM-Speicherpools erstellt werden, die nur einen bestimmten Typ von Speicherknoten enthalten. Beispielsweise kann es gewünscht sein, dass bestimmte Objekte auf den schnellsten Speicherknoten, wie etwa StorageGRID All-Flash-Storage Appliances, gespeichert werden.
+
+
+NOTE: Metadaten-only Storage Nodes können keiner Speicherklasse zugewiesen werden. Weitere Informationen finden sich unter link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"].
+
+Wenn die Speicherqualität keine Rolle spielt (zum Beispiel wenn alle Storage Nodes identisch sind), kann dieses Verfahren übersprungen werden und die Auswahl *includes all storage grades* für die Speicherqualität verwendet werden, wenn Sie link:creating-storage-pool.html["Speicherpools erstellen"]. Mit dieser Auswahl ist sichergestellt, dass der Speicherpool jeden Storage Node am Standort umfasst, unabhängig von seiner Speicherqualität.
+
+
+NOTE: Erstellen Sie nicht mehr Speicherklassen als nötig. Beispielsweise sollte nicht für jeden Storage Node eine eigene Speicherklasse erstellt werden. Stattdessen empfiehlt es sich, jeder Speicherklasse zwei oder mehr Knoten zuzuweisen. Speicherklassen, die nur einem Knoten zugewiesen sind, können zu ILM-Rückständen führen, wenn dieser Knoten nicht verfügbar ist.
+
+.Schritte
+. Wählen Sie *ILM* > *Storage grades*.
+. Benutzerdefinierte Speicherklassen festlegen:
++
+.. Für jede benutzerdefinierte Speicherkategorie, die Sie hinzufügen möchten, *Einfügen* image:icon_nms_insert.gif["Symbol einfügen"] auswählen, um eine Zeile hinzuzufügen.
+.. Geben Sie eine beschreibende Bezeichnung ein.
++
+image:editing_storage_grades.gif["Seite „Storage Grades“"]
+
+.. *Änderungen anwenden* auswählen.
+.. Optional: Falls eine gespeicherte Bezeichnung geändert werden muss, *Bearbeiten* image:icon_nms_edit.gif["Bearbeitungssymbol"] auswählen und *Änderungen anwenden* wählen.
++
+
+NOTE: Speicherstufen können nicht gelöscht werden.
+
+
+
+. Neuen Speicherklassen werden den Storage Nodes zugewiesen:
++
+.. Den Speicherknoten in der LDR-Liste suchen und dessen *Bearbeiten*-Symbol image:icon_nms_edit.gif["Bearbeitungssymbol"] auswählen.
+.. Die passende Storage-Klasse aus der Liste auswählen.
++
+image:assigning_storage_grades_to_storage_nodes.gif["Seite „Storage Grades“"]
+
++
+
+NOTE: Einem Storage Node wird nur einmal eine Storage-Grade zugewiesen. Ein nach einem Ausfall wiederhergestellter Storage Node behält die zuvor zugewiesene Storage-Grade bei. Nach der Aktivierung der ILM-Richtlinie sollte diese Zuweisung nicht mehr geändert werden. Bei einer Änderung der Zuweisung erfolgt die Speicherung der Daten auf Basis der neuen Storage-Grade.
+
+.. *Änderungen anwenden* auswählen.
+
+
+

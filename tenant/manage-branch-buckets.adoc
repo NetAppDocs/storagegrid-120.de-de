@@ -1,0 +1,198 @@
+---
+permalink: tenant/manage-branch-buckets.html 
+sidebar: sidebar 
+keywords: how to create branch bucket 
+summary: Mit dem Tenant Manager lassen sich Branch-Buckets erstellen und Details dazu anzeigen. 
+---
+= StorageGRID-Branch-Buckets verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit dem Tenant Manager lassen sich Branch-Buckets erstellen und Details dazu anzeigen.
+
+.Bevor Sie beginnen
+* Sie haben sich beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über Root-Zugriff oder link:tenant-management-permissions.html["Alle Buckets-Berechtigungen verwalten"] verfügt. Diese Berechtigungen überschreiben die Berechtigungseinstellungen in Gruppen- oder Bucket-Richtlinien.
+* Der Basis-Bucket, von dem Sie einen Branch erstellen möchten, hat link:../tenant/changing-bucket-versioning.html["Versionierung aktiviert"].
+* Sie sind der Besitzer des Basiseimers.
+
+
+.Über diese Aufgabe
+Beachten Sie die folgenden Informationen zu Branch Buckets:
+
+* Berechtigungen zum Festlegen von S3 Object Lock-Eigenschaften von Buckets oder Objekten können durch link:../s3/use-access-policies.html["Bucket Policy oder Gruppenrichtlinie"] gewährt werden.
+* Wenn die Versionierung des Basis-Buckets ausgesetzt wird, sind die Inhalte des Basis-Buckets in seinen Zweig-Buckets nicht mehr sichtbar.
+
+
+
+CAUTION: Nachdem Sie einen Branch-Bucket konfiguriert und erstellt haben, kann die Konfiguration nicht mehr geändert werden.
+
+
+
+[[create-branch-bucket]]
+== Branch Bucket erstellen
+
+.Schritte
+. *View buckets* im Dashboard auswählen oder *STORAGE (S3)* > *Buckets*.
+. Wählen Sie den Bucket aus, von dem ein Branch erstellt werden soll (den „Base Bucket“).
+. Auf der Bucket-Detailseite *Branches* > *Create branch bucket* auswählen.
++
+${post_edited_translations.segment}
+
+
+
+
+
+[[enter-details]]
+== Details eingeben
+
+.Schritte
+. ${post_edited_translations.segment}
++
+[cols="1a,3a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name des Branch-Buckets
+ a| 
+${post_edited_translations.segment}
+
+** Muss in jedem StorageGRID System eindeutig sein (nicht nur innerhalb des Mandantenkontos).
+** Muss DNS-konform sein.
+** Muss mindestens 3 und höchstens 63 Zeichen enthalten.
+** Jedes Etikett muss mit einem Kleinbuchstaben oder einer Zahl beginnen und enden und darf nur Kleinbuchstaben, Zahlen und Bindestriche enthalten.
+** Anfragen im virtuellen Hosting-Stil dürfen keine Punkte enthalten. Punkte verursachen Probleme bei der Überprüfung des Server-Wildcard-Zertifikats.
+
+
+Weitere Informationen finden Sie unter https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html["Dokumentation von Amazon Web Services (AWS) zu den Regeln für die Bucket-Benennung"^].
+
+${post_edited_translations.segment}
+
+
+
+ a| 
+Region (kann für Branch Buckets nicht geändert werden)
+ a| 
+${post_edited_translations.segment}
+
+${post_edited_translations.segment}
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+Der Grenzzeitpunkt, bis zu dem im Base Bucket erstellte Objektversionen über das Branch Bucket zugänglich sind. Das Branch Bucket bietet Zugriff auf Objektversionen, die vor dem „Before“-Zeitpunkt erstellt wurden.
+
+Vorher muss ein Datum und eine Uhrzeit sein, die bereits vergangen sind. Es kann kein zukünftiges Datum sein.
+
+
+
+ a| 
+Branch-Bucket-Typ
+ a| 
+** *Lese-/Schreibzugriff*: Es besteht die Möglichkeit, Objekte oder Objektversionen im Branch Bucket hinzuzufügen oder zu löschen.
+** *Schreibgeschützt*: Sie können Objekte im Branch-Bucket nicht verändern.
+
+
+*Hinweis*: Sie können den Typ des Branch-Buckets nur dann auf „Read-Only“ festlegen, wenn der Branch-Bucket leer ist. Wenn der Typ für einen vorhandenen Branch-Bucket auf „Read-Write“ festgelegt ist und Sie noch keine Daten darauf geschrieben haben, können Sie den Typ in „Read-Only“ ändern.
+
+|===
+. Wählen Sie *Weiter*.
+
+
+
+
+[[manage-object-settings-optional]]
+== Objekteinstellungen verwalten (optional)
+
+Die Objekteinstellungen für einen Branch Bucket haben keinen Einfluss auf die Objektversionen im Basis Bucket.
+
+.Schritte
+. Wenn die globale S3 Object Lock-Einstellung aktiviert ist, kann S3 Object Lock optional auch für den Branch Bucket aktiviert werden. Um S3 Object Lock zu aktivieren, muss der Branch Bucket ein Lese-/Schreib-Bucket sein.
++
+Die S3 Object Lock-Funktion sollte für einen Branch-Bucket nur aktiviert werden, wenn Objekte für einen festgelegten Zeitraum aufbewahrt werden müssen, beispielsweise um bestimmte regulatorische Anforderungen zu erfüllen. S3 Object Lock ist eine permanente Einstellung, die verhindert, dass Objekte für einen festgelegten Zeitraum oder unbegrenzt gelöscht oder überschrieben werden.
+
++
+
+CAUTION: Nachdem die S3 Object Lock Einstellung für einen Bucket aktiviert wurde, kann sie nicht mehr deaktiviert werden. Jeder mit den entsprechenden Berechtigungen kann dem Branch Bucket Objekte hinzufügen, die nicht geändert werden können. Sie können diese Objekte oder den Branch Bucket selbst unter Umständen nicht löschen.
+
+. ${post_edited_translations.segment}
++
+
+NOTE: Ihr Grid-Administrator muss Ihnen die Berechtigung geben, link:../tenant/using-s3-object-lock.html["spezifische Funktionen von S3 Object Lock"].
+
++
+Wenn *Default retention* aktiviert ist, werden neue Objekte, die dem Branch-Bucket hinzugefügt werden, automatisch vor dem Löschen oder Überschreiben geschützt. Die Einstellung *Default retention* gilt nicht für Objekte, die über eigene Aufbewahrungsfristen verfügen.
+
++
+.. Wenn die *Standardaufbewahrung* aktiviert ist, ist ein *Standardaufbewahrungsmodus* für den Branch-Bucket anzugeben.
++
+[cols="1a,2a"]
+|===
+| Standard-Aufbewahrungsmodus | Beschreibung 
+
+
+ a| 
+Governance
+ a| 
+*** Benutzer mit der  `s3:BypassGovernanceRetention` Berechtigung können den  `x-amz-bypass-governance-retention: true` Anfrageheader verwenden, um die Aufbewahrungseinstellungen zu umgehen.
+*** Diese Benutzer können eine Objektversion löschen, bevor deren Aufbewahrungsdatum erreicht ist.
+*** Diese Benutzer können das Aufbewahrungsdatum eines Objekts erhöhen, verringern oder entfernen.
+
+
+
+
+ a| 
+Einhaltung
+ a| 
+*** Das Objekt kann erst gelöscht werden, wenn sein Aufbewahrungsdatum erreicht ist.
+*** Das Aufbewahrungsdatum des Objekts kann erhöht, aber nicht verringert werden.
+*** Das Aufbewahrungsdatum des Objekts kann erst nach Erreichen dieses Datums entfernt werden.
+
+
+*Hinweis*: Ihr Grid-Administrator muss Ihnen die Verwendung des Compliance-Modus erlauben.
+
+|===
+.. ${post_edited_translations.segment}
++
+Der *Standard-Aufbewahrungszeitraum* gibt an, wie lange neue Objekte, die dem Branch-Bucket hinzugefügt werden, ab dem Zeitpunkt ihrer Erfassung aufbewahrt werden sollen. Es ist ein Wert anzugeben, der kleiner oder gleich dem vom Grid-Administrator festgelegten maximalen Aufbewahrungszeitraum für den Mandanten ist.
+
++
+Beim Anlegen des Mandanten durch den Grid-Administrator wird eine _maximale_ Aufbewahrungsdauer festgelegt, die zwischen 1 Tag und 100 Jahren liegen kann. Wenn eine _standardmäßige_ Aufbewahrungsdauer festgelegt wird, darf sie den für die maximale Aufbewahrungsdauer festgelegten Wert nicht überschreiten. Falls erforderlich, kann der Grid-Administrator gebeten werden, die maximale Aufbewahrungsdauer zu erhöhen oder zu verringern.
+
+
+
+. ${post_edited_translations.segment}
++
+Die Kapazitätsgrenze ist die maximal verfügbare Kapazität für den Branch Bucket. Dieser Wert stellt eine logische Größe (Objektgröße) und keine physische Größe (Speicherplatz auf der Festplatte) dar.
+
++
+Wenn kein Limit festgelegt ist, ist die Kapazität für den Branch Bucket unbegrenzt. Weitere Informationen finden Sie unter link:../tenant/understanding-tenant-manager-dashboard.html#bucket-capacity-usage["Kapazitätslimitnutzung"].
+
++
+
+NOTE: Diese Einstellung gilt nur für Objekte, die direkt in den Branch-Bucket aufgenommen werden, und nicht für Objekte, die vom Basis-Bucket über den Branch-Bucket sichtbar sind.
+
+. ${post_edited_translations.segment}
++
+Das Limit für die Objektanzahl ist die maximale Anzahl von Objekten, die der Branch Bucket enthalten kann. Dieser Wert stellt eine logische Menge dar (Objektanzahl). Wenn kein Limit festgelegt ist, ist die Objektanzahl unbegrenzt.
+
++
+
+NOTE: Diese Einstellung gilt nur für Objekte, die direkt in den Branch-Bucket aufgenommen werden, und nicht für Objekte, die vom Basis-Bucket über den Branch-Bucket sichtbar sind.
+
+. *Bucket erstellen* auswählen.
++
+${post_edited_translations.segment}
+
+. Optional kann *Zur Bucket-Detailseite* ausgewählt werden, um link:viewing-s3-bucket-details.html["Details zum Branch Bucket"]weitere Konfigurationen vorzunehmen.
++
+Auf der Bucket-Detailseite sind einige Konfigurationsoptionen im Zusammenhang mit der Änderung von Objekten für schreibgeschützte Buckets deaktiviert.
+
+

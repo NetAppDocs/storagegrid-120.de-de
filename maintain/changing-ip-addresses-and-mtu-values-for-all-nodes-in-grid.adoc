@@ -1,0 +1,146 @@
+---
+permalink: maintain/changing-ip-addresses-and-mtu-values-for-all-nodes-in-grid.html 
+sidebar: sidebar 
+keywords: storagegrid, node ip address, change node ip, change node ip address, changing node ip, changing node ip address 
+summary: Wenn Sie die Grid-Netzwerk-IP-Adresse für alle Knoten im Grid ändern müssen, ist dieses spezielle Verfahren zu verwenden. Eine gridweite Änderung der Grid-Netzwerk-IP-Adresse ist mit dem Verfahren zur Änderung einzelner Knoten nicht möglich. 
+---
+= Ändern Sie die IP-Adressen aller Knoten in einem StorageGRID Grid
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn die IP-Adresse des Grid-Netzwerks für alle Knoten im Grid geändert werden muss, ist dieses spezielle Verfahren zu verwenden. Eine gridweite Änderung der Grid-Netzwerk-IP-Adresse ist mit dem Verfahren zur Änderung einzelner Knoten nicht möglich.
+
+.Bevor Sie beginnen
+* Sie haben die  `Passwords.txt` Datei.
+
+
+Damit das Grid erfolgreich startet, müssen alle Änderungen gleichzeitig vorgenommen werden.
+
+
+NOTE: Dieses Verfahren gilt nur für das Grid-Netzwerk. Dieses Verfahren kann nicht verwendet werden, um IP-Adressen im Admin- oder Client-Netzwerk zu ändern.
+
+Wenn nur die IP-Adressen und die MTU für die Nodes an einem Standort geändert werden sollen, sind die link:changing-nodes-network-configuration.html["Netzwerkkonfiguration des Node ändern"]Anweisungen zu beachten.
+
+.Schritte
+. Es empfiehlt sich, im Voraus Änderungen zu berücksichtigen, die außerhalb des Tools „IP ändern“ erforderlich sind, wie etwa Änderungen an DNS oder NTP sowie an der Single Sign-On (SSO) Konfiguration, falls verwendet.
++
+
+NOTE: Falls die bestehenden NTP-Server über die neuen IP-Adressen für das Grid nicht erreichbar sind, sollten die neuen NTP-Server hinzugefügt werden, bevor das change-ip Verfahren durchgeführt wird.
+
++
+
+NOTE: Falls die bestehenden DNS-Server über die neuen IP-Adressen für das Grid nicht erreichbar sind, sollten die neuen DNS-Server hinzugefügt werden, bevor das change-ip Verfahren durchgeführt wird.
+
++
+
+NOTE: Wenn SSO für Ihr StorageGRID System aktiviert ist und Vertrauensstellungen der vertrauenden Seite mithilfe von Admin Node-IP-Adressen (anstatt vollqualifizierte Domainnamen, wie empfohlen) konfiguriert wurden, sollte eine Aktualisierung oder Neukonfiguration dieser Vertrauensstellungen in Active Directory Federation Services (AD FS) unmittelbar nach einer Änderung der IP-Adressen erfolgen. Siehe link:../admin/configure-sso.html["Einmalanmeldung konfigurieren"].
+
++
+
+NOTE: Gegebenenfalls ist das neue Subnetz für die neuen IP-Adressen hinzuzufügen.
+
+. Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Das Tool „IP ändern“ wird durch Eingabe des folgenden Befehls gestartet: `change-ip`
+. Geben Sie an der Eingabeaufforderung die Bereitstellungs-Passphrase ein.
++
+Das Hauptmenü wird angezeigt. Standardmäßig ist das  `Selected nodes` Feld auf  `all` gesetzt.
+
++
+image:change_ip_tool_main_menu.png["Screenshot des Begrüßungsbildschirms des Tools zum Ändern der IP-Adresse"]
+
+. Im Hauptmenü *2* auswählen, um IP/Subnetzmaske-, Gateway- und MTU-Informationen für alle Nodes zu bearbeiten.
++
+.. *1* auswählen, um Änderungen am Grid-Netzwerk vorzunehmen.
++
+Nach Ihrer Auswahl zeigt die Eingabeaufforderung die Node-Namen, den Grid Network-Namen, den Datentyp (IP/Mask, Gateway oder MTU) und die aktuellen Werte an.
+
++
+Durch Bearbeiten der IP-Adresse, der Präfixlänge, des Gateways oder der MTU einer per DHCP konfigurierten Schnittstelle wird die Schnittstelle auf statisch geändert. Vor jeder per DHCP konfigurierten Schnittstelle wird eine Warnung angezeigt.
+
++
+Schnittstellen, die als  `fixed` konfiguriert sind, können nicht bearbeitet werden.
+
+.. Ein neuer Wert wird im Format des aktuellen Werts eingegeben.
+.. Nachdem alle Knoten bearbeitet wurden, die geändert werden sollen, *q* eingeben, um zum Hauptmenü zurückzukehren.
++
+Ihre Änderungen werden bis zur Freigabe oder Anwendung zurückgehalten.
+
+
+
+. Die vorgenommenen Änderungen können mit einer der folgenden Optionen überprüft werden:
++
+** *5*: Zeigt Bearbeitungen in einer Ausgabe an, die isoliert ist, um nur das geänderte Element anzuzeigen. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben, wie in der Beispielausgabe gezeigt:
++
+image:change_ip_tool_edit_ip_mask_sample_output.png["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
+** *6*: Zeigt Änderungen in der Ausgabe an, die die vollständige Konfiguration darstellt. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben.
++
+
+NOTE: Bestimmte Befehlszeilenschnittstellen zeigen Hinzufügungen und Löschungen durch Durchstreichen an. Die korrekte Darstellung hängt davon ab, ob Ihr Terminalclient die erforderlichen VT100-Escape-Sequenzen unterstützt.
+
+
+
+. Option *7* auswählen, um alle Änderungen zu validieren.
++
+Diese Validierung stellt sicher, dass die Regeln für das Grid Network, wie beispielsweise das Verbot der Verwendung überlappender Subnetze, nicht verletzt werden.
+
++
+In diesem Beispiel wurden bei der Validierung Fehler zurückgegeben.
+
++
+image:change_ip_tool_validate_sample_error_messages.gif["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
++
+In diesem Beispiel war die Validierung erfolgreich.
+
++
+image:change_ip_tool_validate_sample_passed_messages.gif["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
+. Nach erfolgreicher Validierung *10* auswählen, um die neue Netzwerkkonfiguration anzuwenden.
+. *stage* auswählen, damit die Änderungen beim nächsten Neustart der Nodes angewendet werden.
++
+
+NOTE: Sie müssen *stage* auswählen. Ein rollierender Neustart darf weder manuell noch durch Auswahl von *apply* anstelle von *stage* durchgeführt werden, da das Grid sonst nicht erfolgreich startet.
+
+. Nachdem Ihre Änderungen abgeschlossen sind, *0* auswählen, um das Tool „IP ändern“ zu beenden.
+. Alle Nodes gleichzeitig herunterfahren.
++
+
+NOTE: Das gesamte Grid muss heruntergefahren werden, sodass alle Nodes gleichzeitig ausfallen.
+
+. Die erforderlichen Änderungen an der physischen oder virtuellen Netzwerkstruktur werden vorgenommen.
+. Es sollte sichergestellt sein, dass alle Grid-Knoten ausgefallen sind.
+. Alle Knoten einschalten.
+. Nach erfolgreichem Start des Grids:
++
+.. Wenn Sie neue NTP-Server hinzugefügt haben, die alten NTP-Serverwerte löschen.
+.. Wenn Sie neue DNS-Server hinzugefügt haben, löschen Sie die alten DNS-Server-Werte.
+
+
+. Das neue Wiederherstellungspaket kann vom Grid Manager heruntergeladen werden.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. ${post_edited_translations.segment}
+
+
+. Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] wenn Sie mit dem Ändern der IP-Adressen fertig sind.
+
+
+.Verwandte Informationen
+* link:adding-to-or-changing-subnet-lists-on-grid-network.html["Subnetzlisten im Grid Network hinzufügen oder ändern"]
+* link:shutting-down-grid-node.html["Grid-Node herunterfahren"]
+

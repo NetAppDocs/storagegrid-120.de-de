@@ -1,0 +1,29 @@
+---
+permalink: maintain/grid-node-procedures.html 
+sidebar: sidebar 
+keywords: storagegrid, grid node procedure 
+summary: Möglicherweise sind Wartungsarbeiten im Zusammenhang mit bestimmten Grid-Knoten oder Knotendiensten erforderlich. 
+---
+= StorageGRID-Knoten Wartungsverfahren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Möglicherweise sind Wartungsarbeiten im Zusammenhang mit bestimmten Grid-Knoten oder Knotendiensten erforderlich.
+
+ADC verschieben:: Der link:../maintain/understanding-adc-service-quorum.html["ADC-Service"] befindet sich auf einigen Storage Nodes. In bestimmten Fällen der Stilllegung und Knotenkonvertierung ist es erforderlich, den ADC-Dienst auf einen anderen Storage Node am selben Standort zu verschieben.
+Speicherknoten in reinen Datenknoten konvertieren:: Sie können Speicherknoten, die den ADC-Dienst nicht enthalten, in reine Data-only Storage Nodes umwandeln.
+Neustart des Knotens, Herunterfahren und Stromversorgung:: Mit diesen Verfahren werden ein oder mehrere Knoten neu gestartet, Knoten heruntergefahren und neu gestartet oder Knoten ausgeschaltet und wieder eingeschaltet.
+Port-Neuzuordnung:: Sie können die Port-Remap-Prozeduren verwenden, um die Port-Remaps von einem Node zu entfernen, zum Beispiel wenn ein Load Balancer-Endpunkt mit einem Port konfiguriert werden soll, der zuvor remapped wurde.
+Server-Manager:: Server-Manager läuft auf jedem Grid-Knoten, um das Starten und Stoppen von Diensten zu überwachen und sicherzustellen, dass Dienste ordnungsgemäß in das StorageGRID System eingebunden und wieder aus diesem entfernt werden. Server-Manager überwacht außerdem die Dienste auf jedem Grid-Knoten und wird automatisch versuchen, alle Dienste neu zu starten, die Fehler melden.
++
+--
+Für Server-Manager-Prozeduren ist in der Regel der Zugriff auf die Befehlszeile des Node erforderlich.
+
+
+CAUTION: Auf den Server-Manager sollte nur zugegriffen werden, wenn der technische Support dazu aufgefordert hat.
+
+--
+

@@ -1,0 +1,29 @@
+---
+permalink: admin/identifying-primary-admin-node.html 
+sidebar: sidebar 
+keywords: primary admin node, configuration management node 
+summary: Der primäre Admin-Node bietet mehr Funktionalität als nicht-primäre Admin-Nodes. Beispielsweise müssen einige Wartungsverfahren über den primären Admin-Node durchgeführt werden. 
+---
+= Identifizieren Sie den primären Admin-Node in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der primäre Admin-Node bietet mehr Funktionalität als nicht-primäre Admin-Nodes. Beispielsweise müssen einige Wartungsverfahren über den primären Admin-Node durchgeführt werden.
+
+Weitere Informationen zu Admin Nodes finden sich unter link:../primer/what-admin-node-is.html["${post_edited_translations.segment}"].
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Schritte
+. Wählen Sie *Knoten*.
+. *primary* in das Suchfeld eingeben.
++
+In den Suchergebnissen den Knoten identifizieren, bei dem in der Spalte „Typ“ „Primary Admin Node“ angezeigt wird. Es sollte ein Primary Admin Node aufgeführt sein.
+
+

@@ -1,0 +1,42 @@
+---
+permalink: audit/gtst-grid-task-started.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, GTST, Grid Task Started 
+summary: Diese Audit-Meldung weist darauf hin, dass der CMN-Service mit der Verarbeitung des angegebenen Grid-Tasks begonnen hat. Die Audit-Meldung folgt unmittelbar auf die Meldung „Grid Task Submitted“ für Grid-Tasks, die vom internen Grid Task Submission-Service initiiert und für die automatische Aktivierung ausgewählt wurden. Für Grid-Tasks, die an die Tabelle „Pending“ übermittelt wurden, wird diese Meldung generiert, wenn der Benutzer den Grid-Task startet. 
+---
+= GTST-Revisionsprotokollmeldung für gestartete Grid-Tasks in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Audit-Meldung weist darauf hin, dass der CMN-Service mit der Verarbeitung des angegebenen Grid-Tasks begonnen hat. Die Audit-Meldung folgt unmittelbar auf die Meldung „Grid Task Submitted“ für Grid-Tasks, die vom internen Grid Task Submission-Service initiiert und für die automatische Aktivierung ausgewählt wurden. Für Grid-Tasks, die an die Tabelle „Pending“ übermittelt wurden, wird diese Meldung generiert, wenn der Benutzer den Grid-Task startet.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+TSID
+ a| 
+Aufgaben-ID
+ a| 
+${post_edited_translations.segment}
+
+*Hinweis:* Die Aufgaben-ID wird zum Zeitpunkt der Erstellung einer Grid-Aufgabe vergeben, nicht zum Zeitpunkt der Übermittlung. Es ist möglich, dass eine bestimmte Grid-Aufgabe mehrfach übermittelt wird. In diesem Fall reicht das Aufgaben-ID-Feld nicht aus, um die Audit-Meldungen „Übermittelt“, „Gestartet“ und „Beendet“ eindeutig zu verknüpfen.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Das Ergebnis. Dieses Feld hat nur einen Wert:
+
+* ${post_edited_translations.segment}
+
+
+|===

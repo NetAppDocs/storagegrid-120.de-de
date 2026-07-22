@@ -1,0 +1,110 @@
+---
+permalink: maintain/updating-subnets-for-grid-network.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, subnet, grid network, update subnets 
+summary: 'StorageGRID verwaltet eine Liste der Netzwerk-Subnetze, die für die Kommunikation zwischen den Grid-Knoten im Grid-Netzwerk (eth0) verwendet werden. Diese Einträge umfassen die Subnetze, die von jedem Standort in Ihrem StorageGRID System für das Grid-Netzwerk verwendet werden, sowie alle Subnetze für NTP, DNS, LDAP oder andere externe Server, auf die über das Grid-Netzwerk-Gateway zugegriffen wird. Wenn Grid-Knoten oder ein neuer Standort im Rahmen einer Erweiterung hinzugefügt werden, kann es erforderlich sein, Subnetze im Grid-Netzwerk zu aktualisieren oder hinzuzufügen.' 
+---
+= Aktualisieren Sie die Subnetze für das StorageGRID Grid Network
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID verwaltet eine Liste der Netzwerk-Subnetze, die für die Kommunikation zwischen den Grid-Knoten im Grid-Netzwerk (eth0) verwendet werden. Diese Einträge umfassen die Subnetze, die von jedem Standort in Ihrem StorageGRID System für das Grid-Netzwerk verwendet werden, sowie alle Subnetze für NTP, DNS, LDAP oder andere externe Server, auf die über das Grid-Netzwerk-Gateway zugegriffen wird. Wenn Grid-Knoten oder ein neuer Standort im Rahmen einer Erweiterung hinzugefügt werden, kann es erforderlich sein, Subnetze im Grid-Netzwerk zu aktualisieren oder hinzuzufügen.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie besitzen die Bereitstellungspassphrase.
+* Sie verfügen über die Netzwerkadressen der Subnetze, die Sie in CIDR-Notation konfigurieren möchten.
+
+
+.Über diese Aufgabe
+Wenn Sie eine Erweiterung durchführen, die das Hinzufügen eines neuen Subnetzes beinhaltet, müssen Sie dieses neue Subnetz der Subnetzliste des Grid Network hinzufügen, bevor Sie mit dem Erweiterungsvorgang beginnen. Andernfalls müssen Sie die Erweiterung abbrechen, das neue Subnetz hinzufügen und die Erweiterung erneut starten.
+
+[NOTE]
+====
+Für das Grid-Netzwerk, das Admin-Netzwerk oder das Client-Netzwerk eines beliebigen Knotens sollten keine Subnetze verwendet werden, die die folgenden IPv4-Adressen enthalten:
+
+* 192.168.130.101
+* 192.168.130.121
+* 192.168.131.101
+* 192.168.131.121
+* 192.168.130.102
+* 192.168.130.122
+* 192.168.131.102
+* 192.168.131.122
+* 198.51.100.2
+* 198.51.100.4
+
+
+Beispielsweise sollten die folgenden Subnetzbereiche nicht für das Grid Network, das Admin Network oder das Client Network eines beliebigen Knotens verwendet werden:
+
+* 192.168.130.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.130.101 und 192.168.130.102 enthält
+* 192.168.131.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.131.101 und 192.168.131.102 enthält
+* 198.51.100.0/24, da dieser Subnetzbereich die IP-Adressen 198.51.100.2 und 198.51.100.4 enthält
+
+
+====
+
+
+[[add-a-subnet]]
+== Ein Subnetz hinzufügen
+
+.Schritte
+. *Wartung* > *Netzwerk* > *Grid-Netzwerk* auswählen.
+. *Weiteres Subnetz hinzufügen* auswählen, um ein neues Subnetz in CIDR-Notation hinzuzufügen.
++
+Geben Sie zum Beispiel  `10.96.104.0/22` ein.
+
+. Geben Sie die Bereitstellungs-Passphrase ein und wählen Sie *Speichern*.
+. Warten Sie, bis die Änderungen übernommen wurden, dann ein neues Wiederherstellungspaket herunterladen.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. Die *Bereitstellungs-Passphrase* eingeben.
++
+
+CAUTION: Die Wiederherstellungspaketdatei muss geschützt werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können. Sie wird auch zur Wiederherstellung des primären Admin Node verwendet.
+
+
+
+
+
+Die von Ihnen angegebenen Subnetze werden automatisch für Ihr StorageGRID System konfiguriert.
+
+
+
+[[edit-a-subnet]]
+== Ein Subnetz bearbeiten
+
+.Schritte
+. *Wartung* > *Netzwerk* > *Grid-Netzwerk* auswählen.
+. Wählen Sie das Subnetz aus, das bearbeitet werden soll, und nehmen Sie die erforderlichen Änderungen vor.
+. Geben Sie die Bereitstellungs-Passphrase ein und wählen Sie *Speichern* aus.
+. Im Bestätigungsdialogfeld *Ja* auswählen.
+. Warten Sie, bis die Änderungen übernommen wurden, dann ein neues Wiederherstellungspaket herunterladen.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. Die *Bereitstellungs-Passphrase* eingeben.
+
+
+
+
+
+
+[[delete-a-subnet]]
+== Ein Subnetz löschen
+
+.Schritte
+. *Wartung* > *Netzwerk* > *Grid-Netzwerk* auswählen.
+. Das Löschsymbol image:icon-x-to-remove.png["Löschsymbol"] neben dem Subnetz auswählen.
+. Geben Sie die Bereitstellungs-Passphrase ein und wählen Sie *Speichern* aus.
+. Im Bestätigungsdialogfeld *Ja* auswählen.
+. Warten Sie, bis die Änderungen übernommen wurden, dann ein neues Wiederherstellungspaket herunterladen.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. Die *Bereitstellungs-Passphrase* eingeben.
+
+
+

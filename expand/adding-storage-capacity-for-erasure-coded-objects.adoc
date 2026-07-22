@@ -1,0 +1,29 @@
+---
+permalink: expand/adding-storage-capacity-for-erasure-coded-objects.html 
+sidebar: sidebar 
+keywords: erasure coding, capacity, storage nodes, ec, expand, expansion, StorageGRID 
+summary: Wenn Ihre ILM-Richtlinie eine Regel zur Erstellung von löschcodierten Kopien enthält, müssen Sie planen, wo und wann neuer Speicher hinzugefügt wird. Die Menge des hinzugefügten Speichers und der Zeitpunkt der Erweiterung können die nutzbare Speicherkapazität des Grids beeinflussen. 
+---
+= Erweiterungsplanung für löschcodierte (EC) Daten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Ihre ILM-Richtlinie eine Regel enthält, die Erasure-Coding-Kopien erstellt, müssen Sie planen, wo und wann neuer Speicher hinzugefügt werden soll. Die Menge des hinzugefügten Speichers und der Zeitpunkt des Hinzufügens können sich auf die nutzbare Speicherkapazität des Grids auswirken.
+
+Der erste Schritt bei der Planung einer Speichererweiterung besteht darin, die Regeln in Ihrer ILM-Richtlinie zu prüfen, die Erasure-Coding-Objekte erstellen. Da StorageGRID für jedes Erasure-Coding-Objekt _k+m_-Fragmente erstellt und jedes Fragment auf einem anderen Storage Node speichert, müssen Sie sicherstellen, dass nach der Erweiterung mindestens _k+m_ Storage Nodes Speicherplatz für neue Erasure-Coding-Daten aufweisen. Wenn das Erasure-Coding-Profil Schutz vor dem Ausfall eines Standorts bietet, müssen Sie jedem Standort Speicher hinzufügen. Informationen zu Erasure-Coding-Profilen finden Sie unter link:../ilm/what-erasure-coding-schemes-are.html["Was sind Löschcodierungsverfahren"].
+
+Die Anzahl der hinzuzufügenden Knoten hängt auch davon ab, wie voll die vorhandenen Knoten zum Zeitpunkt der Erweiterung sind.
+
+
+
+[[general-recommendation-for-adding-storage-capacity-for-erasure-coded-objects]]
+== ${post_edited_translations.segment}
+
+Wenn Sie detaillierte Berechnungen vermeiden möchten, können Sie zwei Storage Nodes pro Standort hinzufügen, sobald die vorhandenen Storage Nodes zu 70 % ausgelastet sind.
+
+Diese allgemeine Empfehlung liefert vernünftige Ergebnisse für eine breite Palette von Löschcodierungsverfahren, sowohl für Einzelstandort-Grids als auch für Grids, bei denen die Löschcodierung einen Schutz vor Standortverlust bietet.
+
+Um die Faktoren, die zu dieser Empfehlung geführt haben, besser zu verstehen oder einen präziseren Plan für Ihre Site zu entwickeln, siehe link:considerations-for-rebalancing-erasure-coded-data.html["Überlegungen zum Rebalancing von löschcodierten Daten"]. Für eine individuell auf Ihre Situation optimierte Empfehlung kann Ihr NetApp Professional Services Berater kontaktiert werden.

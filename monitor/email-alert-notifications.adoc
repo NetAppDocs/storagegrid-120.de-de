@@ -1,0 +1,310 @@
+---
+permalink: monitor/email-alert-notifications.html 
+sidebar: sidebar 
+keywords: how to disable alert rules, how to remove a custom alert rule 
+summary: Wenn E-Mail-Benachrichtigungen bei Warnmeldungen gesendet werden sollen, müssen Informationen zu Ihrem SMTP-Server angegeben werden. Es müssen außerdem die E-Mail-Adressen der Empfänger der Warnmeldungen eingegeben werden. 
+---
+= E-Mail-Benachrichtigungen für StorageGRID-Warnungen einrichten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn E-Mail-Benachrichtigungen bei Warnmeldungen gesendet werden sollen, müssen Informationen zu Ihrem SMTP-Server angegeben werden. Es müssen außerdem die E-Mail-Adressen der Empfänger der Warnmeldungen eingegeben werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Über diese Aufgabe
+Die für Benachrichtigungen verwendete E-Mail-Konfiguration wird nicht für AutoSupport-Pakete verwendet. Es kann jedoch derselbe E-Mail-Server für alle Benachrichtigungen verwendet werden.
+
+Wenn Ihre StorageGRID Bereitstellung mehrere Admin-Knoten umfasst, ist der primäre Admin-Knoten der bevorzugte Absender für Warnmeldungen, AutoSupport-Pakete sowie SNMP-Traps und -Informs. Wenn der primäre Admin-Knoten nicht verfügbar ist, werden Benachrichtigungen vorübergehend von anderen Admin-Knoten gesendet. Siehe link:../primer/what-admin-node-is.html["Was ist ein Admin Node?"].
+
+.Schritte
+. *Benachrichtigungen* > *E-Mail-Einrichtung* auswählen.
++
+Die Seite „E-Mail-Einrichtung“ erscheint.
+
+. Aktivieren Sie das Kontrollkästchen *E-Mail-Benachrichtigungen aktivieren*, um anzugeben, dass Benachrichtigungs-E-Mails gesendet werden, wenn Warnmeldungen die konfigurierten Schwellenwerte erreichen.
++
+Die Abschnitte E-Mail-Server (SMTP), Transport Layer Security (TLS), E-Mail-Adressen und Filter werden angezeigt.
+
+. Im Abschnitt „E-Mail (SMTP) Server“ werden die Informationen eingegeben, die StorageGRID für den Zugriff auf Ihren SMTP-Server benötigt.
++
+Falls Ihr SMTP-Server eine Authentifizierung erfordert, müssen sowohl ein Benutzername als auch ein Passwort angegeben werden.
+
++
+[cols="1a,2a"]
+|===
+| Feld | Eingeben 
+
+
+ a| 
+Mail-Server
+ a| 
+Der vollqualifizierte Domainname (FQDN) oder die IP-Adresse des SMTP-Servers.
+
+
+
+ a| 
+Port
+ a| 
+Der Port, der für den Zugriff auf den SMTP-Server verwendet wird. Muss zwischen 1 und 65535 liegen.
+
+
+
+ a| 
+Benutzername (optional)
+ a| 
+Wenn Ihr SMTP-Server eine Authentifizierung erfordert, geben Sie den Benutzernamen für die Authentifizierung ein.
+
+
+
+ a| 
+Passwort (optional)
+ a| 
+Wenn Ihr SMTP-Server eine Authentifizierung erfordert, geben Sie das Passwort zur Authentifizierung ein.
+
+|===
+. Im Abschnitt „E-Mail-Adressen“ die E-Mail-Adressen des Absenders und jedes Empfängers eingeben.
++
+.. Für die *Absender-E-Mail-Adresse* ist eine gültige E-Mail-Adresse anzugeben, die als Absenderadresse für Benachrichtigungen verwendet wird.
++
+Zum Beispiel: `storagegrid-alerts@example.com`
+
+.. Im Abschnitt „Empfänger“ eine E-Mail-Adresse für jede E-Mail-Liste oder Person eingeben, die im Falle einer Benachrichtigung eine E-Mail erhalten soll.
++
+Das Plus-Symbol image:icon_plus_sign_black_on_white.gif["Plus-Symbol"] auswählen, um Empfänger hinzuzufügen.
+
+
+
+. Wenn für die Kommunikation mit dem SMTP-Server Transport Layer Security (TLS) erforderlich ist, im Abschnitt Transport Layer Security (TLS) die Option *Require TLS* auswählen.
++
+.. Im Feld *CA-Zertifikat* ist das CA-Zertifikat anzugeben, das zur Überprüfung der Identität des SMTP-Servers verwendet wird.
++
+Sie können den Inhalt in dieses Feld kopieren und einfügen oder *Durchsuchen* auswählen und die Datei auswählen.
+
++
+Sie müssen eine einzige Datei bereitstellen, die die Zertifikate jeder zwischengeschalteten ausstellenden Zertifizierungsstelle (CA) enthält. Die Datei sollte alle PEM-kodierten CA-Zertifikatsdateien in der Reihenfolge der Zertifikatskette verkettet enthalten.
+
+.. Das Kontrollkästchen *Clientzertifikat senden* ist zu aktivieren, wenn Ihr SMTP-E-Mail-Server von den Absendern verlangt, Clientzertifikate zur Authentifizierung bereitzustellen.
+.. Im Feld *Client Certificate* ist das PEM-codierte Clientzertifikat anzugeben, das an den SMTP-Server gesendet wird.
++
+Sie können den Inhalt in dieses Feld kopieren und einfügen oder *Durchsuchen* auswählen und die Datei auswählen.
+
+.. Im Feld *Privater Schlüssel* ist der private Schlüssel für das Clientzertifikat in unverschlüsselter PEM-Kodierung einzugeben.
++
+Sie können den Inhalt in dieses Feld kopieren und einfügen oder *Durchsuchen* auswählen und die Datei auswählen.
+
++
+
+NOTE: Wenn Sie die E-Mail-Einstellungen bearbeiten müssen, wählen Sie das Stiftsymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] , um dieses Feld zu aktualisieren.
+
+
+
+. Im Abschnitt „Filter“ wird ausgewählt, welche Alarm-Schweregrade zu E-Mail-Benachrichtigungen führen sollen, es sei denn, die Regel für einen bestimmten Alarm wurde stummgeschaltet.
++
+[cols="1a,2a"]
+|===
+| Schwere | Beschreibung 
+
+
+ a| 
+Geringfügig, schwerwiegend, kritisch
+ a| 
+Eine E-Mail-Benachrichtigung wird gesendet, wenn die geringfügige, schwerwiegende oder kritische Bedingung für eine Alarmregel erfüllt ist.
+
+
+
+ a| 
+Wichtig, kritisch
+ a| 
+Eine E-Mail-Benachrichtigung wird gesendet, wenn die schwerwiegende oder kritische Bedingung für eine Alarmregel erfüllt ist. Für geringfügige Alarme werden keine Benachrichtigungen gesendet.
+
+
+
+ a| 
+Nur kritisch
+ a| 
+Eine E-Mail-Benachrichtigung wird nur versendet, wenn die kritische Bedingung für eine Alarmregel erfüllt ist. Benachrichtigungen werden nicht für geringfügige oder schwerwiegende Alarme versendet.
+
+|===
+. Wenn Sie bereit sind, Ihre E-Mail-Einstellungen zu testen, sind die folgenden Schritte auszuführen:
++
+.. *Test-E-Mail senden* auswählen.
++
+Es erscheint eine Bestätigungsmeldung, die darauf hinweist, dass eine Test-E-Mail gesendet wurde.
+
+.. Die Postfächer aller E-Mail-Empfänger sollten überprüft und bestätigt werden, dass eine Test-E-Mail eingegangen ist.
++
+
+NOTE: Wenn die E-Mail nicht innerhalb weniger Minuten empfangen wird oder die Warnmeldung *E-Mail-Benachrichtigung fehlgeschlagen* ausgelöst wird, sollten die Einstellungen überprüft und der Vorgang erneut versucht werden.
+
+.. Bei beliebigen anderen Admin-Knoten anmelden und eine Test-E-Mail senden, um die Konnektivität von allen Standorten zu überprüfen.
++
+
+NOTE: Beim Testen von Benachrichtigungen müssen Sie sich auf jedem Admin Node anmelden, um die Verbindung zu überprüfen. Dies unterscheidet sich vom Testen von AutoSupport-Paketen, bei dem alle Admin Nodes die Test-E-Mail versenden.
+
+
+
+. *Speichern* auswählen.
++
+Das Senden einer Test-E-Mail speichert Ihre Einstellungen nicht. *Speichern* muss ausgewählt werden.
+
++
+Die E-Mail-Einstellungen sind gespeichert.
+
+
+
+
+
+[[information-included-in-alert-email-notifications]]
+== Informationen in E-Mail-Benachrichtigungen zu Warnmeldungen
+
+Nach der Konfiguration des SMTP-E-Mail-Servers werden E-Mail-Benachrichtigungen an die festgelegten Empfänger gesendet, wenn eine Warnung ausgelöst wird, es sei denn, die Warnungsregel ist durch eine Stummschaltung unterdrückt. Siehe link:silencing-alert-notifications.html["Alarmbenachrichtigungen stummschalten"].
+
+E-Mail-Benachrichtigungen enthalten die folgenden Informationen:
+
+image:alerts_email_notification.png["E-Mail-Benachrichtigung für Warnmeldungen"]
+
+[cols="1a,6a"]
+|===
+| Callout | Beschreibung 
+
+
+ a| 
+1
+ a| 
+Der Name der Warnung, gefolgt von der Anzahl der aktiven Instanzen dieser Warnung.
+
+
+
+ a| 
+2
+ a| 
+Die Beschreibung der Warnung.
+
+
+
+ a| 
+3
+ a| 
+Empfohlene Maßnahmen für die Warnmeldung.
+
+
+
+ a| 
+4
+ a| 
+Details zu jeder aktiven Instanz der Warnung, einschließlich des betroffenen Knotens und Standorts, des Schweregrads, der UTC-Zeit, zu der die Warnungsregel ausgelöst wurde, sowie des Namens des betroffenen Jobs und Dienstes.
+
+
+
+ a| 
+5
+ a| 
+Der Hostname des Admin Node, der die Benachrichtigung gesendet hat.
+
+|===
+
+
+[[how-alerts-are-grouped]]
+== Wie Warnmeldungen gruppiert werden
+
+Um zu verhindern, dass beim Auslösen von Warnmeldungen eine übermäßige Anzahl von E-Mail-Benachrichtigungen versendet wird, versucht StorageGRID, mehrere Warnmeldungen in derselben Benachrichtigung zu gruppieren.
+
+Die folgende Tabelle enthält Beispiele dafür, wie StorageGRID mehrere Warnmeldungen in E-Mail-Benachrichtigungen gruppiert.
+
+[cols="1a,1a"]
+|===
+| Verhalten | Beispiel 
+
+
+ a| 
+Jede Alarmbenachrichtigung gilt nur für Alarme mit demselben Namen. Wenn zwei Alarme mit unterschiedlichen Namen gleichzeitig ausgelöst werden, werden zwei E-Mail-Benachrichtigungen gesendet.
+ a| 
+* Alarm A wird gleichzeitig auf zwei Knoten ausgelöst. Es wird nur eine Benachrichtigung gesendet.
+* Alarm A wird auf Knoten 1 ausgelöst, und Alarm B wird gleichzeitig auf Knoten 2 ausgelöst. Zwei Benachrichtigungen werden gesendet, jeweils eine für jeden Alarm.
+
+
+
+
+ a| 
+Bei einer bestimmten Warnung auf einem bestimmten Knoten wird, wenn die Schwellenwerte für mehr als einen Schweregrad erreicht werden, nur für die schwerwiegendste Warnung eine Benachrichtigung gesendet.
+ a| 
+* Alarm A wird ausgelöst und die Schwellenwerte für geringfügige, schwerwiegende und kritische Alarme werden erreicht. Eine Benachrichtigung wird für den kritischen Alarm gesendet.
+
+
+
+
+ a| 
+Beim ersten Auftreten einer Warnung wartet StorageGRID 2 Minuten, bevor eine Benachrichtigung gesendet wird. Wenn in diesem Zeitraum weitere Warnungen mit demselben Namen ausgelöst werden, fasst StorageGRID alle Warnungen in der ersten Benachrichtigung zusammen.
+ a| 
+. Alarm A wird auf Knoten 1 um 08:00 Uhr ausgelöst. Es wird keine Benachrichtigung gesendet.
+. Alarm A wird auf Knoten 2 um 08:01 ausgelöst. Es wird keine Benachrichtigung gesendet.
+. Um 08:02 Uhr wird eine Benachrichtigung gesendet, um über beide Instanzen der Warnmeldung zu berichten.
+
+
+
+
+ a| 
+Wird eine weitere Warnung mit demselben Namen ausgelöst, wartet StorageGRID 10 Minuten, bevor eine neue Benachrichtigung gesendet wird. Die neue Benachrichtigung enthält alle aktiven Warnungen (aktuelle Warnungen, die nicht stummgeschaltet wurden), auch wenn sie bereits zuvor gemeldet wurden.
+ a| 
+. Alarm A wird um 08:00 Uhr auf Knoten 1 ausgelöst. Eine Benachrichtigung wird um 08:02 Uhr gesendet.
+. Alarm A wird auf Knoten 2 um 08:05 ausgelöst. Eine zweite Benachrichtigung wird um 08:15 (10 Minuten später) gesendet. Beide Knoten werden gemeldet.
+
+
+
+
+ a| 
+Wenn mehrere aktuelle Warnungen mit demselben Namen vorhanden sind und eine dieser Warnungen behoben wurde, wird keine neue Benachrichtigung gesendet, wenn die Warnung auf dem Knoten, für den die Warnung behoben wurde, erneut auftritt.
+ a| 
+. Für Knoten 1 wird Alarm A ausgelöst. Eine Benachrichtigung wird versendet.
+. Alarm A wird für Knoten 2 ausgelöst. Eine zweite Benachrichtigung wird gesendet.
+. Warnung A wurde für Knoten 2 behoben, bleibt aber für Knoten 1 weiterhin aktiv.
+. Alarm A wird für Knoten 2 erneut ausgelöst. Es wird keine neue Benachrichtigung gesendet, da der Alarm für Knoten 1 noch aktiv ist.
+
+
+
+
+ a| 
+StorageGRID sendet weiterhin alle 7 Tage E-Mail-Benachrichtigungen, bis alle Instanzen der Warnung behoben sind oder die Warnungsregel stummgeschaltet wird.
+ a| 
+. Am 8. März wird für Knoten 1 die Warnung A ausgelöst. Eine Benachrichtigung wird gesendet.
+. Warnung A wurde weder behoben noch stummgeschaltet. Weitere Benachrichtigungen werden am 15. März, 22. März, 29. März und so weiter gesendet.
+
+
+|===
+
+
+[[troubleshoot-alert-email-notifications]]
+== Fehlerbehebung bei E-Mail-Benachrichtigungen für Warnmeldungen
+
+Falls die Warnung *E-Mail-Benachrichtigungsfehler* ausgelöst wird oder Sie die Testbenachrichtigung per E-Mail nicht erhalten, können diese Schritte zur Behebung des Problems durchgeführt werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Schritte
+. Einstellungen überprüfen.
++
+.. *Benachrichtigungen* > *E-Mail-Einrichtung* auswählen.
+.. Es sollte überprüft werden, ob die Einstellungen des E-Mail-Servers (SMTP) korrekt sind.
+.. Es sollte überprüft werden, ob gültige E-Mail-Adressen für die Empfänger angegeben wurden.
+
+
+. Überprüfen Sie Ihren Spamfilter und stellen Sie sicher, dass die E-Mail nicht in einen Junk-Ordner gesendet wurde.
+. Lassen Sie von Ihrem E-Mail-Administrator bestätigen, dass E-Mails von der Absenderadresse nicht blockiert werden.
+. Eine Protokolldatei für den Admin-Knoten sammeln und anschließend den technischen Support kontaktieren.
++
+Der technische Support kann die Informationen in den Protokollen nutzen, um zu ermitteln, was schiefgelaufen ist. Beispielsweise könnte die Datei prometheus.log einen Fehler beim Verbindungsaufbau zum von Ihnen angegebenen Server anzeigen.
+
++
+Siehe link:collecting-log-files-and-system-data.html["Protokolldateien und Systemdaten sammeln"].
+
+

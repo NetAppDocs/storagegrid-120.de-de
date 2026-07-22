@@ -1,0 +1,96 @@
+---
+permalink: ilm/creating-default-ilm-rule.html 
+sidebar: sidebar 
+keywords: create default ilm rule 
+summary: Bevor eine ILM-Richtlinie erstellt wird, muss eine Standardregel definiert werden, die alle Objekte, die keiner anderen Regel in der Richtlinie zugeordnet sind, aufnimmt. Die Standardregel darf keinen Filter verwenden. Sie muss für alle Mandanten, alle Buckets und alle Objektversionen gelten. 
+---
+= Erstellen Sie eine Standard-ILM-Regel in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor eine ILM-Richtlinie erstellt wird, muss eine Standardregel definiert werden, die alle Objekte, die keiner anderen Regel in der Richtlinie zugeordnet sind, aufnimmt. Die Standardregel darf keine Filter verwenden. Sie muss für alle Mandanten, alle Buckets und alle Objektversionen gelten.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Über diese Aufgabe
+Die Standardregel wird in einer ILM-Richtlinie als letzte Regel ausgewertet und kann daher keine Filter verwenden. Die Platzierungsanweisungen der Standardregel werden auf alle Objekte angewendet, die keiner anderen Regel in der Richtlinie zugeordnet sind.
+
+In dieser Beispielrichtlinie gilt die erste Regel nur für Objekte, die zum Mandanten test-tenant-1 gehören. Die Standardregel, die zuletzt steht, gilt für Objekte, die zu allen anderen Mandantenkonten gehören.
+
+image:ilm_policies_page_default_rule.png["Standardregel der ILM Policies Seite"]
+
+Beim Erstellen der Standardregel sind folgende Anforderungen zu beachten:
+
+* Die Standardregel wird beim Hinzufügen zu einer Richtlinie automatisch als letzte Regel platziert.
+* Die Standardregel kann keine einfachen oder erweiterten Filter verwenden.
+* Die Standardregel muss für alle Objektversionen gelten.
+* Die Standardregel sollte replizierte Kopien erstellen.
++
+
+NOTE: Verwenden Sie keine Regel, die löschcodierte Kopien erstellt, als Standardregel für eine Richtlinie. Löschcodierungsregeln sollten einen erweiterten Filter verwenden, um zu verhindern, dass kleinere Objekte löschcodiert werden.
+
+* Im Allgemeinen sollte die Standardregel Objekte dauerhaft aufbewahren.
+* Wenn Sie die globale S3 Object Lock-Einstellung verwenden (oder deren Aktivierung planen), muss die Standardregel konform sein.
+
+
+.Schritte
+. Wählen Sie *ILM* > *Regeln*.
+. Wählen Sie *Create*.
++
+Schritt 1 (Details eingeben) des Assistenten zum Erstellen einer ILM-Regel wird angezeigt.
+
+. Geben Sie im Feld *Rule name* einen eindeutigen Namen für die Regel ein.
+. Optional kann im Feld *Beschreibung* eine kurze Beschreibung der Regel eingegeben werden.
+. Das Feld *Mieterkonten* bleibt leer.
++
+Die Standardregel muss für alle Mandantenkonten gelten.
+
+. Die Auswahl im Dropdown-Menü „Bucket-Name“ bleibt auf *gilt für alle Buckets* eingestellt.
++
+Die Standardregel muss für alle S3 Buckets gelten.
+
+. Behalten Sie die Standardantwort *Nein* für die Frage „Diese Regel nur auf ältere Objektversionen anwenden (in S3-Buckets mit aktivierter Versionierung)?“ bei.
+. Keine erweiterten Filter hinzufügen.
++
+Die Standardregel kann keine Filter angeben.
+
+. *Weiter* auswählen.
++
+Schritt 2 (Platzierungen definieren) wird angezeigt.
+
+. Für die Referenzzeit kann jede Option ausgewählt werden.
++
+Wenn Sie die Standardantwort „Nein“ bei der Frage „Diese Regel nur auf ältere Objektversionen anwenden?“ beibehalten haben, wird die nicht aktuelle Zeit nicht in der Auswahlliste angezeigt. Die Standardregel muss für alle Objektversionen gelten.
+
+. Geben Sie die Platzierungsanweisungen für die Standardregel an.
++
+** Die Standardregel sollte Objekte dauerhaft speichern. Beim Aktivieren einer neuen Richtlinie erscheint eine Warnung, wenn die Standardregel Objekte nicht dauerhaft speichert. Es muss bestätigt werden, dass dies das erwartete Verhalten ist.
+** Die Standardregel sollte replizierte Kopien erstellen.
++
+
+NOTE: Es sollte keine Regel, die löschcodierte Kopien erstellt, als Standardregel für eine Richtlinie verwendet werden. Löschcodierungsregeln sollten den erweiterten Filter *Objektgröße (MB) größer als 200 KB* enthalten, um zu verhindern, dass kleinere Objekte löschcodiert werden.
+
+** Wenn Sie die globale S3 Object Lock-Einstellung verwenden (oder deren Aktivierung planen), muss die Standardregel konform sein:
++
+*** Mindestens zwei replizierte Objektkopien oder eine löschcodierte Kopie müssen erstellt werden.
+*** Diese Kopien müssen für die gesamte Dauer jeder Zeile in den Platzierungsanweisungen auf den Storage Nodes vorhanden sein.
+*** Objektkopien können nicht in einem Cloud Storage Pool gespeichert werden.
+*** Mindestens eine Zeile der Platzierungsanweisungen muss am Tag 0 beginnen, wobei die Ingest-Zeit als Referenzzeit dient.
+*** Mindestens eine Zeile der Platzierungsanweisungen muss „forever“ lauten.
+
+
+
+
+. Das Retentionsdiagramm gibt Aufschluss darüber, ob die Platzierungsanweisungen korrekt sind.
+. Wählen Sie *Weiter*.
++
+Schritt 3 (Aufnahmeverhalten auswählen) erscheint.
+
+. Die gewünschte Aufnahmeoption auswählen und *Erstellen* auswählen.
+

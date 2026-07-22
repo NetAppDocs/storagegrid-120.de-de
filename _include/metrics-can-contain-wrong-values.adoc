@@ -1,0 +1,6 @@
+= 
+:allow-uri-read: 
+
+
+
+NOTE: Wenn ein Knoten nicht mit dem Grid verbunden ist, beispielsweise während eines Upgrades oder im getrennten Zustand, sind bestimmte Messwerte möglicherweise nicht verfügbar oder werden in den Standort- und Grid-Gesamtwerten nicht berücksichtigt. Nach der Wiederherstellung der Verbindung eines Knotens mit dem Grid dauert es einige Minuten, bis sich die Werte stabilisieren.

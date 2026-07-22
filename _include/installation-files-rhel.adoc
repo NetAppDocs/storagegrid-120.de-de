@@ -1,0 +1,78 @@
+= 
+:allow-uri-read: 
+
+
+[cols="1a,1a"]
+|===
+| Pfad und Dateiname | Beschreibung 
+
+
+| ./rpms/README  a| 
+Eine Textdatei, die alle im StorageGRID Downloadpaket enthaltenen Dateien beschreibt.
+
+
+
+| ./rpms/NLF000000.txt  a| 
+Eine kostenlose Lizenz, die keinerlei Supportanspruch für das Produkt beinhaltet.
+
+
+
+| ./rpms/StorageGRID-Webscale-Images-_version_-SHA.rpm  a| 
+RPM-Paket zur Installation der StorageGRID Knotenabbilder auf Ihren RHEL Hosts.
+
+
+
+| ./rpms/StorageGRID-Webscale-Service-_version_-SHA.rpm  a| 
+RPM-Paket zur Installation des StorageGRID Hostdienstes auf Ihren RHEL Hosts.
+
+
+
+| Bereitstellungsskripting Tool | Beschreibung 
+
+
+| ./rpms/configure-storagegrid.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration eines StorageGRID Systems.
+
+
+
+| ./rpms/configure-sga.py  a| 
+Ein Python-Skript zur Automatisierung der Konfiguration von StorageGRID Appliances.
+
+
+
+| ./rpms/configure-storagegrid.sample.json  a| 
+Eine Beispiel-Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./rpms/storagegrid-ssoauth.py  a| 
+Ein Beispiel für ein Python-Skript, das für die Anmeldung bei der Grid Management API verwendet werden kann, wenn Single Sign-On aktiviert ist. Dieses Skript kann auch für die Integration mit Ping Federate verwendet werden.
+
+
+
+| ./rpms/configure-storagegrid.blank.json  a| 
+Eine leere Konfigurationsdatei zur Verwendung mit dem  `configure-storagegrid.py` Skript.
+
+
+
+| ./rpms/extras/ansible  a| 
+Beispiel einer Ansible-Rolle und eines Playbooks zur Konfiguration von RHEL-Hosts für die StorageGRID Container-Bereitstellung. Die Rolle oder das Playbook kann nach Bedarf angepasst werden.
+
+
+
+| ${post_edited_translations.segment}  a| 
+${post_edited_translations.segment}
+
+
+
+| ${post_edited_translations.segment}  a| 
+Ein Hilfsskript, das vom zugehörigen  `storagegrid-ssoauth-azure.py` Python-Skript aufgerufen wird, um SSO-Interaktionen mit Azure durchzuführen.
+
+
+
+| ${post_edited_translations.segment}  a| 
+API-Schemas für StorageGRID.
+
+*Hinweis*: Vor einem Upgrade kann anhand dieser Schemas bestätigt werden, ob der von Ihnen für die Nutzung der StorageGRID Management-APIs geschriebene Code mit der neuen StorageGRID Version kompatibel ist, wenn keine StorageGRID Umgebung außerhalb der Produktion für Kompatibilitätstests des Upgrades vorhanden ist.
+
+|===

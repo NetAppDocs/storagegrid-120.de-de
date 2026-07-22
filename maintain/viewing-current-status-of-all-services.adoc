@@ -1,0 +1,44 @@
+---
+permalink: maintain/viewing-current-status-of-all-services.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, service, status 
+summary: Sie können den aktuellen Status aller auf einem Grid-Knoten ausgeführten Dienste jederzeit anzeigen. 
+---
+= Aktuellen Status aller StorageGRID-Dienste anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den aktuellen Status aller auf einem Grid-Knoten ausgeführten Dienste jederzeit anzeigen.
+
+.Bevor Sie beginnen
+Sie haben die  `Passwords.txt` Datei.
+
+.Schritte
+. Anmeldung am Grid-Knoten:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Status aller auf dem Grid-Knoten laufenden Dienste anzeigen: `storagegrid-status`
++
+Die Ausgabe des primären Admin-Knotens zeigt beispielsweise den aktuellen Status der Dienste AMS, CMN und NMS als Running an. Diese Ausgabe wird sofort aktualisiert, wenn sich der Status eines Dienstes ändert.
+
++
+image:storagegrid_status_output.gif["Screenshot der Ausgabe des Befehls storage-grid"]
+
+. Zurück zur Befehlszeile, dann *Strg*+*C* drücken.
+. Optional ist ein statischer Bericht für alle auf dem Grid-Knoten ausgeführten Dienste einsehbar: `/usr/local/servermanager/reader.rb`
++
+Dieser Bericht enthält die gleichen Informationen wie der fortlaufend aktualisierte Bericht, wird jedoch nicht aktualisiert, wenn sich der Status eines Dienstes ändert.
+
+. Von der Befehlsshell abmelden: `exit`
+

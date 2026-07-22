@@ -1,0 +1,41 @@
+---
+permalink: tenant/signing-out-of-tenant-manager.html 
+sidebar: sidebar 
+keywords: how to sign out of tenant manager 
+summary: Wenn die Arbeit mit dem Tenant Manager abgeschlossen ist, ist ein Abmelden erforderlich, damit unbefugte Benutzer keinen Zugriff auf das StorageGRID System erhalten. Das Schließen des Browsers führt je nach Browser-Cookie-Einstellungen möglicherweise nicht zu einer Abmeldung vom System. 
+---
+= Von StorageGRID Tenant Manager abmelden
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn die Arbeit mit dem Tenant Manager abgeschlossen ist, ist ein Abmelden erforderlich, um zu verhindern, dass unbefugte Benutzer auf das StorageGRID-System zugreifen können. Je nach Browser-Cookie-Einstellungen erfolgt beim Schließen des Browsers möglicherweise keine Abmeldung vom System.
+
+.Schritte
+. Das Dropdown-Menü für den Benutzernamen befindet sich in der oberen rechten Ecke der Benutzeroberfläche.
++
+image:tenant_user_sign_out.png["Abmelden-Link"]
+
+. Den Benutzernamen auswählen und anschließend *Abmelden* wählen.
++
+** Falls SSO nicht verwendet wird:
++
+Sie sind vom Admin-Knoten abgemeldet. Die Anmeldeseite des Tenant Manager wird angezeigt.
+
++
+
+NOTE: Wenn Sie sich bei mehr als einem Admin-Knoten angemeldet haben, müssen Sie sich von jedem Knoten abmelden.
+
+** Wenn SSO aktiviert ist:
++
+Sie sind von allen Admin-Knoten abgemeldet, auf die Sie zugegriffen haben. Die StorageGRID Sign in-Seite wird angezeigt. Der Name des Mandantenkontos, auf das Sie gerade zugegriffen haben, ist als Standard im Drop-down-Menü *Recent Accounts* aufgeführt, und die *Account ID* des Mandanten wird angezeigt.
+
++
+
+NOTE: Wenn SSO aktiviert ist und Sie auch beim Grid Manager angemeldet sind, müssen Sie sich auch vom Grid Manager abmelden, um sich von SSO abzumelden.
+
+
+
+

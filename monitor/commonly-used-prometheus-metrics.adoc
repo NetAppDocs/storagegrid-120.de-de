@@ -1,0 +1,158 @@
+---
+permalink: monitor/commonly-used-prometheus-metrics.html 
+sidebar: sidebar 
+keywords: prometheus, Prometheus metrics, metrics 
+summary: Diese Liste häufig verwendeter Prometheus-Metriken bietet einen besseren Überblick über die Bedingungen in den Standard-Alarmregeln oder dient als Grundlage für die Erstellung von Bedingungen für benutzerdefinierte Alarmregeln. 
+---
+= Häufig verwendete Prometheus-Metriken in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Liste häufig verwendeter Prometheus-Metriken bietet einen besseren Überblick über die Bedingungen in den Standard-Alarmregeln oder dient als Grundlage für die Erstellung von Bedingungen für benutzerdefinierte Alarmregeln.
+
+Sie können auch <<obtain-all-metrics,Eine vollständige Liste aller Kennzahlen erhalten>>.
+
+Weitere Informationen zur Syntax von Prometheus-Abfragen finden Sie unter  https://prometheus.io/docs/prometheus/latest/querying/basics/["Prometheus-Abfragen"^].
+
+
+
+[[what-are-prometheus-metrics]]
+== Was sind Prometheus Metriken?
+
+Prometheus-Metriken sind Zeitreihenmessungen. Der Prometheus-Dienst auf den Admin-Nodes sammelt diese Metriken von den Diensten auf allen Nodes. Die Metriken werden auf jedem Admin-Node gespeichert, bis der für Prometheus-Daten reservierte Speicherplatz voll ist. Wenn das  `/var/local/mysql_ibdata/` Volume die Kapazität erreicht, werden die ältesten Metriken zuerst gelöscht.
+
+
+
+[[where-are-prometheus-metrics-used]]
+== Wo werden Prometheus Metriken verwendet?
+
+Die von Prometheus erfassten Metriken werden an mehreren Stellen im Grid Manager verwendet:
+
+* *Knotenseite*: Die auf der Knotenseite verfügbaren Diagramme und Grafiken nutzen das Visualisierungstool Grafana, um die von Prometheus erfassten Zeitreihenmetriken anzuzeigen. Grafana stellt Zeitreihendaten in Diagramm- und Grafikform dar, während Prometheus als Backend-Datenquelle dient.
++
+image:nodes_page_network_traffic_graph.png["Prometheus Grafik"]
+
+* *Warnungen*: Warnungen werden bei bestimmten Schweregraden ausgelöst, wenn die Bedingungen der Warnungsregeln, die Prometheus-Metriken verwenden, als wahr ausgewertet werden.
+* *Grid Management API*: Prometheus-Metriken können in benutzerdefinierten Alarmregeln oder mit externen Automatisierungstools verwendet werden, um das StorageGRID-System zu überwachen. Eine vollständige Liste der Prometheus-Metriken ist über die Grid Management API verfügbar. (Im oberen Bereich des Grid Manager das Hilfesymbol auswählen und dann *API documentation* > *metrics* wählen.) Obwohl mehr als tausend Metriken verfügbar sind, ist nur eine relativ geringe Anzahl erforderlich, um die wichtigsten StorageGRID Operationen zu überwachen.
++
+
+NOTE: Metriken, die _private_ in ihrem Namen enthalten, sind nur für den internen Gebrauch bestimmt und können sich zwischen StorageGRID Versionen ohne Vorankündigung ändern.
+
+* Die Seiten *Support* > *Tools* > *Diagnostics* und *Support* > *Tools* > *Metrics*: Diese Seiten, die in erster Linie für den technischen Support gedacht sind, bieten verschiedene Tools und Diagramme, die die Werte der Prometheus-Metriken verwenden.
++
+
+NOTE: Einige Funktionen und Menüpunkte auf der Seite „Metriken“ sind absichtlich nicht funktionsfähig und unterliegen Änderungen.
+
+
+
+
+
+[[list-of-most-common-metrics]]
+== Liste der gebräuchlichsten Kennzahlen
+
+Die folgende Liste enthält die am häufigsten verwendeten Prometheus Metriken.
+
+
+NOTE: Metriken, die _private_ in ihrem Namen enthalten, sind nur für den internen Gebrauch bestimmt und können sich zwischen StorageGRID Releases ohne vorherige Ankündigung ändern.
+
+alertmanager_notifications_failed_total:: Die Gesamtzahl der fehlgeschlagenen Warnbenachrichtigungen.
+node_filesystem_avail_bytes:: Die Menge an Dateisystemspeicherplatz, die Nicht-Root-Benutzern in Bytes zur Verfügung steht.
+node_memory_MemAvailable_bytes:: Speicherinformationsfeld MemAvailable_bytes.
+Knoten Netzwerkträger:: Trägerwert von  `/sys/class/net/_iface_`.
+node_network_receive_errs_total:: Netzwerkgerätstatistik `receive_errs`.
+node_network_transmit_errs_total:: Netzwerkgerätstatistik `transmit_errs`.
+storagegrid_administratively_down:: Der Knoten ist aus einem erwarteten Grund nicht mit dem Grid verbunden. Beispielsweise wurde der Knoten oder die darauf laufenden Dienste ordnungsgemäß heruntergefahren, der Knoten wird neu gestartet oder die Software wird aktualisiert.
+StorageGRID Appliance Compute Controller Hardwarestatus:: Der Status der Compute Controller Hardware in einem Appliance.
+storagegrid_appliance_failed_disks:: Für den Speichercontroller in einem Gerät, die Anzahl der Laufwerke, die nicht optimal sind.
+StorageGRID Appliance Storage-Controller-Hardwarestatus:: Der Gesamtstatus der Storage-Controller-Hardware in einem Appliance.
+StorageGRID Inhalts-Buckets und -Container:: Die Gesamtzahl der von diesem Storage Node erkannten S3-Buckets.
+StorageGRID Inhaltsobjekte:: Die Gesamtzahl der von diesem Storage Node erkannten S3-Datenobjekte. Die Zählung ist nur für Datenobjekte gültig, die von Clientanwendungen erstellt wurden, die über S3 mit dem System interagieren.
+storagegrid_content_objects_lost:: Die Gesamtzahl der Objekte, die dieser Dienst im StorageGRID System als fehlend erkennt. Es sollten Maßnahmen ergriffen werden, um die Ursache des Verlusts zu ermitteln und zu prüfen, ob eine Wiederherstellung möglich ist.
++
+--
+link:../troubleshoot/troubleshooting-lost-and-missing-object-data.html["Fehlerbehebung bei verlorenen und fehlenden Objektdaten"]
+
+--
+storagegrid_http_sessions_incoming_attempted:: Die Gesamtzahl der HTTP-Sitzungen, die zu einem Storage Node versucht wurden.
+storagegrid_http_sessions_incoming_currently_established:: Die Anzahl der aktuell aktiven (offenen) HTTP-Sitzungen auf dem Storage Node.
+storagegrid_http_sessions_incoming_failed:: Die Gesamtzahl der HTTP-Sitzungen, die nicht erfolgreich abgeschlossen wurden, entweder aufgrund einer fehlerhaften HTTP-Anfrage oder eines Fehlers bei der Verarbeitung eines Vorgangs.
+storagegrid_http_sessions_incoming_successful:: Die Gesamtzahl der erfolgreich abgeschlossenen HTTP-Sitzungen.
+storagegrid_ilm_awaiting_background_objects:: Die Gesamtzahl der Objekte auf diesem Knoten, die nach dem Scan auf die ILM-Auswertung warten.
+storagegrid_ilm_awaiting_client_evaluation_objects_per_second:: Die aktuelle Rate, mit der Objekte auf diesem Knoten anhand der ILM-Richtlinie ausgewertet werden.
+storagegrid_ilm_awaiting_client_objects:: Die Gesamtzahl der Objekte auf diesem Knoten, die auf die ILM-Auswertung aus Clientoperationen (zum Beispiel Ingest) warten.
+storagegrid_ilm_awaiting_total_objects:: Die Gesamtzahl der Objekte, die auf die ILM-Auswertung warten.
+storagegrid_ilm_scan_objects_per_second:: Die Rate, mit der Objekte, die diesem Knoten gehören, gescannt und für ILM in die Warteschlange aufgenommen werden.
+storagegrid_ilm_scan_period_estimated_minutes:: Die geschätzte Zeit für einen vollständigen ILM-Scan auf diesem Node.
++
+--
+*Hinweis:* Ein vollständiger Scan garantiert nicht, dass ILM auf alle Objekte angewendet wurde, die diesem Knoten gehören.
+
+--
+storagegrid_load_balancer_endpoint_cert_expiry_time:: Die Ablaufzeit des Load Balancer Endpunktzertifikats in Sekunden seit der Unix-Epoche.
+Durchschnittliche Latenz von StorageGRID-Metadatenabfragen in Millisekunden:: Die durchschnittliche Zeit, die für die Ausführung einer Abfrage gegen den Metadatenspeicher über diesen Dienst erforderlich ist.
+storagegrid_network_received_bytes:: Die Gesamtmenge der seit der Installation empfangenen Daten.
+storagegrid_network_transmitted_bytes:: Die Gesamtmenge der seit der Installation gesendeten Daten.
+StorageGRID Node-CPU-Auslastung in Prozent:: Der Prozentsatz der verfügbaren CPU-Zeit, der aktuell von diesem Dienst genutzt wird. Zeigt, wie stark der Dienst ausgelastet ist. Die verfügbare CPU-Zeit hängt von der Anzahl der CPUs des Servers ab.
+storagegrid_ntp_chosen_time_source_offset_milliseconds:: Systematische Zeitverschiebung, die durch eine gewählte Zeitquelle verursacht wird. Eine Verschiebung entsteht, wenn die Verzögerung bis zum Erreichen einer Zeitquelle nicht der Zeit entspricht, die die Zeitquelle benötigt, um den NTP Client zu erreichen.
+storagegrid_ntp_locked:: Der Knoten ist nicht an einen Network Time Protocol (NTP) Server gebunden.
+storagegrid_s3_data_transfers_bytes_ingested:: Die Gesamtmenge der Daten, die seit dem letzten Zurücksetzen des Attributs von S3-Clients auf diesen Storage Node aufgenommen wurden.
+storagegrid_s3_data_transfers_bytes_retrieved:: Die Gesamtmenge der Daten, die von S3-Clients von diesem Storage Node seit dem letzten Zurücksetzen des Attributs abgerufen wurden.
+storagegrid_s3_operations_failed:: Die Gesamtzahl der fehlgeschlagenen S3-Operationen (HTTP-Statuscodes 4xx und 5xx), ausgenommen solche, die durch einen S3-Autorisierungsfehler verursacht wurden.
+storagegrid_s3_operations_successful:: Die Gesamtzahl der erfolgreichen S3-Operationen (HTTP-Statuscode 2xx).
+storagegrid_s3_operations_unauthorized:: Die Gesamtzahl der fehlgeschlagenen S3-Operationen, die auf einen Autorisierungsfehler zurückzuführen sind.
+storagegrid_servercertificate_management_interface_cert_expiry_days:: Die Anzahl der Tage bis zum Ablauf des Management Interface-Zertifikats.
+storagegrid_servercertificate_storage_api_endpoints_cert_expiry_days:: Die Anzahl der Tage bis zum Ablauf des Object Storage API Zertifikats.
+storagegrid_service_cpu_seconds:: Die kumulierte Zeit, während der die CPU von diesem Dienst seit der Installation genutzt wurde.
+storagegrid Dienst Speichernutzungsbytes:: Die Menge an Arbeitsspeicher (RAM), die dieser Dienst aktuell verwendet. Dieser Wert ist identisch mit dem von der Linux-Top-Dienstprogramm als RES angezeigten Wert.
+storagegrid_service_network_received_bytes:: Die Gesamtmenge der von diesem Dienst seit der Installation empfangenen Daten.
+storagegrid_service_network_transmitted_bytes:: Die Gesamtmenge der von diesem Dienst gesendeten Daten.
+storagegrid_service_restarts:: Die Gesamtzahl der Neustarts des Dienstes.
+storagegrid_service_runtime_seconds:: Die Gesamtzeit, die der Dienst seit der Installation in Betrieb ist.
+storagegrid_service_uptime_seconds:: Die Gesamtzeit, die der Dienst seit dem letzten Neustart ausgeführt wird.
+storagegrid_storage_state_current:: Der aktuelle Status der Speicherdienste. Die Attributwerte sind:
++
+--
+* 10 = Offline
+* 15 = Wartung
+* 20 = Nur-Lesezugriff
+* 30 = Online
+
+
+--
+StorageGRID Speicherstatus:: Der aktuelle Status der Speicherdienste. Die Attributwerte sind:
++
+--
+* 0 = Keine Fehler
+* 10 = Im Übergang
+* 20 = Unzureichender freier Speicherplatz
+* 30 = Volume(s) nicht verfügbar
+* 40 = Fehler
+
+
+--
+storagegrid_storage_utilization_data_bytes:: Eine Schätzung der Gesamtgröße der replizierten und mit Erasure-Codierung versehenen Objektdaten auf dem Storage Node.
+storagegrid_storage_utilization_metadata_allowed_bytes:: Der gesamte Speicherplatz auf Volume 0 jedes Storage Node, der für Objektmetadaten erlaubt ist. Dieser Wert ist stets geringer als der tatsächlich für Metadaten reservierte Speicherplatz auf einem Node, da ein Teil des reservierten Speicherplatzes für essentielle Datenbankoperationen (wie Komprimierung und Reparatur) sowie zukünftige Hardware- und Software-Upgrades benötigt wird. Der erlaubte Speicherplatz für Objektmetadaten steuert die Gesamtkapazität der Objekte.
+storagegrid_storage_utilization_metadata_bytes:: Die Menge der Objektmetadaten auf Speichervolume 0, in Bytes.
+storagegrid_Speicherauslastung_Gesamtspeicherplatz_Bytes:: Die Gesamtmenge des allen Objektspeichern zugewiesenen Speicherplatzes.
+StorageGRID_Speicherauslastung_verwendbarer_Speicherplatz_Bytes:: Die insgesamt verbleibende Menge an Objektspeicherplatz. Berechnet durch Addition des verfügbaren Speicherplatzes aller Objektspeicher auf dem Storage Node.
+storagegrid_tenant_usage_data_bytes:: Die logische Größe aller Objekte für den Mandanten.
+storagegrid_tenant_usage_object_count:: Die Anzahl der Objekte für den Mandanten.
+storagegrid_tenant_usage_quota_bytes:: Die maximal verfügbare Menge an logischem Speicherplatz für die Objekte des Mandanten. Wenn keine Kontingentmetrik angegeben ist, steht unbegrenzt viel Speicherplatz zur Verfügung.
+
+
+
+
+[[get-a-list-of-all-metrics]]
+== Eine Liste aller Kennzahlen abrufen
+
+[[obtain-all-metrics]]Die vollständige Liste der Metriken ist über die Grid Management API verfügbar.
+
+.Schritte
+. Oben im Grid Manager das Hilfesymbol auswählen und anschließend *API documentation* wählen.
+. Die *Metrik*-Operationen befinden sich an folgender Stelle.
+. Die  `GET /grid/metric-names`Operation ausführen.
+. Die Ergebnisse herunterladen.
+

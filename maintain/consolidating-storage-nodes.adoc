@@ -1,0 +1,23 @@
+---
+permalink: maintain/consolidating-storage-nodes.html 
+sidebar: sidebar 
+keywords: storagegrid, storage node, consolidate storage node, consolidating storage node 
+summary: Sie können Speicherknoten konsolidieren, um die Anzahl der Speicherknoten für einen Standort oder eine Bereitstellung zu reduzieren und gleichzeitig die Speicherkapazität zu erhöhen. 
+---
+= StorageGRID-Speicherknoten konsolidieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Speicherknoten konsolidieren, um die Anzahl der Speicherknoten für einen Standort oder eine Bereitstellung zu reduzieren und gleichzeitig die Speicherkapazität zu erhöhen.
+
+Bei der Konsolidierung von Storage Nodes link:../expand/index.html["das StorageGRID System erweitern"]werden neue Storage Nodes mit größerer Kapazität hinzugefügt und die alten Storage Nodes mit geringerer Kapazität außer Betrieb genommen. Während des Decommission-Verfahrens werden Objekte von den alten Storage Nodes auf die neuen Storage Nodes migriert.
+
+
+NOTE: Wenn ältere und kleinere Geräte mit neuen Modellen oder Geräten mit größerer Kapazität zusammengeführt werden, empfiehlt sich  https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/how-appliance-node-cloning-works.html["Klonen des Geräteknotens"^] (oder die Geräteknotenklonierung und das Außerbetriebnahmeverfahren, wenn kein Eins-zu-eins-Ersatz erfolgt).
+
+Beispielsweise könnten Sie zwei neue Storage Nodes mit höherer Kapazität hinzufügen, um drei ältere Storage Nodes zu ersetzen. Zuerst würde das Erweiterungsverfahren verwendet, um die beiden neuen, größeren Storage Nodes hinzuzufügen, und anschließend das Außerbetriebnahmeverfahren, um die drei alten Storage Nodes mit geringerer Kapazität zu entfernen.
+
+Durch das Hinzufügen neuer Kapazität vor der Entfernung bestehender Speicherknoten wird eine ausgewogenere Datenverteilung im StorageGRID System sichergestellt. Außerdem wird die Möglichkeit verringert, dass ein bestehender Speicherknoten über die Speichergrenzmarke hinaus beansprucht wird.

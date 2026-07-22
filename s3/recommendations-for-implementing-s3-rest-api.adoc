@@ -1,0 +1,64 @@
+---
+permalink: s3/recommendations-for-implementing-s3-rest-api.html 
+sidebar: sidebar 
+keywords: implement s3 rest api 
+summary: Diese Empfehlungen sind bei der Implementierung der S3 REST API zur Verwendung mit StorageGRID zu beachten. 
+---
+= Empfehlungen für die Implementierung der S3 REST API mit StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Empfehlungen sind bei der Implementierung der S3 REST API zur Verwendung mit StorageGRID zu beachten.
+
+
+
+[[recommendations-for-heads-to-non-existent-objects]]
+== Empfehlungen für HEADs zu nicht existierenden Objekten
+
+Wenn Ihre Anwendung regelmäßig prüft, ob ein Objekt unter einem Pfad existiert, unter dem Sie nicht erwarten, dass das Objekt tatsächlich existiert, sollte die Konsistenz „Verfügbar“ link:consistency.html["Konsistenz"] verwendet werden. Zum Beispiel ist die Konsistenz „Verfügbar“ zu verwenden, wenn Ihre Anwendung einen HEAD-Befehl an einen Speicherort sendet, bevor per PUT darauf geschrieben wird.
+
+Andernfalls kann es zu einer hohen Anzahl von 500 Internal Server-Fehlern kommen, wenn die HEAD-Operation das Objekt nicht findet und zwei oder mehr Storage Nodes am selben Standort nicht verfügbar sind oder ein entfernter Standort nicht erreichbar ist.
+
+Sie können die Konsistenz „Verfügbar“ für jeden Bucket mit der link:put-bucket-consistency-request.html["PUT Bucket Konsistenz"] Anfrage festlegen oder die Konsistenz im Anfrageheader für eine einzelne API-Operation angeben.
+
+
+
+[[recommendations-for-object-keys]]
+== Empfehlungen für Objektschlüssel
+
+Diese Empfehlungen für Objektschlüsselnamen gelten abhängig vom Zeitpunkt der ersten Erstellung des Buckets.
+
+.Buckets, die in StorageGRID 11.4 oder früher erstellt wurden
+* Verwenden Sie keine zufälligen Werte als die ersten vier Zeichen von Objektschlüsseln. Dies steht im Gegensatz zur früheren AWS-Empfehlung für Schlüsselpräfixe. Stattdessen sollten nicht zufällige, nicht eindeutige Präfixe wie  `image` verwendet werden.
+* Wenn Sie der früheren AWS-Empfehlung folgen, zufällige und eindeutige Zeichen in den Schlüsselpräfixen zu verwenden, sollte den Objektschlüsseln ein Verzeichnisname vorangestellt werden. Das bedeutet, folgendes Format wird verwendet:
++
+`mybucket/mydir/f8e3-image3132.jpg`
+
++
+Statt dieses Formats:
+
++
+`mybucket/f8e3-image3132.jpg`
+
+
+
+.Buckets, die in StorageGRID 11.4 oder höher erstellt wurden
+Die Beschränkung von Objektschlüsselnamen zur Einhaltung von Performance-Best Practices ist nicht erforderlich. In den meisten Fällen können für die ersten vier Zeichen von Objektschlüsselnamen zufällige Werte verwendet werden.
+
+
+TIP: Eine Ausnahme bildet ein S3-Workload, der kontinuierlich alle Objekte nach kurzer Zeit entfernt. Um die Leistungseinbußen für diesen Anwendungsfall zu minimieren, sollte ein führender Teil des Schlüsselnamens alle paar tausend Objekte mit etwas wie dem Datum variiert werden. Beispielsweise schreibt ein S3-Client typischerweise 2.000 Objekte pro Sekunde und die ILM- oder Bucket-Lifecycle-Richtlinie entfernt alle Objekte nach drei Tagen. Um die Leistungseinbußen zu minimieren, könnte die Benennung der Schlüssel nach folgendem Muster erfolgen: `/mybucket/mydir/_yyyymmddhhmmss_-_random_UUID_.jpg`
+
+
+
+[[recommendations-for-range-reads]]
+== Empfehlungen für „Range Reads“
+
+Wenn die link:../admin/configuring-stored-object-compression.html["Globale Option zum Komprimieren gespeicherter Objekte"] Option aktiviert ist, sollten S3-Clientanwendungen GetObject-Operationen vermeiden, die einen Bytebereich zur Rückgabe festlegen. Diese „Bereichslese“-Operationen sind ineffizient, da StorageGRID die Objekte effektiv dekomprimieren muss, um auf die angeforderten Bytes zuzugreifen. GetObject-Operationen, die einen kleinen Bytebereich aus einem sehr großen Objekt anfordern, sind besonders ineffizient; beispielsweise ist es ineffizient, einen 10 MB großen Bereich aus einem 50 GB großen komprimierten Objekt zu lesen.
+
+Wenn Bereiche aus komprimierten Objekten gelesen werden, kann die Clientanfrage eine Zeitüberschreitung aufweisen.
+
+
+NOTE: Wenn Objekte komprimiert werden müssen und die Clientanwendung Bereichslesevorgänge verwenden muss, sollte das Zeitüberschreitung für die Anwendung erhöht werden.

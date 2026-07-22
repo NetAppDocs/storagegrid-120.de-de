@@ -1,0 +1,29 @@
+---
+permalink: network/grid-network-topology.html 
+sidebar: sidebar 
+keywords: grid network topology 
+summary: Die einfachste Netzwerktopologie wird erstellt, indem nur das Grid-Netzwerk konfiguriert wird. 
+---
+= Grid-Netzwerktopologie für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die einfachste Netzwerktopologie wird erstellt, indem nur das Grid-Netzwerk konfiguriert wird.
+
+Bei der Konfiguration des Grid-Netzwerks werden die Host-IP-Adresse, die Subnetzmaske und die Gateway-IP-Adresse für die eth0-Schnittstelle jedes Grid-Knotens festgelegt.
+
+Während der Konfiguration müssen Sie alle Grid Network Subnetze zur Grid Network Subnetzliste (GNSL) hinzufügen. Diese Liste enthält alle Subnetze aller Standorte und kann auch externe Subnetze umfassen, die Zugriff auf wichtige Dienste wie NTP, DNS oder LDAP ermöglichen.
+
+Bei der Installation wendet die Grid-Netzwerk-Schnittstelle statische Routen für alle Subnetze im GNSL an und legt die Standardroute des Knotens auf das Grid Network Gateway fest, sofern eines konfiguriert ist. Das GNSL ist nicht erforderlich, wenn kein Client Network vorhanden ist und das Grid Network Gateway die Standardroute des Knotens ist. Host-Routen zu allen anderen Knoten im Grid werden ebenfalls generiert.
+
+In diesem Beispiel nutzt der gesamte Datenverkehr dasselbe Netzwerk, einschließlich des Datenverkehrs im Zusammenhang mit S3-Clientanfragen sowie administrativen und Wartungsfunktionen.
+
+
+NOTE: Diese Topologie eignet sich für Einzelstandortbereitstellungen, die nicht extern verfügbar sind, für Proof-of-Concept- oder Testbereitstellungen oder wenn ein Load Balancer eines Drittanbieters als Clientzugriffsgrenze fungiert. Das Grid-Netzwerk sollte nach Möglichkeit ausschließlich für internen Datenverkehr verwendet werden. Sowohl das Admin-Netzwerk als auch das Client-Netzwerk verfügen über zusätzliche Firewall-Beschränkungen, die externen Datenverkehr zu internen Diensten blockieren. Die Nutzung des Grid-Netzwerks für externen Client-Datenverkehr wird unterstützt, bietet jedoch weniger Schutzebenen.
+
+image:grid_network.png["Grid-Netzwerk"]
+
+image:grid_network_ips.png["Grid-Netzwerk-IPs"]

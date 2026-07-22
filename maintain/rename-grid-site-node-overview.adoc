@@ -1,0 +1,210 @@
+---
+permalink: maintain/rename-grid-site-node-overview.html 
+sidebar: sidebar 
+keywords: rename grid, rename site, rename node, display name, system name 
+summary: Bei Bedarf können Sie die im Grid Manager angezeigten Anzeigenamen für Ihr gesamtes Grid, jeden Standort und jeden Node ändern. Die Anzeigenamen lassen sich jederzeit und sicher aktualisieren. 
+---
+= Verwenden Sie die StorageGRID-Umbenennungsprozedur
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei Bedarf können Sie die im Grid Manager angezeigten Anzeigenamen für das gesamte Grid, jeden Standort und jeden Node ändern. Die Anzeigenamen lassen sich jederzeit und sicher aktualisieren.
+
+
+
+[[what-is-the-rename-procedure]]
+== Wie läuft die Umbenennung ab?
+
+Bei der erstmaligen Installation von StorageGRID wird ein Name für das Grid, jeden Standort und jeden Node angegeben. Diese anfänglichen Namen werden als _Systemnamen_ bezeichnet und sind die Namen, die zunächst in StorageGRID angezeigt werden.
+
+Systemnamen sind für interne StorageGRID-Operationen erforderlich und können nicht geändert werden. Es besteht jedoch die Möglichkeit, mithilfe der Umbenennungsprozedur neue _Anzeigenamen_ für das Grid, jeden Standort und jeden Node zu definieren. Diese Anzeigenamen erscheinen an verschiedenen Stellen in StorageGRID anstelle von (oder in manchen Fällen zusätzlich zu) den zugrunde liegenden Systemnamen.
+
+Das Umbenennungsverfahren dient dazu, Tippfehler zu korrigieren, eine andere Namenskonvention umzusetzen oder anzuzeigen, dass ein Standort und alle zugehörigen Nodes verlegt wurden. Im Gegensatz zu Systemnamen können Anzeigenamen jederzeit und ohne Auswirkungen auf den StorageGRID Betrieb aktualisiert werden.
+
+
+
+[[where-do-system-and-display-names-appear]]
+== Wo erscheinen System- und Anzeigenamen?
+
+Die folgende Tabelle fasst zusammen, wo Systemnamen und Anzeigenamen in der StorageGRID Benutzeroberfläche und in StorageGRID Dateien angezeigt werden.
+
+[cols="1a,1a,3a"]
+|===
+| Standort | Systemname | Anzeigename 
+
+
+ a| 
+Grid Manager Seiten
+ a| 
+Wird angezeigt, sofern das Element nicht umbenannt wird
+ a| 
+Wenn ein Element umbenannt wird, wird an diesen Stellen anstelle des Systemnamens der neue Name angezeigt:
+
+* Dashboard
+* Nodes-Seite
+* Konfigurationsseiten für Hochverfügbarkeitsgruppen, Load Balancer-Endpunkte, VLAN-Schnittstellen, Schlüsselverwaltungsserver, Grid-Passwörter und Firewall-Steuerung
+* Warnmeldungen
+* Speicherpooldefinitionen
+* Seite zum Nachschlagen von Objektmetadaten
+* Seiten zu Wartungsverfahren, einschließlich Upgrade, Hotfix, SANtricity OS Upgrade, Außerbetriebnahme, Erweiterung, Wiederherstellung und Objekt-Existenzprüfung
+* Supportseiten (Protokolle und Diagnose)
+* Single sign-on-Seite, neben dem Hostnamen des Admin-Node in der Tabelle mit den Admin-Node-Details
+
+
+
+
+ a| 
+*Knoten* > *Übersicht*-Registerkarte für einen Knoten
+ a| 
+Immer angezeigt
+ a| 
+Wird nur angezeigt, wenn das Element umbenannt wird.
+
+
+
+ a| 
+*node-health*-API
+ a| 
+Immer zurückgegeben
+ a| 
+Nur zurückgegeben, wenn das Element umbenannt wird
+
+
+
+ a| 
+Aufforderung beim Zugriff auf einen Node per SSH
+ a| 
+Wird als primärer Name angezeigt, sofern das Element nicht umbenannt wurde:
+
+`admin@SYSTEM-NAME: ~ $`
+
+In Klammern angegeben, wenn das Element umbenannt wird:
+
+`admin@DISPLAY-NAME(SYSTEM-NAME):~ $`
+ a| 
+Wird als primärer Name angezeigt, wenn das Element umbenannt wird:
+
+`admin@DISPLAY-NAME(SYSTEM-NAME):~ $`
+
+
+
+ a| 
+`Passwords.txt` Datei im Wiederherstellungspaket
+ a| 
+Angezeigt als `Server Name`
+ a| 
+Angezeigt als `Display Name`
+
+
+
+ a| 
+`/etc/hosts` Datei auf allen Knoten
+
+Beispiel:
+
+`10.96.99.128 SYSTEM-NAME 28989c59-a2c3-4d30-bb09-6879adf2437f DISPLAY-NAME localhost-grid # storagegrid-gen-host`
+ a| 
+Wird immer in der zweiten Spalte angezeigt
+ a| 
+Wenn der Eintrag umbenannt wird, ist dies in der vierten Spalte zu sehen
+
+
+
+ a| 
+`topology-display-names.json`, in den AutoSupport Daten enthalten
+ a| 
+Nicht enthalten
+ a| 
+Leer, es sei denn, Elemente wurden umbenannt; andernfalls werden Grid-, Standort- und Node-IDs ihren Anzeigenamen zugeordnet.
+
+|===
+
+
+[[display-name-requirements]]
+== Anforderungen an den Anzeigenamen
+
+Vor der Verwendung dieses Verfahrens sollten die Anforderungen an Anzeigenamen überprüft werden.
+
+
+
+[[display-names-for-nodes]]
+=== Anzeigenamen für Nodes
+
+Die Anzeigenamen für Knoten müssen diesen Regeln entsprechen:
+
+* Muss im gesamten StorageGRID System eindeutig sein.
+* Darf nicht mit dem Systemnamen eines anderen Elements in Ihrem StorageGRID System übereinstimmen.
+* Muss mindestens 1 und höchstens 32 Zeichen enthalten.
+* Kann Zahlen, Bindestriche (-) sowie Groß- und Kleinbuchstaben enthalten.
+* Kann mit einem Buchstaben oder einer Zahl beginnen oder enden, darf jedoch nicht mit einem Bindestrich beginnen oder enden.
+* Es können nicht nur Zahlen sein.
+* Es wird nicht zwischen Groß- und Kleinschreibung unterschieden. Beispielsweise werden  `DC1-ADM` und  `dc1-adm` als Duplikate betrachtet.
+
+
+Sie können einen Knoten mit einem Anzeigenamen umbenennen, der zuvor von einem anderen Knoten verwendet wurde, sofern die Umbenennung nicht zu einem doppelten Anzeigenamen oder Systemnamen führt.
+
+
+
+[[display-names-for-grid-and-sites]]
+=== Anzeigenamen für Grid und Standorte
+
+Für die Anzeigenamen für das Grid und die Standorte gelten dieselben Regeln mit folgenden Ausnahmen:
+
+* Kann Leerzeichen enthalten.
+* Kann folgende Sonderzeichen enthalten: `= - _ : , . @ !`
+* Kann mit Sonderzeichen, einschließlich Bindestrichen, beginnen und enden.
+* Kann nur aus Zahlen oder Sonderzeichen bestehen.
+
+
+
+
+[[display-name-best-practices]]
+== Best Practices für Anzeigenamen
+
+Wenn die Umbenennung mehrerer Elemente vorgesehen ist, sollte das allgemeine Namenskonvention vor der Durchführung dieses Verfahrens dokumentiert werden. Ein System, das sicherstellt, dass die Namen eindeutig, konsistent und auf einen Blick verständlich sind, ist zu entwickeln.
+
+Es kann jede Namenskonvention verwendet werden, die den organisatorischen Anforderungen entspricht. Dabei bieten sich die folgenden grundlegenden Vorschläge für den Inhalt an:
+
+* *Standortkennung*: Bei mehreren Standorten wird jedem Node-Name ein Standortcode hinzugefügt.
+* *Knotentyp*: Knotennamen geben typischerweise den Knotentyp an. Es können Abkürzungen wie  `s`,  `adm` und  `gw` (Speicherknoten, Verwaltungsknoten und Gateway-Knoten) verwendet werden.
+* *Knotennummer*: Wenn eine Website mehr als einen Knoten eines bestimmten Typs enthält, sollte jedem Node-Name eine eindeutige Nummer hinzugefügt werden.
+
+
+Es empfiehlt sich, vor dem Hinzufügen spezifischer Details zu Namen, die sich im Laufe der Zeit ändern können, sorgfältig abzuwägen. Beispielsweise sollten IP-Adressen nicht in Node-Namen aufgenommen werden, da sich diese Adressen ändern können. Ebenso können sich Rack-Standorte oder Appliance-Modellnummern ändern, wenn Geräte versetzt oder die Hardware aufgerüstet wird.
+
+
+
+[[example-display-names]]
+=== Beispiel-Anzeigenamen
+
+Angenommen, Ihr StorageGRID System verfügt über drei Rechenzentren und hat an jedem Rechenzentrum Nodes unterschiedlicher Typen. Ihre Anzeigenamen könnten beispielsweise so lauten:
+
+* *Grid*: `StorageGRID Deployment`
+* *Erster Standort*: `Data Center 1`
++
+** `dc1-adm1`
+** `dc1-s1`
+** `dc1-s2`
+** `dc1-s3`
+** `dc1-gw1`
+
+
+* *Zweiter Standort*: `Data Center 2`
++
+** `dc2-adm2`
+** `dc2-s1`
+** `dc2-s2`
+** `dc2-s3`
+
+
+* *Dritter Standort*: `Data Center 3`
++
+** `dc3-s1`
+** `dc3-s2`
+** `dc3-s3`
+
+
+

@@ -1,0 +1,21 @@
+---
+permalink: admin/kms-configuring.html 
+sidebar: sidebar 
+keywords: configure kms, key management server, kmip, Key Management Interoperability Protocol 
+summary: 'Ein Key Management Server (KMS) ist ein externes System eines Drittanbieters, das Verschlüsselungsschlüssel für StorageGRID Appliance-Knoten am zugehörigen StorageGRID Standort unter Verwendung des Key Management Interoperability Protocol (KMIP) bereitstellt.' 
+---
+= Erfahren Sie mehr über Schlüsselverwaltungsserver in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Key Management Server (KMS) ist ein externes System eines Drittanbieters, das Verschlüsselungsschlüssel für StorageGRID Appliance-Knoten am zugehörigen StorageGRID Standort mithilfe des Key Management Interoperability Protocol (KMIP) bereitstellt.
+
+StorageGRID unterstützt nur bestimmte Schlüsselverwaltungsserver. Eine Liste der unterstützten Produkte und Versionen ist über das  https://imt.netapp.com/matrix/#welcome["NetApp Interoperabilitätsmatrix Tool (IMT)"^] verfügbar.
+
+Sie können einen oder mehrere Schlüsselverwaltungsserver verwenden, um die Knotenverschlüsselungsschlüssel für alle StorageGRID Appliance-Knoten zu verwalten, bei denen die Einstellung *Knotenverschlüsselung* während der Installation aktiviert wurde. Die Verwendung von Schlüsselverwaltungsservern mit diesen Appliance-Knoten ermöglicht den Schutz Ihrer Daten, selbst wenn eine Appliance aus dem Rechenzentrum entfernt wird. Nachdem die Appliance-Volumes verschlüsselt wurden, ist ein Zugriff auf die Daten auf der Appliance nur möglich, wenn der Knoten mit dem KMS kommunizieren kann.
+
+
+CAUTION: StorageGRID erstellt oder verwaltet keine externen Schlüssel, die zum Verschlüsseln und Entschlüsseln von Appliance-Knoten verwendet werden. Wenn ein externer Schlüsselverwaltungsserver zum Schutz von StorageGRID Daten verwendet werden soll, ist es erforderlich, die Einrichtung dieses Servers sowie die Verwaltung der Verschlüsselungsschlüssel zu verstehen. Die Ausführung von Aufgaben im Zusammenhang mit der Schlüsselverwaltung fällt nicht in den Geltungsbereich dieser Anleitung. Bei Bedarf bietet die Dokumentation Ihres Schlüsselverwaltungsservers Unterstützung, alternativ kann der technische Support kontaktiert werden.

@@ -1,0 +1,320 @@
+---
+permalink: admin/use-api-if-sso-is-enabled-adfs.html 
+sidebar: sidebar 
+keywords: how to access storagegrid API if SSO is enabled with ADFS 
+summary: ${post_edited_translations.segment} 
+---
+= Verwenden Sie die StorageGRID API, wenn Single Sign-On aktiviert ist (Active Directory)
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie link:../admin/how-sso-works.html["Single Sign-On (SSO) konfiguriert und aktiviert"] haben und Active Directory als SSO-Anbieter verwenden, müssen Sie eine Reihe von API-Anfragen senden, um ein Authentifizierungstoken zu erhalten, das für die Grid Management API oder die Tenant Management API gültig ist.
+
+
+
+[[sign-in-to-the-api-if-single-sign-on-is-enabled]]
+== Bei aktivierter Single Sign-On-Funktion erfolgt die Anmeldung an der API.
+
+${post_edited_translations.segment}
+
+.Bevor Sie beginnen
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+
+
+.Über diese Aufgabe
+Um ein Authentifizierungs-Token zu erhalten, kann eines der folgenden Beispiele verwendet werden:
+
+* Das  `storagegrid-ssoauth.py` Python-Skript befindet sich im StorageGRID Installationsverzeichnis (`./rpms` für RHEL, `./debs` für Ubuntu oder Debian und  `./vsphere` für VMware.
+* Ein Beispielworkflow für curl-Anfragen.
++
+Der curl Workflow kann zu einem Timeout führen, wenn er zu langsam ausgeführt wird. Möglicherweise wird folgender Fehler angezeigt: `A valid SubjectConfirmation was not found on this Response`.
+
++
+
+NOTE: Der im Beispiel gezeigte curl Workflow schützt das Passwort nicht davor, von anderen Benutzern eingesehen zu werden.
+
+
+
+Wenn ein Problem mit der URL-Codierung vorliegt, wird möglicherweise folgender Fehler angezeigt: `Unsupported SAML version`.
+
+.Schritte
+. Wählen Sie eine der folgenden Methoden, um ein Authentifizierungstoken zu erhalten:
++
+** Das Python-Skript `storagegrid-ssoauth.py` verwenden. Weiter mit Schritt 2.
+** Verwenden Sie curl Anfragen. Wechseln Sie zu Schritt 3.
+
+
+. Wenn Sie das  `storagegrid-ssoauth.py` Skript verwenden möchten, übergeben Sie das Skript an den Python-Interpreter und führen das Skript aus.
++
+Geben Sie bei Aufforderung Werte für die folgenden Argumente ein:
+
++
+** Die SSO-Methode. ADFS oder adfs eingeben.
+** Der SSO Benutzername
+** Die Domäne, in der StorageGRID installiert ist
+** Die Adresse für StorageGRID
+** Die Mandantenkonto-ID, falls Sie auf die Tenant Management API zugreifen möchten.
++
+image:sso_auth_python_script_adfs.png["SSO Authentifizierungsskript für AD FS"]
+
++
+Das StorageGRID Autorisierungstoken wird in der Ausgabe bereitgestellt. Sie können das Token nun für andere Anfragen verwenden, ähnlich wie Sie die API verwenden würden, wenn kein SSO verwendet wird.
+
+
+
+. ${post_edited_translations.segment}
++
+.. ${post_edited_translations.segment}
++
+[source, bash]
+----
+export SAMLUSER='my-sso-username'
+export SAMLPASSWORD='my-password'
+export SAMLDOMAIN='my-domain'
+export TENANTACCOUNTID='12345'
+export STORAGEGRID_ADDRESS='storagegrid.example.com'
+export AD_FS_ADDRESS='adfs.example.com'
+----
++
+
+NOTE: Für den Zugriff auf die Grid Management API ist 0 als `TENANTACCOUNTID` zu verwenden.
+
+.. Um eine signierte Authentifizierungs-URL zu erhalten, wird eine POST-Anfrage an `/api/v3/authorize-saml` gesendet und die zusätzliche JSON-Codierung aus der Antwort entfernt.
++
+Dieses Beispiel zeigt eine POST-Anforderung für eine signierte Authentifizierungs-URL für `TENANTACCOUNTID`. Die Ergebnisse werden an `python -m json.tool` übergeben, um die JSON-Codierung zu entfernen.
+
++
+[source, bash]
+----
+curl -X POST "https://$STORAGEGRID_ADDRESS/api/v3/authorize-saml" \
+  -H "accept: application/json" -H  "Content-Type: application/json" \
+  --data "{\"accountId\": \"$TENANTACCOUNTID\"}" | python -m json.tool
+----
++
+Die Antwort für dieses Beispiel enthält eine signierte URL, die URL-codiert ist, aber nicht die zusätzliche JSON-Codierungsschicht.
+
++
+[listing]
+----
+{
+    "apiVersion": "3.0",
+    "data": "https://adfs.example.com/adfs/ls/?SAMLRequest=fZHLbsIwEEV%2FJTuv7...sSl%2BfQ33cvfwA%3D&RelayState=12345",
+    "responseTime": "2018-11-06T16:30:23.355Z",
+    "status": "success"
+}
+----
+.. Den  `SAMLRequest` aus der Antwort für die Verwendung in nachfolgenden Befehlen speichern.
++
+[source, bash]
+----
+export SAMLREQUEST='fZHLbsIwEEV%2FJTuv7...sSl%2BfQ33cvfwA%3D'
+----
+.. Eine vollständige URL mit der Client Request-ID von AD FS erhalten.
++
+Eine Möglichkeit besteht darin, das Anmeldeformular mit der URL aus der vorherigen Antwort anzufordern.
+
++
+[source, bash]
+----
+curl "https://$AD_FS_ADDRESS/adfs/ls/?SAMLRequest=$SAMLREQUEST&RelayState=$TENANTACCOUNTID" | grep 'form method="post" id="loginForm"'
+----
++
+Die Antwort enthält die Client-Anforderungs-ID:
+
++
+[listing]
+----
+<form method="post" id="loginForm" autocomplete="off" novalidate="novalidate" onKeyPress="if (event && event.keyCode == 13) Login.submitLoginRequest();" action="/adfs/ls/?
+SAMLRequest=fZHRToMwFIZfhb...UJikvo77sXPw%3D%3D&RelayState=12345&client-request-id=00000000-0000-0000-ee02-0080000000de" >
+----
+.. Die Client-Anforderungs-ID aus der Antwort speichern.
++
+[source, bash]
+----
+export SAMLREQUESTID='00000000-0000-0000-ee02-0080000000de'
+----
+.. Ihre Zugangsdaten werden an die Formularaktion aus der vorherigen Antwort gesendet.
++
+[source, bash]
+----
+curl -X POST "https://$AD_FS_ADDRESS/adfs/ls/?SAMLRequest=$SAMLREQUEST&RelayState=$TENANTACCOUNTID&client-request-id=$SAMLREQUESTID" \
+--data "UserName=$SAMLUSER@$SAMLDOMAIN&Password=$SAMLPASSWORD&AuthMethod=FormsAuthentication" --include
+----
++
+AD FS gibt eine 302-Weiterleitung zurück, mit zusätzlichen Informationen in den Headern.
+
++
+
+NOTE: Wenn für Ihr SSO-System die Multi-Faktor-Authentifizierung (MFA) aktiviert ist, enthält das Formular ebenfalls das zweite Passwort oder andere Anmeldeinformationen.
+
++
+[listing]
+----
+HTTP/1.1 302 Found
+Content-Length: 0
+Content-Type: text/html; charset=utf-8
+Location: https://adfs.example.com/adfs/ls/?SAMLRequest=fZHRToMwFIZfhb...UJikvo77sXPw%3D%3D&RelayState=12345&client-request-id=00000000-0000-0000-ee02-0080000000de
+Set-Cookie: MSISAuth=AAEAADAvsHpXk6ApV...pmP0aEiNtJvWY=; path=/adfs; HttpOnly; Secure
+Date: Tue, 06 Nov 2018 16:55:05 GMT
+----
+.. Den  `MSISAuth`Cookie aus der Antwort speichern.
++
+[source, bash]
+----
+export MSISAuth='AAEAADAvsHpXk6ApV...pmP0aEiNtJvWY='
+----
+.. Eine GET-Anfrage wird an den angegebenen Speicherort mit den Cookies aus dem Authentifizierung-POST gesendet.
++
+[source, bash]
+----
+curl "https://$AD_FS_ADDRESS/adfs/ls/?SAMLRequest=$SAMLREQUEST&RelayState=$TENANTACCOUNTID&client-request-id=$SAMLREQUESTID" \
+--cookie "MSISAuth=$MSISAuth" --include
+----
++
+Die Antwortheader enthalten AD FS-Sitzungsinformationen für die spätere Abmeldung, und der Antworttext enthält die SAMLResponse in einem versteckten Formularfeld.
+
++
+[listing]
+----
+HTTP/1.1 200 OK
+Cache-Control: no-cache,no-store
+Pragma: no-cache
+Content-Length: 5665
+Content-Type: text/html; charset=utf-8
+Expires: -1
+Server: Microsoft-HTTPAPI/2.0
+P3P: ADFS doesn't have P3P policy, please contact your site's admin for more details
+Set-Cookie: SamlSession=a3dpbnRlcnMtUHJpbWFyeS1BZG1pbi0xNzgmRmFsc2Umcng4NnJDZmFKVXFxVWx3bkl1MnFuUSUzZCUzZCYmJiYmXzE3MjAyZTA5LThmMDgtNDRkZC04Yzg5LTQ3NDUxYzA3ZjkzYw==; path=/adfs; HttpOnly; Secure
+Set-Cookie: MSISAuthenticated=MTEvNy8yMDE4IDQ6MzI6NTkgUE0=; path=/adfs; HttpOnly; Secure
+Set-Cookie: MSISLoopDetectionCookie=MjAxOC0xMS0wNzoxNjozMjo1OVpcMQ==; path=/adfs; HttpOnly; Secure
+Date: Wed, 07 Nov 2018 16:32:59 GMT
+
+<form method="POST" name="hiddenform" action="https://storagegrid.example.com:443/api/saml-response">
+  <input type="hidden" name="SAMLResponse" value="PHNhbWxwOlJlc3BvbnN...1scDpSZXNwb25zZT4=" /><input type="hidden" name="RelayState" value="12345" />
+----
+.. Die Daten  `SAMLResponse` aus dem versteckten Feld speichern:
++
+[source, bash]
+----
+export SAMLResponse='PHNhbWxwOlJlc3BvbnN...1scDpSZXNwb25zZT4='
+----
+.. Mit den gespeicherten  `SAMLResponse` kann eine StorageGRID``/api/saml-response``-Anfrage gestellt werden, um ein StorageGRID Authentifizierungs-Token zu generieren.
++
+Für `RelayState` verwenden Sie die Mandantenkonto-ID oder 0, wenn Sie sich bei der Grid Management API anmelden möchten.
+
++
+[source, bash]
+----
+curl -X POST "https://$STORAGEGRID_ADDRESS:443/api/saml-response" \
+  -H "accept: application/json" \
+  --data-urlencode "SAMLResponse=$SAMLResponse" \
+  --data-urlencode "RelayState=$TENANTACCOUNTID" \
+  | python -m json.tool
+----
++
+Die Antwort enthält das Authentifizierungs-Token.
+
++
+[listing]
+----
+{
+    "apiVersion": "3.0",
+    "data": "56eb07bf-21f6-40b7-af0b-5c6cacfb25e7",
+    "responseTime": "2018-11-07T21:32:53.486Z",
+    "status": "success"
+}
+----
+.. Das Authentifizierungstoken in der Antwort als `MYTOKEN` speichern.
++
+[source, bash]
+----
+export MYTOKEN="56eb07bf-21f6-40b7-af0b-5c6cacfb25e7"
+----
++
+Sie können jetzt  `MYTOKEN` auch für andere Anfragen verwenden, ähnlich wie Sie die API verwenden würden, wenn SSO nicht verwendet wird.
+
+
+
+
+
+
+
+[[sign-out-of-the-api-if-single-sign-on-is-enabled]]
+== ${post_edited_translations.segment}
+
+Wenn Single Sign-On (SSO) aktiviert wurde, müssen Sie eine Reihe von API-Anfragen senden, um sich von der Grid Management API oder der Tenant Management API abzumelden. Diese Anweisungen gelten, wenn Sie Active Directory als SSO-Identitätsanbieter verwenden
+
+.Über diese Aufgabe
+Bei Bedarf können Sie sich von der StorageGRID API abmelden, indem Sie sich über die Single-Logout-Seite Ihrer Organisation abmelden. Alternativ können Sie das Single Logout (SLO) von StorageGRID auslösen, wofür ein gültiges StorageGRID Bearer-Token erforderlich ist.
+
+.Schritte
+. Um eine signierte Abmeldeanfrage zu generieren, wird `cookie "sso=true"` an die SLO API übergeben:
++
+[source, bash]
+----
+curl -k -X DELETE "https://$STORAGEGRID_ADDRESS/api/v3/authorize" \
+-H "accept: application/json" \
+-H "Authorization: Bearer $MYTOKEN" \
+--cookie "sso=true" \
+| python -m json.tool
+----
++
+Eine Abmelde-URL wird zurückgegeben:
+
++
+[listing]
+----
+{
+    "apiVersion": "3.0",
+    "data": "https://adfs.example.com/adfs/ls/?SAMLRequest=fZDNboMwEIRfhZ...HcQ%3D%3D",
+    "responseTime": "2018-11-20T22:20:30.839Z",
+    "status": "success"
+}
+----
+. ${post_edited_translations.segment}
++
+[source, bash]
+----
+export LOGOUT_REQUEST='https://adfs.example.com/adfs/ls/?SAMLRequest=fZDNboMwEIRfhZ...HcQ%3D%3D'
+----
+. Eine Anfrage an die Logout-URL senden, um SLO auszulösen und zurück zu StorageGRID zu gelangen.
++
+[source, bash]
+----
+curl --include "$LOGOUT_REQUEST"
+----
++
+Es wird der Statuscode 302 zurückgegeben. Die Weiterleitungsadresse gilt nicht für die Abmeldung ausschließlich über die API.
+
++
+[listing]
+----
+HTTP/1.1 302 Found
+Location: https://$STORAGEGRID_ADDRESS:443/api/saml-logout?SAMLResponse=fVLLasMwEPwVo7ss%...%23rsa-sha256
+Set-Cookie: MSISSignoutProtocol=U2FtbA==; expires=Tue, 20 Nov 2018 22:35:03 GMT; path=/adfs; HttpOnly; Secure
+----
+. ${post_edited_translations.segment}
++
+Das Löschen des StorageGRID Bearer-Tokens funktioniert auf dieselbe Weise wie ohne SSO. Wenn das Cookie "sso=true" nicht bereitgestellt wird, wird der Benutzer von StorageGRID abgemeldet, ohne dass der SSO-Status beeinträchtigt wird.
+
++
+[source, bash]
+----
+curl -X DELETE "https://$STORAGEGRID_ADDRESS/api/v3/authorize" \
+-H "accept: application/json" \
+-H "Authorization: Bearer $MYTOKEN" \
+--include
+----
++
+Eine  `204 No Content`Antwort signalisiert, dass der Benutzer jetzt abgemeldet ist.
+
++
+[listing]
+----
+HTTP/1.1 204 No Content
+----
+

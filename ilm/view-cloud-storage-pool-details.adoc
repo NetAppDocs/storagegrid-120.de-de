@@ -1,0 +1,43 @@
+---
+permalink: ilm/view-cloud-storage-pool-details.html 
+sidebar: sidebar 
+keywords: view cloud storage pool 
+summary: Sie können die Details eines Cloud-Speicherpools einsehen, um festzustellen, wo er verwendet wird und welche Knoten und Speicherklassen enthalten sind. 
+---
+= Details zum Cloud Storage Pool in StorageGRID anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Details eines Cloud Storage Pool einsehen, um festzustellen, wo er verwendet wird und welche Knoten und Speicherklassen enthalten sind.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+
+
+.Schritte
+. Wählen Sie *ILM* > *Speicherpools* > *Cloud Storage Pools*.
++
+Die Tabelle „Cloud Storage Pools“ enthält die folgenden Informationen für jeden Cloud Storage Pool, der Storage Nodes umfasst:
+
++
+** *Name*: Der eindeutige Anzeigename des Pools.
+** *URI*: Der Uniform Resource Identifier des Cloud Storage Pools.
+** *Anbietertyp*: Welcher Cloud-Provider wird für diesen Cloud Storage Pool verwendet.
+** *Container*: Der Name des Buckets, der für den Cloud Storage Pool verwendet wird.
+** *ILM-Nutzung*: Wie der Pool aktuell genutzt wird. Ein Cloud Storage Pool kann ungenutzt sein oder in einer oder mehreren ILM-Regeln, Erasure-Coding-Profilen oder beidem verwendet werden.
+** *Letzter Fehler*: Der letzte Fehler, der bei einer Integritätsprüfung dieses Cloud Storage Pools festgestellt wurde.
+
+
+. Details zu einem bestimmten Cloud Storage Pool werden angezeigt, wenn dessen Name ausgewählt wird.
++
+Die Detailseite für den Pool wird angezeigt.
+
+. Auf der Registerkarte *Authentifizierung* werden der Authentifizierungstyp für diesen Cloud Storage Pool angezeigt und die Authentifizierungsdetails können bearbeitet werden.
+. Auf der Registerkarte *Serververifizierung* sind Informationen zu Verifizierungsdetails, die Möglichkeit zur Bearbeitung der Verifizierung, zum Herunterladen eines neuen Zertifikats oder zum Kopieren der Zertifikat-PEM verfügbar.
+. Die Registerkarte *ILM usage* zeigt an, ob der Cloud Storage Pool aktuell in ILM-Regeln oder Erasure-Coding-Profilen verwendet wird.
+. Optional kann die *ILM-Regelseite* aufgerufen werden, um link:working-with-ilm-rules-and-ilm-policies.html["Informationen zu allen Regeln erhalten und diese verwalten"] zu verwenden, die den Cloud Storage Pool nutzen.
+

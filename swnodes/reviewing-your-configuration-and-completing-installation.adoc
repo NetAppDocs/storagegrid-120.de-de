@@ -1,0 +1,47 @@
+---
+permalink: swnodes/reviewing-your-configuration-and-completing-installation.html 
+sidebar: sidebar 
+keywords: how to review your configuration and complete installation 
+summary: Die von Ihnen eingegebenen Konfigurationsinformationen sollten sorgfältig überprüft werden, damit die Installation erfolgreich abgeschlossen wird. 
+---
+= Überprüfen Sie Ihre StorageGRID-Konfiguration
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die von Ihnen eingegebenen Konfigurationsinformationen sollten sorgfältig überprüft werden, damit die Installation erfolgreich abgeschlossen wird.
+
+.Schritte
+. Die Seite *Zusammenfassung* anzeigen.
++
+image:11_gmi_installer_summary_page.gif["Grid Manager Installationsübersichtsseite"]
+
+. Überprüft wird, ob alle Informationen zur Grid-Konfiguration korrekt sind. Auf der Übersichtsseite führen die Links „Ändern“ zurück, um eventuelle Fehler zu korrigieren.
+. Auf *Installieren* klicken.
++
+
+NOTE: Wenn ein Knoten für die Verwendung des Client-Netzwerks konfiguriert ist, wechselt das Standardgateway dieses Knotens vom Grid-Netzwerk zum Client-Netzwerk, wenn Sie auf *Install* klicken. Bei einem Verbindungsverlust ist sicherzustellen, dass auf den primären Admin Node über ein erreichbares Subnetz zugegriffen wird. Siehe link:../network/index.html["Netzwerkrichtlinien"] für Details.
+
+. Auf *Wiederherstellungspaket herunterladen* klicken.
++
+Sobald die Installation die Definition der Grid-Topologie erreicht hat, werden Sie aufgefordert, die Wiederherstellungspaketdatei (`.zip` herunterzuladen und zu bestätigen, dass Sie auf deren Inhalt zugreifen können. Sie müssen die Wiederherstellungspaketdatei herunterladen, damit das StorageGRID System wiederhergestellt werden kann, falls ein oder mehrere Grid-Knoten ausfallen. Die Installation läuft im Hintergrund weiter, aber die Installation kann erst abgeschlossen werden und auf das StorageGRID System kann erst zugegriffen werden, nachdem diese Datei heruntergeladen und überprüft wurde.
+
+. Vergewissern Sie sich, dass Sie den Inhalt der  `.zip` Datei extrahieren können und ihn anschließend an zwei sicheren und voneinander getrennten Orten speichern.
++
+
+CAUTION: Die Wiederherstellungspaketdatei muss geschützt werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können.
+
+. Das Kontrollkästchen *Ich habe die Wiederherstellungspaketdatei erfolgreich heruntergeladen und überprüft* auswählen und auf *Weiter* klicken.
++
+Wenn die Installation noch läuft, wird die Statusseite angezeigt. Diese Seite zeigt den Fortschritt der Installation für jeden Grid-Knoten an.
+
++
+image:12_gmi_installer_status_page.gif["Dieses Bild wird im umgebenden Text erläutert."]
+
++
+Sobald für alle Grid-Knoten die Stufe „Abgeschlossen“ erreicht ist, erscheint die Anmeldeseite für den Grid Manager.
+
+. Im Grid Manager mit dem Root-Benutzer und dem während der Installation angegebenen Passwort anmelden.
+

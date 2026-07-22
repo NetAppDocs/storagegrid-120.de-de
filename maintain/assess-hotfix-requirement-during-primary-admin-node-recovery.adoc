@@ -1,0 +1,31 @@
+---
+permalink: maintain/assess-hotfix-requirement-during-primary-admin-node-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, primary admin node, hotfix 
+summary: Nach der Wiederherstellung eines primären Admin-Knotens sollte festgestellt werden, ob ein Hotfix angewendet werden muss. 
+---
+= Ermitteln Sie den Hotfix-Bedarf für den primären Admin-Node in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach der Wiederherstellung eines primären Admin-Knotens sollte festgestellt werden, ob ein Hotfix angewendet werden muss.
+
+.Bevor Sie beginnen
+Die Wiederherstellung des primären Admin-Nodes ist abgeschlossen.
+
+.Schritte
+. Melden Sie sich beim Grid Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] an.
+. Wählen Sie *Knoten*.
+. In der Liste auf der linken Seite den primären Admin Node auswählen.
+. Auf der Registerkarte „Übersicht“ ist die im Feld „Software Version“ angezeigte Version zu beachten.
+. Wählen Sie einen beliebigen anderen Grid-Node aus.
+. Auf der Registerkarte „Übersicht“ ist die im Feld „Software Version“ angezeigte Version zu beachten.
++
+** Wenn die in den Feldern *Software Version* angezeigten Versionen übereinstimmen, ist kein Hotfix erforderlich.
+** Wenn die in den Feldern *Softwareversion* angezeigten Versionen unterschiedlich sind, ist es erforderlich, link:storagegrid-hotfix-procedure.html["einen Hotfix anwenden"] den wiederhergestellten primären Admin Node auf die gleiche Version zu aktualisieren.
+
+
+

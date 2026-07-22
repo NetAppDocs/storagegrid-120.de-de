@@ -1,0 +1,85 @@
+---
+permalink: maintain/step-2-view-details.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, view details 
+summary: 'Ab Schritt 2 (Details anzeigen) des Assistenten zur Stilllegung von Standorten kann überprüft werden, welche Knoten zum Standort gehören, wie viel Speicherplatz auf jedem Storage Node belegt ist und wie viel freier Speicherplatz an den anderen Standorten im Grid verfügbar ist.' 
+---
+= Überprüfen Sie die Standortdetails vor der Stilllegung in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ab Schritt 2 (Details anzeigen) des Assistenten zur Stilllegung von Standorten kann überprüft werden, welche Knoten zum Standort gehören, wie viel Speicherplatz auf jedem Storage Node belegt ist und wie viel freier Speicherplatz an den anderen Standorten im Grid verfügbar ist.
+
+.Bevor Sie beginnen
+Vor der Stilllegung eines Standorts ist zu prüfen, wie viele Objektdaten am Standort vorhanden sind.
+
+* Wenn Sie eine verbundene Site außer Betrieb nehmen, müssen Sie vor der Aktualisierung von ILM verstehen, wie viele Objektdaten aktuell an der Site vorhanden sind. Abhängig von den Site-Kapazitäten und Ihren Datenschutzanforderungen können neue ILM-Regeln erstellt werden, um Daten an andere Sites zu verschieben oder Objektdaten von der Site zu löschen.
+* Alle erforderlichen Storage Node Erweiterungen sollten nach Möglichkeit vor Beginn des Stilllegungsverfahrens durchgeführt werden.
+* Wenn Sie eine Offline-Deaktivierung eines Standorts durchführen, muss bekannt sein, wie viele Objektdaten dauerhaft unzugänglich werden, wenn der Standort entfernt wird.
+
+
+
+CAUTION: Wenn eine Stilllegung eines nicht verbundenen Standorts durchgeführt wird, kann ILM keine Objektdaten verschieben oder löschen. Alle am Standort verbleibenden Daten gehen verloren. Wurde die ILM-Richtlinie jedoch so gestaltet, dass sie vor dem Verlust eines einzelnen Standorts schützt, existieren Kopien der Objektdaten weiterhin an den verbleibenden Standorten. Siehe link:../ilm/using-multiple-storage-pools-for-cross-site-replication.html["Standortverlustschutz aktivieren"].
+
+.Schritte
+. Ab Schritt 2 (Details anzeigen) können alle Warnungen, die sich auf die ausgewählte Site zur Entfernung beziehen, überprüft werden.
++
+image:decommission_site_step_2_site_warnings.png["Stilllegung Standort Schritt 2 Standortwarnungen"]
+
++
+In diesen Fällen wird eine Warnung angezeigt:
+
++
+** Der Standort umfasst einen Gateway Node. Wenn S3-Clients derzeit mit diesem Node verbunden sind, muss ein entsprechender Node an einem anderen Standort konfiguriert werden. Vor dem Fortsetzen der Außerbetriebnahme sollte sichergestellt sein, dass die Clients eine Verbindung zum Ersatz-Node herstellen können.
+** Die Website enthält eine Mischung aus verbundenen (image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"]) und getrennten Knoten (image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"] oder image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"]). Vor dem Entfernen dieser Website müssen alle Offline-Knoten wieder online sein.
+
+
+. Details zu der ausgewählten Website für die Entfernung anzeigen.
++
+image:decommission_site_step_2_view_details.png["Stilllegungsstandort Schritt 2 Details anzeigen"]
+
++
+Für den ausgewählten Standort sind folgende Informationen enthalten:
+
++
+** Anzahl der Knoten
+** Der gesamte belegte Speicherplatz, der freie Speicherplatz und die Kapazität aller Storage Nodes am Standort.
++
+*** Bei der Stilllegung eines verbundenen Standorts gibt der Wert *Belegter Speicherplatz* an, wie viele Objektdaten auf andere Standorte verschoben oder mit ILM gelöscht werden müssen.
+*** Bei der Stilllegung einer nicht verbundenen Website gibt der Wert *Belegter Speicherplatz* an, wie viele Objektdaten nach dem Entfernen der Website nicht mehr zugänglich sind.
+
+
+** Node-Namen, -Typen und Verbindungszustände:
++
+*** image:icon_alert_green_checkmark.png["Symbolwarnung Grünes Häkchen"] (Verbunden)
+*** image:icon_alarm_gray_administratively_down.png["Symbol Alarm Grau Administrativ Down"] (Administrativ eingestellt)
+*** image:icon_alarm_blue_unknown.png["Symbol Alarm Blau Unbekannt"] (Unbekannt)
+
+
+** Details zu jedem Node:
++
+*** Für jeden Storage Node die Menge an Speicherplatz, die für Objektdaten verwendet wurde.
+*** Für Admin-Knoten und Gateway-Knoten wird angezeigt, ob der Knoten derzeit in einer Hochverfügbarkeitsgruppe (HA-Gruppe) verwendet wird. Ein Admin-Knoten oder Gateway-Knoten, der in einer HA-Gruppe verwendet wird, kann nicht außer Betrieb genommen werden. Vor Beginn der Außerbetriebnahme sollten die HA-Gruppen so bearbeitet werden, dass alle Knoten an diesem Standort entfernt werden, oder die HA-Gruppe entfernt werden, falls sie nur Knoten dieses Standorts umfasst. Anleitungen finden Sie unter link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen (HA) verwalten"].
+
+
+
+
+. Im Abschnitt „Details für andere Standorte“ auf der Seite lässt sich feststellen, wie viel Speicherplatz an den anderen Standorten in Ihrem Grid verfügbar ist.
++
+image:decommission_site_step_2_view_details_for_other_sites.png["Schritt 2 der Stilllegung des Standorts Details zu anderen Standorten anzeigen"]
+
++
+Wenn Sie eine verbundene Standortstilllegung durchführen und planen, Objektdaten mithilfe von ILM vom ausgewählten Standort zu verschieben (anstatt sie einfach zu löschen), muss sichergestellt sein, dass die anderen Standorte über genügend Kapazität verfügen, um die verschobenen Daten aufzunehmen, und dass ausreichend Kapazität für zukünftiges Wachstum verbleibt.
+
++
+
+NOTE: Eine Warnung erscheint, wenn der *belegte Speicherplatz* der zu entfernenden Website den *gesamten freien Speicherplatz für andere Websites* übersteigt. Damit nach der Entfernung der Website ausreichend Speicherkapazität zur Verfügung steht, kann es erforderlich sein, vor diesem Vorgang eine Erweiterung durchzuführen.
+
+. *Weiter* auswählen.
++
+Schritt 3 (ILM-Richtlinie überarbeiten) erscheint.
+
+

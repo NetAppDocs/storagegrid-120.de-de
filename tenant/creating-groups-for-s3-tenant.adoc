@@ -1,0 +1,166 @@
+---
+permalink: tenant/creating-groups-for-s3-tenant.html 
+sidebar: sidebar 
+keywords: how to create S3 tenant groups, federated group, local group 
+summary: Sie können Berechtigungen für S3-Benutzergruppen verwalten, indem Sie föderierte Gruppen importieren oder lokale Gruppen erstellen. 
+---
+= Erstellen Sie Gruppen für einen S3-Mandanten in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Berechtigungen für S3-Benutzergruppen verwalten, indem Sie föderierte Gruppen importieren oder lokale Gruppen erstellen.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören zu einer Benutzergruppe, die die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"] hat.
+* Wenn Sie planen, eine föderierte Gruppe zu importieren, haben Sie link:using-identity-federation.html["konfigurierte Identitätsföderation"], und die föderierte Gruppe existiert bereits in der konfigurierten Identitätsquelle.
+* Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, Sie den Workflow und die Überlegungen für link:grid-federation-account-clone.html["Klonen von Mandantengruppen und Benutzern"] geprüft haben und im Quell-Grid des Mandanten angemeldet sind.
+
+
+
+
+[[access-the-create-group-wizard]]
+== Auf den Assistenten zum Erstellen von Gruppen zugreifen
+
+Im ersten Schritt erfolgt der Zugriff auf den Assistenten zum Erstellen von Gruppen.
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt, erscheint ein blaues Banner, das darauf hinweist, dass neue Gruppen, die in diesem Grid erstellt werden, zum gleichen Mandanten im anderen Grid der Verbindung geklont werden. Wenn dieses Banner nicht erscheint, sind Sie möglicherweise im Ziel-Grid des Mandanten angemeldet.
++
+image:grid-federation-tenant-group-banner.png["Abbildung eines blauen Banners auf der Gruppenseite des Tenant Source Grid"]
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[choose-a-group-type]]
+== Wählen Sie einen Gruppentyp
+
+Sie können eine lokale Gruppe erstellen oder eine Verbundgruppe importieren.
+
+.Schritte
+. Die Registerkarte *Lokale Gruppe* ermöglicht das Erstellen einer lokalen Gruppe, während über die Registerkarte *Verbundgruppe* eine Gruppe aus der zuvor konfigurierten Identitätsquelle importiert werden kann.
++
+Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, können sich Benutzer, die lokalen Gruppen angehören, nicht beim Tenant Manager anmelden, obwohl sie Clientanwendungen verwenden können, um die Ressourcen des Tenants basierend auf Gruppenberechtigungen zu verwalten.
+
+. Den Namen der Gruppe eingeben.
++
+** *Lokale Gruppe*: Sowohl ein Anzeigename als auch ein eindeutiger Name sind einzugeben. Der Anzeigename kann später bearbeitet werden.
++
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt, tritt ein Klonfehler auf, falls der gleiche *Eindeutige Name* bereits für den Mandanten im Ziel-Grid existiert.
+
+** *Verbundgruppe*: Geben Sie den eindeutigen Namen ein. Für Active Directory ist der eindeutige Name der Name, der mit dem  `sAMAccountName` Attribut verknüpft ist. Für OpenLDAP ist der eindeutige Name der Name, der mit dem  `uid` Attribut verknüpft ist.
+
+
+. Wählen Sie *Weiter*.
+
+
+
+
+[[manage-group-permissions]]
+== Gruppenberechtigungen verwalten
+
+Gruppenberechtigungen steuern, welche Aufgaben Benutzer im Tenant Manager und in der Tenant Management API ausführen können.
+
+.Schritte
+. Für den *Zugriffsmodus* eine der folgenden Optionen auswählen:
++
+** *Lese-/Schreibzugriff* (Standard): Benutzer können sich beim Tenant Manager anmelden und die Mandantenkonfiguration verwalten.
+** *Schreibgeschützt*: Benutzer können lediglich Einstellungen und Funktionen einsehen. Sie können weder Änderungen vornehmen noch Aktionen im Tenant Manager oder in der Tenant Management API durchführen. Lokale schreibgeschützte Benutzer können ihre eigenen Passwörter ändern.
++
+
+NOTE: Gehört ein Benutzer mehreren Gruppen an und ist eine dieser Gruppen auf „Schreibgeschützt“ eingestellt, hat der Benutzer nur Lesezugriff auf alle ausgewählten Einstellungen und Funktionen.
+
+
+
+. Eine oder mehrere Berechtigungen für diese Gruppe auswählen.
++
+Siehe link:../tenant/tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"].
+
+. Wählen Sie *Weiter*.
+
+
+
+
+[[set-s3-group-policy]]
+== S3 Gruppenrichtlinie festlegen
+
+Die Gruppenrichtlinie legt fest, welche S3-Zugriffsberechtigungen die Benutzer haben.
+
+.Schritte
+. Die Richtlinie, die für diese Gruppe verwendet werden soll, auswählen.
++
+[cols="1a,2a"]
+|===
+| Gruppenrichtlinie | Beschreibung 
+
+
+ a| 
+Kein S3 Zugriff
+ a| 
+Standard. Benutzer in dieser Gruppe haben keinen Zugriff auf S3-Ressourcen, es sei denn, der Zugriff wird mit einer Bucket-Richtlinie gewährt. Wenn diese Option ausgewählt ist, hat standardmäßig nur der Root-Benutzer Zugriff auf S3-Ressourcen.
+
+
+
+ a| 
+Nur-Lesezugriff
+ a| 
+Benutzer dieser Gruppe haben nur Lesezugriff auf S3-Ressourcen. Beispielsweise können Benutzer dieser Gruppe Objekte auflisten sowie Objektdaten, Metadaten und Tags lesen. Bei Auswahl dieser Option erscheint die JSON-Zeichenfolge für eine Gruppenrichtlinie mit Lesezugriff im Textfeld. Diese Zeichenfolge kann nicht bearbeitet werden.
+
+
+
+ a| 
+Voller Zugriff
+ a| 
+Benutzer dieser Gruppe haben vollen Zugriff auf S3-Ressourcen, einschließlich Buckets. Bei Auswahl dieser Option wird die JSON-Zeichenfolge für eine vollständige Gruppenrichtlinie im Textfeld angezeigt. Diese Zeichenfolge kann nicht bearbeitet werden.
+
+
+
+ a| 
+Ransomware Abwehr
+ a| 
+Diese Beispielrichtlinie gilt für alle Buckets dieses Mandanten. Benutzer dieser Gruppe können allgemeine Aktionen ausführen, jedoch keine Objekte aus Buckets mit aktivierter Objektversionierung endgültig löschen.
+
+Tenant Manager-Benutzer, die über die Berechtigung *Alle Buckets verwalten* verfügen, können diese Gruppenrichtlinie außer Kraft setzen. Die Berechtigung *Alle Buckets verwalten* sollte auf vertrauenswürdige Benutzer beschränkt werden, und wo verfügbar, ist Multi-Faktor-Authentifizierung (MFA) zu verwenden.
+
+
+
+ a| 
+Benutzerdefiniert
+ a| 
+Benutzern in der Gruppe werden die Berechtigungen gewährt, die im Textfeld angegeben sind.
+
+|===
+. Wenn Sie *Benutzerdefiniert* ausgewählt haben, geben Sie die Gruppenrichtlinie ein. Jede Gruppenrichtlinie ist auf 5.120 Byte beschränkt. Es muss eine gültige, im JSON-Format vorliegende Zeichenfolge eingegeben werden.
++
+Detaillierte Informationen zu Gruppenrichtlinien, einschließlich Sprachsyntax und Beispielen, sind unter link:../s3/example-group-policies.html["Beispielgruppenrichtlinien"] zu finden.
+
+. Wenn Sie eine lokale Gruppe erstellen, wählen Sie *Weiter*. Wenn Sie eine Verbundgruppe erstellen, wählen Sie *Gruppe erstellen* und *Fertigstellen*.
+
+
+
+
+[[add-users-local-groups-only]]
+== ${post_edited_translations.segment}
+
+Sie können die Gruppe speichern, ohne Benutzer hinzuzufügen, oder optional bereits vorhandene lokale Benutzer hinzufügen.
+
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt, werden alle Benutzer, die Sie beim Erstellen einer lokalen Gruppe im Quell-Grid auswählen, beim Klonen der Gruppe in das Ziel-Grid nicht berücksichtigt. Aus diesem Grund sollten beim Erstellen der Gruppe keine Benutzer ausgewählt werden. Stattdessen wird die Gruppe ausgewählt, wenn die Benutzer erstellt werden.
+
+.Schritte
+. ${post_edited_translations.segment}
+. *Gruppe erstellen* und *Fertigstellen* auswählen.
++
+Die von Ihnen erstellte Gruppe erscheint in der Liste der Gruppen.
+
++
+Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und Sie sich im Quell-Grid des Mandanten befinden, wird die neue Gruppe in das Ziel-Grid des Mandanten geklont. *Erfolg* erscheint als *Klonstatus* im Abschnitt „Übersicht“ auf der Detailseite der Gruppe.
+
+

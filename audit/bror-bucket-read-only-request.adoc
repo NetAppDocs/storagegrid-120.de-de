@@ -1,0 +1,64 @@
+---
+permalink: audit/bror-bucket-read-only-request.html 
+sidebar: sidebar 
+keywords: bror, bucket read only request, empty bucket, audit message, 
+summary: Der LDR-Dienst generiert diese Revisionsprotokollmeldung, wenn ein Bucket in den schreibgeschützten Modus wechselt oder diesen verlässt. Beispielsweise wechselt ein Bucket in den schreibgeschützten Modus, während er geleert wird. 
+---
+= BROR Revisionsprotokollmeldung für schreibgeschützte Bucket-Anfragen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der LDR Service generiert diese Revisionsprotokollmeldung, wenn ein Bucket in den schreibgeschützten Modus wechselt oder diesen verlässt. Zum Beispiel wechselt ein Bucket in den schreibgeschützten Modus, während alle Objekte gelöscht werden.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+BKHD
+ a| 
+Bucket-UUID
+ a| 
+Die Bucket-ID.
+
+
+
+ a| 
+BROV
+ a| 
+${post_edited_translations.segment}
+ a| 
+Ob der Bucket in den schreibgeschützten Zustand versetzt wird oder den schreibgeschützten Zustand verlässt (1 = schreibgeschützt, 0 = nicht schreibgeschützt).
+
+
+
+ a| 
+BROS
+ a| 
+Bucket-Schreibschutzgrund
+ a| 
+Der Grund, warum der Bucket schreibgeschützt wird oder den schreibgeschützten Zustand verlässt. Zum Beispiel emptyBucket.
+
+
+
+ a| 
+S3AI
+ a| 
+S3 Mandantenkonto-ID
+ a| 
+Die ID des Mandantenkontos, das die Anfrage gesendet hat. Ein leerer Wert zeigt anonymer Zugriff an.
+
+
+
+ a| 
+S3BK
+ a| 
+S3 Bucket
+ a| 
+Der Name des S3 Buckets.
+
+|===

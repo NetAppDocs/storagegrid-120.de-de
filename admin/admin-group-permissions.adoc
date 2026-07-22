@@ -1,0 +1,209 @@
+---
+permalink: admin/admin-group-permissions.html 
+sidebar: sidebar 
+keywords: admin group permissions 
+summary: Beim Erstellen von Admin-Benutzergruppen wählen Sie eine oder mehrere Berechtigungen aus, um den Zugriff auf bestimmte Funktionen des Grid Managers zu steuern. Jeder Benutzer kann dann einer oder mehreren dieser Admin-Gruppen zugewiesen werden, wodurch festgelegt wird, welche Aufgaben dieser Benutzer ausführen kann. 
+---
+= Administratorgruppenberechtigungen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Beim Erstellen von Admin-Benutzergruppen wählen Sie eine oder mehrere Berechtigungen aus, um den Zugriff auf bestimmte Funktionen des Grid Managers zu steuern. Jeder Benutzer kann dann einer oder mehreren dieser Admin-Gruppen zugewiesen werden, wodurch festgelegt wird, welche Aufgaben dieser Benutzer ausführen kann.
+
+Jeder Gruppe muss mindestens eine Berechtigung zugewiesen werden; andernfalls können sich Benutzer, die dieser Gruppe angehören, nicht beim Grid Manager oder der Grid Management API anmelden.
+
+Standardmäßig kann jeder Benutzer, der einer Gruppe angehört, die über mindestens eine Berechtigung verfügt, die folgenden Aufgaben ausführen:
+
+* Anmeldung beim Grid Manager
+* Dashboard anzeigen
+* Die Knotenseiten
+* Aktuelle und behobene Warnmeldungen
+* Eigenes Passwort ändern (nur lokale Benutzer)
+* Bestimmte Informationen, die auf den Seiten „Konfiguration“ und „Wartung“ bereitgestellt werden, können angezeigt werden.
+
+
+
+
+[[interaction-between-permissions-and-access-mode]]
+== Interaktion zwischen Berechtigungen und Zugriffsmodus
+
+Für alle Berechtigungen bestimmt die *Zugriffsmodus*-Einstellung der Gruppe, ob Benutzer Einstellungen ändern und Aktionen ausführen können oder ob sie die zugehörigen Einstellungen und Funktionen nur anzeigen können. Wenn ein Benutzer mehreren Gruppen angehört und eine dieser Gruppen auf *Schreibgeschützt* eingestellt ist, hat der Benutzer nur Lesezugriff auf alle ausgewählten Einstellungen und Funktionen.
+
+In den folgenden Abschnitten werden die Berechtigungen beschrieben, die Sie beim Erstellen oder Bearbeiten einer Admin-Gruppe zuweisen können. Alle nicht explizit genannten Funktionen erfordern die Berechtigung *Root access*.
+
+
+
+[[root-access]]
+== Root-Zugriff
+
+Diese Berechtigung gewährt Zugriff auf alle Grid-Administrationsfunktionen.
+
+
+
+[[change-tenant-root-password]]
+== Root-Passwort des Mandanten ändern
+
+Diese Berechtigung ermöglicht den Zugriff auf die Option *Root-Passwort ändern* auf der Tenants-Seite, wodurch gesteuert werden kann, wer das Passwort für den lokalen Root-Benutzer des Mandanten ändern darf. Diese Berechtigung wird auch für die Migration von S3-Schlüsseln verwendet, wenn die S3-Schlüsselimportfunktion aktiviert ist. Benutzer, die diese Berechtigung nicht haben, können die Option *Root-Passwort ändern* nicht sehen.
+
+
+NOTE: Um Zugriff auf die Seite „Mandanten“ zu gewähren, die die Option *Root-Passwort ändern* enthält, muss auch die Berechtigung *Mandantenkonten* zugewiesen werden.
+
+
+
+[[ilm]]
+== ILM
+
+Diese Berechtigung gewährt Zugriff auf die folgenden *ILM* Menüoptionen:
+
+* Regeln
+* Richtlinien
+* Richtlinien-Tags
+* Storage Pools
+* Storage-Grades
+* Regionen
+* Objektmetadatenabfrage
+
+
+
+NOTE: Benutzer benötigen die Berechtigung *Andere Grid-Konfiguration*, um Speicherklassen zu verwalten.
+
+
+
+[[maintenance]]
+== Wartung
+
+Benutzer benötigen die Wartungsberechtigung, um diese Optionen zu verwenden:
+
+* *Konfiguration* > *Zugriffskontrolle*:
++
+** Grid-Passwörter
+
+
+* *Konfiguration* > *Netzwerk*:
++
+** S3 Endpoint-Domänennamen
+
+
+* *Wartung* > *Aufgaben*:
++
+** Außerdienststellung
+** ${post_edited_translations.segment}
+** Objektexistenzprüfung
+** Wiederherstellung
+
+
+* *Wartung* > *System*:
++
+** ${post_edited_translations.segment}
+** Software Update
+
+
+* *Support* > *Tools*:
++
+** Protokolle
+
+
+
+
+Benutzer ohne Wartungsberechtigung können diese Seiten zwar ansehen, aber nicht bearbeiten:
+
+* *Wartung* > *Netzwerk*:
++
+** DNS-Server
+** Grid-Netzwerk
+** NTP-Server
+
+
+* *Wartung* > *System*:
++
+** Lizenz
+
+
+* *Konfiguration* > *Netzwerk*:
++
+** S3 Endpoint-Domänennamen
+
+
+* *Konfiguration* > *Sicherheit*:
++
+** Zertifikate
+
+
+* *Konfiguration* > *Überwachung*:
++
+** Audit und Syslog Server
+
+
+
+
+
+
+[[manage-alerts]]
+== Benachrichtigungen verwalten
+
+Diese Berechtigung ermöglicht den Zugriff auf Optionen zur Verwaltung von Warnmeldungen. Benutzer müssen über diese Berechtigung verfügen, um Stummschaltungen, Warnbenachrichtigungen und Warnregeln zu verwalten.
+
+
+
+[[metrics-query]]
+== Metrikabfrage
+
+Diese Berechtigung gewährt Zugriff auf:
+
+* ${post_edited_translations.segment}
+* Benutzerdefinierte Prometheus-Metrikabfragen mithilfe des Abschnitts *Metrics* der Grid Management API
+* Grid Manager Dashboard-Karten, die Kennzahlen enthalten
+
+
+
+
+[[object-metadata-lookup]]
+== Objektmetadatenabfrage
+
+Diese Berechtigung ermöglicht den Zugriff auf die Seite *ILM* > *Objektmetadaten-Lookup*.
+
+
+
+[[other-grid-configuration]]
+== Andere Grid-Konfiguration
+
+Diese Berechtigung gewährt Zugriff auf diese zusätzlichen Grid-Konfigurationsoptionen:
+
+* ${post_edited_translations.segment}
++
+** Storage-Grades
+
+
+* *Konfiguration* > *System*:
+* *Support* > *Sonstiges*:
++
+** Verbindungskosten
+
+
+
+
+
+
+[[storage-appliance-administrator]]
+== Storage-Appliance-Administrator
+
+${post_edited_translations.segment}
+
+* Zugriff auf den E-Series SANtricity System Manager auf Speichergeräten über den Grid Manager.
+* Die Möglichkeit, auf der Registerkarte „Laufwerke verwalten“ für Appliances, die diese Vorgänge unterstützen, Fehlerbehebungs- und Wartungsaufgaben auszuführen.
+
+
+
+
+[[tenant-accounts]]
+== Mieterkonten
+
+Diese Berechtigung ermöglicht Folgendes:
+
+* Auf der Seite „Mandanten“ können Mandantenkonten erstellt, bearbeitet und entfernt werden.
+* Vorhandene Verkehrsklassifizierungsrichtlinien anzeigen
+* Dashboard-Karten des Grid Manager mit Mandantendetails anzeigen
+

@@ -1,0 +1,136 @@
+---
+permalink: ilm/what-ilm-rule-is.html 
+sidebar: sidebar 
+keywords: what is information lifecycle rule, ilm rule 
+summary: 'Zur Verwaltung von Objekten wird eine Reihe von Regeln für das Informationslebenszyklusmanagement (ILM) erstellt und in einer ILM-Richtlinie organisiert.' 
+---
+= Erfahren Sie mehr über ILM-Regeln in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zur Verwaltung von Objekten wird eine Reihe von Regeln für das Informationslebenszyklusmanagement (ILM) erstellt und in einer ILM-Richtlinie organisiert.
+
+Jedes in das System aufgenommene Objekt wird anhand der aktiven Richtlinie geprüft. Wenn eine Regel der Richtlinie mit den Metadaten eines Objekts übereinstimmt, bestimmen die Anweisungen in der Regel, welche Aktionen StorageGRID zum Kopieren und Speichern dieses Objekts ausführt.
+
+
+NOTE: Objektmetadaten werden nicht durch ILM-Regeln verwaltet. Stattdessen werden Objektmetadaten in einer Cassandra Datenbank in einem sogenannten Metadatenspeicher gespeichert. An jedem Standort werden automatisch drei Kopien der Objektmetadaten vorgehalten, um die Daten vor Verlust zu schützen.
+
+
+
+[[elements-of-an-ilm-rule]]
+== Elemente einer ILM Regel
+
+Eine ILM Regel besteht aus drei Elementen:
+
+* *Filterkriterien*: Die Basis- und erweiterten Filter einer Regel definieren, auf welche Objekte die Regel angewendet wird. Wenn ein Objekt allen Filtern entspricht, wendet StorageGRID die Regel an und erstellt die in den Platzierungsanweisungen der Regel angegebenen Objektkopien.
+* *Platzierungsanweisungen*: Die Platzierungsanweisungen einer Regel definieren die Anzahl, Art und Position der Objektkopien. Jede Regel kann eine Folge von Platzierungsanweisungen enthalten, um die Anzahl, Art und Position der Objektkopien im Laufe der Zeit zu ändern. Wenn der Zeitraum einer Platzierung abläuft, werden die Anweisungen der nächsten Platzierung automatisch durch die nächste ILM-Auswertung angewendet.
+* *Aufnahmeverhalten*: Das Aufnahmeverhalten einer Regel ermöglicht die Auswahl, wie die von der Regel gefilterten Objekte beim Aufnehmen geschützt werden (wenn ein S3-Client ein Objekt im Grid speichert).
+
+
+
+
+[[ilm-rule-filtering]]
+== ILM Regelfilterung
+
+Beim Erstellen einer ILM-Regel geben Sie Filter an, um festzulegen, auf welche Objekte die Regel angewendet wird.
+
+Im einfachsten Fall verwendet eine Regel keine Filter. Jede Regel, die keine Filter verwendet, gilt für alle Objekte und muss daher die letzte (Standard-)Regel in einer ILM-Richtlinie sein. Die Standardregel enthält Speicheranweisungen für Objekte, die nicht den Filtern einer anderen Regel entsprechen.
+
+* Mit Basisfiltern können Sie verschiedene Regeln auf große, voneinander abgegrenzte Objektgruppen anwenden. Diese Filter ermöglichen es, eine Regel auf bestimmte Mandantenkonten, bestimmte S3 Buckets oder beides anzuwenden.
++
+Mit einfachen Filtern können Sie unkompliziert verschiedene Regeln auf eine große Anzahl von Objekten anwenden. Beispielsweise müssen die Finanzdaten Ihres Unternehmens möglicherweise aus regulatorischen Gründen gespeichert werden, während Daten der Marketingabteilung für den reibungslosen Geschäftsbetrieb benötigt werden. Nachdem Sie separate Mandantenkonten für jede Abteilung erstellt oder die Daten der verschiedenen Abteilungen in separate S3-Buckets aufgeteilt haben, kann ganz einfach eine Regel erstellt werden, die für alle Finanzdatensätze gilt, und eine zweite Regel, die für alle Marketingdaten gilt.
+
+* Erweiterte Filter bieten Ihnen detaillierte Kontrolle. Sie können Filter erstellen, um Objekte anhand der folgenden Objekteigenschaften auszuwählen:
++
+** Ingest-Zeitpunkt
+** Letzter Zugriff
+** Der gesamte oder ein Teil des Objektnamens (Key)
+** Standortbeschränkung (nur S3)
+** Objektgröße
+** Benutzermetadaten
+** Object Tag (nur S3)
+
+
+
+
+Sie können Objekte nach sehr spezifischen Kriterien filtern. Beispielsweise werden Objekte, die von der radiologischen Abteilung eines Krankenhauses gespeichert werden, möglicherweise häufig verwendet, solange sie weniger als 30 Tage alt sind und danach nur noch selten, während Objekte, die Patientenbesuchsinformationen enthalten, möglicherweise an die Abrechnungsabteilung der Zentrale des Gesundheitsnetzwerks kopiert werden müssen. Es können Filter erstellt werden, die jeden Objekttyp anhand von Objektname, Größe, S3-Objekttags oder anderen relevanten Kriterien identifizieren, und anschließend separate Regeln definiert werden, um jede Objektgruppe entsprechend zu speichern.
+
+Sie können Filter nach Bedarf in einer einzigen Regel kombinieren. Beispielsweise möchte die Marketingabteilung große Bilddateien möglicherweise anders speichern als ihre Lieferantendatensätze, während die Personalabteilung Personalakten in einer bestimmten Region und Richtlinieninformationen zentral speichern muss. In diesem Fall lassen sich Regeln erstellen, die nach Mandantenkonto filtern, um die Datensätze der einzelnen Abteilungen zu trennen, wobei in jeder Regel Filter verwendet werden, um den jeweiligen Objekttyp zu identifizieren, auf den die Regel zutrifft.
+
+
+
+[[ilm-rule-placement-instructions]]
+== ILM Regelplatzierungsanweisungen
+
+Platzierungsanweisungen legen fest, wo, wann und wie Objektdaten gespeichert werden. Eine ILM-Regel kann eine oder mehrere Platzierungsanweisungen enthalten. Jede Platzierungsanweisung gilt für einen bestimmten Zeitraum.
+
+Beim Erstellen von Platzierungsanweisungen:
+
+* Zunächst wird der Referenzzeitpunkt festgelegt, der bestimmt, wann die Platzierungsanweisungen beginnen. Der Referenzzeitpunkt kann der Zeitpunkt sein, zu dem ein Objekt aufgenommen wird, zu dem auf ein Objekt zugegriffen wird, zu dem ein versioniertes Objekt nicht mehr aktuell ist, oder ein benutzerdefinierter Zeitpunkt.
+* Anschließend wird festgelegt, wann die Platzierung relativ zum Referenzzeitpunkt gilt. Beispielsweise kann eine Platzierung am Tag 0 beginnen und 365 Tage andauern, bezogen auf den Zeitpunkt der Objektaufnahme.
+* Abschließend wird die Art der Kopien (Replikation oder Erasure Coding) und der Speicherort der Kopien festgelegt. Zum Beispiel kann es sinnvoll sein, zwei replizierte Kopien an zwei verschiedenen Standorten zu speichern.
+
+
+Jede Regel kann mehrere Platzierungen für einen einzelnen Zeitraum und unterschiedliche Platzierungen für verschiedene Zeiträume definieren.
+
+* Um Objekte an mehreren Orten innerhalb eines Zeitraums zu platzieren, *Anderen Typ oder Ort hinzufügen* auswählen, um für diesen Zeitraum mehr als eine Zeile hinzuzufügen.
+* Um Objekte in verschiedenen Zeiträumen an unterschiedlichen Orten zu platzieren, kann mit *Weiteren Zeitraum hinzufügen* der nächste Zeitraum hinzugefügt werden. Anschließend sind eine oder mehrere Zeilen innerhalb des Zeitraums anzugeben.
+
+
+Das Beispiel zeigt zwei Platzierungsanweisungen auf der Seite „Platzierungen definieren“ des Assistenten zum Erstellen von ILM-Regeln.
+
+image:ilm_rule_multiple_placements_in_single_time_period.png["ILM Platzierungsbildschirm aus dem Grid Manager"]
+
+Die erste Einstufungsanweisung image:icon_number_1.png["Symbol Nummer 1"] hat für das erste Jahr zwei Zeilen:
+
+* Die erste Zeile erzeugt zwei replizierte Objektkopien an zwei Rechenzentrumsstandorten.
+* Die zweite Zeile erstellt eine 6+3-löschcodierte Kopie unter Verwendung aller Rechenzentrumsstandorte.
+
+
+Die zweite Platzierungsanweisung image:icon_number_2.png["Symbol Nummer 1"] erstellt nach einem Jahr zwei Kopien und bewahrt diese Kopien dauerhaft auf.
+
+Wenn Sie die Platzierungsanweisungen für eine Regel definieren, muss sichergestellt sein, dass mindestens eine Platzierungsanweisung am Tag 0 beginnt, dass keine Lücken zwischen den von Ihnen definierten Zeiträumen bestehen und dass die letzte Platzierungsanweisung entweder unbegrenzt oder so lange fortgesetzt wird, bis keine Objektkopien mehr benötigt werden.
+
+Sobald ein Zeitraum innerhalb der Regel abläuft, werden die Anweisungen zur Inhaltsplatzierung für den nächsten Zeitraum angewendet. Neue Objektkopien werden erstellt und nicht mehr benötigte Kopien gelöscht.
+
+
+
+[[ilm-rule-ingest-behavior]]
+== ILM-Regel-Ingest-Verhalten
+
+Das Aufnahmeverhalten steuert, ob Objektkopien sofort gemäß den Anweisungen in der Regel platziert werden oder ob Zwischenkopien erstellt und die Platzierungsanweisungen später angewendet werden. Für ILM-Regeln stehen folgende Aufnahmeverhalten zur Verfügung:
+
+* *Ausgewogen*: StorageGRID versucht, beim Datenimport alle in der ILM-Regel festgelegten Kopien zu erstellen. Ist dies nicht möglich, werden Zwischenkopien erstellt und dem Client eine Erfolgsmeldung zurückgegeben. Die in der ILM-Regel festgelegten Kopien werden erstellt, sobald dies möglich ist.
+* *Streng*: Alle in der ILM-Regel angegebenen Kopien müssen erstellt werden, bevor dem Client Erfolg gemeldet wird.
+* *Dual commit*: StorageGRID erstellt sofort temporäre Kopien des Objekts und gibt dem Client eine Erfolgsmeldung zurück. Kopien, die in der ILM-Regel angegeben sind, werden nach Möglichkeit erstellt.
+
+
+.Verwandte Informationen
+* link:data-protection-options-for-ingest.html["Aufnahmeoptionen"]
+* link:advantages-disadvantages-of-ingest-options.html["Vorteile, Nachteile und Einschränkungen der Aufnahmemöglichkeiten"]
+* link:../s3/consistency.html#how-consistency-and-ILM-rules-interact["Wie Konsistenz- und ILM-Regeln zusammenwirken, um den Datenschutz zu beeinflussen"]
+
+
+
+
+[[example-ilm-rule]]
+== Beispiel einer ILM-Regel
+
+Eine ILM Regel könnte beispielsweise Folgendes festlegen:
+
+* Gilt nur für Objekte, die zu Tenant A gehören.
+* Zwei replizierte Kopien dieser Objekte werden erstellt und jede Kopie an einem anderen Standort gespeichert.
+* Die beiden Kopien werden dauerhaft gespeichert, das bedeutet, dass StorageGRID sie nicht automatisch löscht. Stattdessen bewahrt StorageGRID diese Objekte auf, bis sie entweder durch eine Löschanforderung eines Clients oder durch das Ablaufen eines Bucket-Lebenszyklus gelöscht werden.
+* Die Option „Ausgewogen“ für das Aufnahmeverhalten bewirkt, dass die Anweisung zur Platzierung an zwei Standorten angewendet wird, sobald Mandant A ein Objekt in StorageGRID speichert, es sei denn, es ist nicht möglich, beide erforderlichen Kopien sofort zu erstellen.
++
+Wenn beispielsweise Standort 2 nicht erreichbar ist, wenn Mandant A ein Objekt speichert, erstellt StorageGRID zwei temporäre Kopien auf Speicherknoten an Standort 1. Sobald Standort 2 wieder verfügbar ist, erstellt StorageGRID die erforderliche Kopie an diesem Standort.
+
+
+
+.Verwandte Informationen
+* link:what-storage-pool-is.html["Was ist ein Storage-Pool"]
+* link:what-cloud-storage-pool-is.html["Was ist ein Cloud Storage Pool"]
+

@@ -1,0 +1,140 @@
+---
+permalink: expand/rebalancing-erasure-coded-data-after-adding-storage-nodes.html 
+sidebar: sidebar 
+keywords: erasure coding, EC, rebalancing, site rebalance procedure, StorageGRID 
+summary: Nach dem Hinzufügen von Storage Nodes kann das Erasure-Coding-Rebalance-Verfahren verwendet werden, um erasure-codierte Fragmente zwischen den vorhandenen und neuen Storage Nodes neu zu verteilen. 
+---
+= Erasure-codierte Daten nach dem Hinzufügen von Knoten zu Ihrem StorageGRID System neu ausbalancieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach dem Hinzufügen von Storage Nodes kann das Erasure Coding (EC) Rebalance-Verfahren verwendet werden, um erasure-codierte Fragmente zwischen den bestehenden und neuen Storage Nodes neu zu verteilen.
+
+.Bevor Sie beginnen
+* Sie haben die Erweiterungsschritte zum Hinzufügen der neuen Storage Nodes abgeschlossen.
+* Sie haben die link:considerations-for-rebalancing-erasure-coded-data.html["Überlegungen zum Rebalancing von löschcodierten Daten"] überprüft.
+* Sie verstehen, dass replizierte Objektdaten durch dieses Verfahren nicht verschoben werden und dass das EC Rebalance-Verfahren keine replizierten Daten verschiebt. Replizierte Daten werden jedoch bei der Bestimmung, wohin EC-Daten verschoben werden, berücksichtigt.
+* Sie haben die  `Passwords.txt` Datei.
+
+
+.Was geschieht, wenn diese Prozedur ausgeführt wird
+Vor Beginn des Verfahrens ist Folgendes zu beachten:
+
+* Das EC-Rebalance-Verfahren startet nicht, wenn ein oder mehrere Volumes offline (nicht eingebunden) sind oder wenn sie online (eingebunden), aber in einem Fehlerzustand sind.
+* Der EC-Rebalance-Vorgang reserviert vorübergehend eine große Speichermenge. Speicherwarnungen können ausgelöst werden, diese werden jedoch behoben, sobald der Rebalance-Vorgang abgeschlossen ist. Wenn nicht genügend Speicher für die Reservierung vorhanden ist, schlägt der EC-Rebalance-Vorgang fehl. Die Speicherreservierungen werden freigegeben, wenn der EC-Rebalance-Vorgang abgeschlossen ist, unabhängig davon, ob der Vorgang fehlgeschlagen oder erfolgreich war.
+* Wenn ein Volume während des EC-Rebalance-Vorgangs offline geht, wird der Rebalance-Vorgang beendet. Bereits verschobene Datenfragmente bleiben an ihren neuen Speicherorten, und es gehen keine Daten verloren.
++
+Sie können das Verfahren erneut ausführen, nachdem alle Volumes wieder online sind.
+
+* Während des EC-Rebalance-Verfahrens kann die Leistung von ILM-Operationen und S3-Client-Operationen beeinträchtigt sein.
++
+
+NOTE: S3 API-Operationen zum Hochladen von Objekten (oder Objektteilen) können während des EC-Rebalance-Vorgangs fehlschlagen, wenn sie mehr als 24 Stunden zur Ausführung benötigen. PUT-Operationen mit langer Ausführungsdauer schlagen fehl, wenn die entsprechende ILM-Regel beim Ingest die Platzierung Balanced oder Strict verwendet. Der folgende Fehler wird gemeldet: `500 Internal Server Error`.
+
+* *Voraussetzungen für den Abschluss des Auftrags*. Das EC-Rebalancing-Verfahren gilt als abgeschlossen, wenn eine der folgenden Bedingungen erfüllt ist:
++
+** Es können keine weiteren löschcodierten Daten verschoben werden.
+** Die Daten in allen Knoten weichen um höchstens 5 % von der Zieldatenpartition ab.
+** Das Verfahren läuft seit 30 Tagen.
+
+
+
+
+.Schritte
+. [[review_object_storage]]Die aktuellen Objektspeicherdetails für den Standort, der neu ausbalanciert werden soll, anzeigen.
++
+.. Wählen Sie *Knoten*.
+.. Den ersten Storage Node am Standort auswählen.
+.. Die Registerkarte *Speicher* auswählen.
+.. Positionieren Sie den Cursor über das Diagramm „Storage Used - Object Data“, um die aktuelle Menge an replizierten Daten und erasure-codierten Daten auf dem Storage Node zu sehen.
+.. Wiederholen Sie diese Schritte, um die anderen Storage Nodes am Standort anzuzeigen.
+
+
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Die Prozedur wird gestartet:
++
+`rebalance-data start --site "_site-name_"
+
++
+Für "_site-name_" ist der erste Standort anzugeben, an dem neue Storage Node oder Nodes hinzugefügt wurden.  `site-name` ist in Anführungszeichen zu setzen.
+
++
+Das EC-Rebalancing-Verfahren startet und eine Job-ID wird zurückgegeben.
+
+. Kopieren Sie die Job-ID.
+. [[view-status]]Der Status des EC Rebalance-Verfahrens kann überwacht werden.
++
+** Der Status einer einzelnen EC-Rebalancing-Prozedur kann wie folgt angezeigt werden:
++
+`rebalance-data status --job-id _job-id_`
+
++
+Für `_job-id_` die beim Start des Verfahrens zurückgegebene ID angeben.
+
+** Der Status des aktuellen EC-Rebalancing-Verfahrens und aller zuvor abgeschlossenen Verfahren kann angezeigt werden:
++
+`rebalance-data status`
+
++
+[NOTE]
+====
+Hilfe zum Befehl rebalance-data:
+
+`rebalance-data --help`
+
+====
+
+
+. Führen Sie zusätzliche Schritte entsprechend dem zurückgegebenen Status aus:
++
+** Wenn  `State`  `In progress` ist, läuft der EC Rebalance-Vorgang noch. Es empfiehlt sich, den Vorgang regelmäßig zu überwachen, bis er abgeschlossen ist.
++
+Zur Beurteilung der Datenverteilung auf die Storage Nodes am Standort die Seite „Knoten“ aufrufen.
+
++
+Der EC Rebalance-Vorgang gilt als abgeschlossen und wird beendet, wenn die Daten auf allen Knoten innerhalb einer Abweichung von 5 % von der Zieldatenpartition liegen.
+
+** Falls  `State`  `Success` ist, optional <<review_object_storage,Objektspeicher überprüfen>> um die aktualisierten Details für die Website anzuzeigen.
++
+Die mit Erasure Coding versehenen Daten sollten nun gleichmäßiger auf die Storage Nodes am Standort verteilt sein.
+
+** Wenn  `State`  `Failure`:
++
+... Bestätigen Sie, dass alle Speicherknoten am Standort mit dem Grid verbunden sind.
+... Es sollte geprüft werden, ob Warnmeldungen vorliegen, die diese Storage Nodes beeinträchtigen könnten, und diese sollten behoben werden.
+... Die EC-Lastausgleichsprozedur neu starten:
++
+`rebalance-data start –-job-id _job-id_`
+
+... <<view-status,Status anzeigen>> des neuen Verfahrens. Wenn  `State` weiterhin  `Failure` ist, sollte der technische Support kontaktiert werden.
+
+
+
+
+. Wenn das EC-Rebalance-Verfahren zu viel Last erzeugt (zum Beispiel wenn Ingest-Operationen beeinträchtigt sind), kann das Verfahren pausiert werden.
++
+`rebalance-data pause --job-id _job-id_`
+
+. Falls Sie den EC-Rebalance-Vorgang abbrechen müssen (z. B. um ein StorageGRID Software-Upgrade durchzuführen), geben Sie Folgendes ein:
++
+`rebalance-data terminate --job-id _job-id_`
+
++
+
+NOTE: Wenn Sie einen EC-Rebalance-Vorgang abbrechen, bleiben alle bereits verschobenen Datenfragmente an ihren neuen Speicherorten. Die Daten werden nicht an den ursprünglichen Speicherort zurückverschoben.
+
+. Wenn Sie Erasure Coding an mehr als einem Standort verwenden, ist dieses Verfahren für alle anderen betroffenen Standorte anzuwenden.
+

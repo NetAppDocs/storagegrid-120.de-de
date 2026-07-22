@@ -1,0 +1,219 @@
+---
+permalink: tenant/considerations-for-platform-services.html 
+sidebar: sidebar 
+keywords: considerations for using platform services 
+summary: Vor der Implementierung von Plattformdiensten empfiehlt sich ein Blick auf die Übersicht und die Überlegungen zur Nutzung dieser Dienste. 
+---
+= Erfahren Sie mehr über Plattformdienste für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Implementierung von Plattformdiensten empfiehlt sich ein Blick auf die Übersicht und die Überlegungen zur Nutzung dieser Dienste.
+
+Informationen zu S3 sind unter link:../s3/index.html["S3 REST-API verwenden"] zu finden.
+
+
+
+[[overview-of-platform-services]]
+== Überblick über die Plattformdienste
+
+StorageGRID Plattformdienste können bei der Umsetzung einer Hybrid-Cloud-Strategie unterstützen, indem Ereignisbenachrichtigungen sowie Kopien von S3-Objekten und Objektmetadaten an externe Ziele gesendet werden können.
+
+Da der Zielort für Plattformdienste typischerweise außerhalb Ihrer StorageGRID-Bereitstellung liegt, bieten Plattformdienste die Leistungsfähigkeit und Flexibilität, die sich aus der Nutzung externer Speicherressourcen, Benachrichtigungsdienste sowie Such- oder Analysedienste für Ihre Daten ergibt.
+
+Für einen einzelnen S3-Bucket kann jede Kombination von Plattformdiensten konfiguriert werden. Beispielsweise lassen sich sowohl die link:../tenant/understanding-cloudmirror-replication-service.html["CloudMirror Service"] als auch die link:../tenant/understanding-notifications-for-buckets.html["Benachrichtigungen"] auf einem StorageGRID S3-Bucket konfigurieren, sodass bestimmte Objekte in den Amazon Simple Storage Service (S3) gespiegelt werden, während gleichzeitig eine Benachrichtigung über jedes dieser Objekte an eine Drittanbieter-Überwachungsanwendung gesendet wird, um die AWS-Kosten nachzuverfolgen.
+
+
+TIP: Die Nutzung der Plattformdienste muss für jedes Mandantenkonto von einem StorageGRID Administrator mithilfe des Grid Managers oder der Grid Management API aktiviert werden.
+
+
+
+[[how-platform-services-are-configured]]
+== Wie Plattformdienste konfiguriert sind
+
+Plattformdienste kommunizieren mit externen Endpunkten, die Sie mithilfe von link:configuring-platform-services-endpoints.html["Tenant Manager"] oder link:understanding-tenant-management-api.html["Mandantenverwaltungs-API"] konfigurieren. Jeder Endpunkt repräsentiert ein externes Ziel, wie zum Beispiel einen StorageGRID S3 Bucket, einen Amazon Web Services Bucket, ein Amazon SNS Topic, einen Webhook-Endpunkt oder einen Elasticsearch Cluster, der lokal, auf AWS oder anderswo gehostet wird.
+
+Nachdem ein externer Endpunkt erstellt wurde, kann ein Plattformdienst für einen Bucket aktiviert werden, indem dem Bucket eine XML-Konfiguration hinzugefügt wird. Die XML-Konfiguration gibt die Objekte an, auf die der Bucket angewendet werden soll, die Aktion, die der Bucket ausführen soll, und den Endpunkt, den der Bucket für den Dienst verwenden soll.
+
+Sie müssen für jeden Plattformdienst, den Sie konfigurieren möchten, separate XML-Konfigurationen hinzufügen. Zum Beispiel:
+
+* Wenn alle Objekte, deren Schlüssel mit  `/images` beginnen, in einen Amazon S3 Bucket repliziert werden sollen, muss dem Quell-Bucket eine Replikationskonfiguration hinzugefügt werden.
+* Wenn zusätzlich Benachrichtigungen gesendet werden sollen, wenn diese Objekte im Bucket gespeichert werden, ist eine Benachrichtigungskonfiguration hinzuzufügen.
+* Wenn Sie die Metadaten für diese Objekte indizieren möchten, muss die Metadaten-Benachrichtigungskonfiguration hinzugefügt werden, die zur Implementierung der Suchintegration verwendet wird.
+
+
+Das Format der Konfigurations-XML wird durch die S3 REST-APIs bestimmt, die zur Implementierung der StorageGRID Plattformdienste verwendet werden:
+
+[cols="1a,2a,1a"]
+|===
+| Plattformdienst | S3 REST API | Siehe 
+
+
+ a| 
+CloudMirror Replikation
+ a| 
+* GetBucketReplication
+* PutBucketReplication
+
+ a| 
+* link:configuring-cloudmirror-replication.html["CloudMirror Replikation"]
+* link:../s3/operations-on-buckets.html["Operationen an Buckets"]
+
+
+
+
+ a| 
+Benachrichtigungen
+ a| 
+* GetBucketNotificationConfiguration
+* PutBucketNotificationConfiguration
+
+ a| 
+* link:configuring-event-notifications.html["Benachrichtigungen"]
+* link:../s3/operations-on-buckets.html["Operationen an Buckets"]
+
+
+
+
+ a| 
+Suchintegration
+ a| 
+* GET Bucket-Metadaten-Benachrichtigungskonfiguration
+* PUT Bucket Metadaten-Benachrichtigungskonfiguration
+
+ a| 
+* link:configuring-search-integration-service.html["Suchintegration"]
+* link:../s3/custom-operations-on-buckets.html["StorageGRID benutzerdefinierte Operationen"]
+
+
+|===
+
+
+[[considerations-for-using-platform-services]]
+== Überlegungen zur Nutzung von Plattformdiensten
+
+[cols="1a,3a"]
+|===
+| Überlegung | Details 
+
+
+ a| 
+Überwachung des Zielendpunkts
+ a| 
+Sie müssen die Verfügbarkeit jedes Zielendpunkts überwachen. Wenn die Verbindung zum Zielendpunkt über einen längeren Zeitraum unterbrochen ist und ein großer Anfragerückstand besteht, schlagen zusätzliche Clientanfragen (wie PUT-Anfragen) an StorageGRID fehl. Diese fehlgeschlagenen Anfragen müssen erneut gesendet werden, sobald der Endpunkt wieder erreichbar ist.
+
+
+
+ a| 
+Drosselung des Zielendpunkts
+ a| 
+StorageGRID Software kann eingehende S3-Anfragen für einen Bucket drosseln, wenn die Rate, mit der die Anfragen gesendet werden, die Rate übersteigt, mit der der Zielendpunkt die Anfragen empfangen kann. Eine Drosselung tritt nur auf, wenn ein Rückstau an Anfragen besteht, die auf die Übermittlung an den Zielendpunkt warten.
+
+Der einzige sichtbare Effekt ist, dass die Ausführung eingehender S3-Anfragen länger dauert. Bei deutlich langsamerer Performance empfiehlt sich eine Reduzierung der Aufnahmerate oder die Nutzung eines Endpunkts mit höherer Kapazität. Wenn der Rückstand an Anfragen weiter zunimmt, schlagen Client-S3-Operationen (wie PUT-Anfragen) schließlich fehl.
+
+CloudMirror-Anfragen werden eher von der Leistung des Zielendpunkts beeinflusst, da diese Anfragen typischerweise einen größeren Datentransfer als Suchintegrations- oder Ereignisbenachrichtigungsanfragen umfassen.
+
+
+
+ a| 
+Reihenfolgengarantie
+ a| 
+StorageGRID garantiert die Reihenfolge der Operationen an einem Objekt innerhalb eines Standorts. Solange alle Operationen an einem Objekt innerhalb desselben Standorts erfolgen, entspricht der endgültige Objektzustand (für Replikation) immer dem Zustand in StorageGRID.
+
+StorageGRID versucht nach besten Kräften, Anfragen bei Operationen über StorageGRID Standorte hinweg in der richtigen Reihenfolge auszuführen. Wenn ein Objekt zunächst an Standort A geschrieben und später dasselbe Objekt an Standort B überschrieben wird, ist nicht garantiert, dass das endgültig von CloudMirror in den Ziel-Bucket replizierte Objekt das neuere ist.
+
+
+
+ a| 
+ILM-gesteuerte Objektlöschungen
+ a| 
+Um das Löschverhalten von AWS CRR und Amazon Simple Notification Service nachzubilden, werden CloudMirror- und Ereignisbenachrichtigungsanfragen nicht gesendet, wenn ein Objekt im Quell-Bucket aufgrund von StorageGRID ILM-Regeln gelöscht wird. Beispielsweise werden keine CloudMirror- oder Ereignisbenachrichtigungsanfragen gesendet, wenn eine ILM-Regel ein Objekt nach 14 Tagen löscht.
+
+Im Gegensatz dazu werden Suchintegrationsanfragen gesendet, wenn Objekte aufgrund von ILM gelöscht werden.
+
+
+
+ a| 
+Verwendung von Kafka-Endpunkten
+ a| 
+Für Kafka-Endpunkte wird Mutual TLS nicht unterstützt. Wenn in Ihrer Kafka-Broker-Konfiguration  `ssl.client.auth` auf  `required` gesetzt ist, kann dies zu Konfigurationsproblemen an den Kafka-Endpunkten führen.
+
+Die Authentifizierung von Kafka-Endpunkten verwendet die folgenden Authentifizierungstypen. Diese Typen unterscheiden sich von denen, die für die Authentifizierung anderer Endpunkte, wie zum Beispiel Amazon SNS, verwendet werden, und erfordern Benutzername und Passwort-Anmeldedaten.
+
+* SASL/PLAIN
+* SASL/SCRAM-SHA-256
+* SASL/SCRAM-SHA-512
+
+
+*Hinweis:* Konfigurierte Speicherproxy-Einstellungen gelten nicht für Kafka Platform Services-Endpunkte.
+
+|===
+
+
+[[considerations-for-using-cloudmirror-replication-service]]
+== Überlegungen zur Nutzung des CloudMirror Replikationsdienstes
+
+[cols="1a,3a"]
+|===
+| Überlegung | Details 
+
+
+ a| 
+Replikationsstatus
+ a| 
+StorageGRID unterstützt den  `x-amz-replication-status` Header nicht.
+
+
+
+ a| 
+Objektgröße
+ a| 
+Die maximale Größe für Objekte, die vom CloudMirror Replikationsdienst in einen Ziel-Bucket repliziert werden können, beträgt 5 TiB, was der maximal unterstützten Objektgröße entspricht.
+
+*Hinweis*: Die maximal _empfohlene_ Größe für einen einzelnen PutObject-Vorgang beträgt 5 GiB (5.368.709.120 Byte). Bei Objekten, die größer als 5 GiB sind, empfiehlt sich stattdessen die Verwendung des Multipart-Uploads.
+
+
+
+ a| 
+Bucket-Versionierung und Versions-IDs
+ a| 
+Wenn für den Quell-S3-Bucket in StorageGRID die Versionierung aktiviert ist, sollte die Versionierung auch für den Ziel-Bucket aktiviert werden.
+
+Bei Verwendung der Versionierung ist zu beachten, dass die Reihenfolge der Objektversionen im Ziel-Bucket nach bestem Bemühen erfolgt und vom CloudMirror Service aufgrund von Einschränkungen im S3-Protokoll nicht garantiert wird.
+
+*Hinweis*: Die Versions-IDs des Quell-Buckets in StorageGRID stehen in keinem Zusammenhang mit den Versions-IDs des Ziel-Buckets.
+
+
+
+ a| 
+Kennzeichnung von Objektversionen
+ a| 
+Der CloudMirror-Dienst repliziert aufgrund von Einschränkungen des S3-Protokolls keine PutObjectTagging- oder DeleteObjectTagging-Anfragen, die eine Versions-ID enthalten. Da die Versions-IDs von Quelle und Ziel nicht miteinander verknüpft sind, gibt es keine Möglichkeit sicherzustellen, dass eine Tag-Aktualisierung für eine bestimmte Versions-ID repliziert wird.
+
+Im Gegensatz dazu repliziert der CloudMirror-Service PutObjectTagging-Anfragen oder DeleteObjectTagging-Anfragen, die keine Versions-ID angeben. Diese Anfragen aktualisieren die Tags für den neuesten Schlüssel (oder die neueste Version, falls der Bucket versioniert ist). Normale Importe mit Tags (keine Tagging-Aktualisierungen) werden ebenfalls repliziert.
+
+
+
+ a| 
+Mehrteilige Uploads und  `ETag` Werte
+ a| 
+Beim Spiegeln von Objekten, die per Multipart-Upload hochgeladen wurden, bewahrt der CloudMirror-Service die einzelnen Teile nicht. Daher wird der  `ETag` Wert des gespiegelten Objekts von dem  `ETag` Wert des Originalobjekts abweichen.
+
+
+
+ a| 
+Mit SSE-C verschlüsselte Objekte (serverseitige Verschlüsselung mit vom Kunden bereitgestellten Schlüsseln)
+ a| 
+Der CloudMirror Service unterstützt keine Objekte, die mit SSE-C verschlüsselt sind. Wenn versucht wird, ein Objekt in den Quell-Bucket für die CloudMirror Replikation einzulesen und die Anfrage die SSE-C-Anforderungsheader enthält, schlägt der Vorgang fehl.
+
+
+
+ a| 
+Bucket mit aktivierter S3 Object Lock
+ a| 
+Die Replikation wird für Quell- oder Ziel-Buckets mit aktiviertem S3 Object Lock nicht unterstützt.
+
+|===

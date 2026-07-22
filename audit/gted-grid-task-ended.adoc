@@ -1,0 +1,49 @@
+---
+permalink: audit/gted-grid-task-ended.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, GTED, Grid Task Ended 
+summary: Diese Revisionsprotokollmeldung signalisiert, dass der CMN Service die Verarbeitung der angegebenen Grid Task abgeschlossen und die Task in die Tabelle Historical verschoben hat. Ist das Ergebnis SUCS, ABRT oder ROLF, gibt es eine entsprechende Revisionsprotokollmeldung Grid Task Started. Die anderen Ergebnisse zeigen an, dass die Verarbeitung dieser Grid Task nie begonnen hat. 
+---
+= GTED-Revisionsprotokollmeldung für beendete Grid-Aufgaben in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Revisionsprotokollmeldung signalisiert, dass der CMN Service die Verarbeitung der angegebenen Grid Task abgeschlossen und die Task in die Tabelle Historical verschoben hat. Ist das Ergebnis SUCS, ABRT oder ROLF, gibt es eine entsprechende Revisionsprotokollmeldung Grid Task Started. Die anderen Ergebnisse zeigen an, dass die Verarbeitung dieser Grid Task nie begonnen hat.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+TSID
+ a| 
+Aufgaben-ID
+ a| 
+Dieses Feld identifiziert eine generierte Grid-Aufgabe eindeutig und ermöglicht die Verwaltung der Grid-Aufgabe über ihren gesamten Lebenszyklus.
+
+*Hinweis:* Die Aufgaben-ID wird zum Zeitpunkt der Erstellung einer Grid-Aufgabe vergeben, nicht zum Zeitpunkt der Übermittlung. Es ist möglich, dass eine bestimmte Grid-Aufgabe mehrfach übermittelt wird. In diesem Fall reicht das Aufgaben-ID-Feld nicht aus, um die Audit-Meldungen „Übermittelt“, „Gestartet“ und „Beendet“ eindeutig zu verknüpfen.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Das Endergebnis der Grid-Task:
+
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* ROLF: Der Grid-Task wurde beendet und konnte den Rollback-Prozess nicht abschließen.
+* ABBRUCH: Die Grid-Aufgabe wurde vom Benutzer abgebrochen, bevor sie gestartet wurde.
+* EXPR: Die Grid-Task ist abgelaufen, bevor sie gestartet wurde.
+* ${post_edited_translations.segment}
+* ${post_edited_translations.segment}
+* DUPL: Die Grid-Aufgabe wurde als Duplikat abgelehnt.
+
+
+|===

@@ -1,0 +1,47 @@
+---
+permalink: admin/changing-provisioning-passphrase.html 
+sidebar: sidebar 
+keywords: provisioning passphrase, change passphrase 
+summary: Mit diesem Verfahren lässt sich die StorageGRID Bereitstellungspassphrase ändern. Die Passphrase wird für Wiederherstellungs-, Erweiterungs- und Wartungsverfahren benötigt. Die Passphrase ist außerdem erforderlich, um Backups des Wiederherstellungspakets herunterzuladen, die die Grid-Topologieinformationen, die Passwörter der Grid-Knotenkonsolen und die Verschlüsselungsschlüssel für das StorageGRID System enthalten. 
+---
+= Ändern Sie die StorageGRID Bereitstellungspassphrase
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit diesem Verfahren lässt sich die StorageGRID Bereitstellungspassphrase ändern. Die Passphrase ist für Wiederherstellungs-, Erweiterungs- und Wartungsverfahren erforderlich. Die Passphrase ist außerdem erforderlich, um Backups des Wiederherstellungspakets herunterzuladen, die die Grid-Topologieinformationen, die Passwörter der Grid-Knotenkonsolen und die Verschlüsselungsschlüssel für das StorageGRID System enthalten.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie verfügen über Wartungs- oder Root-Zugriffsberechtigungen.
+* Sie besitzen die aktuelle Bereitstellungspassphrase.
+
+
+.Über diese Aufgabe
+Die Bereitstellungspassphrase wird für viele Installations- und Wartungsvorgänge sowie für link:../maintain/downloading-recovery-package.html["Herunterladen des Wiederherstellungspakets"] benötigt. Die Bereitstellungspassphrase ist nicht in der  `Passwords.txt` Datei aufgeführt. Die Bereitstellungspassphrase sollte dokumentiert und an einem sicheren Ort aufbewahrt werden.
+
+.Schritte
+. *Konfiguration* > *Zugriffskontrolle* > *Grid Passwörter* auswählen.
+. Unter *Bereitstellungspassphrase ändern* die Option *Änderung vornehmen* auswählen
+. Geben Sie Ihre aktuelle Bereitstellungs Passphrase ein.
+. Geben Sie die neue Passphrase ein. Die Passphrase muss mindestens 8 und höchstens 32 Zeichen lang sein. Bei Passphrasen wird zwischen Groß- und Kleinschreibung unterschieden.
++
+
+CAUTION: Die Bereitstellungspassphrase ist an einem sicheren Ort aufzubewahren. Sie wird für Installations-, Erweiterungs- und Wartungsverfahren benötigt.
+
+. Die neue Passphrase erneut eingeben und *Speichern* auswählen.
++
+Das System zeigt ein grünes Erfolgsbanner an, wenn die Änderung der Bereitstellungspassphrase abgeschlossen ist.
+
++
+image:change_provisioning_passphrase_success.png["Erfolgsmeldung für geänderte Bereitstellungspassphrase"]
+
+. *Wiederherstellungspaket* auswählen.
+. Geben Sie die neue Bereitstellungs-Passphrase ein, um das neue Wiederherstellungspaket herunterzuladen.
++
+
+CAUTION: Nach der Änderung der Bereitstellungspassphrase muss umgehend ein neues Wiederherstellungspaket heruntergeladen werden. Die Wiederherstellungspaketdatei ermöglicht die Wiederherstellung des Systems im Fehlerfall.
+
+

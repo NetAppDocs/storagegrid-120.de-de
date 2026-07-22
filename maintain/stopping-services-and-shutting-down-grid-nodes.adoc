@@ -1,0 +1,127 @@
+---
+permalink: maintain/stopping-services-and-shutting-down-grid-nodes.html 
+sidebar: sidebar 
+keywords: recover, stop services, shut down nodes, node shutdown 
+summary: Bevor Sie ein StorageGRID System ausschalten können, müssen Sie alle auf jedem Grid-Knoten laufenden Dienste stoppen und anschließend alle VMware-VMs, Container-Engines und StorageGRID Appliances herunterfahren. 
+---
+= Dienste stoppen und StorageGRID-Knoten herunterfahren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor Sie ein StorageGRID System ausschalten können, müssen Sie alle auf jedem Grid-Knoten laufenden Dienste stoppen und anschließend alle VMware-VMs, Container-Engines und StorageGRID Appliances herunterfahren.
+
+.Über diese Aufgabe
+Zuerst die Dienste auf den Admin-Knoten und Gateway-Knoten beenden, danach die Dienste auf den Storage-Knoten.
+
+Dieser Ansatz ermöglicht die Nutzung des primären Admin-Knotens, um den Status der anderen Grid-Knoten so lange wie möglich zu überwachen.
+
+
+NOTE: Wenn ein einzelner Host mehr als einen Grid-Knoten enthält, sollte der Host erst heruntergefahren werden, nachdem alle Knoten auf diesem Host gestoppt wurden. Wenn der Host den primären Admin Node enthält, sollte dieser Host zuletzt heruntergefahren werden.
+
+
+NOTE: Bei Bedarf können Sie link:linux-migrating-grid-node-to-new-host.html["Knoten von einem Linux Host auf einen anderen migrieren"] Wartungsarbeiten am Host durchführen, ohne die Funktionalität oder Verfügbarkeit Ihres Grids zu beeinträchtigen.
+
+.Schritte
+. Alle Clientanwendungen müssen vom Zugriff auf das Grid ausgeschlossen werden.
+. [[log_in_to_gn]]Anmeldung an jedem Gateway-Node:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. [[stop_all_services]]Alle auf dem Knoten laufenden Dienste beenden: `service servermanager stop`
++
+Das Herunterfahren der Dienste kann bis zu 15 Minuten dauern, und es kann sinnvoll sein, sich per Fernzugriff in das System einzuloggen, um den Herunterfahrvorgang zu überwachen.
+
+
+
+. Die beiden vorherigen Schritte werden wiederholt, um die Dienste auf allen Storage Nodes und nicht primären Admin Nodes zu stoppen.
++
+Sie können die Dienste auf diesen Knoten in beliebiger Reihenfolge stoppen.
+
++
+
+NOTE: Wenn Sie den  `service servermanager stop` Befehl zum Stoppen der Dienste auf einem Appliance Storage Node ausführen, muss die Appliance aus- und wieder eingeschaltet werden, um den Node neu zu starten.
+
+. Für den primären Admin-Knoten die Schritte für <<log_in_to_gn,Anmeldung am Knoten>> und <<stop_all_services,Anhalten aller Dienste auf dem Knoten>> wiederholen.
+. Für Knoten, die auf Linux Hosts laufen:
++
+.. Am Host-Betriebssystem anmelden.
+.. Den Knoten anhalten: `storagegrid node stop`
+.. Das Host-Betriebssystem wird heruntergefahren.
+
+
+. Für Knoten, die auf VMware-virtuellen Maschinen ausgeführt werden, und für Appliance Storage Nodes den Befehl „shutdown“ eingeben: `shutdown -h now`
++
+Dieser Schritt ist unabhängig vom Ergebnis des  `service servermanager stop` Befehls durchzuführen.
+
++
+Dieser Befehl fährt den Compute-Controller des Geräts herunter, das Gerät selbst bleibt jedoch eingeschaltet. Der nächste Schritt muss abgeschlossen werden.
+
+. Wenn Sie Appliance-Nodes haben:
++
+** Für Servicegeräte oder SGF6112 Geräte
++
+... Das Gerät ausschalten.
+... Warten Sie, bis die blaue Betriebsanzeigeleuchte erlischt.
+
+
+** Für die SG6160 Appliance
++
+... Die Stromzufuhr zum SG6100-CN Storage Controller ausschalten.
+... Warten Sie, bis die blaue Betriebsanzeige-LED am SG6100-CN Speichercontroller erlischt.
+
+
+** Für die SG6000 Appliance
++
+... Warten, bis die grüne Cache Active LED auf der Rückseite der Speichercontroller erlischt.
++
+Diese LED leuchtet, wenn zwischengespeicherte Daten auf die Laufwerke geschrieben werden müssen. Sie müssen warten, bis diese LED erlischt, bevor Sie die Stromzufuhr unterbrechen.
+
+... Das Gerät ausschalten und warten, bis die blaue Betriebsanzeigeleuchte erlischt.
+
+
+** Für die SG5800 Appliance
++
+... Warten Sie, bis die grüne Cache Active LED auf der Rückseite des Speichercontrollers erlischt.
++
+Diese LED leuchtet, wenn zwischengespeicherte Daten auf die Laufwerke geschrieben werden müssen. Sie müssen warten, bis diese LED erlischt, bevor Sie die Stromzufuhr unterbrechen.
+
+... Auf der Startseite des SANtricity System Manager die Option *Aktuelle Vorgänge anzeigen* auswählen.
+... Bestätigen Sie, dass alle Vorgänge abgeschlossen sind, bevor mit dem nächsten Schritt fortgefahren wird.
+... Beide Netzschalter am Controller Shelf ausschalten und warten, bis alle LEDs am Controller Shelf aus sind.
+
+
+** Für die SG5700 Appliance
++
+... Warten Sie, bis die grüne Cache Active LED auf der Rückseite des Speichercontrollers erlischt.
++
+Diese LED leuchtet, wenn zwischengespeicherte Daten auf die Laufwerke geschrieben werden müssen. Sie müssen warten, bis diese LED erlischt, bevor Sie die Stromzufuhr unterbrechen.
+
+... Das Gerät ausschalten und warten, bis alle LED- und Siebensegmentanzeigen keine Aktivität mehr zeigen.
+
+
+
+
+. Falls erforderlich, aus der Befehlsshell ausloggen: `exit`
++
+Das StorageGRID Grid wurde nun abgeschaltet.
+
+
+
+.Verwandte Informationen
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg6100/index.html["SGF6112 und SG6160 Storage Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg6000/index.html["SG6000 Storage Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg5800/index.html["SG5800 Storage Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg5700/index.html["SG5700 Storage Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg110-1100/index.html["SG110 und SG1100 Services Appliances"^]
+* https://docs.netapp.com/us-en/storagegrid-appliances/sg100-1000/index.html["SG100 und SG1000 Services Appliances"^]
+

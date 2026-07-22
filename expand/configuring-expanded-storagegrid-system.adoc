@@ -1,0 +1,65 @@
+---
+permalink: expand/configuring-expanded-storagegrid-system.html 
+sidebar: sidebar 
+keywords: expansion, configuration, StorageGRID 
+summary: Nach Abschluss einer Erweiterung sind zusätzliche Integrations- und Konfigurationsschritte erforderlich. 
+---
+= ${post_edited_translations.segment}
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Nach Abschluss einer Erweiterung sind zusätzliche Integrations- und Konfigurationsschritte erforderlich.
+
+.Über diese Aufgabe
+Sie müssen die unten aufgeführten Konfigurationsaufgaben für die Grid-Knoten oder Standorte ausführen, die Sie bei Ihrer Erweiterung hinzufügen. Einige Aufgaben sind möglicherweise optional, abhängig von den Optionen, die bei der Installation und Verwaltung Ihres Systems ausgewählt wurden, und davon, wie Sie die während der Erweiterung hinzugefügten Knoten und Standorte konfigurieren möchten.
+
+.Schritte
+. Wenn Sie eine Website hinzugefügt haben:
++
+** link:../ilm/creating-storage-pool.html["Einen Speicherpool erstellen"] für den Standort und jede Speicherkategorie, die Sie für die neuen Storage Nodes ausgewählt haben.
+** Es ist zu bestätigen, dass die ILM-Richtlinie die neuen Anforderungen erfüllt. Wenn Regeländerungen erforderlich sind, link:../ilm/access-create-ilm-rule-wizard.html["Neue Regeln erstellen"] und link:../ilm/creating-ilm-policy.html["die ILM-Richtlinie aktualisieren"]. Wenn die Regeln bereits korrekt sind, link:../ilm/creating-ilm-policy.html#activate-ilm-policy["eine neue Richtlinie aktivieren"] ohne Regeländerungen, um sicherzustellen, dass StorageGRID die neuen Nodes verwendet.
+** Bestätigen Sie, dass die Network Time Protocol (NTP)-Server von diesem Standort aus erreichbar sind. Siehe link:../maintain/configuring-ntp-servers.html["NTP Server verwalten"].
++
+
+CAUTION: Es ist sicherzustellen, dass mindestens zwei Nodes an jedem Standort auf mindestens vier externe NTP-Quellen zugreifen können. Wenn nur ein Node an einem Standort die NTP-Quellen erreichen kann, kommt es zu Zeitproblemen, falls dieser Node ausfällt. Zudem sorgt die Bestimmung von zwei Nodes pro Standort als primäre NTP-Quellen für eine genaue Zeitmessung, falls ein Standort vom Rest des Grids isoliert wird.
+
+
+
+. Wenn einem bestehenden Standort ein oder mehrere Storage Nodes hinzugefügt wurden:
++
+** link:../ilm/viewing-storage-pool-details.html["Details zum Speicherpool"]um zu bestätigen, dass jeder hinzugefügte Knoten in den erwarteten Storage-Pools enthalten ist und in den erwarteten ILM-Regeln verwendet wird.
+** Es ist zu bestätigen, dass die ILM-Richtlinie die neuen Anforderungen erfüllt. Wenn Regeländerungen erforderlich sind, link:../ilm/access-create-ilm-rule-wizard.html["Neue Regeln erstellen"] und link:../ilm/creating-ilm-policy.html["die ILM-Richtlinie aktualisieren"]. Wenn die Regeln bereits korrekt sind, link:../ilm/creating-ilm-policy.html#activate-ilm-policy["eine neue Richtlinie aktivieren"] ohne Regeländerungen, um sicherzustellen, dass StorageGRID die neuen Nodes verwendet.
+** link:verifying-storage-node-is-active.html["Es sollte überprüft werden, ob der Storage Node aktiv ist."] und in der Lage, Objekte aufzunehmen.
+** Falls Sie die empfohlene Anzahl an Storage Nodes nicht hinzufügen konnten, sollten die mit Erasure Coding versehenen Daten neu verteilt werden. Siehe link:rebalancing-erasure-coded-data-after-adding-storage-nodes.html["Erasure-codierte Daten nach dem Hinzufügen von Storage Nodes neu ausbalancieren"].
+
+
+. Wenn Sie einen Gateway-Knoten hinzugefügt haben:
++
+** Wenn Hochverfügbarkeitsgruppen (HA-Gruppen) für Clientverbindungen verwendet werden, kann der Gateway-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und ermöglicht das Hinzufügen des neuen Knotens. Siehe link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"].
+
+
+. Wenn ein Admin-Knoten hinzugefügt wurde:
++
+.. Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, muss eine Vertrauensstellung für den neuen Admin-Knoten erstellt werden. Eine Anmeldung am Knoten ist erst möglich, nachdem diese Vertrauensstellung eingerichtet wurde. Siehe link:../admin/configure-sso.html["Einmalanmeldung konfigurieren"].
+.. Wenn geplant ist, den Load Balancer Service auf Admin-Knoten zu verwenden, kann der neue Admin-Knoten optional einer HA-Gruppe hinzugefügt werden. *Konfiguration* > *Netzwerk* > *Hochverfügbarkeitsgruppen* bietet eine Übersicht der vorhandenen HA-Gruppen und die Möglichkeit, den neuen Knoten hinzuzufügen. Siehe link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"].
+.. Optional kann die Admin Node Datenbank vom primären Admin Node auf den Erweiterungs-Admin Node kopiert werden, wenn die Attribut- und Prüfinformationen auf jedem Admin Node konsistent gehalten werden sollen. Siehe link:copying-admin-node-database.html["Die Admin Node Datenbank kopieren"].
+.. Optional kann die Prometheus Datenbank vom primären Admin-Knoten auf den Erweiterungs-Admin-Knoten kopiert werden, wenn die historischen Metriken auf jedem Admin-Knoten konsistent gehalten werden sollen. Siehe link:copying-prometheus-metrics.html["Prometheus Metriken kopieren"].
+.. Optional können die vorhandenen Audit-Protokolle vom primären Admin-Knoten auf den Erweiterungs-Admin-Knoten kopiert werden, um die historischen Protokollinformationen auf jedem Admin-Knoten konsistent zu halten. Siehe link:copying-audit-logs.html["Audit-Protokolle kopieren"].
+
+
+. Um zu überprüfen, ob Erweiterungsknoten mit einem nicht vertrauenswürdigen Clientnetzwerk hinzugefügt wurden oder um zu ändern, ob das Clientnetzwerk eines Knotens nicht vertrauenswürdig oder vertrauenswürdig ist, unter *Konfiguration* > *Sicherheit* > *Firewall control*.
++
+Wenn das Client-Netzwerk auf dem Erweiterungsknoten nicht vertrauenswürdig ist, müssen Verbindungen zum Knoten im Client-Netzwerk über einen Load-Balancer-Endpunkt hergestellt werden. Siehe link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] und link:../admin/manage-firewall-controls.html["Firewall-Steuerung verwalten"].
+
+. Das DNS konfigurieren.
++
+Wenn Sie bisher für jeden Grid-Knoten separat DNS-Einstellungen festgelegt haben, müssen Sie für die neuen Knoten benutzerdefinierte DNS-Einstellungen pro Knoten hinzufügen. Siehe link:../maintain/modifying-dns-configuration-for-single-grid-node.html["DNS-Konfiguration für einen einzelnen Grid-Knoten anpassen"].
+
+
+
+Um einen ordnungsgemäßen Betrieb zu gewährleisten, geben Sie zwei oder drei DNS-Server an. Wenn Sie mehr als drei angeben, ist es möglich, dass aufgrund bekannter Betriebssystembeschränkungen auf manchen Plattformen nur drei verwendet werden. Wenn in Ihrer Umgebung Routing-Beschränkungen bestehen, kann link:../maintain/modifying-dns-configuration-for-single-grid-node.html["die DNS-Serverliste anpassen"] für einzelne Knoten (in der Regel alle Knoten an einem Standort) eine andere Gruppe von bis zu drei DNS-Servern verwendet werden.
+
+Wenn möglich, sollten DNS-Server verwendet werden, auf die jeder Standort lokal zugreifen kann, damit ein isolierter Standort die FQDNs für externe Ziele auflösen kann.

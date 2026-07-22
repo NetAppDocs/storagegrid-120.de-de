@@ -1,0 +1,446 @@
+---
+permalink: monitor/configuring-snmp-agent.html 
+sidebar: sidebar 
+keywords: snmp agent, mib, trap, inform 
+summary: Sie können den StorageGRID SNMP-Agenten so konfigurieren, dass ein SNMP-Managementsystem eines Drittanbieters für den Lesezugriff auf MIBs und Benachrichtigungen verwendet wird. 
+---
+= Konfigurieren Sie den SNMP-Agent in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den StorageGRID SNMP-Agenten so konfigurieren, dass ein SNMP-Managementsystem eines Drittanbieters für den Lesezugriff auf MIBs und Benachrichtigungen verwendet wird.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung"].
+
+
+.Über diese Aufgabe
+Der StorageGRID SNMP-Agent unterstützt SNMPv1, SNMPv2c und SNMPv3. Der Agent kann für eine oder mehrere Versionen konfiguriert werden. Für SNMPv3 wird ausschließlich die User Security Model (USM) Authentifizierung unterstützt.
+
+Alle Knoten im Grid verwenden die gleiche SNMP Konfiguration.
+
+
+
+[[specify-basic-configuration]]
+== Grundlegende Konfiguration angeben
+
+Im ersten Schritt wird der StorageGRID SMNP-Agent aktiviert und grundlegende Informationen bereitgestellt.
+
+.Schritte
+. *Konfiguration* > *Überwachung* > *SNMP agent* auswählen.
++
+Die SNMP-Agentenseite wird angezeigt.
+
+. Um den SNMP-Agenten auf allen Grid-Knoten zu aktivieren, das Kontrollkästchen *SNMP aktivieren* auswählen.
+. Folgende Informationen sind im Abschnitt „Grundkonfiguration“ anzugeben.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Systemkontakt
+ a| 
+Optional. Der primäre Ansprechpartner für das StorageGRID System, der in SNMP-Meldungen als sysContact zurückgegeben wird.
+
+Der Systemkontakt ist üblicherweise eine E-Mail-Adresse. Dieser Wert gilt für alle Knoten im StorageGRID System. *Systemkontakt* darf maximal 255 Zeichen lang sein.
+
+
+
+ a| 
+Systemstandort
+ a| 
+Optional. Der Standort des StorageGRID Systems, der in SNMP-Meldungen als sysLocation zurückgegeben wird.
+
+Der Systemstandort kann jede Information enthalten, die zur Identifizierung des Standorts Ihres StorageGRID Systems geeignet ist. Beispielsweise kann die Straßenadresse einer Einrichtung verwendet werden. Dieser Wert gilt für alle Knoten im StorageGRID System. *Systemstandort* darf maximal 255 Zeichen umfassen.
+
+
+
+ a| 
+SNMP Agent-Benachrichtigungen aktivieren
+ a| 
+** Wenn diese Option ausgewählt ist, sendet der StorageGRID SNMP-Agent Trap- und Inform-Benachrichtigungen.
+** Wird diese Option nicht ausgewählt, unterstützt der SNMP-Agent den Lesezugriff auf die MIB, sendet aber keine SNMP-Benachrichtigungen.
+
+
+
+
+ a| 
+Authentifizierungsfallen aktivieren
+ a| 
+Wenn diese Option ausgewählt ist, sendet der StorageGRID SNMP-Agent Authentifizierungs-Traps, wenn er nicht ordnungsgemäß authentifizierte Protokollnachrichten empfängt.
+
+|===
+
+
+
+
+[[enter-community-strings]]
+== Community-Strings eingeben
+
+Wenn Sie SNMPv1 oder SNMPv2c verwenden, ist der Abschnitt „Community-Zeichenfolgen“ auszufüllen.
+
+Wenn das Managementsystem die StorageGRID MIB abfragt, sendet es eine Community-Zeichenfolge. Wenn die Community-Zeichenfolge mit einem der hier angegebenen Werte übereinstimmt, sendet der SNMP-Agent eine Antwort an das Managementsystem.
+
+.Schritte
+. Für *schreibgeschützte Community* kann optional eine Community-Zeichenfolge eingegeben werden, um schreibgeschützten MIB-Zugriff auf IPv4- und IPv6-Agentadressen zu erlauben.
++
+
+TIP: Um die Sicherheit Ihres StorageGRID Systems zu gewährleisten, sollte „public“ nicht als Community-Zeichenfolge verwendet werden. Wenn dieses Feld leer bleibt, verwendet der SNMP-Agent die Grid-ID Ihres StorageGRID Systems als Community-Zeichenfolge.
+
++
+Jeder Community-String darf maximal 32 Zeichen lang sein und keine Leerzeichen enthalten.
+
+. *Weitere Community-Zeichenfolge hinzufügen* auswählen, um zusätzliche Zeichenfolgen hinzuzufügen.
++
+Bis zu fünf Zeichenfolgen sind zulässig.
+
+
+
+
+
+[[selecttrapdestinationcreate-trap-destinations]]
+== [[select_trap_destination]]Fallenziele erstellen
+
+Im Abschnitt „Weitere Konfigurationen“ auf der Registerkarte „Trap-Ziele“ lassen sich ein oder mehrere Ziele für StorageGRID Trap- oder Inform-Benachrichtigungen definieren. Nach Aktivierung des SNMP-Agenten und Auswahl von *Speichern* sendet StorageGRID bei ausgelösten Warnmeldungen Benachrichtigungen an jedes definierte Ziel. Standardbenachrichtigungen werden ebenfalls für die unterstützten MIB-II-Entitäten (zum Beispiel ifDown und coldStart) gesendet.
+
+.Schritte
+. Im Feld *Standard-Trap-Community* kann optional die Standard-Community-Zeichenfolge eingegeben werden, die für SNMPv1- oder SNMPv2-Trap-Ziele verwendet werden soll.
++
+Bei Bedarf kann beim Definieren eines bestimmten Trap-Ziels eine andere ("benutzerdefinierte") Community-Zeichenfolge angegeben werden.
+
++
+*Standard-Trap-Community* darf maximal 32 Zeichen lang sein und keine Leerzeichen enthalten.
+
+. Zum Hinzufügen eines Trap-Ziels *Erstellen* auswählen.
+. Wählen Sie aus, welche SNMP-Version für dieses Trap-Ziel verwendet wird.
+. Das Formular „Trap-Ziel erstellen“ für die ausgewählte Version ausfüllen.
++
+[role="tabbed-block"]
+====
+.SNMPv1
+--
+Wenn SNMPv1 als Version ausgewählt wurde, sind diese Felder auszufüllen.
+
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Typ
+ a| 
+Muss ein Trap für SNMPv1 sein.
+
+
+
+ a| 
+Host
+ a| 
+Eine IPv4- oder IPv6-Adresse oder ein vollqualifizierter Domänenname (FQDN) zum Empfangen der Trap.
+
+
+
+ a| 
+Port
+ a| 
+Port 162, der Standardport für SNMP-Traps, wird verwendet, sofern nicht ein anderer Wert erforderlich ist.
+
+
+
+ a| 
+Protokoll
+ a| 
+UDP ist das Standard-SNMP-Trap-Protokoll, sofern nicht TCP verwendet werden muss.
+
+
+
+ a| 
+Community-String
+ a| 
+Die standardmäßige Trap-Community kann verwendet werden, falls eine angegeben wurde, oder eine benutzerdefinierte Community-Zeichenfolge für dieses Trap-Ziel kann eingegeben werden.
+
+Die benutzerdefinierte Community-Zeichenfolge darf maximal 32 Zeichen lang sein und keine Leerzeichen enthalten.
+
+|===
+--
+.SNMPv2c
+--
+Wenn SNMPv2c als Version ausgewählt wurde, sind diese Felder auszufüllen.
+
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Typ
+ a| 
+Ob das Ziel für Traps oder Informs verwendet wird.
+
+
+
+ a| 
+Host
+ a| 
+Eine IPv4- oder IPv6-Adresse oder ein FQDN zum Empfang der Trap.
+
+
+
+ a| 
+Port
+ a| 
+Port 162 ist der Standardport für SNMP-Traps, sofern nicht ein anderer Wert erforderlich ist.
+
+
+
+ a| 
+Protokoll
+ a| 
+UDP ist das Standard-SNMP-Trap-Protokoll, sofern nicht TCP verwendet werden muss.
+
+
+
+ a| 
+Community-String
+ a| 
+Die standardmäßige Trap-Community kann verwendet werden, falls eine angegeben wurde, oder eine benutzerdefinierte Community-Zeichenfolge für dieses Trap-Ziel kann eingegeben werden.
+
+Die benutzerdefinierte Community-Zeichenfolge darf maximal 32 Zeichen lang sein und keine Leerzeichen enthalten.
+
+|===
+--
+.SNMPv3
+--
+Wenn SNMPv3 als Version ausgewählt wurde, sind diese Felder auszufüllen.
+
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Typ
+ a| 
+Ob das Ziel für Traps oder Informs verwendet wird.
+
+
+
+ a| 
+Host
+ a| 
+Eine IPv4- oder IPv6-Adresse oder ein FQDN zum Empfang der Trap.
+
+
+
+ a| 
+Port
+ a| 
+Port 162 ist der Standardport für SNMP-Traps, sofern nicht ein anderer Wert erforderlich ist.
+
+
+
+ a| 
+Protokoll
+ a| 
+UDP ist das Standard-SNMP-Trap-Protokoll, sofern nicht TCP verwendet werden muss.
+
+
+
+ a| 
+USM-Benutzer
+ a| 
+Der USM-Benutzer, der für die Authentifizierung verwendet wird.
+
+** Wenn *Trap* ausgewählt wurde, werden nur USM-Benutzer ohne autoritative Engine-IDs angezeigt.
+** Wenn *Inform* ausgewählt wurde, werden nur USM-Benutzer mit autoritativen Engine-IDs angezeigt.
+** Wenn keine Benutzer angezeigt werden:
++
+... Das Fallenziel wird erstellt und gespeichert.
+... Wechseln Sie zu <<create-usm-users,USM-Benutzer anlegen>> und erstellen Sie den Benutzer.
+... Zurück zur Registerkarte „Fallenziele“, das gespeicherte Ziel in der Tabelle auswählen und *Bearbeiten* wählen.
+... Den Benutzer auswählen.
+
+
+
+
+|===
+--
+====
+. Wählen Sie *Create*.
++
+Das Trap-Ziel wird erstellt und der Tabelle hinzugefügt.
+
+
+
+
+
+[[create-agent-addresses]]
+== Agentenadressen erstellen
+
+Optional kann auf der Registerkarte „Agentadressen“ im Abschnitt „Weitere Konfigurationen“ eine oder mehrere „Listening-Adressen“ angegeben werden. Dies sind die StorageGRID-Adressen, auf denen der SNMP-Agent Abfragen empfangen kann.
+
+Wenn keine Agentenadresse konfiguriert wird, ist die Standard-Listening-Adresse UDP-Port 161 auf allen StorageGRID Netzwerken.
+
+.Schritte
+. Wählen Sie *Create*.
+. Geben Sie die folgenden Informationen ein.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Internetprotokoll
+ a| 
+Ob diese Adresse IPv4 oder IPv6 verwendet.
+
+Standardmäßig verwendet SNMP IPv4.
+
+
+
+ a| 
+Transportprotokoll
+ a| 
+Ob diese Adresse UDP oder TCP verwendet.
+
+Standardmäßig verwendet SNMP UDP.
+
+
+
+ a| 
+StorageGRID Netzwerk
+ a| 
+Auf welchem StorageGRID Netzwerk der Agent lauschen wird.
+
+** Grid, Admin und Client Netzwerke: Der SNMP-Agent nimmt Anfragen auf allen drei Netzwerken entgegen.
+** Grid-Netzwerk
+** ${post_edited_translations.segment}
+** Client-Netzwerk
++
+*Hinweis*: Wenn das Client-Netzwerk für unsichere Daten verwendet wird und eine Agentenadresse für das Client-Netzwerk erstellt wird, ist zu beachten, dass auch der SNMP-Datenverkehr unsicher ist.
+
+
+
+
+
+ a| 
+Port
+ a| 
+Optional kann die Portnummer angegeben werden, auf der der SNMP-Agent lauschen soll.
+
+Der Standard-UDP-Port für einen SNMP-Agent ist 161, aber es kann jede ungenutzte Portnummer eingegeben werden.
+
+*Hinweis*: Beim Speichern des SNMP-Agenten öffnet StorageGRID automatisch die Agentenadressen-Ports in der internen Firewall. Es ist sicherzustellen, dass externe Firewalls den Zugriff auf diese Ports zulassen.
+
+|===
+. Wählen Sie *Create*.
++
+Die Agentenadresse wird erstellt und der Tabelle hinzugefügt.
+
+
+
+
+
+[[create-usm-userscreate-usm-users]]
+== [[create-usm-users]]USM-Benutzer erstellen
+
+Wenn Sie SNMPv3 verwenden, kann auf der Registerkarte „USM-Benutzer“ im Abschnitt „Weitere Konfigurationen“ festgelegt werden, welche USM-Benutzer berechtigt sind, die MIB abzufragen oder Traps und Informs zu empfangen.
+
+
+NOTE: Für SNMPv3-_Trap_-Ziele wird empfohlen, für jeden Admin Node einen USM-Benutzer zu erstellen. Wenn nicht jeder Admin Node über einen USM-Benutzer verfügt, empfängt Ihr Managementsystem unter Umständen keine Benachrichtigungen mehr, wenn der primäre Admin Node ausfällt.
+
+
+NOTE: SNMPv3 _inform_ Ziele müssen Benutzer mit Engine-IDs haben. SNMPv3 _trap_ Ziele dürfen keine Benutzer mit Engine-IDs haben.
+
+Diese Schritte gelten nicht, wenn Sie nur SNMPv1 oder SNMPv2c verwenden.
+
+.Schritte
+. Wählen Sie *Create*.
+. Geben Sie die folgenden Informationen ein.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Benutzername
+ a| 
+Ein einzigartiger Name für diesen USM Benutzer.
+
+Benutzernamen dürfen maximal 32 Zeichen lang sein und keine Leerzeichen enthalten. Der Benutzername kann nach der Erstellung des Benutzers nicht mehr geändert werden.
+
+
+
+ a| 
+MIB-Zugriff mit Leseberechtigung
+ a| 
+Wenn diese Option ausgewählt ist, sollte dieser Benutzer nur Lesezugriff auf die MIB haben.
+
+
+
+ a| 
+Autoritative Engine-ID
+ a| 
+Wenn dieser Benutzer in einem Inform-Ziel verwendet wird, die autoritative Engine-ID für diesen Benutzer.
+
+Geben Sie 10 bis 64 Hexadezimalzeichen (5 bis 32 Byte) ohne Leerzeichen ein. Dieser Wert ist für USM-Benutzer erforderlich, die in den Trap-Zielen für Informs ausgewählt werden. Dieser Wert ist für USM-Benutzer, die in den Trap-Zielen für Traps ausgewählt werden, nicht zulässig.
+
+*Hinweis*: Dieses Feld wird nicht angezeigt, wenn Sie *Nur-Lesezugriff auf die MIB* ausgewählt haben, da USM-Benutzer mit Nur-Lesezugriff auf die MIB keine Engine-IDs haben können.
+
+
+
+ a| 
+Sicherheitsstufe
+ a| 
+Das Sicherheitsniveau für den USM-Benutzer:
+
+** *authPriv*: Dieser Benutzer kommuniziert mit Authentifizierung und Datenschutz (Verschlüsselung). Es muss ein Authentifizierungsprotokoll und ein Passwort sowie ein Datenschutzprotokoll und ein Passwort angegeben werden.
+** *authNoPriv*: Dieser Benutzer kommuniziert mit Authentifizierung und ohne Datenschutz (keine Verschlüsselung). Es ist erforderlich, ein Authentifizierungsprotokoll und ein Passwort anzugeben.
+
+
+
+
+ a| 
+Authentifizierungsprotokoll
+ a| 
+Immer auf SHA eingestellt, da dies das einzige unterstützte Protokoll ist (HMAC-SHA-96).
+
+
+
+ a| 
+Passwort
+ a| 
+Das Passwort, das dieser Benutzer für die Authentifizierung verwendet.
+
+
+
+ a| 
+Datenschutzprotokoll
+ a| 
+Wird nur angezeigt, wenn *authPriv* ausgewählt wurde und immer auf AES gesetzt ist, da dies das einzige unterstützte Datenschutzprotokoll ist.
+
+
+
+ a| 
+Passwort
+ a| 
+Wird nur angezeigt, wenn *authPriv* ausgewählt wurde. Das Passwort, das dieser Benutzer für die Privatsphäre verwendet.
+
+|===
+. Wählen Sie *Create*.
++
+Der USM-Benutzer wird erstellt und der Tabelle hinzugefügt.
+
+. Nach Abschluss der SNMP-Agentenkonfiguration *Speichern* auswählen.
++
+Die neue SNMP-Agentenkonfiguration wird aktiv.
+
+

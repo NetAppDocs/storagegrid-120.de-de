@@ -1,0 +1,82 @@
+---
+permalink: maintain/considerations-for-decommissioning-storage-nodes.html 
+sidebar: sidebar 
+keywords: storage node decommission, considerations, appliance node clone 
+summary: Bevor ein Storage Node außer Betrieb genommen wird, sollte geprüft werden, ob stattdessen eine Klonung des Node möglich ist. Wenn die Außerbetriebnahme des Node erfolgt, empfiehlt sich eine Überprüfung, wie StorageGRID Objekte und Metadaten während des Außerbetriebnahmevorgangs verwaltet. 
+---
+= Überlegungen zur Stilllegung von Storage Node in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bevor ein Storage Node außer Betrieb genommen wird, sollte geprüft werden, ob stattdessen eine Klonung des Node möglich ist. Wenn die Außerbetriebnahme des Node erfolgt, empfiehlt sich eine Überprüfung, wie StorageGRID Objekte und Metadaten während des Außerbetriebnahmevorgangs verwaltet.
+
+
+
+[[when-to-clone-a-node-instead-of-decommissioning-it]]
+== Wann empfiehlt sich das Klonen eines Knotens anstelle der Außerbetriebnahme?
+
+Wenn Sie einen älteren Appliance Storage Node durch einen neueren oder größeren Appliance ersetzen möchten, empfiehlt sich das Klonen des Appliance Node anstelle des Hinzufügens einer neuen Appliance in einer Erweiterung und der anschließenden Außerbetriebnahme der alten Appliance.
+
+Durch das Klonen von Appliance-Knoten lässt sich ein vorhandener Appliance-Knoten einfach durch eine kompatible Appliance am selben StorageGRID Standort ersetzen. Der Klonprozess überträgt alle Daten auf die neue Appliance, nimmt diese in Betrieb und belässt die alte Appliance im Vorinstallationszustand.
+
+Sie können einen Appliance-Knoten klonen, falls dies erforderlich ist:
+
+* Ein Gerät, das das Ende seiner Lebensdauer erreicht, kann ersetzt werden.
+* Ein vorhandener Knoten kann aktualisiert werden, um von verbesserter Gerätetechnologie zu profitieren.
+* Die Grid-Storage-Kapazität kann erhöht werden, ohne die Anzahl der Storage Nodes im StorageGRID-System zu verändern.
+* Die Speichereffizienz kann verbessert werden, beispielsweise durch Änderung des RAID-Modus.
+
+
+Einzelheiten sind unter  https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/how-appliance-node-cloning-works.html["Klonen von Appliance-Knoten"^] zu finden.
+
+
+
+[[considerations-for-connected-storage-nodes]]
+== Überlegungen zu verbundenen Storage Nodes
+
+Die Überlegungen zur Stilllegung eines verbundenen Storage Node sollten berücksichtigt werden.
+
+* Es wird empfohlen, nicht mehr als 10 Storage Nodes in einem einzigen Decommission Node Verfahren außer Betrieb zu nehmen.
+* Das System muss jederzeit über ausreichend Speicherknoten verfügen, um die Betriebsanforderungen zu erfüllen, einschließlich der link:understanding-adc-service-quorum.html["ADC Quorum"] und der aktiven link:reviewing-ilm-policy-and-storage-configuration.html["ILM Richtlinie"]. Um diese Einschränkung einzuhalten, kann es erforderlich sein, im Rahmen einer Erweiterung einen neuen Speicherknoten hinzuzufügen, bevor ein vorhandener Speicherknoten außer Betrieb genommen werden kann.
++
+Seien Sie vorsichtig beim Außerbetriebnehmen von Storage Nodes in einem Grid mit softwarebasierten Metadaten-only-Knoten. Wenn alle Knoten außer Betrieb genommen werden, die _sowohl_ Objekte als auch Metadaten speichern, wird die Möglichkeit, Objekte im Grid zu speichern, entfernt. Siehe link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"] für weitere Informationen zu Metadaten-only Storage Nodes.
+
+* Beim Entfernen eines Storage Node werden große Mengen an Objektdaten über das Netzwerk übertragen. Obwohl diese Übertragungen den normalen Systembetrieb nicht beeinträchtigen sollten, können sie die insgesamt vom StorageGRID System verbrauchte Netzwerkbandbreite beeinflussen.
+* Aufgaben im Zusammenhang mit der Außerbetriebnahme von Speicherknoten haben eine niedrigere Priorität als Aufgaben im Zusammenhang mit dem normalen Systembetrieb. Das bedeutet, dass die Außerbetriebnahme den normalen StorageGRID Betrieb nicht beeinträchtigt und nicht für eine Phase der Systeminaktivität eingeplant werden muss. Da die Außerbetriebnahme im Hintergrund erfolgt, ist es schwierig abzuschätzen, wie lange der Prozess bis zum Abschluss benötigt. Im Allgemeinen ist die Außerbetriebnahme schneller abgeschlossen, wenn das System ruhig ist oder jeweils nur ein Speicherknoten entfernt wird.
+* Die Außerbetriebnahme eines Storage Node kann Tage oder Wochen dauern. Dieser Vorgang sollte entsprechend eingeplant werden. Obwohl der Außerbetriebnahmeprozess so konzipiert ist, dass er den Systembetrieb nicht beeinträchtigt, kann er andere Verfahren einschränken. Im Allgemeinen empfiehlt es sich, geplante Systemaktualisierungen oder Erweiterungen vor dem Entfernen von Grid-Nodes durchzuführen.
+* Falls während des Entfernens der Storage Nodes eine weitere Wartungsprozedur erforderlich ist, kann link:pausing-and-resuming-decommission-process-for-storage-nodes.html["das Stilllegungsverfahren unterbrechen"] diese durchgeführt und nach Abschluss der anderen Prozedur fortgesetzt werden.
++
+
+NOTE: Die Schaltfläche *Pause* ist nur dann aktiviert, wenn die ILM-Evaluierungs- oder die Deaktivierungsphase der löschcodierten Daten erreicht ist; die ILM-Evaluierung (Datenmigration) läuft jedoch im Hintergrund weiter.
+
+* Während eine Außerbetriebnahmeaufgabe ausgeführt wird, können keine Datenreparaturvorgänge auf Grid-Knoten ausgeführt werden.
+* Es sollten keine Änderungen an einer ILM-Richtlinie vorgenommen werden, während ein Storage Node außer Betrieb genommen wird.
+* Um Daten endgültig und sicher zu entfernen, müssen die Laufwerke des Storage Node nach Abschluss des Außerbetriebnahmevorgangs gelöscht werden.
+
+
+
+
+[[considerations-for-disconnected-storage-nodes]]
+[[considerations-disconnected-storage-nodes]]
+== Überlegungen zu getrennten Storage Nodes
+
+Die Überlegungen zur Stilllegung eines getrennten Storage Node sollten berücksichtigt werden.
+
+* Einen vom Netz getrennten Knoten sollten Sie nur dann außer Betrieb nehmen, wenn Sie sicher sind, dass er nicht wieder online geschaltet oder wiederhergestellt werden kann.
++
+
+CAUTION: Führen Sie diese Prozedur nicht durch, wenn Sie glauben, dass die Objektdaten vom Knoten wiederhergestellt werden können. Stattdessen sollte der technische Support kontaktiert werden, um zu klären, ob eine Knotenwiederherstellung möglich ist.
+
+* Wenn ein getrennter Speicherknoten außer Betrieb genommen wird, verwendet StorageGRID Daten von anderen Speicherknoten, um die Objektdaten und Metadaten, die sich auf dem getrennten Knoten befanden, wiederherzustellen.
+* Datenverlust kann auftreten, wenn mehr als ein getrennter Storage Node außer Betrieb genommen wird. Das System kann die Daten möglicherweise nicht rekonstruieren, wenn nicht genügend Objektkopien, erasure-coded Fragmente oder Objektmetadaten verfügbar sind. Bei der Außerbetriebnahme von Storage Nodes in einem Grid mit softwarebasierten Metadaten-only-Knoten führt die Außerbetriebnahme aller Knoten, die sowohl Objekte als auch Metadaten speichern, dazu, dass der gesamte Objektspeicher aus dem Grid entfernt wird. Weitere Informationen zu Metadaten-only Storage Nodes sind unter link:../primer/what-storage-node-is.html#types-of-storage-nodes["Arten von Speicherknoten"] verfügbar.
++
+
+CAUTION: Wenn mehr als ein getrenntes Storage Node vorhanden ist, das Sie nicht wiederherstellen können, wenden Sie sich an den technischen Support, um die beste Vorgehensweise zu bestimmen.
+
+* Wenn ein getrennter Speicherknoten außer Betrieb genommen wird, startet StorageGRID am Ende des Außerbetriebnahmeprozesses Datenreparaturaufträge. Diese Aufträge versuchen, die auf dem getrennten Knoten gespeicherten Objektdaten und Metadaten wiederherzustellen.
+* Wenn ein getrennter Storage Node außer Betrieb genommen wird, wird das Außerbetriebnahmeverfahren relativ schnell abgeschlossen. Die Datenreparaturaufträge können jedoch Tage oder Wochen in Anspruch nehmen und werden vom Außerbetriebnahmeverfahren nicht überwacht. Diese Aufträge müssen manuell überwacht und bei Bedarf neu gestartet werden. Siehe link:checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].
+* Wird ein vom Netzwerk getrennter Storage Node, der die einzige Kopie eines Objekts enthält, außer Betrieb genommen, geht das Objekt verloren. Die Datenreparaturaufträge können Objekte nur rekonstruieren und wiederherstellen, wenn mindestens eine replizierte Kopie oder genügend erasure-coded Fragmente auf Storage Nodes vorhanden sind, die aktuell verbunden sind.
+

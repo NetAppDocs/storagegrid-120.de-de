@@ -1,0 +1,22 @@
+---
+permalink: monitor/using-task-tab.html 
+sidebar: sidebar 
+keywords: Tasks tab, rename node, reboot node, storage state, maintenance mode 
+summary: Die Registerkarte „Aufgaben“ wird für alle Knoten angezeigt. Diese Registerkarte kann verwendet werden, um einen Knoten umzubenennen oder neu zu starten oder um einen Appliance-Knoten in den Wartungsmodus zu versetzen. Für Storage Nodes kann der Speicherstatus festgelegt werden. 
+---
+= Verwenden Sie die Registerkarte „StorageGRID-Aufgaben“.
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Registerkarte „Aufgaben“ wird für alle Knoten angezeigt. Diese Registerkarte kann verwendet werden, um einen Knoten umzubenennen oder neu zu starten oder um einen Appliance-Knoten in den Wartungsmodus zu versetzen. Für Storage Nodes kann der Speicherstatus festgelegt werden.
+
+Die vollständigen Anforderungen und Anweisungen für jede Option auf dieser Registerkarte sind unter den folgenden Links zu finden:
+
+* link:../maintain/rename-grid-site-node-overview.html["Grid, Standorte und Knoten umbenennen"]
+* link:../maintain/rebooting-grid-node-from-grid-manager.html["Neustart des Grid-Knotens"]
+* https://docs.netapp.com/us-en/storagegrid-appliances/commonhardware/placing-appliance-into-maintenance-mode.html["Das Gerät in den Wartungsmodus versetzen"^]
+* Der Speicherstatus eines Storage Node wird überprüft oder festgelegt, nachdem direkt angeschlossene oder SAN-Volumes zu Storage Node hinzugefügt wurden oder nachdem ein Storage Node wiederhergestellt wurde. Diese Anleitungen sind in den Themen verfügbar, die diese Aufgaben beschreiben.
+

@@ -1,0 +1,77 @@
+---
+permalink: maintain/configuring-ntp-servers.html 
+sidebar: sidebar 
+keywords: storagegrid, ntp, ntp server, configure ntp, configuring ntp 
+summary: 'Sie können Network Time Protocol (NTP) Server hinzufügen, aktualisieren oder entfernen, um sicherzustellen, dass Daten zwischen den Grid-Knoten in Ihrem StorageGRID System genau synchronisiert werden.' 
+---
+= NTP-Server in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Network Time Protocol (NTP) Server hinzufügen, aktualisieren oder entfernen, um sicherzustellen, dass Daten zwischen den Grid-Knoten in Ihrem StorageGRID System genau synchronisiert werden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Sie besitzen die Bereitstellungspassphrase.
+* Die IPv4-Adressen der NTP-Server für die Konfiguration liegen vor.
+
+
+
+
+[[how-storagegrid-uses-ntp]]
+== Wie StorageGRID NTP verwendet
+
+Das StorageGRID System verwendet das Network Time Protocol (NTP), um die Zeit zwischen allen Grid-Knoten im Grid zu synchronisieren.
+
+An jedem Standort sind mindestens zwei Knoten im StorageGRID-System als primäre NTP-Knoten zugewiesen. Sie synchronisieren sich mit mindestens vier und maximal sechs externen Zeitquellen sowie untereinander. Jeder Knoten im StorageGRID-System, der kein primärer NTP-Knoten ist, fungiert als NTP-Client und synchronisiert sich mit diesen primären NTP-Knoten.
+
+Die externen NTP-Server verbinden sich mit den Knoten, denen zuvor die primäre NTP-Rolle zugewiesen wurde. Aus diesem Grund wird empfohlen, mindestens zwei Knoten mit primärer NTP-Rolle anzugeben.
+
+
+
+[[ntp-server-guidelines]]
+== NTP Server-Richtlinien
+
+Diese Richtlinien schützen vor Timing-Problemen:
+
+* Die externen NTP-Server verbinden sich mit den Knoten, denen zuvor die primäre NTP-Rolle zugewiesen wurde. Aus diesem Grund wird empfohlen, mindestens zwei Knoten mit primärer NTP-Rolle anzugeben.
+* Stellen Sie sicher, dass an jedem Standort mindestens zwei Knoten auf mindestens vier externe NTP-Quellen zugreifen können. Wenn nur ein Knoten an einem Standort die NTP-Quellen erreichen kann, treten Timing-Probleme auf, falls dieser Knoten ausfällt. Zudem stellt die Festlegung von zwei Knoten pro Standort als primäre NTP-Quellen eine präzise Zeitmessung sicher, falls ein Standort vom restlichen Grid isoliert ist.
+* Die angegebenen externen NTP-Server müssen das NTP-Protokoll verwenden. Es sind NTP-Serverreferenzen von Stratum 3 oder besser anzugeben, um Probleme mit Zeitabweichungen zu vermeiden.
+
+
+
+NOTE: Bei der Angabe der externen NTP-Quelle für eine StorageGRID Produktionsinstallation sollte der Windows-Zeitdienst (W32Time) auf einer Windows-Version vor Windows Server 2016 nicht verwendet werden. Der Zeitdienst in älteren Windows-Versionen ist nicht ausreichend genau und wird von Microsoft für den Einsatz in Umgebungen mit hohen Genauigkeitsanforderungen, einschließlich StorageGRID, nicht unterstützt. Weitere Einzelheiten finden sich unter  https://support.microsoft.com/en-us/help/939322/support-boundary-to-configure-the-windows-time-service-for-high-accura["Unterstützungsgrenze zur Konfiguration des Windows Time Service für Umgebungen mit hohen Genauigkeitsanforderungen"^].
+
+
+
+[[configure-ntp-servers]]
+== NTP Server konfigurieren
+
+Führen Sie die folgenden Schritte aus, um NTP-Server hinzuzufügen, zu aktualisieren oder zu entfernen.
+
+.Schritte
+. Wählen Sie *Wartung* > *Netzwerk* > *NTP servers*.
+. Im Abschnitt „Server“ NTP-Servereinträge nach Bedarf hinzufügen, aktualisieren oder entfernen.
++
+Es wird empfohlen, mindestens vier NTP-Server einzubeziehen; bis zu sechs Server können angegeben werden.
+
+. Geben Sie die Bereitstellungspassphrase für Ihr StorageGRID System ein und wählen Sie dann *Speichern*.
++
+Die Seite ist deaktiviert, bis die Konfigurationsaktualisierungen abgeschlossen sind.
+
++
+
+NOTE: Wenn nach dem Speichern der neuen NTP-Server alle Ihre NTP-Server den Verbindungstest nicht bestehen, nicht fortfahren. Der technische Support ist zu kontaktieren.
+
+
+
+
+
+[[resolve-ntp-server-issues]]
+== NTP-Serverprobleme beheben
+
+Sollten Sie Probleme mit der Stabilität oder Verfügbarkeit der ursprünglich bei der Installation angegebenen NTP-Server feststellen, kann die Liste der externen NTP-Quellen, die das StorageGRID System verwendet, durch Hinzufügen zusätzlicher Server oder durch Aktualisieren oder Entfernen vorhandener Server aktualisiert werden.

@@ -1,0 +1,120 @@
+---
+permalink: maintain/starting-software-installation-on-services-appliance-recovery.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, services appliance, start software installation 
+summary: Zur Installation eines Gateway Node oder Admin Node auf einer Services Appliance wird der StorageGRID Appliance Installer verwendet, der auf der Appliance enthalten ist. 
+---
+= Starten Sie die Installation der StorageGRID-Software auf einem Services-Gerät
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Zur Installation eines Gateway Node oder Admin Node auf einer Services Appliance wird der StorageGRID Appliance Installer verwendet, der auf der Appliance enthalten ist.
+
+.Bevor Sie beginnen
+* Das Gerät ist in einem Rack installiert, mit Ihren Netzwerken verbunden und eingeschaltet.
+* Die Netzwerkverbindungen und IP-Adressen werden für das Gerät mithilfe des StorageGRID Appliance Installer konfiguriert.
+* Wenn Sie einen Gateway-Knoten oder einen nicht-primären Admin-Knoten installieren, ist die IP-Adresse des primären Admin-Knotens für das StorageGRID Grid bekannt.
+* Alle auf der Seite „IP-Konfiguration“ des StorageGRID Appliance Installer aufgeführten Grid-Netzwerk-Subnetze sind in der Grid-Netzwerk-Subnetzliste auf dem primären Admin-Node definiert.
++
+Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Schnellstart für die Hardwareinstallation"^].
+
+* Sie verwenden ein link:../admin/web-browser-requirements.html["unterstützte Webbrowser"].
+* Sie haben eine der dem Gerät zugewiesenen IP-Adressen. Die IP-Adresse kann für das Admin-Netzwerk, das Grid-Netzwerk oder das Client-Netzwerk verwendet werden.
+* Wenn Sie einen primären Admin-Knoten installieren, sind die Ubuntu- oder Debian-Installationsdateien für diese Version von StorageGRID verfügbar.
++
+
+NOTE: Eine aktuelle Version der StorageGRID Software ist bereits bei der Herstellung auf dem Servicegerät vorinstalliert. Wenn die vorinstallierte Softwareversion mit der in Ihrer StorageGRID Umgebung verwendeten Version übereinstimmt, werden keine Installationsdateien benötigt.
+
+
+
+.Über diese Aufgabe
+Zur Installation der StorageGRID Software auf einer Services Appliance:
+
+* Für einen primären Admin-Node wird der Node-Name angegeben und anschließend, falls erforderlich, die entsprechenden Softwarepakete hochgeladen.
+* Für einen nicht-primären Admin-Node oder einen Gateway-Node wird die IP-Adresse des primären Admin-Node und der Node-Name angegeben oder bestätigt.
+* Die Installation wird gestartet, während die Volumes konfiguriert und die Software installiert werden.
+* Die Installation wird während des Vorgangs unterbrochen. Um die Installation fortzusetzen, ist eine Anmeldung im Grid Manager erforderlich, und der ausstehende Node muss als Ersatz für den ausgefallenen Node konfiguriert werden.
+* Nachdem Sie den Node konfiguriert haben, ist der Installationsprozess der Appliance abgeschlossen und die Appliance wird neu gestartet.
+
+
+.Schritte
+. Einen Browser öffnen und eine der IP-Adressen für das Services Appliance eingeben.
++
+`https://_Controller_IP_:8443`
+
++
+Die StorageGRID Appliance Installer-Startseite wird angezeigt.
+
+. Installation eines primären Admin-Knotens:
++
+.. Im Abschnitt „Dieser Node“ für *Knotentyp* die Auswahl *Primärer Admin* treffen.
+.. Im Feld *Node-Name* denselben Namen eintragen, der für den wiederherzustellenden Node verwendet wurde, und auf *Speichern* klicken.
+.. Im Abschnitt „Installation“ ist die unter „Aktueller Status“ aufgeführte Softwareversion zu prüfen.
++
+Wenn die zur Installation bereitstehende Softwareversion korrekt ist, kann zum <<installation_section_step,Installationsschritt>> weitergegangen werden.
+
+.. Falls eine andere Softwareversion hochgeladen werden muss, im Menü *Erweitert* die Option *StorageGRID Software hochladen* auswählen.
++
+Die Seite „Upload StorageGRID Software“ wird angezeigt.
+
+.. Klicken Sie auf *Durchsuchen*, um das *Softwarepaket* und die *Prüfsummendatei* für StorageGRID Software hochzuladen.
++
+Die Dateien werden automatisch hochgeladen, nachdem Sie sie ausgewählt haben.
+
+.. Klicken Sie auf *Startseite*, um zur StorageGRID Appliance Installer-Startseite zurückzukehren.
+
+
+. Installation eines Gateway-Knotens oder eines nicht-primären Admin-Knotens:
++
+.. Im Abschnitt „Dieser Knoten“ für *Knotentyp* entweder *Gateway* oder *Nicht-primärer Admin* auswählen, abhängig vom Typ des Knotens, den Sie wiederherstellen.
+.. Im Feld *Node-Name* denselben Namen eintragen, der für den wiederherzustellenden Node verwendet wurde, und auf *Speichern* klicken.
+.. Im Abschnitt „Verbindung zum primären Admin-Node“ ist zu bestimmen, ob die IP-Adresse für den primären Admin-Node angegeben werden muss.
++
+Der StorageGRID Appliance Installer kann diese IP-Adresse automatisch ermitteln, vorausgesetzt, der primäre Admin-Node oder mindestens ein weiterer Grid-Node mit konfigurierter ADMIN_IP befindet sich im selben Subnetz.
+
+.. Falls diese IP-Adresse nicht angezeigt wird oder Sie sie ändern müssen, geben Sie die Adresse an:
+
+
++
+[cols="1a,2a"]
+|===
+| Option | Beschreibung 
+
+
+ a| 
+Manuelle IP-Eingabe
+ a| 
+.. Das Kontrollkästchen *Enable Admin Node discovery* deaktivieren.
+.. Geben Sie die IP-Adresse manuell ein.
+.. Auf *Speichern* klicken.
+.. Warten Sie, bis der Verbindungsstatus für die neue IP-Adresse „bereit“ ist.
+
+
+
+
+ a| 
+Automatische Erkennung aller verbundenen primären Admin Nodes
+ a| 
+.. Das Kontrollkästchen *Admin Node discovery aktivieren* auswählen.
+.. Aus der Liste der ermittelten IP-Adressen den primären Admin-Node für das Grid auswählen, in dem diese Services Appliance bereitgestellt wird.
+.. Auf *Speichern* klicken.
+.. Warten Sie, bis der Verbindungsstatus für die neue IP-Adresse „bereit“ ist.
+
+
+|===
+. [[installation_section_step]]Im Abschnitt Installation ist zu bestätigen, dass der aktuelle Status „Bereit zum Starten der Installation von Node-Name“ angezeigt wird und dass die Schaltfläche *Start Installation* aktiviert ist.
++
+Wenn die Schaltfläche „Installation starten“ nicht aktiviert ist, müssen möglicherweise die Netzwerkkonfiguration oder die Porteinstellungen geändert werden. In der Wartungsanleitung für Ihr Gerät finden sich weitere Informationen.
+
+. Auf der Startseite des StorageGRID Appliance Installers auf *Installation starten* klicken.
++
+Der aktuelle Status ändert sich zu „Installation läuft“, und die Seite „Monitor Installation“ wird angezeigt.
+
++
+
+NOTE: Falls ein manueller Zugriff auf die Seite *Monitor Installation* erforderlich ist, kann *Monitor Installation* in der Menüleiste ausgewählt werden.
+
+

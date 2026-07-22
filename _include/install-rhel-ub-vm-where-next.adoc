@@ -1,0 +1,33 @@
+= Optionale Aufgaben
+:allow-uri-read: 
+
+
+* link:../admin/managing-tenants.html["Ein Mandantenkonto erstellen"] für das S3 Clientprotokoll, das zum Speichern von Objekten auf Ihrem StorageGRID System verwendet wird.
+* link:../admin/controlling-storagegrid-access.html["${post_edited_translations.segment}"] durch das Konfigurieren von Gruppen und Benutzerkonten. Optional können Sie link:../admin/using-identity-federation.html["${post_edited_translations.segment}"] (wie Active Directory oder OpenLDAP), um Administrationsgruppen und Benutzer zu importieren. Oder Sie können link:../admin/managing-users.html#create-a-local-user["${post_edited_translations.segment}"].
+* Integrieren und testen Sie die link:../s3/configuring-tenant-accounts-and-connections.html["S3 API"] Clientanwendungen, die Sie zum Hochladen von Objekten in Ihr StorageGRID System verwenden.
+* link:../ilm/index.html["${post_edited_translations.segment}"] die Sie zum Schutz von Objektdaten verwenden möchten.
+* Wenn Ihre Installation Appliance Storage Nodes umfasst, kann SANtricity OS für die folgenden Aufgaben verwendet werden:
++
+** ${post_edited_translations.segment}
+** Empfang der AutoSupport-Daten überprüfen.
++
+Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/configuring-hardware.html["Hardware einrichten"^].
+
+
+
+* Die link:../harden/index.html["StorageGRID Systemhärtungsrichtlinien"] sollten überprüft und befolgt werden, um Sicherheitsrisiken zu beseitigen.
+* link:../monitor/email-alert-notifications.html["E-Mail-Benachrichtigungen für Systemwarnungen konfigurieren"].
+
+
+
+
+[[optional-tasks]]
+== Optionale Aufgaben
+
+* link:../maintain/changing-ip-addresses-and-mtu-values-for-all-nodes-in-grid.html["IP-Adressen der Grid-Knoten aktualisieren"] falls sie sich seit Ihrer Bereitstellungsplanung und der Erstellung des Wiederherstellungspakets geändert haben.
+* link:../admin/changing-network-options-object-encryption.html["Speicherverschlüsselung konfigurieren"], falls erforderlich.
+* link:../admin/configuring-stored-object-compression.html["${post_edited_translations.segment}"] Zur Reduzierung der Größe gespeicherter Objekte, falls erforderlich.
+* link:../admin/configure-vlan-interfaces.html["${post_edited_translations.segment}"]um den Netzwerkverkehr bei Bedarf zu isolieren und zu partitionieren.
+* link:../admin/configure-high-availability-group.html["${post_edited_translations.segment}"] um bei Bedarf die Verbindungsverfügbarkeit für den Grid Manager, Tenant Manager und S3-Clients zu verbessern.
+* link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] für die S3-Client-Konnektivität, falls erforderlich.
+

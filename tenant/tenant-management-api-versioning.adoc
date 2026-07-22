@@ -1,0 +1,103 @@
+---
+permalink: tenant/tenant-management-api-versioning.html 
+sidebar: sidebar 
+keywords: tenant management api version 
+summary: Die Tenant Management API verwendet Versionierung, um unterbrechungsfreie Upgrades zu unterstützen. 
+---
+= StorageGRID Tenant Management API-Versionierung
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Tenant Management API verwendet Versionierung, um unterbrechungsfreie Upgrades zu unterstützen.
+
+Beispielsweise gibt diese Request-URL die Version 4 der API an.
+
+`https://_hostname_or_ip_address_/api/v4/authorize`
+
+Die Hauptversion der API wird erhöht, wenn Änderungen vorgenommen werden, die nicht mit älteren Versionen kompatibel sind. Die Nebenversion der API wird erhöht, wenn Änderungen vorgenommen werden, die mit älteren Versionen kompatibel sind. Kompatible Änderungen umfassen das Hinzufügen neuer Endpunkte oder neuer Eigenschaften.
+
+Das folgende Beispiel veranschaulicht, wie die API-Version je nach Art der vorgenommenen Änderungen erhöht wird.
+
+[cols="1a,1a,1a"]
+|===
+| Art der Änderung an der API | ${post_edited_translations.segment} | Neue Version 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+2,1
+ a| 
+2,2
+
+
+
+ a| 
+Nicht kompatibel mit älteren Versionen
+ a| 
+2,1
+ a| 
+3,0
+
+
+
+ a| 
+3,0
+ a| 
+4,0
+
+|===
+Bei der erstmaligen Installation der StorageGRID Software ist nur die neueste Version der API aktiviert. Wenn jedoch ein Upgrade auf eine neue Funktionsversion von StorageGRID erfolgt, bleibt der Zugriff auf die ältere API-Version für mindestens eine StorageGRID Funktionsversion erhalten.
+
+
+NOTE: Sie können die unterstützten Versionen konfigurieren. Im Abschnitt *config* der Swagger API-Dokumentation link:../admin/using-grid-management-api.html["Grid Management API"] finden sich weitere Informationen. Die Unterstützung für die ältere Version sollte nach der Aktualisierung aller API-Clients auf die neuere Version deaktiviert werden.
+
+Veraltete Anfragen werden auf folgende Weise als veraltet gekennzeichnet:
+
+* Der Antwortheader ist „Deprecated: true“.
+* Der JSON-Antworttext enthält "deprecated": true
+* Eine Warnung bezüglich veralteter Technologien wird in nms.log hinzugefügt. Zum Beispiel:
++
+[listing]
+----
+Received call to deprecated v2 API at POST "/api/v2/authorize"
+----
+
+
+
+
+[[determine-which-api-versions-are-supported-in-the-current-release]]
+== ${post_edited_translations.segment}
+
+Die  `GET /versions`API-Anfrage gibt eine Liste der unterstützten API-Hauptversionen zurück. Diese Anfrage befindet sich im Abschnitt *config* der Swagger API-Dokumentation.
+
+[listing]
+----
+GET https://{{IP-Address}}/api/versions
+{
+  "responseTime": "2023-06-27T22:13:50.750Z",
+  "status": "success",
+  "apiVersion": "4.0",
+  "data": [
+    2,
+    3,
+    4
+  ]
+}
+----
+
+
+[[specify-an-api-version-for-a-request]]
+== Eine API-Version für eine Anfrage angeben
+
+Sie können die API-Version mit einem Pfadparameter (`/api/v4`) oder einem Header (`Api-Version: 4`) angeben. Wenn beide Werte angegeben werden, überschreibt der Wert im Header den Wert im Pfad.
+
+[listing]
+----
+curl https://[IP-Address]/api/v4/grid/accounts
+
+curl -H "Api-Version: 4" https://[IP-Address]/api/grid/accounts
+----

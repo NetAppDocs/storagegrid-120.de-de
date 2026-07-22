@@ -1,0 +1,36 @@
+= 
+:allow-uri-read: 
+
+
+${post_edited_translations.segment}
+
+[cols="1a,2a"]
+|===
+| Option | Ziel 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+`/var/local/log/localaudit.log`
+
+
+
+ a| 
+Admin Nodes/lokale Knoten
+ a| 
+* Admin Nodes (primäre und nicht-primäre): `/var/local/audit/export/audit.log`
+* Alle Knoten: Die `/var/local/log/localaudit.log` Datei ist in diesem Modus typischerweise leer oder fehlt.
+
+
+
+
+ a| 
+Externer Syslog Server
+ a| 
+`/var/local/log/localaudit.log`
+
+|===
+Je nach Ihren Einstellungen für das Revisionsprotokoll-Ziel geben Sie Folgendes ein: `cd /var/local/log` oder `/var/local/audit/export/`
+
+Weitere Informationen sind unter link:../monitor/configure-log-management.html#select-log-location["Protokollspeicherort auswählen"] zu finden.

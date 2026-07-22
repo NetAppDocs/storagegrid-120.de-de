@@ -1,0 +1,169 @@
+---
+permalink: fabricpool/creating-load-balancer-endpoint-for-fabricpool.html 
+sidebar: sidebar 
+keywords: fabricPool, StorageGRID, load balancer, endpoint, load balancing, create, creating, certificate 
+summary: StorageGRID verwendet einen Load Balancer, um die Arbeitslast von Clientanwendungen wie FabricPool zu verwalten. Durch Lastverteilung werden Geschwindigkeit und Verbindungskapazität über mehrere Storage Nodes hinweg maximiert. 
+---
+= Erstellen Sie einen Load-Balancer-Endpunkt für FabricPool in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+StorageGRID verwendet einen Load Balancer, um die Arbeitslast von Clientanwendungen wie FabricPool zu verwalten. Durch Lastverteilung werden Geschwindigkeit und Verbindungskapazität über mehrere Storage Nodes hinweg maximiert.
+
+Bei der Konfiguration von StorageGRID für die Verwendung mit FabricPool muss ein Load-Balancer-Endpunkt konfiguriert und ein Load-Balancer-Endpunktzertifikat hochgeladen oder generiert werden, das zur Sicherung der Verbindung zwischen ONTAP und StorageGRID verwendet wird.
+
+Um den FabricPool Einrichtungsassistenten für diese Aufgabe zu verwenden, gehen Sie zu link:use-fabricpool-setup-wizard-steps.html["Den FabricPool Setup-Assistenten aufrufen und abschließen"].
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Root-Zugriffsberechtigung"].
+* Sie haben das allgemeine link:../admin/managing-load-balancing.html["Überlegungen zum Lastausgleich"] sowie das link:best-practices-for-load-balancing.html["Best Practices für den Lastausgleich für FabricPool"] überprüft.
+
+
+.Schritte
+. *Konfiguration* > *Netzwerk* > *Load balancer endpoints* auswählen.
+. Wählen Sie *Create*.
+. Für den Schritt *Endpunktdetails eingeben* sind die folgenden Felder auszufüllen.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Port
+ a| 
+Der StorageGRID Port, den Sie für den Lastausgleich verwenden möchten. Dieses Feld ist für den ersten von Ihnen erstellten Endpunkt standardmäßig auf 10433 gesetzt, aber Sie können jeden ungenutzten externen Port eingeben. Wenn Sie 80 oder 443 eingeben, wird der Endpunkt nur auf Gateway Nodes konfiguriert. Diese Ports sind auf Admin Nodes reserviert.
+
+*Hinweis:* Die Nutzung von Ports, die von anderen Grid-Diensten verwendet werden, ist nicht zulässig. Siehe link:../network/internal-grid-node-communications.html["Netzwerkport-Referenz"].
+
+Diese Nummer wird ONTAP bereitgestellt, wenn StorageGRID als FabricPool Cloud-Tier angebunden wird.
+
+
+
+ a| 
+Clienttyp
+ a| 
+*S3* auswählen.
+
+
+
+ a| 
+Netzwerkprotokoll
+ a| 
+Wählen Sie *HTTPS*.
+
+*Hinweis*: Die Kommunikation mit StorageGRID ohne TLS-Verschlüsselung wird unterstützt, aber nicht empfohlen.
+
+|===
+. Geben Sie für den Schritt *Bindungsmodus auswählen* den Bindungsmodus an. Der Bindungsmodus steuert, wie auf den Endpunkt über eine beliebige IP-Adresse oder über bestimmte IP-Adressen und Netzwerkschnittstellen zugegriffen wird.
++
+[cols="1a,3a"]
+|===
+| Modus | Beschreibung 
+
+
+ a| 
+Global (Standard)
+ a| 
+Clients können mit der IP-Adresse eines beliebigen Gateway-Knotens oder Admin-Knotens, der virtuellen IP-Adresse (VIP) einer beliebigen HA-Gruppe in einem beliebigen Netzwerk oder einem entsprechenden FQDN auf den Endpunkt zugreifen.
+
+Die Einstellung *Global* (Standard) sollte verwendet werden, es sei denn, die Zugänglichkeit dieses Endpunkts muss eingeschränkt werden.
+
+
+
+ a| 
+Virtuelle IPs von HA-Gruppen
+ a| 
+Clients müssen eine virtuelle IP-Adresse (oder den entsprechenden FQDN) einer HA-Gruppe verwenden, um auf diesen Endpunkt zuzugreifen.
+
+Endpunkte mit diesem Bindungsmodus können alle die gleiche Portnummer verwenden, solange sich die für die Endpunkte ausgewählten HA-Gruppen nicht überschneiden.
+
+
+
+ a| 
+Knotenschnittstellen
+ a| 
+Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählten Knotenschnittstellen verwenden, um auf diesen Endpunkt zuzugreifen.
+
+
+
+ a| 
+Knotentyp
+ a| 
+${post_edited_translations.segment}
+
+|===
+. Für den Schritt *Mandantenzugriff* eine der folgenden Optionen auswählen:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Alle Mandanten zulassen (Standard)
+ a| 
+Alle Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+*Alle Mandanten zulassen* ist fast immer die richtige Option für den Load-Balancer-Endpunkt, der für FabricPool verwendet wird.
+
+Diese Option ist auszuwählen, wenn noch keine Mandantenkonten erstellt wurden.
+
+
+
+ a| 
+Ausgewählte Mandanten zulassen
+ a| 
+Nur die ausgewählten Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+
+
+ a| 
+Ausgewählte Mandanten blockieren
+ a| 
+Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff auf ihre Buckets verwenden. Alle anderen Mandanten können diesen Endpunkt verwenden.
+
+|===
+. Für den Schritt *Zertifikat anhängen* eine der folgenden Optionen auswählen:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Zertifikat generieren
+ a| 
+Mit dieser Option kann ein selbstsigniertes Zertifikat generiert werden. Siehe link:../admin/configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] für Details zu den einzugebenden Informationen.
+
+
+
+ a| 
+StorageGRID S3-Zertifikat verwenden
+ a| 
+Diese Option ist nur verfügbar, wenn Sie bereits eine benutzerdefinierte Version des StorageGRID globalen Zertifikats hochgeladen oder generiert haben. Siehe link:../admin/configuring-custom-server-certificate-for-storage-node.html["S3 API-Zertifikate konfigurieren"] für Details.
+
+|===
+. Wählen Sie *Create*.
+
+
+
+NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.

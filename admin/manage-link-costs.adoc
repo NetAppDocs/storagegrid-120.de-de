@@ -1,0 +1,89 @@
+---
+permalink: admin/manage-link-costs.html 
+sidebar: sidebar 
+keywords: link cost, site latency, manage link costs, prioritize sites 
+summary: Mit Verbindungskosten lässt sich priorisieren, welcher Rechenzentrumsstandort einen angeforderten Dienst bereitstellt, wenn zwei oder mehr Rechenzentrumsstandorte vorhanden sind. Die Verbindungskosten können angepasst werden, um die Latenz zwischen den Standorten widerzuspiegeln. 
+---
+= Linkkosten in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit Verbindungskosten lässt sich priorisieren, welcher Rechenzentrumsstandort einen angeforderten Dienst bereitstellt, wenn zwei oder mehr Rechenzentrumsstandorte vorhanden sind. Die Verbindungskosten können angepasst werden, um die Latenz zwischen den Standorten widerzuspiegeln.
+
+
+
+[[what-are-link-costs]]
+== Was sind Verbindungskosten?
+
+* ${post_edited_translations.segment}
+* Die Verbindungskosten werden von der Grid Management API und der Tenant Management API verwendet, um zu bestimmen, welche internen StorageGRID-Services genutzt werden.
+* Die Verbindungskosten werden vom Load Balancer Service auf Admin Nodes und Gateway Nodes zur Steuerung von Clientverbindungen verwendet. Siehe link:../admin/managing-load-balancing.html["Überlegungen zum Lastausgleich"].
+
+
+${post_edited_translations.segment}
+
+image:link_costs.gif["Konzeptdiagramm für Verbindungskosten zwischen Rechenzentren"]
+
+* Der Load Balancer Service auf Admin-Knoten und Gateway-Knoten verteilt Client-Verbindungen gleichmäßig auf alle Storage Nodes am selben Rechenzentrumsstandort und auf beliebige Rechenzentrumsstandorte mit Verbindungskosten von 0.
++
+In diesem Beispiel verteilt ein Gateway Node am Rechenzentrumsstandort 1 (DC1) Clientverbindungen gleichmäßig auf die Storage Nodes in DC1 und auf die Storage Nodes in DC2. Ein Gateway Node in DC3 sendet Clientverbindungen nur an die Storage Nodes in DC3.
+
+* Beim Abrufen eines Objekts, das in mehreren replizierten Kopien existiert, ruft StorageGRID die Kopie im Rechenzentrum mit den niedrigsten Verbindungskosten ab.
++
+Wenn in diesem Beispiel eine Clientanwendung in DC2 ein Objekt abruft, das sowohl in DC1 als auch in DC3 gespeichert ist, wird das Objekt von DC1 abgerufen, da die Verbindungskosten von DC1 nach DC2 0 betragen, was niedriger ist als die Verbindungskosten von DC3 nach DC2 (25).
+
+
+
+Linkkosten sind willkürliche relative Zahlen ohne spezifische Maßeinheit. Beispielsweise wird ein Linkkostenwert von 50 weniger bevorzugt verwendet als ein Wert von 25. Die Tabelle zeigt gängige Linkkosten.
+
+[cols="1a,1a,2a"]
+|===
+| Link | Verbindungskosten | Hinweise 
+
+
+ a| 
+Zwischen physischen Rechenzentrumsstandorten
+ a| 
+25 (Standardwert)
+ a| 
+Rechenzentren, die über eine WAN-Verbindung verbunden sind.
+
+
+
+ a| 
+Zwischen logischen Daten Rechenzentrumsstandorten am selben physischen Standort
+ a| 
+0
+ a| 
+Logische Rechenzentren im selben physischen Gebäude oder Campus, verbunden durch ein LAN.
+
+|===
+
+
+[[update-link-costs]]
+== ${post_edited_translations.segment}
+
+Sie können die Verbindungskosten zwischen den Rechenzentrumsstandorten aktualisieren, um die Latenz zwischen den Standorten widerzuspiegeln.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:admin-group-permissions.html["Weitere Berechtigungen für die Grid-Konfiguration"].
+
+
+.Schritte
+. *Support* > *Sonstige* > *Linkkosten* auswählen.
++
+image:configuring_link_costs.png["Linkkosten"]
+
+. Wählen Sie unter *Link Source* eine Site aus und geben Sie unter *Link Destination* einen Kostenwert zwischen 0 und 100 ein.
++
+Die Linkkosten können nicht geändert werden, wenn Quelle und Ziel identisch sind.
+
++
+Um Änderungen zu verwerfen, image:nms_revert.gif["Rückgängig-Symbol"]*Revert* auswählen.
+
+. *Änderungen anwenden* auswählen.
+

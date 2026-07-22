@@ -1,0 +1,87 @@
+---
+permalink: admin/increasing-metadata-reserved-space-setting.html 
+sidebar: sidebar 
+keywords: increase metadata reserved space setting 
+summary: Möglicherweise kann die Systemeinstellung „Metadata Reserved Space“ erhöht werden, wenn die Storage Nodes bestimmte Anforderungen an RAM und verfügbaren Speicherplatz erfüllen. 
+---
+= Erhöhen Sie die Einstellung „Metadata Reserved Space“ in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Möglicherweise kann die Systemeinstellung „Metadata Reserved Space“ erhöht werden, wenn die Storage Nodes bestimmte Anforderungen an RAM und verfügbaren Speicherplatz erfüllen.
+
+.Was Sie benötigen
+* Sie sind beim Grid Manager mit einem link:web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung oder die Berechtigung für andere Grid-Konfigurationen"].
+
+
+.Über diese Aufgabe
+${post_edited_translations.segment}
+
+Sie können den Wert der systemweiten Einstellung „Reservierter Metadatenspeicher“ nur dann erhöhen, wenn beide folgenden Aussagen zutreffen:
+
+* Die Storage Nodes an jedem Standort Ihres Systems verfügen jeweils über mindestens 128 GB RAM.
+* Die Storage Nodes an jedem Standort in Ihrem System verfügen jeweils über ausreichend verfügbaren Speicherplatz auf Storage Volume 0.
+
+
+Beachten Sie, dass eine Erhöhung dieser Einstellung gleichzeitig den für die Objektspeicherung auf Speichervolumen 0 aller Storage Nodes verfügbaren Speicherplatz verringert. Aus diesem Grund kann es sinnvoll sein, den Metadata Reserved Space basierend auf Ihren erwarteten Anforderungen an Objektmetadaten auf einen Wert unter 8 TB festzulegen.
+
+
+NOTE: Im Allgemeinen ist es besser, einen höheren Wert anstelle eines niedrigeren Werts zu verwenden. Wenn die Einstellung „Metadata Reserved Space“ zu groß ist, können Sie diese später verringern. Wenn Sie den Wert hingegen später erhöhen, muss das System unter Umständen Objektdaten verschieben, um Speicherplatz freizugeben.
+
+Eine detaillierte Erklärung dazu, wie sich die Einstellung „Reservierter Metadatenspeicherplatz“ auf den für die Speicherung von Objektmetadaten auf einem bestimmten Storage Node zulässigen Speicherplatz auswirkt, siehe link:managing-object-metadata-storage.html["Objekt-Metadaten-Speicher verwalten"].
+
+.Schritte
+. Die aktuelle Einstellung für den reservierten Metadatenbereich feststellen.
++
+.. ${post_edited_translations.segment}
+.. Der Wert von *Reservierter Metadatenbereich* ist zu beachten.
+
+
+. Stellen Sie sicher, dass auf Speichervolume 0 jedes Storage Node genügend verfügbarer Speicherplatz vorhanden ist, um diesen Wert zu erhöhen.
++
+.. Wählen Sie *Knoten*.
+.. Wählen Sie den ersten Storage Node im Grid aus.
+.. Die Registerkarte „Storage“ auswählen.
+.. Im Abschnitt Volumes befindet sich der Eintrag */var/local/rangedb/0*.
+.. Bestätigen Sie, dass der verfügbare Wert gleich oder größer ist als die Differenz zwischen dem neuen Wert, den Sie verwenden möchten, und dem aktuellen Wert des reservierten Metadatenspeichers.
++
+${post_edited_translations.segment}
+
+.. Wiederholen Sie diese Schritte für alle Storage Nodes.
++
+*** Wenn auf einem oder mehreren Storage Nodes nicht genügend Speicherplatz verfügbar ist, kann der Wert für den Metadata Reserved Space nicht erhöht werden. Mit diesem Verfahren sollte nicht fortgefahren werden.
+*** Wenn auf jedem Storage Node genügend Speicherplatz auf Volume 0 verfügbar ist, kann mit dem nächsten Schritt fortgefahren werden.
+
+
+
+
+. Auf jedem Storage Node sollten mindestens 128 GB RAM vorhanden sein.
++
+.. Wählen Sie *Knoten*.
+.. Wählen Sie den ersten Storage Node im Grid aus.
+.. Die Registerkarte *Hardware* auswählen.
+.. Bewegen Sie den Mauszeiger über das Diagramm zur Speichernutzung. Sichergestellt ist, dass der *Gesamtspeicher* mindestens 128 GB beträgt.
+.. Wiederholen Sie diese Schritte für alle Storage Nodes.
++
+*** Wenn auf einem oder mehreren Storage Nodes nicht genügend Gesamtspeicher verfügbar ist, kann der Wert für den reservierten Metadatenspeicherplatz nicht erhöht werden. Mit diesem Verfahren sollte nicht fortgefahren werden.
+*** Wenn jeder Storage Node über mindestens 128 GB Gesamtspeicher verfügt, gehen Sie zum nächsten Schritt.
+
+
+
+
+. Die Einstellung „Reservierter Metadatenbereich“ wird aktualisiert.
++
+.. ${post_edited_translations.segment}
+.. *Reservierter Metadatenbereich* auswählen.
+.. Geben Sie den neuen Wert ein.
++
+Beispielsweise entspricht die Eingabe von 8 TB, dem maximal unterstützten Wert, der Eingabe von *8000000000000* (8, gefolgt von 12 Nullen)
+
+.. *Speichern* auswählen.
+
+
+

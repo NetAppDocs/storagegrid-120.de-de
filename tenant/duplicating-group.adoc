@@ -1,0 +1,40 @@
+---
+permalink: tenant/duplicating-group.html 
+sidebar: sidebar 
+keywords: how to duplicate tenant group 
+summary: Neue Gruppen können schneller erstellt werden, indem eine bestehende Gruppe dupliziert wird. 
+---
+= Eine StorageGRID Mandantengruppe duplizieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Neue Gruppen können schneller erstellt werden, indem eine bestehende Gruppe dupliziert wird.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören einer Benutzergruppe an, die über die Root-Zugriffsberechtigung verfügt. Siehe link:tenant-management-permissions.html["Berechtigungen zur Mieterverwaltung"].
+
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Aktivieren Sie das Kontrollkästchen für die Gruppe, die dupliziert werden soll.
+. *Gruppe duplizieren* auswählen. Weitere Details zum Erstellen einer Gruppe sind in den Anweisungen zum Erstellen von Gruppen für link:creating-groups-for-s3-tenant.html["ein S3 Mandant"] zu finden.
+. Die Registerkarte *Lokale Gruppe* ermöglicht das Erstellen einer lokalen Gruppe, während über die Registerkarte *Verbundgruppe* eine Gruppe aus der zuvor konfigurierten Identitätsquelle importiert werden kann.
++
+Wenn Single Sign-On (SSO) für Ihr StorageGRID System aktiviert ist, können sich Benutzer, die lokalen Gruppen angehören, nicht beim Tenant Manager anmelden, obwohl sie Clientanwendungen verwenden können, um die Ressourcen des Tenants zu verwalten, basierend auf link:tenant-management-permissions.html["Gruppenberechtigungen"].
+
+. Den Namen der Gruppe eingeben.
++
+** *Lokale Gruppe*: Sowohl ein Anzeigename als auch ein eindeutiger Name sind einzugeben. Der Anzeigename kann später bearbeitet werden.
+** *Verbundgruppe*: Geben Sie den eindeutigen Namen ein. Für Active Directory ist der eindeutige Name der Name, der mit dem  `sAMAccountName` Attribut verknüpft ist. Für OpenLDAP ist der eindeutige Name der Name, der mit dem  `uid` Attribut verknüpft ist.
+
+
+. Wählen Sie *Weiter*.
+. Bei Bedarf können die Berechtigungen für diese Gruppe angepasst werden.
+. Wählen Sie *Weiter*.
+. Bei Bedarf kann beim Duplizieren einer Gruppe für einen S3-Mandanten optional über die Optionsfelder *S3-Richtlinie hinzufügen* eine andere Richtlinie ausgewählt werden. Wenn eine benutzerdefinierte Richtlinie ausgewählt wurde, ist die JSON-Zeichenfolge entsprechend zu aktualisieren.
+. ${post_edited_translations.segment}
+

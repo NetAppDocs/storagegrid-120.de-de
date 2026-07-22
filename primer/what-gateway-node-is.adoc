@@ -1,0 +1,64 @@
+---
+permalink: primer/what-gateway-node-is.html 
+sidebar: sidebar 
+keywords: StorageGRID, gateway nodes, api gateway 
+summary: Gateway Nodes bieten eine dedizierte Load-Balancing-Schnittstelle, die S3-Clientanwendungen für die Verbindung zu StorageGRID verwenden können. Load Balancing maximiert Geschwindigkeit und Verbindungskapazität, indem die Arbeitslast auf mehrere Storage Nodes verteilt wird. Gateway Nodes sind optional. 
+---
+= Was ist ein StorageGRID Gateway Node?
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Gateway Nodes bieten eine dedizierte Load-Balancing-Schnittstelle, die S3-Clientanwendungen für die Verbindung zu StorageGRID verwenden können. Load Balancing maximiert Geschwindigkeit und Verbindungskapazität, indem die Arbeitslast auf mehrere Storage Nodes verteilt wird. Gateway Nodes sind optional.
+
+Der StorageGRID Load Balancer Service ist auf allen Admin Nodes und allen Gateway Nodes verfügbar. Er übernimmt die Transport Layer Security (TLS) Terminierung von Client-Anfragen, prüft diese und stellt neue sichere Verbindungen zu den Storage Nodes her. Der Load Balancer Service leitet Clients nahtlos zu einem optimalen Storage Node weiter, sodass der Ausfall von Nodes oder sogar eines gesamten Standorts transparent bleibt.
+
+Ein oder mehrere Load Balancer-Endpunkte werden konfiguriert, um den Port und das Netzwerkprotokoll (HTTPS oder HTTP) festzulegen, die eingehende und ausgehende Clientanfragen für den Zugriff auf die Load Balancer-Services auf Gateway- und Admin-Knoten verwenden. Der Load Balancer-Endpunkt definiert außerdem den Clienttyp (S3), den Bindungsmodus und optional eine Liste zulässiger oder gesperrter Mandanten. Siehe link:../admin/managing-load-balancing.html["Überlegungen zum Lastausgleich"].
+
+Bei Bedarf lassen sich die Netzwerkschnittstellen mehrerer Gateway Nodes und Admin Nodes zu einer Hochverfügbarkeitsgruppe (HA-Gruppe) zusammenfassen. Fällt die aktive Schnittstelle in der HA-Gruppe aus, kann eine Backup-Schnittstelle die Client-Anwendungs-Workload verwalten. Siehe link:../admin/managing-high-availability-groups.html["Hochverfügbarkeitsgruppen (HA) verwalten"].
+
+
+
+[[primary-services-for-gateway-nodes]]
+== Primäre Dienste für Gateway-Knoten
+
+Die folgende Tabelle zeigt die primären Dienste für Gateway-Knoten; jedoch sind nicht alle Knotendienste in dieser Tabelle aufgeführt.
+
+[cols="1a,2a"]
+|===
+| Service | Schlüsselfunktion 
+
+
+ a| 
+Cache Service
+ a| 
+Verwaltet einen lokalen Cache von Objektinhalten.
+
+
+
+ a| 
+Hochverfügbarkeit
+ a| 
+Verwaltet hochverfügbare virtuelle IP-Adressen für Gruppen von Admin-Nodes und Gateway-Nodes.
+
+*Hinweis:* Dieser Dienst ist auch auf Admin Nodes verfügbar.
+
+
+
+ a| 
+Lastverteiler
+ a| 
+Bietet Layer 7-Lastverteilung für den S3-Datenverkehr von Clients zu Storage Nodes. Dies ist der empfohlene Lastverteilungsmechanismus.
+
+*Hinweis:* Dieser Dienst ist auch auf Admin Nodes verfügbar.
+
+
+
+ a| 
+Server Status Monitor (SSM)
+ a| 
+Überwacht das Betriebssystem und die zugrunde liegende Hardware.
+
+|===

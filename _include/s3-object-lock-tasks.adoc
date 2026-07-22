@@ -1,0 +1,38 @@
+= 
+:allow-uri-read: 
+
+
+Die folgenden Listen für Grid-Administratoren und Mandantenbenutzer enthalten die wichtigsten Aufgaben zur Verwendung der S3 Object Lock Funktion.
+
+Grid Administrator::
++
+--
+* Globale S3-Objektsperreinstellung für das gesamte StorageGRID System aktivieren.
+* Stellen Sie sicher, dass die Richtlinien für das Informationslebenszyklusmanagement (ILM) _konform_ sind; das heißt, dass sie die link:../ilm/managing-objects-with-s3-object-lock.html["Anforderungen von Buckets mit aktiviertem S3 Object Lock"] erfüllen.
+* Gegebenenfalls kann ein Mandant Compliance als Aufbewahrungsmodus verwenden. Andernfalls ist nur Governance als Modus zulässig.
+* Bei Bedarf kann eine maximale Aufbewahrungsdauer für einen Mandanten festgelegt werden.
+
+
+--
+Mandantenbenutzer::
++
+--
+* Hinweise zu Buckets und Objekten mit S3 Object Lock.
+* Gegebenenfalls den Grid-Administrator kontaktieren, damit die globale S3 Object Lock-Einstellung aktiviert und die Berechtigungen festgelegt werden.
+* Buckets mit aktivierter S3-Objektsperre erstellen.
+* Optional lassen sich die Standard-Aufbewahrungseinstellungen für einen Bucket konfigurieren:
++
+** Standardmäßiger Aufbewahrungsmodus: Governance oder Compliance, sofern vom Grid-Administrator zugelassen.
+** Standardmäßige Aufbewahrungsfrist: Muss kleiner oder gleich der vom Grid-Administrator festgelegten maximalen Aufbewahrungsfrist sein.
+
+
+* Verwenden Sie die S3-Clientanwendung, um Objekte hinzuzufügen und optional objektspezifische Aufbewahrungsfristen festzulegen:
++
+** Aufbewahrungsmodus. Governance oder Compliance, sofern vom Grid-Administrator zugelassen.
+** Aufbewahrungsdatum: Muss kürzer oder gleich der vom Grid-Administrator festgelegten maximalen Aufbewahrungsfrist sein.
+
+
+
+
+--
+

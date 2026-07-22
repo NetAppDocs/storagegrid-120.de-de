@@ -1,0 +1,38 @@
+---
+permalink: admin/manage-external-ssh-access.html 
+sidebar: sidebar 
+keywords: security, external, ssh, access 
+summary: Der SSH-Schutz lässt sich verwalten, indem externer SSH-Zugriff blockiert oder zugelassen wird. 
+---
+= Externen SSH-Zugriff in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der SSH-Zugriff für eingehenden Datenverkehr in das Grid kann durch Blockieren oder Zulassen des externen Zugriffs verwaltet werden. Die Verwaltung des externen SSH-Zugriffs hat keine Auswirkungen auf den Datenverkehr zwischen den Knoten im Grid.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+
+
+.Über diese Aufgabe
+Zur Erhöhung der Systemsicherheit ist der externe SSH-Zugriff standardmäßig blockiert. Wenn Aufgaben ausgeführt werden müssen, die einen eingehenden SSH-Zugriff erfordern, wie etwa zur Fehlerbehebung, sollte der externe Zugriff vorübergehend erlaubt werden. Nach Abschluss der Aufgabe ist der externe Zugriff wieder zu blockieren.
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* auswählen.
+. Die Registerkarte *SSH blockieren* auswählen.
+. Die Option *Eingehenden SSH-Zugriff blockieren* dient zur Verwaltung des externen SSH-Zugriffs:
++
+.. Das Kontrollkästchen zum Blockieren des Zugriffs (Standardeinstellung) auswählen.
+.. Deaktivieren Sie das Kontrollkästchen, um den Zugriff zu erlauben.
++
+
+NOTE: Erfordert Zugriff auf Port 22 zwischen dem Service-Laptop und allen anderen Grid-Knoten. Der Zugriff auf Port 22 sollte nach Abschluss der Wartungsaufgabe entfernt werden.
+
+
+
+. *Speichern* auswählen.
+

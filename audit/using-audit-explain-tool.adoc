@@ -1,0 +1,98 @@
+---
+permalink: audit/using-audit-explain-tool.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, tool, audit-explain, audit explain, translate audit messages, translate messages, translate audit message, translate message 
+summary: Mit dem Tool „audit-explain“ lassen sich die Audit-Meldungen im Revisionsprotokoll in ein leicht lesbares Format übersetzen. 
+---
+= Verwenden Sie das Tool „audit-explain“, um StorageGRID Revisionsprotokollmeldungen zu übersetzen.
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das  `audit-explain`Tool kann verwendet werden, um die Audit-Meldungen im Revisionsprotokoll in ein leicht lesbares Format zu übersetzen.
+
+.Bevor Sie beginnen
+* Du hast link:../admin/admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie müssen über die Datei  `Passwords.txt` verfügen.
+* Sie müssen die IP-Adresse des primären Admin-Node kennen.
+
+
+.Über diese Aufgabe
+Das  `audit-explain`Tool, das auf dem primären Admin-Node verfügbar ist, bietet vereinfachte Zusammenfassungen der Audit-Meldungen in einem Revisionsprotokoll.
+
+
+NOTE: Das  `audit-explain` Tool ist primär für den Einsatz durch den technischen Support bei der Fehlerbehebung vorgesehen. Die Verarbeitung von  `audit-explain` Abfragen kann viel CPU-Leistung beanspruchen, was StorageGRID Vorgänge beeinträchtigen kann.
+
+Dieses Beispiel zeigt die typische Ausgabe des  `audit-explain` Tools. Diese vier link:sput-s3-put.html["${post_edited_translations.segment}"] Revisionsprotokollmeldungen wurden generiert, als der S3-Tenant mit der Konto-ID 92484777680322627870 S3 PUT-Anfragen verwendete, um einen Bucket mit dem Namen „bucket1“ zu erstellen und diesem Bucket drei Objekte hinzuzufügen.
+
+[listing]
+----
+SPUT S3 PUT bucket bucket1 account:92484777680322627870 usec:124673
+SPUT S3 PUT object bucket1/part1.txt tenant:92484777680322627870  cbid:9DCB157394F99FE5 usec:101485
+SPUT S3 PUT object bucket1/part2.txt tenant:92484777680322627870  cbid:3CFBB07AB3D32CA9 usec:102804
+SPUT S3 PUT object bucket1/part3.txt tenant:92484777680322627870  cbid:5373D73831ECC743 usec:93874
+----
+Das  `audit-explain`Tool kann Folgendes ausführen:
+
+* Einfache oder komprimierte Revisionsprotokolle werden verarbeitet. Beispielsweise:
++
+`audit-explain audit.log`
+
++
+`audit-explain 2019-08-12.txt.gz`
+
+* Mehrere Dateien gleichzeitig verarbeiten. Zum Beispiel:
++
+`audit-explain audit.log 2019-08-12.txt.gz 2019-08-13.txt.gz`
+
++
+`audit-explain /var/local/audit/export/*`
+
+* Eingaben aus einer Pipe akzeptieren, was das Filtern und Vorverarbeiten der Eingabe mithilfe des  `grep` Befehls oder anderer Methoden ermöglicht. Beispielsweise:
++
+`grep SPUT audit.log | audit-explain`
+
++
+`grep bucket-name audit.log | audit-explain`
+
+
+
+Da Revisionsprotokolle sehr groß sein und langsam analysiert werden können, lässt sich Zeit sparen, indem Sie die Teile herausfiltern, die Sie sich ansehen möchten, und  `audit-explain` auf diese Teile anwenden, anstatt auf die gesamte Datei.
+
+[NOTE]
+====
+Das  `audit-explain` Tool akzeptiert keine komprimierten Dateien als Eingabe über eine Pipe. Um komprimierte Dateien zu verarbeiten, können deren Dateinamen als Befehlszeilenargumente angegeben oder das  `zcat` Tool verwendet werden, um die Dateien zuerst zu dekomprimieren. Beispielsweise:
+
+`zcat audit.log.gz | audit-explain`
+
+====
+Die  `help (-h)` Option zeigt die verfügbaren Optionen an. Zum Beispiel:
+
+`$ audit-explain -h`
+
+.Schritte
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Geben Sie den folgenden Befehl ein, wobei  `/var/local/audit/export/audit.log` den Namen und den Speicherort der Datei oder Dateien bezeichnet, die Sie analysieren möchten:
++
+`$ audit-explain /var/local/audit/export/audit.log`
+
++
+Das  `audit-explain` Tool gibt für Menschen lesbare Interpretationen aller Meldungen in der/den angegebenen Datei(en) aus.
+
++
+
+NOTE: Um die Zeilenlänge zu reduzieren und die Lesbarkeit zu verbessern, werden Zeitstempel standardmäßig nicht angezeigt. Wenn die Zeitstempel angezeigt werden sollen, kann die Option (`-t`timestamp verwendet werden.
+
+

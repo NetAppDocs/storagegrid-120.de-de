@@ -1,0 +1,134 @@
+---
+permalink: audit/mgau-management-audit-message.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, MGAU, Management audit message 
+summary: Die Kategorie „Management“ protokolliert Benutzeranfragen an die Management-API. Jede Anfrage, die keine GET- oder HEAD-Anfrage an die API ist, protokolliert eine Antwort mit dem Benutzernamen, der IP-Adresse und dem Anfragetyp an die API. 
+---
+= MGAU-Revisionsprotokollmeldung für Management-API-Anfragen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Kategorie „Management“ protokolliert Benutzeranfragen an die Management-API. Jede HTTP-Anfrage, die keine GET- oder HEAD-Anfrage an eine gültige API-URI ist, protokolliert eine Antwort mit Benutzername, IP und Anfragetyp an die API. Ungültige API-URIs (wie /api/v3-authorize) und ungültige Anfragen an gültige API-URIs werden nicht protokolliert.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+MDIP
+ a| 
+Ziel-IP-Adresse
+ a| 
+Die IP-Adresse des Servers (Ziel).
+
+
+
+ a| 
+MDNA
+ a| 
+Domainname
+ a| 
+Der Host-Domänenname.
+
+
+
+ a| 
+MPAT
+ a| 
+Anfragepfad
+ a| 
+Der Anfragepfad.
+
+
+
+ a| 
+MPQP
+ a| 
+Abfrageparameter für Anfragen
+ a| 
+Die Abfrageparameter für die Anfrage.
+
+
+
+ a| 
+MRBD
+ a| 
+Anfragekörper
+ a| 
+Der Inhalt des Anfragetextes. Während der Antworttext standardmäßig protokolliert wird, wird der Anfragetext in bestimmten Fällen protokolliert, wenn der Antworttext leer ist. Da die folgenden Informationen im Antworttext nicht verfügbar sind, werden sie für die folgenden POST-Methoden aus dem Anfragetext entnommen:
+
+* Benutzername und Konto-ID in *POST authorize*
+* Neue Subnetzkonfiguration in *POST /grid/grid-networks/update*
+* Neue NTP Server in *POST /grid/ntp-servers/update*
+* Außer Betrieb genommene Server-IDs in *POST /grid/servers/decommission*
+
+
+*Hinweis:* Sensible Informationen werden entweder gelöscht (zum Beispiel ein S3 access key) oder mit Sternchen maskiert (zum Beispiel ein Passwort).
+
+
+
+ a| 
+MRMD
+ a| 
+Anfragemethode
+ a| 
+Die HTTP-Anfragemethode:
+
+* POST
+* PUT
+* LÖSCHEN
+* PATCH
+
+
+
+
+ a| 
+MRSC
+ a| 
+Antwortcode
+ a| 
+Der Antwortcode.
+
+
+
+ a| 
+MRSP
+ a| 
+Antworttext
+ a| 
+Der Inhalt der Antwort (der Antworttext) wird standardmäßig protokolliert.
+
+*Hinweis:* Sensible Informationen werden entweder gelöscht (zum Beispiel ein S3 access key) oder mit Sternchen maskiert (zum Beispiel ein Passwort).
+
+
+
+ a| 
+MSIP
+ a| 
+Quell-IP-Adresse
+ a| 
+Die Client-IP-Adresse (Quell-IP-Adresse).
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+Benutzer-URN
+ a| 
+Der URN (Uniform Resource Name) des Benutzers, der die Anfrage gesendet hat.
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Gibt erfolgreich (SUCS) oder den vom Backend gemeldeten Fehler zurück.
+
+|===

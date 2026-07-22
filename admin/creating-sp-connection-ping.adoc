@@ -1,0 +1,237 @@
+---
+permalink: admin/creating-sp-connection-ping.html 
+sidebar: sidebar 
+keywords: service provider, sp connection, pingfederate, ping, single sign on, sso 
+summary: 'Sie verwenden PingFederate, um eine SP-Verbindung (Service Provider) für jeden Admin-Node in Ihrem System zu erstellen. Zur Beschleunigung des Vorgangs werden die SAML-Metadaten aus StorageGRID importiert.' 
+---
+= Erstellen Sie Dienstanbieterverbindungen in PingFederate für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie verwenden PingFederate, um eine SP-Verbindung (Service Provider) für jeden Admin-Node in Ihrem System zu erstellen. Um den Vorgang zu beschleunigen, werden die SAML-Metadaten aus StorageGRID importiert.
+
+.Bevor Sie beginnen
+* Sie haben Single Sign-On für StorageGRID konfiguriert und *Ping Federate* als SSO-Typ ausgewählt.
+* Sie haben link:../admin/configure-sso.html#enter-sandbox-mode["Sandbox-Modus wurde aktiviert"] im Grid Manager.
+* Sie verfügen über die *SP-Verbindungskennung* für jeden Admin Node in Ihrem System. Sie finden diese Werte in der Detailtabelle der Admin Nodes auf der Seite „Configure SSO“.
+* Sie haben die *SAML-Metadaten* für jeden Admin Node in Ihrem System heruntergeladen.
+* Sie haben Erfahrung in der Erstellung von SP Verbindungen im PingFederate Server.
+* Sie haben die https://docs.pingidentity.com/pingfederate/latest/administrators_reference_guide/pf_administrators_reference_guide.html["Administrator-Referenzhandbuch"^] für den PingFederate Server. Die PingFederate Dokumentation enthält detaillierte Schritt-für-Schritt-Anleitungen und Erklärungen.
+* Sie haben die link:../admin/admin-group-permissions.html["Administratorberechtigung"] für den PingFederate Server.
+
+
+.Über diese Aufgabe
+Diese Anleitung fasst zusammen, wie der PingFederate Server Version 10.3 als SSO-Anbieter für StorageGRID konfiguriert wird. Wenn eine andere Version von PingFederate verwendet wird, müssen diese Anweisungen möglicherweise angepasst werden. In der PingFederate Server-Dokumentation finden Sie ausführliche Anweisungen für Ihre Version.
+
+
+
+[[complete-prerequisites-in-pingfederate]]
+== Voraussetzungen in PingFederate abschließen
+
+Bevor Sie die SP Verbindungen für StorageGRID erstellen können, müssen Sie die erforderlichen Voraufgaben in PingFederate abschließen. Informationen aus diesen Voraufgaben werden bei der Konfiguration der SP Verbindungen verwendet.
+
+
+
+[[create-data-storedata-store]]
+=== Datenspeicher erstellen[[data-store]]
+
+Falls noch nicht geschehen, einen Datenspeicher erstellen, um PingFederate mit dem AD FS LDAP-Server zu verbinden. Die Werte verwenden, die beim link:../admin/using-identity-federation.html["Konfiguration der Identitätsföderation"] in StorageGRID verwendet wurden.
+
+* *Typ*: Verzeichnis (LDAP)
+* *LDAP-Typ*: Active Directory
+* *Name des Binärattributs*: *objectGUID* ist auf der Registerkarte LDAP-Binärattribute exakt wie angegeben einzugeben.
+
+
+
+
+[[create-password-credential-validatorpassword-validator]]
+=== Passwort-Anmeldeinformationsvalidator erstellen[[password-validator]]
+
+Falls noch nicht geschehen, einen Passwort-Anmeldeinformationsprüfer erstellen.
+
+* *Typ*: LDAP-Benutzername Passwort Credential Validator
+* *Datenspeicher*: Der von Ihnen erstellte Datenspeicher wird ausgewählt.
+* *Suchbasis*: Informationen aus LDAP eingeben (z. B. DC=saml,DC=sgws).
+* *Suchfilter*: sAMAccountName=${username}
+* *Gültigkeitsbereich*: Teilbaum
+
+
+
+
+[[create-idp-adapter-instanceadapter-instance]]
+=== IdP Adapterinstanz erstellen[[adapter-instance]]
+
+Falls noch nicht geschehen, eine IdP-Adapterinstanz erstellen.
+
+.Schritte
+. Wechseln Sie zu *Authentifizierung* > *Integration* > *IdP Adapter*.
+. *Neue Instanz erstellen* auswählen.
+. Auf der Registerkarte „Typ“ ist *HTML Form IdP Adapter* auszuwählen.
+. Auf der Registerkarte „IdP-Adapter“ die Option *Neue Zeile zu 'Credential Validators' hinzufügen* auswählen.
+. Wählen Sie die <<password-validator,Passwort-Anmeldeinformationsprüfer>> aus, die Sie erstellt haben.
+. Auf der Registerkarte Adapterattribute ist das Attribut *username* für *Pseudonym* auszuwählen.
+. *Speichern* auswählen.
+
+
+
+
+[[create-or-import-signing-certificatesigning-certificate]]
+=== Signaturzertifikat erstellen oder importieren[[signing-certificate]]
+
+Falls noch nicht geschehen, das Signaturzertifikat erstellen oder importieren.
+
+.Schritte
+. Wechseln Sie zu *Sicherheit* > *Signatur- und Entschlüsselungsschlüssel & Zertifikate*.
+. Das Signaturzertifikat wird erstellt oder importiert.
+
+
+
+
+[[create-an-sp-connection-in-pingfederate]]
+== Eine SP Verbindung in PingFederate erstellen
+
+Wenn eine SP-Verbindung in PingFederate erstellt wird, wird die SAML-Metadaten-Datei importiert, die zuvor von StorageGRID für den Admin-Node heruntergeladen wurde. Die Metadatendatei enthält viele der benötigten spezifischen Werte.
+
+
+TIP: Sie müssen für jeden Admin-Knoten in Ihrem StorageGRID-System eine SP-Verbindung erstellen, damit sich Benutzer sicher an jedem Knoten an- und abmelden können. Diese Anweisungen dienen dazu, die erste SP-Verbindung zu erstellen. Anschließend zu <<Zusätzliche SP Verbindungen erstellen>> können alle weiteren benötigten Verbindungen erstellt werden.
+
+
+
+[[choose-sp-connection-type]]
+=== SP Verbindungstyp auswählen
+
+.Schritte
+. Wechseln Sie zu *Anwendungen* > *Integration* > *SP Connections*.
+. *Verbindung erstellen* auswählen.
+. *Für diese Verbindung keine Vorlage verwenden* auswählen.
+. *Browser SSO Profiles* und *SAML 2.0* als Protokoll auswählen.
+
+
+
+
+[[import-sp-metadata]]
+=== SP Metadaten importieren
+
+.Schritte
+. Auf der Registerkarte „Metadaten importieren“ wird *Datei* ausgewählt.
+. Wählen Sie die SAML-Metadatendatei aus, die Sie von der Seite „SSO konfigurieren“ für den Admin Node heruntergeladen haben.
+. Die Metadatenübersicht und die Informationen auf der Registerkarte „Allgemeine Informationen“ werden angezeigt.
++
+Die Partner-Entitäts-ID und der Verbindungsname sind auf die StorageGRID SP Verbindung-ID festgelegt. (zum Beispiel 10.96.105.200-DC1-ADM1-105-200). Die Basis-URL ist die IP des StorageGRID Admin Node.
+
+. *Weiter* auswählen.
+
+
+
+
+[[configure-idp-browser-sso]]
+=== IdP Browser-SSO konfigurieren
+
+.Schritte
+. Auf der Registerkarte „Browser SSO“ die Option „Browser SSO konfigurieren“ auswählen.
+. Auf der Registerkarte SAML-Profile die Optionen *SP-initiiertes SSO*, *SP-initiales SLO*, *IdP-initiiertes SSO* und *IdP-initiiertes SLO* auswählen.
+. *Weiter* auswählen.
+. Auf der Registerkarte „Assertion Lifetime“ werden keine Änderungen vorgenommen.
+. Auf der Registerkarte „Assertion Creation“ die Option *Assertion Creation konfigurieren* auswählen.
++
+.. Auf der Registerkarte „Identitätszuordnung“ wird *Standard* ausgewählt.
+.. Auf der Registerkarte „Attributvertrag“ wird *SAML_SUBJECT* als Attributvertrag und das importierte, nicht spezifizierte Namensformat verwendet.
+
+
+. Wählen Sie unter „Vertrag verlängern“ die Option *Löschen*, um das  `urn:oid` zu entfernen, das nicht verwendet wird.
+
+
+
+
+[[map-adapter-instance]]
+=== Adapterinstanz zuordnen
+
+.Schritte
+. Auf der Registerkarte „Zuordnung der Authentifizierungsquelle“ die Option *Neue Adapterinstanz zuordnen* auswählen.
+. Auf der Registerkarte „Adapterinstanz“ die von Ihnen erstellte <<adapter-instance,Adapterinstanz>> Instanz auswählen.
+. Auf der Registerkarte „Mapping-Methode“ ist *Zusätzliche Attribute aus einem Datenspeicher abrufen* auszuwählen.
+. Auf der Registerkarte „Attributquelle & Benutzersuche“ *Attributquelle hinzufügen* auswählen.
+. Geben Sie auf der Registerkarte „Datenspeicher“ eine Beschreibung an und wählen Sie die <<data-store,Datenspeicher>> aus, die Sie hinzugefügt haben.
+. Auf der Registerkarte „LDAP-Verzeichnissuche“:
++
+** Geben Sie den *Basis-DN* ein, der exakt mit dem Wert übereinstimmen muss, den Sie in StorageGRID für den LDAP-Server eingegeben haben.
+** Für den Suchbereich *Unterbaum* auswählen.
+** Für die Root-Objektklasse nach einem der folgenden Attribute suchen und entweder *objectGUID* oder *userPrincipalName* hinzufügen.
+
+
+. Auf der Registerkarte LDAP Binary Attribute Encoding Types ist für das Attribut *objectGUID* der Typ *Base64* auszuwählen.
+. Auf der Registerkarte LDAP-Filter *sAMAccountName=${username}* eingeben.
+. Auf der Registerkarte „Attributvertragserfüllung“ im Dropdown-Menü „Quelle“ *LDAP (Attribut)* auswählen und im Dropdown-Menü „Wert“ entweder *objectGUID* oder *userPrincipalName* auswählen.
+. Die Attributquelle wird überprüft und anschließend gespeichert.
+. Auf der Registerkarte „Failsave-Attributquelle“ die Option *SSO-Transaktion abbrechen* auswählen.
+. Die Zusammenfassung kann überprüft und *Fertig* ausgewählt werden.
+. *Fertig* auswählen.
+
+
+
+
+[[configure-protocol-settings]]
+=== Protokolleinstellungen konfigurieren
+
+.Schritte
+. Auf der Registerkarte *SP Connection* > *Browser SSO* > *Protocol Settings* ist *Configure Protocol Settings* auszuwählen.
+. Auf der Registerkarte „Assertion Consumer Service URL“ die Standardwerte übernehmen, die aus den StorageGRID SAML-Metadaten importiert wurden (*POST* für Binding und  `/api/saml-response` für Endpoint URL).
+. Auf der Registerkarte SLO Service URLs die Standardwerte übernehmen, die aus den StorageGRID SAML-Metadaten importiert wurden (*REDIRECT* für Binding und  `/api/saml-logout` für Endpoint URL).
+. Auf der Registerkarte „Zulässige SAML-Bindungen“ sind *ARTIFACT* und *SOAP* zu deaktivieren. Nur *POST* und *REDIRECT* sind erforderlich.
+. Auf der Registerkarte „Signaturrichtlinie“ bleiben die Kontrollkästchen *Authn-Anfragen müssen signiert werden* und *Assertion immer signieren* ausgewählt.
+. Auf der Registerkarte „Verschlüsselungsrichtlinie“ ist *Keine* auszuwählen.
+. Die Zusammenfassung kann überprüft und mit *Fertig* die Protokolleinstellungen gespeichert werden.
+. Die Zusammenfassung kann überprüft und mit *Fertig* die Browser SSO-Einstellungen gespeichert werden.
+
+
+
+
+[[configure-credentials]]
+=== Anmeldeinformationen konfigurieren
+
+.Schritte
+. Wählen Sie auf der Registerkarte SP Connection die Option *Anmeldeinformationen*.
+. Auf der Registerkarte „Anmeldeinformationen“ die Option *Anmeldeinformationen konfigurieren* auswählen.
+. Wählen Sie die <<signing-certificate,Unterzeichnungszertifikat>> aus, die Sie erstellt oder importiert haben.
+. *Weiter* auswählen, um zu *Einstellungen für die Signaturprüfung verwalten* zu gelangen.
++
+.. Auf der Registerkarte „Vertrauensmodell“ die Option „Nicht verankert“ auswählen.
+.. Auf der Registerkarte „Signaturverifizierungszertifikat“ werden die Informationen zum Signaturzertifikat angezeigt, die aus den StorageGRID SAML-Metadaten importiert wurden.
+
+
+. Die Zusammenfassungsbildschirme werden überprüft und mit *Speichern* wird die SP Verbindung gespeichert.
+
+
+
+
+[[create-additional-sp-connections]]
+=== Zusätzliche SP Verbindungen erstellen
+
+Sie können die erste SP-Verbindung kopieren, um die SP-Verbindungen zu erstellen, die Sie für jeden Admin-Knoten in Ihrem Grid benötigen. Für jede Kopie werden neue Metadaten hochgeladen.
+
+
+NOTE: Die SP Verbindungen für verschiedene Admin-Knoten verwenden identische Einstellungen, mit Ausnahme der Partner Entity ID, der Base URL, der Connection ID, des Connection Name, der Signature Verification und der SLO Response URL.
+
+.Schritte
+. Wählen Sie *Aktion* > *Kopieren*, um eine Kopie der ursprünglichen SP-Verbindung für jeden zusätzlichen Admin-Knoten zu erstellen.
+. Geben Sie die Verbindungs-ID und den Verbindungsnamen für die Kopie ein und wählen Sie *Speichern*.
+. Wählen Sie die Metadatendatei aus, die dem Admin-Node entspricht:
++
+.. *Aktion* > *Mit Metadaten aktualisieren* auswählen.
+.. *Datei auswählen* auswählen und die Metadaten hochladen.
+.. *Weiter* auswählen.
+.. *Speichern* auswählen.
+
+
+. Der Fehler aufgrund des ungenutzten Attributs wird behoben:
++
+.. Die neue Verbindung auswählen.
+.. *Browser SSO konfigurieren > Assertionserstellung konfigurieren > Attributvertrag* auswählen.
+.. Löschen Sie den Eintrag für *urn:oid*.
+.. *Speichern* auswählen.
+
+
+

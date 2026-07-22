@@ -1,0 +1,54 @@
+---
+permalink: audit/client-read-audit-messages.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, messages, client read, S3SL, SGET, SHEA, WGET, WHEA, S3 
+summary: Client-Lese-Auditmeldungen werden protokolliert, wenn eine S3-Clientanwendung eine Anfrage zum Abrufen eines Objekts stellt. 
+---
+= Audit-Meldungen für Client-Lesevorgänge in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Client-Lese-Auditmeldungen werden protokolliert, wenn eine S3-Clientanwendung eine Anfrage zum Abrufen eines Objekts stellt.
+
+[cols="1a,3a,1a,1a"]
+|===
+| Code | Beschreibung | Wird verwendet von | Siehe 
+
+
+ a| 
+S3SL
+ a| 
+S3 Select-Anfrage: Protokolliert den Abschluss einer S3 Select-Anfrage, die an den Client zurückgesendet wurde. Die S3SL-Nachricht kann Details zu Fehlermeldung und Fehlercode enthalten. Die Anfrage war möglicherweise nicht erfolgreich.
+ a| 
+S3 Client
+ a| 
+link:s3-select-request.html["S3SL: S3 Select Anfrage"]
+
+
+
+ a| 
+SGET
+ a| 
+S3 GET: Protokolliert eine erfolgreiche Transaktion zum Abrufen eines Objekts oder zum Auflisten der Objekte in einem Bucket.
+
+*Hinweis:* Wenn die Transaktion auf einer Unterressource ausgeführt wird, enthält die Prüfmeldung das Feld S3SR.
+ a| 
+S3 Client
+ a| 
+link:sget-s3-get.html["SGET: S3 GET"]
+
+
+
+ a| 
+SHEA
+ a| 
+S3 HEAD: Protokolliert eine erfolgreiche Transaktion, um die Existenz eines Objekts oder Buckets zu überprüfen.
+ a| 
+S3 Client
+ a| 
+link:shea-s3-head.html["SHEA: S3 HEAD"]
+
+|===

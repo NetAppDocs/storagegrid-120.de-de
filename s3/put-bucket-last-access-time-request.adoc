@@ -1,0 +1,51 @@
+---
+permalink: s3/put-bucket-last-access-time-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, put bucket last access time request 
+summary: Die PUT Bucket Last Access Time-Anfrage ermöglicht es Ihnen, die Aktualisierung des letzten Zugriffszeitpunkts für einzelne Buckets zu aktivieren oder zu deaktivieren. 
+---
+= Aktivieren und Deaktivieren von Aktualisierungen der letzten Zugriffszeit in StorageGRID mit der PUT Bucket last access time-Anfrage
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die PUT Bucket Last Access Time-Anfrage ermöglicht das Aktivieren oder Deaktivieren der Aktualisierung der letzten Zugriffszeit für einzelne Buckets. Das Deaktivieren der Aktualisierung der letzten Zugriffszeit verbessert die Performance und ist die Standardeinstellung für alle Buckets, die mit Version 10.3.0 oder höher erstellt wurden.
+
+Sie müssen über die Berechtigung s3:PutBucketLastAccessTime für einen Bucket verfügen oder Kontoinhaber (Root) sein, um diesen Vorgang abzuschließen.
+
+
+NOTE: Ab StorageGRID Version 10.3 sind Aktualisierungen der letzten Zugriffszeit für alle neuen Buckets standardmäßig deaktiviert. Wenn Sie Buckets besitzen, die mit einer früheren Version von StorageGRID erstellt wurden und das neue Standardverhalten übernehmen möchten, müssen Sie die Aktualisierungen der letzten Zugriffszeit für jeden dieser älteren Buckets explizit deaktivieren. Aktualisierungen der letzten Zugriffszeit können mit der PUT Bucket last access time-Anfrage oder auf der Detailseite eines Buckets im Tenant Manager aktiviert oder deaktiviert werden. Siehe link:../tenant/enabling-or-disabling-last-access-time-updates.html["Aktualisierungen der letzten Zugriffszeit aktivieren oder deaktivieren"].
+
+Wenn die Aktualisierung der letzten Zugriffszeit für einen Bucket deaktiviert ist, gilt bei Operationen am Bucket das folgende Verhalten:
+
+* GetObject, GetObjectAcl, GetObjectTagging und HeadObject-Anfragen aktualisieren die letzte Zugriffszeit nicht. Das Objekt wird nicht zu den Warteschlangen für die Information Lifecycle Management (ILM)-Auswertung hinzugefügt.
+* CopyObject und PutObjectTagging-Anfragen, die nur die Metadaten aktualisieren, aktualisieren auch die letzte Zugriffszeit. Das Objekt wird zur ILM-Auswertung in die Warteschlangen aufgenommen.
+* Wenn die Aktualisierung der letzten Zugriffszeit für den Quell-Bucket deaktiviert ist, werden durch CopyObject-Anfragen die letzte Zugriffszeit für den Quell-Bucket nicht aktualisiert. Das kopierte Objekt wird nicht zur ILM-Auswertung in die Warteschlangen des Quell-Buckets aufgenommen. Für das Ziel hingegen wird durch CopyObject-Anfragen die letzte Zugriffszeit immer aktualisiert. Die Kopie des Objekts wird zur ILM-Auswertung in die Warteschlangen aufgenommen.
+* CompleteMultipartUpload-Anfragen aktualisieren die letzte Zugriffszeit. Das abgeschlossene Objekt wird zur ILM-Auswertung in die Warteschlangen aufgenommen.
+
+
+
+
+[[request-examples]]
+== Anforderungsbeispiele
+
+Dieses Beispiel aktiviert die letzte Zugriffszeit für einen Bucket.
+
+[listing, subs="specialcharacters,quotes"]
+----
+PUT /bucket?x-ntap-sg-lastaccesstime=enabled HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----
+Dieses Beispiel deaktiviert die letzte Zugriffszeit für einen Bucket.
+
+[listing, subs="specialcharacters,quotes"]
+----
+PUT /bucket?x-ntap-sg-lastaccesstime=disabled HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----

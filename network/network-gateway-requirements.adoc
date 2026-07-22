@@ -1,0 +1,19 @@
+---
+permalink: network/network-gateway-requirements.html 
+sidebar: sidebar 
+keywords: network gateway requirements 
+summary: Diese Anforderungen und Richtlinien für Netzwerk-Gateways oder Router sind zu berücksichtigen. 
+---
+= Netzwerk-Gateway-Anforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Anforderungen und Richtlinien für Netzwerk-Gateways oder Router sind zu berücksichtigen.
+
+* Falls festgelegt, muss sich das Gateway für ein bestimmtes Netzwerk innerhalb des jeweiligen Subnetzes befinden.
+* Wenn Sie eine Schnittstelle mit statischer Adressierung konfigurieren, muss eine andere Gateway-Adresse als 0.0.0.0 angegeben werden.
+* Wenn kein Gateway vorhanden ist, gilt es als Best Practice, die Gateway-Adresse auf die IP-Adresse der Netzwerkschnittstelle zu setzen.
+

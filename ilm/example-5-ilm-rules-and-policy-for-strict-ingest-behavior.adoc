@@ -1,0 +1,169 @@
+---
+permalink: ilm/example-5-ilm-rules-and-policy-for-strict-ingest-behavior.html 
+sidebar: sidebar 
+keywords: strict ingest example, example ILM rule, information lifecycle rule examples 
+summary: Ein Standortfilter und das Strict-Ingest-Verhalten in einer Regel ermöglichen es, zu verhindern, dass Objekte an einem bestimmten Rechenzentrumsstandort gespeichert werden. 
+---
+= ILM rules und Richtlinien für Strict ingest behavior in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Ein Standortfilter und das Strict-Ingest-Verhalten in einer Regel ermöglichen es, zu verhindern, dass Objekte an einem bestimmten Rechenzentrumsstandort gespeichert werden.
+
+In diesem Beispiel möchte ein in Paris ansässiger Mieter aufgrund regulatorischer Bedenken bestimmte Objekte nicht außerhalb der EU speichern. Andere Objekte, einschließlich aller Objekte aus anderen Mieterkonten, können entweder im Pariser Rechenzentrum oder im US-amerikanischen Rechenzentrum gespeichert werden.
+
+
+CAUTION: Die folgenden ILM-Regeln und Richtlinien sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie empfiehlt es sich, diese zu simulieren, um zu bestätigen, dass sie wie beabsichtigt funktioniert und Inhalte vor Verlust schützt.
+
+.Verwandte Informationen
+* link:data-protection-options-for-ingest.html["Aufnahmeoptionen"]
+* link:create-ilm-rule-select-ingest-behavior.html["ILM-Regel erstellen: Aufnahmeverhalten auswählen"]
+
+
+
+
+[[ilm-rule-1-for-example-5-strict-ingest-to-guarantee-paris-data-center]]
+== ILM-Regel 1 für Beispiel 5: Strikte Datenaufnahme zur Gewährleistung des Pariser Rechenzentrums
+
+Dieses Beispiel einer ILM-Regel verwendet das strikte Aufnahmeverhalten, um zu gewährleisten, dass Objekte, die von einem in Paris ansässigen Mandanten in S3-Buckets mit der Region eu-west-3 Region (Paris) gespeichert werden, niemals im US-Rechenzentrum gespeichert werden.
+
+Diese Regel gilt für Objekte, die zum Mandanten Paris gehören und deren S3-Bucket-Region auf eu-west-3 (Paris) gesetzt ist.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Mandantenkonto
+ a| 
+Paris-Mandant
+
+
+
+ a| 
+Erweiterter Filter
+ a| 
+Standortbeschränkung entspricht eu-west-3
+
+
+
+ a| 
+Storage Pools
+ a| 
+Standort 1 (Paris)
+
+
+
+ a| 
+Regelname
+ a| 
+Strenge Datenaufnahme zur Gewährleistung des Paris Rechenzentrums
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Platzierungen
+ a| 
+Am Tag 0 bleiben zwei replizierte Kopien dauerhaft in Standort 1 (Paris) erhalten.
+
+
+
+ a| 
+Ingest-Verhalten
+ a| 
+Streng. Die Platzierungen dieser Regel werden beim Import immer verwendet. Der Import schlägt fehl, wenn es nicht möglich ist, zwei Kopien des Objekts im Pariser Rechenzentrum zu speichern.
+
+|===
+image:ilm_rule_1_example_5_strict_ingest.png["ILM Rule 1 Beispiel 5 Strikte Datenerfassung"]
+
+
+
+[[ilm-rule-2-for-example-5-balanced-ingest-for-other-objects]]
+== ILM-Regel 2 für Beispiel 5: Ausgewogene Datenerfassung für andere Objekte
+
+Diese Beispiel-ILM-Regel nutzt das ausgewogene Aufnahmeverhalten, um eine optimale ILM-Effizienz für alle Objekte zu bieten, die nicht von der ersten Regel erfasst werden. Von allen Objekten, die dieser Regel entsprechen, werden zwei Kopien gespeichert, eine im US-Rechenzentrum und eine im Pariser Rechenzentrum. Kann die Regel nicht sofort erfüllt werden, werden Zwischenkopien an einem beliebigen verfügbaren Standort gespeichert.
+
+Diese Regel gilt für Objekte, die zu einem beliebigen Mandanten und einer beliebigen Region gehören.
+
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Mandantenkonto
+ a| 
+Ignorieren
+
+
+
+ a| 
+Erweiterter Filter
+ a| 
+_Nicht angegeben_
+
+
+
+ a| 
+Storage Pools
+ a| 
+Standort 1 (Paris) und Standort 2 (US)
+
+
+
+ a| 
+Regelname
+ a| 
+2 Kopien 2 Rechenzentren
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Platzierungen
+ a| 
+Am Tag 0 bleiben zwei replizierte Kopien dauerhaft in zwei Rechenzentren erhalten.
+
+
+
+ a| 
+Ingest-Verhalten
+ a| 
+Ausgewogen. Objekte, die dieser Regel entsprechen, werden nach Möglichkeit gemäß den Platzierungsanweisungen der Regel platziert. Andernfalls werden Zwischenkopien an beliebigen verfügbaren Orten erstellt.
+
+|===
+
+
+[[ilm-policy-for-example-5-combining-ingest-behaviors]]
+== ILM-Richtlinie für Beispiel 5: Kombinieren von Aufnahmeverhalten
+
+Die Beispiel-ILM-Richtlinie enthält zwei Regeln mit unterschiedlichem Aufnahmeverhalten.
+
+Eine ILM-Richtlinie, die zwei unterschiedliche Aufnahmeverhaltensweisen verwendet, könnte ILM-Regeln wie die folgenden enthalten:
+
+* Objekte, die zum Mandanten „Paris“ gehören und deren S3-Bucket-Region auf „eu-west-3“ (Paris) festgelegt ist, werden ausschließlich im Rechenzentrum Paris gespeichert. Die Datenaufnahme schlägt fehl, wenn das Rechenzentrum Paris nicht verfügbar ist.
+* Alle übrigen Objekte (einschließlich derer, die zum Paris-Mandanten gehören, aber einer anderen Bucket-Region zugeordnet sind), sowohl im US-Rechenzentrum als auch im Paris-Rechenzentrum speichern. Zwischenkopien können an jedem verfügbaren Standort erstellt werden, falls die Platzierungsanweisung nicht erfüllt werden kann.
+
+
+Beim Simulieren der Beispielrichtlinie ist zu erwarten, dass Testobjekte wie folgt ausgewertet werden:
+
+* Alle Objekte, die zum Mandanten Paris gehören und deren S3-Bucket-Region auf eu-west-3 gesetzt ist, werden von der ersten Regel erfasst und im Pariser Rechenzentrum gespeichert. Da die erste Regel Strict ingest verwendet, werden diese Objekte niemals im US-Rechenzentrum gespeichert. Wenn die Storage Nodes im Pariser Rechenzentrum nicht verfügbar sind, schlägt die Aufnahme fehl.
+* Alle übrigen Objekte werden durch die zweite Regel abgeglichen, einschließlich der Objekte, die zum Mandanten Paris gehören und deren S3-Bucket-Region nicht auf eu-west-3 festgelegt ist. Von jedem Objekt wird in jedem Rechenzentrum eine Kopie gespeichert. Da die zweite Regel jedoch Balanced ingest verwendet, werden bei Ausfall eines Rechenzentrums zwei temporäre Kopien an einem beliebigen verfügbaren Standort gespeichert.
+

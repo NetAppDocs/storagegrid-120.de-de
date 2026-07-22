@@ -1,0 +1,114 @@
+---
+permalink: audit/gtsu-grid-task-submitted.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, GTSU, Grid Task Submitted 
+summary: ${post_edited_translations.segment} 
+---
+= GTSU-Revisionsprotokollmeldung für übermittelte Grid-Aufgaben in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+${post_edited_translations.segment}
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+TSID
+ a| 
+Aufgaben-ID
+ a| 
+Identifiziert eine generierte Grid-Aufgabe eindeutig und ermöglicht die Verwaltung der Aufgabe über ihren Lebenszyklus.
+
+*Hinweis:* Die Aufgaben-ID wird zum Zeitpunkt der Erstellung einer Grid-Aufgabe vergeben, nicht zum Zeitpunkt der Übermittlung. Es ist möglich, dass eine bestimmte Grid-Aufgabe mehrfach übermittelt wird. In diesem Fall reicht das Aufgaben-ID-Feld nicht aus, um die Audit-Meldungen „Übermittelt“, „Gestartet“ und „Beendet“ eindeutig zu verknüpfen.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+TVER
+ a| 
+Aufgabenversion
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+TDSC
+ a| 
+Aufgabenbeschreibung
+ a| 
+Eine für Menschen lesbare Beschreibung der Grid-Aufgabe.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+Gültig ab Zeitstempel
+ a| 
+Der früheste Zeitpunkt (UINT64 Mikrosekunden ab dem 1. Januar 1970 - UNIX-Zeit), zu dem die Grid-Aufgabe gültig ist.
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+ a| 
+Der späteste Zeitpunkt (UINT64 Mikrosekunden seit dem 1. Januar 1970 - UNIX-Zeit), zu dem die Grid-Aufgabe gültig ist.
+
+
+
+ a| 
+TSRC
+ a| 
+Quelle
+ a| 
+${post_edited_translations.segment}
+
+* TXTB: Die Grid-Aufgabe wurde über das StorageGRID System als signierter Textblock übermittelt.
+* GRID: Die Grid-Aufgabe wurde über den internen Grid Task Submission Service übermittelt.
+
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+ a| 
+Die Art der Aktivierung:
+
+* ${post_edited_translations.segment}
+* PEND: Die Grid-Task wurde in die Pending-Tabelle aufgenommen. Dies ist die einzige Möglichkeit für die TXTB-Quelle.
+
+
+
+
+ a| 
+RSLT
+ a| 
+Ergebnis
+ a| 
+Das Ergebnis der Einreichung:
+
+* SUCS: Die Grid-Aufgabe wurde erfolgreich übermittelt.
+* ${post_edited_translations.segment}
+
+
+|===

@@ -1,0 +1,49 @@
+---
+permalink: maintain/gathering-required-materials-node-decom.html 
+sidebar: sidebar 
+keywords: storagegrid, node decommission, decommission 
+summary: Vor der Stilllegung eines Grid-Node müssen die folgenden Informationen eingeholt werden. 
+---
+= Sammeln Sie die benötigten Materialien für die Stilllegung des StorageGRID-Knotens
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Vor der Stilllegung eines Grid-Node müssen die folgenden Informationen eingeholt werden.
+
+[cols="1a,2a"]
+|===
+| Artikel | Hinweise 
+
+
+ a| 
+Wiederherstellungspaket `.zip`-Datei
+ a| 
+Sie müssen link:downloading-recovery-package.html["das neueste Wiederherstellungspaket herunterladen"] `.zip` Datei (`sgws-recovery-package-_id-revision_.zip`). Die Wiederherstellungspaketdatei kann zur Wiederherstellung des Systems im Fehlerfall verwendet werden.
+
+
+
+ a| 
+`Passwords.txt` Datei
+ a| 
+Diese Datei enthält die Passwörter, die für den Zugriff auf Grid-Knoten über die Befehlszeile erforderlich sind, und ist im Wiederherstellungspaket enthalten.
+
+
+
+ a| 
+Bereitstellungspassphrase
+ a| 
+Die Passphrase wird bei der Erstinstallation des StorageGRID-Systems erstellt und dokumentiert. Die Bereitstellungspassphrase ist nicht in der  `Passwords.txt` Datei.
+
+
+
+ a| 
+Beschreibung der Topologie des StorageGRID-Systems vor der Stilllegung
+ a| 
+Falls verfügbar, sollte jegliche Dokumentation beschafft werden, die die aktuelle Topologie des Systems beschreibt.
+
+|===
+.Verwandte Informationen
+link:../admin/web-browser-requirements.html["Anforderungen an Webbrowser"]

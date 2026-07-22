@@ -1,0 +1,31 @@
+---
+permalink: audit/syst-node-stopping.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SYST, Node Stopping 
+summary: 'Wird ein Dienst ordnungsgemäß beendet, wird diese Meldung generiert, um anzuzeigen, dass die Beendigung angefordert wurde und der Dienst seine Beendigungssequenz eingeleitet hat. Mit SYST kann festgestellt werden, ob die Beendigung angefordert wurde, bevor der Dienst neu gestartet wird (im Gegensatz zu SYSD, das typischerweise nach dem Neustart des Dienstes gesendet wird).' 
+---
+= SYST-Revisionsprotokollmeldung für das Anhalten eines Knotens in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wird ein Dienst ordnungsgemäß beendet, wird diese Meldung generiert, um anzuzeigen, dass die Beendigung angefordert wurde und der Dienst seine Beendigungssequenz eingeleitet hat. Mit SYST kann festgestellt werden, ob die Beendigung angefordert wurde, bevor der Dienst neu gestartet wird (im Gegensatz zu SYSD, das typischerweise nach dem Neustart des Dienstes gesendet wird).
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+RSLT
+ a| 
+Sauberes Herunterfahren
+ a| 
+Art der Abschaltung:
+
+SUCS: Das System wurde ordnungsgemäß heruntergefahren.
+
+|===
+Die Meldung gibt nicht an, ob der Hostserver gestoppt wird, sondern nur den meldenden Dienst. Der RSLT-Code einer SYST-Meldung kann kein „unsauberes“ Herunterfahren anzeigen, da die Meldung nur bei „sauberen“ Herunterfahren generiert wird.

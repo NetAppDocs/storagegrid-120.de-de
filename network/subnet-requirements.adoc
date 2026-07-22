@@ -1,0 +1,50 @@
+---
+permalink: network/subnet-requirements.html 
+sidebar: sidebar 
+keywords: network subnets 
+summary: Diese Anforderungen und Richtlinien für Netzwerk-Subnetze sind zu beachten. 
+---
+= Subnetzanforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese Anforderungen und Richtlinien für Netzwerk-Subnetze sind zu beachten.
+
+
+NOTE: Jedes Netzwerk muss mit einem eigenen Subnetz verbunden sein, das sich mit keinem anderen Netzwerk auf dem Knoten überschneidet.
+
+Die folgenden Einschränkungen werden vom Grid Manager während der Bereitstellung durchgesetzt. Sie sind hier zur Unterstützung der Netzwerkplanung vor der Bereitstellung aufgeführt.
+
+* Die Subnetzmaske für eine Netzwerk-IP-Adresse darf nicht 255.255.255.254 oder 255.255.255.255 (/31 oder /32 in CIDR-Notation) sein.
+* Das durch eine Netzwerkschnittstellen-IP-Adresse und Subnetzmaske (CIDR) definierte Subnetz darf sich nicht mit dem Subnetz einer anderen auf demselben Knoten konfigurierten Schnittstelle überschneiden.
+* Für das Grid-Netzwerk, das Admin-Netzwerk oder das Client-Netzwerk eines beliebigen Knotens sollten keine Subnetze verwendet werden, die die folgenden IPv4-Adressen enthalten:
++
+** 192.168.130.101
+** 192.168.130.121
+** 192.168.131.101
+** 192.168.131.121
+** 192.168.130.102
+** 192.168.130.122
+** 192.168.131.102
+** 192.168.131.122
+** 198.51.100.2
+** 198.51.100.4
+
+
++
+Beispielsweise sollten die folgenden Subnetzbereiche nicht für das Grid Network, das Admin Network oder das Client Network eines beliebigen Knotens verwendet werden:
+
++
+** 192.168.130.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.130.101 und 192.168.130.102 enthält
+** 192.168.131.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.131.101 und 192.168.131.102 enthält
+** 198.51.100.0/24, da dieser Subnetzbereich die IP-Adressen 198.51.100.2 und 198.51.100.4 enthält
+
+
+* Das Grid Network Subnetz für jeden Knoten muss in die GNSL aufgenommen werden.
+* Das Admin Network-Subnetz darf sich nicht mit dem Grid Network-Subnetz, dem Client Network-Subnetz oder einem Subnetz im GNSL überschneiden.
+* Die Subnetze im AESL dürfen sich nicht mit Subnetzen im GNSL überschneiden.
+* Das Client Network-Subnetz darf sich nicht mit dem Grid Network-Subnetz, dem Admin Network-Subnetz, einem beliebigen Subnetz im GNSL oder einem beliebigen Subnetz im AESL überschneiden.
+

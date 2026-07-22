@@ -1,0 +1,26 @@
+---
+permalink: maintain/decommission-procedure.html 
+sidebar: sidebar 
+keywords: how to decommission 
+summary: Eine Stilllegungsprozedur ermöglicht die dauerhafte Entfernung von Grid-Knoten oder eines gesamten Standorts aus dem StorageGRID-System. 
+---
+= Außerbetriebnahme eines StorageGRID Knotens oder Standorts
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine Stilllegungsprozedur ermöglicht die dauerhafte Entfernung von Grid-Knoten oder eines gesamten Standorts aus dem StorageGRID-System.
+
+Um einen Grid-Knoten oder einen Standort zu entfernen, stehen die folgenden Stilllegungsverfahren zur Auswahl:
+
+* Führen Sie einen link:grid-node-decommissioning.html["Stilllegung von Grid-Node"] aus, um einen oder mehrere Knoten zu entfernen, die sich an einem oder mehreren Standorten befinden können. Die Knoten, die Sie entfernen, können online und mit dem StorageGRID System verbunden oder offline und nicht verbunden sein.
+* Führen Sie einen link:considerations-for-removing-site.html["Stilllegung des Standorts"] zum Entfernen eines Standorts durch. Eine *Deaktivierung eines verbundenen Standorts* erfolgt, wenn alle Knoten mit StorageGRID verbunden sind. Eine *Deaktivierung eines getrennten Standorts* erfolgt, wenn alle Knoten von StorageGRID getrennt sind. Wenn der Standort sowohl verbundene als auch getrennte Knoten enthält, müssen alle Offline-Knoten wieder online geschaltet werden.
++
+
+CAUTION: Bevor eine getrennte Standortstilllegung durchgeführt wird, sollte der NetApp Account Manager kontaktiert werden. NetApp prüft die Anforderungen, bevor alle Schritte im Assistenten zur Standortstilllegung aktiviert werden. Eine getrennte Standortstilllegung sollte nicht durchgeführt werden, wenn davon ausgegangen wird, dass der Standort oder Objektdaten daraus wiederhergestellt werden können.
+
+
+
+Vor der Außerbetriebnahme eines Grid-Knotens muss bestätigt werden, dass keine Datenreparaturaufträge aktiv sind. Wenn Reparaturen fehlgeschlagen sind, müssen diese neu gestartet werden und ihr Abschluss muss abgewartet werden, bevor das Außerbetriebnahmeverfahren durchgeführt wird. Siehe link:../maintain/checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].

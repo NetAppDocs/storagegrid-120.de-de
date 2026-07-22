@@ -1,0 +1,46 @@
+---
+permalink: admin/configuring-storage-proxy-settings.html 
+sidebar: sidebar 
+keywords: storage proxy, non-transparent proxy, platform service endpoint 
+summary: Wenn Sie Plattformdienste oder Cloud Storage Pools verwenden, kann ein nicht-transparenter Proxy zwischen Storage Nodes und den externen S3-Endpunkten konfiguriert werden. Zum Beispiel kann ein nicht-transparenter Proxy erforderlich sein, damit Plattformdienste-Nachrichten an externe Endpunkte, wie etwa einen Endpunkt im Internet, gesendet werden können. 
+---
+= Konfigurieren Sie einen StorageGRID-Speicherproxy
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie Plattformdienste oder Cloud Storage Pools verwenden, kann ein nicht-transparenter Proxy zwischen Storage Nodes und den externen S3-Endpunkten konfiguriert werden. Zum Beispiel kann ein nicht-transparenter Proxy erforderlich sein, damit Plattformdienste-Nachrichten an externe Endpunkte, wie etwa einen Endpunkt im Internet, gesendet werden können.
+
+
+NOTE: ${post_edited_translations.segment}
+
+.Bevor Sie beginnen
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+
+
+.Über diese Aufgabe
+${post_edited_translations.segment}
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Proxy-Einstellungen* auswählen.
+. ${post_edited_translations.segment}
+. ${post_edited_translations.segment}
+. Den Hostnamen oder die IP-Adresse des Proxyserver eingeben.
+. Optional kann der Port eingegeben werden, der für die Verbindung zum Proxyserver verwendet wird.
++
+Dieses Feld bleibt leer, um den Standardport für das Protokoll zu verwenden: 80 für HTTP oder 1080 für SOCKS5.
+
+. *Speichern* auswählen.
++
+${post_edited_translations.segment}
+
++
+
+NOTE: Es kann bis zu 10 Minuten dauern, bis Proxy-Änderungen wirksam werden.
+
+. ${post_edited_translations.segment}
+. ${post_edited_translations.segment}
+

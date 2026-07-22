@@ -1,0 +1,38 @@
+---
+permalink: monitor/removing-custom-alert-rules.html 
+sidebar: sidebar 
+keywords: how to disable alert rules, how to remove a custom alert rule 
+summary: Eine benutzerdefinierte Alarmregel kann entfernt werden, falls sie nicht mehr verwendet werden soll. 
+---
+= Benutzerdefinierte Alarmregeln in StorageGRID entfernen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine benutzerdefinierte Alarmregel kann entfernt werden, falls sie nicht mehr verwendet werden soll.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+
+
+.Schritte
+. *Benachrichtigungen* > *Regeln* auswählen.
++
+Die Seite „Alarmregeln“ wird angezeigt.
+
+. Das Optionsfeld für die benutzerdefinierte Alarmregel auswählen, die entfernt werden soll.
++
+Eine Standard-Warnregel kann nicht entfernt werden.
+
+. *Benutzerdefinierte Regel entfernen* auswählen.
++
+Es erscheint ein Bestätigungsdialogfeld.
+
+. *OK* auswählen, um die Warnregel zu entfernen.
++
+Alle aktiven Instanzen der Warnung werden innerhalb von 10 Minuten behoben.
+
+

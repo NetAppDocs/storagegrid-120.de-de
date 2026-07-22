@@ -1,0 +1,198 @@
+---
+permalink: admin/managing-admin-groups.html 
+sidebar: sidebar 
+keywords: what are admin groups, user permissions 
+summary: Sie können Administratorgruppen erstellen, um die Sicherheitsberechtigungen für einen oder mehrere Administratorbenutzer zu verwalten. Benutzer müssen einer Gruppe angehören, um Zugriff auf das StorageGRID System zu erhalten. 
+---
+= Administratorgruppen in StorageGRID verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Administratorgruppen erstellen, um die Sicherheitsberechtigungen für einen oder mehrere Administratorbenutzer zu verwalten. Benutzer müssen einer Gruppe angehören, um Zugriff auf das StorageGRID System zu erhalten.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Du hast link:admin-group-permissions.html["spezifische Zugriffsberechtigungen"].
+* ${post_edited_translations.segment}
+
+
+
+
+[[create-an-admin-group]]
+== ${post_edited_translations.segment}
+
+Mit Administratorgruppen kann festgelegt werden, welche Benutzer auf welche Funktionen und Vorgänge im Grid Manager und in der Grid Management API zugreifen können.
+
+
+
+[[access-the-wizard]]
+=== Assistenten aufrufen
+
+.Schritte
+. *Konfiguration* > *Zugriffskontrolle* > *Administratorgruppen* auswählen.
+. ${post_edited_translations.segment}
+
+
+
+
+[[choose-a-group-type]]
+=== Wählen Sie einen Gruppentyp
+
+Sie können eine lokale Gruppe erstellen oder eine Verbundgruppe importieren.
+
+* Eine lokale Gruppe kann erstellt werden, wenn Berechtigungen lokalen Benutzern zugewiesen werden sollen.
+* ${post_edited_translations.segment}
+
+
+[role="tabbed-block"]
+====
+.${post_edited_translations.segment}
+--
+.Schritte
+. ${post_edited_translations.segment}
+. Geben Sie einen Anzeigenamen für die Gruppe ein, den Sie später bei Bedarf aktualisieren können. Zum Beispiel „Maintenance Users“ oder „ILM Administrators“.
+. Geben Sie einen eindeutigen Namen für die Gruppe ein, der später nicht mehr geändert werden kann.
+. Wählen Sie *Weiter*.
+
+
+--
+.Föderierte Gruppe
+--
+.Schritte
+. *Verbundgruppe* auswählen.
+. Geben Sie den Namen der Gruppe, die Sie importieren möchten, genau so ein, wie er in der konfigurierten Identitätsquelle erscheint.
++
+** Für Active Directory und Microsoft Entra ID ist der sAMAccountName zu verwenden.
+** ${post_edited_translations.segment}
+** ${post_edited_translations.segment}
+
+
+. Wählen Sie *Weiter*.
+
+
+--
+====
+
+
+[[manage-group-permissions]]
+=== Gruppenberechtigungen verwalten
+
+.Schritte
+. Für *Zugriffsmodus* auswählen, ob Benutzer in der Gruppe Einstellungen ändern und Vorgänge im Grid Manager und der Grid Management API durchführen können oder ob sie nur Einstellungen und Funktionen anzeigen können.
++
+** *Lese-/Schreibzugriff* (Standard): Benutzer können Einstellungen ändern und die durch ihre Verwaltungsberechtigungen erlaubten Vorgänge ausführen.
+** *Schreibgeschützt*: Benutzer können Einstellungen und Funktionen nur anzeigen. Sie können keine Änderungen vornehmen oder Vorgänge im Grid Manager oder in der Grid Management API ausführen. Lokale schreibgeschützte Benutzer können ihre eigenen Passwörter ändern.
++
+
+NOTE: Wenn ein Benutzer mehreren Gruppen angehört und eine dieser Gruppen auf *Schreibgeschützt* gesetzt ist, hat der Benutzer nur Lesezugriff auf alle ausgewählten Einstellungen und Funktionen.
+
+
+
+. Wählen Sie ein oder mehrere link:admin-group-permissions.html["Administratorgruppenberechtigungen"] aus.
++
+${post_edited_translations.segment}
+
+. Wenn Sie eine lokale Gruppe erstellen, wählen Sie *Weiter*. Wenn Sie eine Verbundgruppe erstellen, wählen Sie *Gruppe erstellen* und *Fertigstellen*.
+
+
+
+
+[[add-users-local-groups-only]]
+=== ${post_edited_translations.segment}
+
+.Schritte
+. ${post_edited_translations.segment}
++
+Wenn Sie noch keine lokalen Benutzer erstellt haben, können Sie die Gruppe speichern, ohne Benutzer hinzuzufügen. Sie können diese Gruppe dem Benutzer auf der Seite „Benutzer“ hinzufügen. Siehe link:managing-users.html["Benutzer verwalten"] für Details.
+
+. *Gruppe erstellen* und *Fertigstellen* auswählen.
+
+
+
+
+[[view-and-edit-admin-groups]]
+== ${post_edited_translations.segment}
+
+Sie können Details zu bestehenden Gruppen anzeigen, eine Gruppe bearbeiten oder eine Gruppe duplizieren.
+
+* Grundlegende Informationen zu allen Gruppen finden sich in der Tabelle auf der Seite „Gruppen“.
+* Alle Details einer bestimmten Gruppe sowie die Bearbeitung einer Gruppe sind über das Menü *Aktionen* oder die Detailseite möglich.
++
+[cols="1a, 2a,2a"]
+|===
+| Aufgabe | Aktionsmenü | Detailseite 
+
+
+ a| 
+Gruppendetails anzeigen
+ a| 
+.. Aktivieren Sie das Kontrollkästchen für die Gruppe.
+.. ${post_edited_translations.segment}
+
+ a| 
+Den Gruppennamen in der Tabelle auswählen.
+
+
+
+ a| 
+Anzeigenamen bearbeiten (nur lokale Gruppen)
+ a| 
+.. Aktivieren Sie das Kontrollkästchen für die Gruppe.
+.. *Aktionen* > *Gruppennamen bearbeiten* auswählen.
+.. Geben Sie den neuen Namen ein.
+.. Wählen Sie *Save changes*.
+
+ a| 
+.. ${post_edited_translations.segment}
+.. Das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] auswählen.
+.. Geben Sie den neuen Namen ein.
+.. Wählen Sie *Save changes*.
+
+
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+.. Aktivieren Sie das Kontrollkästchen für die Gruppe.
+.. ${post_edited_translations.segment}
+.. Optional kann der Zugriffsmodus der Gruppe geändert werden.
+.. Optional kann link:admin-group-permissions.html["Administratorgruppenberechtigungen"] ausgewählt oder abgewählt werden.
+.. Wählen Sie *Save changes*.
+
+ a| 
+.. ${post_edited_translations.segment}
+.. Optional kann der Zugriffsmodus der Gruppe geändert werden.
+.. Optional kann link:admin-group-permissions.html["Administratorgruppenberechtigungen"] ausgewählt oder abgewählt werden.
+.. Wählen Sie *Save changes*.
+
+
+|===
+
+
+
+
+[[duplicate-a-group]]
+== ${post_edited_translations.segment}
+
+.Schritte
+. Aktivieren Sie das Kontrollkästchen für die Gruppe.
+. *Aktionen* > *Gruppe duplizieren* auswählen.
+. ${post_edited_translations.segment}
+
+
+
+
+[[delete-a-group]]
+== Gruppe löschen
+
+Sie können eine Admin-Gruppe löschen, wenn Sie die Gruppe aus dem System entfernen und alle mit der Gruppe verknüpften Berechtigungen entfernen möchten. Das Löschen einer Admin-Gruppe entfernt alle Benutzer aus der Gruppe, löscht die Benutzer jedoch nicht.
+
+.Schritte
+. Auf der Seite „Gruppen“ das Kontrollkästchen für jede zu entfernende Gruppe auswählen.
+. *Aktionen* > *Gruppe löschen* auswählen.
+. *Gruppen löschen* auswählen.
+

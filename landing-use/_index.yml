@@ -1,0 +1,66 @@
+---
+indexpage:
+  title: StorageGRID Mandanten und Clients verwenden
+  summary: Nach Abschluss der Erstkonfiguration können StorageGRID-Mandantenkonten
+    Buckets erstellen und S3-Clientanwendungen verwenden, um Objekte aufzunehmen,
+    abzurufen und zu löschen.
+  keywords: use tenant, manage tenant group, manage tenant user, manage s3 access
+    key, manage s3 bucket, use tenant features, use s3 rest api
+  lead: Nach Abschluss der Erstkonfiguration können StorageGRID-Mandantenkonten Buckets
+    erstellen und S3-Clientanwendungen verwenden, um Objekte aufzunehmen, abzurufen
+    und zu löschen.
+  tiles:
+  - title: Informationen zu Mandanten
+    links:
+    - title: Was ist ein Tenant?
+      url: "../tenant/index.html"
+    - title: Anmeldung beim Tenant Manager
+      url: "../tenant/signing-in-to-tenant-manager.html"
+    - title: Mieterkonten überwachen
+      url: "../tenant/understanding-tenant-manager-dashboard.html"
+    - title: Tenant Management API verwenden
+      url: "../tenant/understanding-tenant-management-api.html"
+  - title: Mandantengruppen und Benutzer verwalten
+    links:
+    - title: Identitätsföderation verwenden
+      url: "../tenant/using-identity-federation.html"
+    - title: S3 Gruppen erstellen
+      url: "../tenant/creating-groups-for-s3-tenant.html"
+    - title: Berechtigungen zur Mieterverwaltung
+      url: "../tenant/tenant-management-permissions.html"
+    - title: Benutzer verwalten
+      url: "../tenant/manage-users.html"
+  - title: S3-Zugriffsschlüssel und Buckets verwalten
+    links:
+    - title: S3-Zugriffsschlüssel verwalten
+      url: "../tenant/managing-s3-access-keys.html"
+    - title: Buckets erstellen
+      url: "../tenant/creating-s3-bucket.html"
+    - title: Bucket-Details
+      url: "../tenant/viewing-s3-bucket-details.html"
+    - title: Bucket löschen
+      url: "../tenant/deleting-s3-bucket.html"
+  - title: Mandantenfunktionen verwenden
+    links:
+    - title: "${post_edited_translations.segment}"
+      url: "../tenant/grid-federation-account-clone.html"
+    - title: Gridübergreifende Replikation
+      url: "../tenant/grid-federation-manage-cross-grid-replication.html"
+    - title: Plattformdienste
+      url: "../tenant/considerations-for-platform-services.html"
+    - title: S3 Object Lock
+      url: "../tenant/using-s3-object-lock.html"
+  - title: S3 REST-API verwenden
+    links:
+    - title: 'Kurzübersicht: Unterstützte S3 API-Anfragen'
+      url: "../s3/quick-reference-support-for-aws-apis.html"
+    - title: Operationen an Buckets
+      url: "../s3/operations-on-buckets.html"
+    - title: Operationen an Objekten
+      url: "../s3/operations-on-objects.html"
+    - title: Zugriffsrichtlinien für Buckets und Gruppen
+      url: "../s3/use-access-policies.html"
+  - title: Swift REST API (Ende des Lebenszyklus) verwenden
+    links:
+    - title: Swift verwenden
+      url: "../swift/index.html"

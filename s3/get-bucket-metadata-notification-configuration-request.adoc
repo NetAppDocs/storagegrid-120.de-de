@@ -1,0 +1,185 @@
+---
+permalink: s3/get-bucket-metadata-notification-configuration-request.html 
+sidebar: sidebar 
+keywords: S3 REST API, S3 operations, GET bucket metadata notification configuration 
+summary: Mit der GET-Anfrage zur Konfiguration der Bucket-Metadatenbenachrichtigung kann die Konfigurations-XML abgerufen werden, die zur Konfiguration der Suchintegration für einzelne Buckets verwendet wird. 
+---
+= Konfigurieren Sie die Suchintegration in StorageGRID mit der GET Bucket-Metadatenbenachrichtigungskonfigurationsanfrage
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mit der GET-Anfrage zur Konfiguration der Bucket-Metadatenbenachrichtigung kann die Konfigurations-XML abgerufen werden, die zur Konfiguration der Suchintegration für einzelne Buckets verwendet wird.
+
+Sie müssen über die Berechtigung s3:GetBucketMetadataNotification verfügen oder Root-Benutzer sein, um diesen Vorgang abzuschließen.
+
+
+
+[[request-example]]
+== Anfragebeispiel
+
+Diese Anfrage ruft die Metadatenbenachrichtigungskonfiguration für den Bucket mit dem Namen  `bucket` ab.
+
+[listing, subs="specialcharacters,quotes"]
+----
+GET /bucket?x-ntap-sg-metadata-notification HTTP/1.1
+Date: _date_
+Authorization: _authorization string_
+Host: _host_
+----
+
+
+[[response]]
+== Antwort
+
+Der Antworttext enthält die Metadaten-Benachrichtigungskonfiguration für den Bucket. Die Metadaten-Benachrichtigungskonfiguration ermöglicht es, festzulegen, wie der Bucket für die Suchintegration konfiguriert ist. Das bedeutet, es kann bestimmt werden, welche Objekte indiziert werden und an welche Endpunkte deren Objektmetadaten gesendet werden.
+
+[listing]
+----
+<MetadataNotificationConfiguration>
+    <Rule>
+        <ID>Rule-1</ID>
+        <Status>rule-status</Status>
+        <Prefix>key-prefix</Prefix>
+        <Destination>
+           <Urn>arn:aws:es:_region:account-ID_:domain/_mydomain/myindex/mytype_</Urn>
+        </Destination>
+    </Rule>
+    <Rule>
+        <ID>Rule-2</ID>
+         ...
+    </Rule>
+     ...
+</MetadataNotificationConfiguration>
+----
+Jede Metadatenbenachrichtigungskonfiguration enthält eine oder mehrere Regeln. Jede Regel legt die Objekte fest, auf die sie angewendet wird, sowie das Ziel, an das StorageGRID die Objektmetadaten senden soll. Ziele müssen mithilfe der URN eines StorageGRID Endpunkts angegeben werden.
+
+[cols="1a,2a,1a"]
+|===
+| Name | Beschreibung | Erforderlich 
+
+
+ a| 
+MetadataNotificationConfiguration
+ a| 
+Container-Tag für Regeln, die zur Angabe der Objekte und des Ziels für Metadatenbenachrichtigungen verwendet werden.
+
+Enthält ein oder mehrere Regelelemente.
+ a| 
+Ja
+
+
+
+ a| 
+Regel
+ a| 
+Container-Tag für eine Regel, die die Objekte identifiziert, deren Metadaten zu einem bestimmten Index hinzugefügt werden sollen.
+
+Regeln mit sich überschneidenden Präfixen werden abgelehnt.
+
+Im MetadataNotificationConfiguration-Element enthalten.
+ a| 
+Ja
+
+
+
+ a| 
+ID
+ a| 
+Eindeutige Kennung für die Regel.
+
+Im Regelelement enthalten.
+ a| 
+Nein
+
+
+
+ a| 
+Status
+ a| 
+Der Status kann „Aktiviert“ oder „Deaktiviert“ sein. Für deaktivierte Regeln wird keine Aktion durchgeführt.
+
+Im Regelelement enthalten.
+ a| 
+Ja
+
+
+
+ a| 
+Präfix
+ a| 
+Objekte, die dem Präfix entsprechen, sind von der Regel betroffen und ihre Metadaten werden an das angegebene Ziel gesendet.
+
+Um alle Objekte abzugleichen, ein leeres Präfix angeben.
+
+Im Regelelement enthalten.
+ a| 
+Ja
+
+
+
+ a| 
+Ziel
+ a| 
+Container-Tag für das Ziel einer Regel.
+
+Im Regelelement enthalten.
+ a| 
+Ja
+
+
+
+ a| 
+Urne
+ a| 
+URN des Ziels, an das Objektmetadaten gesendet werden. Muss die URN eines StorageGRID Endpunkts mit den folgenden Eigenschaften sein:
+
+* `es`muss das dritte Element sein.
+* Die URN muss mit dem Index und dem Typ enden, unter dem die Metadaten gespeichert sind, in der Form  `domain-name/myindex/mytype`.
+
+
+Endpunkte werden mithilfe des Tenant Managers oder der Tenant Management API konfiguriert. Sie haben folgendes Format:
+
+* `arn:aws:es:_region:account-ID_:domain/mydomain/myindex/mytype`
+* `urn:mysite:es:::mydomain/myindex/mytype`
+
+
+Der Endpunkt muss konfiguriert sein, bevor die Konfigurations-XML übermittelt wird, sonst schlägt die Konfiguration mit einem 404-Fehler fehl.
+
+Urn ist im Element „Ziel“ enthalten.
+ a| 
+Ja
+
+|===
+
+
+[[response-example]]
+== Antwortbeispiel
+
+Der zwischen den  `<MetadataNotificationConfiguration></MetadataNotificationConfiguration>` Tags enthaltene XML-Code zeigt, wie die Integration mit einem Suchintegrationsendpunkt für den Bucket konfiguriert ist. In diesem Beispiel werden Objektmetadaten an einen Elasticsearch Index mit dem Namen  `current` und dem Typ mit dem Namen  `2017` gesendet, der in einer AWS Domäne mit dem Namen  `records` gehostet wird.
+
+[listing]
+----
+HTTP/1.1 200 OK
+Date: Thu, 20 Jul 2017 18:24:05 GMT
+Connection: KEEP-ALIVE
+Server: StorageGRID/11.0.0
+x-amz-request-id: 3832973499
+Content-Length: 264
+Content-Type: application/xml
+
+<MetadataNotificationConfiguration>
+    <Rule>
+        <ID>Rule-1</ID>
+        <Status>Enabled</Status>
+        <Prefix>2017</Prefix>
+        <Destination>
+           <Urn>arn:aws:es:us-east-1:3333333:domain/records/current/2017</Urn>
+        </Destination>
+    </Rule>
+</MetadataNotificationConfiguration>
+----
+.Verwandte Informationen
+link:../tenant/index.html["Ein Mandantenkonto verwenden"]_

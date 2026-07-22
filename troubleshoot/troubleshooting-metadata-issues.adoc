@@ -1,0 +1,62 @@
+---
+permalink: troubleshoot/troubleshooting-metadata-issues.html 
+sidebar: sidebar 
+keywords: how to troubleshoot metadata issues 
+summary: Bei Problemen mit Metadaten informieren Warnmeldungen über die Ursache der Probleme und empfohlene Maßnahmen. Insbesondere ist das Hinzufügen neuer Storage Nodes erforderlich, wenn die Warnmeldung „Low metadata storage“ ausgelöst wird. 
+---
+= Beheben von Metadatenproblemen in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei Problemen mit Metadaten informieren Warnmeldungen über die Ursache der Probleme und empfohlene Maßnahmen. Insbesondere ist das Hinzufügen neuer Storage Nodes erforderlich, wenn die Warnmeldung „Low metadata storage“ ausgelöst wird.
+
+.Bevor Sie beginnen
+Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+
+.Über diese Aufgabe
+Befolgen Sie die empfohlenen Maßnahmen für jede ausgelöste metadatenbezogene Warnung. Wenn die Warnung *Low metadata storage* ausgelöst wird, müssen neue Storage Nodes hinzugefügt werden.
+
+StorageGRID reserviert auf Volume 0 jedes Storage Node einen bestimmten Speicherplatz für Objektmetadaten. Dieser Speicherplatz, der als _tatsächlich reservierter Speicherplatz_ bezeichnet wird, ist unterteilt in den für Objektmetadaten vorgesehenen Speicherplatz (den zulässigen Metadatenspeicherplatz) und den für essentielle Datenbankoperationen wie Komprimierung und Reparatur benötigten Speicherplatz. Der zulässige Metadatenspeicherplatz bestimmt die Gesamtkapazität der Objekte.
+
+image:metadata_allowed_space_volume_0.png["Metadaten Zulässiger Speicherplatz Volume 0"]
+
+Wenn die Objektmetadaten mehr als 100 % des für Metadaten zulässigen Speicherplatzes belegen, können Datenbankoperationen nicht effizient ausgeführt werden und es treten Fehler auf.
+
+Sie können link:../monitor/monitoring-storage-capacity.html#monitor-object-metadata-capacity-for-each-storage-node["Metadatenkapazität der Objekte für jeden Storage Node überwachen"] dazu beitragen, Fehler vorherzusehen und zu korrigieren, bevor sie auftreten.
+
+StorageGRID verwendet die folgende Prometheus-Metrik, um zu messen, wie voll der zulässige Metadatenspeicherplatz ist:
+
+[listing]
+----
+storagegrid_storage_utilization_metadata_bytes/storagegrid_storage_utilization_metadata_allowed_bytes
+----
+Wenn dieser Prometheus-Ausdruck bestimmte Schwellenwerte erreicht, wird die Warnung *Low metadata storage* ausgelöst.
+
+* *Geringfügig*: Die Objektmetadaten belegen 70 % oder mehr des zulässigen Metadatenbereichs. Es wird empfohlen, so bald wie möglich neue Storage Nodes hinzuzufügen.
+* *Schwerwiegend*: Die Objektmetadaten belegen 90 % oder mehr des zulässigen Metadatenspeichers. Es ist erforderlich, umgehend neue Storage Nodes hinzuzufügen.
++
+
+CAUTION: Wenn Objektmetadaten 90 % oder mehr des zulässigen Metadatenspeichers belegen, erscheint eine Warnung im Dashboard. Falls diese Warnung erscheint, ist es erforderlich, neue Storage Nodes umgehend hinzuzufügen. Objektmetadaten dürfen niemals mehr als 100 % des zulässigen Speicherplatzes belegen.
+
+* *Kritisch*: Die Objektmetadaten belegen 100 % oder mehr des zulässigen Metadatenspeichers und beginnen, den für essentielle Datenbankoperationen benötigten Speicherplatz zu verbrauchen. Die Aufnahme neuer Objekte muss gestoppt werden, und neue Storage Nodes müssen umgehend hinzugefügt werden.
+
+
+
+CAUTION: Wenn die Größe von Volume 0 kleiner ist als die Speicheroption "Metadata Reserved Space" (zum Beispiel in einer Nicht-Produktionsumgebung), könnte die Berechnung für die Warnung *Geringer Metadatenspeicher* ungenau sein.
+
+.Schritte
+. *Benachrichtigungen* > *Aktuell* auswählen.
+. In der Warntabelle kann bei Bedarf die Warngruppe *Geringer Metadatenspeicher* erweitert und die spezifische Warnung ausgewählt werden, die angezeigt werden soll.
+. Die Details im Warndialogfeld können überprüft werden.
+. Wenn eine schwerwiegende oder kritische Warnung wegen *geringem Metadatenspeicher* ausgelöst wurde, sollte eine Erweiterung durchgeführt werden, um sofort Storage Nodes hinzuzufügen.
++
+
+NOTE: Da StorageGRID an jedem Standort vollständige Kopien aller Objektmetadaten speichert, ist die Metadatenkapazität des gesamten Grids durch die Metadatenkapazität des kleinsten Standorts begrenzt. Wenn an einem Standort zusätzliche Metadatenkapazität benötigt wird, sollte auch link:../expand/adding-grid-nodes-to-existing-site-or-adding-new-site.html["Alle anderen Websites erweitern"] um die gleiche Anzahl an Storage Nodes erweitert werden.
+
++
+Nach der Erweiterung verteilt StorageGRID die vorhandenen Objektmetadaten auf die neuen Knoten, wodurch die Gesamtkapazität des Grids für Metadaten erhöht wird. Es ist keine Benutzeraktion erforderlich. Die Warnung *Low metadata storage* wird aufgehoben.
+
+

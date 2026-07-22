@@ -1,0 +1,163 @@
+---
+permalink: admin/manage-tls-ssh-policy.html 
+sidebar: sidebar 
+keywords: TLS and SSH policy, secure connection, FIPS, Common Criteria 
+summary: Die TLS- und SSH-Richtlinie legt fest, welche Protokolle und Verschlüsselungsverfahren verwendet werden, um sichere TLS-Verbindungen mit Client-Anwendungen und sichere SSH-Verbindungen zu internen StorageGRID Diensten herzustellen. 
+---
+= Verwalten Sie die TLS- und SSH-Richtlinie in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die TLS- und SSH-Richtlinie legt fest, welche Protokolle und Verschlüsselungsverfahren verwendet werden, um sichere TLS-Verbindungen mit Client-Anwendungen und sichere SSH-Verbindungen zu internen StorageGRID Diensten herzustellen.
+
+Die Sicherheitsrichtlinie steuert, wie TLS und SSH Daten während der Übertragung verschlüsseln. Im Allgemeinen empfiehlt sich die Verwendung der Kompatibilitätsrichtlinie „Modern“ (Standard), es sei denn, das System muss Common Criteria-konform sein oder es werden andere Verschlüsselungsverfahren benötigt.
+
+
+NOTE: Einige StorageGRID Dienste wurden noch nicht aktualisiert, um die in diesen Richtlinien enthaltenen Verschlüsselungsverfahren zu verwenden.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+
+
+
+
+[[select-a-security-policy]]
+== Eine Sicherheitsrichtlinie auswählen
+
+.Schritte
+. *Konfiguration* > *Sicherheit* > *Sicherheitseinstellungen* auswählen.
++
+Die Registerkarte *TLS und SSH Richtlinien* zeigt die verfügbaren Richtlinien an. Die aktuell aktive Richtlinie ist durch ein grünes Häkchen auf der Richtlinienkachel gekennzeichnet.
+
++
+image:securitysettings_tls_ssh_policies_current.png["TLS und SSH-Richtlinien"]
+
+. In den Registerkarten finden sich Informationen zu den verfügbaren Richtlinien.
++
+[role="tabbed-block"]
+====
+.Moderne Kompatibilität (Standard)
+--
+Die Standardrichtlinie eignet sich, wenn eine starke Verschlüsselung erforderlich ist und keine besonderen Anforderungen bestehen. Diese Richtlinie ist mit den meisten TLS- und SSH-Clients kompatibel.
+
+--
+.Kompatibilität mit älteren Systemen
+--
+Die Legacy-Kompatibilitätsrichtlinie bietet zusätzliche Kompatibilitätsoptionen für ältere Clients. Die zusätzlichen Optionen in dieser Richtlinie können sie weniger sicher machen als die Modern-Kompatibilitätsrichtlinie.
+
+--
+.Gemeinsame Kriterien
+--
+Die Common Criteria-Richtlinie ist zu verwenden, wenn eine Common Criteria Zertifizierung erforderlich ist.
+
+--
+.FIPS strict
+--
+Die FIPS-Richtlinie „Streng“ ist zu verwenden, wenn eine Common Criteria Zertifizierung erforderlich ist und das NetApp Cryptographic Security Module (NCSM) 3.0.8 oder das NetApp StorageGRID Kernel Crypto API 6.1.129-1-ntap1-amd64 Modul für externe Clientverbindungen zu Load Balancer Endpunkten, Tenant Manager und Grid Manager benötigt wird. Die Verwendung dieser Richtlinie kann die Leistung verringern.
+
+Das NCSM 3.0.8 und das NetApp StorageGRID Kernel Crypto API 6.1.129-1-ntap1-amd64 Modul werden in den folgenden Operationen verwendet:
+
+** NCSM
++
+*** TLS-Verbindungen zwischen den folgenden Diensten: ADC, AMS, CMN, DDS, LDR, SSM, NMS, mgmt-api, nginx, nginx-gw und cache-svc
+*** TLS-Verbindungen zwischen Clients und dem nginx-gw Service (Load-Balancer-Endpunkte)
+*** TLS-Verbindungen zwischen Clients und dem LDR-Service
+*** Objektinhaltsverschlüsselung für SSE-S3, SSE-C und die Einstellung für die Verschlüsselung gespeicherter Objekte
+*** SSH-Verbindungen
+
+
++
+Weitere Informationen bietet das NIST Cryptographic Algorithm Validation Program link:https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/4838["Zertifikat Nr. 4838"^].
+
+** NetApp StorageGRID Kernel Crypto API Modul
++
+Das NetApp StorageGRID Kernel Crypto API Modul ist nur auf VM und StorageGRID Appliance Plattformen vorhanden.
+
++
+*** Entropiesammlung
+*** Knotenverschlüsselung
+
+
++
+Weitere Informationen bietet das NIST Cryptographic Algorithm Validation Program link:https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program/validation-search?searchMode=implementation&product=NetApp+StorageGRID+Kernel+Crypto+API&productType=-1&ipp=50["Zertifikate Nr. A6242 bis Nr. A6257"^] und link:https://csrc.nist.gov/projects/cryptographic-module-validation-program/entropy-validations/certificate/223["Entropiezertifikat Nr. E223"^].
+
+
+
+*Hinweis*: Nachdem Sie diese Richtlinie ausgewählt haben, link:../maintain/rolling-reboot-procedure.html["Einen rollierenden Neustart durchführen"] für alle Knoten, um den NCSM zu aktivieren. *Wartung* > *Rollierender Neustart* dient zum Initiieren und Überwachen von Neustarts.
+
+--
+.Benutzerdefiniert
+--
+Eine benutzerdefinierte Richtlinie ist erforderlich, wenn eigene Verschlüsselungsverfahren angewendet werden sollen.
+
+Optional, falls Ihr StorageGRID FIPS 140-Kryptografieanforderungen hat, kann die FIPS-Modus-Funktion aktiviert werden, um das NCSM 3.0.8 und das NetApp StorageGRID Kernel Crypto API 6.1.129-1-ntap1-amd64 Modul zu verwenden:
+
+.. Den  `fipsMode`Parameter auf  `true` festlegen.
+.. Wenn Sie dazu aufgefordert werden, link:../maintain/rolling-reboot-procedure.html["Einen rollierenden Neustart durchführen"] für alle Nodes die Kryptografie-Module aktivieren. *Wartung* > *Rollierender Neustart* dient zum Initiieren und Überwachen der Neustarts.
+.. *Support* > *Diagnostik* auswählen, um die aktiven FIPS-Modulversionen anzuzeigen.
+
+
+--
+====
+. Einzelheiten zu den Verschlüsselungsverfahren, Protokollen und Algorithmen der einzelnen Richtlinien sind unter *Details anzeigen* zu finden.
+. ${post_edited_translations.segment}
++
+Neben *Aktuelle Richtlinie* auf der Richtlinienkachel erscheint ein grünes Häkchen.
+
+
+
+
+
+[[create-a-custom-security-policy]]
+== ${post_edited_translations.segment}
+
+Sie können eine benutzerdefinierte Richtlinie erstellen, wenn Sie eigene Verschlüsselungsverfahren anwenden müssen.
+
+.Schritte
+. Wählen Sie in der Kachel der Richtlinie, die der von Ihnen zu erstellenden benutzerdefinierten Richtlinie am ähnlichsten ist, *Details anzeigen* aus.
+. ${post_edited_translations.segment}
++
+image:securitysettings-custom-security-policy-copy.png["${post_edited_translations.segment}"]
+
+. Im Feld *Benutzerdefinierte Richtlinie* die Option *Konfigurieren und verwenden* auswählen.
+. ${post_edited_translations.segment}
+. *Nutzungsrichtlinie* auswählen.
++
+${post_edited_translations.segment}
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[temporarily-revert-to-the-default-security-policy]]
+[[temporarily-revert-to-default-security-policy]]
+== Vorübergehend zur Standard-Sicherheitsrichtlinie zurückkehren
+
+Wenn Sie eine benutzerdefinierte Sicherheitsrichtlinie konfiguriert haben, können Sie sich möglicherweise nicht beim Grid Manager anmelden, wenn die konfigurierte TLS-Richtlinie nicht mit dem link:global-certificate-types.html["${post_edited_translations.segment}"] kompatibel ist.
+
+Sie können vorübergehend zur Standard-Sicherheitsrichtlinie zurückkehren.
+
+.Schritte
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Führen Sie den folgenden Befehl aus:
++
+`restore-default-cipher-configurations`
+
+. ${post_edited_translations.segment}
+. Führen Sie die Schritte in <<select-a-security-policy,Eine Sicherheitsrichtlinie auswählen>> aus, um die Richtlinie erneut zu konfigurieren.
+

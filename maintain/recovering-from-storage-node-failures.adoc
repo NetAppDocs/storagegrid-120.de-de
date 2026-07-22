@@ -1,0 +1,73 @@
+---
+permalink: maintain/recovering-from-storage-node-failures.html 
+sidebar: sidebar 
+keywords: recover, storage node failure, Reaper 
+summary: Das Verfahren zur Wiederherstellung eines ausgefallenen Storage Node hängt von der Art des Fehlers und dem Typ des ausgefallenen Storage Node ab. 
+---
+= Wiederherstellung nach StorageGRID Storage Node-Ausfällen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Verfahren zur Wiederherstellung eines ausgefallenen Storage Node hängt von der Art des Fehlers und dem Typ des ausgefallenen Storage Node ab.
+
+Diese Tabelle dient zur Auswahl des Wiederherstellungsverfahrens für einen ausgefallenen Storage Node.
+
+[cols="1a,1a,1a"]
+|===
+| Problem | Aktion | Hinweise 
+
+
+ a| 
+* Mehr als ein Storage Node ist ausgefallen.
+
+ a| 
+Wenden Sie sich an den technischen Support.
+ a| 
+Die Wiederherstellung von mehr als einem Storage Node kann die Integrität der Cassandra Datenbank beeinträchtigen, was zu Datenverlust führen kann.
+
+Der technische Support kann feststellen, wann es sicher ist, mit der Wiederherstellung eines zweiten Storage Node zu beginnen.
+
+*Hinweis*: Wenn an einem Standort mehr als ein Storage Node, der den ADC-Dienst enthält, ausfällt, gehen alle ausstehenden Plattformdienstanforderungen für diesen Standort verloren.
+
+
+
+ a| 
+Mehr als ein Speicherknoten an einem Standort ist ausgefallen oder der gesamte Standort ist ausgefallen.
+ a| 
+Wenden Sie sich an den technischen Support. Möglicherweise ist ein Site Recovery-Verfahren erforderlich.
+ a| 
+Der technische Support wird Ihre Situation analysieren und einen Wiederherstellungsplan entwickeln. Siehe link:how-site-recovery-is-performed-by-technical-support.html["Wie der technische Support eine Website wiederherstellt"].
+
+
+
+ a| 
+Ein Appliance Storage Node ist ausgefallen.
+ a| 
+link:recovering-storagegrid-appliance-storage-node.html["Wiederherstellung des Appliance-Speicherknotens"]
+ a| 
+Das Wiederherstellungsverfahren für Appliance Storage Nodes ist bei allen Fehlern gleich.
+
+
+
+ a| 
+Mindestens ein Storage-Volume ist ausgefallen, das Systemlaufwerk ist jedoch intakt.
+ a| 
+link:recovering-from-storage-volume-failure-where-system-drive-is-intact.html["Wiederherstellung nach einem Ausfall des Storage-Volumes, wenn das Systemlaufwerk intakt ist"]
+ a| 
+Dieses Verfahren wird für softwarebasierte Storage Nodes verwendet.
+
+
+
+ a| 
+Das Systemlaufwerk ist ausgefallen.
+ a| 
+link:reviewing-warnings-for-system-drive-recovery.html["Wiederherstellung nach einem Systemlaufwerksausfall"]
+ a| 
+Das Verfahren zum Austausch der Knoten hängt von der Bereitstellungsplattform und davon ab, ob auch Speichervolumes ausgefallen sind.
+
+|===
+
+NOTE: Einige StorageGRID-Wiederherstellungsverfahren verwenden Reaper zur Durchführung von Cassandra-Reparaturen. Reparaturen erfolgen automatisch, sobald die zugehörigen oder erforderlichen Dienste gestartet sind. In der Skriptausgabe kann ein Hinweis auf „reaper“ oder „Cassandra repair“ erscheinen. Wird eine Fehlermeldung angezeigt, die auf einen fehlgeschlagenen Reparaturvorgang hinweist, sollte der in der Fehlermeldung angegebene Befehl ausgeführt werden.

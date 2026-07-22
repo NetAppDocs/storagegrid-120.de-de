@@ -1,0 +1,67 @@
+---
+permalink: tenant/understanding-cloudmirror-replication-service.html 
+sidebar: sidebar 
+keywords: cloudmirror replication 
+summary: Sie können die CloudMirror-Replikation für einen S3-Bucket aktivieren, wenn StorageGRID bestimmte dem Bucket hinzugefügte Objekte in einen oder mehrere Ziel-Buckets repliziert. 
+---
+= Erfahren Sie mehr über den StorageGRID CloudMirror Replikationsdienst
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die CloudMirror Replikation für einen S3-Bucket aktivieren, wenn StorageGRID bestimmte dem Bucket hinzugefügte Objekte in einen oder mehrere externe Ziel-Buckets replizieren soll.
+
+Beispielsweise kann die CloudMirror-Replikation genutzt werden, um bestimmte Kundendatensätze in Amazon S3 zu spiegeln und anschließend AWS-Services für Analysen der Daten zu verwenden.
+
+
+NOTE: CloudMirror Replikation wird nicht unterstützt, wenn für den Quell-Bucket S3 Object Lock aktiviert ist.
+
+
+
+[[cloudmirror-and-ilm]]
+== CloudMirror und ILM
+
+CloudMirror-Replikation arbeitet unabhängig von den aktiven ILM-Richtlinien des Grids. Der CloudMirror-Service repliziert Objekte, sobald sie im Quell-Bucket gespeichert werden, und liefert sie so schnell wie möglich an den Ziel-Bucket aus. Die Auslieferung der replizierten Objekte erfolgt, wenn die Objektaufnahme erfolgreich ist.
+
+
+
+[[cloudmirror-and-cross-grid-replication]]
+== CloudMirror und netzübergreifende Replikation
+
+CloudMirror Replikation weist wichtige Ähnlichkeiten und Unterschiede zur cross-grid Replikationsfunktion auf. Weitere Informationen unter link:../admin/grid-federation-compare-cgr-to-cloudmirror.html["Vergleich der netzübergreifenden Replikation und der CloudMirror-Replikation"].
+
+
+
+[[cloudmirror-and-s3-buckets]]
+== CloudMirror und S3 Buckets
+
+CloudMirror Replikation wird üblicherweise so konfiguriert, dass ein externer S3-Bucket als Ziel verwendet wird. Allerdings kann die Replikation auch so konfiguriert werden, dass eine andere StorageGRID Bereitstellung oder ein beliebiger S3-kompatibler Dienst verwendet wird.
+
+Vorhandene Buckets:: Wenn Sie die CloudMirror-Replikation für einen bestehenden Bucket aktivieren, werden nur die neu hinzugefügten Objekte in diesem Bucket repliziert. Vorhandene Objekte im Bucket werden nicht repliziert. Um die Replikation vorhandener Objekte zu erzwingen, kann die Metadaten des bestehenden Objekts durch eine Objektkopie aktualisiert werden.
++
+--
+
+NOTE: Wenn Sie die CloudMirror-Replikation verwenden, um Objekte an ein Amazon S3-Ziel zu kopieren, ist zu beachten, dass Amazon S3 die Größe benutzerdefinierter Metadaten innerhalb jedes PUT-Anforderungsheaders auf 2 KB begrenzt. Wenn ein Objekt benutzerdefinierte Metadaten von mehr als 2 KB hat, wird dieses Objekt nicht repliziert.
+
+--
+Mehrere Ziel Buckets:: Um Objekte in einem einzelnen Bucket in mehrere Ziel-Buckets zu replizieren, muss das Ziel für jede Regel in der Replikationskonfigurations-XML angegeben werden. Ein Objekt kann nicht gleichzeitig in mehr als einen Bucket repliziert werden.
+Versionierte oder nicht versionierte Buckets:: Sie können die CloudMirror Replikation auf versionierten oder nicht versionierten Buckets konfigurieren. Die Ziel-Buckets können versioniert oder nicht versioniert sein. Jede Kombination von versionierten und nicht versionierten Buckets kann verwendet werden. Zum Beispiel kann ein versionierter Bucket als Ziel für einen nicht versionierten Quell-Bucket festgelegt werden oder umgekehrt. Auch eine Replikation zwischen nicht versionierten Buckets ist möglich.
+
+
+
+
+[[deletion-replication-loops-and-events]]
+== Löschung, Replikationsschleifen und Ereignisse
+
+Löschverhalten:: Das Löschverhalten entspricht dem der Amazon S3 Service Cross-Region Replication (CRR). Das Löschen eines Objekts in einem Quell-Bucket löscht niemals ein repliziertes Objekt im Ziel-Bucket. Sind sowohl Quell- als auch Ziel-Bucket versioniert, wird die Löschmarkierung repliziert. Ist der Ziel-Bucket nicht versioniert, wird beim Löschen eines Objekts im Quell-Bucket weder die Löschmarkierung in den Ziel-Bucket repliziert noch das Objekt im Ziel-Bucket gelöscht.
+Schutz vor Replikationsschleifen:: Wenn Objekte in den Ziel-Bucket repliziert werden, kennzeichnet StorageGRID sie als „Replikate“. Ein Ziel StorageGRID Bucket repliziert Objekte, die als Replikate gekennzeichnet sind, nicht erneut, wodurch versehentliche Replikationsschleifen verhindert werden. Diese Replikatmarkierung ist intern in StorageGRID und verhindert nicht die Nutzung von AWS CRR, wenn ein Amazon S3 Bucket als Ziel verwendet wird.
++
+--
+
+NOTE: Der benutzerdefinierte Header zur Kennzeichnung einer Replik ist  `x-ntap-sg-replica`. Diese Kennzeichnung verhindert eine kaskadierende Spiegelung. StorageGRID unterstützt eine bidirektionale CloudMirror zwischen zwei Grids.
+
+--
+Ereignisse im Ziel-Bucket:: Die Eindeutigkeit und Reihenfolge der Ereignisse im Ziel-Bucket sind nicht garantiert. Mehr als eine identische Kopie eines Quellobjekts kann infolge von Maßnahmen zur Sicherstellung des erfolgreichen Versands an das Ziel geliefert werden. In seltenen Fällen, wenn dasselbe Objekt gleichzeitig von zwei oder mehr verschiedenen StorageGRID Standorten aktualisiert wird, kann die Reihenfolge der Operationen im Ziel-Bucket von der Reihenfolge der Ereignisse im Quell-Bucket abweichen.
+

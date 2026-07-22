@@ -1,0 +1,27 @@
+---
+permalink: network/client-network-topology.html 
+sidebar: sidebar 
+keywords: client network topology 
+summary: 'Die Einrichtung eines Client-Netzwerks ist optional. Durch die Verwendung eines Client-Netzwerks kann der Client-Netzwerkverkehr (zum Beispiel S3) vom internen Grid-Verkehr getrennt werden, was das Grid-Netzwerk sicherer macht. Administrativer Datenverkehr kann entweder über das Client- oder das Grid-Netzwerk erfolgen, wenn das Admin-Netzwerk nicht konfiguriert ist.' 
+---
+= Client-Netzwerktopologie für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Einrichtung eines Client-Netzwerks ist optional. Durch die Verwendung eines Client-Netzwerks kann der Client-Netzwerkverkehr (zum Beispiel S3) vom internen Grid-Verkehr getrennt werden, was das Grid-Netzwerk sicherer macht. Administrativer Datenverkehr kann entweder über das Client- oder das Grid-Netzwerk erfolgen, wenn das Admin-Netzwerk nicht konfiguriert ist.
+
+Bei der Konfiguration des Client Network werden die Host-IP-Adresse, die Subnetzmaske und die Gateway-IP-Adresse für die eth2-Schnittstelle des konfigurierten Node festgelegt. Das Client Network eines jeden Node kann unabhängig vom Client Network eines anderen Node sein.
+
+Wenn während der Installation ein Clientnetzwerk für einen Knoten konfiguriert wird, wechselt das Standardgateway des Knotens nach Abschluss der Installation vom Grid Network Gateway zum Client Network Gateway. Wenn ein Clientnetzwerk später hinzugefügt wird, wechselt das Standardgateway des Knotens auf die gleiche Weise.
+
+In diesem Beispiel wird das Client Network für S3-Client-Anfragen und für administrative Funktionen verwendet, während das Grid Network für interne Objektmanagement-Operationen vorgesehen ist.
+
+image:grid_client_networks.png["Grid Client Netzwerke"]
+
+image:grid_client_networks_ips.png["Grid Client Netzwerk-IPs"]
+
+.Verwandte Informationen
+link:../maintain/changing-nodes-network-configuration.html["Netzwerkkonfiguration des Node ändern"]

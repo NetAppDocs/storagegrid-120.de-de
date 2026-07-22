@@ -1,0 +1,86 @@
+---
+permalink: tenant/understanding-tenant-management-api.html 
+sidebar: sidebar 
+keywords: how to understand tenant management api 
+summary: Sie können Systemmanagement-Aufgaben mithilfe der Tenant-Management-REST-API anstelle der Tenant Manager Benutzeroberfläche ausführen. Beispielsweise möchten Sie die API möglicherweise verwenden, um Vorgänge zu automatisieren oder mehrere Entitäten wie Benutzer schneller zu erstellen. 
+---
+= Erfahren Sie mehr über die StorageGRID Tenant Management API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können Systemmanagement-Aufgaben mithilfe der Tenant-Management-REST-API anstelle der Tenant Manager Benutzeroberfläche ausführen. Beispielsweise möchten Sie die API möglicherweise verwenden, um Vorgänge zu automatisieren oder mehrere Entitäten wie Benutzer schneller zu erstellen.
+
+Die Tenant Management API:
+
+* Verwendet die Swagger Open-Source-API-Plattform. Swagger bietet eine intuitive Benutzeroberfläche, die Entwicklern und Nicht-Entwicklern die Interaktion mit der API ermöglicht. Die Swagger Benutzeroberfläche bietet vollständige Details und Dokumentationen für jede API-Operation.
+* Verwendet link:tenant-management-api-versioning.html["Versionierung zur Unterstützung unterbrechungsfreier Upgrades"].
+
+
+${post_edited_translations.segment}
+
+. Im Tenant Manager anmelden.
+. Oben im Tenant Manager das Hilfesymbol auswählen und anschließend *API documentation* auswählen.
+
+
+
+
+[[api-operations]]
+== API Operationen
+
+${post_edited_translations.segment}
+
+* *Konto*: Operationen am aktuellen Mandantenkonto, einschließlich Abruf von Speichernutzungsinformationen.
+* *auth*: Operationen zur Durchführung der Benutzersitzungsauthentifizierung.
++
+Die Tenant Management API unterstützt das Bearer Token Authentifizierungsschema. Für eine Tenant-Anmeldung werden Benutzername, Passwort und accountId im JSON-Body der Authentifizierungsanfrage bereitgestellt (das heißt,  `POST /api/v3/authorize`). Wenn der Benutzer erfolgreich authentifiziert wurde, wird ein Sicherheitstoken zurückgegeben. Dieses Token muss im Header nachfolgender API-Anfragen angegeben werden ("Authorization: Bearer token").
+
++
+Informationen zur Verbesserung der Sicherheit bei der Authentifizierung finden Sie unter link:protecting-against-cross-site-request-forgery-csrf.html["Schutz vor Cross-Site Request Forgery"].
+
++
+
+NOTE: Wenn Single Sign-On (SSO) für das StorageGRID System aktiviert ist, sind andere Schritte zur Authentifizierung erforderlich. Siehe link:../admin/using-grid-management-api.html["Anleitung zur Verwendung der Grid Management API"].
+
+* *config*: Operationen im Zusammenhang mit der Produkteinführung und den Versionen der Tenant Management API. Es ist möglich, die Produktversionsnummer und die von dieser Version unterstützten Hauptversionen der API aufzulisten.
+* *Container*: Vorgänge an S3-Buckets.
+* *deactivated-features*: Vorgänge zum Anzeigen von Funktionen, die möglicherweise deaktiviert wurden.
+* *Endpunkte*: Operationen zur Verwaltung eines Endpunkts. Endpunkte ermöglichen es einem S3-Bucket, einen externen Dienst für StorageGRID CloudMirror Replikation, Benachrichtigungen oder Suchintegration zu verwenden.
+* *grid-federation-connections*: Vorgänge an grid-federation-connections und gridübergreifender Replikation.
+* *Gruppen*: Operationen zur Verwaltung lokaler Mandantengruppen und zum Abrufen föderierter Mandantengruppen aus einer externen Identitätsquelle.
+* ${post_edited_translations.segment}
+* *ilm*: Vorgänge an den Einstellungen für das Information Lifecycle Management (ILM).
+* *Regionen*: Operationen zur Ermittlung der Regionen, die für das StorageGRID System konfiguriert wurden.
+* *s3*: Operationen zur Verwaltung von S3-Zugriffsschlüsseln für Mandantenbenutzer.
+* *s3-object-lock*: Vorgänge an globalen S3 Object Lock-Einstellungen, die zur Unterstützung der Einhaltung gesetzlicher Vorschriften verwendet werden.
+* *Benutzer*: Vorgänge zum Anzeigen und Verwalten von Mandantenbenutzern.
+
+
+
+
+[[operation-details]]
+== ${post_edited_translations.segment}
+
+Beim Erweitern der einzelnen API-Operationen werden die jeweilige HTTP-Aktion, die Endpunkt-URL, eine Liste aller erforderlichen oder optionalen Parameter, ein Beispiel für den Anfragetext (falls erforderlich) und die möglichen Antworten angezeigt.
+
+image:tenant_api_swagger_example.gif["Beispiel für die GET groups-Operation in der Swagger API"]of_thought
+
+
+
+[[issue-api-requests]]
+== API-Anfragen ausführen
+
+
+CAUTION: Alle API-Operationen, die Sie über die API-Dokumentationswebseite durchführen, sind Live-Operationen. Es ist darauf zu achten, dass Konfigurationsdaten oder andere Daten nicht versehentlich erstellt, aktualisiert oder gelöscht werden.
+
+.Schritte
+. ${post_edited_translations.segment}
+. Es ist zu ermitteln, ob die Anforderung zusätzliche Parameter wie eine Gruppen- oder Benutzer-ID erfordert. Anschließend sind diese Werte abzurufen. Möglicherweise muss zuerst eine andere API-Anforderung gesendet werden, um die benötigten Informationen zu erhalten.
+. Es kann geprüft werden, ob der Beispiel-Anfragetext angepasst werden muss. Ist dies der Fall, steht *Model* zur Verfügung, um die Anforderungen für jedes Feld anzuzeigen.
+. *Ausprobieren* auswählen.
+. Alle erforderlichen Parameter können angegeben oder der Anfragetext nach Bedarf angepasst werden.
+. *Ausführen* auswählen.
+. Der Antwortcode gibt Aufschluss darüber, ob die Anfrage erfolgreich war.
+

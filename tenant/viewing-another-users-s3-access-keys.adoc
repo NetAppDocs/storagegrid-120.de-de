@@ -1,0 +1,41 @@
+---
+permalink: tenant/viewing-another-users-s3-access-keys.html 
+sidebar: sidebar 
+keywords: how to view other user access key 
+summary: Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berechtigungen verfügen, können Sie die S3-Zugriffsschlüssel anderer Benutzer einsehen. Die Liste kann nach Ablaufzeit sortiert werden, sodass erkennbar ist, welche Schlüssel demnächst ablaufen. Es besteht die Möglichkeit, neue Schlüssel zu erstellen und Schlüssel zu löschen, die nicht mehr verwendet werden. 
+---
+= Anzeigen der S3-Zugriffsschlüssel eines anderen Benutzers in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie einen S3-Tenant verwenden und über die entsprechenden Berechtigungen verfügen, ist es möglich, die S3-Zugriffsschlüssel anderer Benutzer einzusehen. Die Liste kann nach Ablaufzeit sortiert werden, sodass erkennbar ist, welche Schlüssel demnächst ablaufen. Bei Bedarf lassen sich neue Schlüssel erstellen und Schlüssel, die nicht mehr verwendet werden, löschen.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie haben die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"].
+
+
+
+CAUTION: Auf die S3-Buckets und Objekte eines Benutzers kann mit der Zugriffsschlüssel-ID und dem geheimen Zugriffsschlüssel zugegriffen werden, die für diesen Benutzer im Tenant Manager angezeigt werden. Aus diesem Grund sollten Zugriffsschlüssel genauso geschützt werden wie ein Passwort. Zugriffsschlüssel sollten regelmäßig ausgetauscht, ungenutzte Schlüssel aus dem Konto entfernt und niemals mit anderen Benutzern geteilt werden.
+
+.Schritte
+. *Zugriffsverwaltung* > *Benutzer* auswählen.
+. Auf der Seite „Benutzer“ den Benutzer auswählen, dessen S3-Zugriffsschlüssel angezeigt werden sollen.
+. Auf der Seite „Benutzerdetails“ die Option *Zugriffsschlüssel* auswählen.
+. Die Schlüssel können nach *Ablaufzeit* oder *Zugriffsschlüssel-ID* sortiert werden.
+. Bei Bedarf können neue Schlüssel erstellt und nicht mehr benötigte Schlüssel manuell gelöscht werden.
++
+Wenn Sie neue Schlüssel erstellen, bevor die vorhandenen Schlüssel ablaufen, kann der Benutzer die neuen Schlüssel verwenden, ohne vorübergehend den Zugriff auf die Objekte im Konto zu verlieren.
+
++
+Abgelaufene Schlüssel werden automatisch entfernt.
+
+
+
+.Verwandte Informationen
+* link:creating-another-users-s3-access-keys.html["S3-Zugriffsschlüssel eines anderen Benutzers erstellen"]
+* link:deleting-another-users-s3-access-keys.html["Die S3-Zugriffsschlüssel eines anderen Benutzers löschen"]
+

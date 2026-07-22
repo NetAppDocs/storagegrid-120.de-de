@@ -1,0 +1,455 @@
+---
+permalink: admin/use-s3-setup-wizard-steps.html 
+sidebar: sidebar 
+keywords: FabricPool and S3 setup wizard, object storage system, S3 application 
+summary: ${post_edited_translations.segment} 
+---
+= Rufen Sie den S3-Einrichtungsassistenten in StorageGRID auf und schließen Sie ihn ab
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können den S3-Einrichtungsassistenten verwenden, um StorageGRID für die Verwendung mit einer S3-Anwendung zu konfigurieren. Der Einrichtungsassistent stellt die Werte bereit, die die Anwendung benötigt, um auf einen StorageGRID Bucket zuzugreifen und Objekte zu speichern.
+
+.Bevor Sie beginnen
+* Sie haben die link:admin-group-permissions.html["Root-Zugriffsberechtigung"].
+* Sie haben die link:use-s3-setup-wizard.html["Überlegungen und Anforderungen"] für die Verwendung des Assistenten überprüft.
+
+
+
+
+[[access-the-wizard]]
+== Assistenten aufrufen
+
+.Schritte
+. Melden Sie sich beim Grid Manager mit einem link:web-browser-requirements.html["unterstützte Webbrowser"] an.
+. Wenn das Banner *FabricPool and S3 setup wizard* im Dashboard angezeigt wird, kann der Link im Banner ausgewählt werden. Wenn das Banner nicht mehr angezeigt wird, steht im Grid Manager das Hilfesymbol in der Kopfzeile zur Verfügung, über das *FabricPool and S3 setup wizard* ausgewählt werden kann.
++
+image:help_menu.png["Hilfemenü"]
+
+. Im Abschnitt „S3-Anwendung“ auf der Seite des FabricPool und S3-Setup-Assistenten ist *Jetzt konfigurieren* auszuwählen.
+
+
+
+
+[[step-1-of-6-configure-ha-group]]
+== ${post_edited_translations.segment}
+
+Eine HA-Gruppe ist eine Sammlung von Nodes, die jeweils den StorageGRID Load-Balancer-Dienst enthalten. Eine HA-Gruppe kann Gateway-Nodes, Admin-Nodes oder beides enthalten.
+
+Sie können eine HA-Gruppe verwenden, um die S3-Datenverbindungen verfügbar zu halten. Wenn die aktive Schnittstelle in der HA-Gruppe ausfällt, kann eine Backup-Schnittstelle die Workload mit minimalen Auswirkungen auf S3-Vorgänge übernehmen.
+
+Details zu dieser Aufgabe finden Sie unter link:managing-high-availability-groups.html["Hochverfügbarkeitsgruppen verwalten"].
+
+.Schritte
+. Wenn Sie die Verwendung eines externen Load Balancers planen, müssen Sie keine HA-Gruppe erstellen. Wählen Sie *Diesen Schritt überspringen* und gehen Sie zu <<Schritt 2 von 6: Load Balancer Endpunkt konfigurieren>>.
+. Um den StorageGRID Load Balancer zu nutzen, kann eine neue HA-Gruppe erstellt oder eine bestehende HA-Gruppe verwendet werden.
++
+[role="tabbed-block"]
+====
+.HA-Gruppe erstellen
+--
+.. Zum Erstellen einer neuen HA-Gruppe *HA-Gruppe erstellen* auswählen.
+.. Für den Schritt *Details eingeben* sind die folgenden Felder auszufüllen.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+HA Gruppenname
+ a| 
+Ein eindeutiger Anzeigename für diese HA Gruppe.
+
+
+
+ a| 
+Beschreibung (optional)
+ a| 
+Die Beschreibung dieser HA-Gruppe.
+
+|===
+.. Im Schritt *Schnittstellen hinzufügen* werden die Knotenschnittstellen ausgewählt, die in dieser HA-Gruppe verwendet werden sollen.
++
+Mit den Spaltenüberschriften lassen sich die Zeilen sortieren, oder durch Eingabe eines Suchbegriffs können Schnittstellen schneller gefunden werden.
+
++
+${post_edited_translations.segment}
+
+.. ${post_edited_translations.segment}
++
+${post_edited_translations.segment}
+
++
+Die erste Schnittstelle in der Liste ist die Primary-Schnittstelle. Die Primary-Schnittstelle ist die aktive Schnittstelle, sofern kein Fehler auftritt.
+
++
+Wenn die HA-Gruppe mehr als eine Schnittstelle umfasst und die aktive Schnittstelle ausfällt, werden die virtuellen IP-Adressen (VIP-Adressen) auf die erste Backup-Schnittstelle in der Prioritätsreihenfolge verschoben. Wenn diese Schnittstelle ausfällt, werden die VIP-Adressen auf die nächste Backup-Schnittstelle verschoben usw. Nach Behebung der Fehler werden die VIP-Adressen wieder auf die verfügbare Schnittstelle mit der höchsten Priorität verschoben.
+
+.. Für den Schritt *IP-Adressen eingeben* sind die folgenden Felder auszufüllen.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Subnetz CIDR
+ a| 
+${post_edited_translations.segment}
+
+Die Netzwerkadresse darf keine gesetzten Host-Bits aufweisen. Zum Beispiel  `192.16.0.0/22`.
+
+
+
+ a| 
+Gateway-IP-Adresse (optional)
+ a| 
+Wenn sich die für den Zugriff auf StorageGRID verwendeten S3-IP-Adressen nicht im selben Subnetz wie die StorageGRID VIP-Adressen befinden, ist die lokale Gateway-IP-Adresse der StorageGRID VIP einzugeben. Die lokale Gateway-IP-Adresse muss innerhalb des VIP-Subnetzes liegen.
+
+
+
+ a| 
+Virtuelle IP-Adresse
+ a| 
+Geben Sie mindestens eine und höchstens zehn VIP-Adressen für die aktive Schnittstelle in der HA Gruppe ein. Alle VIP-Adressen müssen sich innerhalb des VIP-Subnetzes befinden.
+
+Mindestens eine Adresse muss IPv4 sein. Optional können Sie zusätzliche IPv4- und IPv6-Adressen angeben.
+
+|===
+.. *HA-Gruppe erstellen* auswählen und anschließend *Fertigstellen*, um zum S3-Setup-Assistenten zurückzukehren.
+.. *Weiter* auswählen, um zum Load Balancer Schritt zu gelangen.
+
+
+--
+.Vorhandene HA-Gruppe verwenden
+--
+.. Um eine bestehende HA-Gruppe zu verwenden, den Namen der HA-Gruppe unter *HA-Gruppe auswählen* auswählen.
+.. *Weiter* auswählen, um zum Load Balancer Schritt zu gelangen.
+
+
+--
+====
+
+
+
+
+[[step-2-of-6-configure-load-balancer-endpoint]]
+== Schritt 2 von 6: Load Balancer Endpunkt konfigurieren
+
+StorageGRID nutzt einen Load Balancer, um die Arbeitslast von Clientanwendungen zu verwalten. Lastverteilung maximiert Geschwindigkeit und Verbindungskapazität über mehrere Storage Nodes hinweg.
+
+Sie können den StorageGRID Load Balancer Service verwenden, der auf allen Gateway und Admin Nodes verfügbar ist, oder eine Verbindung zu einem externen (Drittanbieter) Load Balancer herstellen. Die Verwendung des StorageGRID Load Balancer wird empfohlen.
+
+Nähere Informationen zu dieser Aufgabe finden sich unter link:managing-load-balancing.html["Überlegungen zum Lastausgleich"].
+
+Zur Nutzung des StorageGRID Load Balancer Service die Registerkarte *StorageGRID load balancer* auswählen und anschließend den gewünschten Load Balancer Endpoint erstellen oder auswählen. Für die Verwendung eines externen Load Balancers die Registerkarte *External load balancer* auswählen und Details zu dem bereits konfigurierten System angeben.
+
+[role="tabbed-block"]
+====
+.${post_edited_translations.segment}
+--
+.Schritte
+. ${post_edited_translations.segment}
+. Für den Schritt *Endpunktdetails eingeben* sind die folgenden Felder auszufüllen.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Name
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Port
+ a| 
+Der StorageGRID Port, den Sie für die Lastverteilung verwenden möchten. Dieses Feld ist standardmäßig auf 10433 für den ersten von Ihnen erstellten Endpunkt voreingestellt, Sie können jedoch jeden ungenutzten externen Port eingeben. Wenn Sie 80 oder 443 eingeben, wird der Endpunkt nur auf Gateway-Nodes konfiguriert, da diese Ports auf Admin-Nodes reserviert sind.
+
+*Hinweis:* Von anderen Grid-Diensten verwendete Ports sind nicht zulässig. Siehe link:../network/internal-grid-node-communications.html#storagegrid-internal-ports["StorageGRID interne Ports"].
+
+
+
+ a| 
+Clienttyp
+ a| 
+Muss *S3* sein.
+
+
+
+ a| 
+Netzwerkprotokoll
+ a| 
+Wählen Sie *HTTPS*.
+
+*Hinweis*: Die Kommunikation mit StorageGRID ohne TLS-Verschlüsselung wird unterstützt, aber nicht empfohlen.
+
+|===
+. Geben Sie für den Schritt *Bindungsmodus auswählen* den Bindungsmodus an. Der Bindungsmodus steuert, wie auf den Endpunkt über eine beliebige IP-Adresse oder über bestimmte IP-Adressen und Netzwerkschnittstellen zugegriffen wird.
++
+[cols="1a,3a"]
+|===
+| Modus | Beschreibung 
+
+
+ a| 
+Global (Standard)
+ a| 
+Clients können mit der IP-Adresse eines beliebigen Gateway-Knotens oder Admin-Knotens, der virtuellen IP-Adresse (VIP) einer beliebigen HA-Gruppe in einem beliebigen Netzwerk oder einem entsprechenden FQDN auf den Endpunkt zugreifen.
+
+Die Einstellung *Global* (Standard) sollte verwendet werden, es sei denn, die Zugänglichkeit dieses Endpunkts muss eingeschränkt werden.
+
+
+
+ a| 
+Virtuelle IPs von HA-Gruppen
+ a| 
+Clients müssen eine virtuelle IP-Adresse (oder den entsprechenden FQDN) einer HA-Gruppe verwenden, um auf diesen Endpunkt zuzugreifen.
+
+Endpunkte mit diesem Bindungsmodus können alle die gleiche Portnummer verwenden, solange sich die für die Endpunkte ausgewählten HA-Gruppen nicht überschneiden.
+
+
+
+ a| 
+Knotenschnittstellen
+ a| 
+Clients müssen die IP-Adressen (oder die entsprechenden FQDNs) der ausgewählten Knotenschnittstellen verwenden, um auf diesen Endpunkt zuzugreifen.
+
+
+
+ a| 
+Knotentyp
+ a| 
+${post_edited_translations.segment}
+
+|===
+. ${post_edited_translations.segment}
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Alle Mandanten zulassen (Standard)
+ a| 
+Alle Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+
+
+ a| 
+Ausgewählte Mandanten zulassen
+ a| 
+Nur die ausgewählten Mandantenkonten können diesen Endpunkt verwenden, um auf ihre Buckets zuzugreifen.
+
+
+
+ a| 
+Ausgewählte Mandanten blockieren
+ a| 
+Die ausgewählten Mandantenkonten können diesen Endpunkt nicht für den Zugriff auf ihre Buckets verwenden. Alle anderen Mandanten können diesen Endpunkt verwenden.
+
+|===
+. Für den Schritt *Zertifikat anhängen* eine der folgenden Optionen auswählen:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+${post_edited_translations.segment}
+ a| 
+${post_edited_translations.segment}
+
+
+
+ a| 
+Zertifikat generieren
+ a| 
+Mit dieser Option wird ein selbstsigniertes Zertifikat generiert. Siehe link:configuring-load-balancer-endpoints.html["Load Balancer-Endpunkte konfigurieren"] für Details zu den einzugebenden Informationen.
+
+
+
+ a| 
+StorageGRID S3-Zertifikat verwenden
+ a| 
+Diese Option sollte nur verwendet werden, wenn bereits eine benutzerdefinierte Version des StorageGRID Globalzertifikats hochgeladen oder generiert wurde. Siehe link:configuring-custom-server-certificate-for-storage-node.html["S3 API-Zertifikate konfigurieren"] für Details.
+
+|===
+. *Fertigstellen* auswählen, um zum S3-Setup-Assistenten zurückzukehren.
+. ${post_edited_translations.segment}
+
+
+
+NOTE: Änderungen an einem Endpunktzertifikat können bis zu 15 Minuten benötigen, um auf alle Knoten angewendet zu werden.
+
+--
+.${post_edited_translations.segment}
+--
+.Schritte
+. ${post_edited_translations.segment}
+. ${post_edited_translations.segment}
+
+
+--
+.Externen Load Balancer verwenden
+--
+.Schritte
+. Zur Verwendung eines externen Load Balancer sind die folgenden Felder auszufüllen.
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+FQDN
+ a| 
+Der vollqualifizierte Domainname (FQDN) des externen Load Balancers.
+
+
+
+ a| 
+Port
+ a| 
+Die Portnummer, die die S3-Anwendung für die Verbindung zum externen Load Balancer verwendet.
+
+
+
+ a| 
+Zertifikat
+ a| 
+${post_edited_translations.segment}
+
+|===
+. ${post_edited_translations.segment}
+
+
+--
+====
+
+
+[[step-3-of-6-create-tenant-and-bucket]]
+== ${post_edited_translations.segment}
+
+Ein Mandant ist eine Entität, die S3-Anwendungen zum Speichern und Abrufen von Objekten in StorageGRID verwenden kann. Jeder Mandant verfügt über eigene Benutzer, Zugriffsschlüssel, Buckets, Objekte und einen spezifischen Satz von Funktionen.
+
+Ein Bucket ist ein Container, der die Objekte und Objektmetadaten eines Mandanten speichert. Obwohl Mandanten mehrere Buckets haben können, unterstützt der Assistent dabei, einen Mandanten und einen Bucket auf die schnellste und einfachste Weise zu erstellen. Wenn später Buckets hinzugefügt oder Optionen festgelegt werden müssen, kann der Tenant Manager verwendet werden.
+
+Weitere Informationen zu dieser Aufgabe finden Sie unter link:creating-tenant-account.html["Mandantenkonto erstellen"] und link:../tenant/creating-s3-bucket.html["S3 Bucket erstellen"].
+
+.Schritte
+. Geben Sie einen Namen für das Mandantenkonto ein.
++
+Die Namen der Mandanten müssen nicht eindeutig sein. Bei der Erstellung des Mandantenkontos erhält dieses eine eindeutige, numerische Konto-ID.
+
+. Der Root-Zugriff für das Mandantenkonto wird basierend darauf definiert, ob Ihr StorageGRID System link:using-identity-federation.html["Identitätsföderation"], link:how-sso-works.html["${post_edited_translations.segment}"] oder beides verwendet.
++
+[cols="1a,2a"]
+|===
+| Option | Tun Sie Folgendes 
+
+
+ a| 
+Wenn die Identitätsföderation nicht aktiviert ist
+ a| 
+Das Passwort, das beim Anmelden beim Mandanten als lokaler Root-Benutzer verwendet wird, angeben.
+
+
+
+ a| 
+Wenn die Identitätsföderation aktiviert ist
+ a| 
+.. Wählen Sie eine bestehende Verbundgruppe aus, um link:../tenant/tenant-management-permissions.html["Root-Zugriffsberechtigung"] für den Mandanten zu haben.
+.. Optional kann das Passwort angegeben werden, das beim Anmelden beim Mandanten als lokaler Root-Benutzer verwendet wird.
+
+
+
+
+ a| 
+Wenn sowohl Identitätsföderation als auch Single Sign-On (SSO) aktiviert sind
+ a| 
+Wählen Sie eine bestehende Verbundgruppe aus, um link:../tenant/tenant-management-permissions.html["Root-Zugriffsberechtigung"] für den Mandanten zu haben. Lokale Benutzer können sich nicht anmelden.
+
+|===
+. ${post_edited_translations.segment}
++
+Diese Option ist auszuwählen, wenn der einzige Benutzer für den Mandanten der Root-Benutzer ist. Wenn andere Benutzer diesen Mandanten verwenden, link:../tenant/index.html["Tenant Manager verwenden"] können Schlüssel und Berechtigungen konfiguriert werden.
+
+. Wenn jetzt ein Bucket für diesen Mandanten erstellt werden soll, ist *Bucket für diesen Mandanten erstellen* auszuwählen.
++
+
+TIP: Wenn S3 Object Lock für das Grid aktiviert ist, ist für den in diesem Schritt erstellten Bucket S3 Object Lock nicht aktiviert. Wenn Sie einen S3 Object Lock Bucket für diese S3-Anwendung benötigen, wählen Sie nicht aus, jetzt einen Bucket zu erstellen. Verwenden Sie stattdessen den Tenant Manager, um später link:../tenant/creating-s3-bucket.html["${post_edited_translations.segment}"].
+
++
+.. Geben Sie den Namen des Buckets ein, den die S3-Anwendung verwenden wird. Zum Beispiel  `s3-bucket`.
++
+Der Bucket-Name kann nach der Erstellung nicht mehr geändert werden.
+
+.. Die *Region* für diesen Bucket auswählen.
++
+Die Standardregion (`us-east-1` sollte verwendet werden, es sei denn, es ist geplant, ILM zukünftig zum Filtern von Objekten basierend auf der Region des Buckets einzusetzen.
+
+
+
+. *Erstellen und fortfahren* auswählen.
+
+
+
+
+[[download-datastep-4-of-6-download-data]]
+== [[download-data]]Schritt 4 von 6: Daten herunterladen
+
+Im Schritt „Daten herunterladen“ können Sie eine oder zwei Dateien herunterladen, um die Details der soeben vorgenommenen Konfiguration zu speichern.
+
+.Schritte
+. Wenn *Root-Benutzer S3-Zugriffsschlüssel automatisch erstellen* ausgewählt wurde, gilt eines oder beides der folgenden Verfahren:
++
+** Wählen Sie *Zugriffsschlüssel herunterladen*, um eine  `.csv` Datei herunterzuladen, die den Mandantenkontonamen, die Zugriffsschlüssel-ID und den geheimen Zugriffsschlüssel enthält.
+** Wählen Sie das Kopiersymbol (image:icon_tenant_copy_url.png["Kopiersymbol"]), um die Zugriffsschlüssel-ID und den geheimen Zugriffsschlüssel in die Zwischenablage zu kopieren.
+
+
+. *Konfigurationswerte herunterladen* ermöglicht das Herunterladen einer  `.txt` Datei, die die Einstellungen für den Load Balancer Endpoint, den Tenant, den Bucket und den Root-Benutzer enthält.
+. Diese Informationen sollten an einem sicheren Ort gespeichert werden.
++
+
+CAUTION: Schließen Sie diese Seite erst, nachdem Sie beide Zugriffsschlüssel kopiert haben. Die Schlüssel sind nach dem Schließen der Seite nicht mehr verfügbar. Diese Informationen sollten an einem sicheren Ort gespeichert werden, da sie zum Abrufen von Daten aus Ihrem StorageGRID System verwendet werden können.
+
+. Falls Sie dazu aufgefordert werden, das Kontrollkästchen auswählen, um zu bestätigen, dass Sie die Schlüssel heruntergeladen oder kopiert haben.
+. *Weiter* auswählen, um zum ILM Regel- und Richtlinienschritt zu gelangen.
+
+
+
+
+[[step-5-of-6-review-ilm-rule-and-ilm-policy-for-s3]]
+== Schritt 5 von 6: ILM-Regel und ILM-Richtlinie für S3 überprüfen
+
+Die Regeln des Informationslebenszyklusmanagements (ILM) steuern die Platzierung, Speicherdauer und das Aufnahmeverhalten aller Objekte in Ihrem StorageGRID System. Die mit StorageGRID enthaltene ILM-Richtlinie erstellt zwei replizierte Kopien aller Objekte. Diese Richtlinie bleibt in Kraft, bis mindestens eine neue Richtlinie aktiviert wird.
+
+.Schritte
+. Die auf der Seite bereitgestellten Informationen können überprüft werden.
+. Wenn spezifische Anweisungen für die Objekte des neuen Mandanten oder Buckets hinzugefügt werden sollen, ist eine neue Regel und eine neue Richtlinie zu erstellen. Siehe link:../ilm/access-create-ilm-rule-wizard.html["${post_edited_translations.segment}"] und link:../ilm/ilm-policy-overview.html["ILM Richtlinien verwenden"].
+. *Ich habe diese Schritte überprüft und verstehe, was ich tun muss* auswählen.
+. Aktivieren Sie das Kontrollkästchen, um zu bestätigen, dass Sie wissen, was als Nächstes zu tun ist.
+. *Weiter* auswählen, um zu *Zusammenfassung* zu gelangen.
+
+
+
+
+[[step-6-of-6-review-summary]]
+== Schritt 6 von 6: Zusammenfassung überprüfen
+
+.Schritte
+. Überprüfen Sie die Zusammenfassung.
+. Beachten Sie die Details in den nächsten Schritten, die die möglicherweise erforderliche zusätzliche Konfiguration vor der Verbindung mit dem S3 Client beschreiben. Wenn beispielsweise *Sign in as root* ausgewählt wird, erfolgt eine Weiterleitung zum Tenant Manager, wo Tenant-Benutzer hinzugefügt, zusätzliche Buckets erstellt und Bucket-Einstellungen aktualisiert werden können.
+. Wählen Sie *Fertigstellen*.
+. Die Anwendung wird mit der Datei, die von StorageGRID heruntergeladen wurde, oder mit den manuell ermittelten Werten konfiguriert.
+

@@ -1,0 +1,221 @@
+---
+permalink: expand/performing-expansion.html 
+sidebar: sidebar 
+keywords: expand, expansion procedure, StorageGRID 
+summary: Bei der Erweiterung werden die neuen Grid-Knoten zu Ihrer bestehenden StorageGRID Bereitstellung hinzugefügt. 
+---
+= StorageGRID Erweiterung durchführen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Bei der Erweiterung werden die neuen Grid-Knoten zu Ihrer bestehenden StorageGRID Bereitstellung hinzugefügt.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie besitzen die Bereitstellungspassphrase.
+* Sie haben alle Grid-Knoten, die in dieser Erweiterung hinzugefügt werden, bereitgestellt.
+* Sie haben die link:../admin/admin-group-permissions.html["${post_edited_translations.segment}"].
+* Wenn Sie Speicherknoten hinzufügen, haben Sie bestätigt, dass alle im Rahmen einer Wiederherstellung durchgeführten Datenreparaturvorgänge abgeschlossen sind. Siehe link:../maintain/checking-data-repair-jobs.html["Datenreparaturaufträge prüfen"].
+* Wenn Sie Storage Nodes hinzufügen und diesen eine benutzerdefinierte Storage Grade zuweisen möchten, haben Sie bereits link:../ilm/creating-and-assigning-storage-grades.html["die benutzerdefinierte Speicherklasse erstellt"]. Sie verfügen außerdem entweder über die Root-Zugriffsberechtigung oder sowohl über die Berechtigungen Wartung und ILM.
+* Wenn Sie einen neuen Standort hinzufügen, wurden die ILM-Regeln überprüft und aktualisiert. Es muss sichergestellt sein, dass Objektkopien erst nach Abschluss der Erweiterung am neuen Standort gespeichert werden. Wenn beispielsweise eine Regel den Standard-Speicherpool (*Alle Speicherknoten*) verwendet, muss link:../ilm/creating-storage-pool.html["einen neuen Speicherpool erstellen"] erstellt werden, der nur die vorhandenen Speicherknoten enthält, und link:../ilm/working-with-ilm-rules-and-ilm-policies.html["ILM-Regeln aktualisieren"] sowie die ILM-Richtlinie müssen so angepasst werden, dass dieser neue Speicherpool verwendet wird. Andernfalls werden Objekte an den neuen Standort kopiert, sobald der erste Knoten an diesem Standort aktiv ist.
+
+
+.Über diese Aufgabe
+Die Durchführung der Erweiterung umfasst folgende Hauptaufgaben des Benutzers:
+
+. Die Erweiterung konfigurieren.
+. Die Expansion wird gestartet.
+. Eine neue Wiederherstellungspaketdatei herunterladen.
+. Die einzelnen Schritte und Phasen der Erweiterung werden überwacht, bis alle neuen Knoten installiert und konfiguriert sind und alle Dienste gestartet wurden.
++
+
+CAUTION: Einige Erweiterungsschritte und -phasen können in einem großen Grid viel Zeit in Anspruch nehmen. Beispielsweise kann das Streaming von Cassandra auf einen neuen Storage Node nur wenige Minuten dauern, wenn die Cassandra Datenbank leer ist. Wenn die Cassandra Datenbank jedoch eine große Menge an Objektmetadaten enthält, kann dieser Schritt mehrere Stunden oder länger dauern. Während der Phasen „Expanding the Cassandra cluster“ und „Starting Cassandra and streaming data“ sollte kein Storage Node neu gestartet werden.
+
+
+
+.Schritte
+. *Wartung* > *Aufgaben* > *Erweiterung* auswählen.
++
+Die Seite „Grid-Erweiterung“ wird angezeigt. Im Abschnitt „Ausstehende Knoten“ sind die Knoten aufgeführt, die zum Hinzufügen bereit sind.
+
++
+image:grid_expansion_page.png["Screenshot der Seite „Grid Expansion“"]
+
+. *Erweiterung konfigurieren* auswählen.
++
+Das Dialogfeld „Standortauswahl“ wird angezeigt.
+
+. Wählen Sie den Typ der Erweiterung, den Sie starten:
++
+** Wenn ein neuer Standort hinzugefügt wird, *Neu* auswählen und den Namen des neuen Standorts eingeben.
+** Wenn einem bestehenden Standort ein oder mehrere Knoten hinzugefügt werden, ist *Vorhanden* auszuwählen.
+
+
+. *Speichern* auswählen.
+. Die Liste der *ausstehenden Knoten* sollte alle bereitgestellten Grid-Knoten anzeigen.
++
+Bei Bedarf lässt sich der Cursor über die *Grid Network MAC Address* eines Knotens positionieren, um Details zu diesem Knoten anzuzeigen.
+
++
+image:grid_node_details.png["Screenshot der Grid Node-Details"]
+
++
+
+NOTE: Falls ein Knoten fehlt, sollte bestätigt werden, dass er erfolgreich bereitgestellt wurde.
+
+. Aus der Liste der ausstehenden Knoten die Knoten auswählen, die in dieser Erweiterung hinzugefügt werden sollen.
++
+.. Wählen Sie das Optionsfeld neben dem ersten ausstehenden Grid-Node aus, den Sie genehmigen möchten.
+.. *Genehmigen* auswählen.
++
+Das Formular zur Konfiguration des Grid-Knotens wird angezeigt.
+
+.. Passen Sie bei Bedarf die allgemeinen Einstellungen an:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Standort
+ a| 
+Der Name des Standorts, dem der Grid-Node zugeordnet wird. Wenn mehrere Nodes hinzugefügt werden, ist darauf zu achten, dass für jeden Node der richtige Standort ausgewählt wird. Wenn ein neuer Standort hinzugefügt wird, werden alle Nodes diesem neuen Standort hinzugefügt.
+
+
+
+ a| 
+Name
+ a| 
+Der Systemname des Knotens. Systemnamen sind für interne StorageGRID Operationen erforderlich und können nicht geändert werden.
+
+
+
+ a| 
+Speichertyp (nur Speicherknoten)
+ a| 
+*** *Daten und Metadaten* ("kombiniert"): Objekt-Daten und Metadaten Storage Node
+*** *Nur Daten*: Storage Node, der nur Objektdaten enthält (keine Metadaten)
+*** *Nur Metadaten*: Storage Node, der nur Metadaten enthält (keine Objektdaten)
+
+
+
+
+ a| 
+NTP Rolle
+ a| 
+Die Network Time Protocol (NTP)-Rolle des Grid-Knotens:
+
+*** *Automatisch* (Standard) weist dem Knoten automatisch die NTP-Rolle zu. Die primäre Rolle wird Admin Nodes, Storage Nodes mit ADC-Services, Gateway Nodes und allen Grid-Nodes mit nicht-statischen IP-Adressen zugewiesen. Die Client-Rolle wird allen anderen Grid-Nodes zugewiesen.
+*** *Primär* auswählen, um dem Knoten manuell die Primary NTP-Rolle zuzuweisen. Mindestens zwei Knoten an jedem Standort sollten die Primary-Rolle haben, um redundanten Systemzugriff auf externe Zeitquellen bereitzustellen.
+*** *Client* auswählen, um dem Knoten die Client-NTP-Rolle manuell zuzuweisen.
+
+
+
+
+ a| 
+ADC Service (kombinierte oder nur Metadaten Storage Nodes)
+ a| 
+Ob dieser Storage Node den Administrative Domain Controller (ADC) Service ausführt. Der ADC Service verfolgt Standort und Verfügbarkeit der Grid-Services. Mindestens drei Storage Nodes an jedem Standort müssen den ADC Service enthalten.
+
+*** Wählen Sie *Ja*, wenn der zu ersetzende Storage Node den ADC Service enthält. Da ein Storage Node nicht außer Betrieb genommen werden kann, wenn zu wenige ADC Services übrig bleiben, stellt diese Einstellung sicher, dass ein neuer ADC Service verfügbar ist, bevor der alte Service entfernt wird.
+*** Sie können link:../maintain/move-adc-service.html["Den ADC-Dienst auf einen anderen Storage Node am selben Standort verschieben"] sicherstellen, dass das ADC Dienstquorum erreicht wird.
+*** *Automatisch* auswählen, damit das System selbst feststellt, ob dieser Knoten den ADC-Dienst benötigt.
+
+
+Informationen zu link:../maintain/understanding-adc-service-quorum.html["ADC Quorum"].
+
+
+
+ a| 
+Storage Grade (kombinierte oder reine Datenspeicherknoten)
+ a| 
+Die *Standard* Speicherklasse kann verwendet oder eine benutzerdefinierte Speicherklasse ausgewählt werden, die diesem neuen Knoten zugewiesen werden soll.
+
+Speicherklassen werden von ILM Speicherpools verwendet, daher kann Ihre Auswahl Einfluss darauf haben, welche Objekte auf dem Storage Node platziert werden.
+
+|===
+.. Passen Sie bei Bedarf die Einstellungen für das Grid Network, das Admin Network und das Client Network an.
++
+*** *IPv4-Adresse (CIDR)*: Die CIDR-Netzwerkadresse für die Netzwerkschnittstelle. Zum Beispiel: 172.16.10.100/24
++
+
+NOTE: Wenn festgestellt wird, dass Knoten im Grid-Netzwerk doppelte IP-Adressen haben, während Sie Knoten genehmigen, ist die Erweiterung abzubrechen, die virtuellen Maschinen oder Appliances mit einer eindeutigen IP-Adresse neu bereitzustellen und die Erweiterung neu zu starten.
+
+*** *Gateway*: Das Standardgateway des Grid-Knotens. Zum Beispiel: 172.16.10.1
+*** *Subnetze (CIDR)*: Ein oder mehrere Subnetze für das Admin Network.
+
+
+.. *Speichern* auswählen.
++
+Der genehmigte Grid-Knoten wird in die Liste der genehmigten Nodes verschoben.
+
++
+*** Um die Eigenschaften eines genehmigten Grid-Node zu ändern, das entsprechende Optionsfeld auswählen und *Bearbeiten* wählen.
+*** Um einen genehmigten Grid-Node wieder in die Liste der Pending Nodes zu verschieben, das entsprechende Optionsfeld auswählen und *Reset* wählen.
+*** Um einen genehmigten Grid-Node dauerhaft zu entfernen, muss der Node ausgeschaltet werden. Anschließend das entsprechende Optionsfeld auswählen und *Entfernen* wählen.
+
+
+.. Wiederholen Sie diese Schritte für jeden ausstehenden Grid-Node, den Sie genehmigen möchten.
++
+
+NOTE: Wenn möglich, sollten alle ausstehenden Grid-Notizen genehmigt und eine einzige Erweiterung durchgeführt werden. Mehr Zeit ist erforderlich, wenn mehrere kleine Erweiterungen durchgeführt werden.
+
+
+
+. Nachdem alle Grid-Knoten genehmigt wurden, die *Bereitstellungs-Passphrase* eingeben und *Erweitern* auswählen.
++
+Nach wenigen Minuten aktualisiert sich diese Seite und zeigt den Status des Erweiterungsvorgangs an. Wenn Aufgaben ausgeführt werden, die einzelne Grid-Knoten betreffen, listet der Abschnitt Grid Node Status den aktuellen Status jedes Grid-Knotens auf.
+
++
+
+NOTE: Während des Installationsschritts „Grid-Knoten installieren“ für ein neues StorageGRID Gerät zeigt der StorageGRID Appliance Installer den Übergang von Phase 3 zu Phase 4, Installation abschließen, an. Nach Abschluss von Phase 4 wird der Controller neu gestartet.
+
++
+
+NOTE: Eine Standorterweiterung beinhaltet eine zusätzliche Aufgabe, Cassandra für den neuen Standort zu konfigurieren.
+
+. Sobald der Link *Wiederherstellungspaket herunterladen* erscheint, die Wiederherstellungspaketdatei herunterladen.
++
+Sie müssen so schnell wie möglich nach Änderungen an der Grid-Topologie des StorageGRID Systems eine aktualisierte Kopie der Wiederherstellungspaketdatei herunterladen. Die Wiederherstellungspaketdatei ermöglicht die Wiederherstellung des Systems im Fehlerfall.
+
++
+.. Wählen Sie den Download-Link aus.
+.. Geben Sie die Bereitstellungs-Passphrase ein und wählen Sie *Start Download*.
+.. Wenn der Download abgeschlossen ist, die  `.zip` Datei öffnen und bestätigen, dass auf den Inhalt, einschließlich der  `Passwords.txt` Datei, zugegriffen werden kann.
+.. Kopieren Sie die heruntergeladene Wiederherstellungspaketdatei (`.zip` an zwei sichere, geschützte und voneinander getrennte Orte.
++
+
+CAUTION: Die Wiederherstellungspaketdatei muss gesichert werden, da sie Verschlüsselungsschlüssel und Passwörter enthält, mit denen Daten aus dem StorageGRID System abgerufen werden können.
+
+
+
+. Wenn Speicherknoten zu einem bestehenden Standort hinzugefügt werden oder ein Standort hinzugefügt wird, sollten die Cassandra-Phasen überwacht werden, die beim Starten der Dienste auf den neuen Grid-Knoten auftreten.
++
+
+CAUTION: Starten Sie während der Phasen „Cassandra-Cluster erweitern“ und „Cassandra starten und Daten streamen“ keine Storage Nodes neu. Diese Phasen können für jeden neuen Storage Node viele Stunden in Anspruch nehmen, insbesondere wenn vorhandene Storage Nodes eine große Menge an Objektmetadaten enthalten.
+
++
+[role="tabbed-block"]
+====
+.Hinzufügen von Speicherknoten
+--
+Wenn Sie Speicherknoten zu einem bestehenden Standort hinzufügen, überprüfen Sie den Prozentsatz, der in der Statusmeldung „Starting Cassandra and streaming data“ angezeigt wird.
+
+Dieser Prozentsatz schätzt, wie vollständig der Cassandra-Streaming-Vorgang ist, basierend auf der Gesamtmenge der verfügbaren Cassandra-Daten und der Menge, die bereits auf den neuen Knoten geschrieben wurde.
+
+--
+.Standort hinzufügen
+--
+Wenn eine neue Site hinzugefügt wird, kann mit  `nodetool status` der Fortschritt des Cassandra-Streamings überwacht und angezeigt werden, wie viele Metadaten während der Phase „Expanding the Cassandra cluster“ auf die neue Site kopiert wurden. Die gesamte Datenlast auf der neuen Site sollte innerhalb von etwa 20 % der Gesamtlast einer aktuellen Site liegen.
+
+--
+====
+. Die Erweiterung sollte weiterhin überwacht werden, bis alle Aufgaben abgeschlossen sind und die Schaltfläche *Configure Expansion* wieder erscheint.
+
+
+.Nachdem Sie fertig sind
+Je nachdem, welche Arten von Grid-Knoten hinzugefügt wurden, sind zusätzliche Integrations- und Konfigurationsschritte erforderlich. Siehe link:configuring-expanded-storagegrid-system.html["Konfigurationsschritte nach der Erweiterung"].

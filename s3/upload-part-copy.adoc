@@ -1,0 +1,55 @@
+---
+permalink: s3/upload-part-copy.html 
+sidebar: sidebar 
+keywords: UploadPart, UploadPartCopy, multipart uploads, uploads, 
+summary: Der UploadPartCopy-Vorgang lädt einen Teil eines Objekts hoch, indem Daten aus einem bestehenden Objekt als Datenquelle kopiert werden. 
+---
+= Laden Sie einen Teil eines Objekts in StorageGRID mit der S3 UploadPartCopy-Operation hoch
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Der UploadPartCopy-Vorgang lädt einen Teil eines Objekts hoch, indem Daten aus einem bestehenden Objekt als Datenquelle kopiert werden.
+
+Die UploadPartCopy-Operation ist mit dem gesamten Verhalten der Amazon S3 REST API implementiert. Änderungen vorbehalten.
+
+Diese Anfrage liest und schreibt die im  `x-amz-copy-source-range`StorageGRID System angegebenen Objektdaten.
+
+Die folgenden Anfrage-Header werden unterstützt:
+
+* `x-amz-copy-source-if-match`
+* `x-amz-copy-source-if-none-match`
+* `x-amz-copy-source-if-unmodified-since`
+* `x-amz-copy-source-if-modified-since`
+
+
+
+
+[[request-headers-for-server-side-encryption]]
+== Anfrage-Header für serverseitige Verschlüsselung
+
+Wenn Sie für die CreateMultipartUpload Anfrage die SSE-C-Verschlüsselung angegeben haben, müssen die folgenden Anfrage-Header auch in jede UploadPartCopy Anfrage aufgenommen werden:
+
+* `x-amz-server-side-encryption-customer-algorithm`: Angeben `AES256`.
+* `x-amz-server-side-encryption-customer-key`: Geben Sie denselben Verschlüsselungsschlüssel an, den Sie in der CreateMultipartUpload Anfrage angegeben haben.
+* `x-amz-server-side-encryption-customer-key-MD5`: Geben Sie denselben MD5-Digest an, den Sie in der CreateMultipartUpload Anfrage angegeben haben.
+
+
+Wenn das Quellobjekt mit einem vom Kunden bereitgestellten Schlüssel (SSE-C) verschlüsselt ist, sind die folgenden drei Header in die UploadPartCopy-Anfrage aufzunehmen, damit das Objekt entschlüsselt und anschließend kopiert werden kann:
+
+* `x-amz-copy-source​-server-side​-encryption​-customer-algorithm`: Geben Sie `AES256` an.
+* `x-amz-copy-source​-server-side-encryption-customer-key`Geben Sie den Verschlüsselungsschlüssel an, den Sie beim Erstellen des Quellobjekts angegeben haben.
+* `x-amz-copy-source​-server-side-encryption-customer-key-MD5`: Geben Sie den MD5-Digest an, den Sie beim Erstellen des Quellobjekts angegeben haben.
+
+
+
+CAUTION: Die von Ihnen bereitgestellten Verschlüsselungsschlüssel werden niemals gespeichert. Wenn ein Verschlüsselungsschlüssel verloren geht, geht auch das zugehörige Objekt verloren. Vor der Verwendung von kundenseitig bereitgestellten Schlüsseln zur Sicherung von Objektdaten sind die Hinweise in link:using-server-side-encryption.html["Serverseitige Verschlüsselung verwenden"] zu beachten.
+
+
+
+[[versioning]]
+== Versionierung
+
+Ein Multipart-Upload besteht aus separaten Operationen zum Initiieren des Uploads, Auflisten der Uploads, Hochladen der einzelnen Teile, Zusammenfügen der hochgeladenen Teile und Abschließen des Uploads. Objekte werden erstellt (und gegebenenfalls versioniert), wenn die CompleteMultipartUpload-Operation ausgeführt wird.

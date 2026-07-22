@@ -1,0 +1,154 @@
+---
+permalink: fabricpool/using-storagegrid-ilm-with-fabricpool-data.html 
+sidebar: sidebar 
+keywords: FabricPool, StorageGRID, requirements, ILM, information lifecycle management, ILM rule, ILM rules, ILM policy, erasure coding, replication, cloud storage pool, glacier 
+summary: Diese einfache Beispielrichtlinie kann als Ausgangspunkt für eigene ILM-Regeln und Richtlinien dienen. 
+---
+= StorageGRID ILM für FabricPool-Daten konfigurieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese einfache Beispielrichtlinie kann als Ausgangspunkt für eigene ILM-Regeln und Richtlinien dienen.
+
+Dieses Beispiel geht davon aus, dass Sie die ILM-Regeln und eine ILM-Richtlinie für ein StorageGRID System mit vier Storage Nodes in einem einzigen Rechenzentrum in Denver, Colorado, entwerfen. Die FabricPool Daten in diesem Beispiel verwenden einen Bucket mit dem Namen  `fabricpool-bucket`.
+
+
+CAUTION: Die folgenden ILM-Regeln und die Richtlinie sind lediglich Beispiele. Es gibt viele Möglichkeiten, ILM-Regeln zu konfigurieren. Vor der Aktivierung einer neuen Richtlinie sollte diese simuliert werden, um zu bestätigen, dass sie wie vorgesehen funktioniert und Inhalte vor Datenverlust schützt. Weitere Informationen finden sich unter link:../ilm/index.html["Objekte mit ILM verwalten"].
+
+
+CAUTION: Um Datenverlust zu vermeiden, sollte keine ILM-Regel verwendet werden, die FabricPool Cloud-Tier-Daten ablaufen lässt oder löscht. Die Aufbewahrungsfrist ist auf *unbegrenzt* zu setzen, damit FabricPool Objekte nicht von StorageGRID ILM gelöscht werden.
+
+.Bevor Sie beginnen
+* Sie haben die link:best-practices-ilm.html["Best Practices für die Verwendung von ILM mit FabricPool Daten"] überprüft.
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["ILM- oder Root-Zugriff-Berechtigung"].
+* Wenn Sie StorageGRID von einer StorageGRID Version vor 11.7 auf 12.0 aktualisiert haben, haben Sie den Speicherpool, den Sie verwenden werden, bereits konfiguriert. Im Allgemeinen sollte für jeden StorageGRID Standort, den Sie zum Speichern von Daten verwenden, ein Speicherpool erstellt werden. (Ab Version 11.7 werden Speicherpools automatisch für jeden Standort erstellt.)
++
+
+NOTE: Diese Voraussetzung gilt nicht, wenn StorageGRID 11.7 oder 11.8 ursprünglich installiert wurde. Bei der Erstinstallation einer dieser Versionen werden Speicherpools für jeden Standort automatisch erstellt.
+
+
+
+.Schritte
+. Erstellen Sie eine ILM-Regel, die nur für die Daten in  `fabricpool-bucket` gilt. Diese Beispielregel erstellt löschcodierte Kopien.
++
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+2 + 1 Löschcodierung für FabricPool Daten
+
+
+
+ a| 
+Bucket Name
+ a| 
+`fabricpool-bucket`
+
+Es besteht auch die Möglichkeit, nach dem FabricPool Mandantenkonto zu filtern.
+
+
+
+ a| 
+Erweiterte Filter
+ a| 
+Objektgröße größer als 0,2 MB.
+
+*Hinweis:* FabricPool schreibt nur 4 MB große Objekte, aber es ist erforderlich, einen Objektgrößenfilter hinzuzufügen, da diese Regel Erasure Coding verwendet.
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Zeitraum und Platzierungen
+ a| 
+Ab Tag 0 für immer speichern
+
+Objekte werden mittels Erasure Coding unter Verwendung des 2+1 EC-Schemas in Denver gespeichert und diese Objekte dauerhaft in StorageGRID aufbewahrt.
+
+
+CAUTION: Um Datenverlust zu vermeiden, sollte keine ILM-Regel verwendet werden, die abläuft oder FabricPool Cloud-Tier-Daten löscht.
+
+
+
+ a| 
+Ingest-Verhalten
+ a| 
+Ausgewogen
+
+|===
+. Eine Standard-ILM-Regel erstellen, die zwei replizierte Kopien aller Objekte erzeugt, die nicht von der ersten Regel erfasst werden. Keinen einfachen Filter (Mandantenkonto oder Bucket-Name) oder erweiterte Filter auswählen.
++
+[cols="1a,2a"]
+|===
+| Regeldefinition | Beispielwert 
+
+
+ a| 
+Regelname
+ a| 
+Zwei replizierte Kopien
+
+
+
+ a| 
+Bucket Name
+ a| 
+_none_
+
+
+
+ a| 
+Erweiterte Filter
+ a| 
+_none_
+
+
+
+ a| 
+Referenzzeit
+ a| 
+Ingest-Zeitpunkt
+
+
+
+ a| 
+Zeitraum und Platzierungen
+ a| 
+Ab Tag 0 für immer speichern
+
+Objekte werden gespeichert, indem zwei Kopien in Denver repliziert werden.
+
+
+
+ a| 
+Ingest-Verhalten
+ a| 
+Ausgewogen
+
+|===
+. Eine ILM-Richtlinie erstellen und die beiden Regeln auswählen. Da die Replikationsregel keine Filter verwendet, kann sie die Standardregel (letzte Regel) für die Richtlinie sein.
+. Testobjekte in das Grid einlesen.
+. Die Richtlinie kann mit den Testobjekten simuliert werden, um das Verhalten zu überprüfen.
+. Die Richtlinie wird aktiviert.
+
+
+Wenn diese Richtlinie aktiviert ist, platziert StorageGRID Objektdaten wie folgt:
+
+* Die von FabricPool in `fabricpool-bucket` gestaffelten Daten werden mit dem 2+1-Erasure-Coding-Schema erasure-codiert. Zwei Datenfragmente und ein Paritätsfragment werden auf drei verschiedenen Storage Nodes abgelegt.
+* Alle Objekte in allen anderen Buckets werden repliziert. Zwei Kopien werden erstellt und auf zwei verschiedenen Storage Nodes abgelegt.
+* Die Kopien bleiben in StorageGRID dauerhaft erhalten. StorageGRID ILM löscht diese Objekte nicht.
+

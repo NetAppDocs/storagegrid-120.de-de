@@ -1,0 +1,39 @@
+---
+permalink: audit/sysu-node-start.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, message, SYSU, Node Start 
+summary: 'Wenn ein Dienst neu gestartet wird, wird diese Meldung generiert, um anzuzeigen, ob das vorherige Herunterfahren ordnungsgemäß (befohlen) oder ungeordnet (unerwartet) war.' 
+---
+= SYSU-Revisionsprotokollnachricht für Knotenstarts in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn ein Dienst neu gestartet wird, wird diese Meldung generiert, um anzuzeigen, ob das vorherige Herunterfahren ordnungsgemäß (befohlen) oder ungeordnet (unerwartet) war.
+
+[cols="1a,1a,4a"]
+|===
+| Code | Feld | Beschreibung 
+
+
+ a| 
+RSLT
+ a| 
+Sauberes Herunterfahren
+ a| 
+Art der Abschaltung:
+
+SUCS: Das System wurde ordnungsgemäß heruntergefahren.
+
+DSDN: Das System wurde nicht ordnungsgemäß heruntergefahren.
+
+VRGN: Das System wurde nach der Serverinstallation (oder Neuinstallation) zum ersten Mal gestartet.
+
+|===
+Die Meldung gibt nicht an, ob der Host-Server gestartet wurde, sondern nur, ob der meldende Dienst gestartet wurde. Diese Meldung kann verwendet werden, um:
+
+* Diskontinuität im Revisionsprotokoll erkennen.
+* Es kann festgestellt werden, ob ein Dienst während des Betriebs ausfällt (da die verteilte Architektur des StorageGRID Systems solche Ausfälle verschleiern kann). Server-Manager startet einen ausgefallenen Dienst automatisch neu.
+

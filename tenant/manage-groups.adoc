@@ -1,0 +1,204 @@
+---
+permalink: tenant/manage-groups.html 
+sidebar: sidebar 
+keywords: how to view and edit tenant groups, manage groups, duplicate group, remove group, edit group 
+summary: Mandantengruppen können nach Bedarf verwaltet werden, um eine Gruppe anzuzeigen, zu bearbeiten, zu duplizieren und mehr. 
+---
+= StorageGRID-Mandantengruppen verwalten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Mandantengruppen können nach Bedarf verwaltet werden, um eine Gruppe anzuzeigen, zu bearbeiten, zu duplizieren und mehr.
+
+.Bevor Sie beginnen
+* Sie sind beim Tenant Manager mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] angemeldet.
+* Sie gehören zu einer Benutzergruppe, die die link:tenant-management-permissions.html["Root-Zugriffsberechtigung"] hat.
+
+
+
+
+[[view-or-edit-group]]
+== Gruppe anzeigen oder bearbeiten
+
+Sie können die grundlegenden Informationen und Details für jede Gruppe einsehen und bearbeiten.
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Auf der Seite „Gruppen“ werden grundlegende Informationen zu allen lokalen und föderierten Gruppen dieses Mandantenkontos angezeigt.
++
+Wenn das Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und Gruppen im Quell-Grid des Mandanten angezeigt werden:
+
++
+** Eine Bannermeldung weist darauf hin, dass bei Bearbeitung oder Entfernung einer Gruppe die Änderungen nicht mit dem anderen Grid synchronisiert werden.
+** Bei Bedarf wird eine Bannermeldung angezeigt, falls Gruppen nicht in den Mandanten im Zielraster geklont wurden. Sie können <<clone-groups,einen Gruppenklon erneut versuchen>> als fehlgeschlagen kennzeichnen.
+
+
+. Wenn Sie den Gruppennamen ändern möchten:
++
+.. Aktivieren Sie das Kontrollkästchen für die Gruppe.
+.. *Aktionen* > *Gruppennamen bearbeiten* auswählen.
+.. Geben Sie den neuen Namen ein.
+.. *Änderungen speichern* auswählen.
+
+
+. Wenn Sie weitere Details anzeigen oder zusätzliche Änderungen vornehmen möchten, kann Folgendes getan werden:
++
+** Den Gruppennamen auswählen.
+** Wählen Sie das Kontrollkästchen für die Gruppe aus und wählen Sie *Aktionen* > *Gruppendetails anzeigen*.
+
+
+. ${post_edited_translations.segment}
++
+** Anzeigename
+** Eindeutiger Name
+** Typ
+** Zugriffsmodus
+** Berechtigungen
+** S3 Richtlinie
+** Anzahl der Nutzer in dieser Gruppe
+** Zusätzliche Felder, wenn das Mandantenkonto über die Berechtigung *Use grid federation connection* verfügt und die Gruppe im Quell-Grid des Mandanten angezeigt wird:
++
+*** ${post_edited_translations.segment}
+*** ${post_edited_translations.segment}
+
+
+
+
+. Gruppeneinstellungen können nach Bedarf bearbeitet werden. Einzelheiten zu den einzugebenden Daten finden Sie unter link:creating-groups-for-s3-tenant.html["Gruppen für einen S3-Mandanten erstellen"].
++
+.. Im Abschnitt „Übersicht“ lässt sich der Anzeigename ändern, indem der Name oder das Bearbeitungssymbol image:icon_edit_tm.png["Bearbeiten-Symbol"] ausgewählt wird.
+.. ${post_edited_translations.segment}
+.. Auf der Registerkarte *Gruppenrichtlinie* können Änderungen vorgenommen und mit *Änderungen speichern* gesichert werden.
++
+${post_edited_translations.segment}
+
+
+
+. Einen oder mehrere bestehende lokale Benutzer zur Gruppe hinzufügen:
++
+.. Die Registerkarte „Benutzer“ auswählen.
++
+image:manage_users.png["Benutzer verwalten"]
+
+.. *Benutzer hinzufügen* auswählen.
+.. Wählen Sie die vorhandenen Benutzer aus, die Sie hinzufügen möchten, und wählen Sie *Benutzer hinzufügen* aus.
++
+${post_edited_translations.segment}
+
+
+
+. Lokale Benutzer aus der Gruppe entfernen:
++
+.. Die Registerkarte „Benutzer“ auswählen.
+.. *Benutzer entfernen* auswählen.
+.. Wählen Sie die Benutzer aus, die Sie entfernen möchten, und wählen Sie *Benutzer entfernen* aus.
++
+${post_edited_translations.segment}
+
+
+
+. Bestätigen Sie, dass für jeden geänderten Abschnitt *Änderungen speichern* ausgewählt wurde.
+
+
+
+
+[[duplicate-group]]
+== Doppelte Gruppe
+
+Sie können eine bestehende Gruppe duplizieren, um schneller neue Gruppen zu erstellen.
+
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Federationsverbindung verwenden* verfügt und Sie eine Gruppe aus dem Quell-Grid des Mandanten duplizieren, wird die duplizierte Gruppe in das Ziel-Grid des Mandanten geklont.
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Aktivieren Sie das Kontrollkästchen für die Gruppe, die dupliziert werden soll.
+. *Aktionen* > *Gruppe duplizieren* auswählen.
+. Weitere Informationen dazu, was einzugeben ist, sind unter link:creating-groups-for-s3-tenant.html["Gruppen für einen S3-Mandanten erstellen"] zu finden.
+. ${post_edited_translations.segment}
+
+
+
+
+[[clone-groupsretry-group-clone]]
+== [[clone-groups]]Gruppenklon erneut versuchen
+
+${post_edited_translations.segment}
+
+. ${post_edited_translations.segment}
+. *Aktionen* > *Gruppen klonen* auswählen.
+. ${post_edited_translations.segment}
+
+
+Weitere Informationen finden Sie unter link:grid-federation-account-clone.html["Mandantengruppen und Benutzer klonen"].
+
+
+
+[[delete-one-or-more-groups]]
+== ${post_edited_translations.segment}
+
+Sie können eine oder mehrere Gruppen löschen. Benutzer, die ausschließlich einer gelöschten Gruppe angehören, können sich nicht mehr beim Tenant Manager anmelden oder das Mandantenkonto verwenden.
+
+
+NOTE: Wenn Ihr Mandantenkonto über die Berechtigung *Grid-Verbundverbindung verwenden* verfügt und Sie eine Gruppe löschen, wird StorageGRID die entsprechende Gruppe im anderen Grid nicht löschen. Wenn diese Informationen synchron gehalten werden sollen, muss dieselbe Gruppe in beiden Grids gelöscht werden.
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. Aktivieren Sie das Kontrollkästchen für jede Gruppe, die gelöscht werden soll.
+. Wählen Sie *Aktionen* > *Gruppe löschen* oder *Aktionen* > *Gruppen löschen*.
++
+Es erscheint ein Bestätigungsdialogfeld.
+
+. ${post_edited_translations.segment}
+
+
+
+
+[[set-up-assumerole]]
+== Einrichten von AssumeRole
+
+.Bevor Sie beginnen
+Sie müssen Administratorrechte besitzen, um AssumeRole einzurichten.
+
+.Über diese Aufgabe
+Zur Einrichtung von AssumeRole erstellen Sie die zu übernehmende Zielgruppe, falls diese nicht bereits existiert. Bearbeiten Sie die S3-Richtlinie der Gruppe, um die zulässigen Aktionen für die Übernahme dieser Gruppe festzulegen. Bearbeiten Sie die S3-Vertrauensrichtlinie der Gruppe, um die vertrauenswürdigen Benutzer anzugeben, denen die Übernahme der Gruppe mit der AssumeRole-API gestattet ist.
+
+Temporäre Sicherheitsanmeldedaten, die durch das Annehmen dieser Gruppe erstellt wurden, sind für eine begrenzte Dauer gültig. Die Sitzung dauert zwischen 15 Minuten und 12 Stunden, und die Standardsitzung beträgt 1 Stunde. Wenn Sie den Benutzer aus der S3 Vertrauensrichtlinie der Gruppe entfernen, kann der Benutzer diese Gruppe nicht mehr annehmen.
+
+.Schritte
+. *Zugriffsverwaltung* > *Gruppen* auswählen.
+. ${post_edited_translations.segment}
+. Die Registerkarte *S3-Vertrauensrichtlinie* auswählen.
+. Hinzufügen Ihrer S3 Vertrauensrichtlinie, einschließlich einer Liste von Benutzern, die AssumeRole ausführen können.
+. Wählen Sie *Save changes*.
+. Die Registerkarte *S3-Gruppenrichtlinie* auswählen.
+. Die S3-Richtlinie so bearbeiten, dass nur die erforderlichen S3-Aktionen für die in der S3-Vertrauensrichtlinie dieser Gruppe hinzugefügten vertrauenswürdigen Benutzer angegeben werden.
+. Wählen Sie *Save changes*.
+
+
+
+
+[[example-of-an-assumerole-s3-trust-policy]]
+=== Beispiel einer AssumeRole S3-Vertrauensrichtlinie
+
+[listing]
+----
+{
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "sts:AssumeRole",
+            "Principal": {
+                "AWS": [
+                    "urn:sgws:identity::1234567890:user/user1",
+                    "arn:aws:iam::1234567890:user/user2"
+                ]
+            }
+        }
+    ]
+}
+----
+Nach Abschluss der Konfiguration können die in der S3-Vertrauensrichtlinie aufgeführten Benutzer AssumeRole ausführen und Anmeldedaten erhalten. Die endgültigen Berechtigungen werden durch die Gruppenrichtlinie, die Bucket-Richtlinie und die Sitzungsrichtlinie bestimmt. Weitere Informationen finden Sie unter link:../s3/use-access-policies.html["Zugriffsrichtlinien"].

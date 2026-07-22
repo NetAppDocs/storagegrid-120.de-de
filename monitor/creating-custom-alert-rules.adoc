@@ -1,0 +1,114 @@
+---
+permalink: monitor/creating-custom-alert-rules.html 
+sidebar: sidebar 
+keywords: how to create custom alert rules 
+summary: Sie können benutzerdefinierte Alarmregeln erstellen, um eigene Bedingungen für das Auslösen von Alarmen zu definieren. 
+---
+= Erstellen Sie benutzerdefinierte Alarmregeln in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können benutzerdefinierte Alarmregeln erstellen, um eigene Bedingungen für das Auslösen von Alarmen zu definieren.
+
+.Bevor Sie beginnen
+* Sie sind mit einem link:../admin/web-browser-requirements.html["unterstützte Webbrowser"] beim Grid Manager angemeldet.
+* Sie haben die link:../admin/admin-group-permissions.html["Benachrichtigungen oder Root-Zugriffsberechtigungen verwalten"].
+* Sie sind mit dem link:commonly-used-prometheus-metrics.html["häufig verwendete Prometheus Metriken"] vertraut.
+* Sie verstehen das  https://prometheus.io/docs/prometheus/latest/querying/basics/["Syntax von Prometheus Abfragen"^].
+* Optional haben Sie sich das Video angesehen:
++
+.Benutzerdefinierte Benachrichtigungen
+video::54af90c4-9a38-4136-9621-b1ff008604a3[panopto]
+
+
+.Über diese Aufgabe
+StorageGRID validiert keine benutzerdefinierten Warnmeldungen. Bei der Erstellung benutzerdefinierter Warnregeln gelten die folgenden allgemeinen Richtlinien:
+
+* Sehen Sie sich die Bedingungen für die Standard-Alarmregeln an und nutzen Sie diese als Beispiele für Ihre benutzerdefinierten Alarmregeln.
+* Wenn Sie für eine Alarmregel mehrere Bedingungen definieren, sollte für alle Bedingungen derselbe Ausdruck verwendet werden. Anschließend kann der Schwellenwert für jede Bedingung geändert werden.
+* Jede Bedingung sollte sorgfältig auf Tippfehler und Logikfehler überprüft werden.
+* Verwenden Sie ausschließlich die in der Grid Management API aufgeführten Metriken.
+* Beim Testen eines Ausdrucks mit der Grid Management API ist zu beachten, dass eine „erfolgreiche“ Antwort ein leerer Antworttext sein kann (keine Warnung ausgelöst). Um festzustellen, ob die Warnung tatsächlich ausgelöst wird, kann vorübergehend ein Schwellenwert auf einen Wert gesetzt werden, der aktuell als zutreffend erwartet wird.
++
+Beispielsweise kann zum Testen des Ausdrucks  `node_memory_MemTotal_bytes < 24000000000` zunächst  `node_memory_MemTotal_bytes >= 0` ausgeführt werden, um sicherzustellen, dass die erwarteten Ergebnisse zurückgegeben werden (alle Knoten liefern einen Wert). Anschließend werden der Operator und der Schwellenwert wieder auf die vorgesehenen Werte geändert und erneut ausgeführt. Keine Ergebnisse weisen darauf hin, dass für diesen Ausdruck derzeit keine Warnungen vorliegen.
+
+* Es sollte nicht davon ausgegangen werden, dass eine benutzerdefinierte Warnung funktioniert, solange nicht validiert wurde, dass die Warnung wie erwartet ausgelöst wird.
+
+
+.Schritte
+. *Benachrichtigungen* > *Regeln* auswählen.
++
+Die Seite „Alarmregeln“ wird angezeigt.
+
+. *Benutzerdefinierte Regel erstellen* auswählen.
++
+Das Dialogfeld „Benutzerdefinierte Regel erstellen“ wird angezeigt.
+
++
+image:alerts_create_custom_rule.png["Benachrichtigungen > Benutzerdefinierte Regel erstellen"]
+
+. Aktivieren oder deaktivieren Sie das Kontrollkästchen *Aktiviert*, um festzustellen, ob diese Warnregel aktuell aktiviert ist.
++
+Wenn eine Alarmregel deaktiviert ist, werden ihre Ausdrücke nicht ausgewertet und keine Alarme ausgelöst.
+
+. Geben Sie die folgenden Informationen ein:
++
+[cols="1a,2a"]
+|===
+| Feld | Beschreibung 
+
+
+ a| 
+Eindeutiger Name
+ a| 
+Ein eindeutiger Name für diese Regel. Der Name der Alarmregel wird auf der Seite „Alarme“ angezeigt und ist auch der Betreff für E-Mail-Benachrichtigungen. Namen für Alarmregeln können zwischen 1 und 64 Zeichen lang sein.
+
+
+
+ a| 
+Beschreibung
+ a| 
+Eine Beschreibung des aufgetretenen Problems. Die Beschreibung ist die Warnmeldung, die auf der Seite „Warnungen“ und in E-Mail-Benachrichtigungen angezeigt wird. Beschreibungen für Warnregeln können zwischen 1 und 128 Zeichen umfassen.
+
+
+
+ a| 
+Empfohlene Maßnahmen
+ a| 
+Optional die empfohlenen Aktionen, die beim Auslösen dieser Warnung durchgeführt werden sollten. Empfohlene Aktionen als Klartext (ohne Formatierungscodes) eingeben. Empfohlene Aktionen für Warnungsregeln können zwischen 0 und 1.024 Zeichen umfassen.
+
+|===
+. Im Abschnitt „Bedingungen“ einen Prometheus-Ausdruck für einen oder mehrere der Alarm-Schweregrade eingeben.
++
+Ein einfacher Ausdruck hat üblicherweise die Form:
+
++
+`[metric] [operator] [value]`
+
++
+Ausdrücke können beliebig lang sein, werden aber in der Benutzeroberfläche jeweils in einer einzigen Zeile angezeigt. Mindestens ein Ausdruck ist erforderlich.
+
++
+Dieser Ausdruck bewirkt, dass eine Warnung ausgelöst wird, wenn die Menge des installierten RAM für einen Knoten weniger als 24.000.000.000 Bytes (24 GB) beträgt.
+
++
+`node_memory_MemTotal_bytes < 24000000000`
+
++
+Um verfügbare Metriken anzuzeigen und Prometheus-Ausdrücke zu testen, das Hilfesymbol image:icon_nms_question.png["Fragezeichen-Symbol"] auswählen und dem Link zum Abschnitt Metriken der Grid Management API folgen.
+
+. Im Feld *Dauer* die Zeitspanne eingeben, die eine Bedingung ununterbrochen wirksam bleiben muss, bevor die Warnung ausgelöst wird, und eine Zeiteinheit auswählen.
++
+Um eine Warnung sofort auszulösen, wenn eine Bedingung erfüllt ist, *0* eingeben. Diesen Wert erhöhen, um zu verhindern, dass temporäre Bedingungen Warnungen auslösen.
+
++
+Die Standardeinstellung beträgt 5 Minuten.
+
+. *Speichern* auswählen.
++
+Das Dialogfeld schließt sich, und die neue benutzerdefinierte Alarmregel erscheint in der Tabelle „Alarmregeln“.
+
+

@@ -1,0 +1,72 @@
+---
+permalink: maintain/copying-audit-logs-from-failed-primary-admin-node.html 
+sidebar: sidebar 
+keywords: storagegrid, audit log, copy audit log, copying audit log, primary admin node, primary admin node 
+summary: Wenn Sie die Revisionsprotokolle des ausgefallenen primären Admin-Knotens kopieren können, sollten Sie diese aufbewahren, um den Nachweis der Systemaktivität und -nutzung im Grid zu erhalten. Die aufbewahrten Revisionsprotokolle können auf dem wiederhergestellten primären Admin-Knoten wiederhergestellt werden, sobald dieser wieder betriebsbereit ist. 
+---
+= Revisionsprotokolle von einem ausgefallenen primären StorageGRID Admin-Node kopieren
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn Sie die Revisionsprotokolle des ausgefallenen primären Admin-Knotens kopieren können, sollten Sie diese aufbewahren, um den Nachweis der Systemaktivität und -nutzung im Grid zu erhalten. Die aufbewahrten Revisionsprotokolle können auf dem wiederhergestellten primären Admin-Knoten wiederhergestellt werden, sobald dieser wieder betriebsbereit ist.
+
+.Über diese Aufgabe
+Dieses Verfahren kopiert die Revisionsprotokoll-Logdateien des ausgefallenen Admin Node an einen temporären Speicherort auf einem separaten Grid-Node. Diese gesicherten Revisionsprotokolle können dann auf den Ersatz-Admin Node kopiert werden. Revisionsprotokolle werden nicht automatisch auf den neuen Admin Node kopiert.
+
+Je nach Fehlertyp ist es möglicherweise nicht möglich, Revisionsprotokolle von einem ausgefallenen Admin-Knoten zu kopieren. Wenn die Bereitstellung nur einen Admin-Knoten enthält, beginnt der wiederhergestellte Admin-Knoten mit der Aufzeichnung von Ereignissen im Revisionsprotokoll in einer neuen leeren Datei, und zuvor aufgezeichnete Daten gehen verloren. Wenn die Bereitstellung mehr als einen Admin-Knoten umfasst, können die Revisionsprotokolle von einem anderen Admin-Knoten wiederhergestellt werden.
+
+
+NOTE: Falls die Revisionsprotokolle auf dem ausgefallenen Admin-Node jetzt nicht zugänglich sind, besteht möglicherweise später Zugriff darauf, beispielsweise nach der Wiederherstellung des Hosts.
+
+.Schritte
+. Melden Sie sich nach Möglichkeit am ausgefallenen primären Admin-Knoten an. Andernfalls bei einem beliebigen verfügbaren Admin-Knoten anmelden.
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+
+
+. Um zu verhindern, dass der AMS-Dienst eine neue Protokolldatei erstellt, sollte der Dienst gestoppt werden:``service ams stop``
+. Zum Verzeichnis für den Audit-Export navigieren:
++
+`cd /var/local/audit/export`
+
++
+(oder  `cd /var/local/log` auf früheren Systemen)
+
+. Die Quellprotokolldatei wird in einen eindeutigen, nummerierten Dateinamen umbenannt.
++
+[NOTE]
+====
+** Wenn sich die Protokolldatei im `/var/local/audit/export` Verzeichnis befindet, lautet ihr Name `audit.log`.
+** Wenn sich die Protokolldatei im  `/var/local/log` Verzeichnis befindet, lautet ihr Name  `localaudit.log`.
+
+
+====
++
+Beispielsweise die  `localaudit.log`-Datei in  `2025-10-22.txt.1` umbenennen.
+
++
+[listing]
+----
+ls -l
+mv localaudit.log 2025-10-22.txt.1
+----
+. Der AMS-Dienst wird neu gestartet: `service ams start`
+. Das Verzeichnis erstellen, in das alle Revisionsprotokoll-Logdateien an einen temporären Speicherort auf einem separaten Grid-Knoten kopiert werden: `ssh admin@_grid_node_IP_ mkdir -p /var/local/tmp/saved-audit-logs`
++
+Bei Aufforderung das Passwort für admin eingeben.
+
+. Alle Revisionsprotokoll-Logdateien an den temporären Speicherort kopieren: `scp -p * admin@_grid_node_IP_:/var/local/tmp/saved-audit-logs`
++
+Bei Aufforderung das Passwort für admin eingeben.
+
+. Als Root abmelden: `exit`
+

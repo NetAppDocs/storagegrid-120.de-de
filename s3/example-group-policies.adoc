@@ -1,0 +1,112 @@
+---
+permalink: s3/example-group-policies.html 
+sidebar: sidebar 
+keywords: group policy examples 
+summary: In diesem Abschnitt finden Sie Beispiele, mit denen StorageGRID Zugriffsrichtlinien für Gruppen erstellt werden können. 
+---
+= Beispiele für Gruppenrichtlinien der StorageGRID S3 REST API
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+In diesem Abschnitt finden Sie Beispiele, mit denen StorageGRID Zugriffsrichtlinien für Gruppen erstellt werden können.
+
+Gruppenrichtlinien legen die Zugriffsberechtigungen für die Gruppe fest, der die Richtlinie zugeordnet ist. In der Richtlinie ist kein `Principal` Element vorhanden, da es implizit ist. Gruppenrichtlinien werden mit dem Tenant Manager oder der API konfiguriert.
+
+
+
+[[example-set-group-policy-using-tenant-manager]]
+== Beispiel: Gruppenrichtlinie mit dem Tenant Manager festlegen
+
+Im Tenant Manager kann beim Hinzufügen oder Bearbeiten einer Gruppe eine Gruppenrichtlinie ausgewählt werden, um festzulegen, über welche S3-Zugriffsberechtigungen die Mitglieder dieser Gruppe verfügen. Siehe link:../tenant/creating-groups-for-s3-tenant.html["Gruppen für einen S3-Mandanten erstellen"].
+
+* *Kein S3-Zugriff*: Standardeinstellung. Benutzer in dieser Gruppe haben keinen Zugriff auf S3-Ressourcen, es sei denn, der Zugriff wird über eine Bucket-Richtlinie gewährt. Bei Auswahl dieser Option hat standardmäßig nur der Root-Benutzer Zugriff auf S3-Ressourcen.
+* *Schreibgeschützter Zugriff*: Benutzer in dieser Gruppe haben schreibgeschützten Zugriff auf S3-Ressourcen. Beispielsweise können Benutzer in dieser Gruppe Objekte auflisten sowie Objektdaten, Metadaten und Tags lesen. Bei Auswahl dieser Option erscheint die JSON-Zeichenfolge für eine schreibgeschützte Gruppenrichtlinie im Textfeld. Diese Zeichenfolge kann nicht bearbeitet werden.
+* *Vollzugriff*: Benutzer dieser Gruppe haben vollen Zugriff auf S3-Ressourcen, einschließlich Buckets. Bei Auswahl dieser Option wird die JSON-Zeichenfolge für eine Gruppenrichtlinie mit Vollzugriff im Textfeld angezeigt. Diese Zeichenfolge kann nicht bearbeitet werden.
+* *Schutz vor Ransomware*: Diese Beispielrichtlinie gilt für alle Buckets dieses Mandanten. Benutzer in dieser Gruppe können allgemeine Aktionen ausführen, jedoch keine Objekte aus Buckets mit aktivierter Objektversionierung dauerhaft löschen.
++
+Benutzer des Tenant Manager, die über die Berechtigung „Alle Buckets verwalten“ verfügen, können diese Gruppenrichtlinie außer Kraft setzen. Die Berechtigung „Alle Buckets verwalten“ sollte auf vertrauenswürdige Benutzer beschränkt werden, und wo verfügbar, ist Multi-Faktor-Authentifizierung (MFA) zu verwenden.
+
+* *Benutzerdefiniert*: Benutzern in der Gruppe werden die Berechtigungen gewährt, die im Textfeld angegeben werden.
+
+
+
+
+[[example-allow-group-full-access-to-all-buckets]]
+== Beispiel: Der Gruppe voller Zugriff auf alle Buckets
+
+In diesem Beispiel haben alle Mitglieder der Gruppe vollen Zugriff auf alle Buckets, die dem Mandantenkonto gehören, es sei denn, dies wird durch die Bucket-Richtlinie ausdrücklich verweigert.
+
+[listing]
+----
+{
+  "Statement": [
+    {
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::*"
+    }
+  ]
+}
+----
+
+
+[[example-allow-group-read-only-access-to-all-buckets]]
+== Beispiel: Gruppenlesezugriff auf alle Buckets zulassen
+
+In diesem Beispiel haben alle Mitglieder der Gruppe nur Lesezugriff auf S3-Ressourcen, sofern dies nicht ausdrücklich durch die Bucket-Richtlinie verweigert wird. Benutzer in dieser Gruppe können beispielsweise Objekte auflisten sowie Objektdaten, Metadaten und Tags lesen.
+
+[listing]
+----
+{
+  "Statement": [
+    {
+      "Sid": "AllowGroupReadOnlyAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListAllMyBuckets",
+        "s3:ListBucket",
+        "s3:ListBucketVersions",
+        "s3:GetObject",
+        "s3:GetObjectTagging",
+        "s3:GetObjectVersion",
+        "s3:GetObjectVersionTagging"
+      ],
+      "Resource": "arn:aws:s3:::*"
+    }
+  ]
+}
+----
+
+
+[[example-allow-group-members-full-access-to-only-their-folder-in-a-bucket]]
+== Beispiel: Gruppenmitglieder erhalten vollen Zugriff nur auf ihren „Ordner“ in einem Bucket
+
+In diesem Beispiel dürfen Gruppenmitglieder nur ihren jeweiligen Ordner (Schlüsselpräfix) im angegebenen Bucket auflisten und darauf zugreifen. Es ist zu beachten, dass bei der Festlegung der Vertraulichkeit dieser Ordner auch die Zugriffsberechtigungen anderer Gruppenrichtlinien und der Bucket-Richtlinie berücksichtigt werden sollten.
+
+[listing]
+----
+{
+  "Statement": [
+    {
+      "Sid": "AllowListBucketOfASpecificUserPrefix",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::department-bucket",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": "${aws:username}/*"
+        }
+      }
+    },
+    {
+      "Sid": "AllowUserSpecificActionsOnlyInTheSpecificUserPrefix",
+      "Effect": "Allow",
+      "Action": "s3:*Object",
+      "Resource": "arn:aws:s3:::department-bucket/${aws:username}/*"
+    }
+  ]
+}
+----

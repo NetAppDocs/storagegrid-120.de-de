@@ -1,0 +1,60 @@
+---
+permalink: maintain/service-with-error-state.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, service error state, error, error state 
+summary: Wenn festgestellt wird, dass ein Dienst in einen Fehlerzustand übergegangen ist, sollte ein Neustart des Dienstes erfolgen. 
+---
+= Dienst mit Fehlerstatus in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn festgestellt wird, dass ein Dienst in einen Fehlerzustand übergegangen ist, sollte ein Neustart des Dienstes erfolgen.
+
+.Bevor Sie beginnen
+Sie haben die  `Passwords.txt` Datei.
+
+.Über diese Aufgabe
+Server-Manager überwacht Dienste und startet alle Dienste neu, die unerwartet beendet wurden. Wenn ein Dienst ausfällt, versucht Server-Manager, ihn neu zu starten. Wenn innerhalb von fünf Minuten drei fehlgeschlagene Versuche unternommen werden, einen Dienst zu starten, wechselt der Dienst in einen Fehlerzustand. Server-Manager unternimmt keinen weiteren Neustartversuch.
+
+.Schritte
+. Anmeldung am Grid-Knoten:
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_grid_node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Den Fehlerstatus des Dienstes bestätigen: `service _servicename_ status`
++
+Beispiel:
+
++
+[listing]
+----
+service ldr status
+----
++
+Befindet sich der Dienst in einem Fehlerzustand, wird die folgende Meldung zurückgegeben: `_servicename_ in error state`. Zum Beispiel:
+
++
+[listing]
+----
+ldr in error state
+----
++
+
+NOTE: Wenn der Servicestatus  `disabled` ist, finden Sie die Anweisungen für link:using-donotstart-file.html["Entfernen einer DoNotStart Datei für einen Dienst"].
+
+. Der Fehlerzustand kann durch einen Neustart des Dienstes entfernt werden: `service _servicename_ restart`
++
+Wenn der Dienst nicht neu gestartet werden kann, ist der technische Support zu kontaktieren.
+
+. Von der Befehlsshell abmelden: `exit`
+

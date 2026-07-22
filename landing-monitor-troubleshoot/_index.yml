@@ -1,0 +1,53 @@
+---
+indexpage:
+  title: Überwachen und Beheben von Problemen an einem StorageGRID System
+  summary: Sobald Ihr System eingerichtet und betriebsbereit ist, empfiehlt sich eine
+    regelmäßige Überwachung der Aktivitäten sowie das Beheben von Warnmeldungen. Es
+    besteht außerdem die Möglichkeit, einen externen Syslog Server zu konfigurieren,
+    SNMP Monitoring zu nutzen oder zusätzliche Daten zu erfassen.
+  keywords: monitor, troubleshoot
+  lead: Sobald Ihr System eingerichtet und betriebsbereit ist, empfiehlt sich eine
+    regelmäßige Überwachung der Aktivitäten sowie das Beheben von Warnmeldungen. Es
+    besteht außerdem die Möglichkeit, einen externen Syslog Server zu konfigurieren,
+    SNMP Monitoring zu nutzen oder zusätzliche Daten zu erfassen.
+  tiles:
+  - title: Systemüberwachung
+    links:
+    - title: Dashboard verwalten
+      url: "../monitor/viewing-dashboard.html"
+    - title: Seite „Knoten“
+      url: "../monitor/viewing-nodes-page.html"
+    - title: Systemzustand überwachen
+      url: "../monitor/monitoring-system-health.html"
+    - title: Speicherkapazität überwachen
+      url: "../monitor/monitoring-storage-capacity.html"
+  - title: Warnungen und Benachrichtigungen verwalten
+    links:
+    - title: Benachrichtigungen verwalten
+      url: "../monitor/managing-alerts.html"
+    - title: Benutzerdefinierte Benachrichtigungen erstellen
+      url: "../monitor/creating-custom-alert-rules.html"
+    - title: Benachrichtigungs-E-Mails verwalten
+      url: "../monitor/email-alert-notifications.html"
+    - title: SNMP Überwachung
+      url: "../monitor/using-snmp-monitoring.html"
+  - title: Prüfmeldungen und andere Protokolle verwenden
+    links:
+    - title: Protokollverwaltung konfigurieren
+      url: "../monitor/configure-log-management.html"
+    - title: Externen Syslog Server verwenden
+      url: "../monitor/considerations-for-external-syslog-server.html"
+    - title: Audit-Protokolle prüfen
+      url: "../audit/index.html"
+    - title: Referenz zu Protokolldateien
+      url: "../monitor/logs-files-reference.html"
+  - title: Diagnose und Fehlerbehebung
+    links:
+    - title: Support-Metriken überprüfen
+      url: "../monitor/reviewing-support-metrics.html"
+    - title: Änderung der I/O-Priorisierung
+      url: "../monitor/manage-io-prioritization.html"
+    - title: Diagnose ausführen
+      url: "../monitor/running-diagnostics.html"
+    - title: Häufige Probleme beheben
+      url: "../troubleshoot/index.html"

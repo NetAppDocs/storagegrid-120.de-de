@@ -1,0 +1,166 @@
+---
+permalink: maintain/adding-to-or-changing-subnet-lists-on-admin-network.html 
+sidebar: sidebar 
+keywords: storagegrid, subnet list, admin network 
+summary: Sie können die Subnetze in der Admin Network Subnet List eines oder mehrerer Knoten hinzufügen, löschen oder ändern. 
+---
+= Subnetzlisten im Admin-Netzwerk in StorageGRID hinzufügen oder ändern
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Sie können die Subnetze in der Admin Network Subnet List eines oder mehrerer Knoten hinzufügen, löschen oder ändern.
+
+.Bevor Sie beginnen
+* Sie haben die  `Passwords.txt` Datei.
+
+
+Sie können Subnetze zu allen Knoten in der Admin Network Subnet List hinzufügen, löschen oder ändern.
+
+[NOTE]
+====
+Für das Grid-Netzwerk, das Admin-Netzwerk oder das Client-Netzwerk eines beliebigen Knotens sollten keine Subnetze verwendet werden, die die folgenden IPv4-Adressen enthalten:
+
+* 192.168.130.101
+* 192.168.130.121
+* 192.168.131.101
+* 192.168.131.121
+* 192.168.130.102
+* 192.168.130.122
+* 192.168.131.102
+* 192.168.131.122
+* 198.51.100.2
+* 198.51.100.4
+
+
+Beispielsweise sollten die folgenden Subnetzbereiche nicht für das Grid Network, das Admin Network oder das Client Network eines beliebigen Knotens verwendet werden:
+
+* 192.168.130.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.130.101 und 192.168.130.102 enthält
+* 192.168.131.0/24, da dieser Subnetzbereich die IP-Adressen 192.168.131.101 und 192.168.131.102 enthält
+* 198.51.100.0/24, da dieser Subnetzbereich die IP-Adressen 198.51.100.2 und 198.51.100.4 enthält
+
+
+====
+.Schritte
+. Der externe SSH-Zugriff ist standardmäßig blockiert. Falls erforderlich, link:../admin/manage-external-ssh-access.html["vorübergehend Zugriff erlauben"].
+. ${post_edited_translations.segment}
++
+.. Geben Sie den folgenden Befehl ein: `ssh admin@_primary_Admin_Node_IP_`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+.. Geben Sie den folgenden Befehl ein, um zu root zu wechseln: `su -`
+.. Geben Sie das in der  `Passwords.txt` Datei aufgeführte Passwort ein.
+
+
++
+Wenn Sie als Root angemeldet sind, ändert sich die Eingabeaufforderung von  `$` zu  `#`.
+
+. Das Tool „IP ändern“ wird durch Eingabe des folgenden Befehls gestartet: `change-ip`
+. Geben Sie an der Eingabeaufforderung die Bereitstellungs-Passphrase ein.
++
+Das Hauptmenü erscheint.
+
++
+image:change_ip_tool_main_menu.png["Screenshot des Begrüßungsbildschirms des Tools zum Ändern der IP-Adresse"]
+
+. Optional können die Netzwerke/Knoten eingeschränkt werden, auf denen Operationen ausgeführt werden. Eine der folgenden Optionen kann ausgewählt werden:
++
+** Wählen Sie die zu bearbeitenden Knoten aus, indem Sie *1* wählen, wenn Sie auf bestimmte Knoten filtern möchten, auf denen die Operation ausgeführt werden soll. Wählen Sie eine der folgenden Optionen:
++
+*** *1*: Einzelner Knoten (Auswahl nach Namen)
+*** *2*: Einzelner Knoten (Auswahl nach Standort, dann nach Name)
+*** *3*: Einzelner Knoten (Auswahl anhand der aktuellen IP)
+*** *4*: Alle Knoten an einem Standort
+*** *5*: Alle Knoten im Grid
+*** *0*: Zurück
+
+
+** „Alle“ bleibt ausgewählt. Nach der Auswahl erscheint der Hauptmenübildschirm. Das Feld „Ausgewählte Knoten“ spiegelt die neue Auswahl wider, und alle ausgewählten Operationen werden nun nur auf dieses Element angewendet.
+
+
+. Im Hauptmenü die Option zum Bearbeiten von Subnetzen für das Admin Network (Option *3*) auswählen.
+. Wählen Sie eine der folgenden Optionen:
++
+--
+** Ein Subnetz kann hinzugefügt werden, indem folgender Befehl eingegeben wird: `add CIDR`
+** Ein Subnetz kann mit diesem Befehl gelöscht werden: `del CIDR`
+** Legen Sie die Liste der Subnetze mit folgendem Befehl fest: `set CIDR`
+
+
+--
++
+--
+
+NOTE: Bei allen Befehlen können Sie mehrere Adressen in diesem Format eingeben: `add CIDR, CIDR`
+
+Beispiel: `add 172.14.0.0/16, 172.15.0.0/16, 172.16.0.0/16`
+
+
+TIP: Sie können den Tippaufwand reduzieren, indem mit der Pfeiltaste nach oben zuvor eingegebene Werte in die aktuelle Eingabeaufforderung zurückgerufen und diese dann bei Bedarf bearbeitet werden.
+
+Das folgende Beispiel zeigt das Hinzufügen von Subnetzen zur Admin Network Subnet List:
+
+image:change_ip_tool_aesl_sample_input.gif["Beispiel für das Tool zum Ändern der IP-Adresse mit AESL"]
+
+--
+. Wenn Sie bereit sind, *q* eingeben, um zum Hauptmenü zurückzukehren. Ihre Änderungen bleiben erhalten, bis sie gelöscht oder angewendet werden.
++
+
+NOTE: Wenn Sie in Schritt 3 einen der Knotenauswahlmodi „alle“ ausgewählt haben, drücken Sie *Enter* (ohne *q*), um zum nächsten Knoten in der Liste zu gelangen.
+
+. Wählen Sie eine der folgenden Optionen:
++
+** Option *5* auswählen, um Änderungen in einer isolierten Ausgabe anzuzeigen, die nur das geänderte Element zeigt. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben, wie in der folgenden Beispielausgabe gezeigt:
++
+image:change_ip_tool_aesl_sample_output.png["Screenshot, der durch den umgebenden Text beschrieben wird"]
+
+** Option *6* zeigt Änderungen in der Ausgabe an, die die vollständige Konfiguration darstellt. Änderungen werden grün (Hinzufügungen) oder rot (Löschungen) hervorgehoben. *Hinweis:* Einige Terminalemulatoren stellen Hinzufügungen und Löschungen möglicherweise mit Durchstreichungen dar.
++
+Beim Versuch, die Subnetzliste zu ändern, wird folgende Meldung angezeigt:
+
++
+[listing]
+----
+CAUTION: The Admin Network subnet list on the node might contain /32 subnets derived from automatically applied routes that aren't persistent. Host routes (/32 subnets) are applied automatically if the IP addresses provided for external services such as NTP or DNS aren't reachable using default StorageGRID routing, but are reachable using a different interface and gateway. Making and applying changes to the subnet list will make all automatically applied subnets persistent. If you don't want that to happen, delete the unwanted subnets before applying changes. If you know that all /32 subnets in the list were added intentionally, you can ignore this caution.
+----
++
+Wenn Sie die NTP- und DNS-Server-Subnetze nicht explizit einem Netzwerk zugewiesen haben, erstellt StorageGRID automatisch eine Hostroute (/32) für die Verbindung. Wenn beispielsweise eine /16- oder /24-Route für ausgehende Verbindungen zu einem DNS- oder NTP-Server bevorzugt wird, sollte die automatisch erstellte /32-Route gelöscht und die gewünschten Routen hinzugefügt werden. Wenn die automatisch erstellte Hostroute nicht gelöscht wird, bleibt sie auch nach Änderungen an der Subnetzliste erhalten.
+
+
+
++
+
+NOTE: Obwohl Sie diese automatisch ermittelten Hostrouten verwenden können, sollte die DNS- und NTP-Route im Allgemeinen manuell konfiguriert werden, um die Konnektivität sicherzustellen.
+
+. Option *7* auswählen, um alle bereitgestellten Änderungen zu validieren.
++
+Diese Validierung stellt sicher, dass die Regeln für die Grid, Admin und Client Netzwerke eingehalten werden, wie zum Beispiel die Verwendung überlappender Subnetze.
+
+. Optional kann Option *8* ausgewählt werden, um alle gestaffelten Änderungen zu speichern und später zurückzukehren, um weitere Änderungen vorzunehmen.
++
+Mit dieser Option besteht die Möglichkeit, das Tool „IP ändern“ zu beenden und es später erneut zu starten, ohne dass nicht angewendete Änderungen verloren gehen.
+
+. Führen Sie einen der folgenden Schritte aus:
++
+** Option *9* ist auszuwählen, wenn alle Änderungen verworfen werden sollen, ohne die neue Netzwerkkonfiguration zu speichern oder anzuwenden.
+** Option *10* ist auszuwählen, wenn Sie bereit sind, die Änderungen anzuwenden und die neue Netzwerkkonfiguration bereitzustellen. Während der Bereitstellung wird der Status der angewendeten Aktualisierungen in der Ausgabe angezeigt, wie im folgenden Beispieloutput:
++
+[listing]
+----
+Generating new grid networking description file...
+
+Running provisioning...
+
+Updating grid network configuration on Name
+----
+
+
+. Ein neues Wiederherstellungspaket kann vom Grid Manager heruntergeladen werden.
++
+.. *Wartung* > *System* > *Wiederherstellungspaket* auswählen.
+.. ${post_edited_translations.segment}
+
+
+. Wenn Sie den externen SSH-Zugriff zugelassen haben, link:../admin/manage-external-ssh-access.html["Blockzugriff"] aktualisieren Sie die Subnetzlisten, sobald Sie mit dem Hinzufügen oder Ändern fertig sind.
+

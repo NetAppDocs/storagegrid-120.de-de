@@ -1,0 +1,47 @@
+---
+indexpage:
+  title: StorageGRID installieren, aktualisieren und Hotfixes anwenden
+  summary: Ein StorageGRID System besteht aus einzelnen hardwarebasierten und softwarebasierten
+    Knoten. Zunächst wird die Hardware für jeden Appliance-Knoten installiert und
+    jeder Linux- oder VMware-Host konfiguriert. Anschließend wird die StorageGRID
+    Software auf jedem Appliance- oder Software-Host installiert und die Knoten zu
+    einem Grid verbunden.
+  keywords: install, upgrade, hotfix
+  lead: Ein StorageGRID System besteht aus einzelnen hardwarebasierten und softwarebasierten
+    Knoten. Zunächst wird die Hardware für jeden Appliance-Knoten installiert und
+    jeder Linux- oder VMware-Host konfiguriert. Anschließend wird die StorageGRID
+    Software auf jedem Appliance- oder Software-Host installiert und die Knoten zu
+    einem Grid verbunden.
+  tiles:
+  - title: Schnellstart
+    links:
+    - title: Gerätehardware
+      url: https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html
+    - title: Softwarebasierte Knoten
+      url: "../swnodes/index.html"
+  - title: Softwarebasierte Knoten
+    links:
+    - title: Materialien vorbereiten
+      url: "../swnodes/required-materials.html"
+    - title: Automatisierung der Linux Installation
+      url: "../swnodes/automating-installation-linux.html"
+    - title: VMware Installation automatisieren
+      url: "../swnodes/automating-grid-node-deployment-in-vmware-vsphere.html"
+    - title: Linux bereitstellen
+      url: "../swnodes/creating-node-configuration-files.html"
+    - title: VMware bereitstellen
+      url: "../swnodes/collecting-information-about-your-deployment-environment.html"
+    - title: Vollständige softwarebasierte Knoteninstallation
+      url: "../swnodes/navigating-to-grid-manager.html"
+  - title: Upgrade oder Hotfix
+    links:
+    - title: Was ist neu
+      url: "../release-notes/whats-new.html"
+    - title: Geschätzte Zeit bis zum Abschluss
+      url: "../upgrade/estimating-time-to-complete-upgrade.html"
+    - title: Wie sich das Upgrade auf Ihr System auswirkt
+      url: "../upgrade/how-your-system-is-affected-during-upgrade.html"
+    - title: Upgrade Schnellstart
+      url: "../upgrade/upgrade-workflow.html"
+    - title: Hotfix anwenden
+      url: "../maintain/storagegrid-hotfix-procedure.html"

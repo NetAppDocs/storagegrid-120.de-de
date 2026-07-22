@@ -1,0 +1,77 @@
+---
+permalink: tenant/troubleshooting-platform-services-endpoint-errors.html 
+sidebar: sidebar 
+keywords: how to troubleshoot platform services endpoint 
+summary: Wenn bei dem Versuch von StorageGRID, mit einem Plattformservices-Endpunkt zu kommunizieren, ein Fehler auftritt, wird eine Meldung auf dem Dashboard angezeigt. Auf der Seite „Plattformservices-Endpunkte“ gibt die Spalte „Letzter Fehler“ an, vor wie langer Zeit der Fehler aufgetreten ist. Es wird kein Fehler angezeigt, wenn die mit den Anmeldedaten eines Endpunkts verknüpften Berechtigungen fehlerhaft sind. 
+---
+= Beheben Sie Endpunktfehler bei StorageGRID-Plattformdiensten
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn bei dem Versuch von StorageGRID, mit einem Platform Services Endpunkt zu kommunizieren, ein Fehler auftritt, wird eine Meldung auf dem Dashboard angezeigt. Auf der Seite „Platform Services Endpunkte“ gibt die Spalte „Letzter Fehler“ an, wie lange der Fehler zurückliegt. Es wird kein Fehler angezeigt, wenn die mit den Anmeldedaten eines Endpunkts verknüpften Berechtigungen falsch sind.
+
+
+
+[[determine-if-error-has-occurred]]
+== Feststellen, ob ein Fehler aufgetreten ist
+
+Wenn in den letzten 7 Tagen Fehler bei Platform services Endpunkten aufgetreten sind, wird im Tenant Manager Dashboard eine Warnmeldung angezeigt. Auf der Seite Platform services Endpunkte sind weitere Details zum Fehler zu sehen.
+
+image:tenant_dashboard_endpoint_error.png["Endpunktfehlermeldung im Dashboard"]
+
+Der gleiche Fehler, der auf dem Dashboard angezeigt wird, erscheint auch oben auf der Seite „Plattform-Services-Endpunkte“. So zeigen Sie eine detailliertere Fehlermeldung an:
+
+.Schritte
+. Aus der Liste der Endpunkte den Endpunkt auswählen, bei dem der Fehler auftritt.
+. Auf der Seite mit den Endpunktdetails die Option *Verbindung* auswählen. Diese Registerkarte zeigt nur den letzten Fehler für einen Endpunkt an und gibt an, wie lange der Fehler zurückliegt. Fehler, die das rote X-Symbol image:icon_alert_red_critical.png["Rotes X-Symbol"] enthalten, sind innerhalb der letzten 7 Tage aufgetreten.
+
+
+
+
+[[check-if-error-is-still-current]]
+== Überprüfen, ob der Fehler noch aktuell ist
+
+Manche Fehler werden möglicherweise weiterhin in der Spalte *Letzter Fehler* angezeigt, auch nachdem sie behoben wurden. Um zu prüfen, ob ein Fehler noch aktuell ist oder um die Entfernung eines behobenen Fehlers aus der Tabelle zu erzwingen:
+
+.Schritte
+. Wählen Sie den Endpunkt aus.
++
+Die Seite mit den Endpunktdetails wird angezeigt.
+
+. *Verbindung* > *Verbindung testen* auswählen.
+
+
+Die Auswahl von *Verbindung testen* veranlasst StorageGRID zu überprüfen, ob der Plattformdienste-Endpunkt existiert und mit den aktuellen Anmeldeinformationen erreichbar ist. Die Verbindung zum Endpunkt wird von einem Knoten an jedem Standort validiert.
+
+
+
+[[resolve-endpoint-errors]]
+== Endpunktfehler beheben
+
+Sie können die *Letzte Fehlermeldung* auf der Seite mit den Endpunktdetails verwenden, um die Fehlerursache zu ermitteln. Manche Fehler erfordern eine Bearbeitung des Endpunkts, um das Problem zu beheben. Ein CloudMirroring Fehler kann beispielsweise auftreten, wenn StorageGRID nicht auf den Ziel-S3-Bucket zugreifen kann, weil die erforderlichen Zugriffsberechtigungen fehlen oder der Zugriffsschlüssel abgelaufen ist. Die Meldung lautet: „Entweder müssen die Endpunkt-Anmeldeinformationen oder der Zielzugriff aktualisiert werden“, und die Details sind „AccessDenied“ oder „InvalidAccessKeyId“.
+
+Wenn der Endpunkt bearbeitet werden muss, um einen Fehler zu beheben, validiert StorageGRID nach Auswahl von *Testen und Änderungen speichern* den aktualisierten Endpunkt und bestätigt, dass er mit den aktuellen Anmeldeinformationen erreichbar ist. Die Verbindung zum Endpunkt wird von einem Knoten an jedem Standort validiert.
+
+.Schritte
+. Wählen Sie den Endpunkt aus.
+. ${post_edited_translations.segment}
+. ${post_edited_translations.segment}
+. *Verbindung* > *Verbindung testen* auswählen.
+
+
+
+
+[[endpoint-credentials-with-insufficient-permissions]]
+== Endpunktanmeldeinformationen mit unzureichenden Berechtigungen
+
+Wenn StorageGRID einen Plattform-Services-Endpunkt validiert, bestätigt es, dass die Anmeldedaten des Endpunkts für die Kontaktaufnahme mit der Zielressource verwendet werden können, und führt eine grundlegende Berechtigungsprüfung durch. StorageGRID validiert jedoch nicht alle Berechtigungen, die für bestimmte Plattform-Services-Vorgänge erforderlich sind. Aus diesem Grund wird empfohlen, beim Auftreten eines Fehlers während der versuchten Nutzung eines Plattform-Service (z. B. „403 Forbidden“) die mit den Anmeldedaten des Endpunkts verknüpften Berechtigungen zu überprüfen.
+
+.Verwandte Informationen
+* link:../admin/troubleshooting-platform-services.html["StorageGRID > Fehlerbehebung bei Plattformdiensten"]
+* link:creating-platform-services-endpoint.html["Plattform Services Endpunkt erstellen"]
+* link:testing-connection-for-platform-services-endpoint.html["${post_edited_translations.segment}"]
+* link:editing-platform-services-endpoint.html["Plattformdienste-Endpunkt bearbeiten"]
+

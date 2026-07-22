@@ -1,0 +1,56 @@
+---
+permalink: monitor/viewing-load-balancer-tab.html 
+sidebar: sidebar 
+keywords: load balancer tab 
+summary: Die Registerkarte „Load Balancer“ enthält Leistungs- und Diagnosegrafiken zum Betrieb des Load Balancer Dienstes. 
+---
+= Registerkarte „StorageGRID Load Balancer“ anzeigen
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Die Registerkarte „Load Balancer“ enthält Leistungs- und Diagnosegrafiken zum Betrieb des Load Balancer Dienstes.
+
+Die Registerkarte „Load Balancer“ wird für Admin-Nodes und Gateway-Nodes, jeden Standort und das gesamte Grid angezeigt. Für jeden Standort bietet die Registerkarte „Load Balancer“ eine zusammenfassende Übersicht der Statistiken aller Nodes an diesem Standort. Für das gesamte Grid bietet die Registerkarte „Load Balancer“ eine zusammenfassende Übersicht der Statistiken aller Standorte.
+
+Wenn keine E/A über den Load Balancer Service laufen oder kein Load Balancer konfiguriert ist, zeigen die Diagramme „Keine Daten“ an.
+
+image:nodes_page_load_balancer_tab.png["Registerkarte Nodes Page Load Balancer"]
+
+
+
+[[request-traffic]]
+== Anfrageverkehr
+
+Dieses Diagramm zeigt einen gleitenden 3-Minuten-Durchschnitt des Datendurchsatzes zwischen den Load-Balancer-Endpunkten und den Clients, die die Anfragen stellen, in Bit pro Sekunde.
+
+
+NOTE: Dieser Wert wird nach Abschluss jeder Anfrage aktualisiert. Daher kann dieser Wert bei niedrigen Anfrageraten oder sehr lang andauernden Anfragen vom Echtzeit-Durchsatz abweichen. Im Tab „Netzwerk“ lässt sich eine realistischere Ansicht des aktuellen Netzwerkverhaltens anzeigen.
+
+
+
+[[incoming-request-rate]]
+== Eingehende Anfragerate
+
+Dieses Diagramm zeigt einen gleitenden 3-Minuten-Durchschnitt der Anzahl neuer Anfragen pro Sekunde, aufgeschlüsselt nach Anfragetyp (GET, PUT, HEAD und DELETE). Dieser Wert wird aktualisiert, wenn die Header einer neuen Anfrage validiert wurden.
+
+
+
+[[average-request-duration-non-error]]
+== Durchschnittliche Anfragedauer (ohne Fehler)
+
+Dieses Diagramm zeigt den gleitenden 3-Minuten-Durchschnitt der Anfragedauern, aufgeschlüsselt nach Anfragetyp (GET, PUT, HEAD und DELETE). Die Dauer jeder Anfrage beginnt, wenn ein Anfrageheader vom Load Balancer Service geparst wird, und endet, wenn der vollständige Antworttext an den Client zurückgegeben wird.
+
+
+
+[[error-response-rate]]
+== Fehlerreaktionsrate
+
+Dieses Diagramm zeigt einen gleitenden 3-Minuten-Durchschnitt der Anzahl der pro Sekunde an Clients zurückgegebenen Fehlerantworten, aufgeschlüsselt nach dem Fehlerantwortcode.
+
+.Verwandte Informationen
+* link:monitoring-load-balancing-operations.html["Lastverteilungsvorgänge überwachen"]
+* link:../admin/index.html["StorageGRID verwalten"]
+

@@ -1,0 +1,30 @@
+---
+permalink: audit/audit-log-file-rotation.html 
+sidebar: sidebar 
+keywords: storagegrid, audit, log file, audit.log, audit.log file, rotation, save, autosave, auto save, auto-save 
+summary: Die Revisionsprotokolldateien werden im Verzeichnis /var/local/audit/export/ eines Admin-Knotens gespeichert. Die aktiven Revisionsprotokolldateien tragen den Namen audit.log. 
+---
+= Erfahren Sie mehr über die Rotation von Revisionsprotokolldateien in StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Wenn StorageGRID für *Admin Nodes/lokale Nodes* oder *Admin Node und externen Syslog-Server* konfiguriert ist, werden die Revisionsprotokoll-Dateien im  `/var/local/audit/export/` Verzeichnis des Admin Node gespeichert. Die aktiven Revisionsprotokoll-Dateien heißen  `audit.log`.
+
+
+NOTE: Optional kann das Ziel der Revisionsprotokolle geändert und Audit-Informationen an einen externen Syslog-Server gesendet werden. Lokale Protokolle der Revisionsaufzeichnungen werden weiterhin generiert und gespeichert, wenn ein externer Syslog-Server konfiguriert ist. Siehe link:../monitor/configure-audit-messages.html["Audit-Meldungen und externer Syslog-Server konfigurieren"].
+
+Einmal täglich wird die aktive  `audit.log` Datei gespeichert und eine neue  `audit.log` Datei begonnen. Der Name der gespeicherten Datei gibt an, wann sie gespeichert wurde, im Format  `_yyyy-mm-dd.txt_`. Wenn an einem Tag mehr als ein Revisionsprotokoll erstellt wird, verwenden die Dateinamen das Datum, an dem die Datei gespeichert wurde, ergänzt um eine Zahl, im Format  `_yyyy-mm-dd.txt.n_`. Beispielsweise sind  `2018-04-15.txt` und  `2018-04-15.txt.1` die erste und zweite Protokolldatei, die am 15. April 2018 erstellt und gespeichert wurden.
+
+Nach einem Tag wird die gespeicherte Datei komprimiert und im Format  `_yyyy-mm-dd.txt.gz_` umbenannt, wobei das ursprüngliche Datum erhalten bleibt. Mit der Zeit wird der für Revisionsprotokolle reservierte Speicherplatz des Admin Node belegt. Ein Skript überwacht den Speicherplatzverbrauch der Revisionsprotokolle und löscht bei Bedarf Protokolldateien, um Speicherplatz im  `/var/local/audit/export/` Verzeichnis freizugeben. Revisionsprotokolle werden entsprechend dem Erstellungsdatum gelöscht. Die ältesten Protokolle werden zuerst gelöscht. Die Aktionen des Skripts lassen sich in der folgenden Datei überwachen:  `/var/local/log/manage-audit.log`.
+
+Dieses Beispiel zeigt die aktive `audit.log` Datei, die Datei des Vortags (`2018-04-15.txt`) und die komprimierte Datei für den Vortag (`2018-04-14.txt.gz`).
+
+[listing]
+----
+audit.log
+2018-04-15.txt
+2018-04-14.txt.gz
+----

@@ -1,0 +1,22 @@
+---
+permalink: network/admin-network-requirements.html 
+sidebar: sidebar 
+keywords: admin network requirements, guidelines for admin network, aesl 
+summary: Das Admin-Netzwerk ist optional. Wenn ein Admin-Netzwerk konfiguriert werden soll, gelten die folgenden Anforderungen und Richtlinien. 
+---
+= Administrator-Netzwerkanforderungen für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Das Admin-Netzwerk ist optional. Wenn ein Admin-Netzwerk konfiguriert werden soll, gelten die folgenden Anforderungen und Richtlinien.
+
+Typische Anwendungsfälle des Admin Network sind Management-Verbindungen, AutoSupport, KMS und Verbindungen zu kritischen Servern wie NTP, DNS und LDAP, sofern diese Verbindungen nicht über das Grid Network oder das Client Network bereitgestellt werden.
+
+
+NOTE: Das Admin Network und AESL können für jeden Node einzigartig sein, solange die gewünschten Netzwerkdienste und Clients erreichbar sind.
+
+
+NOTE: Sie müssen mindestens ein Subnetz im Admin Network definieren, um eingehende Verbindungen von externen Subnetzen zu ermöglichen. Statische Routen werden automatisch auf jedem Node für jedes Subnetz in der AESL generiert.

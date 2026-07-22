@@ -1,0 +1,123 @@
+---
+permalink: primer/quick-start.html 
+sidebar: sidebar 
+keywords: StorageGRID, quick start, tasks 
+summary: Diese allgemeinen Schritte dienen zur Konfiguration und Nutzung eines beliebigen StorageGRID Systems. 
+---
+= Schnellstart für StorageGRID
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Diese allgemeinen Schritte dienen zur Konfiguration und Nutzung eines beliebigen StorageGRID Systems.
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-1.png["Eins"] Lernen, planen und Daten sammeln
+[role="quick-margin-para"]
+Mit Ihrem NetApp Account Representative lassen sich die Optionen verstehen und die Planung Ihres neuen StorageGRID Systems vornehmen. Folgende Arten von Fragen sind zu berücksichtigen:
+
+[role="quick-margin-list"]
+* Wie viele Objektdaten werden voraussichtlich anfänglich und im Laufe der Zeit gespeichert?
+* Wie viele Standorte benötigen Sie?
+* Wie viele und welche Arten von Knoten werden an jedem Standort benötigt?
+* Welche StorageGRID Netzwerke werden verwendet?
+* Wer wird Ihr Grid zur Speicherung von Objekten nutzen? Welche Anwendungen werden sie verwenden?
+* Haben Sie besondere Sicherheits- oder Speicheranforderungen?
+* Müssen Sie gesetzliche oder behördliche Anforderungen erfüllen?
+
+
+[role="quick-margin-para"]
+Optional kann mit dem NetApp Professional Services Consultant zusammengearbeitet werden, um mit dem NetApp ConfigBuilder Tool eine Konfigurationsarbeitsmappe für die Installation und Bereitstellung des neuen Systems zu erstellen. Dieses Tool kann auch zur Automatisierung der Konfiguration beliebiger StorageGRID Appliances verwendet werden. Siehe  https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/automating-appliance-installation-and-configuration.html["Automatisierung der Geräteinstallation und Konfiguration"^].
+
+[role="quick-margin-para"]
+Überprüfen Sie link:index.html["Informationen zu StorageGRID"] und die link:../network/index.html["Netzwerkrichtlinien"].
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-2.png["Zwei"]Knoten installieren
+[role="quick-margin-para"]
+Ein StorageGRID System besteht aus einzelnen hardwarebasierten und softwarebasierten Knoten. Zunächst wird die Hardware für jeden Appliance-Knoten installiert und jeder Linux- oder VMware-Host konfiguriert.
+
+[role="quick-margin-para"]
+Zur Vervollständigung der Installation wird die StorageGRID Software auf jedem Appliance- oder Software-Host installiert und die Knoten werden zu einem Grid verbunden. In diesem Schritt werden Standort- und Knotennamen, Subnetzdetails sowie die IP-Adressen für die NTP- und DNS-Server angegeben.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* https://docs.netapp.com/us-en/storagegrid-appliances/installconfig/index.html["Gerätehardware installieren"^]
+* link:../swnodes/index.html["StorageGRID auf softwarebasierten Knoten installieren"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-3.png["Drei"]Anmelden und Systemzustand prüfen
+[role="quick-margin-para"]
+Nach Abschluss der Grid-Installation können Sie sich beim Grid Manager anmelden. Von dort aus lässt sich der allgemeine Zustand Ihres neuen Systems überprüfen, AutoSupport und Benachrichtigungs-E-Mails aktivieren sowie S3-Endpunkt-Domänennamen einrichten.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* link:../admin/signing-in-to-grid-manager.html["Anmeldung beim Grid Manager"]
+* link:../monitor/monitoring-system-health.html["Systemzustand überwachen"]
+* link:../admin/configure-autosupport-grid-manager.html["Konfiguration von AutoSupport"]
+* link:../monitor/email-alert-notifications.html["E-Mail-Benachrichtigungen für Warnmeldungen einrichten"]
+* link:../admin/configuring-s3-api-endpoint-domain-names.html["S3-Endpunkt-Domänennamen konfigurieren"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-4.png["Vier"]Konfiguration und Verwaltung
+[role="quick-margin-para"]
+Die Konfigurationsaufgaben, die Sie für ein neues StorageGRID System durchführen müssen, hängen davon ab, wie Sie Ihr Grid nutzen. Mindestens werden der Systemzugriff eingerichtet, die FabricPool und S3 Assistenten verwendet und verschiedene Speicher- sowie Sicherheitseinstellungen verwaltet.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* link:../admin/controlling-storagegrid-access.html["${post_edited_translations.segment}"]
+* link:../admin/use-s3-setup-wizard.html["S3-Einrichtungsassistent verwenden"]
+* link:../fabricpool/use-fabricpool-setup-wizard.html["Den FabricPool Einrichtungsassistenten verwenden"]
+* link:../admin/manage-security.html["Sicherheit verwalten"]
+* link:../harden/index.html["Systemhärtung"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-5.png["Fünf"]ILM einrichten
+[role="quick-margin-para"]
+Sie steuern die Platzierung und Speicherdauer jedes Objekts in Ihrem StorageGRID System durch die Konfiguration einer Information Lifecycle Management (ILM) Richtlinie, die aus einer oder mehreren ILM-Regeln besteht. Die ILM-Regeln geben StorageGRID Anweisungen, wie Kopien von Objektdaten erstellt und verteilt werden und wie diese Kopien im Laufe der Zeit verwaltet werden.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:link:../ilm/index.html["Objekte mit ILM verwalten"]
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-6.png["Sechs"] StorageGRID verwenden
+[role="quick-margin-para"]
+Nach Abschluss der Erstkonfiguration können StorageGRID-Mandantenkonten S3-Clientanwendungen verwenden, um Objekte aufzunehmen, abzurufen und zu löschen.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* link:../tenant/index.html["Ein Mandantenkonto verwenden"]_
+* link:../s3/index.html["Die S3 REST API verwenden"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-7.png["Sieben"]Überwachung und Fehlerbehebung
+[role="quick-margin-para"]
+Sobald Ihr System eingerichtet und betriebsbereit ist, empfiehlt sich eine regelmäßige Überwachung der Aktivitäten sowie das Beheben von Warnmeldungen. Es besteht außerdem die Möglichkeit, einen externen Syslog Server zu konfigurieren, SNMP Monitoring zu nutzen oder zusätzliche Daten zu erfassen.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* link:../monitor/index.html["StorageGRID überwachen"]
+* link:../troubleshoot/index.html["Fehlerbehebung StorageGRID"]
+
+
+.image:https://raw.githubusercontent.com/NetAppDocs/common/main/media/number-8.png["Acht"]Erweitern, warten und wiederherstellen
+[role="quick-margin-para"]
+Sie können Knoten oder Standorte hinzufügen, um die Kapazität oder Funktionalität Ihres Systems zu erweitern. Es besteht außerdem die Möglichkeit, verschiedene Wartungsarbeiten durchzuführen, um Ausfälle zu beheben oder das StorageGRID System auf dem neuesten Stand zu halten und eine effiziente Leistung sicherzustellen.
+
+[role="quick-margin-para"]
+Informationen dazu, wie:
+
+[role="quick-margin-list"]
+* link:../landing-expand/index.html["Ein Grid erweitern"]
+* link:../landing-maintain/index.html["Verwalten Sie Ihr Grid"]
+* link:../maintain/warnings-and-considerations-for-grid-node-recovery.html["Knoten wiederherstellen"]
+

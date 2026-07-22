@@ -1,0 +1,28 @@
+---
+permalink: maintain/recovering-from-primary-admin-node-failures.html 
+sidebar: sidebar 
+keywords: storagegrid, recover, primary admin node failure 
+summary: 'Eine bestimmte Reihe von Aufgaben ist erforderlich, um sich von einem Ausfall des primären Admin-Node zu erholen. Der primäre Admin-Node hostet den Configuration Management Node (CMN)-Dienst für das Grid.' 
+---
+= Wiederherstellung nach Ausfällen des primären StorageGRID-Admin-Knotens
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Eine bestimmte Reihe von Aufgaben ist erforderlich, um sich von einem Ausfall des primären Admin-Node zu erholen. Der primäre Admin-Node hostet den Configuration Management Node (CMN)-Dienst für das Grid.
+
+
+CAUTION: Ein ausgefallener primärer Admin Node muss umgehend repariert oder ersetzt werden, da Sie sonst möglicherweise bestimmte Wartungsarbeiten nicht durchführen können.
+
+Die folgenden allgemeinen Schritte dienen der Wiederherstellung eines primären Admin-Knotens:
+
+. link:copying-audit-logs-from-failed-primary-admin-node.html["Revisionsprotokolle vom ausgefallenen primären Admin-Node kopieren"]
+. link:replacing-primary-admin-node.html["Den primären Admin-Node ersetzen"]
+. link:configuring-replacement-primary-admin-node.html["Den Ersatz-Primär-Admin-Node konfigurieren"]
+. link:assess-hotfix-requirement-during-primary-admin-node-recovery.html["Feststellen, ob für den wiederhergestellten primären Admin-Node ein Hotfix erforderlich ist"]
+. link:restoring-audit-log-on-recovered-primary-admin-node.html["Das Revisionsprotokoll auf dem wiederhergestellten primären Admin-Node wiederherstellen"]
+. link:restoring-admin-node-database-primary-admin-node.html["Die Admin Node-Datenbank bei der Wiederherstellung eines primären Admin Node wiederherstellen"]
+. link:restoring-prometheus-metrics-primary-admin-node.html["Prometheus-Metriken bei der Wiederherstellung eines primären Admin-Node wiederherstellen"]
+
