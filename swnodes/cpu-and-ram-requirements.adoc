@@ -19,7 +19,11 @@ Jeder StorageGRID Node benötigt mindestens die folgenden Ressourcen:
 * RAM: Abhängig vom insgesamt verfügbaren RAM und der Menge an nicht-StorageGRID Software, die auf dem System ausgeführt wird
 +
 ** Im Allgemeinen mindestens 24 GB pro Knoten und 2 bis 16 GB weniger als der gesamte Arbeitsspeicher des Systems
-** Mindestens 64 GB für jeden Mandanten, der etwa 5.000 Buckets haben wird
+** Wenn mehrere Mandanten jeweils bis zu 5.000 Buckets haben, mindestens 64 GB pro Knoten
++
+
+NOTE: Das StorageGRID System unterstützt maximal 5.000 Buckets für jedes S3-Mandantenkonto.
+
 
 
 
@@ -55,7 +59,7 @@ VMware unterstützt einen Knoten pro virtueller Maschine. Es ist sicherzustellen
 --
 ====
 
-CAUTION: Die CPU- und Speicherauslastung sollte regelmäßig überwacht werden, damit diese Ressourcen weiterhin für die jeweilige Arbeitslast ausreichen. Eine Verdopplung der RAM- und CPU-Zuweisung für virtuelle Storage Nodes würde beispielsweise ähnliche Ressourcen bereitstellen wie für StorageGRID Appliance Nodes. Überschreitet die Metadatenmenge pro Knoten 500 GB, empfiehlt sich zudem eine Erhöhung des RAM pro Knoten auf 48 GB oder mehr. Informationen zur Verwaltung des Objekt-Metadatenspeichers, zur Erhöhung der Einstellung „Metadata Reserved Space“ sowie zur Überwachung der CPU- und Speicherauslastung bieten die Anleitungen zu link:../admin/index.html["Verwaltung"], link:../monitor/index.html["Überwachung"], und link:../upgrade/index.html["Upgrade"] StorageGRID.
+CAUTION: Die CPU- und Speicherauslastung sollte regelmäßig überwacht werden, damit diese Ressourcen weiterhin für die jeweilige Arbeitslast ausreichen. Eine Verdopplung der RAM- und CPU-Zuweisung für virtuelle Storage Nodes würde beispielsweise ähnliche Ressourcen bereitstellen wie für StorageGRID Appliance Nodes. Überschreitet die Metadatenmenge pro Knoten 500 GB, empfiehlt sich zudem eine Erhöhung des RAM pro Knoten auf 48 GB oder mehr. Informationen zur Verwaltung des Objekt-Metadatenspeichers, zur Erhöhung der Einstellung Metadata Reserved Space sowie zur Überwachung der CPU- und Speicherauslastung finden sich in den Anleitungen für link:../admin/index.html["Verwaltung"]link:../monitor/index.html["Überwachung"]link:../upgrade/index.html["Upgrade"] StorageGRID.
 
 Wenn Hyperthreading auf den zugrunde liegenden physischen Hosts aktiviert ist, können 8 virtuelle Kerne (4 physische Kerne) pro Knoten bereitgestellt werden. Wenn Hyperthreading auf den zugrunde liegenden physischen Hosts nicht aktiviert ist, sind 8 physische Kerne pro Knoten bereitzustellen.
 
@@ -63,4 +67,4 @@ Wenn Sie virtuelle Maschinen als Hosts verwenden und die Kontrolle über die Gr�
 
 (Nur RHEL, Debian und Ubuntu) Für Implementierungen in der Produktion sollten nicht mehrere Storage Nodes auf derselben physischen Speicherhardware oder demselben virtuellen Host betrieben werden. Jeder Storage Node in einer einzelnen StorageGRID Implementierung sollte sich in einer eigenen isolierten Ausfalldomäne befinden. Die Haltbarkeit und Verfügbarkeit von Objektdaten kann maximiert werden, wenn sichergestellt ist, dass ein einzelner Hardwareausfall nur einen einzelnen Storage Node beeinträchtigen kann.
 
-Siehe auch link:storage-and-performance-requirements.html["Speicher- und Leistungsanforderungen"].
+Weitere Informationen unter link:storage-and-performance-requirements.html["Speicher- und Leistungsanforderungen"].

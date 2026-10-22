@@ -151,9 +151,6 @@ Das StorageGRID Grid wurde nun abgeschaltet.
 [[start-up-grid-nodes]]
 == Grid-Knoten starten
 
-
-CAUTION: Wenn das gesamte Grid länger als 15 Tage abgeschaltet war, müssen Sie sich an den technischen Support wenden, bevor Sie Grid-Knoten wieder in Betrieb nehmen. Es sollten keine Wiederherstellungsverfahren durchgeführt werden, die Cassandra-Daten neu aufbauen. Dies könnte zu Datenverlust führen.
-
 Wenn möglich, die Grid-Nodes in dieser Reihenfolge einschalten:
 
 * Zuerst die Admin Nodes mit Strom versorgen.
